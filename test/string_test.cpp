@@ -9,15 +9,77 @@ public :
     CPPUNIT_TEST_SUITE(string_test_fixture);
         CPPUNIT_TEST(empty_string_outputs_nothing);
         CPPUNIT_TEST(basic_string_outputs_basic_string);
+
         CPPUNIT_TEST(escaped_slash_outputs_single_slash);
+
         CPPUNIT_TEST(escaped_character_code_outputs_character);
+
+        CPPUNIT_TEST(escaped_locale_code_changes_locale);
+        CPPUNIT_TEST(default_locale_code_does_not_change_locale);
+
+        CPPUNIT_TEST(bold_intensity_code_changes_intensity);
+        CPPUNIT_TEST(faint_intensity_code_changes_intensity);
+        CPPUNIT_TEST(normal_intensity_code_does_not_change_intensity);
+        CPPUNIT_TEST(bold_then_normal_intensity_changes_intensity);
+
+        CPPUNIT_TEST(positive_polarity_code_does_not_change_polarity);
+        CPPUNIT_TEST(negative_polarity_code_changes_polarity);
+        CPPUNIT_TEST(negative_then_positive_polarity_code_changes_polarities);
+
+        CPPUNIT_TEST(positive_underlining_code_changes_underlining);
+        CPPUNIT_TEST(negative_underlining_code_does_not_change_underlining);
+        CPPUNIT_TEST(positive_then_negative_underlining_code_changes_underlinings);
+
+        CPPUNIT_TEST(foreground_low_colour_code_changes_foreground_colour);
+        CPPUNIT_TEST(foreground_high_colour_code_changes_foreground_colour);
+        CPPUNIT_TEST(foreground_greyscale_colour_code_changes_foreground_colour);
+        CPPUNIT_TEST(default_foreground_colour_code_does_not_change_foreground_colour);
+        CPPUNIT_TEST(multiple_foreground_colour_codes_change_foreground_colours);
+
+        CPPUNIT_TEST(background_low_colour_code_changes_background_colour);
+        CPPUNIT_TEST(background_high_colour_code_changes_background_colour);
+        CPPUNIT_TEST(background_greyscale_colour_code_changes_background_colour);
+        CPPUNIT_TEST(default_background_colour_code_does_not_change_background_colour);
+        CPPUNIT_TEST(multiple_background_colour_codes_change_background_colours);
+
     CPPUNIT_TEST_SUITE_END();
 
 private :
     void empty_string_outputs_nothing();
     void basic_string_outputs_basic_string();
+
     void escaped_slash_outputs_single_slash();
+
     void escaped_character_code_outputs_character();
+
+    void escaped_locale_code_changes_locale();
+    void default_locale_code_does_not_change_locale();
+
+    void bold_intensity_code_changes_intensity();
+    void faint_intensity_code_changes_intensity();
+    void normal_intensity_code_does_not_change_intensity();
+    void bold_then_normal_intensity_changes_intensity();
+
+    void positive_polarity_code_does_not_change_polarity();
+    void negative_polarity_code_changes_polarity();
+    void negative_then_positive_polarity_code_changes_polarities();
+
+    void positive_underlining_code_changes_underlining();
+    void negative_underlining_code_does_not_change_underlining();
+    void positive_then_negative_underlining_code_changes_underlinings();
+
+    void foreground_low_colour_code_changes_foreground_colour();
+    void foreground_high_colour_code_changes_foreground_colour();
+    void foreground_greyscale_colour_code_changes_foreground_colour();
+    void default_foreground_colour_code_does_not_change_foreground_colour();
+    void multiple_foreground_colour_codes_change_foreground_colours();
+
+    void background_low_colour_code_changes_background_colour();
+    void background_high_colour_code_changes_background_colour();
+    void background_greyscale_colour_code_changes_background_colour();
+    void default_background_colour_code_does_not_change_background_colour();
+    void multiple_background_colour_codes_change_background_colours();
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(string_test_fixture);
@@ -67,3 +129,140 @@ void string_test_fixture::escaped_character_code_outputs_character()
     expect_conversion("\\C097", "a");
 }
 
+void string_test_fixture::escaped_locale_code_changes_locale()
+{
+    // Test that an escaped character set code, when followed by a character,
+    // will change the character set for the characters following it.  A code
+    // to revert the character set will appear after it.
+    expect_conversion("\\lAabc", "\x1B[A(abc\x1B[B(");
+}
+
+void string_test_fixture::default_locale_code_does_not_change_locale()
+{
+    // Test that changing from the default locale to the default locale does
+    // not output any extra character codes.
+    expect_conversion("\\lBabc", "abc");
+}
+
+void string_test_fixture::bold_intensity_code_changes_intensity()
+{
+    // Test that the code for bold intensity, when followed by characters,
+    // will change the intensity for those characters.  Afterwards, a sequence
+    // should be output to restore normal intensity.
+    expect_conversion("\\i>abc", "\x1B[1mabc\x1B[0m");
+}
+
+void string_test_fixture::faint_intensity_code_changes_intensity()
+{
+    // Test that the code for faint intensity, when followed by characters,
+    // will change the intensity for those characters.  Afterwards, a sequence
+    // should be output to restore normal intensity.
+    expect_conversion("\\i<abc", "\x1B[2mabc\x1B[0m");
+}
+
+void string_test_fixture::normal_intensity_code_does_not_change_intensity()
+{
+    // Test that the code for normal intensity, when followed by characters,
+    // does not change the intensity.
+    expect_conversion("\\i=abc", "abc");
+}
+
+void string_test_fixture::bold_then_normal_intensity_changes_intensity()
+{
+    // Test that the code for bold intensity, when followed by characters and
+    // then the normal intensity, outputs the appropriate codes.  It should
+    // not end in a sequence to restore normal intensity because that is
+    // already done.
+    expect_conversion("\\i>ab\\i=cd", "\x1B[1mab\x1B[0mcd");
+}
+
+void string_test_fixture::positive_polarity_code_does_not_change_polarity()
+{
+    // Test that the code for positive intensity, when followed by characters,
+    // does not change the polarity (since the default polarity is positive).
+    expect_conversion("\\p+abc", "abc");
+}
+
+void string_test_fixture::negative_polarity_code_changes_polarity()
+{
+    // Test that the code for negative polarity, when followed by characters,
+    // outputs a sequence to change the polarity, and is reversed at the end
+    // of the string.
+    expect_conversion("\\p-abc", "\x1B[7mabc\x1B[0m");
+}
+
+void string_test_fixture::negative_then_positive_polarity_code_changes_polarities()
+{
+    // Test that the code for negative polarity, when followed by characters
+    // and then positive polarity, outputs the appropriate sequence.
+    expect_conversion("\\p-ab\\p+cd", "\x1B[7mab\x1B[0mcd");
+}
+
+void string_test_fixture::positive_underlining_code_changes_underlining()
+{
+    expect_conversion("\\u+abc", "\x1B[4mabc\x1B[0m");
+}
+
+void string_test_fixture::negative_underlining_code_does_not_change_underlining()
+{
+    expect_conversion("\\u-abc", "abc");
+}
+
+void string_test_fixture::positive_then_negative_underlining_code_changes_underlinings()
+{
+    expect_conversion("\\u+ab\\u-cd", "\x1B[4mab\x1B[0mcd");
+}
+
+void string_test_fixture::foreground_low_colour_code_changes_foreground_colour()
+{
+    expect_conversion("\\[2abc", "\x1B[32mabc\x1B[0m");
+}
+
+void string_test_fixture::foreground_high_colour_code_changes_foreground_colour()
+{
+    expect_conversion("\\<510abc", "\x1B[38;5;202mabc\x1B[0m");
+}
+
+void string_test_fixture::foreground_greyscale_colour_code_changes_foreground_colour()
+{
+    expect_conversion("\\{12abc", "\x1B[38;5;244mabc\x1B[0m");
+}
+
+void string_test_fixture::default_foreground_colour_code_does_not_change_foreground_colour()
+{
+    expect_conversion("\\[9abc", "abc");
+}
+
+void string_test_fixture::multiple_foreground_colour_codes_change_foreground_colours()
+{
+    expect_conversion(
+        "\\[2ab" "\\<510cd" "\\{02ef" "\\[9gh",
+        "\x1B[32mab" "\x1B[38;5;202mcd" "\x1B[38;5;234mef" "\x1B[0mgh");
+}
+
+void string_test_fixture::background_low_colour_code_changes_background_colour()
+{
+    expect_conversion("\\]2abc", "\x1B[42mabc\x1B[0m");
+}
+
+void string_test_fixture::background_high_colour_code_changes_background_colour()
+{
+    expect_conversion("\\>135abc", "\x1B[48;5;75mabc\x1B[0m");
+}
+
+void string_test_fixture::background_greyscale_colour_code_changes_background_colour()
+{
+    expect_conversion("\\}23abc", "\x1B[48;5;255mabc\x1B[0m");
+}
+
+void string_test_fixture::default_background_colour_code_does_not_change_background_colour()
+{
+    expect_conversion("\\]9abc", "abc");
+}
+
+void string_test_fixture::multiple_background_colour_codes_change_background_colours()
+{
+    expect_conversion(
+        "\\]2ab" "\\>135cd" "\\}02ef" "\\]9gh",
+        "\x1B[42mab" "\x1B[48;5;75mcd" "\x1B[48;5;234mef" "\x1B[0mgh");
+}

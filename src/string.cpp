@@ -142,7 +142,8 @@ std::ostream &operator<<(std::ostream &out, string const &es)
         current_element = elem;
     }
 
-
+    text += detail::element_difference(current_element, {});
+    
     out << text;
     return out;
 }

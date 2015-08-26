@@ -28,10 +28,20 @@ struct low_colour
 
     terminalpp::ansi::graphics::colour value_;
 };
-    
+
+constexpr bool operator==(low_colour const &lhs, low_colour const &rhs)
+{
+    return lhs.value_ == rhs.value_;
+}
+
+constexpr bool operator!=(low_colour const &lhs, low_colour const &rhs)
+{
+    return !(lhs == rhs);
+}
+
 //* =========================================================================
-/// \brief Structure representing the central 216 colours of a 256-colour 
-/// palette, where each colour channel is represented by a number in the 
+/// \brief Structure representing the central 216 colours of a 256-colour
+/// palette, where each colour channel is represented by a number in the
 /// range 0..5.
 //* =========================================================================
 struct high_colour
@@ -40,7 +50,7 @@ struct high_colour
       : high_colour(0, 0, 0)
     {
     }
-      
+
     constexpr high_colour(
         terminalpp::u8 red,
         terminalpp::u8 green,
@@ -56,8 +66,20 @@ struct high_colour
     terminalpp::u8 blue_;
 };
 
+constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
+{
+    return lhs.red_   == rhs.red_
+        && lhs.green_ == rhs.green_
+        && lhs.blue_  == rhs.blue_;
+}
+
+constexpr bool operator!=(high_colour const &lhs, high_colour const &rhs)
+{
+    return !(lhs == rhs);
+}
+
 //* =========================================================================
-/// \brief Structure representing the 24 greyscale tones of a 256-colour 
+/// \brief Structure representing the 24 greyscale tones of a 256-colour
 /// palette
 //* =========================================================================
 struct greyscale_colour
@@ -75,6 +97,18 @@ struct greyscale_colour
     terminalpp::u8 shade_;
 };
 
+constexpr bool operator==(
+    greyscale_colour const &lhs, greyscale_colour const &rhs)
+{
+    return lhs.shade_ == rhs.shade_;
+}
+
+constexpr bool operator!=(
+    greyscale_colour const &lhs, greyscale_colour const &rhs)
+{
+    return !(lhs == rhs);
+}
+
 //* =========================================================================
 /// \brief Structure representing a sum type of the available colour styles.
 //* =========================================================================
@@ -84,12 +118,12 @@ struct colour
     {
         low, high, greyscale
     };
-    
+
     constexpr colour()
       : colour(terminalpp::low_colour())
     {
     }
-    
+
     constexpr colour(terminalpp::low_colour col)
       : low_colour_(std::move(col)),
         type_(type::low)
@@ -107,27 +141,27 @@ struct colour
         type_(type::greyscale)
     {
     }
-    
+
     union
     {
         terminalpp::low_colour low_colour_;
         terminalpp::high_colour high_colour_;
         terminalpp::greyscale_colour greyscale_colour_;
     };
-    
+
     type type_;
 };
 
 constexpr bool operator==(colour const &lhs, colour const &rhs)
 {
-    return lhs.type_             == rhs.type_ 
+    return lhs.type_             == rhs.type_
         && lhs.type_             == colour::type::low
          ? lhs.low_colour_       == rhs.low_colour_
          : lhs.type_             == colour::type::high
          ? lhs.high_colour_      == rhs.high_colour_
          : lhs.type_             == colour::type::greyscale
          ? lhs.greyscale_colour_ == rhs.greyscale_colour_
-         : false;  
+         : false;
 }
 
 constexpr bool operator!=(colour const &lhs, colour const &rhs)
