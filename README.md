@@ -2,7 +2,7 @@
 A C++ library for interacting with ANSI terminal windows.
 [![Build Status](https://travis-ci.org/KazDragon/terminalpp.svg?branch=master)](https://travis-ci.org/KazDragon/terminalpp)
 
-# Features
+# Features / Roadmap
 
 1. [x] A utility for creating strings with embedded ANSI attributes
   * terminalpp::string
