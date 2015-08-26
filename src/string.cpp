@@ -2,6 +2,7 @@
 #include "terminalpp/element.hpp"
 #include "terminalpp/detail/element_difference.hpp"
 #include "terminalpp/detail/string_to_elements.hpp"
+#include <cstring>
 #include <limits>
 
 namespace terminalpp {
@@ -9,24 +10,36 @@ namespace terminalpp {
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const char* text)
-  : elements_(detail::string_to_elements(text))
+string::string(const char* text, bool raw)
+  : string(text, strlen(text), raw)
 {
 }
 
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const char* text, std::size_t len)
-  : elements_(detail::string_to_elements(text, len))
+string::string(const char* text, std::size_t len, bool raw)
 {
+    if (raw)
+    {
+        elements_.resize(len);
+        
+        for (size_t index = 0; index < len; ++index)
+        {
+            elements_[index] = element(text[index]);
+        }
+    }
+    else
+    {
+        elements_ = detail::string_to_elements(text, len);
+    }
 }
 
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const std::string& text)
-  : elements_(detail::string_to_elements(text))
+string::string(const std::string& text, bool raw)
+  : string(text.c_str(), text.size(), raw)
 {
 }
 

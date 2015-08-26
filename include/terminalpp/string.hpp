@@ -37,18 +37,31 @@ public :
 
     //* =====================================================================
     /// \brief Constructor
+    /// \param text the text to build this string around.
+    /// \param raw if false, then text is parsed for attribute codes.
+    ///        otherwise, no parsing takes place and the string is consumed
+    ///        whole as an unattributed string.
     //* =====================================================================
-    string(char const *text);
+    string(char const *text, bool raw = false);
 
     //* =====================================================================
     /// \brief Constructor
+    /// \param text the text to build this string around.
+    /// \param len the length of text.
+    /// \param raw if false, then text is parsed for attribute codes.
+    ///        otherwise, no parsing takes place and the string is consumed
+    ///        whole as an unattributed string.
     //* =====================================================================
-    string(char const *text, std::size_t len);
+    string(char const *text, std::size_t len, bool raw = false);
 
     //* =====================================================================
     /// \brief Constructor
+    /// \param text the text to build this string around
+    /// \param raw if false, then text is parsed for attribute codes.
+    ///        otherwise, no parsing takes place and the string is consumed
+    ///        whole as an unattributed string.
     //* =====================================================================
-    string(std::string const &text);
+    string(std::string const &text, bool raw = false);
 
     //* =====================================================================
     /// \brief Returns the number of elements in the string.

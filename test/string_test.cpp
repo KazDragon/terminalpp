@@ -44,6 +44,10 @@ public :
         CPPUNIT_TEST(default_background_colour_code_does_not_change_background_colour);
         CPPUNIT_TEST(multiple_background_colour_codes_change_background_colours);
 
+        CPPUNIT_TEST(multiple_attributes_do_not_cause_default_change);
+        
+        CPPUNIT_TEST(raw_string_construction_outputs_raw_text);
+        
     CPPUNIT_TEST_SUITE_END();
 
 private :
@@ -83,7 +87,10 @@ private :
     void background_greyscale_colour_code_changes_background_colour();
     void default_background_colour_code_does_not_change_background_colour();
     void multiple_background_colour_codes_change_background_colours();
+    
+    void multiple_attributes_do_not_cause_default_change();
 
+    void raw_string_construction_outputs_raw_text();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(string_test_fixture);
@@ -94,7 +101,6 @@ void expect_conversion(
     std::string const &test_data,
     std::string const &expected_result)
 {
-    // Test that an empty string outputs an empty string.
     std::stringstream stream;
     std::string result;
 
@@ -275,4 +281,36 @@ void string_test_fixture::multiple_background_colour_codes_change_background_col
     expect_conversion(
         "\\]2ab" "\\>135cd" "\\}02ef" "\\]9gh",
         "\x1B[42mab" "\x1B[48;5;75mcd" "\x1B[48;5;234mef" "\x1B[0mgh");
+}
+
+void string_test_fixture::multiple_attributes_do_not_cause_default_change()
+{
+    // Test that, when switching off and on multiple attributes, they do not in
+    // general go back to default.  Instead, they should toggle specific flags.
+    // NOTE: At a later date, it may be implemented that the algorithm will
+    // branch and look for strategies for producing the shortest sequence.
+    // In that case, it may be that switching several attributes off is longer
+    // than switching to default then re-enabling one attribute.  It also may
+    // be determined by environment - different terminals behave differently.
+    expect_conversion(
+        "\\[2\\]1a\\p-b\\p+c",
+        "\x1B[32;41ma" "\x1B[7mb" "\x1B[27mc" "\x1B[0m");
+}
+
+void string_test_fixture::raw_string_construction_outputs_raw_text()
+{
+    // When a string is created raw, then it does not parse the text for 
+    // attribute codes.  Instead, it creates a string as if everything were
+    // escaped.
+    std::string const test_data = "\\p-!";
+    std::string const expected_result = "\\p-!";
+
+    std::stringstream stream;
+    std::string result;
+
+    auto string = terminalpp::string(test_data, true);
+    stream << string;
+    result = stream.str();
+
+    CPPUNIT_ASSERT_EQUAL(expected_result, result);
 }

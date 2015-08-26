@@ -34,3 +34,18 @@ add_executable(terminalpp_tester
 
 target_link_libraries(terminalpp_tester terminalpp cppunit)
 add_test(terminalpp_test terminalpp_tester)
+
+install(
+    TARGETS
+        terminalpp
+    ARCHIVE DESTINATION
+        lib
+)
+
+install(
+    DIRECTORY
+        include/
+    DESTINATION
+        include
+)
+        
