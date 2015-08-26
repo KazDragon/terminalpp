@@ -14,7 +14,7 @@ struct glyph
 {
     //* =====================================================================
     /// \brief Default Constructor
-    /// \par 
+    /// \par
     /// Note: the default glyph is chosen as a space character in the G0
     /// character set in the US ASCII locale.  That is, it is blank.
     //* =====================================================================

@@ -1,0 +1,165 @@
+#include "terminalpp/string.hpp"
+#include "terminalpp/element.hpp"
+#include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/detail/string_to_elements.hpp"
+#include <limits>
+
+namespace terminalpp {
+
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+string::string(const char* text)
+  : elements_(detail::string_to_elements(text))
+{
+}
+
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+string::string(const char* text, std::size_t len)
+  : elements_(detail::string_to_elements(text, len))
+{
+}
+
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+string::string(const std::string& text)
+  : elements_(detail::string_to_elements(text))
+{
+}
+
+// ==========================================================================
+// SIZE
+// ==========================================================================
+std::size_t string::size() const
+{
+    return elements_.size();
+}
+
+// ==========================================================================
+// BEGIN
+// ==========================================================================
+string::const_iterator string::begin() const
+{
+    return &*elements_.begin();
+}
+
+// ==========================================================================
+// RBEGIN
+// ==========================================================================
+string::const_reverse_iterator string::rbegin() const
+{
+    return &*elements_.rbegin();
+}
+
+// ==========================================================================
+// END
+// ==========================================================================
+string::const_iterator string::end() const
+{
+    return &*elements_.end();
+}
+
+// ==========================================================================
+// REND
+// ==========================================================================
+string::const_reverse_iterator string::rend() const
+{
+    return &*elements_.rend();
+}
+
+// ==========================================================================
+// MAX_SIZE
+// ==========================================================================
+string::size_type string::max_size() const
+{
+    return std::numeric_limits<size_type>::max();
+}
+
+// ==========================================================================
+// EMPTY
+// ==========================================================================
+bool string::empty() const
+{
+    return elements_.empty();
+}
+
+// ==========================================================================
+// OPERATOR []
+// ==========================================================================
+string::reference string::operator[](string::size_type index)
+{
+    return elements_[index];
+}
+
+// ==========================================================================
+// OPERATOR []
+// ==========================================================================
+string::const_reference string::operator[](string::size_type index) const
+{
+    return elements_[index];
+}
+
+// ==========================================================================
+// OPERATOR +=
+// ==========================================================================
+string &string::operator+=(string const &rhs)
+{
+    elements_.insert(elements_.end(), rhs.begin(), rhs.end());
+    return *this;
+}
+
+// ==========================================================================
+// OPERATOR ==
+// ==========================================================================
+bool operator==(string const &lhs, string const &rhs)
+{
+    return lhs.elements_ == rhs.elements_;
+}
+
+// ==========================================================================
+// OPERATOR !=
+// ==========================================================================
+bool operator!=(string const &lhs, string const &rhs)
+{
+    return !(lhs == rhs);
+}
+
+// ==========================================================================
+// OPERATOR <<
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, string const &es)
+{
+    std::string text;
+    element current_element;
+
+    for (auto const &elem : es.elements_)
+    {
+        text += detail::element_difference(current_element, elem);
+        text += elem.glyph_.character_;
+        current_element = elem;
+    }
+
+
+    out << text;
+    return out;
+}
+
+// ==========================================================================
+// OPERATOR +
+// ==========================================================================
+string operator+(string lhs, string const &rhs)
+{
+    return lhs += rhs;
+}
+
+inline namespace literals { inline namespace string_literals {
+
+terminalpp::string operator ""_es(char const *text, std::size_t len)
+{
+    return terminalpp::string(text, len);
+}
+
+}}}
