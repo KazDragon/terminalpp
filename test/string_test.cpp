@@ -7,6 +7,8 @@ class string_test_fixture : public CppUnit::TestFixture
 {
 public :
     CPPUNIT_TEST_SUITE(string_test_fixture);
+        CPPUNIT_TEST(string_literal_creates_string);
+        
         CPPUNIT_TEST(empty_string_outputs_nothing);
         CPPUNIT_TEST(basic_string_outputs_basic_string);
 
@@ -45,6 +47,8 @@ public :
     CPPUNIT_TEST_SUITE_END();
 
 private :
+    void string_literal_creates_string();
+    
     void empty_string_outputs_nothing();
     void basic_string_outputs_basic_string();
 
@@ -101,6 +105,12 @@ void expect_conversion(
     CPPUNIT_ASSERT_EQUAL(expected_result, result);
 }
 
+}
+
+void string_test_fixture::string_literal_creates_string()
+{
+    using namespace terminalpp::literals;
+    CPPUNIT_ASSERT_EQUAL(terminalpp::string("abcde"), "abcde"_s);
 }
 
 void string_test_fixture::empty_string_outputs_nothing()

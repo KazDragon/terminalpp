@@ -158,7 +158,7 @@ string operator+(string lhs, string const &rhs)
 
 inline namespace literals { inline namespace string_literals {
 
-terminalpp::string operator ""_es(char const *text, std::size_t len)
+terminalpp::string operator ""_s(char const *text, std::size_t len)
 {
     return terminalpp::string(text, len);
 }
