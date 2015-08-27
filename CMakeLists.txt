@@ -7,6 +7,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 find_package(CppUnit)
 
 add_library(terminalpp
+    src/ansi/functions.cpp
     src/attribute.cpp
     src/detail/element_difference.cpp
     src/detail/string_to_elements.cpp

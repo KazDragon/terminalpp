@@ -141,15 +141,40 @@ namespace graphics {
 }
 
 namespace character_set {
-    // Note: For extended ASCII, both PuTTY and TeraTerm support
-    // SCO+G0.
+    // Note: For extended ASCII, both PuTTY and TeraTerm support SCO.
     static char const LOCALE_DEC                   = terminalpp::ascii::ZERO;
+    static char const LOCALE_DEC_SUPPLEMENTARY     = terminalpp::ascii::LESS_THAN;
+    static char const LOCALE_DEC_TECHNICAL         = terminalpp::ascii::GREATER_THAN;
     static char const LOCALE_UK                    = terminalpp::ascii::UPPERCASE_A;
     static char const LOCALE_US_ASCII              = terminalpp::ascii::UPPERCASE_B;
+    static char const LOCALE_DUTCH                 = terminalpp::ascii::FOUR;
+    static char const LOCALE_FINNISH               = terminalpp::ascii::UPPERCASE_C;
+    static char const LOCALE_FINNISH_ALT           = terminalpp::ascii::FIVE;
+    static char const LOCALE_FRENCH                = terminalpp::ascii::UPPERCASE_R;
+    static char const LOCALE_FRENCH_ALT            = terminalpp::ascii::LOWERCASE_F;
+    static char const LOCALE_FRENCH_CANADIAN       = terminalpp::ascii::UPPERCASE_Q;
+    static char const LOCALE_FRENCH_CANADIAN_ALT   = terminalpp::ascii::NINE;
+    static char const LOCALE_GERMAN                = terminalpp::ascii::UPPERCASE_K;
+    static char const LOCALE_ITALIAN               = terminalpp::ascii::UPPERCASE_Y;
+    static char const LOCALE_NORWEGIAN             = terminalpp::ascii::GRAVE;
+    static char const LOCALE_NORWEGIAN_ALT_1       = terminalpp::ascii::UPPERCASE_E;
+    static char const LOCALE_NORWEGIAN_ALT_2       = terminalpp::ascii::SIX;
+    static char const LOCALE_DANISH                = terminalpp::ascii::GRAVE;
+    static char const LOCALE_DANISH_ALT_1          = terminalpp::ascii::UPPERCASE_E;
+    static char const LOCALE_DANISH_ALT_2          = terminalpp::ascii::SIX;
+    static char const LOCALE_SPANISH               = terminalpp::ascii::UPPERCASE_Z;
+    static char const LOCALE_SWEDISH               = terminalpp::ascii::UPPERCASE_H;
+    static char const LOCALE_SWEDISH_ALT           = terminalpp::ascii::SEVEN;
+    static char const LOCALE_SWISS                 = terminalpp::ascii::EQUALS;
     static char const LOCALE_SCO                   = terminalpp::ascii::UPPERCASE_U;
 
     static char const CHARACTER_SET_G0             = terminalpp::ascii::OPEN_BRACKET;
     static char const CHARACTER_SET_G1             = terminalpp::ascii::CLOSE_BRACKET;
+    static char const CHARACTER_SET_G2             = terminalpp::ascii::ASTERISK;
+    static char const CHARACTER_SET_G3             = terminalpp::ascii::PLUS;
+    static char const CHARACTER_SET_G1_ALT         = terminalpp::ascii::DASH;
+    static char const CHARACTER_SET_G2_ALT         = terminalpp::ascii::FULL_STOP;
+    static char const CHARACTER_SET_G3_ALT         = terminalpp::ascii::SLASH;
 }
 
 namespace ss3 {
