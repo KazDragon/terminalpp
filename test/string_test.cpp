@@ -48,6 +48,8 @@ public :
 
         CPPUNIT_TEST(raw_string_construction_outputs_raw_text);
 
+        CPPUNIT_TEST(only_attributes_outputs_no_text);
+
     CPPUNIT_TEST_SUITE_END();
 
 private :
@@ -91,6 +93,8 @@ private :
     void multiple_attributes_do_not_cause_default_change();
 
     void raw_string_construction_outputs_raw_text();
+
+    void only_attributes_outputs_no_text();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(string_test_fixture);
@@ -116,7 +120,7 @@ void expect_conversion(
 void string_test_fixture::string_literal_creates_string()
 {
     using namespace terminalpp::literals;
-    CPPUNIT_ASSERT_EQUAL(terminalpp::string("abcde"), "abcde"_s);
+    CPPUNIT_ASSERT_EQUAL(terminalpp::string("abcde"), "abcde"_ts);
 }
 
 void string_test_fixture::empty_string_outputs_nothing()
@@ -313,4 +317,10 @@ void string_test_fixture::raw_string_construction_outputs_raw_text()
     result = stream.str();
 
     CPPUNIT_ASSERT_EQUAL(expected_result, result);
+}
+
+void string_test_fixture::only_attributes_outputs_no_text()
+{
+    // If a string comprises only attributes, then no text should be output.
+    expect_conversion("\\[2\\]1\\p-\\i>", "");
 }

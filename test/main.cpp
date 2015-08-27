@@ -11,15 +11,15 @@ int main()
     CppUnit::TestResult controller;
 
     CppUnit::TestResultCollector result;
-    controller.addListener( &result );        
+    controller.addListener( &result );
 
     CppUnit::BriefTestProgressListener progressListener;
     controller.addListener( &progressListener );
 
     CppUnit::TestRunner runner;
     runner.addTest(CppUnit::TestFactoryRegistry::getRegistry().makeTest());
-    
+
     runner.run(controller);
-    
+
     return result.wasSuccessful() ? EXIT_SUCCESS : EXIT_FAILURE;
 }

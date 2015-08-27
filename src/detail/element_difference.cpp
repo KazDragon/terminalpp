@@ -21,8 +21,7 @@ template <class GraphicsAttribute>
 std::string change_graphics_attribute(
     GraphicsAttribute const &source,
     GraphicsAttribute const &dest,
-    bool separator_required,
-    char base = 0)
+    bool separator_required)
 {
     if (source == dest)
     {
@@ -36,9 +35,55 @@ std::string change_graphics_attribute(
         result += terminalpp::ansi::PARAMETER_SEPARATOR;
     }
 
-    result += boost::str(boost::format("%d") % (int(base) + int(dest)));
+    result += boost::str(boost::format("%d") % int(dest));
 
     return result;
+}
+
+std::string low_foreground_colour_code(terminalpp::low_colour const &col)
+{
+    int value = int(col.value_)
+              + terminalpp::ansi::graphics::FOREGROUND_COLOUR_BASE;
+
+    return boost::str(boost::format("%d") % value);
+}
+
+std::string high_foreground_colour_code(terminalpp::high_colour const &col)
+{
+    int value = col.red_ * 36
+              + col.green_ * 6
+              + col.blue_
+              + 16;
+
+    return boost::str(boost::format("38;5;%d") % value);
+}
+
+std::string greyscale_foreground_colour_code(
+    terminalpp::greyscale_colour const &col)
+{
+    int value = col.shade_ + 232;
+
+    return boost::str(boost::format("38;5;%d") % value);
+}
+
+std::string foreground_colour_code(terminalpp::colour const &col)
+{
+    switch (col.type_)
+    {
+        default :
+            // Fall-through
+        case terminalpp::colour::type::low :
+            return low_foreground_colour_code(col.low_colour_);
+            break;
+
+        case terminalpp::colour::type::high :
+            return high_foreground_colour_code(col.high_colour_);
+            break;
+
+        case terminalpp::colour::type::greyscale :
+            return greyscale_foreground_colour_code(col.greyscale_colour_);
+            break;
+    }
 }
 
 std::string change_foreground_colour(
@@ -58,32 +103,55 @@ std::string change_foreground_colour(
         result += terminalpp::ansi::PARAMETER_SEPARATOR;
     }
 
-    switch (dest.type_)
+    result += foreground_colour_code(dest);
+
+    return result;
+}
+
+std::string low_background_colour_code(terminalpp::low_colour const &col)
+{
+    int value = int(col.value_)
+    + terminalpp::ansi::graphics::BACKGROUND_COLOUR_BASE;
+
+    return boost::str(boost::format("%d") % value);
+}
+
+std::string high_background_colour_code(terminalpp::high_colour const &col)
+{
+    int value = col.red_ * 36
+    + col.green_ * 6
+    + col.blue_
+    + 16;
+
+    return boost::str(boost::format("48;5;%d") % value);
+}
+
+std::string greyscale_background_colour_code(
+    terminalpp::greyscale_colour const &col)
+{
+    int value = col.shade_ + 232;
+
+    return boost::str(boost::format("48;5;%d") % value);
+}
+
+std::string background_colour_code(terminalpp::colour const &col)
+{
+    switch (col.type_)
     {
+        default :
+            // Fall-through
         case terminalpp::colour::type::low :
-            result += boost::str(
-                boost::format("%d")
-              % (terminalpp::ansi::graphics::FOREGROUND_COLOUR_BASE
-                  + int(dest.low_colour_.value_)));
+            return low_background_colour_code(col.low_colour_);
             break;
 
         case terminalpp::colour::type::high :
-            result += boost::str(
-                boost::format("38;5;%d")
-              % ((dest.high_colour_.red_ * 36)
-               + (dest.high_colour_.green_ * 6)
-               + (dest.high_colour_.blue_)
-               + 16));
+            return high_background_colour_code(col.high_colour_);
             break;
 
         case terminalpp::colour::type::greyscale :
-            result += boost::str(
-                boost::format("38;5;%d")
-              % (dest.greyscale_colour_.shade_ + 232));
+            return greyscale_background_colour_code(col.greyscale_colour_);
             break;
     }
-
-    return result;
 }
 
 std::string change_background_colour(
@@ -103,30 +171,7 @@ std::string change_background_colour(
         result += terminalpp::ansi::PARAMETER_SEPARATOR;
     }
 
-    switch (dest.type_)
-    {
-        case terminalpp::colour::type::low :
-            result += boost::str(
-                boost::format("%d")
-                % (terminalpp::ansi::graphics::BACKGROUND_COLOUR_BASE
-                + int(dest.low_colour_.value_)));
-            break;
-
-        case terminalpp::colour::type::high :
-            result += boost::str(
-                boost::format("48;5;%d")
-                % ((dest.high_colour_.red_ * 36)
-                + (dest.high_colour_.green_ * 6)
-                + (dest.high_colour_.blue_)
-                + 16));
-            break;
-
-        case terminalpp::colour::type::greyscale :
-            result += boost::str(
-                boost::format("48;5;%d")
-                % (dest.greyscale_colour_.shade_ + 232));
-            break;
-    }
+    result += background_colour_code(dest);
 
     return result;
 }

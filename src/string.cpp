@@ -23,7 +23,7 @@ string::string(const char* text, std::size_t len, bool raw)
     if (raw)
     {
         elements_.resize(len);
-        
+
         for (size_t index = 0; index < len; ++index)
         {
             elements_[index] = element(text[index]);
@@ -118,6 +118,23 @@ string::const_reference string::operator[](string::size_type index) const
 // ==========================================================================
 // OPERATOR +=
 // ==========================================================================
+string &string::operator+=(char ch)
+{
+    return operator+=(element(ch));
+}
+
+// ==========================================================================
+// OPERATOR +=
+// ==========================================================================
+string &string::operator+=(element const &elem)
+{
+    elements_.insert(elements_.end(), elem);
+    return *this;
+}
+
+// ==========================================================================
+// OPERATOR +=
+// ==========================================================================
 string &string::operator+=(string const &rhs)
 {
     elements_.insert(elements_.end(), rhs.begin(), rhs.end());
@@ -156,9 +173,25 @@ std::ostream &operator<<(std::ostream &out, string const &es)
     }
 
     text += detail::element_difference(current_element, {});
-    
+
     out << text;
     return out;
+}
+
+// ==========================================================================
+// OPERATOR +
+// ==========================================================================
+string operator+(string lhs, char rhs)
+{
+    return lhs += rhs;
+}
+
+// ==========================================================================
+// OPERATOR +
+// ==========================================================================
+string operator+(string lhs, element const &rhs)
+{
+    return lhs += rhs;
 }
 
 // ==========================================================================
@@ -171,7 +204,7 @@ string operator+(string lhs, string const &rhs)
 
 inline namespace literals { inline namespace string_literals {
 
-terminalpp::string operator ""_s(char const *text, std::size_t len)
+terminalpp::string operator ""_ts(char const *text, std::size_t len)
 {
     return terminalpp::string(text, len);
 }
