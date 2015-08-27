@@ -12,9 +12,8 @@ std::string change_locale(char source, char dest)
       ? std::string{}
       : std::string{
             terminalpp::ansi::ESCAPE,
-            terminalpp::ansi::CONTROL_SEQUENCE_INTRODUCER,
+            terminalpp::ansi::character_set::CHARACTER_SET_G0,
             dest,
-            terminalpp::ansi::character_set::CHARACTER_SET_G0
         };
 }
 

@@ -8,7 +8,7 @@ class string_test_fixture : public CppUnit::TestFixture
 public :
     CPPUNIT_TEST_SUITE(string_test_fixture);
         CPPUNIT_TEST(string_literal_creates_string);
-        
+
         CPPUNIT_TEST(empty_string_outputs_nothing);
         CPPUNIT_TEST(basic_string_outputs_basic_string);
 
@@ -45,14 +45,14 @@ public :
         CPPUNIT_TEST(multiple_background_colour_codes_change_background_colours);
 
         CPPUNIT_TEST(multiple_attributes_do_not_cause_default_change);
-        
+
         CPPUNIT_TEST(raw_string_construction_outputs_raw_text);
-        
+
     CPPUNIT_TEST_SUITE_END();
 
 private :
     void string_literal_creates_string();
-    
+
     void empty_string_outputs_nothing();
     void basic_string_outputs_basic_string();
 
@@ -87,7 +87,7 @@ private :
     void background_greyscale_colour_code_changes_background_colour();
     void default_background_colour_code_does_not_change_background_colour();
     void multiple_background_colour_codes_change_background_colours();
-    
+
     void multiple_attributes_do_not_cause_default_change();
 
     void raw_string_construction_outputs_raw_text();
@@ -150,7 +150,7 @@ void string_test_fixture::escaped_locale_code_changes_locale()
     // Test that an escaped character set code, when followed by a character,
     // will change the character set for the characters following it.  A code
     // to revert the character set will appear after it.
-    expect_conversion("\\lAabc", "\x1B[A(abc\x1B[B(");
+    expect_conversion("\\lAabc", "\x1B(Aabc\x1B(B");
 }
 
 void string_test_fixture::default_locale_code_does_not_change_locale()
@@ -299,7 +299,7 @@ void string_test_fixture::multiple_attributes_do_not_cause_default_change()
 
 void string_test_fixture::raw_string_construction_outputs_raw_text()
 {
-    // When a string is created raw, then it does not parse the text for 
+    // When a string is created raw, then it does not parse the text for
     // attribute codes.  Instead, it creates a string as if everything were
     // escaped.
     std::string const test_data = "\\p-!";
