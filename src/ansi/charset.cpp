@@ -1,7 +1,25 @@
 #include "terminalpp/ansi/charset.hpp"
 #include <cstring>
+#include <utility>
 
 namespace terminalpp { namespace ansi {
+
+static constexpr char const CHARSET_EXTENDER = terminalpp::ascii::PERCENT;
+static constexpr std::pair<charset, char const (&)[2]> const charset_map[] =
+{
+    { charset::us_ascii,          CHARSET_US_ASCII          },
+    { charset::sco,               CHARSET_SCO               },
+    { charset::dec,               CHARSET_DEC               },
+    { charset::dec_supplementary, CHARSET_DEC_SUPPLEMENTARY },
+    { charset::dec_technical,     CHARSET_DEC_TECHNICAL     },
+    { charset::uk,                CHARSET_UK                },
+};
+
+static constexpr std::pair<charset, char const (&)[3]> const extended_charset_map[] =
+{
+    { charset::dec_supplementary_graphics, CHARSET_DEC_SUPPLEMENTARY_GR },
+    { charset::portuguese,                 CHARSET_PORTUGUESE           },
+};
 
 boost::optional<charset> lookup_charset(char const *code)
 {
@@ -17,53 +35,52 @@ boost::optional<charset> lookup_charset(char const *code)
         return {};
     }
 
-    switch (code[0])
+    if (code[0] == CHARSET_EXTENDER)
     {
-        default :
-            return {};
-        case '%' :
-            if (len > 1)
+        if (len > 1)
+        {
+            for (auto &&mapping : extended_charset_map)
             {
-                switch (code[1])
+                if (code[1] == mapping.second[1])
                 {
-                    default : return {};
-                    case CHARSET_DEC_SUPPLEMENTARY_GR[1] :
-                        return charset::dec_supplementary_graphics;
-                    case CHARSET_PORTUGUESE[1] :
-                        return charset::portuguese;
+                    return mapping.first;
                 }
             }
-            else
-            {
-                return {};
-            }
-            break;
-                    case CHARSET_DEC[0]               : return charset::dec;
-                    case CHARSET_DEC_SUPPLEMENTARY[0] : return charset::dec_supplementary;
-                    case CHARSET_UK[0]                : return charset::uk;
-                    case CHARSET_US_ASCII[0]          : return charset::us_ascii;
-                    case CHARSET_SCO[0]               : return charset::sco;
-
-                    // TODO: More locales.  Note that multiple-choice locales, such as
-                    // French Canadian and Norwegian/Danish, may rely on the type of the
-                    // terminal being used.
+        }
     }
+    else
+    {    
+        for (auto &&mapping : charset_map)
+        {
+            if (code[0] == mapping.second[0])
+            {
+                return mapping.first;
+            }
+        }
+    }
+    
+    return {};
 }
 
 std::string charset_to_string(charset const &charset)
 {
-    switch (charset)
+    for (auto &&mapping : charset_map)
     {
-        default                : return CHARSET_US_ASCII;
-        case charset::us_ascii : return CHARSET_US_ASCII;
-        case charset::dec      : return CHARSET_DEC;
-        case charset::dec_supplementary : return CHARSET_DEC_SUPPLEMENTARY;
-        case charset::dec_supplementary_graphics : return CHARSET_DEC_SUPPLEMENTARY_GR;
-        case charset::uk       : return CHARSET_UK;
-        case charset::sco      : return CHARSET_SCO;
-
-        // TODO: More locales.
+        if (mapping.first == charset)
+        {
+            return mapping.second;
+        }
     }
+    
+    for (auto &&mapping : extended_charset_map)
+    {
+        if (mapping.first == charset)
+        {
+            return mapping.second;
+        }
+    }
+    
+    return CHARSET_US_ASCII;
 }
 
 }}
