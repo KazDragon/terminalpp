@@ -1,4 +1,5 @@
 #include "terminalpp/element.hpp"
+#include <iostream>
 
 namespace terminalpp {
 

@@ -1,5 +1,5 @@
 #include "terminalpp/detail/string_to_elements.hpp"
-
+#include "terminalpp/ansi/functions.hpp"
 #include <cstring>
 
 namespace terminalpp { namespace detail {
@@ -23,7 +23,8 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
         character_code_0,
         character_code_1,
         character_code_2,
-        locale,
+        character_set,
+        character_set_ext,
         intensity,
         polarity,
         underlining,
@@ -79,8 +80,8 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
                         current_state = state::character_code_0;
                         break;
 
-                    case 'l' :
-                        current_state = state::locale;
+                    case 'c' :
+                        current_state = state::character_set;
                         break;
 
                     case 'i' :
@@ -140,10 +141,39 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
                 element_complete = true;
                 break;
 
-            case state::locale :
-                current_element.glyph_.locale_ = current_character;
-                current_state = state::normal;
+            case state::character_set :
+                if (current_character == '%')
+                {
+                    current_state = state::character_set_ext;
+                }
+                else
+                {
+                    char charset_code[] = {current_character};
+                    auto charset =
+                        terminalpp::ansi::lookup_charset(charset_code);
+
+                    if (charset)
+                    {
+                        current_element.glyph_.charset_ = charset.get();
+                    }
+
+                    current_state = state::normal;
+                }
                 break;
+
+            case state::character_set_ext :
+            {
+                char charset_code[] = {'%', current_character};
+                auto charset =
+                    terminalpp::ansi::lookup_charset(charset_code);
+
+                if (charset)
+                {
+                    current_element.glyph_.charset_ = charset.get();
+                }
+
+                current_state = state::normal;
+            }
 
             case state::intensity :
                 switch (current_character)

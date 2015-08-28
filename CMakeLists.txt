@@ -6,7 +6,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 find_package(CppUnit)
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+
 add_library(terminalpp
+    src/ansi/charset.cpp
     src/ansi/functions.cpp
     src/attribute.cpp
     src/detail/element_difference.cpp
@@ -49,4 +52,3 @@ install(
     DESTINATION
         include
 )
-        

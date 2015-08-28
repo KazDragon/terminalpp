@@ -60,6 +60,14 @@ string::const_iterator string::begin() const
 }
 
 // ==========================================================================
+// BEGIN
+// ==========================================================================
+string::iterator string::begin()
+{
+    return &*elements_.begin();
+}
+
+// ==========================================================================
 // RBEGIN
 // ==========================================================================
 string::const_reverse_iterator string::rbegin() const
@@ -71,6 +79,14 @@ string::const_reverse_iterator string::rbegin() const
 // END
 // ==========================================================================
 string::const_iterator string::end() const
+{
+    return &*elements_.end();
+}
+
+// ==========================================================================
+// END
+// ==========================================================================
+string::iterator string::end()
 {
     return &*elements_.end();
 }
@@ -168,6 +184,7 @@ std::ostream &operator<<(std::ostream &out, string const &es)
     for (auto const &elem : es.elements_)
     {
         text += detail::element_difference(current_element, elem);
+        
         text += elem.glyph_.character_;
         current_element = elem;
     }

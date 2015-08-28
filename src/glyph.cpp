@@ -94,18 +94,18 @@ static bool const is_printable_us_ascii[] = {
 /* 0x88 - 0x8F */ false, false, false, false, false, false, false, false,
 /* 0x90 - 0x97 */ false, false, false, false, false, false, false, false,
 /* 0x98 - 0x9F */ false, false, false, false, false, false, false, false,
-/* 0xA0 - 0xA7 */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xA8 - 0xAF */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xB0 - 0xB7 */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xB8 - 0xBF */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xC0 - 0xC7 */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xC8 - 0xCF */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xD0 - 0xD7 */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xD8 - 0xDF */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xE0 - 0xE7 */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xE8 - 0xEF */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xF0 - 0xF7 */ true,  true,  true,  true,  true,  true,  true,  true,
-/* 0xF8 - 0xFF */ true,  true,  true,  true,  true,  true,  true,  false,
+/* 0xA0 - 0xA7 */ false, false, false, false, false, false, false, false,
+/* 0xA8 - 0xAF */ false, false, false, false, false, false, false, false,
+/* 0xB0 - 0xB7 */ false, false, false, false, false, false, false, false,
+/* 0xB8 - 0xBF */ false, false, false, false, false, false, false, false,
+/* 0xC0 - 0xC7 */ false, false, false, false, false, false, false, false,
+/* 0xC8 - 0xCF */ false, false, false, false, false, false, false, false,
+/* 0xD0 - 0xD7 */ false, false, false, false, false, false, false, false,
+/* 0xD8 - 0xDF */ false, false, false, false, false, false, false, false,
+/* 0xE0 - 0xE7 */ false, false, false, false, false, false, false, false,
+/* 0xE8 - 0xEF */ false, false, false, false, false, false, false, false,
+/* 0xF0 - 0xF7 */ false, false, false, false, false, false, false, false,
+/* 0xF8 - 0xFF */ false, false, false, false, false, false, false, false,
 };
 
 static bool const is_printable_sco[] = {
@@ -164,21 +164,23 @@ bool is_printable(glyph const &gly)
 {
     bool const *lookup = is_printable_dec;
 
-    switch (gly.locale_)
+    switch (gly.charset_)
     {
-    case terminalpp::ansi::character_set::LOCALE_DEC:
+    default :
+        // Fall-through
+    case terminalpp::ansi::charset::dec:
         lookup = is_printable_dec;
         break;
 
-    case terminalpp::ansi::character_set::LOCALE_UK:
+    case terminalpp::ansi::charset::uk:
         lookup = is_printable_uk;
         break;
 
-    case terminalpp::ansi::character_set::LOCALE_US_ASCII:
+    case terminalpp::ansi::charset::us_ascii:
         lookup = is_printable_us_ascii;
         break;
 
-    case terminalpp::ansi::character_set::LOCALE_SCO:
+    case terminalpp::ansi::charset::sco:
         lookup = is_printable_sco;
         break;
     }

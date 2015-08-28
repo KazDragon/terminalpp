@@ -16,19 +16,19 @@ struct glyph
     /// \brief Default Constructor
     /// \par
     /// Note: the default glyph is chosen as a space character US ASCII
-    /// locale.  That is, it is blank.
+    /// character set.  That is, it is blank.
     //* =====================================================================
     constexpr glyph(
         char character = ' ',
-        char locale    = terminalpp::ansi::character_set::LOCALE_US_ASCII)
+        terminalpp::ansi::charset charset =
+            terminalpp::ansi::charset::us_ascii)
       : character_(character),
-        locale_(locale)
+        charset_(charset)
     {
     }
 
-    // Character
-    char character_;
-    char locale_;
+    char                      character_;
+    terminalpp::ansi::charset charset_;
 };
 
 // ==========================================================================
@@ -36,8 +36,8 @@ struct glyph
 // ==========================================================================
 constexpr bool operator==(glyph const &lhs, glyph const &rhs)
 {
-    return lhs.character_     == rhs.character_
-        && lhs.locale_        == rhs.locale_;
+    return lhs.character_ == rhs.character_
+        && lhs.charset_   == rhs.charset_;
 }
 
 // ==========================================================================

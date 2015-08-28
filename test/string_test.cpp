@@ -16,8 +16,8 @@ public :
 
         CPPUNIT_TEST(escaped_character_code_outputs_character);
 
-        CPPUNIT_TEST(escaped_locale_code_changes_locale);
-        CPPUNIT_TEST(default_locale_code_does_not_change_locale);
+        CPPUNIT_TEST(escaped_charset_code_changes_charset);
+        CPPUNIT_TEST(default_charset_code_does_not_change_charset);
 
         CPPUNIT_TEST(bold_intensity_code_changes_intensity);
         CPPUNIT_TEST(faint_intensity_code_changes_intensity);
@@ -62,8 +62,8 @@ private :
 
     void escaped_character_code_outputs_character();
 
-    void escaped_locale_code_changes_locale();
-    void default_locale_code_does_not_change_locale();
+    void escaped_charset_code_changes_charset();
+    void default_charset_code_does_not_change_charset();
 
     void bold_intensity_code_changes_intensity();
     void faint_intensity_code_changes_intensity();
@@ -149,19 +149,19 @@ void string_test_fixture::escaped_character_code_outputs_character()
     expect_conversion("\\C097", "a");
 }
 
-void string_test_fixture::escaped_locale_code_changes_locale()
+void string_test_fixture::escaped_charset_code_changes_charset()
 {
     // Test that an escaped character set code, when followed by a character,
     // will change the character set for the characters following it.  A code
     // to revert the character set will appear after it.
-    expect_conversion("\\lAabc", "\x1B(Aabc\x1B(B");
+    expect_conversion("\\cAabc", "\x1B(Aabc\x1B(B");
 }
 
-void string_test_fixture::default_locale_code_does_not_change_locale()
+void string_test_fixture::default_charset_code_does_not_change_charset()
 {
-    // Test that changing from the default locale to the default locale does
+    // Test that changing from the default charset to the default charset does
     // not output any extra character codes.
-    expect_conversion("\\lBabc", "abc");
+    expect_conversion("\\cBabc", "abc");
 }
 
 void string_test_fixture::bold_intensity_code_changes_intensity()

@@ -1,43 +1,46 @@
 #include "terminalpp/detail/element_difference.hpp"
 #include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/ansi/functions.hpp"
 #include <boost/format.hpp>
+
+// TODO: In some cases, switching from one character set to the other
+// wont make any difference, so we can "carry" the charset for as long as
+// necessary.  E.g. the character 'a' is the same in the UK and US ASCII sets,
+// but different in DEC (where it is a shadowed block).  Therefore, when
+// printing a glyph in UK charset then 'a' in US charset, it's not actually
+// necessary to change charset (yet).
 
 namespace terminalpp { namespace detail {
 
 namespace {
 
-std::string change_locale(char source, char dest)
+std::string change_character_set(
+    terminalpp::ansi::charset const &source,
+    terminalpp::ansi::charset const &dest)
 {
     return source == dest
       ? std::string{}
-      : std::string{
-            terminalpp::ansi::ESCAPE,
-            terminalpp::ansi::character_set::CHARACTER_SET_G0,
-            dest,
-        };
+      : std::string(terminalpp::ansi::SET_CHARSET_G0)
+      + terminalpp::ansi::charset_to_string(dest);
 }
 
 template <class GraphicsAttribute>
-std::string change_graphics_attribute(
+void append_graphics_change(
+    std::string &change,
     GraphicsAttribute const &source,
-    GraphicsAttribute const &dest,
-    bool separator_required)
+    GraphicsAttribute const &dest)
 {
     if (source == dest)
     {
-        return {};
+        return;
     }
 
-    std::string result;
-
-    if (separator_required)
+    if (!change.empty())
     {
-        result += terminalpp::ansi::PARAMETER_SEPARATOR;
+        change += terminalpp::ansi::PS;
     }
 
-    result += boost::str(boost::format("%d") % int(dest));
-
-    return result;
+    change += boost::str(boost::format("%d") % int(dest));
 }
 
 std::string low_foreground_colour_code(terminalpp::low_colour const &col)
@@ -86,26 +89,22 @@ std::string foreground_colour_code(terminalpp::colour const &col)
     }
 }
 
-std::string change_foreground_colour(
+void append_foreground_colour(
+    std::string &change,
     terminalpp::colour const &source,
-    terminalpp::colour const &dest,
-    bool separator_required)
+    terminalpp::colour const &dest)
 {
     if (source == dest)
     {
-        return {};
+        return;
     }
 
-    std::string result;
-
-    if (separator_required)
+    if (!change.empty())
     {
-        result += terminalpp::ansi::PARAMETER_SEPARATOR;
+        change += terminalpp::ansi::PS;
     }
 
-    result += foreground_colour_code(dest);
-
-    return result;
+    change += foreground_colour_code(dest);
 }
 
 std::string low_background_colour_code(terminalpp::low_colour const &col)
@@ -154,36 +153,31 @@ std::string background_colour_code(terminalpp::colour const &col)
     }
 }
 
-std::string change_background_colour(
+void append_background_colour(
+    std::string &change,
     terminalpp::colour const &source,
-    terminalpp::colour const &dest,
-    bool separator_required)
+    terminalpp::colour const &dest)
 {
     if (source == dest)
     {
-        return {};
+        return;
     }
 
-    std::string result;
-
-    if (separator_required)
+    if (!change.empty())
     {
-        result += terminalpp::ansi::PARAMETER_SEPARATOR;
+        change += terminalpp::ansi::PS;
     }
 
-    result += background_colour_code(dest);
-
-    return result;
+    change += background_colour_code(dest);
 }
 
 std::string default_attribute()
 {
     return boost::str(
-        boost::format("%c%c%d%c")
-      % terminalpp::ansi::ESCAPE
-      % terminalpp::ansi::CONTROL_SEQUENCE_INTRODUCER
+        boost::format("%s%d%c")
+      % terminalpp::ansi::control7::CSI
       % int(terminalpp::ansi::graphics::NO_ATTRIBUTES)
-      % terminalpp::ansi::SELECT_GRAPHICS_RENDITION);
+      % terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
 }
 
 std::string change_attribute(
@@ -202,41 +196,16 @@ std::string change_attribute(
 
     std::string change;
 
-    change += change_graphics_attribute(
-        source.intensity_,
-        dest.intensity_,
-        !change.empty());
+    append_graphics_change(change, source.intensity_, dest.intensity_);
+    append_graphics_change(change, source.polarity_, dest.polarity_);
+    append_graphics_change(change, source.underlining_, dest.underlining_);
+    append_foreground_colour(change, source.foreground_colour_, dest.foreground_colour_);
+    append_background_colour(change, source.background_colour_, dest.background_colour_);
 
-    change += change_graphics_attribute(
-        source.polarity_,
-        dest.polarity_,
-        !change.empty());
-
-    change += change_graphics_attribute(
-        source.underlining_,
-        dest.underlining_,
-        !change.empty());
-
-    change += change_foreground_colour(
-        source.foreground_colour_,
-        dest.foreground_colour_,
-        !change.empty());
-
-    change += change_background_colour(
-        source.background_colour_,
-        dest.background_colour_,
-        !change.empty());
-
-    std::string result = {
-        terminalpp::ansi::ESCAPE,
-        terminalpp::ansi::CONTROL_SEQUENCE_INTRODUCER,
-    };
-
-    result += change;
-
-    result += {
-        terminalpp::ansi::SELECT_GRAPHICS_RENDITION
-    };
+    std::string result =
+        terminalpp::ansi::control7::CSI
+      + change
+      + terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION;
 
     return result;
 }
@@ -249,7 +218,7 @@ std::string element_difference(
 {
     std::string result;
 
-    result += change_locale(lhs.glyph_.locale_, rhs.glyph_.locale_);
+    result += change_character_set(lhs.glyph_.charset_, rhs.glyph_.charset_);
     result += change_attribute(lhs.attribute_, rhs.attribute_);
 
     return result;
