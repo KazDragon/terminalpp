@@ -27,7 +27,26 @@ struct glyph
     {
     }
 
-    char                      character_;
+    explicit glyph(char const *ustr)
+      : ucharacter_{0},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+        for (size_t index = 0; index < sizeof(ucharacter_); ++index)
+        {
+            ucharacter_[index] = ustr[index];
+
+            if (!(ucharacter_[index] & 0x80))
+            {
+                break;
+            }
+        }
+    }
+
+    union {
+        char character_;
+        char ucharacter_[3];
+    };
+
     terminalpp::ansi::charset charset_;
 };
 

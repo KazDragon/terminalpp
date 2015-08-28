@@ -18,10 +18,26 @@ std::string change_character_set(
     terminalpp::ansi::charset const &source,
     terminalpp::ansi::charset const &dest)
 {
-    return source == dest
-      ? std::string{}
-      : std::string(terminalpp::ansi::SET_CHARSET_G0)
-      + terminalpp::ansi::charset_to_string(dest);
+    std::string result;
+
+    if (source != dest)
+    {
+        if (dest == terminalpp::ansi::charset::utf8)
+        {
+            result = terminalpp::ansi::select_utf8_character_set();
+        }
+        else
+        {
+            if (source == terminalpp::ansi::charset::utf8)
+            {
+                result += terminalpp::ansi::select_default_character_set();
+            }
+
+            result += terminalpp::ansi::designate_g0_character_set(dest);
+        }
+    }
+
+    return result;
 }
 
 template <class GraphicsAttribute>

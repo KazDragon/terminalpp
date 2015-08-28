@@ -25,7 +25,8 @@ enum class charset : char {
     spanish,
     swedish,
     swiss,
-    sco
+    sco,
+    utf8,
 };
 
 // Note: For extended ASCII, both PuTTY and TeraTerm support SCO.
@@ -59,6 +60,17 @@ static constexpr char const CHARSET_SWEDISH_ALT[]         = {terminalpp::ascii::
 static constexpr char const CHARSET_SWISS[]               = {terminalpp::ascii::EQUALS, 0};
 static constexpr char const CHARSET_SCO[]                 = {terminalpp::ascii::UPPERCASE_U, 0};
 
+// Not defined by ANSI/VT100; just me bolting this on.
+static constexpr char const CHARSET_UTF8[]                = {terminalpp::ascii::LOWERCASE_U, 0};
+
+// Commands for Charset Selection
+static constexpr char const SELECT_DEFAULT_CHARACTER_SET[]= {terminalpp::ascii::ESC,
+                                                             terminalpp::ascii::PERCENT,
+                                                             terminalpp::ascii::AT, 0};
+static constexpr char const SELECT_UTF8_CHARACTER_SET[]   = {terminalpp::ascii::ESC,
+                                                             terminalpp::ascii::PERCENT,
+                                                             terminalpp::ascii::UPPERCASE_G, 0};
+// Command openers for Designate G? Character Set commands.
 static constexpr char const SET_CHARSET_G0[]              = {terminalpp::ascii::ESC,
                                                              terminalpp::ascii::OPEN_BRACKET, 0};
 static constexpr char const SET_CHARSET_G1[]              = {terminalpp::ascii::ESC,

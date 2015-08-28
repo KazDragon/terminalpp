@@ -105,20 +105,12 @@ std::string double_width_line()
 // Character Sets
 std::string select_default_character_set()
 {
-    return {
-        terminalpp::ascii::ESC,
-        terminalpp::ascii::PERCENT,
-        terminalpp::ascii::AT
-    };
+    return SELECT_DEFAULT_CHARACTER_SET;
 }
 
 std::string select_utf8_character_set()
 {
-    return {
-        terminalpp::ascii::ESC,
-        terminalpp::ascii::PERCENT,
-        terminalpp::ascii::UPPERCASE_G
-    };
+    return SELECT_UTF8_CHARACTER_SET;
 }
 
 std::string designate_g0_character_set(charset const &cs)
