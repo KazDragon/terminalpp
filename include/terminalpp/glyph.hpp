@@ -1,8 +1,8 @@
 #ifndef TERMINALPP_ANSI_GLYPH_HPP_
 #define TERMINALPP_ANSI_GLYPH_HPP_
 
-#include <iosfwd>
 #include "terminalpp/ansi/protocol.hpp"
+#include <iosfwd>
 
 namespace terminalpp {
 
@@ -27,6 +27,39 @@ struct glyph
     {
     }
 
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char const (&text)[2])
+      : ucharacter_{text[0]},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char const (&text)[3])
+      : ucharacter_{text[0], text[1]},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char const (&text)[4])
+      : ucharacter_{text[0], text[1], text[2]},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence.
+    //* =====================================================================
+    template <class T = void> // This makes matching these parameters "worse"
+                              // than any of the array matches above, and so
+                              // avoids ambiguity.
     explicit glyph(char const *ustr)
       : ucharacter_{0},
         charset_(terminalpp::ansi::charset::utf8)
