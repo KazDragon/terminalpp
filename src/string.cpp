@@ -187,7 +187,10 @@ std::ostream &operator<<(std::ostream &out, string const &es)
 
         if (elem.glyph_.charset_ == terminalpp::ansi::charset::utf8)
         {
-            for (size_t index = 0; index < sizeof(elem.glyph_.ucharacter_); ++index)
+            for (size_t index = 0; 
+                 index < sizeof(elem.glyph_.ucharacter_)
+              && elem.glyph_.ucharacter_[index] != '\0'; 
+                 ++index)
             {
                 text += elem.glyph_.ucharacter_[index];
 
