@@ -49,6 +49,8 @@ public :
         CPPUNIT_TEST(raw_string_construction_outputs_raw_text);
 
         CPPUNIT_TEST(only_attributes_outputs_no_text);
+        
+        CPPUNIT_TEST(encoded_glyphs_output_unicode_text);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -95,6 +97,8 @@ private :
     void raw_string_construction_outputs_raw_text();
 
     void only_attributes_outputs_no_text();
+    
+    void encoded_glyphs_output_unicode_text();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(string_test_fixture);
@@ -323,4 +327,15 @@ void string_test_fixture::only_attributes_outputs_no_text()
 {
     // If a string comprises only attributes, then no text should be output.
     expect_conversion("\\[2\\]1\\p-\\i>", "");
+}
+
+void string_test_fixture::encoded_glyphs_output_unicode_text()
+{
+    // If a string contains a four-hexdigit unicode code, then
+    // it should be output as a unicode character if it can be.
+    // This will include commands to change to and from the utf-8
+    // character set and also to reset the character set at the end.
+    expect_conversion("\\U0057", "\x1B%GW\x1B%@\x1B(B");
+    expect_conversion("\\U010E", "\x1B%G\xC4\x8E\x1B%@\x1B(B");
+    expect_conversion("\\U16B8", "\x1B%G\xE1\x9A\xB8\x1B%@\x1B(B");
 }

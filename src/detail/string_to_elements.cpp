@@ -1,8 +1,57 @@
 #include "terminalpp/detail/string_to_elements.hpp"
 #include "terminalpp/ansi/functions.hpp"
+#include <cstdlib>
 #include <cstring>
 
 namespace terminalpp { namespace detail {
+
+void utf8_encode_glyph(glyph &gly, char fourth)
+{
+    static const terminalpp::u32 maxima[] = {
+        0x00007F,
+        0x0007FF,
+        0x00FFFF,
+        0x10FFFF
+    };
+    // Do excuse the weird parameters.  At this point in the parsing, the
+    // first, second and third characters are already stored in the glyph.
+    char text[] = {
+        gly.ucharacter_[0], gly.ucharacter_[1], gly.ucharacter_[2], fourth, 0
+    };
+    
+    auto value = strtol(text, nullptr, 16);
+    
+    // At the moment, we can only convert up to 0xFFFF hex, since we only have
+    // three spots in ucharacter_ to play with.  As an arbitrary decision,
+    // anything above that will come out as a ? character.  Otherwise,
+    // we will UTF-8 encode the value as appropriate into the ucharacter_
+    // array.
+    if (value <= maxima[0])
+    {
+        gly.ucharacter_[0] = char(value & 0x7F);
+        gly.ucharacter_[1] = 0;
+    }
+    else if (value <= maxima[1])
+    {
+        gly.ucharacter_[0] = char(0b11000000 | (value >> 6));
+        gly.ucharacter_[1] = char(0b10000000 | (value & 0b00111111));
+        gly.ucharacter_[2] = 0;
+    }
+    else if (value <= maxima[2])
+    {
+        gly.ucharacter_[0] = char(0b11100000 | (value >> 12));
+        gly.ucharacter_[1] = char(0b10000000 | ((value >> 6) & 0b00111111));
+        gly.ucharacter_[2] = char(0b10000000 | (value & 0b00111111));
+    }
+    else
+    {
+        // Too high to encode right now.
+        gly.ucharacter_[0] = '?';
+        gly.ucharacter_[1] = 0;
+    } 
+    
+    
+}
 
 std::vector<terminalpp::element> string_to_elements(std::string const &text)
 {
@@ -40,6 +89,10 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
         high_colour_background_blue,
         greyscale_colour_background_0,
         greyscale_colour_background_1,
+        utf8_0,
+        utf8_1,
+        utf8_2,
+        utf8_3,
     };
 
     std::vector<terminalpp::element> result;
@@ -118,6 +171,10 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
 
                     case '}' :
                         current_state = state::greyscale_colour_background_0;
+                        break;
+                        
+                    case 'U' :
+                        current_state = state::utf8_0;
                         break;
                 }
                 break;
@@ -315,7 +372,29 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
                     .greyscale_colour_.shade_ += char(current_character - '0');
                 current_state = state::normal;
                 break;
-
+                
+            case state::utf8_0 :
+                current_element.glyph_.charset_ =
+                    terminalpp::ansi::charset::utf8;
+                current_element.glyph_.ucharacter_[0] = current_character;
+                current_state = state::utf8_1;
+                break;
+                
+            case state::utf8_1 :
+                current_element.glyph_.ucharacter_[1] = current_character;
+                current_state = state::utf8_2;
+                break;
+                
+            case state::utf8_2 :
+                current_element.glyph_.ucharacter_[2] = current_character;
+                current_state = state::utf8_3;
+                break;
+                
+            case state::utf8_3 :
+                utf8_encode_glyph(current_element.glyph_, current_character);
+                current_state = state::normal;
+                element_complete = true;
+                break;
         }
 
         if (element_complete)
