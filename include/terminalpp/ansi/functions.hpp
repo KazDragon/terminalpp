@@ -40,6 +40,23 @@ std::string move_cursor_to_position(
 std::string save_cursor();
 std::string restore_cursor();
 
+// Erase from cursor
+enum class erase_display {
+    below,
+    above,
+    all
+};
+
+std::string erase_in_display(erase_display const &how);
+
+enum class erase_line {
+    right,
+    left,
+    all
+};
+
+std::string erase_in_line(erase_line const &how);
+
 }}
 
 #endif

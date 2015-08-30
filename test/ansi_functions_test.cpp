@@ -37,6 +37,17 @@ public :
         CPPUNIT_TEST(move_cursor_position_to_origin_row_skips_row);
         CPPUNIT_TEST(move_cursor_position_to_origin_column_skips_column);
         CPPUNIT_TEST(move_cursor_position_outputs_correct_sequence);
+        
+        CPPUNIT_TEST(save_cursor_outputs_correct_sequence);
+        CPPUNIT_TEST(restore_cursor_outputs_correct_sequence);
+        
+        CPPUNIT_TEST(erase_in_display_below_outputs_correct_sequence);
+        CPPUNIT_TEST(erase_in_display_above_outputs_correct_sequence);
+        CPPUNIT_TEST(erase_in_display_all_outputs_correct_sequence);
+        
+        CPPUNIT_TEST(erase_in_line_right_outputs_correct_sequence);
+        CPPUNIT_TEST(erase_in_line_left_outputs_correct_sequence);
+        CPPUNIT_TEST(erase_in_line_all_outputs_correct_sequence);
     CPPUNIT_TEST_SUITE_END();
     
 private :
@@ -70,6 +81,17 @@ private :
     void move_cursor_position_to_origin_row_skips_row();
     void move_cursor_position_to_origin_column_skips_column();
     void move_cursor_position_outputs_correct_sequence();
+    
+    void save_cursor_outputs_correct_sequence();
+    void restore_cursor_outputs_correct_sequence();
+    
+    void erase_in_display_below_outputs_correct_sequence();
+    void erase_in_display_above_outputs_correct_sequence();
+    void erase_in_display_all_outputs_correct_sequence();
+    
+    void erase_in_line_right_outputs_correct_sequence();
+    void erase_in_line_left_outputs_correct_sequence();
+    void erase_in_line_all_outputs_correct_sequence();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ansi_functions_test_fixture);
@@ -366,6 +388,76 @@ void ansi_functions_test_fixture::move_cursor_position_outputs_correct_sequence(
 {
     std::string expected = "\x1B[7;6H";
     std::string result = terminalpp::ansi::move_cursor_to_position(7, 6);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::save_cursor_outputs_correct_sequence()
+{
+    std::string expected = "\x1B""7";
+    std::string result = terminalpp::ansi::save_cursor();
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::restore_cursor_outputs_correct_sequence()
+{
+    std::string expected = "\x1B""8";
+    std::string result = terminalpp::ansi::restore_cursor();
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::erase_in_display_below_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[J";
+    std::string result = terminalpp::ansi::erase_in_display(
+        terminalpp::ansi::erase_display::below);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::erase_in_display_above_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[1J";
+    std::string result = terminalpp::ansi::erase_in_display(
+        terminalpp::ansi::erase_display::above);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::erase_in_display_all_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[2J";
+    std::string result = terminalpp::ansi::erase_in_display(
+        terminalpp::ansi::erase_display::all);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::erase_in_line_right_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[K";
+    std::string result = terminalpp::ansi::erase_in_line(
+        terminalpp::ansi::erase_line::right);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::erase_in_line_left_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[1K";
+    std::string result = terminalpp::ansi::erase_in_line(
+        terminalpp::ansi::erase_line::left);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::erase_in_line_all_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[2K";
+    std::string result = terminalpp::ansi::erase_in_line(
+        terminalpp::ansi::erase_line::all);
     
     CPPUNIT_ASSERT_EQUAL(expected, result);
 }

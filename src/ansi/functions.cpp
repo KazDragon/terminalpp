@@ -234,6 +234,50 @@ std::string restore_cursor()
     };
 }
 
+std::string erase_in_display(erase_display const &how)
+{
+    switch (how)
+    {
+        default :
+            // Fall-through
+        case erase_display::below :
+            return std::string(control7::CSI) 
+                 + csi::ERASE_IN_DISPLAY;
+            
+        case erase_display::above :
+            return std::string(control7::CSI)
+                 + csi::ERASE_IN_DISPLAY_ABOVE
+                 + csi::ERASE_IN_DISPLAY;
+                 
+        case erase_display::all :
+            return std::string(control7::CSI)
+                 + csi::ERASE_IN_DISPLAY_ALL
+                 + csi::ERASE_IN_DISPLAY;
+    }
+}
+
+std::string erase_in_line(erase_line const &how)
+{
+    switch (how)
+    {
+        default :
+            // Fall-through
+        case erase_line::right :
+            return std::string(control7::CSI)
+                 + csi::ERASE_IN_LINE;
+                 
+        case erase_line::left :
+            return std::string(control7::CSI)
+                 + csi::ERASE_IN_LINE_LEFT
+                 + csi::ERASE_IN_LINE;
+                 
+        case erase_line::all :
+            return std::string(control7::CSI)
+                 + csi::ERASE_IN_LINE_ALL
+                 + csi::ERASE_IN_LINE;
+    }
+}
+
 
 
 }}

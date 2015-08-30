@@ -29,13 +29,19 @@ static char const CURSOR_POSITION                  = terminalpp::ascii::UPPERCAS
 //  0 - (Default) Clear from the cursor to the end of the screen.
 //  1 - Clear from the cursor to the beginning of the screen.
 //  2 - Clear the entire screen (cursor position is indeterminate).
-static char const ERASE_DATA                       = terminalpp::ascii::UPPERCASE_J;
+static char const ERASE_IN_DISPLAY                 = terminalpp::ascii::UPPERCASE_J;
+    static char const ERASE_IN_DISPLAY_BELOW       = terminalpp::ascii::ZERO;
+    static char const ERASE_IN_DISPLAY_ABOVE       = terminalpp::ascii::ONE;
+    static char const ERASE_IN_DISPLAY_ALL         = terminalpp::ascii::TWO;
 
 // Erase line
 //  0 - (Default) Clear from the cursor to the end of the line.
 //  1 - Clear from the cursor to the beginning of the line.
 //  2 - Clear entire line (cursor position remains the same).
-static char const ERASE_LINE                       = terminalpp::ascii::UPPERCASE_K;
+static char const ERASE_IN_LINE                    = terminalpp::ascii::UPPERCASE_K;
+    static char const ERASE_IN_LINE_RIGHT          = terminalpp::ascii::ZERO;
+    static char const ERASE_IN_LINE_LEFT           = terminalpp::ascii::ONE;
+    static char const ERASE_IN_LINE_ALL            = terminalpp::ascii::TWO;
 
 // Scroll up by N lines
 static char const SCROLL_UP                        = terminalpp::ascii::UPPERCASE_S;
