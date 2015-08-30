@@ -37,6 +37,8 @@ std::string move_cursor_to_column(terminalpp::u8 amount = 1);
 std::string move_cursor_to_position(
     terminalpp::u8 column, terminalpp::u8 row);
 
+std::string hide_cursor();
+std::string show_cursor();
 std::string save_cursor();
 std::string restore_cursor();
 

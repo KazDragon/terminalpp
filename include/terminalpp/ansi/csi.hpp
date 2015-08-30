@@ -75,11 +75,11 @@ static char const CURSOR_BACKWARD_TABULATION       = terminalpp::ascii::UPPERCAS
 // Keypad buttons / Function keys
 static char const KEYPAD_FUNCTION                  = terminalpp::ascii::TILDE;
 
-// DEC Private Mode Set
+// DEC Private Mode
 static char const DECSET                           = terminalpp::ascii::LOWERCASE_H;
-
-// DEC Private Mode Reset
 static char const DECRST                           = terminalpp::ascii::LOWERCASE_L;
+    static char const CURSOR_STATE[]               = {terminalpp::ascii::TWO,
+                                                      terminalpp::ascii::FIVE, 0};
 
 // For ANSI sequences of the format: ESC?x;y;zC (e.g. "ESC[10;2H"
 // In the above example, "[" is the initiator, "H" is the command, and

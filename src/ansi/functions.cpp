@@ -214,6 +214,22 @@ std::string move_cursor_to_position(terminalpp::u8 column, terminalpp::u8 row)
     return str;
 }
 
+std::string hide_cursor()
+{
+    return std::string(control7::CSI)
+         + terminalpp::ascii::QUESTION_MARK
+         + terminalpp::ansi::csi::CURSOR_STATE
+         + terminalpp::ansi::csi::DECRST;
+}
+
+std::string show_cursor()
+{
+    return std::string(control7::CSI)
+         + terminalpp::ascii::QUESTION_MARK
+         + terminalpp::ansi::csi::CURSOR_STATE
+         + terminalpp::ansi::csi::DECSET;
+}
+
 std::string save_cursor()
 {
     // TODO: Depending on the terminal's capabilities, this might

@@ -37,6 +37,8 @@ public :
         CPPUNIT_TEST(move_cursor_position_to_origin_row_skips_row);
         CPPUNIT_TEST(move_cursor_position_to_origin_column_skips_column);
         CPPUNIT_TEST(move_cursor_position_outputs_correct_sequence);
+        CPPUNIT_TEST(hide_cursor_outputs_correct_sequence);
+        CPPUNIT_TEST(show_cursor_outputs_correct_sequence);
         
         CPPUNIT_TEST(save_cursor_outputs_correct_sequence);
         CPPUNIT_TEST(restore_cursor_outputs_correct_sequence);
@@ -81,6 +83,8 @@ private :
     void move_cursor_position_to_origin_row_skips_row();
     void move_cursor_position_to_origin_column_skips_column();
     void move_cursor_position_outputs_correct_sequence();
+    void hide_cursor_outputs_correct_sequence();
+    void show_cursor_outputs_correct_sequence();
     
     void save_cursor_outputs_correct_sequence();
     void restore_cursor_outputs_correct_sequence();
@@ -388,6 +392,22 @@ void ansi_functions_test_fixture::move_cursor_position_outputs_correct_sequence(
 {
     std::string expected = "\x1B[7;6H";
     std::string result = terminalpp::ansi::move_cursor_to_position(7, 6);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::hide_cursor_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[?25l";
+    std::string result = terminalpp::ansi::hide_cursor();
+    
+    CPPUNIT_ASSERT_EQUAL(expected, result);
+}
+
+void ansi_functions_test_fixture::show_cursor_outputs_correct_sequence()
+{
+    std::string expected = "\x1B[?25h";
+    std::string result = terminalpp::ansi::show_cursor();
     
     CPPUNIT_ASSERT_EQUAL(expected, result);
 }
