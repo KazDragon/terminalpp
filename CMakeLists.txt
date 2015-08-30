@@ -6,7 +6,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 find_package(CppUnit)
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+
 add_library(terminalpp
+    src/ansi/charset.cpp
+    src/ansi/functions.cpp
     src/attribute.cpp
     src/detail/element_difference.cpp
     src/detail/string_to_elements.cpp
@@ -28,6 +32,7 @@ target_compile_features(terminalpp
 enable_testing()
 
 add_executable(terminalpp_tester
+    test/ansi_functions_test.cpp
     test/main.cpp
     test/string_test.cpp
 )
@@ -48,4 +53,3 @@ install(
     DESTINATION
         include
 )
-        

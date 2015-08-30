@@ -1,8 +1,8 @@
 #ifndef TERMINALPP_ANSI_GLYPH_HPP_
 #define TERMINALPP_ANSI_GLYPH_HPP_
 
-#include <iosfwd>
 #include "terminalpp/ansi/protocol.hpp"
+#include <iosfwd>
 
 namespace terminalpp {
 
@@ -16,19 +16,71 @@ struct glyph
     /// \brief Default Constructor
     /// \par
     /// Note: the default glyph is chosen as a space character US ASCII
-    /// locale.  That is, it is blank.
+    /// character set.  That is, it is blank.
     //* =====================================================================
     constexpr glyph(
         char character = ' ',
-        char locale    = terminalpp::ansi::character_set::LOCALE_US_ASCII)
+        terminalpp::ansi::charset charset =
+            terminalpp::ansi::charset::us_ascii)
       : character_(character),
-        locale_(locale)
+        charset_(charset)
     {
     }
 
-    // Character
-    char character_;
-    char locale_;
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char const (&text)[2])
+      : ucharacter_{text[0]},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char const (&text)[3])
+      : ucharacter_{text[0], text[1]},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char const (&text)[4])
+      : ucharacter_{text[0], text[1], text[2]},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence.
+    //* =====================================================================
+    template <class T = void> // This makes matching these parameters "worse"
+                              // than any of the array matches above, and so
+                              // avoids ambiguity.
+    explicit glyph(char const *ustr)
+      : ucharacter_{0},
+        charset_(terminalpp::ansi::charset::utf8)
+    {
+        for (size_t index = 0; index < sizeof(ucharacter_); ++index)
+        {
+            ucharacter_[index] = ustr[index];
+
+            if (!(ucharacter_[index] & 0x80))
+            {
+                break;
+            }
+        }
+    }
+
+    union {
+        char character_;
+        char ucharacter_[3];
+    };
+
+    terminalpp::ansi::charset charset_;
 };
 
 // ==========================================================================
@@ -36,8 +88,8 @@ struct glyph
 // ==========================================================================
 constexpr bool operator==(glyph const &lhs, glyph const &rhs)
 {
-    return lhs.character_     == rhs.character_
-        && lhs.locale_        == rhs.locale_;
+    return lhs.character_ == rhs.character_
+        && lhs.charset_   == rhs.charset_;
 }
 
 // ==========================================================================

@@ -1,4 +1,4 @@
-# terminalpp
+# Terminal++
 A C++ library for interacting with ANSI terminal windows.
 [![Build Status](https://travis-ci.org/KazDragon/terminalpp.svg?branch=master)](https://travis-ci.org/KazDragon/terminalpp)
 
@@ -18,7 +18,7 @@ A C++ library for interacting with ANSI terminal windows.
   * terminalpp::canvas
   * This will be useful for those who wish to develop a more graphical or
     "curses-style" user interface.
-    
+
 4. [ ] A set of classes that implement a windowing user interface
   * terminalpp::component
   * terminalpp::layout
