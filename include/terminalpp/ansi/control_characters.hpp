@@ -1,7 +1,7 @@
 #ifndef TERMINALPP_ANSI_CONTROL_CHARACTERS_HPP_
 #define TERMINALPP_ANSI_CONTROL_CHARACTERS_HPP_
 
-#include "terminalpp/ascii/protocol.hpp"
+#include "terminalpp/detail/ascii.hpp"
 
 namespace terminalpp { namespace ansi {
 

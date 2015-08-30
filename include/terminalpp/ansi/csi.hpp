@@ -1,7 +1,8 @@
 #ifndef TERMINALPP_ANSI_CSI_HPP_
 #define TERMINALPP_ANSI_CSI_HPP_
 
-#include "terminalpp/ascii/protocol.hpp"
+#include "terminalpp/detail/ascii.hpp"
+#include <string>
 
 namespace terminalpp { namespace ansi { namespace csi {
     
@@ -73,6 +74,25 @@ static char const DECSET                           = terminalpp::ascii::LOWERCAS
 
 // DEC Private Mode Reset
 static char const DECRST                           = terminalpp::ascii::LOWERCASE_L;
+
+// For ANSI sequences of the format: ESC?x;y;zC (e.g. "ESC[10;2H"
+// In the above example, "[" is the initiator, "H" is the command, and
+// "10;2" is the arguments.
+struct sequence
+{
+    std::string arguments_;
+    bool        meta_;
+    char        initiator_;
+    char        command_;
+};
+
+constexpr inline bool operator==(sequence const& lhs, sequence const& rhs)
+{
+    return lhs.meta_      == rhs.meta_
+        && lhs.command_   == rhs.command_
+        && lhs.initiator_ == rhs.initiator_
+        && lhs.arguments_ == rhs.arguments_;
+}
 
 }}}
 

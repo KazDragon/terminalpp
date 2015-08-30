@@ -205,7 +205,7 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
                 }
                 else
                 {
-                    char charset_code[] = {current_character};
+                    char charset_code[] = {current_character, 0};
                     auto charset =
                         terminalpp::ansi::lookup_charset(charset_code);
 

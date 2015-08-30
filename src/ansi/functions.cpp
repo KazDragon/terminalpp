@@ -10,6 +10,10 @@
 //      alternative character, 0x9B. Unfortunately, it prints as garbage on
 //      clients that don't support this.  The same goes for other introducers
 //      such as ST, OSC, PM, SS2, SS3, etc.
+//    
+//      This feature can be enabled on certain clients by calling  
+//      set_8bit_controls(), but this requires on knowing that the client
+//      supports it in the first place.
 
 namespace terminalpp { namespace ansi {
 
@@ -24,6 +28,9 @@ std::string move_cursor(terminalpp::u8 amount, char direction)
     }
     else
     {
+        // amount goes to 255, so longest possible string is:
+        //     \x1B [ 2 5 5 A \0
+        // e.g. 7 bytes.
         static char const format_str[] = "%s%d%c";
         char str[7];
         sprintf(
@@ -103,32 +110,32 @@ std::string double_width_line()
 }
 
 // Character Sets
-std::string select_default_character_set()
+std::string select_default_charset()
 {
     return SELECT_DEFAULT_CHARACTER_SET;
 }
 
-std::string select_utf8_character_set()
+std::string select_utf8_charset()
 {
     return SELECT_UTF8_CHARACTER_SET;
 }
 
-std::string designate_g0_character_set(charset const &cs)
+std::string designate_g0_charset(charset const &cs)
 {
     return SET_CHARSET_G0 + charset_to_string(cs);
 }
 
-std::string designate_g1_character_set(charset const &cs)
+std::string designate_g1_charset(charset const &cs)
 {
     return SET_CHARSET_G1 + charset_to_string(cs);
 }
 
-std::string designate_g2_character_set(charset const &cs)
+std::string designate_g2_charset(charset const &cs)
 {
     return SET_CHARSET_G2 + charset_to_string(cs);
 }
 
-std::string designate_g3_character_set(charset const &cs)
+std::string designate_g3_charset(charset const &cs)
 {
     return SET_CHARSET_G3 + charset_to_string(cs);
 }
@@ -157,6 +164,54 @@ std::string move_cursor_backward(terminalpp::u8 amount)
 std::string move_cursor_to_column(terminalpp::u8 amount)
 {
     return move_cursor(amount, csi::CURSOR_HORIZONTAL_ABSOLUTE);
+}
+
+std::string move_cursor_to_position(terminalpp::u8 column, terminalpp::u8 row)
+{
+    // Both column and row can in theory go to 255.  This means that
+    // the longest possible string is:
+    //     \x1B [ 2 5 5 ; 2 5 5 H \0
+    // e.g. 11 bytes.
+    char str[11] = {0};
+
+    if (column == 1)
+    {
+        if (row == 1)
+        {
+            sprintf(str, "%s%c",
+                control7::CSI,
+                csi::CURSOR_POSITION);
+        }
+        else
+        {
+            sprintf(str, "%s%c%d%c",
+                control7::CSI,
+                PS,
+                u32(row),
+                csi::CURSOR_POSITION);
+        }
+    }
+    else
+    {
+        if (row == 1)
+        {
+            sprintf(str, "%s%d%c",
+                control7::CSI,
+                u32(column),
+                csi::CURSOR_POSITION);
+        }
+        else
+        {
+            sprintf(str, "%s%d%c%d%c",
+                control7::CSI,
+                u32(column),
+                PS,
+                u32(row),
+                csi::CURSOR_POSITION);
+        }
+    }
+    
+    return str;
 }
 
 std::string save_cursor()

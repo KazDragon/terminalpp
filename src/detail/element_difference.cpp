@@ -14,7 +14,7 @@ namespace terminalpp { namespace detail {
 
 namespace {
 
-std::string change_character_set(
+std::string change_charset(
     terminalpp::ansi::charset const &source,
     terminalpp::ansi::charset const &dest)
 {
@@ -24,16 +24,16 @@ std::string change_character_set(
     {
         if (dest == terminalpp::ansi::charset::utf8)
         {
-            result = terminalpp::ansi::select_utf8_character_set();
+            result = terminalpp::ansi::select_utf8_charset();
         }
         else
         {
             if (source == terminalpp::ansi::charset::utf8)
             {
-                result += terminalpp::ansi::select_default_character_set();
+                result += terminalpp::ansi::select_default_charset();
             }
 
-            result += terminalpp::ansi::designate_g0_character_set(dest);
+            result += terminalpp::ansi::designate_g0_charset(dest);
         }
     }
 
@@ -234,7 +234,7 @@ std::string element_difference(
 {
     std::string result;
 
-    result += change_character_set(lhs.glyph_.charset_, rhs.glyph_.charset_);
+    result += change_charset(lhs.glyph_.charset_, rhs.glyph_.charset_);
     result += change_attribute(lhs.attribute_, rhs.attribute_);
 
     return result;
