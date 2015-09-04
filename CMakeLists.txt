@@ -39,7 +39,6 @@ enable_testing()
 add_executable(terminalpp_tester
     test/ansi_functions_test.cpp
     test/main.cpp
-    test/string_test.cpp
 )
 
 target_compile_features(terminalpp_tester
