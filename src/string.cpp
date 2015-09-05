@@ -1,12 +1,20 @@
 #include "terminalpp/string.hpp"
 #include "terminalpp/element.hpp"
+#include "terminalpp/encoder.hpp"
 #include "terminalpp/detail/element_difference.hpp"
-#include "terminalpp/detail/string_to_elements.hpp"
 #include <cstring>
 #include <limits>
 
 namespace terminalpp {
 
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+string::string(std::initializer_list<element> const &ilist)
+  : string(ilist.begin(), ilist.end())
+{
+}
+  
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
@@ -231,6 +239,11 @@ inline namespace literals { inline namespace string_literals {
 terminalpp::string operator ""_ts(char const *text, std::size_t len)
 {
     return terminalpp::string(text, len);
+}
+
+terminalpp::string operator ""_ets(char const *text, std::size_t len)
+{
+    return terminalpp::encode(text, len);
 }
 
 }}}

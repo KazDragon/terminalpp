@@ -3,6 +3,7 @@
 
 #include "terminalpp/element.hpp"
 #include <cstddef>
+#include <initializer_list>
 #include <string>
 #include <vector>
 
@@ -44,6 +45,11 @@ public :
       : elements_(begin, end)
     {
     }
+    
+    //* =====================================================================
+    /// \brief Initializer List Constructor
+    //* =====================================================================
+    string(std::initializer_list<element> const &ilist);
     
     //* =====================================================================
     /// \brief Constructor
@@ -204,9 +210,16 @@ private :
 inline namespace literals { inline namespace string_literals {
 
 //* =========================================================================
-/// \brief Construct an string from literals using "foo"_es;
+/// \brief Construct an string from literals using "foo"_ts;
 //* =========================================================================
 ::terminalpp::string operator ""_ts(
+    char const *text,
+    std::size_t length);
+
+//* =========================================================================
+/// \brief Construct an encoded string from literals using "foo"_ets;
+//* =========================================================================
+::terminalpp::string operator ""_ets(
     char const *text,
     std::size_t length);
 

@@ -14,8 +14,8 @@ add_library(terminalpp
     src/ansi/functions.cpp
     src/attribute.cpp
     src/detail/element_difference.cpp
-    src/detail/string_to_elements.cpp
     src/element.cpp
+    src/encoder.cpp
     src/glyph.cpp
     src/string.cpp
 )
@@ -38,6 +38,7 @@ enable_testing()
 
 add_executable(terminalpp_tester
     test/ansi_functions_test.cpp
+    test/encoder_test.cpp
     test/main.cpp
 )
 

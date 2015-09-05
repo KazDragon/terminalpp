@@ -1,6 +1,4 @@
-#include "terminalpp/detail/string_to_elements.hpp"
-#include "terminalpp/ansi/functions.hpp"
-#include <cstdlib>
+#include "terminalpp/encoder.hpp"
 #include <cstring>
 
 namespace terminalpp { namespace detail {
@@ -49,21 +47,30 @@ void utf8_encode_glyph(glyph &gly, char fourth)
         gly.ucharacter_[0] = '?';
         gly.ucharacter_[1] = 0;
     } 
-    
-    
 }
 
-std::vector<terminalpp::element> string_to_elements(std::string const &text)
+}
+
+terminalpp::string encode(std::string const &text)
 {
-    return string_to_elements(text.c_str(), text.size());
+    return encode(text.c_str(), text.size());
 }
 
-std::vector<terminalpp::element> string_to_elements(char const* text)
+//* =========================================================================
+/// \brief A function that converts a char* into a terminalpp::string,
+/// parsing its contents according to the String To Elements protocol.
+//* =========================================================================
+terminalpp::string encode(char const *text)
 {
-    return string_to_elements(text, strlen(text));
+    return encode(text, strlen(text));
 }
 
-std::vector<terminalpp::element> string_to_elements(char const *text, size_t len)
+//* =========================================================================
+/// \brief A function that converts a char* of a given length into a 
+/// terminalpp::string, parsing its contents according to the String To
+/// Elements protocol.
+//* =========================================================================
+terminalpp::string encode(char const *text, size_t length)
 {
     enum class state
     {
@@ -95,12 +102,12 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
         utf8_3,
     };
 
-    std::vector<terminalpp::element> result;
+    terminalpp::string result;
     state current_state = state::normal;
     terminalpp::element current_element;
     bool element_complete = false;
 
-    for (size_t index = 0; index < len; ++index)
+    for (size_t index = 0; index < length; ++index)
     {
         auto const current_character = text[index];
 
@@ -127,6 +134,10 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
                         current_element.glyph_.character_ = current_character;
                         current_state = state::normal;
                         element_complete = true;
+                        break;
+
+                    case 'x' :
+                        current_element.attribute_ = {};
                         break;
 
                     case 'C' :
@@ -391,7 +402,7 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
                 break;
                 
             case state::utf8_3 :
-                utf8_encode_glyph(current_element.glyph_, current_character);
+                detail::utf8_encode_glyph(current_element.glyph_, current_character);
                 current_state = state::normal;
                 element_complete = true;
                 break;
@@ -399,7 +410,7 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
 
         if (element_complete)
         {
-            result.push_back(current_element);
+            result += current_element;
             element_complete = false;
         }
     }
@@ -407,5 +418,4 @@ std::vector<terminalpp::element> string_to_elements(char const *text, size_t len
     return result;
 }
 
-
-}}
+};
