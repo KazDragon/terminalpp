@@ -8,59 +8,75 @@ namespace terminalpp { namespace ansi {
 // C1 7-Bit Control Sequences
 namespace control7 {
 
+// Full code for enabling 7-bit control mode.
+static constexpr char const ENABLE[]= { terminalpp::ascii::ESC,
+                                        terminalpp::ascii::SPACE,
+                                        terminalpp::ascii::UPPERCASE_F, 0 };
+
+// The following codes are all prefixes for command groups.
+
 // Index
 static constexpr char const IND[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_D, 0};
+                                        terminalpp::ascii::UPPERCASE_D, 0 };
 // Next Line
 static constexpr char const NEL[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_E, 0};
+                                        terminalpp::ascii::UPPERCASE_E, 0 };
 // Horizontal Tab Set
 static constexpr char const HTS[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_H, 0};
+                                        terminalpp::ascii::UPPERCASE_H, 0 };
 // Reverse Index
 static constexpr char const RI[]    = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_M, 0};
+                                        terminalpp::ascii::UPPERCASE_M, 0 };
 // Single Shift Select of G2 Charset (next character only)
 static constexpr char const SS2[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_N, 0};
+                                        terminalpp::ascii::UPPERCASE_N, 0 };
 // Single Shift Select of G3 Charset (next character only)
 static constexpr char const SS3[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_O, 0};
+                                        terminalpp::ascii::UPPERCASE_O, 0 };
 // Device Control String
 static constexpr char const DCS[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_P, 0};
+                                        terminalpp::ascii::UPPERCASE_P, 0 };
 // Start of Protected Area
 static constexpr char const SPA[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_V, 0};
+                                        terminalpp::ascii::UPPERCASE_V, 0 };
 // End of Protected Area
 static constexpr char const EPA[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_W, 0};
+                                        terminalpp::ascii::UPPERCASE_W, 0 };
 // Start of String
 static constexpr char const SOS[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_X, 0};
+                                        terminalpp::ascii::UPPERCASE_X, 0 };
 // Return Terminal ID (obsolete)
 static constexpr char const DECID[] = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UPPERCASE_Z, 0};
+                                        terminalpp::ascii::UPPERCASE_Z, 0 };
 // Control Sequence Introducer
 static constexpr char const CSI[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::OPEN_SQUARE_BRACKET, 0};
+                                        terminalpp::ascii::OPEN_SQUARE_BRACKET, 0 };
 // String Terminator
 static constexpr char const ST[]    = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::BACKSLASH, 0};
+                                        terminalpp::ascii::BACKSLASH, 0 };
 // Operating System Command
 static constexpr char const OSC[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::CLOSE_SQUARE_BRACKET, 0};
+                                        terminalpp::ascii::CLOSE_SQUARE_BRACKET, 0 };
 // Privacy Message
 static constexpr char const PM[]    = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::CARET, 0};
+                                        terminalpp::ascii::CARET, 0 };
 // Application Program Command
 static constexpr char const APC[]   = { terminalpp::ascii::ESC,
-                                        terminalpp::ascii::UNDERSCORE, 0};
+                                        terminalpp::ascii::UNDERSCORE, 0 };
 }
 
 // C1 8-Bit Control Sequences
 namespace control8 {
 
+// Full command for enabling 8-bit control mode.
+static constexpr char const ENABLE[]= { terminalpp::ascii::ESC,
+                                        terminalpp::ascii::SPACE,
+                                        terminalpp::ascii::UPPERCASE_G, 0 };
+    
+// As above, the following codes are all prefixes for command groups.
+// They have the same meaning, but a shorter representation.  However, only
+// some terminals support them.
+    
 static constexpr char const IND[]   = { char(0x84), 0x00 };
 static constexpr char const NEL[]   = { char(0x85), 0x00 };
 static constexpr char const HTS[]   = { char(0x88), 0x00 };

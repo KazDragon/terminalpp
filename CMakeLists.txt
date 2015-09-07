@@ -18,6 +18,7 @@ add_library(terminalpp
     src/encoder.cpp
     src/glyph.cpp
     src/string.cpp
+    src/terminal.cpp
 )
 
 target_include_directories(terminalpp
@@ -39,6 +40,8 @@ enable_testing()
 add_executable(terminalpp_tester
     test/ansi_functions_test.cpp
     test/encoder_test.cpp
+    test/terminal_init_test.cpp
+    test/terminal_test.cpp
     test/main.cpp
 )
 
