@@ -17,6 +17,7 @@ add_library(terminalpp
     src/element.cpp
     src/encoder.cpp
     src/glyph.cpp
+    src/point.cpp
     src/string.cpp
     src/terminal.cpp
 )
