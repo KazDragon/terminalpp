@@ -15,6 +15,12 @@ namespace terminalpp {
 class terminal
 {
 public :
+    enum class control_mode
+    {
+        seven_bit,
+        eight_bit,
+    };
+
     struct behaviour
     {
         constexpr behaviour()
@@ -64,12 +70,6 @@ public :
     std::string move_cursor(point const &pt);
     
 private :
-    enum class control_mode
-    {
-        seven_bit,
-        eight_bit,
-    };
-    
     behaviour              behaviour_;
     control_mode           control_mode_;
     boost::optional<point> cursor_position_;

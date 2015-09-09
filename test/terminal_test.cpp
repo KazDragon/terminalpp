@@ -13,6 +13,10 @@ public :
         CPPUNIT_TEST(move_to_origin_column_supports_cha_and_default_arg_sends_short_sequence);
         CPPUNIT_TEST(move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence);
         CPPUNIT_TEST(move_to_origin_column_no_cha_sends_cub);
+        CPPUNIT_TEST(move_to_column_to_the_left_uses_cub);
+        CPPUNIT_TEST(move_to_column_to_the_right_uses_cuf);
+        CPPUNIT_TEST(move_to_column_under_10_supports_cha_uses_cha);
+        CPPUNIT_TEST(move_to_column_under_10_no_cha_uses_cub_or_cuf);
     CPPUNIT_TEST_SUITE_END();
     
 private :
@@ -21,6 +25,10 @@ private :
     void move_to_origin_column_supports_cha_and_default_arg_sends_short_sequence();
     void move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence();
     void move_to_origin_column_no_cha_sends_cub();
+    void move_to_column_to_the_left_uses_cub();
+    void move_to_column_to_the_right_uses_cuf();
+    void move_to_column_under_10_supports_cha_uses_cha();
+    void move_to_column_under_10_no_cha_uses_cub_or_cuf();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_test_fixture);
@@ -107,4 +115,62 @@ void terminal_test_fixture::move_to_origin_column_no_cha_sends_cub()
     expect_sequence(
         std::string("\x1B[9D"),
         terminal.move_cursor({1, 10}));
+}
+
+void terminal_test_fixture::move_to_column_to_the_left_uses_cub()
+{
+    // When moving to a column to the left (that is not < 10, since that
+    // is CHA's domain), the terminal will send Cursor Backward (CUB).
+    terminalpp::terminal terminal;
+    terminal.move_cursor({20, 10});
+    
+    expect_sequence(
+        std::string("\x1B[5D"),
+        terminal.move_cursor({15, 10}));
+}
+
+void terminal_test_fixture::move_to_column_to_the_right_uses_cuf()
+{
+    // When moving to a column to the right (that is not < 10, since that
+    // is CHA's domain), the terminal will send Cursor Forward (CUF).
+    terminalpp::terminal terminal;
+    terminal.move_cursor({20, 10});
+    
+    expect_sequence(
+        std::string("\x1B[5C"),
+        terminal.move_cursor({25, 10}));
+}
+
+void terminal_test_fixture::move_to_column_under_10_supports_cha_uses_cha()
+{
+    // When moving to a column < 10, the shortest sequence is to use
+    // CHA, since it only requires one extra digit in all cases.
+    terminalpp::terminal::behaviour behaviour;
+    behaviour.supports_cha = true;
+    
+    terminalpp::terminal terminal(behaviour);
+    terminal.move_cursor({20, 10});
+    
+    expect_sequence(
+        std::string("\x1B[9G"),
+        terminal.move_cursor({9, 10}));
+}
+
+void terminal_test_fixture::move_to_column_under_10_no_cha_uses_cub_or_cuf()
+{
+    // When moving to column < 10, but CHA is not supported, then we must
+    // use either CUB or CUF instead.
+    terminalpp::terminal::behaviour behaviour;
+    behaviour.supports_cha = false;
+    
+    terminalpp::terminal terminal(behaviour);
+    terminal.move_cursor({20, 10});
+    
+    expect_sequence(
+        std::string("\x1B[15D"),
+        terminal.move_cursor({5, 10}));
+    
+    expect_sequence(
+        std::string("\x1B[4C"),
+        terminal.move_cursor({9, 10}));
 }
