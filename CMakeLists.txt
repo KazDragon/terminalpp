@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 cmake_policy(VERSION 3.2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
+include(cotire OPTIONAL)
 
 find_package(CppUnit)
 
@@ -29,6 +30,10 @@ target_compile_features(terminalpp
         cxx_relaxed_constexpr
 )
 
+if (COMMAND cotire)
+    cotire(terminalpp)
+endif()
+
 enable_testing()
 
 add_executable(terminalpp_tester
@@ -37,7 +42,17 @@ add_executable(terminalpp_tester
     test/string_test.cpp
 )
 
+target_compile_features(terminalpp_tester
+    PUBLIC
+        cxx_strong_enums
+        cxx_relaxed_constexpr)
+
 target_link_libraries(terminalpp_tester terminalpp cppunit)
+
+if (COMMAND cotire)
+    cotire(terminalpp_tester)
+endif()
+
 add_test(terminalpp_test terminalpp_tester)
 
 install(
