@@ -6,7 +6,9 @@ compiler:
   
 env:
   - CONFIG=Release
+  - CONFIG=Release UNITY_BUILD=1
   - CONFIG=Debug
+  - CONFIG=Debug UNITY_BUILD=1
   
 addons:
   apt:
@@ -38,7 +40,7 @@ before_script:
   - ../cmake-3.2.3-Linux-x86_64/bin/cmake -DCMAKE_BUILD_TYPE=$CONFIG ..
 
 script:
-  - make -j2
+  - if [ $UNITY_BUILD ]; then make -j2 all_unity; else make -j2; fi
   - make test
 
 after_failure:
