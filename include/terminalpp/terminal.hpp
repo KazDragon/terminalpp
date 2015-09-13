@@ -27,7 +27,10 @@ public :
           : can_use_eight_bit_control_codes(false),
             uses_eight_bit_control_codes_by_default(false),
             supports_cha(true),
-            supports_cha_default(true)
+            supports_cha_default(true),
+            supports_cup_default_row(false),
+            supports_cup_default_column(true),
+            supports_cup_default_all(true)
         {
         }
         
@@ -48,6 +51,19 @@ public :
         // True if the terminal supports the use of a default argument
         // in Cursor Horizontal Absolute
         bool supports_cha_default : 1;
+        
+        // True if the terminal supports the use of a default row argument
+        // (only) in Cursor Position.
+        bool supports_cup_default_row : 1;
+        
+        // True if the terminal supports the use of a default column argument
+        // (only) in Cursor Position.
+        bool supports_cup_default_column : 1;
+        
+        // True if the terminal supports the use of both arguments being 
+        // default in Cursor Position
+        bool supports_cup_default_all : 1;
+
     };
     
     //* =====================================================================

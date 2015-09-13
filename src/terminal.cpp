@@ -16,6 +16,50 @@ std::string csi(terminalpp::terminal::control_mode const &control_mode)
 }
     
 // ==========================================================================
+// CURSOR_UP
+// ==========================================================================
+std::string cursor_up(
+    s32                                       y,
+    terminalpp::terminal::control_mode const &control_mode)
+{
+    std::string result = csi(control_mode);
+    
+    // If y is 1, then we can skip the amount indicator.  Note: Pretty much
+    // anything that supports CUA supports the default, so this isn't checked
+    // in the behaviour.
+    if (y != 1)
+    {
+        result += std::to_string(y);
+    }
+    
+    result += terminalpp::ansi::csi::CURSOR_UP;
+    
+    return result;
+}
+
+// ==========================================================================
+// CURSOR_UP
+// ==========================================================================
+std::string cursor_down(
+    s32                                       y,
+    terminalpp::terminal::control_mode const &control_mode)
+{
+    std::string result = csi(control_mode);
+    
+    // If y is 1, then we can skip the amount indicator.  Note: Pretty much
+    // anything that supports CUB supports the default, so this isn't checked
+    // in the behaviour.
+    if (y != 1)
+    {
+        result += std::to_string(y);
+    }
+    
+    result += terminalpp::ansi::csi::CURSOR_DOWN;
+    
+    return result;
+}
+
+// ==========================================================================
 // CURSOR_FORWARD
 // ==========================================================================
 std::string cursor_forward(
@@ -93,9 +137,9 @@ std::string cursor_position(
     terminal::control_mode const &control_mode)
 {
     return csi(control_mode)
-         + std::to_string(pt.x)
-         + terminalpp::ansi::PS
          + std::to_string(pt.y)
+         + terminalpp::ansi::PS
+         + std::to_string(pt.x)
          + terminalpp::ansi::csi::CURSOR_POSITION;
 }
 
@@ -174,6 +218,23 @@ std::string terminal::move_cursor(point const &pt)
                             control_mode_);
                 }
             }
+        }
+        else if (cursor_position_->x == pt.x)
+        {
+            if (cursor_position_->y > pt.y)
+            {
+                result = cursor_up(cursor_position_->y - pt.y, control_mode_);
+            }
+            else
+            {
+                result = cursor_down(pt.y - cursor_position_->y, control_mode_);
+            }
+        }
+        else
+        {
+            // Since we must move in both dimensions, there's no short-cut
+            // command to use.
+            result = cursor_position(pt, behaviour_, control_mode_);
         }
     }
     else
