@@ -1,10 +1,13 @@
 #ifndef TERMINALPP_DETAIL_ELEMENT_DIFFERENCE_HPP_
 #define TERMINALPP_DETAIL_ELEMENT_DIFFERENCE_HPP_
 
-#include "terminalpp/element.hpp"
 #include <string>
 
-namespace terminalpp { namespace detail {
+namespace terminalpp { 
+
+class element;
+
+namespace detail {
 
 //* =========================================================================
 /// \brief Returns a string of ANSI codes that describes the difference

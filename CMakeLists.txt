@@ -14,6 +14,7 @@ add_library(terminalpp
     src/ansi/functions.cpp
     src/attribute.cpp
     src/detail/element_difference.cpp
+    src/detail/write_element.cpp
     src/element.cpp
     src/encoder.cpp
     src/glyph.cpp
@@ -44,6 +45,7 @@ add_executable(terminalpp_tester
     test/expect_sequence.cpp
     test/terminal_cursor_test.cpp
     test/terminal_init_test.cpp
+    test/terminal_string_test.cpp
     test/main.cpp
 )
 

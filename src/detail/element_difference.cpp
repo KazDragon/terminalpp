@@ -1,4 +1,5 @@
 #include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/element.hpp"
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/ansi/functions.hpp"
 #include <boost/format.hpp>
@@ -14,6 +15,9 @@ namespace terminalpp { namespace detail {
 
 namespace {
 
+// ==========================================================================
+// CHANGE_CHARSET
+// ==========================================================================
 std::string change_charset(
     terminalpp::ansi::charset const &source,
     terminalpp::ansi::charset const &dest)
@@ -40,6 +44,9 @@ std::string change_charset(
     return result;
 }
 
+// ==========================================================================
+// APPEND_GRAPHICS_CHANGE
+// ==========================================================================
 template <class GraphicsAttribute>
 void append_graphics_change(
     std::string &change,
@@ -59,6 +66,9 @@ void append_graphics_change(
     change += boost::str(boost::format("%d") % int(dest));
 }
 
+// ==========================================================================
+// LOW_FOREGROUND_COLOUR_CODE
+// ==========================================================================
 std::string low_foreground_colour_code(terminalpp::low_colour const &col)
 {
     int value = int(col.value_)
@@ -67,6 +77,9 @@ std::string low_foreground_colour_code(terminalpp::low_colour const &col)
     return boost::str(boost::format("%d") % value);
 }
 
+// ==========================================================================
+// HIGH_FOREGROUND_COLOUR_CODE
+// ==========================================================================
 std::string high_foreground_colour_code(terminalpp::high_colour const &col)
 {
     int value = col.red_ * 36
@@ -77,6 +90,9 @@ std::string high_foreground_colour_code(terminalpp::high_colour const &col)
     return boost::str(boost::format("38;5;%d") % value);
 }
 
+// ==========================================================================
+// GREYSCALE_FOREGROUND_COLOUR_CODE
+// ==========================================================================
 std::string greyscale_foreground_colour_code(
     terminalpp::greyscale_colour const &col)
 {
@@ -85,6 +101,9 @@ std::string greyscale_foreground_colour_code(
     return boost::str(boost::format("38;5;%d") % value);
 }
 
+// ==========================================================================
+// FOREGROUND_COLOUR_CODE
+// ==========================================================================
 std::string foreground_colour_code(terminalpp::colour const &col)
 {
     switch (col.type_)
@@ -105,6 +124,9 @@ std::string foreground_colour_code(terminalpp::colour const &col)
     }
 }
 
+// ==========================================================================
+// APPEND_FOREGROUND_COLOUR
+// ==========================================================================
 void append_foreground_colour(
     std::string &change,
     terminalpp::colour const &source,
@@ -123,6 +145,9 @@ void append_foreground_colour(
     change += foreground_colour_code(dest);
 }
 
+// ==========================================================================
+// LOW_BACKGROUND_COLOUR_CODE
+// ==========================================================================
 std::string low_background_colour_code(terminalpp::low_colour const &col)
 {
     int value = int(col.value_)
@@ -131,6 +156,9 @@ std::string low_background_colour_code(terminalpp::low_colour const &col)
     return boost::str(boost::format("%d") % value);
 }
 
+// ==========================================================================
+// HIGH_BACKGROUND_COLOUR_CODE
+// ==========================================================================
 std::string high_background_colour_code(terminalpp::high_colour const &col)
 {
     int value = col.red_ * 36
@@ -141,6 +169,9 @@ std::string high_background_colour_code(terminalpp::high_colour const &col)
     return boost::str(boost::format("48;5;%d") % value);
 }
 
+// ==========================================================================
+// GREYSCALE_BACKGROUND_COLOUR_CODE
+// ==========================================================================
 std::string greyscale_background_colour_code(
     terminalpp::greyscale_colour const &col)
 {
@@ -149,6 +180,9 @@ std::string greyscale_background_colour_code(
     return boost::str(boost::format("48;5;%d") % value);
 }
 
+// ==========================================================================
+// BACKGROUND_COLOUR_CODE
+// ==========================================================================
 std::string background_colour_code(terminalpp::colour const &col)
 {
     switch (col.type_)
@@ -169,6 +203,9 @@ std::string background_colour_code(terminalpp::colour const &col)
     }
 }
 
+// ==========================================================================
+// APPEND_BAKCGROUND_COLOUR
+// ==========================================================================
 void append_background_colour(
     std::string &change,
     terminalpp::colour const &source,
@@ -187,6 +224,9 @@ void append_background_colour(
     change += background_colour_code(dest);
 }
 
+// ==========================================================================
+// DEFAULT_ATTRIBUTE
+// ==========================================================================
 std::string default_attribute()
 {
     return boost::str(
@@ -196,6 +236,9 @@ std::string default_attribute()
       % terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
 }
 
+// ==========================================================================
+// CHANGE_ATTRIBUTE
+// ==========================================================================
 std::string change_attribute(
     terminalpp::attribute const &source,
     terminalpp::attribute const &dest)
@@ -228,6 +271,9 @@ std::string change_attribute(
 
 }
 
+// ==========================================================================
+// ELEMENT_DIFFERENCE
+// ==========================================================================
 std::string element_difference(
     terminalpp::element const &lhs,
     terminalpp::element const &rhs)

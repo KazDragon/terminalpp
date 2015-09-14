@@ -1,5 +1,7 @@
 #include "terminalpp/terminal.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
+#include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/detail/write_element.hpp"
 
 namespace terminalpp {
 
@@ -307,6 +309,24 @@ std::string terminal::move_cursor(point const &pt)
     
     cursor_position_ = pt;
 
+    return result;
+}
+
+// ==========================================================================
+// WRITE
+// ==========================================================================
+std::string terminal::write(string const& str)
+{
+    std::string result;
+    
+    for (auto &&elem : str)
+    {
+        result += detail::element_difference(last_element_, elem);
+        result += detail::write_element(elem);
+
+        last_element_ = elem;
+    }
+    
     return result;
 }
 

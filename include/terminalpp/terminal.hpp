@@ -11,6 +11,14 @@ namespace terminalpp {
 //* =========================================================================
 /// \brief A class responsible for combining the knowledge and state of a
 /// terminal window to know what the best way to respresent a given string is.
+/// \par
+/// Note: the terminal itself does not send any results anywhere -- instead,
+/// a string is returned that is an ANSI sequence of character that will cause
+/// the required action to be accomplished on the remote terminal -- although
+/// the function descriptions are written as if that were so.  That is just 
+/// for clarity's sake (it's easier to write "moves the cursor to the 
+/// position" than "returns a string that represents the ANSI sequence of 
+/// characters that will move the cursor to the position."
 //* =========================================================================
 class terminal
 {
@@ -104,6 +112,11 @@ public :
     //* =====================================================================
     std::string move_cursor(point const &pt);
     
+    //* =====================================================================
+    /// \brief Writes the specified sequence of characters.
+    //* =====================================================================
+    std::string write(string const &str);
+    
 private :
     enum class cursor_mode : bool
     {
@@ -111,11 +124,12 @@ private :
         shown,
     };
     
-    behaviour              behaviour_;
-    control_mode           control_mode_ = control_mode::seven_bit;
-    cursor_mode            cursor_mode_  = cursor_mode::shown;
-    boost::optional<point> cursor_position_;
-    boost::optional<point> saved_cursor_position_;
+    behaviour                behaviour_;
+    control_mode             control_mode_ = control_mode::seven_bit;
+    cursor_mode              cursor_mode_  = cursor_mode::shown;
+    boost::optional<point>   cursor_position_;
+    boost::optional<point>   saved_cursor_position_;
+    element                  last_element_;
 };
 
 }

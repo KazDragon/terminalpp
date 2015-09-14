@@ -2,6 +2,7 @@
 #include "terminalpp/element.hpp"
 #include "terminalpp/encoder.hpp"
 #include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/detail/write_element.hpp"
 #include <cstring>
 #include <limits>
 
@@ -180,26 +181,7 @@ std::ostream &operator<<(std::ostream &out, string const &es)
     for (auto const &elem : es.elements_)
     {
         text += detail::element_difference(current_element, elem);
-
-        if (elem.glyph_.charset_ == terminalpp::ansi::charset::utf8)
-        {
-            for (size_t index = 0; 
-                 index < sizeof(elem.glyph_.ucharacter_)
-              && elem.glyph_.ucharacter_[index] != '\0'; 
-                 ++index)
-            {
-                text += elem.glyph_.ucharacter_[index];
-
-                if (!(elem.glyph_.ucharacter_[index] & 0x80))
-                {
-                    break;
-                }
-            }
-        }
-        else
-        {
-            text += elem.glyph_.character_;
-        }
+        text += detail::write_element(elem);
 
         current_element = elem;
     }
