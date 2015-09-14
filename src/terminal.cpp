@@ -14,7 +14,7 @@ std::string csi(terminalpp::terminal::control_mode const &control_mode)
                          ? terminalpp::ansi::control7::CSI
                          : terminalpp::ansi::control8::CSI;
 }
-    
+
 // ==========================================================================
 // CURSOR_UP
 // ==========================================================================
@@ -207,6 +207,28 @@ std::string terminal::hide_cursor()
     {
         return {};
     }
+}
+
+// ==========================================================================
+// SAVE_CURSOR
+// ==========================================================================
+std::string terminal::save_cursor()
+{
+    saved_cursor_position_ = cursor_position_;
+
+    return csi(control_mode_)
+         + terminalpp::ansi::csi::SAVE_CURSOR_POSITION;
+}
+
+// ==========================================================================
+// RESTORE_CURSOR
+// ==========================================================================
+std::string terminal::restore_cursor()
+{
+    cursor_position_ = saved_cursor_position_;
+
+    return csi(control_mode_)
+         + terminalpp::ansi::csi::RESTORE_CURSOR_POSITION;
 }
 
 // ==========================================================================

@@ -1,4 +1,5 @@
 #include "terminalpp/terminal.hpp"
+#include "expect_sequence.hpp"
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <string>
@@ -28,9 +29,9 @@ void terminal_init_test_fixture::cannot_use_eight_bit_control_codes_does_nothing
     behaviour.can_use_eight_bit_control_codes = false;
     
     terminalpp::terminal terminal(behaviour);
-    auto init_string = terminal.init();
-    
-    CPPUNIT_ASSERT_EQUAL(std::string(""), init_string);
+    expect_sequence(
+        std::string(""),
+        terminal.init());
 }
 
 void terminal_init_test_fixture::starts_in_eight_bit_mode_does_nothing()
@@ -43,9 +44,9 @@ void terminal_init_test_fixture::starts_in_eight_bit_mode_does_nothing()
     behaviour.uses_eight_bit_control_codes_by_default = true;
     
     terminalpp::terminal terminal(behaviour);
-    auto init_string = terminal.init();
-    
-    CPPUNIT_ASSERT_EQUAL(std::string(""), init_string);
+    expect_sequence(
+        std::string(""),
+        terminal.init());
 }
 
 void terminal_init_test_fixture::requires_eight_bit_mode_switch_sends_command()
@@ -58,7 +59,7 @@ void terminal_init_test_fixture::requires_eight_bit_mode_switch_sends_command()
     behaviour.uses_eight_bit_control_codes_by_default = false;
     
     terminalpp::terminal terminal(behaviour);
-    auto init_string = terminal.init();
-    
-    CPPUNIT_ASSERT_EQUAL(std::string("\x1B G"), init_string);
+    expect_sequence(
+        std::string("\x1B G"),
+        terminal.init());
 }

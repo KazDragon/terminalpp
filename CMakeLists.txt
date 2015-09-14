@@ -41,8 +41,9 @@ enable_testing()
 add_executable(terminalpp_tester
     test/ansi_functions_test.cpp
     test/encoder_test.cpp
+    test/expect_sequence.cpp
+    test/terminal_cursor_test.cpp
     test/terminal_init_test.cpp
-    test/terminal_test.cpp
     test/main.cpp
 )
 

@@ -63,7 +63,6 @@ public :
         // True if the terminal supports the use of both arguments being 
         // default in Cursor Position
         bool supports_cup_default_all : 1;
-
     };
     
     //* =====================================================================
@@ -90,6 +89,16 @@ public :
     std::string hide_cursor();
     
     //* =====================================================================
+    /// \brief Saves the current cursor position.
+    //* =====================================================================
+    std::string save_cursor();
+    
+    //* =====================================================================
+    /// \brief Restores the previously saved cursor position.
+    //* =====================================================================
+    std::string restore_cursor();
+    
+    //* =====================================================================
     /// \brief Move the cursor to the specified position.  Note: terminals are
     /// 1-based.  I.e. the origin position is (1,1).
     //* =====================================================================
@@ -106,6 +115,7 @@ private :
     control_mode           control_mode_ = control_mode::seven_bit;
     cursor_mode            cursor_mode_  = cursor_mode::shown;
     boost::optional<point> cursor_position_;
+    boost::optional<point> saved_cursor_position_;
 };
 
 }
