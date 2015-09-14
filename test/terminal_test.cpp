@@ -26,6 +26,12 @@ public :
         CPPUNIT_TEST(move_to_row_below_uses_cud);
         
         CPPUNIT_TEST(move_to_different_column_and_row_uses_cup);
+        
+        CPPUNIT_TEST(show_cursor_when_shown_does_nothing);
+        CPPUNIT_TEST(hide_cursor_when_shown_hides_cursor);
+        
+        CPPUNIT_TEST(show_cursor_when_hidden_sends_show_cursor);
+        CPPUNIT_TEST(hide_cursor_when_hidden_does_nothing);
     CPPUNIT_TEST_SUITE_END();
     
 private :
@@ -47,6 +53,11 @@ private :
     void move_to_row_below_uses_cud();
     
     void move_to_different_column_and_row_uses_cup();
+    
+    void show_cursor_when_shown_does_nothing();
+    void hide_cursor_when_shown_hides_cursor();
+    void show_cursor_when_hidden_sends_show_cursor();
+    void hide_cursor_when_hidden_does_nothing();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_test_fixture);
@@ -254,4 +265,42 @@ void terminal_test_fixture::move_to_different_column_and_row_uses_cup()
     expect_sequence(
         std::string("\x1B[3;10H"),
         terminal.move_cursor({10, 3}));
+}
+
+void terminal_test_fixture::show_cursor_when_shown_does_nothing()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string(""),
+        terminal.show_cursor());
+}
+
+void terminal_test_fixture::hide_cursor_when_shown_hides_cursor()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string("\x1B[?25l"),
+        terminal.hide_cursor());
+}
+
+void terminal_test_fixture::show_cursor_when_hidden_sends_show_cursor()
+{
+    terminalpp::terminal terminal;
+    terminal.hide_cursor();
+    
+    expect_sequence(
+        std::string("\x1B[?25h"),
+        terminal.show_cursor());
+}
+
+void terminal_test_fixture::hide_cursor_when_hidden_does_nothing()
+{
+    terminalpp::terminal terminal;
+    terminal.hide_cursor();
+    
+    expect_sequence(
+        std::string(""),
+        terminal.hide_cursor());
 }

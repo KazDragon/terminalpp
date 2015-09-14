@@ -149,8 +149,7 @@ std::string cursor_position(
 // CONSTRUCTOR
 // ==========================================================================
 terminal::terminal(terminal::behaviour const &behaviour)
-  : behaviour_(behaviour),
-    control_mode_(control_mode::seven_bit)
+  : behaviour_(behaviour)
 {
 }
 
@@ -168,6 +167,46 @@ std::string terminal::init()
     }
     
     return result;
+}
+
+// ==========================================================================
+// SHOW_CURSOR
+// ==========================================================================
+std::string terminal::show_cursor()
+{
+    if (cursor_mode_ != cursor_mode::shown)
+    {
+        cursor_mode_ = cursor_mode::shown;
+        
+        return csi(control_mode_)
+             + terminalpp::ansi::DEC_PRIVATE_MODE
+             + terminalpp::ansi::dec_pm::CURSOR
+             + terminalpp::ansi::dec_pm::SET;
+    }
+    else
+    {
+        return {};
+    }
+}
+
+// ==========================================================================
+// HIDE_CURSOR
+// ==========================================================================
+std::string terminal::hide_cursor()
+{
+    if (cursor_mode_ != cursor_mode::hidden)
+    {
+        cursor_mode_ = cursor_mode::hidden;
+        
+        return csi(control_mode_)
+             + terminalpp::ansi::DEC_PRIVATE_MODE
+             + terminalpp::ansi::dec_pm::CURSOR
+             + terminalpp::ansi::dec_pm::RESET;
+    }
+    else
+    {
+        return {};
+    }
 }
 
 // ==========================================================================

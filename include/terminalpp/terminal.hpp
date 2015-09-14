@@ -80,14 +80,31 @@ public :
     std::string init();
     
     //* =====================================================================
+    /// \brief Show the cursor.
+    //* =====================================================================
+    std::string show_cursor();
+    
+    //* =====================================================================
+    /// \brief Hide the cursor.
+    //* =====================================================================
+    std::string hide_cursor();
+    
+    //* =====================================================================
     /// \brief Move the cursor to the specified position.  Note: terminals are
     /// 1-based.  I.e. the origin position is (1,1).
     //* =====================================================================
     std::string move_cursor(point const &pt);
     
 private :
+    enum class cursor_mode : bool
+    {
+        hidden,
+        shown,
+    };
+    
     behaviour              behaviour_;
-    control_mode           control_mode_;
+    control_mode           control_mode_ = control_mode::seven_bit;
+    cursor_mode            cursor_mode_  = cursor_mode::shown;
     boost::optional<point> cursor_position_;
 };
 
