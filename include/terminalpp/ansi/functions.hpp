@@ -26,22 +26,6 @@ std::string designate_g1_charset(charset const &cs);
 std::string designate_g2_charset(charset const &cs);
 std::string designate_g3_charset(charset const &cs);
 
-// Cursor Movement and Control
-// NOTE: ANSI terminals' home position is the top left of the screen,
-//       which is position [1,1].  There is no row or column 0.
-std::string move_cursor_up(terminalpp::u8 amount = 1);
-std::string move_cursor_down(terminalpp::u8 amount = 1);
-std::string move_cursor_forward(terminalpp::u8 amount = 1);
-std::string move_cursor_backward(terminalpp::u8 amount = 1);
-std::string move_cursor_to_column(terminalpp::u8 amount = 1);
-std::string move_cursor_to_position(
-    terminalpp::u8 column, terminalpp::u8 row);
-
-std::string hide_cursor();
-std::string show_cursor();
-std::string save_cursor();
-std::string restore_cursor();
-
 // Erase from cursor
 enum class erase_display {
     below,

@@ -5,7 +5,7 @@
 #include <string>
 
 namespace terminalpp { namespace ansi { namespace csi {
-    
+
 // Move the cursor up N rows.
 static char const CURSOR_UP                        = terminalpp::ascii::UPPERCASE_A;
 // Move the cursor down N rows.

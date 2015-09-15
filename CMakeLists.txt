@@ -13,13 +13,15 @@ add_library(terminalpp
     src/ansi/charset.cpp
     src/ansi/functions.cpp
     src/attribute.cpp
+    src/detail/terminal_control.cpp
+    src/detail/terminal_cursor_control.cpp
     src/detail/element_difference.cpp
-    src/detail/write_element.cpp
     src/element.cpp
     src/encoder.cpp
     src/glyph.cpp
     src/point.cpp
     src/string.cpp
+    src/string_io.cpp
     src/terminal.cpp
 )
 

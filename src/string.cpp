@@ -1,8 +1,6 @@
 #include "terminalpp/string.hpp"
 #include "terminalpp/element.hpp"
 #include "terminalpp/encoder.hpp"
-#include "terminalpp/detail/element_difference.hpp"
-#include "terminalpp/detail/write_element.hpp"
 #include <cstring>
 #include <limits>
 
@@ -15,7 +13,7 @@ string::string(std::initializer_list<element> const &ilist)
   : string(ilist.begin(), ilist.end())
 {
 }
-  
+
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
@@ -168,28 +166,6 @@ bool operator==(string const &lhs, string const &rhs)
 bool operator!=(string const &lhs, string const &rhs)
 {
     return !(lhs == rhs);
-}
-
-// ==========================================================================
-// OPERATOR <<
-// ==========================================================================
-std::ostream &operator<<(std::ostream &out, string const &es)
-{
-    std::string text;
-    element current_element;
-
-    for (auto const &elem : es.elements_)
-    {
-        text += detail::element_difference(current_element, elem);
-        text += detail::write_element(elem);
-
-        current_element = elem;
-    }
-
-    text += detail::element_difference(current_element, {});
-
-    out << text;
-    return out;
 }
 
 // ==========================================================================
