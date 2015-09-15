@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/KazDragon/terminalpp.png?label=ready&title=Ready)](https://waffle.io/KazDragon/terminalpp)
 # Terminal++
 A C++ library for interacting with ANSI terminal windows.
 [![Build Status](https://travis-ci.org/KazDragon/terminalpp.svg?branch=master)](https://travis-ci.org/KazDragon/terminalpp)
