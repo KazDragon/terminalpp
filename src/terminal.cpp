@@ -223,5 +223,67 @@ std::string terminal::write(string const& str)
     return result;
 }
 
+// ==========================================================================
+// ERASE_IN_DISPLAY
+// ==========================================================================
+std::string terminal::erase_in_display(terminal::erase_display how)
+{
+    std::string result;
+    
+    result = detail::csi(control_mode_);
+    
+    switch (how)
+    {
+        default :
+            // Fall-through
+        case terminal::erase_display::all :
+            result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_ALL;
+            break;
+            
+        case terminal::erase_display::above :
+            result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_ABOVE;
+            break;
+            
+        case terminal::erase_display::below :
+            result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_BELOW;
+            break;
+    }
+    
+    result += terminalpp::ansi::csi::ERASE_IN_DISPLAY;
+    
+    return result;
+}
+
+// ==========================================================================
+// ERASE_IN_LINE
+// ==========================================================================
+std::string terminal::erase_in_line(terminal::erase_line how)
+{
+    std::string result;
+    
+    result = detail::csi(control_mode_);
+    
+    switch (how)
+    {
+        default :
+            // Fall-through
+        case terminal::erase_line::all :
+            result += terminalpp::ansi::csi::ERASE_IN_LINE_ALL;
+            break;
+            
+        case terminal::erase_line::left :
+            result += terminalpp::ansi::csi::ERASE_IN_LINE_LEFT;
+            break;
+            
+        case terminal::erase_line::right :
+            result += terminalpp::ansi::csi::ERASE_IN_LINE_RIGHT;
+            break;
+    }
+    
+    result += terminalpp::ansi::csi::ERASE_IN_LINE;
+    
+    return result;
+}
+
 
 }

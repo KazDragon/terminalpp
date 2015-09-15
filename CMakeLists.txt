@@ -13,6 +13,7 @@ add_library(terminalpp
     src/ansi/charset.cpp
     src/ansi/functions.cpp
     src/attribute.cpp
+    src/detail/terminal_charset_control.cpp
     src/detail/terminal_control.cpp
     src/detail/terminal_cursor_control.cpp
     src/detail/element_difference.cpp

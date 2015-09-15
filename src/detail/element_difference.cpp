@@ -1,4 +1,5 @@
 #include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/detail/terminal_charset_control.hpp"
 #include "terminalpp/element.hpp"
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/ansi/functions.hpp"
@@ -28,16 +29,16 @@ std::string change_charset(
     {
         if (dest == terminalpp::ansi::charset::utf8)
         {
-            result = terminalpp::ansi::select_utf8_charset();
+            result = terminalpp::detail::select_utf8_charset();
         }
         else
         {
             if (source == terminalpp::ansi::charset::utf8)
             {
-                result += terminalpp::ansi::select_default_charset();
+                result += terminalpp::detail::select_default_charset();
             }
 
-            result += terminalpp::ansi::designate_g0_charset(dest);
+            result += terminalpp::detail::designate_g0_charset(dest);
         }
     }
 

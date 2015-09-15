@@ -28,6 +28,24 @@ public :
         seven_bit,
         eight_bit,
     };
+    
+    // In erase_in_display, there is the choice of erasing every line
+    // above the cursor, every line below the cursor, or the entire
+    // display.
+    enum class erase_display {
+        below,
+        above,
+        all
+    };
+
+    // In erase_in_line, there is the choice of eraseing everything
+    // to the left of the cursor, everything to the right of the cursor,
+    // or everything on the current line.
+    enum class erase_line {
+        right,
+        left,
+        all
+    };
 
     struct behaviour
     {
@@ -116,6 +134,16 @@ public :
     /// \brief Writes the specified sequence of characters.
     //* =====================================================================
     std::string write(string const &str);
+    
+    //* =====================================================================
+    /// \brief Erases the display in the specified manner.
+    //* =====================================================================
+    std::string erase_in_display(erase_display how);
+
+    //* =====================================================================
+    /// \brief Erases the current line in the specified manner.
+    //* =====================================================================
+    std::string erase_in_line(erase_line how);
     
 private :
     enum class cursor_mode : bool

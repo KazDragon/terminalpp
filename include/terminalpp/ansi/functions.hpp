@@ -18,31 +18,6 @@ std::string double_height_line_bottom_half();
 std::string single_width_line();
 std::string double_width_line();
 
-// Character Sets
-std::string select_default_charset();
-std::string select_utf8_charset();
-std::string designate_g0_charset(charset const &cs);
-std::string designate_g1_charset(charset const &cs);
-std::string designate_g2_charset(charset const &cs);
-std::string designate_g3_charset(charset const &cs);
-
-// Erase from cursor
-enum class erase_display {
-    below,
-    above,
-    all
-};
-
-std::string erase_in_display(erase_display const &how);
-
-enum class erase_line {
-    right,
-    left,
-    all
-};
-
-std::string erase_in_line(erase_line const &how);
-
 }}
 
 #endif
