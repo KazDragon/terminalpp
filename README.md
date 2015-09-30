@@ -10,7 +10,7 @@ A C++ library for interacting with ANSI terminal windows.
   * This will be immediately useful in line-oriented programs to construct and
     output streams of attributed (coloured, emboldened, underlined, etc.) text.
 
-2. [ ] A utility for managing ANSI escape codes that are not bound to specific
+2. [x] A utility for managing ANSI escape codes that are not bound to specific
    characters.  For example, commands for moving the cursor, changing the
    screen's title, clearing the screen, etc.
 
