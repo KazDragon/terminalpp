@@ -1,7 +1,6 @@
 #include "terminalpp/string.hpp"
 #include "terminalpp/element.hpp"
-#include "terminalpp/detail/element_difference.hpp"
-#include "terminalpp/detail/string_to_elements.hpp"
+#include "terminalpp/encoder.hpp"
 #include <cstring>
 #include <limits>
 
@@ -10,36 +9,32 @@ namespace terminalpp {
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const char* text, bool raw)
-  : string(text, strlen(text), raw)
+string::string(std::initializer_list<element> const &ilist)
+  : string(ilist.begin(), ilist.end())
 {
 }
 
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const char* text, std::size_t len, bool raw)
+string::string(const char* text)
+  : string(text, strlen(text))
 {
-    if (raw)
-    {
-        elements_.resize(len);
-
-        for (size_t index = 0; index < len; ++index)
-        {
-            elements_[index] = element(text[index]);
-        }
-    }
-    else
-    {
-        elements_ = detail::string_to_elements(text, len);
-    }
 }
 
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const std::string& text, bool raw)
-  : string(text.c_str(), text.size(), raw)
+string::string(const char* text, std::size_t len)
+  : elements_(text, text + len)
+{
+}
+
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+string::string(const std::string& text)
+  : string(text.c_str(), text.size())
 {
 }
 
@@ -174,47 +169,6 @@ bool operator!=(string const &lhs, string const &rhs)
 }
 
 // ==========================================================================
-// OPERATOR <<
-// ==========================================================================
-std::ostream &operator<<(std::ostream &out, string const &es)
-{
-    std::string text;
-    element current_element;
-
-    for (auto const &elem : es.elements_)
-    {
-        text += detail::element_difference(current_element, elem);
-
-        if (elem.glyph_.charset_ == terminalpp::ansi::charset::utf8)
-        {
-            for (size_t index = 0; 
-                 index < sizeof(elem.glyph_.ucharacter_)
-              && elem.glyph_.ucharacter_[index] != '\0'; 
-                 ++index)
-            {
-                text += elem.glyph_.ucharacter_[index];
-
-                if (!(elem.glyph_.ucharacter_[index] & 0x80))
-                {
-                    break;
-                }
-            }
-        }
-        else
-        {
-            text += elem.glyph_.character_;
-        }
-
-        current_element = elem;
-    }
-
-    text += detail::element_difference(current_element, {});
-
-    out << text;
-    return out;
-}
-
-// ==========================================================================
 // OPERATOR +
 // ==========================================================================
 string operator+(string lhs, char rhs)
@@ -243,6 +197,11 @@ inline namespace literals { inline namespace string_literals {
 terminalpp::string operator ""_ts(char const *text, std::size_t len)
 {
     return terminalpp::string(text, len);
+}
+
+terminalpp::string operator ""_ets(char const *text, std::size_t len)
+{
+    return terminalpp::encode(text, len);
 }
 
 }}}

@@ -11,13 +11,19 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 
 add_library(terminalpp
     src/ansi/charset.cpp
-    src/ansi/functions.cpp
     src/attribute.cpp
+    src/detail/terminal_charset_control.cpp
+    src/detail/terminal_control.cpp
+    src/detail/terminal_cursor_control.cpp
     src/detail/element_difference.cpp
-    src/detail/string_to_elements.cpp
     src/element.cpp
+    src/encoder.cpp
+    src/extent.cpp
     src/glyph.cpp
+    src/point.cpp
     src/string.cpp
+    src/string_io.cpp
+    src/terminal.cpp
 )
 
 target_include_directories(terminalpp
@@ -37,9 +43,12 @@ endif()
 enable_testing()
 
 add_executable(terminalpp_tester
-    test/ansi_functions_test.cpp
+    test/encoder_test.cpp
+    test/expect_sequence.cpp
+    test/terminal_cursor_test.cpp
+    test/terminal_init_test.cpp
+    test/terminal_string_test.cpp
     test/main.cpp
-    test/string_test.cpp
 )
 
 target_compile_features(terminalpp_tester

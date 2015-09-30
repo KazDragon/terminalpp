@@ -3,6 +3,7 @@
 
 #include "terminalpp/element.hpp"
 #include <cstddef>
+#include <initializer_list>
 #include <string>
 #include <vector>
 
@@ -26,6 +27,7 @@ public :
     typedef element const    *const_pointer;
     typedef element          *iterator;
     typedef element const    *const_iterator;
+    typedef element          *reverse_iterator;
     typedef element const    *const_reverse_iterator;
     typedef std::ptrdiff_t    difference_type;
     typedef std::size_t       size_type;
@@ -36,32 +38,43 @@ public :
     string() = default;
 
     //* =====================================================================
+    /// \brief Range Constructor
+    //* =====================================================================
+    template <class ForwardIterator>
+    string(ForwardIterator &&begin, ForwardIterator &&end)
+      : elements_(begin, end)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Initializer List Constructor
+    //* =====================================================================
+    string(std::initializer_list<element> const &ilist);
+    
+    //* =====================================================================
     /// \brief Constructor
     /// \param text the text to build this string around.
-    /// \param raw if false, then text is parsed for attribute codes.
-    ///        otherwise, no parsing takes place and the string is consumed
-    ///        whole as an unattributed string.
+    /// Results in a string with the passed text, with all attributes
+    /// their default values.
     //* =====================================================================
-    string(char const *text, bool raw = false);
+    string(char const *text);
 
     //* =====================================================================
     /// \brief Constructor
     /// \param text the text to build this string around.
     /// \param len the length of text.
-    /// \param raw if false, then text is parsed for attribute codes.
-    ///        otherwise, no parsing takes place and the string is consumed
-    ///        whole as an unattributed string.
+    /// Results in a string of length len with the passed text, with all 
+    /// attributes their default values.
     //* =====================================================================
-    string(char const *text, std::size_t len, bool raw = false);
+    string(char const *text, std::size_t len);
 
     //* =====================================================================
     /// \brief Constructor
     /// \param text the text to build this string around
-    /// \param raw if false, then text is parsed for attribute codes.
-    ///        otherwise, no parsing takes place and the string is consumed
-    ///        whole as an unattributed string.
+    /// Results in a string with the passed text, with all attributes
+    /// their default values.
     //* =====================================================================
-    string(std::string const &text, bool raw = false);
+    string(std::string const &text);
 
     //* =====================================================================
     /// \brief Returns the number of elements in the string.
@@ -82,6 +95,12 @@ public :
     /// \brief Returns a reverse iterator to the reverse beginning of the
     /// string.
     //* =====================================================================
+    reverse_iterator rbegin();
+    
+    //* =====================================================================
+    /// \brief Returns a reverse iterator to the reverse beginning of the
+    /// string.
+    //* =====================================================================
     const_reverse_iterator rbegin() const;
 
     //* =====================================================================
@@ -94,6 +113,11 @@ public :
     //* =====================================================================
     const_iterator end() const;
 
+    //* =====================================================================
+    /// \brief Returns a reverse iterator to the reverse end of the string
+    //* =====================================================================
+    reverse_iterator rend();
+    
     //* =====================================================================
     /// \brief Returns a reverse iterator to the reverse end of the string
     //* =====================================================================
@@ -186,9 +210,16 @@ private :
 inline namespace literals { inline namespace string_literals {
 
 //* =========================================================================
-/// \brief Construct an string from literals using "foo"_es;
+/// \brief Construct an string from literals using "foo"_ts;
 //* =========================================================================
 ::terminalpp::string operator ""_ts(
+    char const *text,
+    std::size_t length);
+
+//* =========================================================================
+/// \brief Construct an encoded string from literals using "foo"_ets;
+//* =========================================================================
+::terminalpp::string operator ""_ets(
     char const *text,
     std::size_t length);
 

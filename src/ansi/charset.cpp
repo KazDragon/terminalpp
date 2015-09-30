@@ -1,4 +1,5 @@
 #include "terminalpp/ansi/charset.hpp"
+#include <algorithm>
 #include <cstring>
 #include <utility>
 
@@ -23,12 +24,7 @@ static constexpr std::pair<charset, char const (&)[3]> const extended_charset_ma
 
 boost::optional<charset> lookup_charset(char const *code)
 {
-    if (code == nullptr)
-    {
-        return {};
-    }
-
-    auto len = strlen(code);
+    auto len = code == nullptr ? 0 : strlen(code);
 
     if (len == 0)
     {
