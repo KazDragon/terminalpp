@@ -65,6 +65,15 @@ std::string terminal::init()
 }
 
 // ==========================================================================
+// SET_SIZE
+// ==========================================================================
+void terminal::set_size(const extent& size)
+{
+    size_ = size;
+}
+
+
+// ==========================================================================
 // SHOW_CURSOR
 // ==========================================================================
 std::string terminal::show_cursor()
@@ -220,6 +229,24 @@ std::string terminal::write(string const& str)
         last_element_ = elem;
     }
 
+    if (cursor_position_)
+    {
+        cursor_position_->x += str.size();
+        
+        if (size_)
+        {
+            while (cursor_position_->x > size_->width)
+            {
+                cursor_position_->x -= size_->width;
+                
+                if (cursor_position_->y < size_->height)
+                {
+                    ++cursor_position_->y;
+                }
+            }
+        }
+    }
+    
     return result;
 }
 

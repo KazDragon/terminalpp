@@ -1,6 +1,7 @@
 #ifndef TERMINALPP_TERMINAL_HPP_
 #define TERMINALPP_TERMINAL_HPP_
 
+#include "terminalpp/extent.hpp"
 #include "terminalpp/point.hpp"
 #include "terminalpp/string.hpp"
 #include <boost/optional.hpp>
@@ -105,6 +106,14 @@ public :
     std::string init();
     
     //* =====================================================================
+    /// \brief Sets the (local) size of the terminal.
+    /// There is nothing transmitted by this.  This is so that the client
+    /// can set how large the terminal is expected to be.  This affects 
+    /// things like when does a cursor scroll the screen, etc.
+    //* =====================================================================
+    void set_size(extent const &size);
+    
+    //* =====================================================================
     /// \brief Show the cursor.
     //* =====================================================================
     std::string show_cursor();
@@ -157,6 +166,7 @@ private :
     cursor_mode              cursor_mode_  = cursor_mode::shown;
     boost::optional<point>   cursor_position_;
     boost::optional<point>   saved_cursor_position_;
+    boost::optional<extent>  size_;
     element                  last_element_;
 };
 

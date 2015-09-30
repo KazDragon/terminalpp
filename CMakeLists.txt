@@ -19,6 +19,7 @@ add_library(terminalpp
     src/detail/element_difference.cpp
     src/element.cpp
     src/encoder.cpp
+    src/extent.cpp
     src/glyph.cpp
     src/point.cpp
     src/string.cpp

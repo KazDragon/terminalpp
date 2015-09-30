@@ -241,6 +241,7 @@ terminalpp::string encode(char const *text, size_t length)
                 }
 
                 current_state = state::normal;
+                break;
             }
 
             case state::intensity :
