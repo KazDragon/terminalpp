@@ -11,7 +11,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 
 add_library(terminalpp
     src/ansi/charset.cpp
-    src/ansi/functions.cpp
     src/attribute.cpp
     src/detail/terminal_charset_control.cpp
     src/detail/terminal_control.cpp
@@ -44,7 +43,6 @@ endif()
 enable_testing()
 
 add_executable(terminalpp_tester
-    test/ansi_functions_test.cpp
     test/encoder_test.cpp
     test/expect_sequence.cpp
     test/terminal_cursor_test.cpp

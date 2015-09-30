@@ -2,7 +2,6 @@
 #include "terminalpp/detail/terminal_charset_control.hpp"
 #include "terminalpp/element.hpp"
 #include "terminalpp/ansi/protocol.hpp"
-#include "terminalpp/ansi/functions.hpp"
 #include <boost/format.hpp>
 
 // TODO: In some cases, switching from one character set to the other
