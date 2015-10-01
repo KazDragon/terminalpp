@@ -1,7 +1,16 @@
-[![Stories in Ready](https://badge.waffle.io/KazDragon/terminalpp.png?label=ready&title=Ready)](https://waffle.io/KazDragon/terminalpp)
+
+[![Stories on the Backlog](https://badge.waffle.io/KazDragon/terminalpp.png?label=backlog&title=Stories%20On%20The%20Backlog)](https://waffle.io/KazDragon/terminalpp)
+
+[![Stories in Ready](https://badge.waffle.io/KazDragon/terminalpp.png?label=ready&title=Stories%20In%20Ready)](https://waffle.io/KazDragon/terminalpp)
+
+[![Stories in Progress](https://badge.waffle.io/KazDragon/terminalpp.png?label=in%20progress&title=Stories%20In%20Progress)](https://waffle.io/KazDragon/terminalpp)
+
 # Terminal++
 A C++ library for interacting with ANSI terminal windows.
-[![Build Status](https://travis-ci.org/KazDragon/terminalpp.svg?branch=master)](https://travis-ci.org/KazDragon/terminalpp)
+
+Terminal++ is currently automatically tested using:
+
+* Clang 3.4: [![Build Status](https://travis-ci.org/KazDragon/terminalpp.svg?branch=master)](https://travis-ci.org/KazDragon/terminalpp)
 
 # Features / Roadmap
 
