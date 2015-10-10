@@ -382,15 +382,15 @@ void terminal_string_test_fixture::encoded_glyphs_output_unicode_text()
     terminalpp::terminal terminal;
 
     expect_sequence(
-        std::string("\x1B%GW\x1B%@\x1B(B"),
+        std::string("\x1B%GW"),
         terminal.write("\\U0057"_ets));
 
     expect_sequence(
-        std::string("\x1B%G\xC4\x8E\x1B%@\x1B(B"),
+        std::string("\xC4\x8E"),
         terminal.write("\\U010E"_ets));
 
     expect_sequence(
-        std::string("\x1B%G\xE1\x9A\xB8\x1B%@\x1B(B"),
+        std::string("\xE1\x9A\xB8"),
         terminal.write("\\U16B8"_ets));
 }
 
