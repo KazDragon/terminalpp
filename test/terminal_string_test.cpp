@@ -31,6 +31,12 @@ public :
         CPPUNIT_TEST(positive_then_negative_underlining_outputs_underlining);
         CPPUNIT_TEST(default_underlining_is_negative_underlining);
 
+        CPPUNIT_TEST(foreground_low_colour_outputs_foreground_colour);
+        CPPUNIT_TEST(foreground_high_colour_outputs_foreground_colour);
+        CPPUNIT_TEST(foreground_greyscale_colour_outputs_foreground_colour);
+        CPPUNIT_TEST(default_foreground_colour_does_not_output_foreground_colour);
+        CPPUNIT_TEST(multiple_foreground_colour_codes_outputs_foreground_colours);
+        
         CPPUNIT_TEST(writing_string_moves_cursor);
         CPPUNIT_TEST(writing_past_terminal_width_moves_cursor_to_next_line);
         CPPUNIT_TEST(writing_far_past_terminal_width_moves_multiple_lines);
@@ -60,6 +66,12 @@ private :
     void positive_then_negative_underlining_outputs_underlining();
     void default_underlining_is_negative_underlining();
     
+    void foreground_low_colour_outputs_foreground_colour();
+    void foreground_high_colour_outputs_foreground_colour();
+    void foreground_greyscale_colour_outputs_foreground_colour();
+    void default_foreground_colour_does_not_output_foreground_colour();
+    void multiple_foreground_colour_codes_outputs_foreground_colours();
+
     void writing_string_moves_cursor();
     void writing_past_terminal_width_moves_cursor_to_next_line();
     void writing_far_past_terminal_width_moves_multiple_lines();
@@ -222,6 +234,51 @@ void terminal_string_test_fixture::default_underlining_is_negative_underlining()
     expect_sequence(
         std::string("\x1B[4mabc\x1B[0mde"),
         terminal.write("\\u+abc\\u=de"_ets));
+}
+
+void terminal_string_test_fixture::foreground_low_colour_outputs_foreground_colour()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string("\x1B[32mabc"),
+        terminal.write("\\[2abc"_ets));
+}
+
+void terminal_string_test_fixture::foreground_high_colour_outputs_foreground_colour()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string("\x1B[38;5;202mabc"),
+        terminal.write("\\<510abc"_ets));
+}
+
+void terminal_string_test_fixture::foreground_greyscale_colour_outputs_foreground_colour()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string("\x1B[38;5;244mabc"),
+        terminal.write("\\{12abc"_ets));
+}
+
+void terminal_string_test_fixture::default_foreground_colour_does_not_output_foreground_colour()
+{
+    terminalpp::terminal terminal;
+
+    expect_sequence(
+        std::string("abc"),
+        terminal.write("\\[9abc"_ets));
+}
+
+void terminal_string_test_fixture::multiple_foreground_colour_codes_outputs_foreground_colours()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string("\x1B[32mab\x1B[38;5;202mcd\x1B[38;5;234mef\x1B[0mgh"),
+        terminal.write("\\[2ab\\<510cd\\{02ef\\[9gh"_ets));
 }
 
 void terminal_string_test_fixture::writing_string_moves_cursor()
