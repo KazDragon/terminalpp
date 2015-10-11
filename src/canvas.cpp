@@ -21,7 +21,7 @@ auto end_pointer(Container &&container)
 // ==========================================================================
 // COLUMN_PROXY::CONSTRUCTOR
 // ==========================================================================
-canvas::column_proxy::column_proxy(canvas &cvs, s32 column)
+canvas::column_proxy::column_proxy(canvas &cvs, u32 column)
   : canvas_(cvs),
     column_(column)
 {
@@ -30,7 +30,7 @@ canvas::column_proxy::column_proxy(canvas &cvs, s32 column)
 // ==========================================================================
 // COLUMN_PROXY::OPERATOR[]
 // ==========================================================================
-canvas::row_proxy canvas::column_proxy::operator[](s32 row)
+canvas::row_proxy canvas::column_proxy::operator[](u32 row)
 {
     return canvas::row_proxy(canvas_, column_, row);
 }
@@ -38,7 +38,7 @@ canvas::row_proxy canvas::column_proxy::operator[](s32 row)
 // ==========================================================================
 // CONST_COLUMN_PROXY::CONSTRUCTOR
 // ==========================================================================
-canvas::const_column_proxy::const_column_proxy(canvas const& cvs, s32 column)
+canvas::const_column_proxy::const_column_proxy(canvas const& cvs, u32 column)
   : canvas_(cvs),
     column_(column)
 {
@@ -47,7 +47,7 @@ canvas::const_column_proxy::const_column_proxy(canvas const& cvs, s32 column)
 // ==========================================================================
 // CONST_COLUMN_PROXY::OPERATOR[]
 // ==========================================================================
-element const& canvas::const_column_proxy::operator[](s32 row) const
+element const& canvas::const_column_proxy::operator[](u32 row) const
 {
     return canvas_.get_element(column_, row);
 }
@@ -55,7 +55,7 @@ element const& canvas::const_column_proxy::operator[](s32 row) const
 // ==========================================================================
 // ROW_PROXY::CONSTRUCTOR
 // ==========================================================================
-canvas::row_proxy::row_proxy(canvas& cvs, s32 column, s32 row)
+canvas::row_proxy::row_proxy(canvas& cvs, u32 column, u32 row)
   : canvas_(cvs),
     column_(column),
     row_(row)
@@ -96,6 +96,30 @@ extent canvas::size() const
 }
 
 // ==========================================================================
+// RESIZE
+// ==========================================================================
+void canvas::resize(extent const &size)
+{
+    std::vector<element> new_grid(size.width * size.height);
+    auto min_width  = (std::min)(size.width, size_.width);
+    auto min_height = (std::min)(size.height, size_.height);
+    
+    for (u32 row = 0; row < min_height; ++row)
+    {
+        for (u32 column = 0; column < min_width; ++column)
+        {
+            auto new_grid_pos = row * size.width + column;
+            auto old_grid_pos = row * size_.width + column;
+         
+            new_grid[new_grid_pos] = grid_[old_grid_pos];
+        }
+    }
+    
+    size_ = size;
+    grid_.swap(new_grid);
+}
+
+// ==========================================================================
 // BEGIN
 // ==========================================================================
 canvas::iterator canvas::begin()
@@ -130,7 +154,7 @@ canvas::const_iterator canvas::end() const
 // ==========================================================================
 // OPERATOR[]
 // ==========================================================================
-canvas::column_proxy canvas::operator[](s32 column)
+canvas::column_proxy canvas::operator[](u32 column)
 {
     return column_proxy(*this, column);
 }
@@ -138,7 +162,7 @@ canvas::column_proxy canvas::operator[](s32 column)
 // ==========================================================================
 // OPERATOR[]
 // ==========================================================================
-canvas::const_column_proxy canvas::operator[](s32 column) const
+canvas::const_column_proxy canvas::operator[](u32 column) const
 {
     return const_column_proxy(*this, column);
 }
@@ -146,7 +170,7 @@ canvas::const_column_proxy canvas::operator[](s32 column) const
 // ==========================================================================
 // SET_ELEMENT
 // ==========================================================================
-element& canvas::get_element(s32 column, s32 row)
+element& canvas::get_element(u32 column, u32 row)
 {
     return grid_[row * size_.width + column];
 }
@@ -154,7 +178,7 @@ element& canvas::get_element(s32 column, s32 row)
 // ==========================================================================
 // GET_ELEMENT
 // ==========================================================================
-const element& canvas::get_element(s32 column, s32 row) const
+const element& canvas::get_element(u32 column, u32 row) const
 {
     return grid_[row * size_.width + column];
 }
@@ -162,7 +186,7 @@ const element& canvas::get_element(s32 column, s32 row) const
 // ==========================================================================
 // GET_ELEMENT
 // ==========================================================================
-void canvas::set_element(s32 column, s32 row, const element& value)
+void canvas::set_element(u32 column, u32 row, const element& value)
 {
     grid_[row * size_.width + column] = value;
 }

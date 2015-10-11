@@ -30,7 +30,7 @@ public :
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        row_proxy(canvas &cvs, s32 column, s32 row);
+        row_proxy(canvas &cvs, u32 column, u32 row);
 
         // ==================================================================
         // OPERATOR=
@@ -44,8 +44,8 @@ public :
 
     private :
         canvas &canvas_;
-        s32     column_;
-        s32     row_;
+        u32     column_;
+        u32     row_;
     };
 
     //* =====================================================================
@@ -57,16 +57,16 @@ public :
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        column_proxy(canvas &cvs, s32 column);
+        column_proxy(canvas &cvs, u32 column);
 
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        row_proxy operator[](s32 row);
+        row_proxy operator[](u32 row);
 
     private :
         canvas &canvas_;
-        s32     column_;
+        u32     column_;
     };
 
     //* =====================================================================
@@ -78,16 +78,16 @@ public :
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        const_column_proxy(canvas const &cvs, s32 column);
+        const_column_proxy(canvas const &cvs, u32 column);
 
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        element const &operator[](s32 row) const;
+        element const &operator[](u32 row) const;
 
     private :
         canvas const &canvas_;
-        s32           column_;
+        u32           column_;
     };
     
     //* =====================================================================
@@ -100,6 +100,12 @@ public :
     //* =====================================================================
     extent size() const;
     
+    //* =====================================================================
+    /// \brief Resizes the canvas to the specified extent.  Content that would
+    /// fit in the new size remains as it was, otherwise it is truncated.
+    //* =====================================================================
+    void resize(extent const &size);
+
     //* =====================================================================
     /// \brief Returns pointer to the top-left element.
     //* =====================================================================
@@ -123,28 +129,28 @@ public :
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
-    column_proxy operator[](s32 column);
+    column_proxy operator[](u32 column);
     
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
-    const_column_proxy operator[](s32 column) const;
+    const_column_proxy operator[](u32 column) const;
 
 private :
     //* =====================================================================
     /// \brief Set the value of an element.
     //* =====================================================================
-    void set_element(s32 column, s32 row, element const &value);
+    void set_element(u32 column, u32 row, element const &value);
     
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
-    element &get_element(s32 column, s32 row);
+    element &get_element(u32 column, u32 row);
     
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
-    element const &get_element(s32 column, s32 row) const;
+    element const &get_element(u32 column, u32 row) const;
     
     std::vector<element> grid_;
     extent               size_;
