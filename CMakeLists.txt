@@ -26,6 +26,7 @@ add_library(terminalpp
     src/extent.cpp
     src/glyph.cpp
     src/point.cpp
+    src/screen.cpp
     src/string.cpp
     src/string_io.cpp
     src/terminal.cpp
@@ -48,6 +49,7 @@ if (CPPUNIT_FOUND)
         test/canvas_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
+        test/screen_test.cpp
         test/terminal_cursor_test.cpp
         test/terminal_init_test.cpp
         test/terminal_string_test.cpp

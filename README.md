@@ -20,9 +20,9 @@ Terminal++ is currently automatically tested using:
 
 2. [x] A utility for managing ANSI escape codes that are not bound to specific characters.  For example, commands for moving the cursor, changing the screen's title, clearing the screen, etc.
 
-3. [ ] A utility for managing screens of attributed characters
-  * [ ] terminalpp::canvas
-  * [ ] terminalpp::screen
+3. [x] A utility for managing screens of attributed characters
+  * [x] terminalpp::canvas
+  * [x] terminalpp::screen
   * This will be useful for those who wish to develop a more graphical or "curses-style" user interface.
 
 4. [ ] A set of classes that implement a windowing user interface
