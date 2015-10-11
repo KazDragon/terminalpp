@@ -1,7 +1,7 @@
 #include "terminalpp/extent.hpp"
 #include <ostream>
 
-namespace terminalpp { namespace munin {
+namespace terminalpp {
 
 // ==========================================================================
 // OSTREAM << EXTENT
@@ -12,4 +12,4 @@ std::ostream &operator<<(std::ostream &out, extent const &ext)
     return out;
 }
 
-}}
+}
