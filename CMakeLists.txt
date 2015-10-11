@@ -44,6 +44,7 @@ if (CPPUNIT_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
+        test/canvas_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/terminal_cursor_test.cpp
