@@ -11,7 +11,6 @@ public :
     CPPUNIT_TEST_SUITE(terminal_string_test_fixture);
         CPPUNIT_TEST(empty_string_outputs_nothing);
         CPPUNIT_TEST(basic_string_outputs_basic_string);
-
         CPPUNIT_TEST(changed_charset_outputs_charset_code);
         CPPUNIT_TEST(changed_charset_then_second_charset_outputs_charset_codes);
 
