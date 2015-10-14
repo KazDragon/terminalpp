@@ -4,9 +4,10 @@ cmake_policy(VERSION 3.2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
 
-# Boost is required as we used Boost.Variant, Boost.Optional, and 
+# Boost is required as we used Boost.Variant, Boost.Optional, and
 # Boost.Format.  All of these are header-only libraries, so no subcomponents
 # are required.
+include(FindBoost)
 find_package(Boost 1.29.0 REQUIRED)
 
 # Optionally, the built-in tests use CppUnit.  If that is available, the tests
