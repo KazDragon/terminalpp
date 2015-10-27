@@ -16,12 +16,14 @@ find_package(CppUnit)
 
 add_library(terminalpp
     src/ansi/charset.cpp
+    src/ansi/control_sequence.cpp
     src/attribute.cpp
     src/canvas.cpp
     src/detail/terminal_charset_control.cpp
     src/detail/terminal_control.cpp
     src/detail/terminal_cursor_control.cpp
     src/detail/element_difference.cpp
+    src/detail/parse_helper.cpp
     src/element.cpp
     src/encoder.cpp
     src/extent.cpp
@@ -31,6 +33,7 @@ add_library(terminalpp
     src/string.cpp
     src/string_io.cpp
     src/terminal.cpp
+    src/virtual_key.cpp
 )
 
 target_include_directories(terminalpp
