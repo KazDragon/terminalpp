@@ -1,5 +1,5 @@
 #include "terminalpp/ansi/control_sequence.hpp"
-#include <algorithm>
+#include <iostream>
 
 namespace terminalpp { namespace ansi {
 
