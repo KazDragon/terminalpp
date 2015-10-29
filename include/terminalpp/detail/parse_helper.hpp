@@ -11,6 +11,9 @@ enum class state
     idle,
     escape,
     arguments,
+    mouse0,
+    mouse1,
+    mouse2,
 };
 
 struct parse_temps
@@ -18,6 +21,9 @@ struct parse_temps
     state state_;
     char initialiser_;
     bool meta_;
+    terminalpp::u8 mouse_button_;
+    terminalpp::u32 mouse_x_;
+    terminalpp::u32 mouse_y_;
     terminalpp::u32 argument_;
     std::vector<terminalpp::u32> arguments_;
 };

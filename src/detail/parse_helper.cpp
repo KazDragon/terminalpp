@@ -9,6 +9,9 @@ boost::optional<terminalpp::token> parse_idle(char input, parse_temps &temps)
     if (input == terminalpp::ascii::ESC)
     {
         temps.state_ = state::escape;
+        temps.meta_ = false;
+        temps.argument_ = {};
+        temps.arguments_ = {};
         return {};
     }
     else
@@ -25,11 +28,15 @@ boost::optional<terminalpp::token> parse_idle(char input, parse_temps &temps)
 
 boost::optional<terminalpp::token> parse_escape(char input, parse_temps &temps)
 {
-    temps.initialiser_ = input;
-    temps.meta_ = false;
-    temps.argument_ = {};
-    temps.arguments_ = {};
-    temps.state_ = state::arguments;
+    if (input == terminalpp::ascii::ESC)
+    {
+        temps.meta_ = true;
+    }
+    else
+    {
+        temps.initialiser_ = input;
+        temps.state_ = state::arguments;
+    }
     return {};
 }
 
@@ -40,10 +47,14 @@ boost::optional<terminalpp::token> parse_arguments(char input, parse_temps &temp
         temps.argument_ *= 10;
         temps.argument_ += (input - '0'); // TODO: better conversion.
     }
-    else if (input  == terminalpp::ansi::PS)
+    else if (input == terminalpp::ansi::PS)
     {
         temps.arguments_.push_back(temps.argument_);
         temps.argument_ = {};
+    }
+    else if (input == terminalpp::ansi::csi::MOUSE_TRACKING)
+    {
+        temps.state_ = state::mouse0;
     }
     else
     {
@@ -64,6 +75,36 @@ boost::optional<terminalpp::token> parse_arguments(char input, parse_temps &temp
     return {};
 }
 
+boost::optional<terminalpp::token> parse_mouse0(char input, parse_temps &temps)
+{
+    temps.mouse_button_ = terminalpp::u32(input - 32); // TODO: WHY?
+    temps.state_ = state::mouse1;
+    return {};
+}
+
+boost::optional<terminalpp::token> parse_mouse1(char input, parse_temps &temps)
+{
+    temps.mouse_x_ = terminalpp::u32(input - 32); //TODO:
+    temps.state_ = state::mouse2;
+    return {};
+}
+
+boost::optional<terminalpp::token> parse_mouse2(char input, parse_temps &temps)
+{
+    temps.mouse_y_ = terminalpp::u32(input - 32); //TODO
+    temps.state_ = state::idle;
+
+    return {
+        terminalpp::token {
+            terminalpp::ansi::mouse::report {
+                temps.mouse_button_,
+                temps.mouse_x_,
+                temps.mouse_y_
+            }
+        }
+    };
+}
+
 boost::optional<terminalpp::token> parse_helper(char input, parse_temps &temps)
 {
     switch (temps.state_)
@@ -71,6 +112,9 @@ boost::optional<terminalpp::token> parse_helper(char input, parse_temps &temps)
         case state::idle : return parse_idle(input, temps);
         case state::escape : return parse_escape(input, temps);
         case state::arguments : return parse_arguments(input, temps);
+        case state::mouse0 : return parse_mouse0(input, temps);
+        case state::mouse1 : return parse_mouse1(input, temps);
+        case state::mouse2 : return parse_mouse2(input, temps);
         default :
             assert(!"state out of range");
     }

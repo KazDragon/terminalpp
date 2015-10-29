@@ -55,6 +55,9 @@ static char const HORIZONTAL_AND_VERTICAL_POSITION = terminalpp::ascii::LOWERCAS
 // Select graphics rendition - see graphics namespace
 static char const SELECT_GRAPHICS_RENDITION        = terminalpp::ascii::LOWERCASE_M;
 
+// Mouse Tracking - see mouse namespace
+static char const MOUSE_TRACKING                   = terminalpp::ascii::UPPERCASE_M;
+
 // Device status report - request requires parameter of 6, response
 // requires parameters of row,column.
 static char const DEVICE_STATUS_REPORT             = terminalpp::ascii::LOWERCASE_N;

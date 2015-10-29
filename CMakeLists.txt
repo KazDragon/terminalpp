@@ -17,6 +17,7 @@ find_package(CppUnit)
 add_library(terminalpp
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
+    src/ansi/mouse.cpp
     src/attribute.cpp
     src/canvas.cpp
     src/detail/terminal_charset_control.cpp
