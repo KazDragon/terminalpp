@@ -12,13 +12,13 @@ public :
         CPPUNIT_TEST(parse_command_with_arguments_yields_command_with_arguments);
         CPPUNIT_TEST(parse_meta_command_yields_meta_command);
         CPPUNIT_TEST(parse_mouse_command_yields_mouse_report);
+        CPPUNIT_TEST(parse_non_mouse_similar_command_yields_command);
+        CPPUNIT_TEST(parse_partial_command_yields_nothing);
+        CPPUNIT_TEST(parse_partial_mouse_command_yields_nothing);
         /*
         TODO list
         parse upper case character yields shift modifier
         -- all above for both 7- and 8- bit.
-
-        parse partial command yields nothing
-        parse partial mouse command yields nothing
         */
     CPPUNIT_TEST_SUITE_END();
 
@@ -29,6 +29,9 @@ private :
     void parse_command_with_arguments_yields_command_with_arguments();
     void parse_meta_command_yields_meta_command();
     void parse_mouse_command_yields_mouse_report();
+    void parse_non_mouse_similar_command_yields_command();
+    void parse_partial_command_yields_nothing();
+    void parse_partial_mouse_command_yields_nothing();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(parser_test);
@@ -161,4 +164,52 @@ void parser_test::parse_mouse_command_yields_mouse_report()
         boost::get<terminalpp::ansi::mouse::report>(expected[0]),
         boost::get<terminalpp::ansi::mouse::report>(result[0]));
     CPPUNIT_ASSERT(begin == end);
+}
+
+void parser_test::parse_non_mouse_similar_command_yields_command()
+{
+    std::string input = "\x1B?M";
+    auto begin = input.begin();
+    auto end = input.end();
+
+    auto expected = std::vector<terminalpp::token> {
+        terminalpp::ansi::control_sequence {
+            '?',
+            'M',
+            false,
+            { 0 }
+        }
+    };
+
+    auto result = terminalpp::detail::parse(begin, end);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::ansi::control_sequence>(expected[0]),
+        boost::get<terminalpp::ansi::control_sequence>(result[0]));
+    CPPUNIT_ASSERT(begin == end);
+}
+
+void parser_test::parse_partial_command_yields_nothing()
+{
+    std::string input = "\x1B[";
+    auto begin = input.begin();
+    auto end = input.end();
+
+    auto result = terminalpp::detail::parse(begin, end);
+
+    CPPUNIT_ASSERT_EQUAL(size_t{0}, result.size());
+    CPPUNIT_ASSERT(begin == input.begin());
+}
+
+void parser_test::parse_partial_mouse_command_yields_nothing()
+{
+    std::string input = "\x1B[M";
+    auto begin = input.begin();
+    auto end = input.end();
+
+    auto result = terminalpp::detail::parse(begin, end);
+
+    CPPUNIT_ASSERT_EQUAL(size_t{0}, result.size());
+    CPPUNIT_ASSERT(begin == input.begin());
 }

@@ -52,7 +52,8 @@ boost::optional<terminalpp::token> parse_arguments(char input, parse_temps &temp
         temps.arguments_.push_back(temps.argument_);
         temps.argument_ = {};
     }
-    else if (input == terminalpp::ansi::csi::MOUSE_TRACKING)
+    else if (input == terminalpp::ansi::csi::MOUSE_TRACKING
+          && temps.initialiser_ == terminalpp::ansi::control7::CSI[1])
     {
         temps.state_ = state::mouse0;
     }
