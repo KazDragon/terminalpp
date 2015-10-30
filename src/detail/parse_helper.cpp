@@ -14,6 +14,24 @@ boost::optional<terminalpp::token> parse_idle(char input, parse_temps &temps)
         temps.arguments_ = {};
         return {};
     }
+    else if (input == terminalpp::ansi::control8::CSI[0])
+    {
+        temps.state_ = state::arguments;
+        temps.meta_ = false;
+        temps.initialiser_ = terminalpp::ansi::control7::CSI[1];
+        temps.argument_ = {};
+        temps.arguments_ = {};
+        return {};
+    }
+    else if (input == terminalpp::ansi::control8::OSC[0])
+    {
+        temps.state_ = state::arguments;
+        temps.meta_ = false;
+        temps.initialiser_ = terminalpp::ansi::control7::OSC[1];
+        temps.argument_ = {};
+        temps.arguments_ = {};
+        return {};
+    }
     else
     {
         return terminalpp::token {

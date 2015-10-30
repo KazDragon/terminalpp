@@ -20,6 +20,22 @@ public :
         parse upper case character yields shift modifier
         -- all above for both 7- and 8- bit.
         */
+        CPPUNIT_TEST(parse_8bit_ind_command_yields_ind_command);
+        CPPUNIT_TEST(parse_8bit_nel_command_yields_nel_command);
+        CPPUNIT_TEST(parse_8bit_hts_command_yields_hts_command);
+        CPPUNIT_TEST(parse_8bit_ri_command_yields_ri_command);
+        CPPUNIT_TEST(parse_8bit_ss2_command_yields_ss2_command);
+        CPPUNIT_TEST(parse_8bit_ss3_command_yields_ss3_command);
+        CPPUNIT_TEST(parse_8bit_dcs_command_yields_dcs_command);
+        CPPUNIT_TEST(parse_8bit_spa_command_yields_spa_command);
+        CPPUNIT_TEST(parse_8bit_epa_command_yields_epa_command);
+        CPPUNIT_TEST(parse_8bit_sos_command_yields_sos_command);
+        CPPUNIT_TEST(parse_8bit_decid_command_yields_decid_command);
+        CPPUNIT_TEST(parse_8bit_csi_command_yields_csi_command);
+        CPPUNIT_TEST(parse_8bit_st_command_yields_st_command);
+        CPPUNIT_TEST(parse_8bit_osc_command_yields_osc_command);
+        CPPUNIT_TEST(parse_8bit_pm_command_yields_pm_command);
+        CPPUNIT_TEST(parse_8bit_apc_command_yields_apc_command);
     CPPUNIT_TEST_SUITE_END();
 
 private :
@@ -32,6 +48,23 @@ private :
     void parse_non_mouse_similar_command_yields_command();
     void parse_partial_command_yields_nothing();
     void parse_partial_mouse_command_yields_nothing();
+
+    void parse_8bit_ind_command_yields_ind_command();
+    void parse_8bit_nel_command_yields_nel_command();
+    void parse_8bit_hts_command_yields_hts_command();
+    void parse_8bit_ri_command_yields_ri_command();
+    void parse_8bit_ss2_command_yields_ss2_command();
+    void parse_8bit_ss3_command_yields_ss3_command();
+    void parse_8bit_dcs_command_yields_dcs_command();
+    void parse_8bit_spa_command_yields_spa_command();
+    void parse_8bit_epa_command_yields_epa_command();
+    void parse_8bit_sos_command_yields_sos_command();
+    void parse_8bit_decid_command_yields_decid_command();
+    void parse_8bit_csi_command_yields_csi_command();
+    void parse_8bit_st_command_yields_st_command();
+    void parse_8bit_osc_command_yields_osc_command();
+    void parse_8bit_pm_command_yields_pm_command();
+    void parse_8bit_apc_command_yields_apc_command();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(parser_test);
@@ -212,4 +245,107 @@ void parser_test::parse_partial_mouse_command_yields_nothing()
 
     CPPUNIT_ASSERT_EQUAL(size_t{0}, result.size());
     CPPUNIT_ASSERT(begin == input.begin());
+}
+
+static void test_matching_7_and_8_bit_commands(
+    std::string const &command7,
+    std::string const &command8)
+{
+    auto begin7 = command7.begin();
+    auto end7   = command7.end();
+
+    auto begin8 = command8.begin();
+    auto end8   = command8.end();
+
+    auto result7 = terminalpp::detail::parse(begin7, end7);
+    auto result8 = terminalpp::detail::parse(begin8, end8);
+
+    CPPUNIT_ASSERT(begin7 == end7);
+    CPPUNIT_ASSERT(begin8 == end8);
+
+    CPPUNIT_ASSERT_EQUAL(result7.size(), result8.size());
+
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::ansi::control_sequence>(result7[0]),
+        boost::get<terminalpp::ansi::control_sequence>(result8[0]));
+}
+
+void parser_test::parse_8bit_ind_command_yields_ind_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_nel_command_yields_nel_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_hts_command_yields_hts_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_ri_command_yields_ri_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_ss2_command_yields_ss2_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_ss3_command_yields_ss3_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_dcs_command_yields_dcs_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_spa_command_yields_spa_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_epa_command_yields_epa_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_sos_command_yields_sos_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_decid_command_yields_decid_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_csi_command_yields_csi_command()
+{
+    test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_st_command_yields_st_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_osc_command_yields_osc_command()
+{
+    test_matching_7_and_8_bit_commands("\x1B]2H", "\x9D""2H");
+}
+
+void parser_test::parse_8bit_pm_command_yields_pm_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
+}
+
+void parser_test::parse_8bit_apc_command_yields_apc_command()
+{
+    //test_matching_7_and_8_bit_commands("\x1B[2H", "\x9B""2H");
 }
