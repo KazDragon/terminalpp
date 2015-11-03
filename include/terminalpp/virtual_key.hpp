@@ -139,6 +139,9 @@ struct virtual_key
     /// etc.
     char modifiers;
 
+    /// \brief The repeat count of the character.
+    char repeat_count;
+
     /// \brief The actual received data for the key.
     boost::variant<char, ansi::control_sequence> sequence;
 };

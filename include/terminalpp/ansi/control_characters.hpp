@@ -72,11 +72,11 @@ namespace control8 {
 static constexpr char const ENABLE[]= { terminalpp::ascii::ESC,
                                         terminalpp::ascii::SPACE,
                                         terminalpp::ascii::UPPERCASE_G, 0 };
-    
+
 // As above, the following codes are all prefixes for command groups.
 // They have the same meaning, but a shorter representation.  However, only
 // some terminals support them.
-    
+
 static constexpr char const IND[]   = { char(0x84), 0x00 };
 static constexpr char const NEL[]   = { char(0x85), 0x00 };
 static constexpr char const HTS[]   = { char(0x88), 0x00 };

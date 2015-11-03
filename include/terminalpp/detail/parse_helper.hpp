@@ -24,8 +24,8 @@ struct parse_temps
     terminalpp::u8 mouse_button_;
     terminalpp::u32 mouse_x_;
     terminalpp::u32 mouse_y_;
-    terminalpp::u32 argument_;
-    std::vector<terminalpp::u32> arguments_;
+    std::string argument_;
+    std::vector<std::string> arguments_;
 };
 
 boost::optional<terminalpp::token> parse_helper(char input, parse_temps &temps);

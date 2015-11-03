@@ -3,6 +3,7 @@
 #include "terminalpp/detail/terminal_control.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
 #include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/detail/parser.hpp"
 
 namespace terminalpp {
 
@@ -215,6 +216,26 @@ std::string terminal::move_cursor(point const &pt)
 }
 
 // ==========================================================================
+// READ
+// ==========================================================================
+std::vector<terminalpp::token> terminal::read(std::string const &data)
+{
+    unparsed_buffer_.insert(
+        unparsed_buffer_.end(),
+        data.begin(),
+        data.end());
+
+    auto begin = unparsed_buffer_.begin();
+    auto result = detail::parse(begin, unparsed_buffer_.end());
+
+    unparsed_buffer_.erase(unparsed_buffer_.begin(), begin);
+
+    // TODO: some postprocessing for well-known control sequence->
+    // virtual keys.
+    return result;
+}
+
+// ==========================================================================
 // WRITE
 // ==========================================================================
 std::string terminal::write(string const& str)
@@ -232,13 +253,13 @@ std::string terminal::write(string const& str)
     if (cursor_position_)
     {
         cursor_position_->x += str.size();
-        
+
         if (size_)
         {
             while (cursor_position_->x > size_->width)
             {
                 cursor_position_->x -= size_->width;
-                
+
                 if (cursor_position_->y < size_->height)
                 {
                     ++cursor_position_->y;
@@ -246,7 +267,7 @@ std::string terminal::write(string const& str)
             }
         }
     }
-    
+
     return result;
 }
 
@@ -256,9 +277,9 @@ std::string terminal::write(string const& str)
 std::string terminal::erase_in_display(terminal::erase_display how)
 {
     std::string result;
-    
+
     result = detail::csi(control_mode_);
-    
+
     switch (how)
     {
         default :
@@ -266,18 +287,18 @@ std::string terminal::erase_in_display(terminal::erase_display how)
         case terminal::erase_display::all :
             result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_ALL;
             break;
-            
+
         case terminal::erase_display::above :
             result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_ABOVE;
             break;
-            
+
         case terminal::erase_display::below :
             result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_BELOW;
             break;
     }
-    
+
     result += terminalpp::ansi::csi::ERASE_IN_DISPLAY;
-    
+
     return result;
 }
 
@@ -287,9 +308,9 @@ std::string terminal::erase_in_display(terminal::erase_display how)
 std::string terminal::erase_in_line(terminal::erase_line how)
 {
     std::string result;
-    
+
     result = detail::csi(control_mode_);
-    
+
     switch (how)
     {
         default :
@@ -297,18 +318,18 @@ std::string terminal::erase_in_line(terminal::erase_line how)
         case terminal::erase_line::all :
             result += terminalpp::ansi::csi::ERASE_IN_LINE_ALL;
             break;
-            
+
         case terminal::erase_line::left :
             result += terminalpp::ansi::csi::ERASE_IN_LINE_LEFT;
             break;
-            
+
         case terminal::erase_line::right :
             result += terminalpp::ansi::csi::ERASE_IN_LINE_RIGHT;
             break;
     }
-    
+
     result += terminalpp::ansi::csi::ERASE_IN_LINE;
-    
+
     return result;
 }
 

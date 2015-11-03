@@ -38,6 +38,7 @@ boost::optional<terminalpp::token> parse_idle(char input, parse_temps &temps)
             terminalpp::virtual_key {
                 input,
                 0,
+                1,
                 { input }
             }
         };
@@ -60,10 +61,9 @@ boost::optional<terminalpp::token> parse_escape(char input, parse_temps &temps)
 
 boost::optional<terminalpp::token> parse_arguments(char input, parse_temps &temps)
 {
-    if (isdigit(input))
+    if (isdigit(input)) // TODO: depends on initiator.
     {
-        temps.argument_ *= 10;
-        temps.argument_ += (input - '0'); // TODO: better conversion.
+        temps.argument_.push_back(input);
     }
     else if (input == terminalpp::ansi::PS)
     {
