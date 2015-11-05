@@ -41,7 +41,7 @@ static char const US  = 31;  // Unit Separator
 
 // Printable Character Block
 static char const SPACE                 = 32;  // [SPACE]
-static char const EXLAMATION_MARK       = 33;  // !
+static char const EXCLAMATION_MARK      = 33;  // !
 static char const QUOTES                = 34;  // "
 static char const HASH                  = 35;  // #
 static char const DOLLAR                = 36;  // $
