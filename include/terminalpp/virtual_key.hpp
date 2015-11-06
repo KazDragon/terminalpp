@@ -11,74 +11,17 @@ namespace terminalpp {
 // All keypresses for printable characters are represented using their ASCII
 // values.
 
-static constexpr char const VK_NUL = ascii::NUL;
 static constexpr char const VK_BS = ascii::BS;
 static constexpr char const VK_HT = ascii::HT;
 static constexpr char const VK_CR = ascii::CR;
 
 static constexpr char const VK_SPACE = ascii::SPACE;
-static constexpr char const VK_EXCLAMATION_MARK = ascii::EXCLAMATION_MARK;
- // TODO: " .. /, 0 .. 9, : .. @
 
- // NOTE: Is this necessary?  They are all lowercase keypressed + shift.
-static constexpr char const VK_UPPERCASE_A = ascii::UPPERCASE_A;
-static constexpr char const VK_UPPERCASE_B = ascii::UPPERCASE_B;
-static constexpr char const VK_UPPERCASE_C = ascii::UPPERCASE_C;
-static constexpr char const VK_UPPERCASE_D = ascii::UPPERCASE_D;
-static constexpr char const VK_UPPERCASE_E = ascii::UPPERCASE_E;
-static constexpr char const VK_UPPERCASE_F = ascii::UPPERCASE_F;
-static constexpr char const VK_UPPERCASE_G = ascii::UPPERCASE_G;
-static constexpr char const VK_UPPERCASE_H = ascii::UPPERCASE_H;
-static constexpr char const VK_UPPERCASE_I = ascii::UPPERCASE_I;
-static constexpr char const VK_UPPERCASE_J = ascii::UPPERCASE_J;
-static constexpr char const VK_UPPERCASE_K = ascii::UPPERCASE_K;
-static constexpr char const VK_UPPERCASE_L = ascii::UPPERCASE_L;
-static constexpr char const VK_UPPERCASE_M = ascii::UPPERCASE_M;
-static constexpr char const VK_UPPERCASE_N = ascii::UPPERCASE_N;
-static constexpr char const VK_UPPERCASE_O = ascii::UPPERCASE_O;
-static constexpr char const VK_UPPERCASE_P = ascii::UPPERCASE_P;
-static constexpr char const VK_UPPERCASE_Q = ascii::UPPERCASE_Q;
-static constexpr char const VK_UPPERCASE_R = ascii::UPPERCASE_R;
-static constexpr char const VK_UPPERCASE_S = ascii::UPPERCASE_S;
-static constexpr char const VK_UPPERCASE_T = ascii::UPPERCASE_T;
-static constexpr char const VK_UPPERCASE_U = ascii::UPPERCASE_U;
-static constexpr char const VK_UPPERCASE_V = ascii::UPPERCASE_V;
-static constexpr char const VK_UPPERCASE_W = ascii::UPPERCASE_W;
-static constexpr char const VK_UPPERCASE_X = ascii::UPPERCASE_X;
-static constexpr char const VK_UPPERCASE_Y = ascii::UPPERCASE_Y;
-static constexpr char const VK_UPPERCASE_Z = ascii::UPPERCASE_Z;
- // TODO: [ .. `
-static constexpr char const VK_LOWERCASE_A = ascii::LOWERCASE_A;
-static constexpr char const VK_LOWERCASE_B = ascii::LOWERCASE_B;
-static constexpr char const VK_LOWERCASE_C = ascii::LOWERCASE_C;
-static constexpr char const VK_LOWERCASE_D = ascii::LOWERCASE_D;
-static constexpr char const VK_LOWERCASE_E = ascii::LOWERCASE_E;
-static constexpr char const VK_LOWERCASE_F = ascii::LOWERCASE_F;
-static constexpr char const VK_LOWERCASE_G = ascii::LOWERCASE_G;
-static constexpr char const VK_LOWERCASE_H = ascii::LOWERCASE_H;
-static constexpr char const VK_LOWERCASE_I = ascii::LOWERCASE_I;
-static constexpr char const VK_LOWERCASE_J = ascii::LOWERCASE_J;
-static constexpr char const VK_LOWERCASE_K = ascii::LOWERCASE_K;
-static constexpr char const VK_LOWERCASE_L = ascii::LOWERCASE_L;
-static constexpr char const VK_LOWERCASE_M = ascii::LOWERCASE_M;
-static constexpr char const VK_LOWERCASE_N = ascii::LOWERCASE_N;
-static constexpr char const VK_LOWERCASE_O = ascii::LOWERCASE_O;
-static constexpr char const VK_LOWERCASE_P = ascii::LOWERCASE_P;
-static constexpr char const VK_LOWERCASE_Q = ascii::LOWERCASE_Q;
-static constexpr char const VK_LOWERCASE_R = ascii::LOWERCASE_R;
-static constexpr char const VK_LOWERCASE_S = ascii::LOWERCASE_S;
-static constexpr char const VK_LOWERCASE_T = ascii::LOWERCASE_T;
-static constexpr char const VK_LOWERCASE_U = ascii::LOWERCASE_U;
-static constexpr char const VK_LOWERCASE_V = ascii::LOWERCASE_V;
-static constexpr char const VK_LOWERCASE_W = ascii::LOWERCASE_W;
-static constexpr char const VK_LOWERCASE_X = ascii::LOWERCASE_X;
-static constexpr char const VK_LOWERCASE_Y = ascii::LOWERCASE_Y;
+// TODO: ...
 static constexpr char const VK_LOWERCASE_Z = ascii::LOWERCASE_Z;
-static constexpr char const VK_OPEN_BRACE  = ascii::OPEN_BRACE;
-static constexpr char const VK_PIPE        = ascii::PIPE;
-static constexpr char const VK_CLOSE_BRACE = ascii::CLOSE_BRACE;
-static constexpr char const VK_TILDE       = ascii::TILDE;
-static constexpr char const VK_DEL         = ascii::DEL;
+static constexpr char const VK_UPPERCASE_Z = ascii::UPPERCASE_Z;
+
+static constexpr char const VK_DEL = ascii::DEL;
 
 /*
 Now introduce constants for:
@@ -86,6 +29,8 @@ Now introduce constants for:
     home, pgup, pgdn,
     others?
 */
+
+static constexpr char const VK_UP = VK_DEL + 1;
 
 /*
 static char const SPACE                 = 32;  // [SPACE]

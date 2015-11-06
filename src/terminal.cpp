@@ -39,6 +39,44 @@ std::string write_element(const element& elem)
     return text;
 }
 
+struct well_known_virtual_key_visitor : boost::static_visitor<token>
+{
+    template <class T>
+    token operator()(T const &t) const
+    {
+        return t;
+    }
+
+    token operator()(ansi::control_sequence const &seq)
+    {
+        if (seq.initiator == ansi::control7::CSI[1])
+        {
+            if (seq.command == ansi::csi::CURSOR_UP)
+            {
+                return virtual_key{ VK_UP, 0, 1, seq };
+            }
+        }
+        return seq;
+    }
+};
+
+// ==========================================================================
+// REPLACE_WELL_KNOWN_VIRTUAL_KEYS
+// ==========================================================================
+std::vector<token> replace_well_known_virtual_keys(
+    std::vector<token> const &orig)
+{
+    std::vector<token> replaced;
+    well_known_virtual_key_visitor visitor;
+
+    for (auto &&tok : orig)
+    {
+        replaced.push_back(boost::apply_visitor(visitor, tok));
+    }
+
+    return replaced;
+}
+
 }
 
 // ==========================================================================
@@ -230,9 +268,9 @@ std::vector<terminalpp::token> terminal::read(std::string const &data)
 
     unparsed_buffer_.erase(unparsed_buffer_.begin(), begin);
 
-    // TODO: some postprocessing for well-known control sequence->
-    // virtual keys.
-    return result;
+    // Some postprocessing for well-known control sequence->
+    // virtual key mappings.
+    return replace_well_known_virtual_keys(result);
 }
 
 // ==========================================================================

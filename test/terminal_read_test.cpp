@@ -18,6 +18,7 @@ public :
         CPPUNIT_TEST(read_partial_mouse_command_yields_nothing);
         CPPUNIT_TEST(read_8bit_command_yields_command);
 
+        CPPUNIT_TEST(cursor_up_command_yields_vk_up);
         /* TODO:
          * Read of OSC/PM/APC commands with ST/BEL terminators - and 8bit
          * Read of arrow keys translated to VKs.
@@ -40,6 +41,8 @@ private :
     void read_partial_command_then_read_remainder_yields_command();
     void read_partial_mouse_command_yields_nothing();
     void read_8bit_command_yields_command();
+
+    void cursor_up_command_yields_vk_up();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_test);
@@ -128,12 +131,12 @@ void terminal_read_test::read_meta_command_yields_meta_command()
 {
     terminalpp::terminal terminal;
 
-    std::string input = "\x1B\x1B[A";
+    std::string input = "\x1B\x1B[S";
 
     auto expected = std::vector<terminalpp::token> {
         terminalpp::ansi::control_sequence {
             '[',
-            'A',
+            'S',
             true,
             { "" }
         }
@@ -260,4 +263,27 @@ void terminal_read_test::read_8bit_command_yields_command()
     CPPUNIT_ASSERT_EQUAL(
         boost::get<terminalpp::ansi::control_sequence>(expected[0]),
         boost::get<terminalpp::ansi::control_sequence>(result[0]));
+}
+
+void terminal_read_test::cursor_up_command_yields_vk_up()
+{
+    terminalpp::terminal terminal;
+
+    std::string input = "\x1B[A";
+
+    auto expected = std::vector<terminalpp::token> {
+      terminalpp::virtual_key {
+          terminalpp::VK_UP,
+          0,
+          1,
+          terminalpp::ansi::control_sequence{'[', 'A', false, { "" }}
+      }
+    };
+
+    auto result = terminal.read(input);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::virtual_key>(expected[0]),
+        boost::get<terminalpp::virtual_key>(result[0]));
 }
