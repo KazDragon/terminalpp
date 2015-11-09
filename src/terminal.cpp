@@ -81,6 +81,7 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
         { ansi::ss3::CURSOR_LEFT,  VK_LEFT  },
         { ansi::ss3::CURSOR_HOME,  VK_HOME  },
         { ansi::ss3::CURSOR_END,   VK_END   },
+        { ansi::ss3::F1,           VK_F1    },
     };
 
     assert(seq.initiator == ansi::control7::SS3[1]);
@@ -105,13 +106,14 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
 {
     // Keypad commands are delivered as "ESC [ N ~" where N is a number
     // designating the key pressed.
-    static std::vector<std::pair<char, char>> const keypad_commands = {
+    static std::vector<std::pair<u8, char>> const keypad_commands = {
         { ansi::csi::KEYPAD_HOME,   VK_HOME },
         { ansi::csi::KEYPAD_INSERT, VK_INS  },
         { ansi::csi::KEYPAD_DEL,    VK_DEL  },
         { ansi::csi::KEYPAD_END,    VK_END  },
         { ansi::csi::KEYPAD_PGUP,   VK_PGUP },
         { ansi::csi::KEYPAD_PGDN,   VK_PGDN },
+        { ansi::csi::KEYPAD_F1,     VK_F1   },
     };
 
     assert(seq.command == ansi::csi::KEYPAD_FUNCTION);
@@ -122,7 +124,8 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
         [&seq](auto const &elem)
         {
             return !seq.arguments[0].empty()
-                && seq.arguments[0][0] == elem.first;
+                && isdigit(seq.arguments[0][0])
+                && atoi(seq.arguments[0].c_str()) == elem.first;
         });
 
     if (keypad_command != keypad_commands.end())

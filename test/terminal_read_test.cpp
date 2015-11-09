@@ -30,12 +30,16 @@ public :
         CPPUNIT_TEST(cursor_pgup_command_yields_vk_pgup);
         CPPUNIT_TEST(cursor_pgdn_command_yields_vk_pgdn);
 
+        CPPUNIT_TEST(f1_command_yields_vk_f1);
+
         CPPUNIT_TEST(cursor_up_ss3_yields_vk_up);
         CPPUNIT_TEST(cursor_down_ss3_yields_vk_down);
         CPPUNIT_TEST(cursor_right_ss3_yields_vk_right);
         CPPUNIT_TEST(cursor_left_ss3_yields_vk_left);
         CPPUNIT_TEST(cursor_home_ss3_yields_vk_home);
         CPPUNIT_TEST(cursor_end_ss3_yields_vk_end);
+
+        CPPUNIT_TEST(f1_ss3_yields_vk_f1);
 
         /* TODO:
          * Read of OSC/PM/APC commands with ST/BEL terminators - and 8bit
@@ -72,12 +76,16 @@ private :
     void cursor_pgup_command_yields_vk_pgup();
     void cursor_pgdn_command_yields_vk_pgdn();
 
+    void f1_command_yields_vk_f1();
+
     void cursor_up_ss3_yields_vk_up();
     void cursor_down_ss3_yields_vk_down();
     void cursor_right_ss3_yields_vk_right();
     void cursor_left_ss3_yields_vk_left();
     void cursor_home_ss3_yields_vk_home();
     void cursor_end_ss3_yields_vk_end();
+
+    void f1_ss3_yields_vk_f1();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_test);
@@ -358,6 +366,18 @@ void terminal_read_test::cursor_pgdn_command_yields_vk_pgdn()
         });
 }
 
+void terminal_read_test::f1_command_yields_vk_f1()
+{
+    expect_token(
+        "\x1B[11~",
+        terminalpp::virtual_key {
+            terminalpp::VK_F1,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "11" }}
+        });
+}
+
 void terminal_read_test::cursor_up_ss3_yields_vk_up()
 {
     expect_token(
@@ -430,3 +450,14 @@ void terminal_read_test::cursor_end_ss3_yields_vk_end()
         });
 }
 
+void terminal_read_test::f1_ss3_yields_vk_f1()
+{
+    expect_token(
+        "\x1BOP",
+        terminalpp::virtual_key {
+            terminalpp::VK_F1,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'P', false, { "" }}
+        });
+}

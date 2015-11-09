@@ -31,16 +31,41 @@ Now introduce constants for:
 */
 
 // TODO: Convert to an enum class.
-static constexpr char const VK_UP    = VK_DEL + 1;
-static constexpr char const VK_DOWN  = VK_UP + 1;
+static constexpr char const VK_UP    = VK_DEL  + 1;
+static constexpr char const VK_DOWN  = VK_UP   + 1;
 static constexpr char const VK_LEFT  = VK_DOWN + 1;
 static constexpr char const VK_RIGHT = VK_LEFT + 1;
 
 static constexpr char const VK_HOME  = VK_RIGHT + 1;
 static constexpr char const VK_INS   = VK_HOME + 1;
-static constexpr char const VK_END   = VK_INS + 1;
-static constexpr char const VK_PGUP  = VK_END + 1;
+static constexpr char const VK_END   = VK_INS  + 1;
+static constexpr char const VK_PGUP  = VK_END  + 1;
 static constexpr char const VK_PGDN  = VK_PGUP + 1;
+
+static constexpr char const VK_F1    = VK_PGDN + 1;
+static constexpr char const VK_F2    = VK_F1   + 1;
+static constexpr char const VK_F3    = VK_F2   + 1;
+static constexpr char const VK_F4    = VK_F3   + 1;
+static constexpr char const VK_F5    = VK_F4   + 1;
+static constexpr char const VK_F6    = VK_F5   + 1;
+static constexpr char const VK_F7    = VK_F6   + 1;
+static constexpr char const VK_F8    = VK_F7   + 1;
+static constexpr char const VK_F9    = VK_F8   + 1;
+static constexpr char const VK_F10   = VK_F9   + 1;
+static constexpr char const VK_F11   = VK_F10  + 1;
+static constexpr char const VK_F12   = VK_F11  + 1;
+static constexpr char const VK_F13   = VK_F12  + 1;
+static constexpr char const VK_F14   = VK_F13  + 1;
+static constexpr char const VK_F15   = VK_F14  + 1;
+static constexpr char const VK_F16   = VK_F15  + 1;
+static constexpr char const VK_F17   = VK_F16  + 1;
+static constexpr char const VK_F18   = VK_F17  + 1;
+static constexpr char const VK_F19   = VK_F18  + 1;
+static constexpr char const VK_F20   = VK_F19  + 1;
+static constexpr char const VK_F21   = VK_F20  + 1;
+static constexpr char const VK_F22   = VK_F21  + 1;
+static constexpr char const VK_F23   = VK_F22  + 1;
+static constexpr char const VK_F24   = VK_F23  + 1;
 
 /*
 static char const SPACE                 = 32;  // [SPACE]

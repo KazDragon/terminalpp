@@ -2,6 +2,7 @@
 #define TERMINALPP_ANSI_CSI_HPP_
 
 #include "terminalpp/detail/ascii.hpp"
+#include "terminalpp/core.hpp"
 
 namespace terminalpp { namespace ansi { namespace csi {
 
@@ -76,12 +77,24 @@ static char const CURSOR_BACKWARD_TABULATION       = terminalpp::ascii::UPPERCAS
 
 // Keypad buttons / Function keys
 static char const KEYPAD_FUNCTION                  = terminalpp::ascii::TILDE;
-    static char const KEYPAD_HOME                  = terminalpp::ascii::ONE;
-    static char const KEYPAD_INSERT                = terminalpp::ascii::TWO;
-    static char const KEYPAD_DEL                   = terminalpp::ascii::THREE;
-    static char const KEYPAD_END                   = terminalpp::ascii::FOUR;
-    static char const KEYPAD_PGUP                  = terminalpp::ascii::FIVE;
-    static char const KEYPAD_PGDN                  = terminalpp::ascii::SIX;
+    static u8 const KEYPAD_HOME                    = 1;
+    static u8 const KEYPAD_INSERT                  = 2;
+    static u8 const KEYPAD_DEL                     = 3;
+    static u8 const KEYPAD_END                     = 4;
+    static u8 const KEYPAD_PGUP                    = 5;
+    static u8 const KEYPAD_PGDN                    = 6;
+    static u8 const KEYPAD_F1                      = 11;
+    static u8 const KEYPAD_F2                      = 12;
+    static u8 const KEYPAD_F3                      = 13;
+    static u8 const KEYPAD_F4                      = 14;
+    static u8 const KEYPAD_F5                      = 15;
+    static u8 const KEYPAD_F6                      = 17; // Skip 16.
+    static u8 const KEYPAD_F7                      = 18;
+    static u8 const KEYPAD_F8                      = 19;
+    static u8 const KEYPAD_F9                      = 20;
+    static u8 const KEYPAD_F10                     = 21;
+    static u8 const KEYPAD_F11                     = 23; // Skip 22.
+    static u8 const KEYPAD_F12                     = 24;
 
 // DEC Private Mode
 static char const DECSET                           = terminalpp::ascii::LOWERCASE_H;

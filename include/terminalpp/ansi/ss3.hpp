@@ -17,7 +17,8 @@ static constexpr char const CURSOR_LEFT  = terminalpp::ascii::UPPERCASE_D;
 static constexpr char const CURSOR_HOME  = terminalpp::ascii::UPPERCASE_H;
 // Move the cursor to the end of the line.
 static constexpr char const CURSOR_END   = terminalpp::ascii::UPPERCASE_F;
-
+// F1 Key
+static constexpr char const F1           = terminalpp::ascii::UPPERCASE_P;
 }}}
 
 #endif
