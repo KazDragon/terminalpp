@@ -50,6 +50,7 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
         { ansi::csi::CURSOR_DOWN,     VK_DOWN  },
         { ansi::csi::CURSOR_FORWARD,  VK_RIGHT },
         { ansi::csi::CURSOR_BACKWARD, VK_LEFT  },
+        { ansi::csi::CURSOR_POSITION, VK_HOME  },
     };
 
     assert(seq.initiator == ansi::control7::CSI[1]);

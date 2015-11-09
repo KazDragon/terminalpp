@@ -23,6 +23,7 @@ public :
         CPPUNIT_TEST(cursor_right_command_yields_vk_right);
         CPPUNIT_TEST(cursor_left_command_yields_vk_left);
 
+        CPPUNIT_TEST(cursor_alternative_home_command_yields_vk_home);
         CPPUNIT_TEST(cursor_home_command_yields_vk_home);
         CPPUNIT_TEST(cursor_ins_command_yields_vk_ins);
         CPPUNIT_TEST(cursor_del_command_yields_vk_del);
@@ -69,6 +70,7 @@ private :
     void cursor_right_command_yields_vk_right();
     void cursor_left_command_yields_vk_left();
 
+    void cursor_alternative_home_command_yields_vk_home();
     void cursor_home_command_yields_vk_home();
     void cursor_ins_command_yields_vk_ins();
     void cursor_del_command_yields_vk_del();
@@ -131,10 +133,10 @@ void terminal_read_test::read_character_yields_virtual_key()
 void terminal_read_test::read_command_yields_command()
 {
     expect_token(
-        "\x1B[H",
+        "\x1B[S",
         terminalpp::ansi::control_sequence {
             '[',
-            'H',
+            'S',
             false,
             { "" }
         });
@@ -143,10 +145,10 @@ void terminal_read_test::read_command_yields_command()
 void terminal_read_test::read_command_with_arguments_yields_command_with_arguments()
 {
     expect_token(
-        "\x1B[22;33H",
+        "\x1B[22;33S",
         terminalpp::ansi::control_sequence {
             '[',
-            'H',
+            'S',
             false,
             { "22", "33" }
         });
@@ -237,10 +239,10 @@ void terminal_read_test::read_partial_mouse_command_yields_nothing()
 void terminal_read_test::read_8bit_command_yields_command()
 {
     expect_token(
-        "\x9B""22;33H",
+        "\x9B""22;33S",
         terminalpp::ansi::control_sequence {
             '[',
-            'H',
+            'S',
             false,
             { "22", "33" }
         });
@@ -291,6 +293,18 @@ void terminal_read_test::cursor_left_command_yields_vk_left()
             0,
             1,
             terminalpp::ansi::control_sequence{'[', 'D', false, { "" }}
+        });
+}
+
+void terminal_read_test::cursor_alternative_home_command_yields_vk_home()
+{
+    expect_token(
+        "\x1B[H",
+        terminalpp::virtual_key {
+            terminalpp::VK_HOME,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'H', false, {}}
         });
 }
 
