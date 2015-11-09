@@ -77,6 +77,12 @@ static char const CURSOR_BACKWARD_TABULATION       = terminalpp::ascii::UPPERCAS
 
 // Keypad buttons / Function keys
 static char const KEYPAD_FUNCTION                  = terminalpp::ascii::TILDE;
+    static char const KEYPAD_HOME                  = terminalpp::ascii::ONE;
+    static char const KEYPAD_INSERT                = terminalpp::ascii::TWO;
+    static char const KEYPAD_DEL                   = terminalpp::ascii::THREE;
+    static char const KEYPAD_END                   = terminalpp::ascii::FOUR;
+    static char const KEYPAD_PGUP                  = terminalpp::ascii::FIVE;
+    static char const KEYPAD_PGDN                  = terminalpp::ascii::SIX;
 
 // DEC Private Mode
 static char const DECSET                           = terminalpp::ascii::LOWERCASE_H;

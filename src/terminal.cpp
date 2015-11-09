@@ -4,6 +4,7 @@
 #include "terminalpp/detail/terminal_cursor_control.hpp"
 #include "terminalpp/detail/element_difference.hpp"
 #include "terminalpp/detail/parser.hpp"
+#include <cassert>
 
 namespace terminalpp {
 
@@ -39,6 +40,82 @@ std::string write_element(const element& elem)
     return text;
 }
 
+static token convert_control_sequence(ansi::control_sequence const &seq)
+{
+    // Cursor Movement commands are in the form "ESC [ C" where C is some
+    // letter indicating the direction in which to move.
+    static std::vector<std::pair<char, char>> const cursor_movement_commands = {
+        { ansi::csi::CURSOR_UP,       VK_UP    },
+        { ansi::csi::CURSOR_DOWN,     VK_DOWN  },
+        { ansi::csi::CURSOR_FORWARD,  VK_RIGHT },
+        { ansi::csi::CURSOR_BACKWARD, VK_LEFT  },
+    };
+
+    assert(seq.initiator == ansi::control7::CSI[1]);
+
+    auto const &cursor_movement_command = std::find_if(
+        cursor_movement_commands.begin(),
+        cursor_movement_commands.end(),
+        [&seq](auto const &elem)
+        {
+            return elem.first == seq.command;
+        });
+
+    if (cursor_movement_command != cursor_movement_commands.end())
+    {
+        return virtual_key{ cursor_movement_command->second, 0, 1, seq };
+    }
+
+    return seq;
+}
+
+static token convert_keypad_sequence(ansi::control_sequence const &seq)
+{
+    // Keypad commands are delivered as "ESC [ N ~" where N is a number
+    // designating the key pressed.
+    static std::vector<std::pair<char, char>> const keypad_commands = {
+        { ansi::csi::KEYPAD_HOME,   VK_HOME },
+        { ansi::csi::KEYPAD_INSERT, VK_INS  },
+        { ansi::csi::KEYPAD_DEL,    VK_DEL  },
+        { ansi::csi::KEYPAD_END,    VK_END  },
+        { ansi::csi::KEYPAD_PGUP,   VK_PGUP },
+        { ansi::csi::KEYPAD_PGDN,   VK_PGDN },
+    };
+
+    assert(seq.command == ansi::csi::KEYPAD_FUNCTION);
+
+    auto const &keypad_command = std::find_if(
+        keypad_commands.begin(),
+        keypad_commands.end(),
+        [&seq](auto const &elem)
+        {
+            return !seq.arguments[0].empty()
+                && seq.arguments[0][0] == elem.first;
+        });
+
+    if (keypad_command != keypad_commands.end())
+    {
+        return virtual_key{ keypad_command->second, 0, 1, seq };
+    }
+
+    return seq;
+}
+
+static token convert_common_control_sequence(ansi::control_sequence const &seq)
+{
+    if (seq.initiator == ansi::control7::CSI[1])
+    {
+        if (seq.command == ansi::csi::KEYPAD_FUNCTION)
+        {
+            return convert_keypad_sequence(seq);
+        }
+
+        return convert_control_sequence(seq);
+    }
+
+    return seq;
+}
+
 struct well_known_virtual_key_visitor : boost::static_visitor<token>
 {
     template <class T>
@@ -49,14 +126,7 @@ struct well_known_virtual_key_visitor : boost::static_visitor<token>
 
     token operator()(ansi::control_sequence const &seq)
     {
-        if (seq.initiator == ansi::control7::CSI[1])
-        {
-            if (seq.command == ansi::csi::CURSOR_UP)
-            {
-                return virtual_key{ VK_UP, 0, 1, seq };
-            }
-        }
-        return seq;
+        return convert_common_control_sequence(seq);
     }
 };
 

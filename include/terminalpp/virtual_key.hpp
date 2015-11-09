@@ -30,7 +30,17 @@ Now introduce constants for:
     others?
 */
 
-static constexpr char const VK_UP = VK_DEL + 1;
+// TODO: Convert to an enum class.
+static constexpr char const VK_UP    = VK_DEL + 1;
+static constexpr char const VK_DOWN  = VK_UP + 1;
+static constexpr char const VK_LEFT  = VK_DOWN + 1;
+static constexpr char const VK_RIGHT = VK_LEFT + 1;
+
+static constexpr char const VK_HOME  = VK_RIGHT + 1;
+static constexpr char const VK_INS   = VK_HOME + 1;
+static constexpr char const VK_END   = VK_INS + 1;
+static constexpr char const VK_PGUP  = VK_END + 1;
+static constexpr char const VK_PGDN  = VK_PGUP + 1;
 
 /*
 static char const SPACE                 = 32;  // [SPACE]
