@@ -19,6 +19,12 @@ static constexpr char const CURSOR_HOME  = terminalpp::ascii::UPPERCASE_H;
 static constexpr char const CURSOR_END   = terminalpp::ascii::UPPERCASE_F;
 // F1 Key
 static constexpr char const F1           = terminalpp::ascii::UPPERCASE_P;
+// F2 Key
+static constexpr char const F2           = terminalpp::ascii::UPPERCASE_Q;
+// F3 Key
+static constexpr char const F3           = terminalpp::ascii::UPPERCASE_R;
+// F4 Key
+static constexpr char const F4           = terminalpp::ascii::UPPERCASE_S;
 }}}
 
 #endif

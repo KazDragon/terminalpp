@@ -32,6 +32,9 @@ public :
         CPPUNIT_TEST(cursor_pgdn_command_yields_vk_pgdn);
 
         CPPUNIT_TEST(f1_command_yields_vk_f1);
+        CPPUNIT_TEST(f2_command_yields_vk_f2);
+        CPPUNIT_TEST(f3_command_yields_vk_f3);
+        CPPUNIT_TEST(f4_command_yields_vk_f4);
 
         CPPUNIT_TEST(cursor_up_ss3_yields_vk_up);
         CPPUNIT_TEST(cursor_down_ss3_yields_vk_down);
@@ -41,11 +44,12 @@ public :
         CPPUNIT_TEST(cursor_end_ss3_yields_vk_end);
 
         CPPUNIT_TEST(f1_ss3_yields_vk_f1);
+        CPPUNIT_TEST(f2_ss3_yields_vk_f2);
+        CPPUNIT_TEST(f3_ss3_yields_vk_f3);
+        CPPUNIT_TEST(f4_ss3_yields_vk_f4);
 
         /* TODO:
          * Read of OSC/PM/APC commands with ST/BEL terminators - and 8bit
-         * Read of arrow keys translated to VKs.
-         * Read of other numeric keypad keys to VKs
          * Read of function keys to VKs
          * Read of VKs with modifiers (shift, ctrl, etc.)
          */
@@ -79,6 +83,9 @@ private :
     void cursor_pgdn_command_yields_vk_pgdn();
 
     void f1_command_yields_vk_f1();
+    void f2_command_yields_vk_f2();
+    void f3_command_yields_vk_f3();
+    void f4_command_yields_vk_f4();
 
     void cursor_up_ss3_yields_vk_up();
     void cursor_down_ss3_yields_vk_down();
@@ -88,6 +95,9 @@ private :
     void cursor_end_ss3_yields_vk_end();
 
     void f1_ss3_yields_vk_f1();
+    void f2_ss3_yields_vk_f2();
+    void f3_ss3_yields_vk_f3();
+    void f4_ss3_yields_vk_f4();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_test);
@@ -392,6 +402,42 @@ void terminal_read_test::f1_command_yields_vk_f1()
         });
 }
 
+void terminal_read_test::f2_command_yields_vk_f2()
+{
+    expect_token(
+        "\x1B[12~",
+        terminalpp::virtual_key {
+            terminalpp::VK_F2,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "12" }}
+        });
+}
+
+void terminal_read_test::f3_command_yields_vk_f3()
+{
+    expect_token(
+        "\x1B[13~",
+        terminalpp::virtual_key {
+            terminalpp::VK_F3,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "13" }}
+        });
+}
+
+void terminal_read_test::f4_command_yields_vk_f4()
+{
+    expect_token(
+        "\x1B[14~",
+        terminalpp::virtual_key {
+            terminalpp::VK_F4,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "14" }}
+        });
+}
+
 void terminal_read_test::cursor_up_ss3_yields_vk_up()
 {
     expect_token(
@@ -475,3 +521,40 @@ void terminal_read_test::f1_ss3_yields_vk_f1()
             terminalpp::ansi::control_sequence{'O', 'P', false, { "" }}
         });
 }
+
+void terminal_read_test::f2_ss3_yields_vk_f2()
+{
+    expect_token(
+        "\x1BOQ",
+        terminalpp::virtual_key {
+            terminalpp::VK_F2,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'Q', false, { "" }}
+        });
+}
+
+void terminal_read_test::f3_ss3_yields_vk_f3()
+{
+    expect_token(
+        "\x1BOR",
+        terminalpp::virtual_key {
+            terminalpp::VK_F3,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'R', false, { "" }}
+        });
+}
+
+void terminal_read_test::f4_ss3_yields_vk_f4()
+{
+    expect_token(
+        "\x1BOS",
+        terminalpp::virtual_key {
+            terminalpp::VK_F4,
+            0,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'S', false, { "" }}
+        });
+}
+

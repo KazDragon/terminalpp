@@ -83,6 +83,9 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
         { ansi::ss3::CURSOR_HOME,  VK_HOME  },
         { ansi::ss3::CURSOR_END,   VK_END   },
         { ansi::ss3::F1,           VK_F1    },
+        { ansi::ss3::F2,           VK_F2    },
+        { ansi::ss3::F3,           VK_F3    },
+        { ansi::ss3::F4,           VK_F4    },
     };
 
     assert(seq.initiator == ansi::control7::SS3[1]);
@@ -115,6 +118,9 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
         { ansi::csi::KEYPAD_PGUP,   VK_PGUP },
         { ansi::csi::KEYPAD_PGDN,   VK_PGDN },
         { ansi::csi::KEYPAD_F1,     VK_F1   },
+        { ansi::csi::KEYPAD_F2,     VK_F2   },
+        { ansi::csi::KEYPAD_F3,     VK_F3   },
+        { ansi::csi::KEYPAD_F4,     VK_F4   },
     };
 
     assert(seq.command == ansi::csi::KEYPAD_FUNCTION);
