@@ -20,8 +20,8 @@ public :
 
         CPPUNIT_TEST(cursor_up_command_yields_vk_up);
         CPPUNIT_TEST(cursor_down_command_yields_vk_down);
-        CPPUNIT_TEST(cursor_left_command_yields_vk_left);
         CPPUNIT_TEST(cursor_right_command_yields_vk_right);
+        CPPUNIT_TEST(cursor_left_command_yields_vk_left);
 
         CPPUNIT_TEST(cursor_home_command_yields_vk_home);
         CPPUNIT_TEST(cursor_ins_command_yields_vk_ins);
@@ -29,6 +29,13 @@ public :
         CPPUNIT_TEST(cursor_end_command_yields_vk_end);
         CPPUNIT_TEST(cursor_pgup_command_yields_vk_pgup);
         CPPUNIT_TEST(cursor_pgdn_command_yields_vk_pgdn);
+
+        CPPUNIT_TEST(cursor_up_ss3_yields_vk_up);
+        CPPUNIT_TEST(cursor_down_ss3_yields_vk_down);
+        CPPUNIT_TEST(cursor_right_ss3_yields_vk_right);
+        CPPUNIT_TEST(cursor_left_ss3_yields_vk_left);
+        CPPUNIT_TEST(cursor_home_ss3_yields_vk_home);
+        CPPUNIT_TEST(cursor_end_ss3_yields_vk_end);
 
         /* TODO:
          * Read of OSC/PM/APC commands with ST/BEL terminators - and 8bit
@@ -55,8 +62,8 @@ private :
 
     void cursor_up_command_yields_vk_up();
     void cursor_down_command_yields_vk_down();
-    void cursor_left_command_yields_vk_left();
     void cursor_right_command_yields_vk_right();
+    void cursor_left_command_yields_vk_left();
 
     void cursor_home_command_yields_vk_home();
     void cursor_ins_command_yields_vk_ins();
@@ -64,6 +71,13 @@ private :
     void cursor_end_command_yields_vk_end();
     void cursor_pgup_command_yields_vk_pgup();
     void cursor_pgdn_command_yields_vk_pgdn();
+
+    void cursor_up_ss3_yields_vk_up();
+    void cursor_down_ss3_yields_vk_down();
+    void cursor_right_ss3_yields_vk_right();
+    void cursor_left_ss3_yields_vk_left();
+    void cursor_home_ss3_yields_vk_home();
+    void cursor_end_ss3_yields_vk_end();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_test);
@@ -515,3 +529,142 @@ void terminal_read_test::cursor_pgdn_command_yields_vk_pgdn()
         boost::get<terminalpp::virtual_key>(expected[0]),
         boost::get<terminalpp::virtual_key>(result[0]));
 }
+
+void terminal_read_test::cursor_up_ss3_yields_vk_up()
+{
+    terminalpp::terminal terminal;
+
+    std::string input = "\x1BOA";
+
+    auto expected = std::vector<terminalpp::token> {
+      terminalpp::virtual_key {
+          terminalpp::VK_UP,
+          0,
+          1,
+          terminalpp::ansi::control_sequence{'O', 'A', false, { "" }}
+      }
+    };
+
+    auto result = terminal.read(input);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::virtual_key>(expected[0]),
+        boost::get<terminalpp::virtual_key>(result[0]));
+}
+
+void terminal_read_test::cursor_down_ss3_yields_vk_down()
+{
+    terminalpp::terminal terminal;
+
+    std::string input = "\x1BOB";
+
+    auto expected = std::vector<terminalpp::token> {
+      terminalpp::virtual_key {
+          terminalpp::VK_DOWN,
+          0,
+          1,
+          terminalpp::ansi::control_sequence{'O', 'B', false, { "" }}
+      }
+    };
+
+    auto result = terminal.read(input);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::virtual_key>(expected[0]),
+        boost::get<terminalpp::virtual_key>(result[0]));
+}
+
+void terminal_read_test::cursor_right_ss3_yields_vk_right()
+{
+    terminalpp::terminal terminal;
+
+    std::string input = "\x1BOC";
+
+    auto expected = std::vector<terminalpp::token> {
+      terminalpp::virtual_key {
+          terminalpp::VK_RIGHT,
+          0,
+          1,
+          terminalpp::ansi::control_sequence{'O', 'C', false, { "" }}
+      }
+    };
+
+    auto result = terminal.read(input);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::virtual_key>(expected[0]),
+        boost::get<terminalpp::virtual_key>(result[0]));
+}
+
+void terminal_read_test::cursor_left_ss3_yields_vk_left()
+{
+    terminalpp::terminal terminal;
+
+    std::string input = "\x1BOD";
+
+    auto expected = std::vector<terminalpp::token> {
+      terminalpp::virtual_key {
+          terminalpp::VK_LEFT,
+          0,
+          1,
+          terminalpp::ansi::control_sequence{'O', 'D', false, { "" }}
+      }
+    };
+
+    auto result = terminal.read(input);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::virtual_key>(expected[0]),
+        boost::get<terminalpp::virtual_key>(result[0]));
+}
+
+void terminal_read_test::cursor_home_ss3_yields_vk_home()
+{
+    terminalpp::terminal terminal;
+
+    std::string input = "\x1BOH";
+
+    auto expected = std::vector<terminalpp::token> {
+      terminalpp::virtual_key {
+          terminalpp::VK_HOME,
+          0,
+          1,
+          terminalpp::ansi::control_sequence{'O', 'H', false, { "" }}
+      }
+    };
+
+    auto result = terminal.read(input);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::virtual_key>(expected[0]),
+        boost::get<terminalpp::virtual_key>(result[0]));
+}
+
+void terminal_read_test::cursor_end_ss3_yields_vk_end()
+{
+    terminalpp::terminal terminal;
+
+    std::string input = "\x1BOF";
+
+    auto expected = std::vector<terminalpp::token> {
+      terminalpp::virtual_key {
+          terminalpp::VK_END,
+          0,
+          1,
+          terminalpp::ansi::control_sequence{'O', 'F', false, { "" }}
+      }
+    };
+
+    auto result = terminal.read(input);
+
+    CPPUNIT_ASSERT_EQUAL(expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL(
+        boost::get<terminalpp::virtual_key>(expected[0]),
+        boost::get<terminalpp::virtual_key>(result[0]));
+}
+

@@ -2,7 +2,6 @@
 #define TERMINALPP_ANSI_CSI_HPP_
 
 #include "terminalpp/detail/ascii.hpp"
-#include <string>
 
 namespace terminalpp { namespace ansi { namespace csi {
 

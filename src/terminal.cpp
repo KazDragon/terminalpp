@@ -1,5 +1,6 @@
 #include "terminalpp/terminal.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
+#include "terminalpp/ansi/ss3.hpp"
 #include "terminalpp/detail/terminal_control.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
 #include "terminalpp/detail/element_difference.hpp"
@@ -69,6 +70,37 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
     return seq;
 }
 
+static token convert_ss3_sequence(ansi::control_sequence const &seq)
+{
+    // SS3 commands are delivered as "ESC O C" where C is a letter designating
+    // the command to perform.
+    static std::vector<std::pair<char, char>> const ss3_commands = {
+        { ansi::ss3::CURSOR_UP,    VK_UP    },
+        { ansi::ss3::CURSOR_DOWN,  VK_DOWN  },
+        { ansi::ss3::CURSOR_RIGHT, VK_RIGHT },
+        { ansi::ss3::CURSOR_LEFT,  VK_LEFT  },
+        { ansi::ss3::CURSOR_HOME,  VK_HOME  },
+        { ansi::ss3::CURSOR_END,   VK_END   },
+    };
+
+    assert(seq.initiator == ansi::control7::SS3[1]);
+
+    auto const &ss3_command = std::find_if(
+        ss3_commands.begin(),
+        ss3_commands.end(),
+        [&seq](auto const &elem)
+        {
+            return elem.first == seq.command;
+        });
+
+    if (ss3_command != ss3_commands.end())
+    {
+        return virtual_key{ ss3_command->second, 0, 1, seq };
+    }
+
+    return seq;
+}
+
 static token convert_keypad_sequence(ansi::control_sequence const &seq)
 {
     // Keypad commands are delivered as "ESC [ N ~" where N is a number
@@ -111,6 +143,10 @@ static token convert_common_control_sequence(ansi::control_sequence const &seq)
         }
 
         return convert_control_sequence(seq);
+    }
+    else if (seq.initiator == ansi::control7::SS3[1])
+    {
+        return convert_ss3_sequence(seq);
     }
 
     return seq;
