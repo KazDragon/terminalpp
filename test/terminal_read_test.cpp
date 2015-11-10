@@ -1,3 +1,4 @@
+#include "expect_tokens.hpp"
 #include "terminalpp/terminal.hpp"
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -102,30 +103,9 @@ private :
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_test);
 
-template <class Expected> void expect_token(
-    std::string const &input,
-    Expected const &expected)
-{
-    terminalpp::terminal terminal;
-
-    auto result = terminal.read(input);
-
-    CPPUNIT_ASSERT_EQUAL(false, result.empty());
-
-    CPPUNIT_ASSERT_EQUAL(
-        boost::get<Expected>(expected),
-        boost::get<Expected>(result[0]));
-}
-
 void terminal_read_test::read_empty_string_yields_nothing()
 {
-    terminalpp::terminal terminal;
-
-    std::string input = "";
-
-    auto result = terminal.read(input);
-
-    CPPUNIT_ASSERT_EQUAL(size_t{0}, result.size());
+    expect_tokens("", {});
 }
 
 void terminal_read_test::read_character_yields_virtual_key()
@@ -201,13 +181,7 @@ void terminal_read_test::read_non_mouse_similar_command_yields_command()
 
 void terminal_read_test::read_partial_command_yields_nothing()
 {
-    terminalpp::terminal terminal;
-
-    std::string input = "\x1B[";
-
-    auto result = terminal.read(input);
-
-    CPPUNIT_ASSERT_EQUAL(size_t{0}, result.size());
+    expect_tokens("\x1B[", {});
 }
 
 void terminal_read_test::read_partial_command_then_read_remainder_yields_command()
@@ -237,13 +211,7 @@ void terminal_read_test::read_partial_command_then_read_remainder_yields_command
 
 void terminal_read_test::read_partial_mouse_command_yields_nothing()
 {
-    terminalpp::terminal terminal;
-
-    std::string input = "\x1B[M";
-
-    auto result = terminal.read(input);
-
-    CPPUNIT_ASSERT_EQUAL(size_t{0}, result.size());
+    expect_tokens("\x1B[M", {});
 }
 
 void terminal_read_test::read_8bit_command_yields_command()

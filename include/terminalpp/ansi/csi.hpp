@@ -19,11 +19,14 @@ static char const CURSOR_BACKWARD                  = terminalpp::ascii::UPPERCAS
 static char const CURSOR_NEXT_LINE                 = terminalpp::ascii::UPPERCASE_E;
 // Move the cursor to the beginning of the line that is N lines up.
 static char const CURSOR_PREVIOUS_LINE             = terminalpp::ascii::UPPERCASE_F;
-
+// Durin input, this can also mean END.
+static char const CURSOR_END                       = terminalpp::ascii::UPPERCASE_F;
 // Move to a specific column.
 static char const CURSOR_HORIZONTAL_ABSOLUTE       = terminalpp::ascii::UPPERCASE_G;
 // Move to a specific cursor position (row,column).
 static char const CURSOR_POSITION                  = terminalpp::ascii::UPPERCASE_H;
+// During input, this can also mean HOME.
+static char const CURSOR_HOME                      = terminalpp::ascii::UPPERCASE_H;
 
 // Erase data.
 //  0 - (Default) Clear from the cursor to the end of the screen.
