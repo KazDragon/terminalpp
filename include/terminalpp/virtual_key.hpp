@@ -8,64 +8,95 @@
 
 namespace terminalpp {
 
-// All keypresses for printable characters are represented using their ASCII
-// values.
+enum class vk : u8
+{
+    bs = ascii::BS,
+    ht = ascii::HT,
+    cr = ascii::CR,
 
-static constexpr char const VK_BS = ascii::BS;
-static constexpr char const VK_HT = ascii::HT;
-static constexpr char const VK_CR = ascii::CR;
+    space = ascii::SPACE,
 
-static constexpr char const VK_SPACE = ascii::SPACE;
+    // TODO: ...
+    lowercase_a = ascii::LOWERCASE_A,
+    lowercase_b = ascii::LOWERCASE_B,
+    lowercase_c = ascii::LOWERCASE_C,
+    lowercase_d = ascii::LOWERCASE_D,
+    lowercase_e = ascii::LOWERCASE_E,
+    lowercase_f = ascii::LOWERCASE_F,
+    lowercase_g = ascii::LOWERCASE_G,
+    lowercase_h = ascii::LOWERCASE_H,
+    lowercase_i = ascii::LOWERCASE_I,
+    lowercase_j = ascii::LOWERCASE_J,
+    lowercase_k = ascii::LOWERCASE_K,
+    lowercase_l = ascii::LOWERCASE_L,
+    lowercase_m = ascii::LOWERCASE_M,
+    lowercase_n = ascii::LOWERCASE_N,
+    lowercase_o = ascii::LOWERCASE_O,
+    lowercase_p = ascii::LOWERCASE_P,
+    lowercase_q = ascii::LOWERCASE_Q,
+    lowercase_r = ascii::LOWERCASE_R,
+    lowercase_s = ascii::LOWERCASE_S,
+    lowercase_t = ascii::LOWERCASE_T,
+    lowercase_u = ascii::LOWERCASE_U,
+    lowercase_v = ascii::LOWERCASE_V,
+    lowercase_w = ascii::LOWERCASE_W,
+    lowercase_x = ascii::LOWERCASE_X,
+    lowercase_y = ascii::LOWERCASE_Y,
+    lowercase_z = ascii::LOWERCASE_Z,
 
-// TODO: ...
-static constexpr char const VK_LOWERCASE_Z = ascii::LOWERCASE_Z;
-static constexpr char const VK_UPPERCASE_Z = ascii::UPPERCASE_Z;
+    uppercase_a = ascii::UPPERCASE_A,
+    uppercase_b = ascii::UPPERCASE_B,
+    uppercase_c = ascii::UPPERCASE_C,
+    uppercase_d = ascii::UPPERCASE_D,
+    uppercase_e = ascii::UPPERCASE_E,
+    uppercase_f = ascii::UPPERCASE_F,
+    uppercase_g = ascii::UPPERCASE_G,
+    uppercase_h = ascii::UPPERCASE_H,
+    uppercase_i = ascii::UPPERCASE_I,
+    uppercase_j = ascii::UPPERCASE_J,
+    uppercase_k = ascii::UPPERCASE_K,
+    uppercase_l = ascii::UPPERCASE_L,
+    uppercase_m = ascii::UPPERCASE_M,
+    uppercase_n = ascii::UPPERCASE_N,
+    uppercase_o = ascii::UPPERCASE_O,
+    uppercase_p = ascii::UPPERCASE_P,
+    uppercase_q = ascii::UPPERCASE_Q,
+    uppercase_r = ascii::UPPERCASE_R,
+    uppercase_s = ascii::UPPERCASE_S,
+    uppercase_t = ascii::UPPERCASE_T,
+    uppercase_u = ascii::UPPERCASE_U,
+    uppercase_v = ascii::UPPERCASE_V,
+    uppercase_w = ascii::UPPERCASE_W,
+    uppercase_x = ascii::UPPERCASE_X,
+    uppercase_y = ascii::UPPERCASE_Y,
+    uppercase_z = ascii::UPPERCASE_Z,
 
-static constexpr char const VK_DEL = ascii::DEL;
+    del = ascii::DEL,
 
-/*
-Now introduce constants for:
-    function keys (1-24),
-    home, pgup, pgdn,
-    others?
-*/
+    // TODO: Convert to an enum class.
+    cursor_up,
+    cursor_down,
+    cursor_left,
+    cursor_right,
 
-// TODO: Convert to an enum class.
-static constexpr char const VK_UP    = VK_DEL  + 1;
-static constexpr char const VK_DOWN  = VK_UP   + 1;
-static constexpr char const VK_LEFT  = VK_DOWN + 1;
-static constexpr char const VK_RIGHT = VK_LEFT + 1;
+    home,
+    ins,
+    end,
+    pgup,
+    pgdn,
 
-static constexpr char const VK_HOME  = VK_RIGHT + 1;
-static constexpr char const VK_INS   = VK_HOME + 1;
-static constexpr char const VK_END   = VK_INS  + 1;
-static constexpr char const VK_PGUP  = VK_END  + 1;
-static constexpr char const VK_PGDN  = VK_PGUP + 1;
-
-static constexpr char const VK_F1    = VK_PGDN + 1;
-static constexpr char const VK_F2    = VK_F1   + 1;
-static constexpr char const VK_F3    = VK_F2   + 1;
-static constexpr char const VK_F4    = VK_F3   + 1;
-static constexpr char const VK_F5    = VK_F4   + 1;
-static constexpr char const VK_F6    = VK_F5   + 1;
-static constexpr char const VK_F7    = VK_F6   + 1;
-static constexpr char const VK_F8    = VK_F7   + 1;
-static constexpr char const VK_F9    = VK_F8   + 1;
-static constexpr char const VK_F10   = VK_F9   + 1;
-static constexpr char const VK_F11   = VK_F10  + 1;
-static constexpr char const VK_F12   = VK_F11  + 1;
-static constexpr char const VK_F13   = VK_F12  + 1;
-static constexpr char const VK_F14   = VK_F13  + 1;
-static constexpr char const VK_F15   = VK_F14  + 1;
-static constexpr char const VK_F16   = VK_F15  + 1;
-static constexpr char const VK_F17   = VK_F16  + 1;
-static constexpr char const VK_F18   = VK_F17  + 1;
-static constexpr char const VK_F19   = VK_F18  + 1;
-static constexpr char const VK_F20   = VK_F19  + 1;
-static constexpr char const VK_F21   = VK_F20  + 1;
-static constexpr char const VK_F22   = VK_F21  + 1;
-static constexpr char const VK_F23   = VK_F22  + 1;
-static constexpr char const VK_F24   = VK_F23  + 1;
+    f1,
+    f2,
+    f3,
+    f4,
+    f5,
+    f6,
+    f7,
+    f8,
+    f9,
+    f10,
+    f11,
+    f12,
 
 /*
 static char const SPACE                 = 32;  // [SPACE]
@@ -165,12 +196,13 @@ static char const CLOSE_BRACE           = 125; // }
 static char const TILDE                 = 126; // ~
 static char const DEL                   = 127; // [DELETE]
 */
+};
 
 struct virtual_key
 {
-    /// \brief The actual key wer believe was pressed, selected from the
+    /// \brief The actual key we believe was pressed, selected from the
     /// list of VK constants.
-    char key;
+    vk key;
 
     /// \brief Any modifiers for the key, such as shift, ctrl, alt, meta,
     /// etc.

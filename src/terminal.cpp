@@ -45,12 +45,12 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
 {
     // Cursor Movement commands are in the form "ESC [ C" where C is some
     // letter indicating the direction in which to move.
-    static std::vector<std::pair<char, char>> const cursor_movement_commands = {
-        { ansi::csi::CURSOR_UP,       VK_UP    },
-        { ansi::csi::CURSOR_DOWN,     VK_DOWN  },
-        { ansi::csi::CURSOR_FORWARD,  VK_RIGHT },
-        { ansi::csi::CURSOR_BACKWARD, VK_LEFT  },
-        { ansi::csi::CURSOR_HOME,     VK_HOME  },
+    static std::vector<std::pair<char, vk>> const cursor_movement_commands = {
+        { ansi::csi::CURSOR_UP,       vk::cursor_up    },
+        { ansi::csi::CURSOR_DOWN,     vk::cursor_down  },
+        { ansi::csi::CURSOR_FORWARD,  vk::cursor_right },
+        { ansi::csi::CURSOR_BACKWARD, vk::cursor_left  },
+        { ansi::csi::CURSOR_HOME,     vk::home         },
     };
 
     assert(seq.initiator == ansi::control7::CSI[1]);
@@ -75,17 +75,17 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
 {
     // SS3 commands are delivered as "ESC O C" where C is a letter designating
     // the command to perform.
-    static std::vector<std::pair<char, char>> const ss3_commands = {
-        { ansi::ss3::CURSOR_UP,    VK_UP    },
-        { ansi::ss3::CURSOR_DOWN,  VK_DOWN  },
-        { ansi::ss3::CURSOR_RIGHT, VK_RIGHT },
-        { ansi::ss3::CURSOR_LEFT,  VK_LEFT  },
-        { ansi::ss3::CURSOR_HOME,  VK_HOME  },
-        { ansi::ss3::CURSOR_END,   VK_END   },
-        { ansi::ss3::F1,           VK_F1    },
-        { ansi::ss3::F2,           VK_F2    },
-        { ansi::ss3::F3,           VK_F3    },
-        { ansi::ss3::F4,           VK_F4    },
+    static std::vector<std::pair<char, vk>> const ss3_commands = {
+        { ansi::ss3::CURSOR_UP,    vk::cursor_up    },
+        { ansi::ss3::CURSOR_DOWN,  vk::cursor_down  },
+        { ansi::ss3::CURSOR_RIGHT, vk::cursor_right },
+        { ansi::ss3::CURSOR_LEFT,  vk::cursor_left  },
+        { ansi::ss3::CURSOR_HOME,  vk::home         },
+        { ansi::ss3::CURSOR_END,   vk::end          },
+        { ansi::ss3::F1,           vk::f1           },
+        { ansi::ss3::F2,           vk::f2           },
+        { ansi::ss3::F3,           vk::f3           },
+        { ansi::ss3::F4,           vk::f4           },
     };
 
     assert(seq.initiator == ansi::control7::SS3[1]);
@@ -110,25 +110,25 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
 {
     // Keypad commands are delivered as "ESC [ N ~" where N is a number
     // designating the key pressed.
-    static std::vector<std::pair<u8, char>> const keypad_commands = {
-        { ansi::csi::KEYPAD_HOME,   VK_HOME },
-        { ansi::csi::KEYPAD_INSERT, VK_INS  },
-        { ansi::csi::KEYPAD_DEL,    VK_DEL  },
-        { ansi::csi::KEYPAD_END,    VK_END  },
-        { ansi::csi::KEYPAD_PGUP,   VK_PGUP },
-        { ansi::csi::KEYPAD_PGDN,   VK_PGDN },
-        { ansi::csi::KEYPAD_F1,     VK_F1   },
-        { ansi::csi::KEYPAD_F2,     VK_F2   },
-        { ansi::csi::KEYPAD_F3,     VK_F3   },
-        { ansi::csi::KEYPAD_F4,     VK_F4   },
-        { ansi::csi::KEYPAD_F5,     VK_F5   },
-        { ansi::csi::KEYPAD_F6,     VK_F6   },
-        { ansi::csi::KEYPAD_F7,     VK_F7   },
-        { ansi::csi::KEYPAD_F8,     VK_F8   },
-        { ansi::csi::KEYPAD_F9,     VK_F9   },
-        { ansi::csi::KEYPAD_F10,    VK_F10  },
-        { ansi::csi::KEYPAD_F11,    VK_F11  },
-        { ansi::csi::KEYPAD_F12,    VK_F12  },
+    static std::vector<std::pair<u8, vk>> const keypad_commands = {
+        { ansi::csi::KEYPAD_HOME,   vk::home },
+        { ansi::csi::KEYPAD_INSERT, vk::ins  },
+        { ansi::csi::KEYPAD_DEL,    vk::del  },
+        { ansi::csi::KEYPAD_END,    vk::end  },
+        { ansi::csi::KEYPAD_PGUP,   vk::pgup },
+        { ansi::csi::KEYPAD_PGDN,   vk::pgdn },
+        { ansi::csi::KEYPAD_F1,     vk::f1   },
+        { ansi::csi::KEYPAD_F2,     vk::f2   },
+        { ansi::csi::KEYPAD_F3,     vk::f3   },
+        { ansi::csi::KEYPAD_F4,     vk::f4   },
+        { ansi::csi::KEYPAD_F5,     vk::f5   },
+        { ansi::csi::KEYPAD_F6,     vk::f6   },
+        { ansi::csi::KEYPAD_F7,     vk::f7   },
+        { ansi::csi::KEYPAD_F8,     vk::f8   },
+        { ansi::csi::KEYPAD_F9,     vk::f9   },
+        { ansi::csi::KEYPAD_F10,    vk::f10  },
+        { ansi::csi::KEYPAD_F11,    vk::f11  },
+        { ansi::csi::KEYPAD_F12,    vk::f12  },
     };
 
     assert(seq.command == ansi::csi::KEYPAD_FUNCTION);

@@ -12,7 +12,8 @@ bool operator==(virtual_key const &lhs, virtual_key const &rhs)
 
 std::ostream &operator<<(std::ostream &out, virtual_key const &vk)
 {
-    return out << "vk[" << vk.key << "|" << int(vk.modifiers) << "("
+    return out << "vk[" << static_cast<int>(vk.key)
+        << "|" << int(vk.modifiers) << "("
         << int(vk.repeat_count) << ")]";
 }
 

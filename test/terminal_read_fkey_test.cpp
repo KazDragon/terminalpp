@@ -55,7 +55,7 @@ void terminal_read_fkey_test::f1_command_yields_vk_f1()
     expect_token(
         "\x1B[11~",
         terminalpp::virtual_key {
-            terminalpp::VK_F1,
+            terminalpp::vk::f1,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "11" }}
@@ -67,7 +67,7 @@ void terminal_read_fkey_test::f2_command_yields_vk_f2()
     expect_token(
         "\x1B[12~",
         terminalpp::virtual_key {
-            terminalpp::VK_F2,
+            terminalpp::vk::f2,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "12" }}
@@ -79,7 +79,7 @@ void terminal_read_fkey_test::f3_command_yields_vk_f3()
     expect_token(
         "\x1B[13~",
         terminalpp::virtual_key {
-            terminalpp::VK_F3,
+            terminalpp::vk::f3,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "13" }}
@@ -91,7 +91,7 @@ void terminal_read_fkey_test::f4_command_yields_vk_f4()
     expect_token(
         "\x1B[14~",
         terminalpp::virtual_key {
-            terminalpp::VK_F4,
+            terminalpp::vk::f4,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "14" }}
@@ -103,7 +103,7 @@ void terminal_read_fkey_test::f5_command_yields_vk_f5()
     expect_token(
         "\x1B[15~",
         terminalpp::virtual_key {
-            terminalpp::VK_F5,
+            terminalpp::vk::f5,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "15" }}
@@ -115,7 +115,7 @@ void terminal_read_fkey_test::f6_command_yields_vk_f6()
     expect_token(
         "\x1B[17~",
         terminalpp::virtual_key {
-            terminalpp::VK_F6,
+            terminalpp::vk::f6,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "17" }}
@@ -127,7 +127,7 @@ void terminal_read_fkey_test::f7_command_yields_vk_f7()
     expect_token(
         "\x1B[18~",
         terminalpp::virtual_key {
-            terminalpp::VK_F7,
+            terminalpp::vk::f7,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "18" }}
@@ -139,7 +139,7 @@ void terminal_read_fkey_test::f8_command_yields_vk_f8()
     expect_token(
         "\x1B[19~",
         terminalpp::virtual_key {
-            terminalpp::VK_F8,
+            terminalpp::vk::f8,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "19" }}
@@ -151,7 +151,7 @@ void terminal_read_fkey_test::f9_command_yields_vk_f9()
     expect_token(
         "\x1B[20~",
         terminalpp::virtual_key {
-            terminalpp::VK_F9,
+            terminalpp::vk::f9,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "20" }}
@@ -163,7 +163,7 @@ void terminal_read_fkey_test::f10_command_yields_vk_f10()
     expect_token(
         "\x1B[21~",
         terminalpp::virtual_key {
-            terminalpp::VK_F10,
+            terminalpp::vk::f10,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "21" }}
@@ -175,7 +175,7 @@ void terminal_read_fkey_test::f11_command_yields_vk_f11()
     expect_token(
         "\x1B[23~",
         terminalpp::virtual_key {
-            terminalpp::VK_F11,
+            terminalpp::vk::f11,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "23" }}
@@ -187,7 +187,7 @@ void terminal_read_fkey_test::f12_command_yields_vk_f12()
     expect_token(
         "\x1B[24~",
         terminalpp::virtual_key {
-            terminalpp::VK_F12,
+            terminalpp::vk::f12,
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "24" }}
@@ -200,7 +200,7 @@ void terminal_read_fkey_test::f1_ss3_yields_vk_f1()
     expect_token(
         "\x1BOP",
         terminalpp::virtual_key {
-            terminalpp::VK_F1,
+            terminalpp::vk::f1,
             0,
             1,
             terminalpp::ansi::control_sequence{'O', 'P', false, { "" }}
@@ -212,7 +212,7 @@ void terminal_read_fkey_test::f2_ss3_yields_vk_f2()
     expect_token(
         "\x1BOQ",
         terminalpp::virtual_key {
-            terminalpp::VK_F2,
+            terminalpp::vk::f2,
             0,
             1,
             terminalpp::ansi::control_sequence{'O', 'Q', false, { "" }}
@@ -224,7 +224,7 @@ void terminal_read_fkey_test::f3_ss3_yields_vk_f3()
     expect_token(
         "\x1BOR",
         terminalpp::virtual_key {
-            terminalpp::VK_F3,
+            terminalpp::vk::f3,
             0,
             1,
             terminalpp::ansi::control_sequence{'O', 'R', false, { "" }}
@@ -236,7 +236,7 @@ void terminal_read_fkey_test::f4_ss3_yields_vk_f4()
     expect_token(
         "\x1BOS",
         terminalpp::virtual_key {
-            terminalpp::VK_F4,
+            terminalpp::vk::f4,
             0,
             1,
             terminalpp::ansi::control_sequence{'O', 'S', false, { "" }}

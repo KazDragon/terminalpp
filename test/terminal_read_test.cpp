@@ -52,7 +52,7 @@ void terminal_read_test::read_character_yields_virtual_key()
     expect_token(
         "z",
         terminalpp::virtual_key{
-            terminalpp::VK_LOWERCASE_Z,
+            terminalpp::vk::lowercase_z,
             0,
             1,
             { 'z' }

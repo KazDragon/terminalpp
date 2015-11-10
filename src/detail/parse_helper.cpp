@@ -36,7 +36,7 @@ boost::optional<terminalpp::token> parse_idle(char input, parse_temps &temps)
     {
         return terminalpp::token {
             terminalpp::virtual_key {
-                input,
+                static_cast<vk>(input),
                 0,
                 1,
                 { input }
