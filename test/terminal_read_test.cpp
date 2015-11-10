@@ -19,30 +19,10 @@ public :
         CPPUNIT_TEST(read_partial_mouse_command_yields_nothing);
         CPPUNIT_TEST(read_8bit_command_yields_command);
 
-        CPPUNIT_TEST(cursor_up_command_yields_vk_up);
-        CPPUNIT_TEST(cursor_down_command_yields_vk_down);
-        CPPUNIT_TEST(cursor_right_command_yields_vk_right);
-        CPPUNIT_TEST(cursor_left_command_yields_vk_left);
-
-        CPPUNIT_TEST(cursor_alternative_home_command_yields_vk_home);
-        CPPUNIT_TEST(cursor_home_command_yields_vk_home);
-        CPPUNIT_TEST(cursor_ins_command_yields_vk_ins);
-        CPPUNIT_TEST(cursor_del_command_yields_vk_del);
-        CPPUNIT_TEST(cursor_end_command_yields_vk_end);
-        CPPUNIT_TEST(cursor_pgup_command_yields_vk_pgup);
-        CPPUNIT_TEST(cursor_pgdn_command_yields_vk_pgdn);
-
         CPPUNIT_TEST(f1_command_yields_vk_f1);
         CPPUNIT_TEST(f2_command_yields_vk_f2);
         CPPUNIT_TEST(f3_command_yields_vk_f3);
         CPPUNIT_TEST(f4_command_yields_vk_f4);
-
-        CPPUNIT_TEST(cursor_up_ss3_yields_vk_up);
-        CPPUNIT_TEST(cursor_down_ss3_yields_vk_down);
-        CPPUNIT_TEST(cursor_right_ss3_yields_vk_right);
-        CPPUNIT_TEST(cursor_left_ss3_yields_vk_left);
-        CPPUNIT_TEST(cursor_home_ss3_yields_vk_home);
-        CPPUNIT_TEST(cursor_end_ss3_yields_vk_end);
 
         CPPUNIT_TEST(f1_ss3_yields_vk_f1);
         CPPUNIT_TEST(f2_ss3_yields_vk_f2);
@@ -70,30 +50,10 @@ private :
     void read_partial_mouse_command_yields_nothing();
     void read_8bit_command_yields_command();
 
-    void cursor_up_command_yields_vk_up();
-    void cursor_down_command_yields_vk_down();
-    void cursor_right_command_yields_vk_right();
-    void cursor_left_command_yields_vk_left();
-
-    void cursor_alternative_home_command_yields_vk_home();
-    void cursor_home_command_yields_vk_home();
-    void cursor_ins_command_yields_vk_ins();
-    void cursor_del_command_yields_vk_del();
-    void cursor_end_command_yields_vk_end();
-    void cursor_pgup_command_yields_vk_pgup();
-    void cursor_pgdn_command_yields_vk_pgdn();
-
     void f1_command_yields_vk_f1();
     void f2_command_yields_vk_f2();
     void f3_command_yields_vk_f3();
     void f4_command_yields_vk_f4();
-
-    void cursor_up_ss3_yields_vk_up();
-    void cursor_down_ss3_yields_vk_down();
-    void cursor_right_ss3_yields_vk_right();
-    void cursor_left_ss3_yields_vk_left();
-    void cursor_home_ss3_yields_vk_home();
-    void cursor_end_ss3_yields_vk_end();
 
     void f1_ss3_yields_vk_f1();
     void f2_ss3_yields_vk_f2();
@@ -226,138 +186,6 @@ void terminal_read_test::read_8bit_command_yields_command()
         });
 }
 
-void terminal_read_test::cursor_up_command_yields_vk_up()
-{
-    expect_token(
-        "\x1B[A",
-        terminalpp::virtual_key {
-            terminalpp::VK_UP,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', 'A', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_down_command_yields_vk_down()
-{
-    expect_token(
-        "\x1B[B",
-        terminalpp::virtual_key {
-            terminalpp::VK_DOWN,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', 'B', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_right_command_yields_vk_right()
-{
-    expect_token(
-        "\x1B[C",
-        terminalpp::virtual_key {
-            terminalpp::VK_RIGHT,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', 'C', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_left_command_yields_vk_left()
-{
-    expect_token(
-        "\x1B[D",
-        terminalpp::virtual_key {
-            terminalpp::VK_LEFT,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', 'D', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_alternative_home_command_yields_vk_home()
-{
-    expect_token(
-        "\x1B[H",
-        terminalpp::virtual_key {
-            terminalpp::VK_HOME,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', 'H', false, {}}
-        });
-}
-
-void terminal_read_test::cursor_home_command_yields_vk_home()
-{
-    expect_token(
-        "\x1B[1~",
-        terminalpp::virtual_key {
-            terminalpp::VK_HOME,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', '~', false, { "1" }}
-        });
-}
-
-void terminal_read_test::cursor_ins_command_yields_vk_ins()
-{
-    expect_token(
-        "\x1B[2~",
-        terminalpp::virtual_key {
-            terminalpp::VK_INS,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', '~', false, { "2" }}
-        });
-}
-
-void terminal_read_test::cursor_del_command_yields_vk_del()
-{
-    expect_token(
-        "\x1B[3~",
-        terminalpp::virtual_key {
-            terminalpp::VK_DEL,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', '~', false, { "3" }}
-        });
-}
-
-void terminal_read_test::cursor_end_command_yields_vk_end()
-{
-    expect_token(
-        "\x1B[4~",
-        terminalpp::virtual_key {
-            terminalpp::VK_END,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', '~', false, { "4" }}
-        });
-}
-
-void terminal_read_test::cursor_pgup_command_yields_vk_pgup()
-{
-    expect_token(
-        "\x1B[5~",
-        terminalpp::virtual_key {
-            terminalpp::VK_PGUP,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', '~', false, { "5" }}
-        });
-}
-
-void terminal_read_test::cursor_pgdn_command_yields_vk_pgdn()
-{
-    expect_token(
-        "\x1B[6~",
-        terminalpp::virtual_key {
-            terminalpp::VK_PGDN,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'[', '~', false, { "6" }}
-        });
-}
-
 void terminal_read_test::f1_command_yields_vk_f1()
 {
     expect_token(
@@ -403,78 +231,6 @@ void terminal_read_test::f4_command_yields_vk_f4()
             0,
             1,
             terminalpp::ansi::control_sequence{'[', '~', false, { "14" }}
-        });
-}
-
-void terminal_read_test::cursor_up_ss3_yields_vk_up()
-{
-    expect_token(
-        "\x1BOA",
-        terminalpp::virtual_key {
-            terminalpp::VK_UP,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'O', 'A', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_down_ss3_yields_vk_down()
-{
-    expect_token(
-        "\x1BOB",
-        terminalpp::virtual_key {
-            terminalpp::VK_DOWN,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'O', 'B', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_right_ss3_yields_vk_right()
-{
-    expect_token(
-        "\x1BOC",
-        terminalpp::virtual_key {
-            terminalpp::VK_RIGHT,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'O', 'C', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_left_ss3_yields_vk_left()
-{
-    expect_token(
-        "\x1BOD",
-        terminalpp::virtual_key {
-            terminalpp::VK_LEFT,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'O', 'D', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_home_ss3_yields_vk_home()
-{
-    expect_token(
-        "\x1BOH",
-        terminalpp::virtual_key {
-            terminalpp::VK_HOME,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'O', 'H', false, { "" }}
-        });
-}
-
-void terminal_read_test::cursor_end_ss3_yields_vk_end()
-{
-    expect_token(
-        "\x1BOF",
-        terminalpp::virtual_key {
-            terminalpp::VK_END,
-            0,
-            1,
-            terminalpp::ansi::control_sequence{'O', 'F', false, { "" }}
         });
 }
 
