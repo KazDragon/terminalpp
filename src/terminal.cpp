@@ -121,6 +121,14 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
         { ansi::csi::KEYPAD_F2,     VK_F2   },
         { ansi::csi::KEYPAD_F3,     VK_F3   },
         { ansi::csi::KEYPAD_F4,     VK_F4   },
+        { ansi::csi::KEYPAD_F5,     VK_F5   },
+        { ansi::csi::KEYPAD_F6,     VK_F6   },
+        { ansi::csi::KEYPAD_F7,     VK_F7   },
+        { ansi::csi::KEYPAD_F8,     VK_F8   },
+        { ansi::csi::KEYPAD_F9,     VK_F9   },
+        { ansi::csi::KEYPAD_F10,    VK_F10  },
+        { ansi::csi::KEYPAD_F11,    VK_F11  },
+        { ansi::csi::KEYPAD_F12,    VK_F12  },
     };
 
     assert(seq.command == ansi::csi::KEYPAD_FUNCTION);
