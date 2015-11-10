@@ -65,7 +65,11 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
 
     if (cursor_movement_command != cursor_movement_commands.end())
     {
-        return virtual_key{ cursor_movement_command->second, 0, 1, seq };
+        return virtual_key{
+            cursor_movement_command->second,
+            vk_modifier::none,
+            1,
+            seq };
     }
 
     return seq;
@@ -100,7 +104,11 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
 
     if (ss3_command != ss3_commands.end())
     {
-        return virtual_key{ ss3_command->second, 0, 1, seq };
+        return virtual_key{
+            ss3_command->second,
+            vk_modifier::none,
+            1,
+            seq };
     }
 
     return seq;
@@ -145,7 +153,11 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
 
     if (keypad_command != keypad_commands.end())
     {
-        return virtual_key{ keypad_command->second, 0, 1, seq };
+        return virtual_key{
+            keypad_command->second,
+            vk_modifier::none,
+            1,
+            seq };
     }
 
     return seq;

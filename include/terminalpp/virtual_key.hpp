@@ -44,6 +44,12 @@ enum class vk : u8
     lowercase_y = ascii::LOWERCASE_Y,
     lowercase_z = ascii::LOWERCASE_Z,
 
+// Uppercase letters are considered to be entirely separate keypresses. An
+// alternative design might have been to consider a and A the same keypress
+// with a shift modifier, but then it brings other things into question, such
+// as what to do with '{'.  Is it always a shift-[?.  With that in mind,
+// modifiers are reserved for keys that don't vary when pressing shift:
+// Home, End, Arrow keys, F-keys and the like.
     uppercase_a = ascii::UPPERCASE_A,
     uppercase_b = ascii::UPPERCASE_B,
     uppercase_c = ascii::UPPERCASE_C,
@@ -198,6 +204,15 @@ static char const DEL                   = 127; // [DELETE]
 */
 };
 
+enum class vk_modifier : u8
+{
+    none = 0,
+    shift = (1 << 0),
+    ctrl  = (1 << 1),
+    alt   = (1 << 2),
+    meta  = (1 << 3),
+};
+
 struct virtual_key
 {
     /// \brief The actual key we believe was pressed, selected from the
@@ -206,7 +221,7 @@ struct virtual_key
 
     /// \brief Any modifiers for the key, such as shift, ctrl, alt, meta,
     /// etc.
-    char modifiers;
+    vk_modifier modifiers;
 
     /// \brief The repeat count of the character.
     char repeat_count;

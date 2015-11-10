@@ -9,6 +9,7 @@ public :
     CPPUNIT_TEST_SUITE(terminal_read_test);
         CPPUNIT_TEST(read_empty_string_yields_nothing);
         CPPUNIT_TEST(read_character_yields_virtual_key);
+        CPPUNIT_TEST(read_uppercase_character_yields_character_without_modifier);
         CPPUNIT_TEST(read_command_yields_command);
         CPPUNIT_TEST(read_command_with_arguments_yields_command_with_arguments);
         CPPUNIT_TEST(read_meta_command_yields_meta_command);
@@ -21,7 +22,6 @@ public :
 
         /* TODO:
          * Read of OSC/PM/APC commands with ST/BEL terminators - and 8bit
-         * Read of VKs with modifiers (shift, ctrl, etc.)
          */
 
     CPPUNIT_TEST_SUITE_END();
@@ -29,6 +29,7 @@ public :
 private :
     void read_empty_string_yields_nothing();
     void read_character_yields_virtual_key();
+    void read_uppercase_character_yields_character_without_modifier();
     void read_command_yields_command();
     void read_command_with_arguments_yields_command_with_arguments();
     void read_meta_command_yields_meta_command();
@@ -53,9 +54,22 @@ void terminal_read_test::read_character_yields_virtual_key()
         "z",
         terminalpp::virtual_key{
             terminalpp::vk::lowercase_z,
-            0,
+            terminalpp::vk_modifier::none,
             1,
             { 'z' }
+        });
+}
+
+void terminal_read_test::read_uppercase_character_yields_character_without_modifier()
+{
+    // We consider uppercase letters to be entirely different keypresses.
+    expect_token(
+        "Z",
+        terminalpp::virtual_key{
+            terminalpp::vk::uppercase_z,
+            terminalpp::vk_modifier::none,
+            1,
+            { 'Z' }
         });
 }
 
