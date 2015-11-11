@@ -21,6 +21,8 @@ public :
         CPPUNIT_TEST(f11_command_yields_vk_f11);
         CPPUNIT_TEST(f12_command_yields_vk_f12);
 
+        CPPUNIT_TEST(ctrl_f5_command_yields_vk_ctrl_f5);
+
         CPPUNIT_TEST(f1_ss3_yields_vk_f1);
         CPPUNIT_TEST(f2_ss3_yields_vk_f2);
         CPPUNIT_TEST(f3_ss3_yields_vk_f3);
@@ -41,6 +43,8 @@ private :
     void f10_command_yields_vk_f10();
     void f11_command_yields_vk_f11();
     void f12_command_yields_vk_f12();
+
+    void ctrl_f5_command_yields_vk_ctrl_f5();
 
     void f1_ss3_yields_vk_f1();
     void f2_ss3_yields_vk_f2();
@@ -194,6 +198,17 @@ void terminal_read_fkey_test::f12_command_yields_vk_f12()
         });
 }
 
+void terminal_read_fkey_test::ctrl_f5_command_yields_vk_ctrl_f5()
+{
+    expect_token(
+        "\x1B[15;5~",
+        terminalpp::virtual_key {
+            terminalpp::vk::f5,
+            terminalpp::vk_modifier::ctrl,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, {"15", "5"}}
+        });
+}
 
 void terminal_read_fkey_test::f1_ss3_yields_vk_f1()
 {

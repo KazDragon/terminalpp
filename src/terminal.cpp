@@ -41,6 +41,20 @@ std::string write_element(const element& elem)
     return text;
 }
 
+static vk_modifier convert_modifier_argument(std::string const &modifier)
+{
+    auto value = atoi(modifier.c_str());
+
+    switch (value)
+    {
+        case ansi::csi::MODIFIER_CTRL :
+            return vk_modifier::ctrl;
+
+        default :
+            return vk_modifier::none;
+    }
+}
+
 static token convert_control_sequence(ansi::control_sequence const &seq)
 {
     // Cursor Movement commands are in the form "ESC [ C" where C is some
@@ -153,9 +167,13 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
 
     if (keypad_command != keypad_commands.end())
     {
+        vk_modifier modifier = seq.arguments.size() > 1
+                             ? convert_modifier_argument(seq.arguments[1])
+                             : vk_modifier::none;
+
         return virtual_key{
             keypad_command->second,
-            vk_modifier::none,
+            modifier,
             1,
             seq };
     }

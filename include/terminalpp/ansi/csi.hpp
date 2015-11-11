@@ -99,6 +99,23 @@ static char const KEYPAD_FUNCTION                  = terminalpp::ascii::TILDE;
     static u8 const KEYPAD_F11                     = 23; // Skip 22.
     static u8 const KEYPAD_F12                     = 24;
 
+// The following modifiers can apply to all keypad/function key controls.
+    static u8 const MODIFIER_SHIFT                 = 2;
+    static u8 const MODIFIER_ALT                   = 3;
+    static u8 const MODIFIER_SHIFT_ALT             = 4;
+    static u8 const MODIFIER_CTRL                  = 5;
+    static u8 const MODIFIER_SHIFT_CTRL            = 6;
+    static u8 const MODIFIER_ALT_CTRL              = 7;
+    static u8 const MODIFIER_SHIFT_ALT_CTRL        = 8;
+    static u8 const MODIFIER_META                  = 9;
+    static u8 const MODIFIER_META_SHIFT            = 10;
+    static u8 const MODIFIER_META_ALT              = 11;
+    static u8 const MODIFIER_META_SHIFT_ALT        = 12;
+    static u8 const MODIFIER_META_CTRL             = 13;
+    static u8 const MODIFIER_META_SHIFT_CTRL       = 14;
+    static u8 const MODIFIER_META_ALT_CTRL         = 15;
+    static u8 const MODIFIER_META_SHIFT_ALT_CTRL   = 16;
+
 // DEC Private Mode
 static char const DECSET                           = terminalpp::ascii::LOWERCASE_H;
 static char const DECRST                           = terminalpp::ascii::LOWERCASE_L;
