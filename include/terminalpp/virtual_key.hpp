@@ -234,6 +234,11 @@ bool operator==(virtual_key const &lhs, virtual_key const &rhs);
 
 std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 
+constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
+{
+    return vk_modifier(u8(lhs) | u8(rhs));
+}
+
 }
 
 #endif

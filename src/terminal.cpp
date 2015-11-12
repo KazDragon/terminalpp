@@ -43,16 +43,60 @@ std::string write_element(const element& elem)
 
 static vk_modifier convert_modifier_argument(std::string const &modifier)
 {
+    static constexpr std::pair<u8, vk_modifier> modifier_mappings[] = {
+        { ansi::csi::MODIFIER_SHIFT,               vk_modifier::shift },
+        { ansi::csi::MODIFIER_CTRL,                vk_modifier::ctrl  },
+        { ansi::csi::MODIFIER_ALT,                 vk_modifier::alt   },
+        { ansi::csi::MODIFIER_META,                vk_modifier::meta  },
+
+        { ansi::csi::MODIFIER_SHIFT_ALT,           vk_modifier::shift
+                                                 | vk_modifier::alt   },
+        { ansi::csi::MODIFIER_SHIFT_CTRL,          vk_modifier::shift
+                                                 | vk_modifier::ctrl  },
+        { ansi::csi::MODIFIER_ALT_CTRL,            vk_modifier::alt
+                                                 | vk_modifier::ctrl  },
+        { ansi::csi::MODIFIER_SHIFT_ALT_CTRL,      vk_modifier::shift
+                                                 | vk_modifier::alt
+                                                 | vk_modifier::ctrl  },
+
+        { ansi::csi::MODIFIER_META_SHIFT,          vk_modifier::meta
+                                                 | vk_modifier::shift },
+        { ansi::csi::MODIFIER_META_CTRL,           vk_modifier::meta
+                                                 | vk_modifier::ctrl  },
+        { ansi::csi::MODIFIER_META_ALT,            vk_modifier::meta
+                                                 | vk_modifier::alt   },
+
+        { ansi::csi::MODIFIER_META_SHIFT_ALT,      vk_modifier::meta
+                                                 | vk_modifier::shift
+                                                 | vk_modifier::alt   },
+        { ansi::csi::MODIFIER_META_SHIFT_CTRL,     vk_modifier::meta
+                                                 | vk_modifier::shift
+                                                 | vk_modifier::ctrl  },
+        { ansi::csi::MODIFIER_META_ALT_CTRL,       vk_modifier::meta
+                                                 | vk_modifier::alt
+                                                 | vk_modifier::ctrl  },
+        { ansi::csi::MODIFIER_META_SHIFT_ALT_CTRL, vk_modifier::meta
+                                                 | vk_modifier::shift
+                                                 | vk_modifier::alt
+                                                 | vk_modifier::ctrl  },
+    };
+
     auto value = atoi(modifier.c_str());
 
-    switch (value)
-    {
-        case ansi::csi::MODIFIER_CTRL :
-            return vk_modifier::ctrl;
+    using std::begin;
+    using std::end;
 
-        default :
-            return vk_modifier::none;
-    }
+    auto mapping = std::find_if(
+        begin(modifier_mappings),
+        end(modifier_mappings),
+        [value](auto const &mapping)
+        {
+            return mapping.first == value;
+        });
+
+    return mapping != end(modifier_mappings)
+         ? mapping->second
+         : vk_modifier::none;
 }
 
 static token convert_control_sequence(ansi::control_sequence const &seq)
