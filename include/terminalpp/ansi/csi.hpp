@@ -27,6 +27,8 @@ static char const CURSOR_HORIZONTAL_ABSOLUTE       = terminalpp::ascii::UPPERCAS
 static char const CURSOR_POSITION                  = terminalpp::ascii::UPPERCASE_H;
 // During input, this can also mean HOME.
 static char const CURSOR_HOME                      = terminalpp::ascii::UPPERCASE_H;
+// Move forward N tabs
+static char const CURSOR_TABULATION                = terminalpp::ascii::UPPERCASE_I;
 
 // Erase data.
 //  0 - (Default) Clear from the cursor to the end of the screen.

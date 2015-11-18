@@ -104,11 +104,13 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
     // Cursor Movement commands are in the form "ESC [ C" where C is some
     // letter indicating the direction in which to move.
     static std::vector<std::pair<char, vk>> const cursor_movement_commands = {
-        { ansi::csi::CURSOR_UP,       vk::cursor_up    },
-        { ansi::csi::CURSOR_DOWN,     vk::cursor_down  },
-        { ansi::csi::CURSOR_FORWARD,  vk::cursor_right },
-        { ansi::csi::CURSOR_BACKWARD, vk::cursor_left  },
-        { ansi::csi::CURSOR_HOME,     vk::home         },
+        { ansi::csi::CURSOR_UP,                  vk::cursor_up    },
+        { ansi::csi::CURSOR_DOWN,                vk::cursor_down  },
+        { ansi::csi::CURSOR_FORWARD,             vk::cursor_right },
+        { ansi::csi::CURSOR_BACKWARD,            vk::cursor_left  },
+        { ansi::csi::CURSOR_HOME,                vk::home         },
+        { ansi::csi::CURSOR_TABULATION,          vk::ht           },
+        { ansi::csi::CURSOR_BACKWARD_TABULATION, vk::bt           },
     };
 
     assert(seq.initiator == ansi::control7::CSI[1]);
@@ -144,6 +146,7 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
         { ansi::ss3::CURSOR_LEFT,  vk::cursor_left  },
         { ansi::ss3::CURSOR_HOME,  vk::home         },
         { ansi::ss3::CURSOR_END,   vk::end          },
+        { ansi::ss3::CURSOR_TAB,   vk::ht           },
         { ansi::ss3::F1,           vk::f1           },
         { ansi::ss3::F2,           vk::f2           },
         { ansi::ss3::F3,           vk::f3           },

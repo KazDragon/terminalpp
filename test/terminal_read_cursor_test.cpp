@@ -26,6 +26,12 @@ public :
         CPPUNIT_TEST(left_ss3_yields_vk_left);
         CPPUNIT_TEST(home_ss3_yields_vk_home);
         CPPUNIT_TEST(end_ss3_yields_vk_end);
+
+        CPPUNIT_TEST(tab_key_yields_vk_tab);
+        CPPUNIT_TEST(tab_command_yields_vk_tab);
+        CPPUNIT_TEST(tab_ss3_yields_vk_tab);
+
+        CPPUNIT_TEST(reverse_tab_command_yields_vk_reverse_tab);
     CPPUNIT_TEST_SUITE_END();
 
 private :
@@ -48,6 +54,12 @@ private :
     void left_ss3_yields_vk_left();
     void home_ss3_yields_vk_home();
     void end_ss3_yields_vk_end();
+
+    void tab_key_yields_vk_tab();
+    void tab_command_yields_vk_tab();
+    void tab_ss3_yields_vk_tab();
+
+    void reverse_tab_command_yields_vk_reverse_tab();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_cursor_test);
@@ -253,5 +265,53 @@ void terminal_read_cursor_test::end_ss3_yields_vk_end()
             terminalpp::vk_modifier::none,
             1,
             terminalpp::ansi::control_sequence{'O', 'F', false, { "" }}
+        });
+}
+
+void terminal_read_cursor_test::tab_key_yields_vk_tab()
+{
+    expect_token(
+        "\t",
+        terminalpp::virtual_key {
+            terminalpp::vk::ht,
+            terminalpp::vk_modifier::none,
+            1,
+            '\t'
+        });
+}
+
+void terminal_read_cursor_test::tab_command_yields_vk_tab()
+{
+    expect_token(
+        "\x1B[I",
+        terminalpp::virtual_key {
+            terminalpp::vk::ht,
+            terminalpp::vk_modifier::none,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'I', false, { "" }}
+        });
+}
+
+void terminal_read_cursor_test::tab_ss3_yields_vk_tab()
+{
+    expect_token(
+        "\x1BOI",
+        terminalpp::virtual_key {
+            terminalpp::vk::ht,
+            terminalpp::vk_modifier::none,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'I', false, { "" }}
+        });
+}
+
+void terminal_read_cursor_test::reverse_tab_command_yields_vk_reverse_tab()
+{
+    expect_token(
+        "\x1B[Z",
+        terminalpp::virtual_key {
+            terminalpp::vk::bt,
+            terminalpp::vk_modifier::none,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'Z', false, { "" }}
         });
 }
