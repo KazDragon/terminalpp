@@ -30,8 +30,14 @@ public :
         CPPUNIT_TEST(tab_key_yields_vk_tab);
         CPPUNIT_TEST(tab_command_yields_vk_tab);
         CPPUNIT_TEST(tab_ss3_yields_vk_tab);
-
         CPPUNIT_TEST(reverse_tab_command_yields_vk_reverse_tab);
+
+        CPPUNIT_TEST(crlf_yields_vk_enter);
+        CPPUNIT_TEST(crnul_yields_vk_enter);
+        CPPUNIT_TEST(lfcr_yields_vk_enter);
+        CPPUNIT_TEST(lf_yields_vk_enter);
+        CPPUNIT_TEST(lflf_yields_two_vk_enters);
+        CPPUNIT_TEST(enter_ss3_yields_vk_end);
     CPPUNIT_TEST_SUITE_END();
 
 private :
@@ -58,8 +64,14 @@ private :
     void tab_key_yields_vk_tab();
     void tab_command_yields_vk_tab();
     void tab_ss3_yields_vk_tab();
-
     void reverse_tab_command_yields_vk_reverse_tab();
+
+    void crlf_yields_vk_enter();
+    void crnul_yields_vk_enter();
+    void lfcr_yields_vk_enter();
+    void lf_yields_vk_enter();
+    void lflf_yields_two_vk_enters();
+    void enter_ss3_yields_vk_end();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_cursor_test);
@@ -313,5 +325,103 @@ void terminal_read_cursor_test::reverse_tab_command_yields_vk_reverse_tab()
             terminalpp::vk_modifier::none,
             1,
             terminalpp::ansi::control_sequence{'[', 'Z', false, { "" }}
+        });
+}
+
+void terminal_read_cursor_test::crlf_yields_vk_enter()
+{
+    expect_tokens(
+        "\r\na",
+        {
+            { terminalpp::virtual_key {
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'
+            }},
+            { terminalpp::virtual_key {
+                terminalpp::vk::lowercase_a,
+                terminalpp::vk_modifier::none,
+                1,
+                'a'
+            }}
+        });
+}
+
+void terminal_read_cursor_test::crnul_yields_vk_enter()
+{
+    std::string text("\r\0", 2);
+
+    expect_token(
+        text,
+        terminalpp::virtual_key {
+            terminalpp::vk::enter,
+            terminalpp::vk_modifier::none,
+            1,
+            '\n'
+        });
+}
+
+void terminal_read_cursor_test::lfcr_yields_vk_enter()
+{
+    expect_token(
+        "\n\r",
+        terminalpp::virtual_key {
+            terminalpp::vk::enter,
+            terminalpp::vk_modifier::none,
+            1,
+            '\n'
+        });
+}
+
+void terminal_read_cursor_test::lf_yields_vk_enter()
+{
+    expect_tokens(
+        "\na",
+        {
+            { terminalpp::virtual_key {
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'
+            }},
+            { terminalpp::virtual_key {
+                terminalpp::vk::lowercase_a,
+                terminalpp::vk_modifier::none,
+                1,
+                'a'
+            }}
+        });
+}
+
+void terminal_read_cursor_test::lflf_yields_two_vk_enters()
+{
+    expect_tokens(
+        "\n\n",
+        {
+            { terminalpp::virtual_key {
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'
+            }},
+            { terminalpp::virtual_key {
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'
+            }}
+        });
+}
+
+void terminal_read_cursor_test::enter_ss3_yields_vk_end()
+{
+    expect_token(
+        "\x1BOM",
+        terminalpp::virtual_key {
+            terminalpp::vk::enter,
+            terminalpp::vk_modifier::none,
+            1,
+            terminalpp::ansi::control_sequence{ 'O', 'M', false, { "" } }
         });
 }

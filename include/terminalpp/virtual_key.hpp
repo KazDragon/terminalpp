@@ -92,6 +92,7 @@ enum class vk : u8
     pgdn,
 
     bt, // back tab
+    enter,
 
     f1,
     f2,

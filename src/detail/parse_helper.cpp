@@ -14,6 +14,30 @@ boost::optional<terminalpp::token> parse_idle(char input, parse_temps &temps)
         temps.arguments_ = {};
         return {};
     }
+    else if (input == terminalpp::ascii::CR)
+    {
+        temps.state_ = state::cr;
+        return terminalpp::token {
+            terminalpp::virtual_key {
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'
+            }
+        };
+    }
+    else if (input == terminalpp::ascii::LF)
+    {
+        temps.state_ = state::lf;
+        return terminalpp::token {
+            terminalpp::virtual_key {
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'
+            }
+        };
+    }
     else if (input == terminalpp::ansi::control8::CSI[0])
     {
         temps.state_ = state::arguments;
@@ -42,6 +66,35 @@ boost::optional<terminalpp::token> parse_idle(char input, parse_temps &temps)
                 { input }
             }
         };
+    }
+}
+
+boost::optional<terminalpp::token> parse_cr(char input, parse_temps &temps)
+{
+    temps.state_ = state::idle;
+
+    if (input == terminalpp::ascii::LF
+     || input == terminalpp::ascii::NUL)
+    {
+        return {};
+    }
+    else
+    {
+        return parse_idle(input, temps);
+    }
+}
+
+boost::optional<terminalpp::token> parse_lf(char input, parse_temps &temps)
+{
+    temps.state_ = state::idle;
+
+    if (input == terminalpp::ascii::CR)
+    {
+        return {};
+    }
+    else
+    {
+        return parse_idle(input, temps);
     }
 }
 
@@ -129,6 +182,8 @@ boost::optional<terminalpp::token> parse_helper(char input, parse_temps &temps)
     switch (temps.state_)
     {
         case state::idle : return parse_idle(input, temps);
+        case state::cr : return parse_cr(input, temps);
+        case state::lf : return parse_lf(input, temps);
         case state::escape : return parse_escape(input, temps);
         case state::arguments : return parse_arguments(input, temps);
         case state::mouse0 : return parse_mouse0(input, temps);

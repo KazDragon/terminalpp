@@ -9,6 +9,8 @@ namespace terminalpp { namespace detail {
 enum class state
 {
     idle,
+    cr,
+    lf,
     escape,
     arguments,
     mouse0,

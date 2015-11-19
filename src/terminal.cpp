@@ -147,6 +147,7 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
         { ansi::ss3::CURSOR_HOME,  vk::home         },
         { ansi::ss3::CURSOR_END,   vk::end          },
         { ansi::ss3::CURSOR_TAB,   vk::ht           },
+        { ansi::ss3::ENTER,        vk::enter        },
         { ansi::ss3::F1,           vk::f1           },
         { ansi::ss3::F2,           vk::f2           },
         { ansi::ss3::F3,           vk::f3           },
