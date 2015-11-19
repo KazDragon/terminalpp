@@ -72,9 +72,9 @@ static constexpr char const SELECT_UTF8_CHARACTER_SET[]   = {terminalpp::ascii::
                                                              terminalpp::ascii::UPPERCASE_G, 0};
 // Command openers for Designate G? Character Set commands.
 static constexpr char const SET_CHARSET_G0[]              = {terminalpp::ascii::ESC,
-                                                             terminalpp::ascii::OPEN_BRACKET, 0};
+                                                             terminalpp::ascii::OPEN_PARENTHESIS, 0};
 static constexpr char const SET_CHARSET_G1[]              = {terminalpp::ascii::ESC,
-                                                             terminalpp::ascii::CLOSE_BRACKET, 0};
+                                                             terminalpp::ascii::CLOSE_PARENTHESIS, 0};
 static constexpr char const SET_CHARSET_G2[]              = {terminalpp::ascii::ESC,
                                                              terminalpp::ascii::ASTERISK, 0};
 static constexpr char const SET_CHARSET_G3[]              = {terminalpp::ascii::ESC,
