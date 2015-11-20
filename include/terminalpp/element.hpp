@@ -49,6 +49,7 @@ constexpr bool operator!=(element const &lhs, element const &rhs)
 //* =========================================================================
 /// \brief Output stream operator
 //* =========================================================================
+TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, element const &element);
 
 }

@@ -1,6 +1,7 @@
 project(terminalpp)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 cmake_policy(VERSION 3.2)
+cmake_policy(SET CMP0063 NEW) # Allow hidden visibility for static libs
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
 
@@ -9,6 +10,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules"
 # are required.
 include(FindBoost)
 find_package(Boost 1.29.0 REQUIRED)
+
+# When building shared objects, etc., we only want to export certain
+# symbols.  Therefore, we need to generate a header suitable for declaring
+# which symbols should be included.
+include (GenerateExportHeader)
 
 # Optionally, the built-in tests use CppUnit.  If that is available, the tests
 # will be built as part of the normal compilation.
@@ -37,6 +43,13 @@ add_library(terminalpp
     src/virtual_key.cpp
 )
 
+set_target_properties(terminalpp
+    PROPERTIES
+        CXX_VISIBILITY_PRESET hidden
+        VERSION 0.1
+        SOVERSION 0.1
+)
+
 target_include_directories(terminalpp
     PUBLIC "${PROJECT_SOURCE_DIR}/include"
 )
@@ -45,6 +58,11 @@ target_compile_features(terminalpp
     PUBLIC
         cxx_strong_enums
         cxx_relaxed_constexpr
+)
+
+generate_export_header(terminalpp
+    EXPORT_FILE_NAME 
+        "${PROJECT_SOURCE_DIR}/include/terminalpp/detail/export.hpp"
 )
 
 if (CPPUNIT_FOUND)
@@ -75,6 +93,8 @@ install(
     TARGETS
         terminalpp
     ARCHIVE DESTINATION
+        lib
+    LIBRARY DESTINATION
         lib
 )
 

@@ -14,7 +14,7 @@ namespace terminalpp {
 /// \par
 /// Note: models an STL container.
 //* =========================================================================
-class string
+class TERMINALPP_EXPORT string
 {
 public :
     //* =====================================================================
@@ -176,16 +176,19 @@ public :
     //* =====================================================================
     /// \brief Equality operator
     //* =====================================================================
+    TERMINALPP_EXPORT
     friend bool operator==(string const &lhs, string const &rhs);
 
     //* =====================================================================
     /// \brief Inequality operator
     //* =====================================================================
+    TERMINALPP_EXPORT
     friend bool operator!=(string const &lhs, string const &rhs);
 
     //* =====================================================================
     /// \brief Streaming operator
     //* =====================================================================
+    TERMINALPP_EXPORT
     friend std::ostream &operator<<(std::ostream &out, string const &es);
 
 private :
@@ -195,16 +198,19 @@ private :
 //* =========================================================================
 /// \brief Concatenation
 //* =========================================================================
+TERMINALPP_EXPORT
 ::terminalpp::string operator+(string lhs, string const &rhs);
 
 //* =========================================================================
 /// \brief Concatenation
 //* =========================================================================
+TERMINALPP_EXPORT
 ::terminalpp::string operator+(string lhs, char rhs);
 
 //* =========================================================================
 /// \brief Concatenation
 //* =========================================================================
+TERMINALPP_EXPORT
 ::terminalpp::string operator+(string lhs, element const &rhs);
 
 inline namespace literals { inline namespace string_literals {
@@ -212,6 +218,7 @@ inline namespace literals { inline namespace string_literals {
 //* =========================================================================
 /// \brief Construct an string from literals using "foo"_ts;
 //* =========================================================================
+TERMINALPP_EXPORT
 ::terminalpp::string operator ""_ts(
     char const *text,
     std::size_t length);
@@ -219,6 +226,7 @@ inline namespace literals { inline namespace string_literals {
 //* =========================================================================
 /// \brief Construct an encoded string from literals using "foo"_ets;
 //* =========================================================================
+TERMINALPP_EXPORT
 ::terminalpp::string operator ""_ets(
     char const *text,
     std::size_t length);

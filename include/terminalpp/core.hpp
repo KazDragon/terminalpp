@@ -1,6 +1,7 @@
 #ifndef TERMINALPP_TYPES_HPP_
 #define TERMINALPP_TYPES_HPP_
 
+#include "terminalpp/detail/export.hpp"
 #include <boost/cstdint.hpp>
 
 namespace terminalpp {
