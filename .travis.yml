@@ -28,7 +28,7 @@ cache:
 before_install:
 # workaround for not having CMake 3.2
   - if [ ! -d "cmake-3.4.0-Linux-x86_64/bin" ]; then
-      wget https://cmake.org/files/v3.4/cmake-3.4.0-Linux-x86_64.tar.gz;
+      wget --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.0-Linux-x86_64.tar.gz;
       tar -xzf cmake-3.4.0-Linux-x86_64.tar.gz;
     fi
 
