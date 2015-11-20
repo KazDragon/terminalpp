@@ -1,7 +1,10 @@
 project(terminalpp)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 cmake_policy(VERSION 3.2)
-cmake_policy(SET CMP0063 NEW) # Allow hidden visibility for static libs
+
+if (POLICY CMP0063)
+    cmake_policy(SET CMP0063 NEW) # Allow hidden visibility for static libs
+endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
 
@@ -61,7 +64,7 @@ target_compile_features(terminalpp
 )
 
 generate_export_header(terminalpp
-    EXPORT_FILE_NAME 
+    EXPORT_FILE_NAME
         "${PROJECT_SOURCE_DIR}/include/terminalpp/detail/export.hpp"
 )
 
