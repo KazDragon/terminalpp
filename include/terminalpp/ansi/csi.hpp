@@ -2,7 +2,7 @@
 #define TERMINALPP_ANSI_CSI_HPP_
 
 #include "terminalpp/detail/ascii.hpp"
-#include <string>
+#include "terminalpp/core.hpp"
 
 namespace terminalpp { namespace ansi { namespace csi {
 
@@ -19,11 +19,16 @@ static char const CURSOR_BACKWARD                  = terminalpp::ascii::UPPERCAS
 static char const CURSOR_NEXT_LINE                 = terminalpp::ascii::UPPERCASE_E;
 // Move the cursor to the beginning of the line that is N lines up.
 static char const CURSOR_PREVIOUS_LINE             = terminalpp::ascii::UPPERCASE_F;
-
+// Durin input, this can also mean END.
+static char const CURSOR_END                       = terminalpp::ascii::UPPERCASE_F;
 // Move to a specific column.
 static char const CURSOR_HORIZONTAL_ABSOLUTE       = terminalpp::ascii::UPPERCASE_G;
 // Move to a specific cursor position (row,column).
 static char const CURSOR_POSITION                  = terminalpp::ascii::UPPERCASE_H;
+// During input, this can also mean HOME.
+static char const CURSOR_HOME                      = terminalpp::ascii::UPPERCASE_H;
+// Move forward N tabs
+static char const CURSOR_TABULATION                = terminalpp::ascii::UPPERCASE_I;
 
 // Erase data.
 //  0 - (Default) Clear from the cursor to the end of the screen.
@@ -55,6 +60,9 @@ static char const HORIZONTAL_AND_VERTICAL_POSITION = terminalpp::ascii::LOWERCAS
 // Select graphics rendition - see graphics namespace
 static char const SELECT_GRAPHICS_RENDITION        = terminalpp::ascii::LOWERCASE_M;
 
+// Mouse Tracking - see mouse namespace
+static char const MOUSE_TRACKING                   = terminalpp::ascii::UPPERCASE_M;
+
 // Device status report - request requires parameter of 6, response
 // requires parameters of row,column.
 static char const DEVICE_STATUS_REPORT             = terminalpp::ascii::LOWERCASE_N;
@@ -74,31 +82,47 @@ static char const CURSOR_BACKWARD_TABULATION       = terminalpp::ascii::UPPERCAS
 
 // Keypad buttons / Function keys
 static char const KEYPAD_FUNCTION                  = terminalpp::ascii::TILDE;
+    static u8 const KEYPAD_HOME                    = 1;
+    static u8 const KEYPAD_INSERT                  = 2;
+    static u8 const KEYPAD_DEL                     = 3;
+    static u8 const KEYPAD_END                     = 4;
+    static u8 const KEYPAD_PGUP                    = 5;
+    static u8 const KEYPAD_PGDN                    = 6;
+    static u8 const KEYPAD_F1                      = 11;
+    static u8 const KEYPAD_F2                      = 12;
+    static u8 const KEYPAD_F3                      = 13;
+    static u8 const KEYPAD_F4                      = 14;
+    static u8 const KEYPAD_F5                      = 15;
+    static u8 const KEYPAD_F6                      = 17; // Skip 16.
+    static u8 const KEYPAD_F7                      = 18;
+    static u8 const KEYPAD_F8                      = 19;
+    static u8 const KEYPAD_F9                      = 20;
+    static u8 const KEYPAD_F10                     = 21;
+    static u8 const KEYPAD_F11                     = 23; // Skip 22.
+    static u8 const KEYPAD_F12                     = 24;
+
+// The following modifiers can apply to all keypad/function key controls.
+    static u8 const MODIFIER_SHIFT                 = 2;
+    static u8 const MODIFIER_ALT                   = 3;
+    static u8 const MODIFIER_SHIFT_ALT             = 4;
+    static u8 const MODIFIER_CTRL                  = 5;
+    static u8 const MODIFIER_SHIFT_CTRL            = 6;
+    static u8 const MODIFIER_ALT_CTRL              = 7;
+    static u8 const MODIFIER_SHIFT_ALT_CTRL        = 8;
+    static u8 const MODIFIER_META                  = 9;
+    static u8 const MODIFIER_META_SHIFT            = 10;
+    static u8 const MODIFIER_META_ALT              = 11;
+    static u8 const MODIFIER_META_SHIFT_ALT        = 12;
+    static u8 const MODIFIER_META_CTRL             = 13;
+    static u8 const MODIFIER_META_SHIFT_CTRL       = 14;
+    static u8 const MODIFIER_META_ALT_CTRL         = 15;
+    static u8 const MODIFIER_META_SHIFT_ALT_CTRL   = 16;
 
 // DEC Private Mode
 static char const DECSET                           = terminalpp::ascii::LOWERCASE_H;
 static char const DECRST                           = terminalpp::ascii::LOWERCASE_L;
     static char const CURSOR_STATE[]               = {terminalpp::ascii::TWO,
                                                       terminalpp::ascii::FIVE, 0};
-
-// For ANSI sequences of the format: ESC?x;y;zC (e.g. "ESC[10;2H"
-// In the above example, "[" is the initiator, "H" is the command, and
-// "10;2" is the arguments.
-struct sequence
-{
-    std::string arguments_;
-    bool        meta_;
-    char        initiator_;
-    char        command_;
-};
-
-constexpr inline bool operator==(sequence const& lhs, sequence const& rhs)
-{
-    return lhs.meta_      == rhs.meta_
-        && lhs.command_   == rhs.command_
-        && lhs.initiator_ == rhs.initiator_
-        && lhs.arguments_ == rhs.arguments_;
-}
 
 }}}
 

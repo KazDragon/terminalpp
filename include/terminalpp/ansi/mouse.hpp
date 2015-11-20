@@ -2,9 +2,10 @@
 #define TERMINALPP_ANSI_MOUSE_HPP_
 
 #include "terminalpp/core.hpp"
+#include <iosfwd>
 
 namespace terminalpp { namespace ansi { namespace mouse {
-   
+
 struct report
 {
     static terminalpp::u8 const LEFT_BUTTON_DOWN   = terminalpp::u8(0);
@@ -15,16 +16,18 @@ struct report
     static terminalpp::u8 const SCROLLWHEEL_DOWN   = terminalpp::u8(33);
 
     terminalpp::u8  button_;
-    terminalpp::s32 x_position_;
-    terminalpp::s32 y_position_;
+    terminalpp::u32 x_position_;
+    terminalpp::u32 y_position_;
 };
-    
+
 constexpr inline bool operator==(report const &lhs, report const &rhs)
 {
     return lhs.button_     == rhs.button_
         && lhs.x_position_ == rhs.x_position_
         && lhs.y_position_ == rhs.y_position_;
 }
+
+std::ostream &operator<<(std::ostream &out, report const &rep);
 
 }}}
 

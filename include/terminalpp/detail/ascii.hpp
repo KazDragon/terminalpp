@@ -2,8 +2,8 @@
 #define TERMINALPP_ASCII_PROTOCOL_HPP_
 
 namespace terminalpp { namespace ascii {
-    
-// Source: http://ascii-table.com/ascii.php    
+
+// Source: http://ascii-table.com/ascii.php
 
 // Control Code Block
 static char const NUL = 0;   // NULL
@@ -41,15 +41,15 @@ static char const US  = 31;  // Unit Separator
 
 // Printable Character Block
 static char const SPACE                 = 32;  // [SPACE]
-static char const EXLAMATION_MARK       = 33;  // !
+static char const EXCLAMATION_MARK      = 33;  // !
 static char const QUOTES                = 34;  // "
 static char const HASH                  = 35;  // #
 static char const DOLLAR                = 36;  // $
 static char const PERCENT               = 37;  // %
 static char const AMPERSAND             = 38;  // %
 static char const APOSTROPHE            = 39;  // '
-static char const OPEN_BRACKET          = 40;  // (
-static char const CLOSE_BRACKET         = 41;  // )
+static char const OPEN_PARENTHESIS      = 40;  // (
+static char const CLOSE_PARENTHESIS     = 41;  // )
 static char const ASTERISK              = 42;  // *
 static char const PLUS                  = 43;  // +
 static char const COMMA                 = 44;  // ,
@@ -99,9 +99,9 @@ static char const UPPERCASE_W           = 87;  // W
 static char const UPPERCASE_X           = 88;  // X
 static char const UPPERCASE_Y           = 89;  // Y
 static char const UPPERCASE_Z           = 90;  // Z
-static char const OPEN_SQUARE_BRACKET   = 91;  // [
+static char const OPEN_BRACKET          = 91;  // [
 static char const BACKSLASH             = 92;  // [\]
-static char const CLOSE_SQUARE_BRACKET  = 93;  // ]
+static char const CLOSE_BRACKET         = 93;  // ]
 static char const CARET                 = 94;  // ^
 static char const UNDERSCORE            = 95;  // _
 static char const GRAVE                 = 96;  // `

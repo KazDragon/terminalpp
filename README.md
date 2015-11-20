@@ -19,6 +19,7 @@ Terminal++ is currently automatically tested using:
   * This will be immediately useful in line-oriented programs to construct and output streams of attributed (coloured, emboldened, underlined, etc.) text.
 
 2. [x] A utility for managing ANSI escape codes that are not bound to specific characters.  For example, commands for moving the cursor, changing the screen's title, clearing the screen, etc.
+3.  [x] terminalpp::terminal
 
 3. [x] A utility for managing screens of attributed characters
   * [x] terminalpp::canvas
