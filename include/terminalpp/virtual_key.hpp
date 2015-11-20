@@ -42,6 +42,7 @@ enum class vk : u8
     colon             = ascii::COLON,
     semi_colon        = ascii::SEMI_COLON,
     less_than         = ascii::LESS_THAN,
+    equals            = ascii::EQUALS,
     greater_than      = ascii::GREATER_THAN,
     question_mark     = ascii::QUESTION_MARK,
     at                = ascii::AT,
