@@ -23,7 +23,7 @@ namespace terminalpp {
 /// position" than "returns a string that represents the ANSI sequence of
 /// characters that will move the cursor to the position."
 //* =========================================================================
-class terminal
+class TERMINALPP_EXPORT terminal
 {
 public :
     enum class control_mode

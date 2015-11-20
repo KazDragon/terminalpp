@@ -15,7 +15,7 @@ namespace terminalpp {
 /// represents the top left of the grid, and it proceeds in a left-to-right
 /// manner first, then top-to-bottom.
 //* =========================================================================
-class canvas 
+class TERMINALPP_EXPORT canvas 
 {
 public :
     typedef element *iterator;
