@@ -175,8 +175,10 @@ struct virtual_key
     boost::variant<char, ansi::control_sequence> sequence;
 };
 
+TERMINALPP_EXPORT
 bool operator==(virtual_key const &lhs, virtual_key const &rhs);
 
+TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 
 constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)

@@ -1,5 +1,6 @@
 #include "expect_tokens.hpp"
 #include "terminalpp/terminal.hpp"
+#include <cppunit/extensions/HelperMacros.h>
 #include <iostream>
 
 namespace {

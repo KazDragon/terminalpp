@@ -27,6 +27,7 @@ constexpr inline bool operator==(report const &lhs, report const &rhs)
         && lhs.y_position_ == rhs.y_position_;
 }
 
+TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, report const &rep);
 
 }}}
