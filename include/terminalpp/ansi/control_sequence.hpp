@@ -22,8 +22,10 @@ struct control_sequence
     std::vector<std::string> arguments;
 };
 
+TERMINALPP_EXPORT
 bool operator==(control_sequence const &lhs, control_sequence const &rhs);
 
+TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, control_sequence const &cs);
 
 }}
