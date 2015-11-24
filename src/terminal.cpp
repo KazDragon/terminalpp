@@ -313,7 +313,14 @@ std::string terminal::enable_mouse()
 {
     std::string result;
 
-    if (behaviour_.supports_basic_mouse_tracking)
+    if (behaviour_.supports_all_mouse_motion_tracking)
+    {
+        result += detail::csi(control_mode_)
+                + ansi::DEC_PRIVATE_MODE
+                + ansi::dec_pm::ALL_MOTION_MOUSE_TRACKING
+                + ansi::dec_pm::SET;
+    }
+    else if (behaviour_.supports_basic_mouse_tracking)
     {
         result += detail::csi(control_mode_)
                 + ansi::DEC_PRIVATE_MODE

@@ -10,11 +10,13 @@ public :
     CPPUNIT_TEST_SUITE(terminal_settings_test);
         CPPUNIT_TEST(enabling_mouse_mode_with_default_behaviour_sends_nothing);
         CPPUNIT_TEST(enabling_mouse_mode_with_basic_mouse_support_sends_basic_mouse_tracking);
+        CPPUNIT_TEST(enabling_mouse_mode_with_all_mouse_tracking_support_sends_all_mouse_tracking);
     CPPUNIT_TEST_SUITE_END();
 
 private :
     void enabling_mouse_mode_with_default_behaviour_sends_nothing();
     void enabling_mouse_mode_with_basic_mouse_support_sends_basic_mouse_tracking();
+    void enabling_mouse_mode_with_all_mouse_tracking_support_sends_all_mouse_tracking();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_settings_test);
@@ -37,5 +39,16 @@ void terminal_settings_test::enabling_mouse_mode_with_basic_mouse_support_sends_
 
     expect_sequence(
         std::string("\x1B[?1000h"),
+        terminal.enable_mouse());
+}
+
+void terminal_settings_test::enabling_mouse_mode_with_all_mouse_tracking_support_sends_all_mouse_tracking()
+{
+    terminalpp::terminal::behaviour behaviour;
+    behaviour.supports_all_mouse_motion_tracking = true;
+    terminalpp::terminal terminal(behaviour);
+
+    expect_sequence(
+        std::string("\x1B[?1003h"),
         terminal.enable_mouse());
 }

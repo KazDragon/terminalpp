@@ -60,7 +60,8 @@ public :
             supports_cup_default_row(false),
             supports_cup_default_column(true),
             supports_cup_default_all(true),
-            supports_basic_mouse_tracking(false)
+            supports_basic_mouse_tracking(false),
+            supports_all_mouse_motion_tracking(false)
         {
         }
 
@@ -96,6 +97,9 @@ public :
 
         // True if the terminal supports basic mouse tracking.
         bool supports_basic_mouse_tracking : 1;
+
+        // True if the terminal supports all mouse motion tracking.
+        bool supports_all_mouse_motion_tracking : 1;
     };
 
     //* =====================================================================

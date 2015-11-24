@@ -24,6 +24,24 @@ static constexpr char const BASIC_MOUSE_TRACKING[] =
                                           terminalpp::ascii::ZERO,
                                           terminalpp::ascii::ZERO, 0 };
 
+static constexpr char const HILITE_MOUSE_TRACKING[] =
+                                        { terminalpp::ascii::ONE,
+                                          terminalpp::ascii::ZERO,
+                                          terminalpp::ascii::ZERO,
+                                          terminalpp::ascii::ONE, 0 };
+                                          
+static constexpr char const CELL_MOTION_MOUSE_TRACKING[] =
+                                        { terminalpp::ascii::ONE,
+                                          terminalpp::ascii::ZERO,
+                                          terminalpp::ascii::ZERO,
+                                          terminalpp::ascii::TWO, 0 };
+
+static constexpr char const ALL_MOTION_MOUSE_TRACKING[] =
+                                        { terminalpp::ascii::ONE,
+                                          terminalpp::ascii::ZERO,
+                                          terminalpp::ascii::ZERO,
+                                          terminalpp::ascii::THREE, 0 };
+
 }}}
 
 #endif
