@@ -59,7 +59,9 @@ public :
             supports_cha_default(true),
             supports_cup_default_row(false),
             supports_cup_default_column(true),
-            supports_cup_default_all(true)
+            supports_cup_default_all(true),
+            supports_basic_mouse_tracking(false),
+            supports_all_mouse_motion_tracking(false)
         {
         }
 
@@ -92,6 +94,12 @@ public :
         // True if the terminal supports the use of both arguments being
         // default in Cursor Position
         bool supports_cup_default_all : 1;
+
+        // True if the terminal supports basic mouse tracking.
+        bool supports_basic_mouse_tracking : 1;
+
+        // True if the terminal supports all mouse motion tracking.
+        bool supports_all_mouse_motion_tracking : 1;
     };
 
     //* =====================================================================
@@ -106,6 +114,12 @@ public :
     /// that it can handle.
     //* =====================================================================
     std::string init();
+
+    //* =====================================================================
+    /// \brief Returns a string that will enable the best possible mouse
+    /// mode for the terminal.
+    //* =====================================================================
+    std::string enable_mouse();
 
     //* =====================================================================
     /// \brief Sets the (local) size of the terminal.

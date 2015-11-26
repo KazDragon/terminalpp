@@ -82,6 +82,7 @@ if (CPPUNIT_FOUND)
         test/terminal_read_cursor_test.cpp
         test/terminal_read_fkey_test.cpp
         test/terminal_read_test.cpp
+        test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
         test/main.cpp
     )

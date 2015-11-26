@@ -1,6 +1,7 @@
 #include "terminalpp/terminal.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
 #include "terminalpp/ansi/ss3.hpp"
+#include "terminalpp/ansi/dec_private_mode.hpp"
 #include "terminalpp/detail/terminal_control.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
 #include "terminalpp/detail/element_difference.hpp"
@@ -300,6 +301,31 @@ std::string terminal::init()
      && !behaviour_.uses_eight_bit_control_codes_by_default)
     {
         result += terminalpp::ansi::control8::ENABLE;
+    }
+
+    return result;
+}
+
+// ==========================================================================
+// ENABLE_MOUSE
+// ==========================================================================
+std::string terminal::enable_mouse()
+{
+    std::string result;
+
+    if (behaviour_.supports_all_mouse_motion_tracking)
+    {
+        result += detail::csi(control_mode_)
+                + ansi::DEC_PRIVATE_MODE
+                + ansi::dec_pm::ALL_MOTION_MOUSE_TRACKING
+                + ansi::dec_pm::SET;
+    }
+    else if (behaviour_.supports_basic_mouse_tracking)
+    {
+        result += detail::csi(control_mode_)
+                + ansi::DEC_PRIVATE_MODE
+                + ansi::dec_pm::BASIC_MOUSE_TRACKING
+                + ansi::dec_pm::SET;
     }
 
     return result;
