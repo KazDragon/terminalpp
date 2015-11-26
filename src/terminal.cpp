@@ -1,7 +1,8 @@
 #include "terminalpp/terminal.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
-#include "terminalpp/ansi/ss3.hpp"
 #include "terminalpp/ansi/dec_private_mode.hpp"
+#include "terminalpp/ansi/osc.hpp"
+#include "terminalpp/ansi/ss3.hpp"
 #include "terminalpp/detail/terminal_control.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
 #include "terminalpp/detail/element_difference.hpp"
@@ -329,6 +330,32 @@ std::string terminal::enable_mouse()
     }
 
     return result;
+}
+
+// ==========================================================================
+// SET_WINDOW_TITLE
+// ==========================================================================
+std::string terminal::set_window_title(std::string const &title)
+{
+    if (behaviour_.supports_window_title_bel)
+    {
+        return detail::osc(control_mode_)
+             + ansi::osc::SET_WINDOW_TITLE
+             + ansi::PS
+             + title
+             + ascii::BEL;
+    }
+
+    if (behaviour_.supports_window_title_st)
+    {
+        return detail::osc(control_mode_)
+             + ansi::osc::SET_WINDOW_TITLE
+             + ansi::PS
+             + title
+             + detail::st(control_mode_);
+    }
+
+    return {};
 }
 
 // ==========================================================================

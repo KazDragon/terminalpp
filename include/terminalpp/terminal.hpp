@@ -61,7 +61,9 @@ public :
             supports_cup_default_column(true),
             supports_cup_default_all(true),
             supports_basic_mouse_tracking(false),
-            supports_all_mouse_motion_tracking(false)
+            supports_all_mouse_motion_tracking(false),
+            supports_window_title_bel(false),
+            supports_window_title_st(false)
         {
         }
 
@@ -100,6 +102,12 @@ public :
 
         // True if the terminal supports all mouse motion tracking.
         bool supports_all_mouse_motion_tracking : 1;
+
+        // True if the window title can be set with the BEL terminator.
+        bool supports_window_title_bel : 1;
+
+        // True if the window title can be set with the ST terminator.
+        bool supports_window_title_st : 1;
     };
 
     //* =====================================================================
@@ -120,6 +128,12 @@ public :
     /// mode for the terminal.
     //* =====================================================================
     std::string enable_mouse();
+
+    //* =====================================================================
+    /// \brief Returns a string that will set the window title of the
+    /// terminal.
+    //* =====================================================================
+    std::string set_window_title(std::string const &title);
 
     //* =====================================================================
     /// \brief Sets the (local) size of the terminal.
