@@ -74,6 +74,7 @@ if (CPPUNIT_FOUND)
 
     add_executable(terminalpp_tester
         test/canvas_test.cpp
+        test/colour_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
