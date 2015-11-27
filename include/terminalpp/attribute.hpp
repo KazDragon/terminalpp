@@ -160,6 +160,11 @@ struct colour
         type_(type::greyscale)
     {
     }
+    
+    constexpr colour(terminalpp::ansi::graphics::colour col)
+      : colour(terminalpp::low_colour(col))
+    {
+    }
 
     union
     {
@@ -193,6 +198,12 @@ constexpr bool operator!=(colour const &lhs, colour const &rhs)
 {
     return !(lhs == rhs);
 }
+
+//* =========================================================================
+/// \brief Stream operator for colours.
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, colour const &col);
 
 //* =========================================================================
 /// \brief A structure that carries around the presentation attributes of
