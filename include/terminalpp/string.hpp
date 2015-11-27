@@ -77,6 +77,13 @@ public :
     string(std::string const &text);
 
     //* =====================================================================
+    /// \brief Constructor
+    /// \param text the text to build this string around.
+    /// \param attr the attribute to apply to each new element of the string.
+    //* =====================================================================
+    string(std::string const &text, terminalpp::attribute const &attr);
+
+    //* =====================================================================
     /// \brief Returns the number of elements in the string.
     //* =====================================================================
     std::size_t size() const;

@@ -79,6 +79,7 @@ if (CPPUNIT_FOUND)
         test/expect_sequence.cpp
         test/expect_tokens.cpp
         test/screen_test.cpp
+        test/string_test.cpp
         test/terminal_cursor_test.cpp
         test/terminal_init_test.cpp
         test/terminal_read_cursor_test.cpp

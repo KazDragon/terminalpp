@@ -1,6 +1,7 @@
 #include "terminalpp/string.hpp"
 #include "terminalpp/element.hpp"
 #include "terminalpp/encoder.hpp"
+#include <algorithm>
 #include <cstring>
 #include <limits>
 
@@ -36,6 +37,19 @@ string::string(const char* text, std::size_t len)
 string::string(const std::string& text)
   : string(text.c_str(), text.size())
 {
+}
+
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+string::string(std::string const &text, terminalpp::attribute const &attr)
+ : string(text)
+{
+    std::for_each(elements_.begin(), elements_.end(),
+    [&attr](auto &elem)
+    {
+        elem.attribute_ = attr;
+    });
 }
 
 // ==========================================================================

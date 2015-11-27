@@ -8,6 +8,8 @@ public :
     CPPUNIT_TEST_SUITE(element_test);
         CPPUNIT_TEST(can_implicitly_construct_element_from_glyph);
         CPPUNIT_TEST(can_implicitly_construct_element_from_char);
+        CPPUNIT_TEST(can_aggregate_initialize_from_glyph);
+        CPPUNIT_TEST(can_aggregate_initialize_from_char);
     CPPUNIT_TEST_SUITE_END();
     
 private :
@@ -16,6 +18,8 @@ private :
     void can_aggregate_initialize_from_glyph();
     void can_aggregate_initialize_from_char();
 };
+
+CPPUNIT_TEST_SUITE_REGISTRATION(element_test);
 
 void element_test::can_implicitly_construct_element_from_glyph()
 {
