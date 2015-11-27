@@ -2,6 +2,7 @@
 #define TERMINALPP_ANSI_ATTRIBUTE_HPP_
 
 #include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/core.hpp"
 #include <iosfwd>
 
 namespace terminalpp {
@@ -29,11 +30,17 @@ struct low_colour
     terminalpp::ansi::graphics::colour value_;
 };
 
+//* =========================================================================
+/// \brief Equality operator for low_colours.
+//* =========================================================================
 constexpr bool operator==(low_colour const &lhs, low_colour const &rhs)
 {
     return lhs.value_ == rhs.value_;
 }
 
+//* =========================================================================
+/// \brief Inequality operator for low_colours.
+//* =========================================================================
 constexpr bool operator!=(low_colour const &lhs, low_colour const &rhs)
 {
     return !(lhs == rhs);
@@ -66,6 +73,9 @@ struct high_colour
     terminalpp::u8 blue_;
 };
 
+//* =========================================================================
+/// \brief Equality operator for high_colours.
+//* =========================================================================
 constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
 {
     return lhs.red_   == rhs.red_
@@ -73,6 +83,9 @@ constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
         && lhs.blue_  == rhs.blue_;
 }
 
+//* =========================================================================
+/// \brief Inequality operator for high_colours.
+//* =========================================================================
 constexpr bool operator!=(high_colour const &lhs, high_colour const &rhs)
 {
     return !(lhs == rhs);
@@ -97,12 +110,18 @@ struct greyscale_colour
     terminalpp::u8 shade_;
 };
 
+//* =========================================================================
+/// \brief Equality operator for greyscale_colours.
+//* =========================================================================
 constexpr bool operator==(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
     return lhs.shade_ == rhs.shade_;
 }
 
+//* =========================================================================
+/// \brief Inequality operator for greyscale_colours.
+//* =========================================================================
 constexpr bool operator!=(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
@@ -152,6 +171,9 @@ struct colour
     type type_;
 };
 
+//* =========================================================================
+/// \brief Equality operator for colours.
+//* =========================================================================
 constexpr bool operator==(colour const &lhs, colour const &rhs)
 {
     return lhs.type_             == rhs.type_
@@ -164,6 +186,9 @@ constexpr bool operator==(colour const &lhs, colour const &rhs)
          : false;
 }
 
+//* =========================================================================
+/// \brief Inequality operator for colours.
+//* =========================================================================
 constexpr bool operator!=(colour const &lhs, colour const &rhs)
 {
     return !(lhs == rhs);
@@ -196,6 +221,9 @@ struct attribute
     terminalpp::ansi::graphics::blinking    blinking_;
 };
 
+//* =========================================================================
+/// \brief Equality operator for attributes.
+//* =========================================================================
 constexpr bool operator==(attribute const &lhs, attribute const &rhs)
 {
     return lhs.foreground_colour_ == rhs.foreground_colour_
@@ -206,11 +234,18 @@ constexpr bool operator==(attribute const &lhs, attribute const &rhs)
         && lhs.blinking_          == rhs.blinking_;
 }
 
+//* =========================================================================
+/// \brief Inequality operator for attributes.
+//* =========================================================================
 constexpr bool operator!=(attribute const &lhs, attribute const &rhs)
 {
     return !(lhs == rhs);
 }
 
+//* =========================================================================
+/// \brief Stream operator for attributes.
+//* =========================================================================
+TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, attribute const &attr);
 
 }

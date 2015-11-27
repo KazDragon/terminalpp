@@ -158,7 +158,11 @@ enum class vk_modifier : u8
     meta  = (1 << 3),
 };
 
-struct virtual_key
+//* =========================================================================
+/// \brief A class that represents a keypress, possibly combined with
+/// modifiers such as shift, ctrl, etc.
+//* =========================================================================
+struct TERMINALPP_EXPORT virtual_key
 {
     /// \brief The actual key we believe was pressed, selected from the
     /// list of VK constants.
@@ -175,12 +179,21 @@ struct virtual_key
     boost::variant<char, ansi::control_sequence> sequence;
 };
 
+//* =========================================================================
+/// \brief Equality operator for virtual_keys.
+//* =========================================================================
 TERMINALPP_EXPORT
 bool operator==(virtual_key const &lhs, virtual_key const &rhs);
 
+//* =========================================================================
+/// \brief Stream operator for virtual_keys.
+//* =========================================================================
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 
+//* =========================================================================
+/// \brief Allow the or-ing of virtual key modifiers.
+//* =========================================================================
 constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
 {
     return vk_modifier(u8(lhs) | u8(rhs));
