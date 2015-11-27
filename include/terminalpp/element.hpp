@@ -25,6 +25,16 @@ struct element
     {
     }
 
+    //* =====================================================================
+    /// \brief Char Constructor
+    //* =====================================================================
+    constexpr element(
+        char ch,
+        terminalpp::attribute attr = {})
+      : element(terminalpp::glyph(ch), attr)
+    {
+    }
+    
     terminalpp::glyph     glyph_;
     terminalpp::attribute attribute_;
 };

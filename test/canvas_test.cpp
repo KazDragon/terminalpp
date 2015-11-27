@@ -83,7 +83,7 @@ void canvas_test::resizing_canvas_smaller_truncates_content()
     {
         for (terminalpp::u32 column = 0; column < large_size.width; ++column)
         {
-            canvas[column][row] = {terminalpp::u8(column * row)};
+            canvas[column][row] = {char(column * row)};
         }
     }
     
@@ -93,7 +93,7 @@ void canvas_test::resizing_canvas_smaller_truncates_content()
     {
         for (terminalpp::u32 column = 0; column < small_size.width; ++column)
         {
-            auto expected = terminalpp::element(terminalpp::u8(column * row));
+            auto expected = terminalpp::element(char(column * row));
             auto result   = terminalpp::element(canvas[column][row]);
             
             CPPUNIT_ASSERT_EQUAL(expected, result);
