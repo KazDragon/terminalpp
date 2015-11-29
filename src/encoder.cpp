@@ -412,6 +412,14 @@ terminalpp::string encode(char const *text, size_t length)
         if (element_complete)
         {
             result += current_element;
+            
+            if (current_element.glyph_.charset_ == ansi::charset::utf8)
+            {
+                // TODO: This should really pop back to whatever the charset
+                // was before.
+                current_element.glyph_.charset_ = ansi::charset::us_ascii;
+            }
+            
             element_complete = false;
         }
     }

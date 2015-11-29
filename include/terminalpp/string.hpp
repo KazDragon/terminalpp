@@ -220,6 +220,13 @@ TERMINALPP_EXPORT
 TERMINALPP_EXPORT
 ::terminalpp::string operator+(string lhs, element const &rhs);
 
+//* =========================================================================
+/// \brief Convert a terminalpp::string to a std::string by removing all
+/// attributes and charset information.
+//* =========================================================================
+TERMINALPP_EXPORT
+::std::string to_string(terminalpp::string const &tstr);
+
 inline namespace literals { inline namespace string_literals {
 
 //* =========================================================================
