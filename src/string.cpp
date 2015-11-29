@@ -206,6 +206,36 @@ string operator+(string lhs, string const &rhs)
     return lhs += rhs;
 }
 
+// ==========================================================================
+// TO_STRING
+// ==========================================================================
+std::string to_string(string const &tstr)
+{
+    std::string result;
+    
+    for(auto const &elem : tstr)
+    {
+        if (elem.glyph_.charset_ == ansi::charset::utf8)
+        {
+            for (auto const &ch : elem.glyph_.ucharacter_)
+            {
+                if (ch == 0)
+                {
+                    break;
+                }
+                
+                result += ch;
+            }
+        }
+        else
+        {
+            result += elem.glyph_.character_;
+        }
+    }
+    
+    return result;
+}
+
 inline namespace literals { inline namespace string_literals {
 
 terminalpp::string operator ""_ts(char const *text, std::size_t len)
