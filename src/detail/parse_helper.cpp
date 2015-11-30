@@ -149,21 +149,29 @@ boost::optional<terminalpp::token> parse_arguments(char input, parse_temps &temp
 
 boost::optional<terminalpp::token> parse_mouse0(char input, parse_temps &temps)
 {
-    temps.mouse_button_ = terminalpp::u32(input - 32); // TODO: WHY?
+    // Mouse values have an offset applied to them to make the 
+    // co-ordinates appear over the wire as printable characters.  
+    temps.mouse_button_ = terminalpp::u32(
+        input - ansi::mouse::MOUSE_VALUE_OFFSET);
     temps.state_ = state::mouse1;
     return {};
 }
 
 boost::optional<terminalpp::token> parse_mouse1(char input, parse_temps &temps)
 {
-    temps.mouse_x_ = terminalpp::u32(input - 32); //TODO:
+    // In addition to the offset described above, ANSI co-ordinates are 
+    // 1-based, whereas Terminal++ is 0-based, which means an extra offset
+    // is required.
+    temps.mouse_x_ = terminalpp::u32(
+        (input - ansi::mouse::MOUSE_VALUE_OFFSET) - 1);
     temps.state_ = state::mouse2;
     return {};
 }
 
 boost::optional<terminalpp::token> parse_mouse2(char input, parse_temps &temps)
 {
-    temps.mouse_y_ = terminalpp::u32(input - 32); //TODO
+    temps.mouse_y_ = terminalpp::u32(
+        (input - ansi::mouse::MOUSE_VALUE_OFFSET) - 1);
     temps.state_ = state::idle;
 
     return {

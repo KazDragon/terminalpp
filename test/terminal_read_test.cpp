@@ -115,8 +115,8 @@ void terminal_read_test::read_mouse_command_yields_mouse_report()
         "\x1B[M @B",
         terminalpp::ansi::mouse::report {
             terminalpp::ansi::mouse::report::LEFT_BUTTON_DOWN,
-            32,
-            34
+            31,
+            33
         });
 }
 
