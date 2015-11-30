@@ -7,12 +7,14 @@ class canvas_test : public CppUnit::TestFixture
 public :
     CPPUNIT_TEST_SUITE(canvas_test);
         CPPUNIT_TEST(can_perform_loops_over_canvas);
+        CPPUNIT_TEST(can_assign_from_canvas_to_canvas);
         CPPUNIT_TEST(resizing_canvas_larger_keeps_content);
         CPPUNIT_TEST(resizing_canvas_smaller_truncates_content);
     CPPUNIT_TEST_SUITE_END();
     
 private :
     void can_perform_loops_over_canvas();
+    void can_assign_from_canvas_to_canvas();
     void resizing_canvas_larger_keeps_content();
     void resizing_canvas_smaller_truncates_content();
 };
@@ -40,6 +42,14 @@ void canvas_test::can_perform_loops_over_canvas()
             CPPUNIT_ASSERT_EQUAL(expected, result);
         }
     }
+}
+
+void canvas_test::can_assign_from_canvas_to_canvas()
+{
+    terminalpp::canvas canvas_source({1, 1});
+    terminalpp::canvas canvas_dest({1, 1});
+    
+    canvas_dest[0][0] = canvas_source[0][0];
 }
 
 void canvas_test::resizing_canvas_larger_keeps_content()
