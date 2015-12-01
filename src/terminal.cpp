@@ -284,19 +284,22 @@ std::string terminal::move_cursor(point const &pt)
 // ==========================================================================
 std::vector<terminalpp::token> terminal::read(std::string const &data)
 {
-    unparsed_buffer_.insert(
-        unparsed_buffer_.end(),
-        data.begin(),
-        data.end());
+    std::vector<terminalpp::token> results;
 
-    auto begin = unparsed_buffer_.begin();
-    auto result = detail::parse(begin, unparsed_buffer_.end());
+    std::for_each(data.begin(), data.end(),
+    [&](auto ch)
+    {
+        auto result = parser_(ch);
 
-    unparsed_buffer_.erase(unparsed_buffer_.begin(), begin);
+        if (result)
+        {
+            results.push_back(*result);
+        }
+    });
 
     // Some postprocessing for well-known control sequence->
     // virtual key mappings.
-    return replace_well_known_virtual_keys(result);
+    return replace_well_known_virtual_keys(results);
 }
 
 // ==========================================================================

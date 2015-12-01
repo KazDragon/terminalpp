@@ -2,34 +2,49 @@
 #define TERMINALPP_DETAIL_PARSER_HPP_
 
 #include "terminalpp/token.hpp"
-#include "terminalpp/detail/parse_helper.hpp"
 #include <boost/optional.hpp>
 #include <vector>
 
 namespace terminalpp { namespace detail {
 
-template <class InputIterator1, class InputIterator2>
-std::vector<token> parse(InputIterator1 &begin, InputIterator2 end)
+class parser
 {
-    auto result = std::vector<token>{};
-    auto temps = parse_temps();
+public :
+    parser();
 
-    auto current = begin;
+    boost::optional<terminalpp::token> operator()(char input);
 
-    while (current != end)
+private :
+    enum class state
     {
-        auto parse_result = parse_helper(*current++, temps);
+        idle,
+        cr,
+        lf,
+        escape,
+        arguments,
+        mouse0,
+        mouse1,
+        mouse2,
+    };
 
-        if (parse_result)
-        {
-            result.push_back(parse_result.get());
-            begin = current;
-        }
-    }
+    boost::optional<terminalpp::token> parse_idle(char input);
+    boost::optional<terminalpp::token> parse_cr(char input);
+    boost::optional<terminalpp::token> parse_lf(char input);
+    boost::optional<terminalpp::token> parse_escape(char input);
+    boost::optional<terminalpp::token> parse_arguments(char input);
+    boost::optional<terminalpp::token> parse_mouse0(char input);
+    boost::optional<terminalpp::token> parse_mouse1(char input);
+    boost::optional<terminalpp::token> parse_mouse2(char input);
 
-    return result;
-}
-
+    state                    state_;
+    char                     initialiser_;
+    bool                     meta_;
+    terminalpp::u8           mouse_button_;
+    terminalpp::u32          mouse_x_;
+    terminalpp::u32          mouse_y_;
+    std::string              argument_;
+    std::vector<std::string> arguments_;
+};
 
 }}
 
