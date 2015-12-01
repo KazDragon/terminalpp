@@ -34,6 +34,7 @@ public :
 
         CPPUNIT_TEST(crlf_yields_vk_enter);
         CPPUNIT_TEST(crnul_yields_vk_enter);
+        CPPUNIT_TEST(cr_then_nul_yields_enter_only);
         CPPUNIT_TEST(lfcr_yields_vk_enter);
         CPPUNIT_TEST(lf_yields_vk_enter);
         CPPUNIT_TEST(lflf_yields_two_vk_enters);
@@ -68,6 +69,7 @@ private :
 
     void crlf_yields_vk_enter();
     void crnul_yields_vk_enter();
+    void cr_then_nul_yields_enter_only();
     void lfcr_yields_vk_enter();
     void lf_yields_vk_enter();
     void lflf_yields_two_vk_enters();
@@ -360,6 +362,27 @@ void terminal_read_cursor_test::crnul_yields_vk_enter()
             1,
             '\n'
         });
+}
+
+void terminal_read_cursor_test::cr_then_nul_yields_enter_only()
+{
+    terminalpp::terminal terminal;
+
+    auto expected_after_cr = terminalpp::virtual_key {
+        terminalpp::vk::enter,
+        terminalpp::vk_modifier::none,
+        1,
+        '\n'
+    };
+
+    auto actual_after_cr = terminal.read("\r");
+    CPPUNIT_ASSERT_EQUAL(size_t{1}, actual_after_cr.size());
+    CPPUNIT_ASSERT_EQUAL(
+        expected_after_cr,
+        boost::get<terminalpp::virtual_key>(actual_after_cr[0]));
+
+    auto actual_after_nul = terminal.read(std::string("\0", 1));
+    CPPUNIT_ASSERT(actual_after_nul.empty());
 }
 
 void terminal_read_cursor_test::lfcr_yields_vk_enter()

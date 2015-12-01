@@ -5,6 +5,7 @@
 #include "terminalpp/point.hpp"
 #include "terminalpp/string.hpp"
 #include "terminalpp/token.hpp"
+#include "terminalpp/detail/parser.hpp"
 #include <boost/optional.hpp>
 #include <string>
 #include <vector>
@@ -204,7 +205,7 @@ private :
     boost::optional<extent>  size_;
     element                  last_element_;
 
-    std::vector<char>        unparsed_buffer_;
+    detail::parser           parser_;
 };
 
 }

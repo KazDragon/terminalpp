@@ -33,7 +33,7 @@ add_library(terminalpp
     src/detail/terminal_control.cpp
     src/detail/terminal_cursor_control.cpp
     src/detail/element_difference.cpp
-    src/detail/parse_helper.cpp
+    src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
     src/element.cpp
     src/encoder.cpp
