@@ -56,7 +56,7 @@ std::string draw_canvas_differences(
             if (front_element != back_element)
             {
                 result += term.move_cursor({column, row});
-                result += term.write(""_ets + front_element);
+                result += term.write(front_element);
             }
         }
     }
@@ -94,7 +94,7 @@ std::string screen::draw(terminal& term, canvas const &cvs)
             if (last_frame_[x][y] != cvs[x][y])
             {
                 result += term.move_cursor({x, y});
-                result += term.write(""_ts + cvs[x][y]);
+                result += term.write(cvs[x][y]);
             }
         }
     }

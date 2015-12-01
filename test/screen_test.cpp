@@ -90,7 +90,7 @@ void screen_test::first_draw_of_screen_with_content_draws_clear_screen_then_cont
             
         for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
         {
-            expected += reference_terminal.write(""_ts + canvas[x][y]);
+            expected += reference_terminal.write(canvas[x][y]);
         }
     }
     
