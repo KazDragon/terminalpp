@@ -2,11 +2,11 @@
 #define TERMINALPP_SCREEN_HPP_
 
 #include "terminalpp/canvas.hpp"
-#include "terminalpp/terminal.hpp"
 #include <string>
-#include <vector>
 
 namespace terminalpp {
+
+class terminal;
 
 //* =========================================================================
 /// \brief A class that represents a screen for a terminal.
@@ -17,21 +17,15 @@ public :
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    screen(extent size);
+    screen();
 
     //* =====================================================================
     /// \brief Draws the current screen to the terminal.
     //* =====================================================================
-    std::string draw(terminal &term);
+    std::string draw(terminal &term, canvas const &cvs);
 
-    //* =====================================================================
-    /// \brief Subscript operator.
-    //* =====================================================================
-    canvas::column_proxy operator[](u32 index);
-    
 private :
-    canvas front_buffer_;
-    canvas back_buffer_;
+    canvas last_frame_;
 };
 
 }

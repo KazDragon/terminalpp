@@ -1,4 +1,5 @@
 #include "terminalpp/screen.hpp"
+#include "terminalpp/terminal.hpp"
 
 namespace terminalpp {
     
@@ -68,39 +69,39 @@ std::string draw_canvas_differences(
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-screen::screen(extent size)
-  : front_buffer_(size),
-    back_buffer_({})
+screen::screen()
+  : last_frame_({})
 {
 }
 
 // ==========================================================================
 // DRAW
 // ==========================================================================
-std::string screen::draw(terminal& term)
+std::string screen::draw(terminal& term, canvas const &cvs)
 {
-    std::string result;
-    
-    if (front_buffer_.size() != back_buffer_.size())
+    auto result = std::string();
+
+    if (cvs.size() != last_frame_.size())
     {
-        result = draw_entire_canvas(term, front_buffer_);
-    }
-    else
-    {
-        result = draw_canvas_differences(term, front_buffer_, back_buffer_);
+        last_frame_ = canvas(cvs.size());
+        result += term.erase_in_display(terminal::erase_display::all);
     }
     
-    back_buffer_ = front_buffer_;
+    for (s32 y = 0; y < cvs.size().height; ++y)
+    {
+        for (s32 x = 0; x < cvs.size().width; ++x)
+        {
+            if (last_frame_[x][y] != cvs[x][y])
+            {
+                result += term.move_cursor({x, y});
+                result += term.write(""_ts + cvs[x][y]);
+            }
+        }
+    }
+    
+    last_frame_ = cvs;
+
     return result;
 }
-
-// ==========================================================================
-// OPERATOR[]
-// ==========================================================================
-canvas::column_proxy screen::operator[](u32 index)
-{
-    return front_buffer_[index];
-}
-
 
 }
