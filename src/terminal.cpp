@@ -203,9 +203,16 @@ std::string terminal::restore_cursor()
 // ==========================================================================
 // MOVE_CURSOR
 // ==========================================================================
-std::string terminal::move_cursor(point const &pt)
+std::string terminal::move_cursor(point const &pos)
 {
     std::string result;
+
+    // Note: terminal uses 0-based co-ordinates whereas ANSI uses a
+    // 1-based indexing.  Therefore, we need to offset the cursor position 
+    // in order to get the correct output when actually calling functions 
+    // that refer to co-ordinates (cursor_position and 
+    // cursor_horizontal_absolute).
+    auto ansipos = pos + point{1, 1};
 
     if (cursor_position_)
     {
@@ -217,64 +224,67 @@ std::string terminal::move_cursor(point const &pt)
         //    * Cursor Horizontal Absolute (move to position on current line)
         //    * Cursor Forward
         //    * Cursor Backward
-        if (*cursor_position_ == pt)
+        if (*cursor_position_ == pos)
         {
             // Do nothing.
             return result;
         }
 
-        if (cursor_position_->y == pt.y)
+        if (cursor_position_->y == pos.y)
         {
-            if (pt.x < 10 && behaviour_.supports_cha)
+            if (ansipos.x < 10 && behaviour_.supports_cha)
             {
+                // Note: Cursor Horizontal Absolute uses 1-based indexing,
+                // where terminal uses 0-based indexing.  Therefore, it needs
+                // an offset.
                 result =
                     detail::cursor_horizontal_absolute(
-                        pt.x, behaviour_, control_mode_);
+                        ansipos.x, behaviour_, control_mode_);
             }
             else
             {
-                if (pt.x > cursor_position_->x)
+                if (pos.x > cursor_position_->x)
                 {
                     result =
                         detail::cursor_forward(
-                            pt.x - cursor_position_->x,
+                            pos.x - cursor_position_->x,
                             control_mode_);
                 }
                 else
                 {
                     result =
                         detail::cursor_backward(
-                            cursor_position_->x - pt.x,
+                            cursor_position_->x - pos.x,
                             control_mode_);
                 }
             }
         }
-        else if (cursor_position_->x == pt.x)
+        else if (cursor_position_->x == pos.x)
         {
-            if (cursor_position_->y > pt.y)
+            if (cursor_position_->y > pos.y)
             {
-                result = detail::cursor_up(cursor_position_->y - pt.y, control_mode_);
+                result = detail::cursor_up(cursor_position_->y - pos.y, control_mode_);
             }
             else
             {
-                result = detail::cursor_down(pt.y - cursor_position_->y, control_mode_);
+                result = detail::cursor_down(pos.y - cursor_position_->y, control_mode_);
             }
         }
         else
         {
             // Since we must move in both dimensions, there's no short-cut
             // command to use.
-            result = detail::cursor_position(pt, behaviour_, control_mode_);
+            result = detail::cursor_position(ansipos, behaviour_, control_mode_);
         }
     }
     else
     {
         // The cursor position was unknown.  There are no shortcuts we can
         // sensibly take in this situation.
-        result = detail::cursor_position(pt, behaviour_, control_mode_);
+        result = detail::cursor_position(ansipos, behaviour_, control_mode_);
     }
 
-    cursor_position_ = pt;
+    cursor_position_ = pos;
 
     return result;
 }
