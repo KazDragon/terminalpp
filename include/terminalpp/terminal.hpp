@@ -176,6 +176,11 @@ public :
     std::vector<token> read(std::string const &data);
 
     //* =====================================================================
+    /// \brief Writest the specified element.
+    //* =====================================================================
+    std::string write(element const &elem);
+    
+    //* =====================================================================
     /// \brief Writes the specified sequence of characters.
     //* =====================================================================
     std::string write(string const &str);
