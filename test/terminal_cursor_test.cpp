@@ -19,8 +19,8 @@ public :
         
         CPPUNIT_TEST(move_to_column_to_the_left_uses_cub);
         CPPUNIT_TEST(move_to_column_to_the_right_uses_cuf);
-        CPPUNIT_TEST(move_to_column_under_10_supports_cha_uses_cha);
-        CPPUNIT_TEST(move_to_column_under_10_no_cha_uses_cub_or_cuf);
+        CPPUNIT_TEST(move_to_column_under_9_supports_cha_uses_cha);
+        CPPUNIT_TEST(move_to_column_under_9_no_cha_uses_cub_or_cuf);
         
         CPPUNIT_TEST(move_to_origin_row_uses_cuu);
         CPPUNIT_TEST(move_to_row_above_uses_cuu);
@@ -49,8 +49,8 @@ private :
     
     void move_to_column_to_the_left_uses_cub();
     void move_to_column_to_the_right_uses_cuf();
-    void move_to_column_under_10_supports_cha_uses_cha();
-    void move_to_column_under_10_no_cha_uses_cub_or_cuf();
+    void move_to_column_under_9_supports_cha_uses_cha();
+    void move_to_column_under_9_no_cha_uses_cub_or_cuf();
     
     void move_to_origin_row_uses_cuu();
     void move_to_row_above_uses_cuu();
@@ -76,7 +76,7 @@ void terminal_cursor_test_fixture::move_from_unknown_location_performs_full_move
     terminalpp::terminal terminal(terminalpp::terminal::behaviour{});
     
     expect_sequence(
-        std::string("\x1B[2;2H"),
+        std::string("\x1B[3;3H"),
         terminal.move_cursor({2, 2}));
 }
 
@@ -104,7 +104,7 @@ void terminal_cursor_test_fixture::move_to_origin_column_supports_cha_and_defaul
     
     expect_sequence(
         std::string("\x1B[G"),
-        terminal.move_cursor({1, 10}));
+        terminal.move_cursor({0, 10}));
 }
 
 void terminal_cursor_test_fixture::move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence()
@@ -122,7 +122,7 @@ void terminal_cursor_test_fixture::move_to_origin_column_supports_cha_not_defaul
     
     expect_sequence(
         std::string("\x1B[1G"),
-        terminal.move_cursor({1, 10}));
+        terminal.move_cursor({0, 10}));
 }
 
 void terminal_cursor_test_fixture::move_to_origin_column_no_cha_sends_cub()
@@ -137,8 +137,8 @@ void terminal_cursor_test_fixture::move_to_origin_column_no_cha_sends_cub()
     terminal.move_cursor({10, 10});
     
     expect_sequence(
-        std::string("\x1B[9D"),
-        terminal.move_cursor({1, 10}));
+        std::string("\x1B[10D"),
+        terminal.move_cursor({0, 10}));
 }
 
 void terminal_cursor_test_fixture::move_to_column_to_the_left_uses_cub()
@@ -165,7 +165,7 @@ void terminal_cursor_test_fixture::move_to_column_to_the_right_uses_cuf()
         terminal.move_cursor({25, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_column_under_10_supports_cha_uses_cha()
+void terminal_cursor_test_fixture::move_to_column_under_9_supports_cha_uses_cha()
 {
     // When moving to a column < 10, the shortest sequence is to use
     // CHA, since it only requires one extra digit in all cases.
@@ -177,10 +177,10 @@ void terminal_cursor_test_fixture::move_to_column_under_10_supports_cha_uses_cha
     
     expect_sequence(
         std::string("\x1B[9G"),
-        terminal.move_cursor({9, 10}));
+        terminal.move_cursor({8, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_column_under_10_no_cha_uses_cub_or_cuf()
+void terminal_cursor_test_fixture::move_to_column_under_9_no_cha_uses_cub_or_cuf()
 {
     // When moving to column < 10, but CHA is not supported, then we must
     // use either CUB or CUF instead.
@@ -258,7 +258,7 @@ void terminal_cursor_test_fixture::move_to_different_column_and_row_uses_cup()
     terminal.move_cursor({5, 5});
     
     expect_sequence(
-        std::string("\x1B[3;10H"),
+        std::string("\x1B[4;11H"),
         terminal.move_cursor({10, 3}));
 }
 
