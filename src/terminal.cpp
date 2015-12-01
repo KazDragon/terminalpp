@@ -305,21 +305,14 @@ std::vector<terminalpp::token> terminal::read(std::string const &data)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string terminal::write(string const& str)
+std::string terminal::write(element const &elem)
 {
-    std::string result;
-
-    for (auto &&elem : str)
-    {
-        result += detail::element_difference(last_element_, elem);
-        result += write_element(elem);
-
-        last_element_ = elem;
-    }
+    std::string result = detail::element_difference(last_element_, elem)
+                       + write_element(elem);
 
     if (cursor_position_)
     {
-        cursor_position_->x += str.size();
+        ++(cursor_position_->x);
 
         if (size_)
         {
@@ -334,6 +327,24 @@ std::string terminal::write(string const& str)
             }
         }
     }
+
+    last_element_ = elem;
+    
+    return result;
+}
+
+// ==========================================================================
+// WRITE
+// ==========================================================================
+std::string terminal::write(string const& str)
+{
+    std::string result;
+
+    std::for_each(str.begin(), str.end(),
+    [&result, this](auto const &elem)
+    {
+        result += write(elem);
+    });
 
     return result;
 }

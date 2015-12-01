@@ -49,6 +49,9 @@ public :
         CPPUNIT_TEST(writing_past_terminal_width_moves_cursor_to_next_line);
         CPPUNIT_TEST(writing_far_past_terminal_width_moves_multiple_lines);
         CPPUNIT_TEST(writing_past_last_line_scrolls_last_line);
+        
+        CPPUNIT_TEST(can_write_single_element);
+        CPPUNIT_TEST(writing_single_element_moves_cursor);
     CPPUNIT_TEST_SUITE_END();
 
 private :
@@ -93,6 +96,9 @@ private :
     void writing_past_terminal_width_moves_cursor_to_next_line();
     void writing_far_past_terminal_width_moves_multiple_lines();
     void writing_past_last_line_scrolls_last_line();
+    
+    void can_write_single_element();
+    void writing_single_element_moves_cursor();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_string_test_fixture);
@@ -427,6 +433,30 @@ void terminal_string_test_fixture::writing_past_last_line_scrolls_last_line()
     expect_sequence(
         std::string(""),
         terminal.move_cursor({3, 10}));
+}
+
+void terminal_string_test_fixture::can_write_single_element()
+{
+    terminalpp::terminal terminal;
+    terminalpp::element  elem('X');
+    elem.attribute_.foreground_colour_ = 
+        terminalpp::ansi::graphics::colour::red;
+    
+    expect_sequence(
+        std::string("\x1B[31mX"),
+        terminal.write(elem));
+}
+
+void terminal_string_test_fixture::writing_single_element_moves_cursor()
+{
+    terminalpp::terminal terminal;
+    terminal.set_size({5, 5});
+    terminal.move_cursor({0, 0});
+    terminal.write('x');
+    
+    expect_sequence(
+        std::string(""),
+        terminal.move_cursor({1, 0}));
 }
 
 
