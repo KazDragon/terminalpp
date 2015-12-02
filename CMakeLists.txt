@@ -88,6 +88,7 @@ if (CPPUNIT_FOUND)
         test/terminal_read_test.cpp
         test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
+        test/virtual_key_test.cpp
         test/main.cpp
     )
 
