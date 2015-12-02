@@ -18,8 +18,9 @@ struct report
     static terminalpp::u8 const MIDDLE_BUTTON_DOWN = terminalpp::u8(1);
     static terminalpp::u8 const RIGHT_BUTTON_DOWN  = terminalpp::u8(2);
     static terminalpp::u8 const BUTTON_UP          = terminalpp::u8(3);
-    static terminalpp::u8 const SCROLLWHEEL_UP     = terminalpp::u8(32);
-    static terminalpp::u8 const SCROLLWHEEL_DOWN   = terminalpp::u8(33);
+    static terminalpp::u8 const NO_BUTTON_CHANGE   = terminalpp::u8(32);
+    static terminalpp::u8 const SCROLLWHEEL_UP     = terminalpp::u8(64);
+    static terminalpp::u8 const SCROLLWHEEL_DOWN   = terminalpp::u8(65);
 
     terminalpp::u8  button_;
     terminalpp::u32 x_position_;
