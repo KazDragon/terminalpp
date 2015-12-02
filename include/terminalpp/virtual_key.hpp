@@ -151,7 +151,7 @@ enum class vk : u8
 
 enum class vk_modifier : u8
 {
-    none = 0,
+    none  = 0,
     shift = (1 << 0),
     ctrl  = (1 << 1),
     alt   = (1 << 2),
@@ -197,6 +197,32 @@ std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
 {
     return vk_modifier(u8(lhs) | u8(rhs));
+}
+
+//* =========================================================================
+/// \brief Or-assignment of virtual key modifiers.
+//* =========================================================================
+constexpr vk_modifier &operator|=(vk_modifier &lhs, vk_modifier const &rhs)
+{
+    lhs = lhs | rhs;
+    return lhs;
+}
+
+//* =========================================================================
+/// \brief Allow the and-ing of virtual key modifiers.
+//* =========================================================================
+constexpr vk_modifier operator&(vk_modifier const &lhs, vk_modifier const &rhs)
+{
+    return vk_modifier(u8(lhs) & u8(rhs));
+}
+
+//* =========================================================================
+/// \brief And-assignment of virtual key modifiers.
+//* =========================================================================
+constexpr vk_modifier &operator&=(vk_modifier &lhs, vk_modifier const &rhs)
+{
+    lhs = lhs & rhs;
+    return lhs;
 }
 
 }
