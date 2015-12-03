@@ -96,11 +96,15 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
 
     auto repeat_count = u8(std::max(atoi(repeat_count_arg.c_str()), 1));
 
+    vk_modifier modifier = seq.meta
+                         ? vk_modifier::meta
+                         : vk_modifier::none;
+
     if (cursor_movement_command != cursor_movement_commands.end())
     {
         return virtual_key{
             cursor_movement_command->second,
-            vk_modifier::none,
+            modifier,
             repeat_count,
             seq };
     }
@@ -139,9 +143,13 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
 
     if (ss3_command != ss3_commands.end())
     {
+        vk_modifier modifier = seq.meta
+                             ? vk_modifier::meta
+                             : vk_modifier::none;
+
         return virtual_key{
             ss3_command->second,
-            vk_modifier::none,
+            modifier,
             1,
             seq };
     }
@@ -191,6 +199,11 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
         vk_modifier modifier = seq.arguments.size() > 1
                              ? convert_modifier_argument(seq.arguments[1])
                              : vk_modifier::none;
+
+        if (seq.meta)
+        {
+            modifier |= vk_modifier::meta;
+        }
 
         return virtual_key{
             keypad_command->second,

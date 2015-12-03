@@ -12,6 +12,7 @@ public :
         CPPUNIT_TEST(right_command_yields_vk_right);
         CPPUNIT_TEST(left_command_yields_vk_left);
 
+        CPPUNIT_TEST(direction_meta_command_yields_meta_vk);
         CPPUNIT_TEST(direction_commands_with_repeat_count_yield_vk_with_repeat_count);
 
         CPPUNIT_TEST(home_command_yields_vk_home);
@@ -22,12 +23,16 @@ public :
         CPPUNIT_TEST(pgup_command_yields_vk_pgup);
         CPPUNIT_TEST(pgdn_command_yields_vk_pgdn);
 
+        CPPUNIT_TEST(cursor_meta_command_yields_meta_vk);
+
         CPPUNIT_TEST(up_ss3_yields_vk_up);
         CPPUNIT_TEST(down_ss3_yields_vk_down);
         CPPUNIT_TEST(right_ss3_yields_vk_right);
         CPPUNIT_TEST(left_ss3_yields_vk_left);
         CPPUNIT_TEST(home_ss3_yields_vk_home);
         CPPUNIT_TEST(end_ss3_yields_vk_end);
+
+        CPPUNIT_TEST(cursor_meta_ss3_yields_meta_vk);
 
         CPPUNIT_TEST(tab_key_yields_vk_tab);
         CPPUNIT_TEST(tab_command_yields_vk_tab);
@@ -36,6 +41,8 @@ public :
 
         CPPUNIT_TEST(tab_command_with_repeat_count_yields_vk_with_repeat_count);
         CPPUNIT_TEST(reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count);
+
+        CPPUNIT_TEST(tab_meta_commands_yield_meta_vk);
 
         CPPUNIT_TEST(crlf_yields_vk_enter);
         CPPUNIT_TEST(crnul_yields_vk_enter);
@@ -53,6 +60,7 @@ private :
     void left_command_yields_vk_left();
 
     void direction_commands_with_repeat_count_yield_vk_with_repeat_count();
+    void direction_meta_command_yields_meta_vk();
 
     void home_command_yields_vk_home();
     void alternative_home_command_yields_vk_home();
@@ -62,6 +70,8 @@ private :
     void pgup_command_yields_vk_pgup();
     void pgdn_command_yields_vk_pgdn();
 
+    void cursor_meta_command_yields_meta_vk();
+
     void up_ss3_yields_vk_up();
     void down_ss3_yields_vk_down();
     void right_ss3_yields_vk_right();
@@ -69,10 +79,14 @@ private :
     void home_ss3_yields_vk_home();
     void end_ss3_yields_vk_end();
 
+    void cursor_meta_ss3_yields_meta_vk();
+
     void tab_key_yields_vk_tab();
     void tab_command_yields_vk_tab();
     void tab_ss3_yields_vk_tab();
     void reverse_tab_command_yields_vk_reverse_tab();
+
+    void tab_meta_commands_yield_meta_vk();
 
     void tab_command_with_repeat_count_yields_vk_with_repeat_count();
     void reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count();
@@ -175,6 +189,45 @@ void terminal_read_cursor_test::direction_commands_with_repeat_count_yield_vk_wi
         });
 }
 
+void terminal_read_cursor_test::direction_meta_command_yields_meta_vk()
+{
+    expect_token(
+        "\x1B\x1B[A",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_up,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'A', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[B",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_down,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'B', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[C",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_right,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'C', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[D",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_left,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'D', false, { "" }}
+        });
+}
+
 void terminal_read_cursor_test::home_command_yields_vk_home()
 {
     expect_token(
@@ -259,6 +312,72 @@ void terminal_read_cursor_test::pgdn_command_yields_vk_pgdn()
         });
 }
 
+void terminal_read_cursor_test::cursor_meta_command_yields_meta_vk()
+{
+    expect_token(
+        "\x1B\x1B[1~",
+        terminalpp::virtual_key {
+            terminalpp::vk::home,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', true, { "1" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[H",
+        terminalpp::virtual_key {
+            terminalpp::vk::home,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'H', true, {}}
+        });
+
+    expect_token(
+        "\x1B\x1B[2~",
+        terminalpp::virtual_key {
+            terminalpp::vk::ins,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', true, { "2" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[3~",
+        terminalpp::virtual_key {
+            terminalpp::vk::del,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', true, { "3" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[4~",
+        terminalpp::virtual_key {
+            terminalpp::vk::end,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', true, { "4" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[5~",
+        terminalpp::virtual_key {
+            terminalpp::vk::pgup,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', true, { "5" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[6~",
+        terminalpp::virtual_key {
+            terminalpp::vk::pgdn,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', true, { "6" }}
+        });
+}
+
 void terminal_read_cursor_test::up_ss3_yields_vk_up()
 {
     expect_token(
@@ -331,6 +450,63 @@ void terminal_read_cursor_test::end_ss3_yields_vk_end()
         });
 }
 
+void terminal_read_cursor_test::cursor_meta_ss3_yields_meta_vk()
+{
+    expect_token(
+        "\x1B\x1BOA",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_up,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'A', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOB",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_down,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'B', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOC",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_right,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'C', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOD",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_left,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'D', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOH",
+        terminalpp::virtual_key {
+            terminalpp::vk::home,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'H', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOF",
+        terminalpp::virtual_key {
+            terminalpp::vk::end,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'F', true, { "" }}
+        });
+}
+
 void terminal_read_cursor_test::tab_key_yields_vk_tab()
 {
     expect_token(
@@ -376,6 +552,36 @@ void terminal_read_cursor_test::reverse_tab_command_yields_vk_reverse_tab()
             terminalpp::vk_modifier::none,
             1,
             terminalpp::ansi::control_sequence{'[', 'Z', false, { "" }}
+        });
+}
+
+void terminal_read_cursor_test::tab_meta_commands_yield_meta_vk()
+{
+    expect_token(
+        "\x1B\x1B[I",
+        terminalpp::virtual_key {
+            terminalpp::vk::ht,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'I', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOI",
+        terminalpp::virtual_key {
+            terminalpp::vk::ht,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'I', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1B[Z",
+        terminalpp::virtual_key {
+            terminalpp::vk::bt,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'Z', true, { "" }}
         });
 }
 
