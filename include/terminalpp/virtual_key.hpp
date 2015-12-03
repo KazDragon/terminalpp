@@ -173,7 +173,7 @@ struct TERMINALPP_EXPORT virtual_key
     vk_modifier modifiers;
 
     /// \brief The repeat count of the character.
-    char repeat_count;
+    u32 repeat_count;
 
     /// \brief The actual received data for the key.
     boost::variant<char, ansi::control_sequence> sequence;
