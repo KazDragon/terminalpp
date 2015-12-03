@@ -12,6 +12,8 @@ public :
         CPPUNIT_TEST(right_command_yields_vk_right);
         CPPUNIT_TEST(left_command_yields_vk_left);
 
+        CPPUNIT_TEST(direction_commands_with_repeat_count_yield_vk_with_repeat_count);
+
         CPPUNIT_TEST(home_command_yields_vk_home);
         CPPUNIT_TEST(alternative_home_command_yields_vk_home);
         CPPUNIT_TEST(ins_command_yields_vk_ins);
@@ -32,6 +34,9 @@ public :
         CPPUNIT_TEST(tab_ss3_yields_vk_tab);
         CPPUNIT_TEST(reverse_tab_command_yields_vk_reverse_tab);
 
+        CPPUNIT_TEST(tab_command_with_repeat_count_yields_vk_with_repeat_count);
+        CPPUNIT_TEST(reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count);
+
         CPPUNIT_TEST(crlf_yields_vk_enter);
         CPPUNIT_TEST(crnul_yields_vk_enter);
         CPPUNIT_TEST(cr_then_nul_yields_enter_only);
@@ -46,6 +51,8 @@ private :
     void down_command_yields_vk_down();
     void right_command_yields_vk_right();
     void left_command_yields_vk_left();
+
+    void direction_commands_with_repeat_count_yield_vk_with_repeat_count();
 
     void home_command_yields_vk_home();
     void alternative_home_command_yields_vk_home();
@@ -66,6 +73,9 @@ private :
     void tab_command_yields_vk_tab();
     void tab_ss3_yields_vk_tab();
     void reverse_tab_command_yields_vk_reverse_tab();
+
+    void tab_command_with_repeat_count_yields_vk_with_repeat_count();
+    void reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count();
 
     void crlf_yields_vk_enter();
     void crnul_yields_vk_enter();
@@ -123,6 +133,45 @@ void terminal_read_cursor_test::left_command_yields_vk_left()
             terminalpp::vk_modifier::none,
             1,
             terminalpp::ansi::control_sequence{'[', 'D', false, { "" }}
+        });
+}
+
+void terminal_read_cursor_test::direction_commands_with_repeat_count_yield_vk_with_repeat_count()
+{
+    expect_token(
+        "\x1B[1;A",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_up,
+            terminalpp::vk_modifier::none,
+            1,
+            terminalpp::ansi::control_sequence{'[', 'A', false, { "1" }}
+        });
+
+    expect_token(
+        "\x1B[2;B",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_down,
+            terminalpp::vk_modifier::none,
+            2,
+            terminalpp::ansi::control_sequence{'[', 'B', false, { "2" }}
+        });
+
+    expect_token(
+        "\x1B[3;C",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_right,
+            terminalpp::vk_modifier::none,
+            3,
+            terminalpp::ansi::control_sequence{'[', 'C', false, { "3" }}
+        });
+
+    expect_token(
+        "\x1B[4;D",
+        terminalpp::virtual_key {
+            terminalpp::vk::cursor_left,
+            terminalpp::vk_modifier::none,
+            4,
+            terminalpp::ansi::control_sequence{'[', 'D', false, { "4" }}
         });
 }
 
@@ -327,6 +376,30 @@ void terminal_read_cursor_test::reverse_tab_command_yields_vk_reverse_tab()
             terminalpp::vk_modifier::none,
             1,
             terminalpp::ansi::control_sequence{'[', 'Z', false, { "" }}
+        });
+}
+
+void terminal_read_cursor_test::tab_command_with_repeat_count_yields_vk_with_repeat_count()
+{
+    expect_token(
+        "\x1B[7I",
+        terminalpp::virtual_key {
+            terminalpp::vk::ht,
+            terminalpp::vk_modifier::none,
+            7,
+            terminalpp::ansi::control_sequence{'[', 'I', false, { "7" }}
+        });
+}
+
+void terminal_read_cursor_test::reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count()
+{
+    expect_token(
+        "\x1B[10Z",
+        terminalpp::virtual_key {
+            terminalpp::vk::bt,
+            terminalpp::vk_modifier::none,
+            10,
+            terminalpp::ansi::control_sequence{'[', 'I', false, { "10" }}
         });
 }
 

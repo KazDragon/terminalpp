@@ -90,12 +90,18 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
             return elem.first == seq.command;
         });
 
+    auto repeat_count_arg = seq.arguments.empty()
+                          ? std::string("1")
+                          : seq.arguments[0];
+
+    auto repeat_count = u8(std::max(atoi(repeat_count_arg.c_str()), 1));
+
     if (cursor_movement_command != cursor_movement_commands.end())
     {
         return virtual_key{
             cursor_movement_command->second,
             vk_modifier::none,
-            1,
+            repeat_count,
             seq };
     }
 
