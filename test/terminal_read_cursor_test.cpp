@@ -24,7 +24,8 @@ public :
         CPPUNIT_TEST(pgdn_command_yields_vk_pgdn);
 
         CPPUNIT_TEST(cursor_meta_command_yields_meta_vk);
-
+        CPPUNIT_TEST(cursor_command_with_modifiers_yields_vk_with_modifiers);
+        
         CPPUNIT_TEST(up_ss3_yields_vk_up);
         CPPUNIT_TEST(down_ss3_yields_vk_down);
         CPPUNIT_TEST(right_ss3_yields_vk_right);
@@ -71,7 +72,8 @@ private :
     void pgdn_command_yields_vk_pgdn();
 
     void cursor_meta_command_yields_meta_vk();
-
+    void cursor_command_with_modifiers_yields_vk_with_modifiers();
+    
     void up_ss3_yields_vk_up();
     void down_ss3_yields_vk_down();
     void right_ss3_yields_vk_right();
@@ -375,6 +377,63 @@ void terminal_read_cursor_test::cursor_meta_command_yields_meta_vk()
             terminalpp::vk_modifier::meta,
             1,
             terminalpp::ansi::control_sequence{'[', '~', true, { "6" }}
+        });
+}
+
+void terminal_read_cursor_test::cursor_command_with_modifiers_yields_vk_with_modifiers()
+{
+    expect_token(
+        "\x1B[1;5~",
+        terminalpp::virtual_key {
+            terminalpp::vk::home,
+            terminalpp::vk_modifier::ctrl,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "1", "5" }}
+        });
+
+    expect_token(
+        "\x1B[2;3~",
+        terminalpp::virtual_key {
+            terminalpp::vk::ins,
+            terminalpp::vk_modifier::alt,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "2", "3" }}
+        });
+
+    expect_token(
+        "\x1B[3;2~",
+        terminalpp::virtual_key {
+            terminalpp::vk::del,
+            terminalpp::vk_modifier::shift,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "3", "2" }}
+        });
+
+    expect_token(
+        "\x1B[4;9~",
+        terminalpp::virtual_key {
+            terminalpp::vk::end,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "4", "9" }}
+        });
+
+    expect_token(
+        "\x1B[5;7~",
+        terminalpp::virtual_key {
+            terminalpp::vk::pgup,
+            terminalpp::vk_modifier::ctrl | terminalpp::vk_modifier::alt,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "5", "7" }}
+        });
+
+    expect_token(
+        "\x1B[6;5~",
+        terminalpp::virtual_key {
+            terminalpp::vk::pgdn,
+            terminalpp::vk_modifier::ctrl,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', false, { "6", "5" }}
         });
 }
 

@@ -295,7 +295,6 @@ void expect_fkeys_with_modifier(
     expect_fkey_with_modifier(
         std::to_string(terminalpp::ansi::csi::KEYPAD_F12), fkey_modifier_code,
         terminalpp::vk::f12, expected_vk_modifier);
-    // TODO: rest
 }
 
 void terminal_read_fkey_test::shift_f_command_yields_vk_shift_f()
