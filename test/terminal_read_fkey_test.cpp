@@ -29,6 +29,8 @@ public :
         CPPUNIT_TEST(alt_ctrl_f_command_yields_vk_alt_ctrl_f);
         CPPUNIT_TEST(alt_shift_ctrl_f_command_yields_vk_alt_shift_ctrl_f);
 
+        CPPUNIT_TEST(alt_shift_ctrl_meta_f_command_yields_vk_meta_alt_shift_ctrl_f);
+
         CPPUNIT_TEST(meta_f_command_yields_vk_meta_f);
         CPPUNIT_TEST(meta_shift_f_command_yields_vk_meta_shift_f);
         CPPUNIT_TEST(meta_ctrl_f_command_yields_vk_meta_ctrl_f);
@@ -42,6 +44,8 @@ public :
         CPPUNIT_TEST(f2_ss3_yields_vk_f2);
         CPPUNIT_TEST(f3_ss3_yields_vk_f3);
         CPPUNIT_TEST(f4_ss3_yields_vk_f4);
+
+        CPPUNIT_TEST(f_meta_ss3_yields_meta_vk);
     CPPUNIT_TEST_SUITE_END();
 
 private :
@@ -67,6 +71,8 @@ private :
     void alt_ctrl_f_command_yields_vk_alt_ctrl_f();
     void alt_shift_ctrl_f_command_yields_vk_alt_shift_ctrl_f();
 
+    void alt_shift_ctrl_meta_f_command_yields_vk_meta_alt_shift_ctrl_f();
+
     void meta_f_command_yields_vk_meta_f();
     void meta_shift_f_command_yields_vk_meta_shift_f();
     void meta_ctrl_f_command_yields_vk_meta_ctrl_f();
@@ -80,6 +86,8 @@ private :
     void f2_ss3_yields_vk_f2();
     void f3_ss3_yields_vk_f3();
     void f4_ss3_yields_vk_f4();
+
+    void f_meta_ss3_yields_meta_vk();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_fkey_test);
@@ -332,6 +340,24 @@ void terminal_read_fkey_test::alt_shift_ctrl_f_command_yields_vk_alt_shift_ctrl_
       | terminalpp::vk_modifier::ctrl);
 }
 
+void terminal_read_fkey_test::alt_shift_ctrl_meta_f_command_yields_vk_meta_alt_shift_ctrl_f()
+{
+    expect_token(
+        "\x1B\x1B[15;8~",
+        terminalpp::virtual_key {
+            terminalpp::vk::f5,
+            terminalpp::vk_modifier::alt
+          | terminalpp::vk_modifier::shift
+          | terminalpp::vk_modifier::ctrl
+          | terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'[', '~', true, {
+                "15",
+                "8"
+            }}
+        });
+}
+
 void terminal_read_fkey_test::meta_f_command_yields_vk_meta_f()
 {
     expect_fkeys_with_modifier("9", terminalpp::vk_modifier::meta);
@@ -440,3 +466,42 @@ void terminal_read_fkey_test::f4_ss3_yields_vk_f4()
         });
 }
 
+void terminal_read_fkey_test::f_meta_ss3_yields_meta_vk()
+{
+    expect_token(
+        "\x1B\x1BOP",
+        terminalpp::virtual_key {
+            terminalpp::vk::f1,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'P', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOQ",
+        terminalpp::virtual_key {
+            terminalpp::vk::f2,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'Q', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOR",
+        terminalpp::virtual_key {
+            terminalpp::vk::f3,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'R', true, { "" }}
+        });
+
+    expect_token(
+        "\x1B\x1BOS",
+        terminalpp::virtual_key {
+            terminalpp::vk::f4,
+            terminalpp::vk_modifier::meta,
+            1,
+            terminalpp::ansi::control_sequence{'O', 'S', true, { "" }}
+        });
+
+}
