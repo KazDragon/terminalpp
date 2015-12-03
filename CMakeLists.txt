@@ -29,6 +29,7 @@ add_library(terminalpp
     src/ansi/mouse.cpp
     src/attribute.cpp
     src/canvas.cpp
+    src/canvas_view.cpp
     src/detail/terminal_charset_control.cpp
     src/detail/terminal_control.cpp
     src/detail/terminal_cursor_control.cpp
@@ -74,6 +75,7 @@ if (CPPUNIT_FOUND)
 
     add_executable(terminalpp_tester
         test/canvas_test.cpp
+        test/canvas_view_test.cpp
         test/colour_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
