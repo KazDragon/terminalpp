@@ -38,6 +38,7 @@ public :
         
         CPPUNIT_TEST(unicode_codes_encode_unicode_text);
         CPPUNIT_TEST(default_code_removes_all_attributes);
+        CPPUNIT_TEST(default_code_then_colour_code_encodes_colour);
     CPPUNIT_TEST_SUITE_END();
 private :
     void empty_string_encodes_to_empty_string();
@@ -72,6 +73,7 @@ private :
     void unicode_codes_encode_unicode_text();
     
     void default_code_removes_all_attributes();
+    void default_code_then_colour_code_encodes_colour();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(string_encoder_test_fixture);
@@ -391,4 +393,20 @@ void string_encoder_test_fixture::default_code_removes_all_attributes()
     expect_encoding(
         {{'a'}},
         "\\>201\\{22\\p-\\u+\\xa");
+}
+
+void string_encoder_test_fixture::default_code_then_colour_code_encodes_colour()
+{
+    terminalpp::attribute high_background_colour_attribute;
+    high_background_colour_attribute.background_colour_ =
+        terminalpp::high_colour(5, 1, 2);
+        
+    // When testing this out RL, I discovered that 512 is a really,
+    // really hideous punk.  I absolutely have to use it for something.
+    expect_encoding(
+        {
+            { 'a', high_background_colour_attribute }
+        },
+        "\\x\\>512a");
+            
 }

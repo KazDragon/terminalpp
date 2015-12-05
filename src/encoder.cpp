@@ -138,6 +138,7 @@ terminalpp::string encode(char const *text, size_t length)
 
                     case 'x' :
                         current_element.attribute_ = {};
+                        current_state = state::normal;
                         break;
 
                     case 'C' :
