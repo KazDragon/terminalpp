@@ -28,6 +28,9 @@ public :
         
         CPPUNIT_TEST(move_to_different_column_and_row_uses_cup);
         
+        CPPUNIT_TEST(show_cursor_by_default_shows_cursor);
+        CPPUNIT_TEST(hide_cursor_by_default_hides_cursor);
+        
         CPPUNIT_TEST(show_cursor_when_shown_does_nothing);
         CPPUNIT_TEST(hide_cursor_when_shown_hides_cursor);
         
@@ -58,6 +61,8 @@ private :
     
     void move_to_different_column_and_row_uses_cup();
     
+    void show_cursor_by_default_shows_cursor();
+    void hide_cursor_by_default_hides_cursor();
     void show_cursor_when_shown_does_nothing();
     void hide_cursor_when_shown_hides_cursor();
     void show_cursor_when_hidden_sends_show_cursor();
@@ -262,9 +267,28 @@ void terminal_cursor_test_fixture::move_to_different_column_and_row_uses_cup()
         terminal.move_cursor({10, 3}));
 }
 
+void terminal_cursor_test_fixture::show_cursor_by_default_shows_cursor()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string("\x1B[?25h"),
+        terminal.show_cursor());
+}
+
+void terminal_cursor_test_fixture::hide_cursor_by_default_hides_cursor()
+{
+    terminalpp::terminal terminal;
+    
+    expect_sequence(
+        std::string("\x1B[?25l"),
+        terminal.hide_cursor());
+}
+
 void terminal_cursor_test_fixture::show_cursor_when_shown_does_nothing()
 {
     terminalpp::terminal terminal;
+    terminal.show_cursor();
     
     expect_sequence(
         std::string(""),
@@ -274,6 +298,7 @@ void terminal_cursor_test_fixture::show_cursor_when_shown_does_nothing()
 void terminal_cursor_test_fixture::hide_cursor_when_shown_hides_cursor()
 {
     terminalpp::terminal terminal;
+    terminal.show_cursor();
     
     expect_sequence(
         std::string("\x1B[?25l"),

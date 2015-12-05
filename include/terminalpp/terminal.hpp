@@ -202,15 +202,15 @@ private :
         shown,
     };
 
-    behaviour                behaviour_;
-    control_mode             control_mode_ = control_mode::seven_bit;
-    cursor_mode              cursor_mode_  = cursor_mode::shown;
-    boost::optional<point>   cursor_position_;
-    boost::optional<point>   saved_cursor_position_;
-    boost::optional<extent>  size_;
-    element                  last_element_;
+    behaviour                     behaviour_;
+    control_mode                  control_mode_ = control_mode::seven_bit;
+    boost::optional<cursor_mode>  cursor_mode_;
+    boost::optional<point>        cursor_position_;
+    boost::optional<point>        saved_cursor_position_;
+    boost::optional<extent>       size_;
+    element                       last_element_;
 
-    detail::parser           parser_;
+    detail::parser                parser_;
 };
 
 }
