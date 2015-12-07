@@ -402,7 +402,7 @@ void string_encoder_test_fixture::default_code_then_colour_code_encodes_colour()
         terminalpp::high_colour(5, 1, 2);
         
     // When testing this out RL, I discovered that 512 is a really,
-    // really hideous punk.  I absolutely have to use it for something.
+    // really hideous pink.  I absolutely have to use it for something.
     expect_encoding(
         {
             { 'a', high_background_colour_attribute }
