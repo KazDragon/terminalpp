@@ -138,7 +138,7 @@ int main()
 {
     terminalpp::terminal terminal;
     terminalpp::screen screen;
-    terminalpp::canvas canvas;
+    terminalpp::canvas canvas({80, 24});
     
     // ... Shocking pink screen as before ...
     std::cout << screen.draw(terminal, canvas);
