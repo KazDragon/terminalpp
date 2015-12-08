@@ -144,9 +144,8 @@ int main()
     std::cout << screen.draw(terminal, canvas);
     // screen is now actually shocking pink.
     
-    terminalpp::element &element = canvas[10][15];
-    element.glyph_ = 'y';
-    element.attribute_.background_colour_ = 
+    canvas[10][15].glyph_ = 'y';
+    canvas[10][15].attribute_.background_colour_ = 
         terminalpp::ansi::graphics::colour::blue;
         
     std::cout << screen.draw(terminal, canvas);
