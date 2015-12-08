@@ -6,7 +6,7 @@
 [![Stories in Progress](https://badge.waffle.io/KazDragon/terminalpp.png?label=in%20progress&title=Stories%20In%20Progress)](https://waffle.io/KazDragon/terminalpp)
 
 # Terminal++
-A C++ library for interacting with ANSI terminal windows.
+A C++ library for interacting with ANSI/VT100 terminal or terminal emulator displays.
 
 # Requirements
 
@@ -42,18 +42,18 @@ Terminal++ is currently automatically tested using:
 
 # The Basics
 
-The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential so that fully-featured text-based applications can be created.  The use cases for such software include interactive forms of command-line software, and even GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).
+The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential in order to create fully-featured text-based applications.  The use cases for such software include interactive forms of command-line software, and even GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).
 
-At its most fundamental level, Terminal++ is in the business of manipulating character elements on the screen, where each element is encoded as a glyph, which describes the character that is presented to the user, and a series of non-character graphical properties. These are encapsulated in the following classes:
+At its most fundamental level, Terminal++ is in the business of manipulating character elements on the screen, where each element is encoded as a glyph, which describes the character that is presented to the user, and a series of non-character graphical attributes. These are encapsulated in the following classes:
 
 * terminalpp::glyph - represents a character (which may be ASCII or any UTF-8 value up to U+FFFF) and its character set (by default, this is the US_ASCII character set).
 * terminalpp::attribute - a collection of variables that describe the non-character graphical part of the output, such as the foreground and background colours, whether it is bold, underlined, and so on.
 
-These are combined into Terminal++'s fundamental structure, terminalpp::element.
+These are combined into Terminal++'s fundamental type, terminalpp::element.
 
 # Strings
 
-terminalpp::elements can be collected together as strings.  The terminalpp::string class is used for that, but there are user-defined literals that can help: _ts (terminal string) and _ets (encoded terminal string)
+terminalpp::elements can be collected together using the terminalpp::string class.  It has several constructors for different uses.  For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message.  In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complicated strings
 
 ```
 int main()
@@ -85,7 +85,7 @@ text[0].attribute_.intensity_ = terminalpp::ansi::graphics::intensity::bold;
 
 # Terminals
 
-At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a Cmake script or Gtest.  But for greater control over the terminal, Terminal++ supplies the terminalpp::termina class.  This allows the user complete control over the terminal's appearance.
+At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a Cmake script or Google Test results, or even standard unix functions such as ls.  But for greater control over the terminal, Terminal++ supplies the terminalpp::terminal class.  This allows the user complete control over the terminal's appearance.
 
 ```
 int main()
