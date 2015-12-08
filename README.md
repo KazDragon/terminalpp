@@ -103,3 +103,56 @@ int main()
 This writes a smiley face in the (0, 24) position on the terminal -- usually the bottom-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.
 
 Note that it is necessary to output the results of the terminal operations.  This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is.  It could be standard out, it could be some named pipe, or it could be a network socket.  This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions. 
+
+# Canvas and Screen
+
+For even finer control of the terminal, the terminalpp::canvas class presents a grid of elements upon which you can "paint" the desired appearance of the terminal on a frame-by-frame by simply assigning to the appropriate co-ordinates:
+
+```
+int main()
+{
+    terminalpp::canvas canvas({80, 24});
+    
+    // Set the entire canvas to be the letter 'x' on a shocking pink
+    // background.  Because, why not?
+    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
+    {
+        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
+        {
+            terminalpp::element element('x');
+            element.attribute_.background_colour_ =
+                terminalpp::high_colour(5, 1, 2);
+                
+            canvas[x][y] = element;
+        }
+    }
+}
+```
+
+Now, assigning elements to the canvas wont actually cause any immediate effect.  For that, you would need to index over the entire canvas and output it, element-by-element, to a terminal.  But it's very wasteful to output the entire screen each time that a small part of it changes.
+
+To control this, we present the terminalpp::screen class, which represents a double-buffered approach to drawing the contents of a canvas.  Its draw() member function will cause only the differences between the previously drawn canvas and the current canvas to be output, with efforts made to keep the output as small as possible.  Note: it is assumed for the first canvas drawn, and for any canvas drawn after a change in output size, that everything has changed.
+
+```
+int main()
+{
+    terminalpp::terminal terminal;
+    terminalpp::screen screen;
+    terminalpp::canvas canvas;
+    
+    // ... Shocking pink screen as before ...
+    std::cout << screen.draw(terminal, canvas);
+    // screen is now actually shocking pink.
+    
+    canvas[10][15].glyph_ = 'y';
+    canvas[10][15].attribute.background_colour_ = 
+        terminalpp::ansi::graphics::colour::blue;
+        
+    std::cout << screen.draw(terminal, canvas);
+    // screen is still shocking pink, but there is now a letter 'y' with a
+    // blue background at position (10, 15).
+}
+```
+
+# News
+This project began as an effort to factor out the terminal handling of the Paradice9 project (https://github.com/KazDragon/paradice9).  Just recently, Terminal++ has been ported back to Paradice9 with great success, as a demonstration that the library is ready for general use.
