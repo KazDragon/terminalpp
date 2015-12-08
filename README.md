@@ -59,7 +59,8 @@ terminalpp::elements can be collected together as strings.  The terminalpp::stri
 int main()
 {
     using namespace terminalpp::literals;
-    std::cout << "Hello, world!\n"_ts; 
+    terminalpp::string text = "Hello, world!\n"_ts; 
+    std::cout << text;
 }
 
 // Constructs a terminalpp::string, and then prints it as simply, "Hello, world!"
@@ -71,5 +72,34 @@ By using _ets, you can also encode attributes within the text.  For example:
 int main()
 {
     using namespace terminalpp::literals;
-    std::cout << "\\[1Hello, \\[2World! \\U263A\n"_ets;
+    std::cout << "\\[1Hello, \\[2World! \\x\\U263A\n"_ets;
 }
+```
+
+This prints out "Hello, " in red text, then "World!" in green text, and then a smiley face in the default colour.  See the Wiki for more information about the attribute encoding used and its possibilities.  It is also possible to change the attributes for each element programatically.
+
+```
+terminalpp::string text = ...;
+text[0].attribute_.intensity_ = terminalpp::ansi::graphics::intensity::bold;
+```
+
+# Terminals
+
+At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a Cmake script or Gtest.  But for greater control over the terminal, Terminal++ supplies the terminalpp::termina class.  This allows the user complete control over the terminal's appearance.
+
+```
+int main()
+{
+    using namespace terminalpp
+    terminalpp::terminal terminal;
+
+    std::cout << terminal.save_cursor();
+              << terminal.move_cursor({0,23})
+              << terminal.write("\\U263A"_ets)
+              << terminal.restore_cursor()
+}
+```
+
+This writes a smiley face in the (0, 24) position on the terminal -- usually the bottom-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.
+
+Note that it is necessary to output the results of the terminal operations.  This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is.  It could be standard out, it could be some named pipe, or it could be a network socket.  This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions. 
