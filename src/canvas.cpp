@@ -30,9 +30,9 @@ canvas::column_proxy::column_proxy(canvas &cvs, u32 column)
 // ==========================================================================
 // COLUMN_PROXY::OPERATOR[]
 // ==========================================================================
-canvas::row_proxy canvas::column_proxy::operator[](u32 row)
+element &canvas::column_proxy::operator[](u32 row)
 {
-    return canvas::row_proxy(canvas_, column_, row);
+    return canvas_.get_element(column_, row);
 }
 
 // ==========================================================================
@@ -50,50 +50,6 @@ canvas::const_column_proxy::const_column_proxy(canvas const& cvs, u32 column)
 element const& canvas::const_column_proxy::operator[](u32 row) const
 {
     return canvas_.get_element(column_, row);
-}
-
-// ==========================================================================
-// ROW_PROXY::CONSTRUCTOR
-// ==========================================================================
-canvas::row_proxy::row_proxy(canvas& cvs, u32 column, u32 row)
-  : canvas_(cvs),
-    column_(column),
-    row_(row)
-{
-}
-
-// ==========================================================================
-// ROW_PROXY::OPERATOR=
-// ==========================================================================
-canvas::row_proxy &canvas::row_proxy::operator=(row_proxy const &other)
-{
-    canvas_.set_element(column_, row_, other);
-    return *this;
-}
-
-// ==========================================================================
-// ROW_PROXY::OPERATOR=
-// ==========================================================================
-canvas::row_proxy &canvas::row_proxy::operator=(element const &value)
-{
-    canvas_.set_element(column_, row_, value);
-    return *this;
-}
-
-// ==========================================================================
-// ROW::CONVERSION OPERATOR
-// ==========================================================================
-canvas::row_proxy::operator element &()
-{
-    return canvas_.get_element(column_, row_);
-}
-
-// ==========================================================================
-// ROW::CONVERSION OPERATOR
-// ==========================================================================
-canvas::row_proxy::operator element const &() const
-{
-    return canvas_.get_element(column_, row_);
 }
 
 // ==========================================================================
