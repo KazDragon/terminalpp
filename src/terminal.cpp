@@ -351,9 +351,9 @@ std::string terminal::write(string const& str)
     std::string result;
 
     std::for_each(str.begin(), str.end(),
-        [&result, this](auto const &elem) mutable
+        [&result, this](auto const &elem)
         {
-            result += write(elem);
+            result += this->write(elem);
         });
 
     return result;
