@@ -5,14 +5,14 @@ compiler:
   - clang
 
 env:
-  - CONFIG=Release SHARED=1
-  - CONFIG=Release SHARED=0
-  - CONFIG=Debug SHARED=1
-  - CONFIG=Debug SHARED=0
+  - CONFIG=Release SHARED=1 CCOMPILE=clang CXXCOMPILE=clang++
+  - CONFIG=Release SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++
+  - CONFIG=Debug SHARED=1 CCOMPILE=clang CXXCOMPILE=clang++
+  - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++
 
 addons:
   apt:
-    sources:
+    sources: &sources
       - ubuntu-toolchain-r-test
       - boost-latest
     packages:
@@ -21,6 +21,58 @@ addons:
       - g++-4.8
       - libcppunit-dev
       - libboost1.55-all-dev
+
+matrix:
+  include:
+
+    # g++-5.2
+    - compiler: g++
+      env: CONFIG=Release SHARED=1 CCOMPILE=gcc-5 CXXCOMPILE=g++-5
+      addons:
+        apt:
+          sources: *sources
+          packages:
+            - clang
+            - gcc-5
+            - g++-5
+            - libcppunit-dev
+            - libboost1.55-all-dev
+
+    - compiler: g++
+      env: CONFIG=Release SHARED=0 CCOMPILE=gcc-5 CXXCOMPILE=g++-5
+      addons:
+        apt:
+          sources: *sources
+          packages:
+            - clang
+            - gcc-5
+            - g++-5
+            - libcppunit-dev
+            - libboost1.55-all-dev
+
+    - compiler: g++
+      env: CONFIG=Debug SHARED=1 CCOMPILE=gcc-5 CXXCOMPILE=g++-5
+      addons:
+        apt:
+          sources: *sources
+          packages:
+            - clang
+            - gcc-5
+            - g++-5
+            - libcppunit-dev
+            - libboost1.55-all-dev
+
+    - compiler: g++
+      env: CONFIG=Debug SHARED=0 CCOMPILE=gcc-5 CXXCOMPILE=g++-5
+      addons:
+        apt:
+          sources: *sources
+          packages:
+            - clang
+            - gcc-5
+            - g++-5
+            - libcppunit-dev
+            - libboost1.55-all-dev
 
 cache:
   - apt: true
@@ -37,7 +89,7 @@ before_install:
 before_script:
   - mkdir build
   - cd build
-  - ../cmake-3.4.0-Linux-x86_64/bin/cmake -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED ..
+  - CC=$CCOMPILE CXX=$CXXCOMPILE ../cmake-3.4.0-Linux-x86_64/bin/cmake -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED ..
 
 script:
   - make -j2
