@@ -208,9 +208,9 @@ std::string terminal::move_cursor(point const &pos)
     std::string result;
 
     // Note: terminal uses 0-based co-ordinates whereas ANSI uses a
-    // 1-based indexing.  Therefore, we need to offset the cursor position 
-    // in order to get the correct output when actually calling functions 
-    // that refer to co-ordinates (cursor_position and 
+    // 1-based indexing.  Therefore, we need to offset the cursor position
+    // in order to get the correct output when actually calling functions
+    // that refer to co-ordinates (cursor_position and
     // cursor_horizontal_absolute).
     auto ansipos = pos + point{1, 1};
 
@@ -339,7 +339,7 @@ std::string terminal::write(element const &elem)
     }
 
     last_element_ = elem;
-    
+
     return result;
 }
 
@@ -351,10 +351,10 @@ std::string terminal::write(string const& str)
     std::string result;
 
     std::for_each(str.begin(), str.end(),
-    [&result, this](auto const &elem)
-    {
-        result += write(elem);
-    });
+        [&result, this](auto const &elem) mutable
+        {
+            result += write(elem);
+        });
 
     return result;
 }
