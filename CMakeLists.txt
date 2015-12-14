@@ -51,8 +51,8 @@ add_library(terminalpp
 set_target_properties(terminalpp
     PROPERTIES
         CXX_VISIBILITY_PRESET hidden
-        VERSION 0.1
-        SOVERSION 0.1
+        VERSION 1.0
+        SOVERSION 1.0
 )
 
 target_include_directories(terminalpp
