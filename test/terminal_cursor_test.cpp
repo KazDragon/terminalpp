@@ -1,80 +1,10 @@
 #include "terminalpp/terminal.hpp"
 #include "expect_sequence.hpp"
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
+#include <gtest/gtest.h>
 #include <string>
 #include <iostream>
 
-class terminal_cursor_test_fixture : public CppUnit::TestFixture
-{
-public :
-    CPPUNIT_TEST_SUITE(terminal_cursor_test_fixture);
-        CPPUNIT_TEST(move_from_unknown_location_performs_full_move);
-        
-        CPPUNIT_TEST(move_to_same_location_does_nothing);
-        
-        CPPUNIT_TEST(move_to_origin_column_supports_cha_and_default_arg_sends_short_sequence);
-        CPPUNIT_TEST(move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence);
-        CPPUNIT_TEST(move_to_origin_column_no_cha_sends_cub);
-        
-        CPPUNIT_TEST(move_to_column_to_the_left_uses_cub);
-        CPPUNIT_TEST(move_to_column_to_the_right_uses_cuf);
-        CPPUNIT_TEST(move_to_column_under_9_supports_cha_uses_cha);
-        CPPUNIT_TEST(move_to_column_under_9_no_cha_uses_cub_or_cuf);
-        
-        CPPUNIT_TEST(move_to_origin_row_uses_cuu);
-        CPPUNIT_TEST(move_to_row_above_uses_cuu);
-        CPPUNIT_TEST(move_to_row_below_uses_cud);
-        
-        CPPUNIT_TEST(move_to_different_column_and_row_uses_cup);
-        
-        CPPUNIT_TEST(show_cursor_by_default_shows_cursor);
-        CPPUNIT_TEST(hide_cursor_by_default_hides_cursor);
-        
-        CPPUNIT_TEST(show_cursor_when_shown_does_nothing);
-        CPPUNIT_TEST(hide_cursor_when_shown_hides_cursor);
-        
-        CPPUNIT_TEST(show_cursor_when_hidden_sends_show_cursor);
-        CPPUNIT_TEST(hide_cursor_when_hidden_does_nothing);
-        
-        CPPUNIT_TEST(save_cursor_position_saves_position);
-        CPPUNIT_TEST(restore_cursor_position_restores_position);
-    CPPUNIT_TEST_SUITE_END();
-    
-private :
-    void move_from_unknown_location_performs_full_move();
-    
-    void move_to_same_location_does_nothing();
-    
-    void move_to_origin_column_supports_cha_and_default_arg_sends_short_sequence();
-    void move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence();
-    void move_to_origin_column_no_cha_sends_cub();
-    
-    void move_to_column_to_the_left_uses_cub();
-    void move_to_column_to_the_right_uses_cuf();
-    void move_to_column_under_9_supports_cha_uses_cha();
-    void move_to_column_under_9_no_cha_uses_cub_or_cuf();
-    
-    void move_to_origin_row_uses_cuu();
-    void move_to_row_above_uses_cuu();
-    void move_to_row_below_uses_cud();
-    
-    void move_to_different_column_and_row_uses_cup();
-    
-    void show_cursor_by_default_shows_cursor();
-    void hide_cursor_by_default_hides_cursor();
-    void show_cursor_when_shown_does_nothing();
-    void hide_cursor_when_shown_hides_cursor();
-    void show_cursor_when_hidden_sends_show_cursor();
-    void hide_cursor_when_hidden_does_nothing();
-    
-    void save_cursor_position_saves_position();
-    void restore_cursor_position_restores_position();
-};
-
-CPPUNIT_TEST_SUITE_REGISTRATION(terminal_cursor_test_fixture);
-
-void terminal_cursor_test_fixture::move_from_unknown_location_performs_full_move()
+TEST(terminal_cursor_test, move_from_unknown_location_performs_full_move)
 {
     // When moving to a location from an unknown position (such as it is by
     // default), then the full cursor position sequence is returned.
@@ -85,7 +15,7 @@ void terminal_cursor_test_fixture::move_from_unknown_location_performs_full_move
         terminal.move_cursor({2, 2}));
 }
 
-void terminal_cursor_test_fixture::move_to_same_location_does_nothing()
+TEST(terminal_cursor_test, move_to_same_location_does_nothing)
 {
     // When moving from one location to the same location, the result should
     // be an empty string.
@@ -95,7 +25,7 @@ void terminal_cursor_test_fixture::move_to_same_location_does_nothing()
     expect_sequence(std::string{}, terminal.move_cursor({10, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_origin_column_supports_cha_and_default_arg_sends_short_sequence()
+TEST(terminal_cursor_test, move_to_origin_column_supports_cha_and_default_arg_sends_short_sequence)
 {
     // When moving to the origin column from a known position, and the 
     // terminal supports Cursor Horizontal Absolute, and supports
@@ -112,7 +42,7 @@ void terminal_cursor_test_fixture::move_to_origin_column_supports_cha_and_defaul
         terminal.move_cursor({0, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence()
+TEST(terminal_cursor_test, move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence)
 {
     // When moving to the origin column, where CHA is supported but not its
     // default argument, then the 1 is sent.  This is still the shortest
@@ -130,7 +60,7 @@ void terminal_cursor_test_fixture::move_to_origin_column_supports_cha_not_defaul
         terminal.move_cursor({0, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_origin_column_no_cha_sends_cub()
+TEST(terminal_cursor_test, move_to_origin_column_no_cha_sends_cub)
 {
     // When moving to the origin column, but CHA is not supported, then
     // the terminal will send Cursor Backward (CUB) instead.
@@ -146,7 +76,7 @@ void terminal_cursor_test_fixture::move_to_origin_column_no_cha_sends_cub()
         terminal.move_cursor({0, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_column_to_the_left_uses_cub()
+TEST(terminal_cursor_test, move_to_column_to_the_left_uses_cub)
 {
     // When moving to a column to the left (that is not < 10, since that
     // is CHA's domain), the terminal will send Cursor Backward (CUB).
@@ -158,7 +88,7 @@ void terminal_cursor_test_fixture::move_to_column_to_the_left_uses_cub()
         terminal.move_cursor({15, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_column_to_the_right_uses_cuf()
+TEST(terminal_cursor_test, move_to_column_to_the_right_uses_cuf)
 {
     // When moving to a column to the right (that is not < 10, since that
     // is CHA's domain), the terminal will send Cursor Forward (CUF).
@@ -170,7 +100,7 @@ void terminal_cursor_test_fixture::move_to_column_to_the_right_uses_cuf()
         terminal.move_cursor({25, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_column_under_9_supports_cha_uses_cha()
+TEST(terminal_cursor_test, move_to_column_under_9_supports_cha_uses_cha)
 {
     // When moving to a column < 10, the shortest sequence is to use
     // CHA, since it only requires one extra digit in all cases.
@@ -185,7 +115,7 @@ void terminal_cursor_test_fixture::move_to_column_under_9_supports_cha_uses_cha(
         terminal.move_cursor({8, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_column_under_9_no_cha_uses_cub_or_cuf()
+TEST(terminal_cursor_test, move_to_column_under_9_no_cha_uses_cub_or_cuf)
 {
     // When moving to column < 10, but CHA is not supported, then we must
     // use either CUB or CUF instead.
@@ -204,7 +134,7 @@ void terminal_cursor_test_fixture::move_to_column_under_9_no_cha_uses_cub_or_cuf
         terminal.move_cursor({9, 10}));
 }
 
-void terminal_cursor_test_fixture::move_to_origin_row_uses_cuu()
+TEST(terminal_cursor_test, move_to_origin_row_uses_cuu)
 {
     // When moving to the origin column, we should use CUU in all 
     // circumstances
@@ -224,7 +154,7 @@ void terminal_cursor_test_fixture::move_to_origin_row_uses_cuu()
         terminal.move_cursor({9, 1}));
 }
 
-void terminal_cursor_test_fixture::move_to_row_above_uses_cuu()
+TEST(terminal_cursor_test, move_to_row_above_uses_cuu)
 {
     // When moving to a row above, we should use CUU in all circumstances.
     terminalpp::terminal terminal;
@@ -240,7 +170,7 @@ void terminal_cursor_test_fixture::move_to_row_above_uses_cuu()
         terminal.move_cursor({9, 6}));
 }
 
-void terminal_cursor_test_fixture::move_to_row_below_uses_cud()
+TEST(terminal_cursor_test, move_to_row_below_uses_cud)
 {
     // When moving to a row below, we should use CUD in all circumstances.
     terminalpp::terminal terminal;
@@ -256,7 +186,7 @@ void terminal_cursor_test_fixture::move_to_row_below_uses_cud()
         terminal.move_cursor({9, 12}));
 }
 
-void terminal_cursor_test_fixture::move_to_different_column_and_row_uses_cup()
+TEST(terminal_cursor_test, move_to_different_column_and_row_uses_cup)
 {
     // When moving to a different column and row, CUP is used.
     terminalpp::terminal terminal;
@@ -267,7 +197,7 @@ void terminal_cursor_test_fixture::move_to_different_column_and_row_uses_cup()
         terminal.move_cursor({10, 3}));
 }
 
-void terminal_cursor_test_fixture::show_cursor_by_default_shows_cursor()
+TEST(terminal_cursor_test, show_cursor_by_default_shows_cursor)
 {
     terminalpp::terminal terminal;
     
@@ -276,7 +206,7 @@ void terminal_cursor_test_fixture::show_cursor_by_default_shows_cursor()
         terminal.show_cursor());
 }
 
-void terminal_cursor_test_fixture::hide_cursor_by_default_hides_cursor()
+TEST(terminal_cursor_test, hide_cursor_by_default_hides_cursor)
 {
     terminalpp::terminal terminal;
     
@@ -285,7 +215,7 @@ void terminal_cursor_test_fixture::hide_cursor_by_default_hides_cursor()
         terminal.hide_cursor());
 }
 
-void terminal_cursor_test_fixture::show_cursor_when_shown_does_nothing()
+TEST(terminal_cursor_test, show_cursor_when_shown_does_nothing)
 {
     terminalpp::terminal terminal;
     terminal.show_cursor();
@@ -295,7 +225,7 @@ void terminal_cursor_test_fixture::show_cursor_when_shown_does_nothing()
         terminal.show_cursor());
 }
 
-void terminal_cursor_test_fixture::hide_cursor_when_shown_hides_cursor()
+TEST(terminal_cursor_test, hide_cursor_when_shown_hides_cursor)
 {
     terminalpp::terminal terminal;
     terminal.show_cursor();
@@ -305,7 +235,7 @@ void terminal_cursor_test_fixture::hide_cursor_when_shown_hides_cursor()
         terminal.hide_cursor());
 }
 
-void terminal_cursor_test_fixture::show_cursor_when_hidden_sends_show_cursor()
+TEST(terminal_cursor_test, show_cursor_when_hidden_sends_show_cursor)
 {
     terminalpp::terminal terminal;
     terminal.hide_cursor();
@@ -315,7 +245,7 @@ void terminal_cursor_test_fixture::show_cursor_when_hidden_sends_show_cursor()
         terminal.show_cursor());
 }
 
-void terminal_cursor_test_fixture::hide_cursor_when_hidden_does_nothing()
+TEST(terminal_cursor_test, hide_cursor_when_hidden_does_nothing)
 {
     terminalpp::terminal terminal;
     terminal.hide_cursor();
@@ -325,7 +255,7 @@ void terminal_cursor_test_fixture::hide_cursor_when_hidden_does_nothing()
         terminal.hide_cursor());
 }
 
-void terminal_cursor_test_fixture::save_cursor_position_saves_position()
+TEST(terminal_cursor_test, save_cursor_position_saves_position)
 {
     terminalpp::terminal terminal;
     
@@ -334,7 +264,7 @@ void terminal_cursor_test_fixture::save_cursor_position_saves_position()
         terminal.save_cursor());            
 }
 
-void terminal_cursor_test_fixture::restore_cursor_position_restores_position()
+TEST(terminal_cursor_test, restore_cursor_position_restores_position)
 {
     terminalpp::terminal terminal;
     terminal.move_cursor({5, 5});

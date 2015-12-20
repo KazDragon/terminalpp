@@ -19,7 +19,7 @@ addons:
       - clang
       - gcc-4.8
       - g++-4.8
-      - libcppunit-dev
+      - libgtest-dev
       - libboost1.55-all-dev
 
 matrix:
@@ -35,7 +35,7 @@ matrix:
             - clang
             - gcc-5
             - g++-5
-            - libcppunit-dev
+            - libgtest-dev
             - libboost1.55-all-dev
 
     - compiler: g++
@@ -47,7 +47,7 @@ matrix:
             - clang
             - gcc-5
             - g++-5
-            - libcppunit-dev
+            - libgtest-dev
             - libboost1.55-all-dev
 
     - compiler: g++
@@ -59,7 +59,7 @@ matrix:
             - clang
             - gcc-5
             - g++-5
-            - libcppunit-dev
+            - libgtest-dev
             - libboost1.55-all-dev
 
     - compiler: g++
@@ -71,7 +71,7 @@ matrix:
             - clang
             - gcc-5
             - g++-5
-            - libcppunit-dev
+            - libgtest-dev
             - libboost1.55-all-dev
 
 cache:
@@ -85,11 +85,18 @@ before_install:
       wget --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.0-Linux-x86_64.tar.gz;
       tar -xzf cmake-3.4.0-Linux-x86_64.tar.gz;
     fi
+  - export CMAKE=../cmake-3.4.0-Linux-x86_64/bin/cmake
+# workaround for gtest not providing its own libraries (sigh)
+  - mkdir gtest
+  - cd gtest
+  - CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE /usr/src/gtest && make
+  - export GTEST_ROOT=$PWD
+  - cd ..
 
 before_script:
   - mkdir build
   - cd build
-  - CC=$CCOMPILE CXX=$CXXCOMPILE ../cmake-3.4.0-Linux-x86_64/bin/cmake -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED ..
+  - CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED ..
 
 script:
   - make -j2

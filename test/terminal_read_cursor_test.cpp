@@ -1,110 +1,8 @@
 #include "expect_tokens.hpp"
 #include "terminalpp/terminal.hpp"
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
+#include <gtest/gtest.h>
 
-class terminal_read_cursor_test : public CppUnit::TestFixture
-{
-public :
-    CPPUNIT_TEST_SUITE(terminal_read_cursor_test);
-        CPPUNIT_TEST(up_command_yields_vk_up);
-        CPPUNIT_TEST(down_command_yields_vk_down);
-        CPPUNIT_TEST(right_command_yields_vk_right);
-        CPPUNIT_TEST(left_command_yields_vk_left);
-
-        CPPUNIT_TEST(direction_meta_command_yields_meta_vk);
-        CPPUNIT_TEST(direction_commands_with_repeat_count_yield_vk_with_repeat_count);
-
-        CPPUNIT_TEST(home_command_yields_vk_home);
-        CPPUNIT_TEST(alternative_home_command_yields_vk_home);
-        CPPUNIT_TEST(ins_command_yields_vk_ins);
-        CPPUNIT_TEST(del_command_yields_vk_del);
-        CPPUNIT_TEST(end_command_yields_vk_end);
-        CPPUNIT_TEST(pgup_command_yields_vk_pgup);
-        CPPUNIT_TEST(pgdn_command_yields_vk_pgdn);
-
-        CPPUNIT_TEST(cursor_meta_command_yields_meta_vk);
-        CPPUNIT_TEST(cursor_command_with_modifiers_yields_vk_with_modifiers);
-        
-        CPPUNIT_TEST(up_ss3_yields_vk_up);
-        CPPUNIT_TEST(down_ss3_yields_vk_down);
-        CPPUNIT_TEST(right_ss3_yields_vk_right);
-        CPPUNIT_TEST(left_ss3_yields_vk_left);
-        CPPUNIT_TEST(home_ss3_yields_vk_home);
-        CPPUNIT_TEST(end_ss3_yields_vk_end);
-
-        CPPUNIT_TEST(cursor_meta_ss3_yields_meta_vk);
-
-        CPPUNIT_TEST(tab_key_yields_vk_tab);
-        CPPUNIT_TEST(tab_command_yields_vk_tab);
-        CPPUNIT_TEST(tab_ss3_yields_vk_tab);
-        CPPUNIT_TEST(reverse_tab_command_yields_vk_reverse_tab);
-
-        CPPUNIT_TEST(tab_command_with_repeat_count_yields_vk_with_repeat_count);
-        CPPUNIT_TEST(reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count);
-
-        CPPUNIT_TEST(tab_meta_commands_yield_meta_vk);
-
-        CPPUNIT_TEST(crlf_yields_vk_enter);
-        CPPUNIT_TEST(crnul_yields_vk_enter);
-        CPPUNIT_TEST(cr_then_nul_yields_enter_only);
-        CPPUNIT_TEST(lfcr_yields_vk_enter);
-        CPPUNIT_TEST(lf_yields_vk_enter);
-        CPPUNIT_TEST(lflf_yields_two_vk_enters);
-        CPPUNIT_TEST(enter_ss3_yields_vk_end);
-    CPPUNIT_TEST_SUITE_END();
-
-private :
-    void up_command_yields_vk_up();
-    void down_command_yields_vk_down();
-    void right_command_yields_vk_right();
-    void left_command_yields_vk_left();
-
-    void direction_commands_with_repeat_count_yield_vk_with_repeat_count();
-    void direction_meta_command_yields_meta_vk();
-
-    void home_command_yields_vk_home();
-    void alternative_home_command_yields_vk_home();
-    void ins_command_yields_vk_ins();
-    void del_command_yields_vk_del();
-    void end_command_yields_vk_end();
-    void pgup_command_yields_vk_pgup();
-    void pgdn_command_yields_vk_pgdn();
-
-    void cursor_meta_command_yields_meta_vk();
-    void cursor_command_with_modifiers_yields_vk_with_modifiers();
-    
-    void up_ss3_yields_vk_up();
-    void down_ss3_yields_vk_down();
-    void right_ss3_yields_vk_right();
-    void left_ss3_yields_vk_left();
-    void home_ss3_yields_vk_home();
-    void end_ss3_yields_vk_end();
-
-    void cursor_meta_ss3_yields_meta_vk();
-
-    void tab_key_yields_vk_tab();
-    void tab_command_yields_vk_tab();
-    void tab_ss3_yields_vk_tab();
-    void reverse_tab_command_yields_vk_reverse_tab();
-
-    void tab_meta_commands_yield_meta_vk();
-
-    void tab_command_with_repeat_count_yields_vk_with_repeat_count();
-    void reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count();
-
-    void crlf_yields_vk_enter();
-    void crnul_yields_vk_enter();
-    void cr_then_nul_yields_enter_only();
-    void lfcr_yields_vk_enter();
-    void lf_yields_vk_enter();
-    void lflf_yields_two_vk_enters();
-    void enter_ss3_yields_vk_end();
-};
-
-CPPUNIT_TEST_SUITE_REGISTRATION(terminal_read_cursor_test);
-
-void terminal_read_cursor_test::up_command_yields_vk_up()
+TEST(terminal_read_cursor_test, up_command_yields_vk_up)
 {
     expect_token(
         "\x1B[A",
@@ -116,7 +14,7 @@ void terminal_read_cursor_test::up_command_yields_vk_up()
         });
 }
 
-void terminal_read_cursor_test::down_command_yields_vk_down()
+TEST(terminal_read_cursor_test, down_command_yields_vk_down)
 {
     expect_token(
         "\x1B[B",
@@ -128,7 +26,7 @@ void terminal_read_cursor_test::down_command_yields_vk_down()
         });
 }
 
-void terminal_read_cursor_test::right_command_yields_vk_right()
+TEST(terminal_read_cursor_test, right_command_yields_vk_right)
 {
     expect_token(
         "\x1B[C",
@@ -140,7 +38,7 @@ void terminal_read_cursor_test::right_command_yields_vk_right()
         });
 }
 
-void terminal_read_cursor_test::left_command_yields_vk_left()
+TEST(terminal_read_cursor_test, left_command_yields_vk_left)
 {
     expect_token(
         "\x1B[D",
@@ -152,7 +50,7 @@ void terminal_read_cursor_test::left_command_yields_vk_left()
         });
 }
 
-void terminal_read_cursor_test::direction_commands_with_repeat_count_yield_vk_with_repeat_count()
+TEST(terminal_read_cursor_test, direction_commands_with_repeat_count_yield_vk_with_repeat_count)
 {
     expect_token(
         "\x1B[1;A",
@@ -191,7 +89,7 @@ void terminal_read_cursor_test::direction_commands_with_repeat_count_yield_vk_wi
         });
 }
 
-void terminal_read_cursor_test::direction_meta_command_yields_meta_vk()
+TEST(terminal_read_cursor_test, direction_meta_command_yields_meta_vk)
 {
     expect_token(
         "\x1B\x1B[A",
@@ -230,7 +128,7 @@ void terminal_read_cursor_test::direction_meta_command_yields_meta_vk()
         });
 }
 
-void terminal_read_cursor_test::home_command_yields_vk_home()
+TEST(terminal_read_cursor_test, home_command_yields_vk_home)
 {
     expect_token(
         "\x1B[1~",
@@ -242,7 +140,7 @@ void terminal_read_cursor_test::home_command_yields_vk_home()
         });
 }
 
-void terminal_read_cursor_test::alternative_home_command_yields_vk_home()
+TEST(terminal_read_cursor_test, alternative_home_command_yields_vk_home)
 {
     expect_token(
         "\x1B[H",
@@ -254,7 +152,7 @@ void terminal_read_cursor_test::alternative_home_command_yields_vk_home()
         });
 }
 
-void terminal_read_cursor_test::ins_command_yields_vk_ins()
+TEST(terminal_read_cursor_test, ins_command_yields_vk_ins)
 {
     expect_token(
         "\x1B[2~",
@@ -266,7 +164,7 @@ void terminal_read_cursor_test::ins_command_yields_vk_ins()
         });
 }
 
-void terminal_read_cursor_test::del_command_yields_vk_del()
+TEST(terminal_read_cursor_test, del_command_yields_vk_del)
 {
     expect_token(
         "\x1B[3~",
@@ -278,7 +176,7 @@ void terminal_read_cursor_test::del_command_yields_vk_del()
         });
 }
 
-void terminal_read_cursor_test::end_command_yields_vk_end()
+TEST(terminal_read_cursor_test, end_command_yields_vk_end)
 {
     expect_token(
         "\x1B[4~",
@@ -290,7 +188,7 @@ void terminal_read_cursor_test::end_command_yields_vk_end()
         });
 }
 
-void terminal_read_cursor_test::pgup_command_yields_vk_pgup()
+TEST(terminal_read_cursor_test, pgup_command_yields_vk_pgup)
 {
     expect_token(
         "\x1B[5~",
@@ -302,7 +200,7 @@ void terminal_read_cursor_test::pgup_command_yields_vk_pgup()
         });
 }
 
-void terminal_read_cursor_test::pgdn_command_yields_vk_pgdn()
+TEST(terminal_read_cursor_test, pgdn_command_yields_vk_pgdn)
 {
     expect_token(
         "\x1B[6~",
@@ -314,7 +212,7 @@ void terminal_read_cursor_test::pgdn_command_yields_vk_pgdn()
         });
 }
 
-void terminal_read_cursor_test::cursor_meta_command_yields_meta_vk()
+TEST(terminal_read_cursor_test, cursor_meta_command_yields_meta_vk)
 {
     expect_token(
         "\x1B\x1B[1~",
@@ -380,7 +278,7 @@ void terminal_read_cursor_test::cursor_meta_command_yields_meta_vk()
         });
 }
 
-void terminal_read_cursor_test::cursor_command_with_modifiers_yields_vk_with_modifiers()
+TEST(terminal_read_cursor_test, cursor_command_with_modifiers_yields_vk_with_modifiers)
 {
     expect_token(
         "\x1B[1;5~",
@@ -437,7 +335,7 @@ void terminal_read_cursor_test::cursor_command_with_modifiers_yields_vk_with_mod
         });
 }
 
-void terminal_read_cursor_test::up_ss3_yields_vk_up()
+TEST(terminal_read_cursor_test, up_ss3_yields_vk_up)
 {
     expect_token(
         "\x1BOA",
@@ -449,7 +347,7 @@ void terminal_read_cursor_test::up_ss3_yields_vk_up()
         });
 }
 
-void terminal_read_cursor_test::down_ss3_yields_vk_down()
+TEST(terminal_read_cursor_test, down_ss3_yields_vk_down)
 {
     expect_token(
         "\x1BOB",
@@ -461,7 +359,7 @@ void terminal_read_cursor_test::down_ss3_yields_vk_down()
         });
 }
 
-void terminal_read_cursor_test::right_ss3_yields_vk_right()
+TEST(terminal_read_cursor_test, right_ss3_yields_vk_right)
 {
     expect_token(
         "\x1BOC",
@@ -473,7 +371,7 @@ void terminal_read_cursor_test::right_ss3_yields_vk_right()
         });
 }
 
-void terminal_read_cursor_test::left_ss3_yields_vk_left()
+TEST(terminal_read_cursor_test, left_ss3_yields_vk_left)
 {
     expect_token(
         "\x1BOD",
@@ -485,7 +383,7 @@ void terminal_read_cursor_test::left_ss3_yields_vk_left()
         });
 }
 
-void terminal_read_cursor_test::home_ss3_yields_vk_home()
+TEST(terminal_read_cursor_test, home_ss3_yields_vk_home)
 {
     expect_token(
         "\x1BOH",
@@ -497,7 +395,7 @@ void terminal_read_cursor_test::home_ss3_yields_vk_home()
         });
 }
 
-void terminal_read_cursor_test::end_ss3_yields_vk_end()
+TEST(terminal_read_cursor_test, end_ss3_yields_vk_end)
 {
     expect_token(
         "\x1BOF",
@@ -509,7 +407,7 @@ void terminal_read_cursor_test::end_ss3_yields_vk_end()
         });
 }
 
-void terminal_read_cursor_test::cursor_meta_ss3_yields_meta_vk()
+TEST(terminal_read_cursor_test, cursor_meta_ss3_yields_meta_vk)
 {
     expect_token(
         "\x1B\x1BOA",
@@ -566,7 +464,7 @@ void terminal_read_cursor_test::cursor_meta_ss3_yields_meta_vk()
         });
 }
 
-void terminal_read_cursor_test::tab_key_yields_vk_tab()
+TEST(terminal_read_cursor_test, tab_key_yields_vk_tab)
 {
     expect_token(
         "\t",
@@ -578,7 +476,7 @@ void terminal_read_cursor_test::tab_key_yields_vk_tab()
         });
 }
 
-void terminal_read_cursor_test::tab_command_yields_vk_tab()
+TEST(terminal_read_cursor_test, tab_command_yields_vk_tab)
 {
     expect_token(
         "\x1B[I",
@@ -590,7 +488,7 @@ void terminal_read_cursor_test::tab_command_yields_vk_tab()
         });
 }
 
-void terminal_read_cursor_test::tab_ss3_yields_vk_tab()
+TEST(terminal_read_cursor_test, tab_ss3_yields_vk_tab)
 {
     expect_token(
         "\x1BOI",
@@ -602,7 +500,7 @@ void terminal_read_cursor_test::tab_ss3_yields_vk_tab()
         });
 }
 
-void terminal_read_cursor_test::reverse_tab_command_yields_vk_reverse_tab()
+TEST(terminal_read_cursor_test, reverse_tab_command_yields_vk_reverse_tab)
 {
     expect_token(
         "\x1B[Z",
@@ -614,7 +512,7 @@ void terminal_read_cursor_test::reverse_tab_command_yields_vk_reverse_tab()
         });
 }
 
-void terminal_read_cursor_test::tab_meta_commands_yield_meta_vk()
+TEST(terminal_read_cursor_test, tab_meta_commands_yield_meta_vk)
 {
     expect_token(
         "\x1B\x1B[I",
@@ -644,7 +542,7 @@ void terminal_read_cursor_test::tab_meta_commands_yield_meta_vk()
         });
 }
 
-void terminal_read_cursor_test::tab_command_with_repeat_count_yields_vk_with_repeat_count()
+TEST(terminal_read_cursor_test, tab_command_with_repeat_count_yields_vk_with_repeat_count)
 {
     expect_token(
         "\x1B[7I",
@@ -656,7 +554,7 @@ void terminal_read_cursor_test::tab_command_with_repeat_count_yields_vk_with_rep
         });
 }
 
-void terminal_read_cursor_test::reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count()
+TEST(terminal_read_cursor_test, reverse_tab_command_with_repeat_count_yields_vk_with_repeat_count)
 {
     expect_token(
         "\x1B[10Z",
@@ -668,7 +566,7 @@ void terminal_read_cursor_test::reverse_tab_command_with_repeat_count_yields_vk_
         });
 }
 
-void terminal_read_cursor_test::crlf_yields_vk_enter()
+TEST(terminal_read_cursor_test, crlf_yields_vk_enter)
 {
     expect_tokens(
         "\r\na",
@@ -688,7 +586,7 @@ void terminal_read_cursor_test::crlf_yields_vk_enter()
         });
 }
 
-void terminal_read_cursor_test::crnul_yields_vk_enter()
+TEST(terminal_read_cursor_test, crnul_yields_vk_enter)
 {
     std::string text("\r\0", 2);
 
@@ -702,7 +600,7 @@ void terminal_read_cursor_test::crnul_yields_vk_enter()
         });
 }
 
-void terminal_read_cursor_test::cr_then_nul_yields_enter_only()
+TEST(terminal_read_cursor_test, cr_then_nul_yields_enter_only)
 {
     terminalpp::terminal terminal;
 
@@ -714,16 +612,16 @@ void terminal_read_cursor_test::cr_then_nul_yields_enter_only()
     };
 
     auto actual_after_cr = terminal.read("\r");
-    CPPUNIT_ASSERT_EQUAL(size_t{1}, actual_after_cr.size());
-    CPPUNIT_ASSERT_EQUAL(
+    ASSERT_EQ(size_t{1}, actual_after_cr.size());
+    ASSERT_EQ(
         expected_after_cr,
         boost::get<terminalpp::virtual_key>(actual_after_cr[0]));
 
     auto actual_after_nul = terminal.read(std::string("\0", 1));
-    CPPUNIT_ASSERT(actual_after_nul.empty());
+    ASSERT_TRUE(actual_after_nul.empty());
 }
 
-void terminal_read_cursor_test::lfcr_yields_vk_enter()
+TEST(terminal_read_cursor_test, lfcr_yields_vk_enter)
 {
     expect_token(
         "\n\r",
@@ -735,7 +633,7 @@ void terminal_read_cursor_test::lfcr_yields_vk_enter()
         });
 }
 
-void terminal_read_cursor_test::lf_yields_vk_enter()
+TEST(terminal_read_cursor_test, lf_yields_vk_enter)
 {
     expect_tokens(
         "\na",
@@ -755,7 +653,7 @@ void terminal_read_cursor_test::lf_yields_vk_enter()
         });
 }
 
-void terminal_read_cursor_test::lflf_yields_two_vk_enters()
+TEST(terminal_read_cursor_test, lflf_yields_two_vk_enters)
 {
     expect_tokens(
         "\n\n",
@@ -775,7 +673,7 @@ void terminal_read_cursor_test::lflf_yields_two_vk_enters()
         });
 }
 
-void terminal_read_cursor_test::enter_ss3_yields_vk_end()
+TEST(terminal_read_cursor_test, enter_ss3_yields_vk_end)
 {
     expect_token(
         "\x1BOM",

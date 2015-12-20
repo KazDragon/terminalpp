@@ -1,109 +1,10 @@
 #include "terminalpp/terminal.hpp"
 #include "expect_sequence.hpp"
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
+#include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
 
-class terminal_string_test_fixture : public CppUnit::TestFixture
-{
-public :
-    CPPUNIT_TEST_SUITE(terminal_string_test_fixture);
-        CPPUNIT_TEST(empty_string_outputs_nothing);
-        CPPUNIT_TEST(basic_string_outputs_basic_string);
-        CPPUNIT_TEST(changed_charset_outputs_charset_code);
-        CPPUNIT_TEST(changed_charset_then_second_charset_outputs_charset_codes);
-
-        CPPUNIT_TEST(bold_intensity_outputs_intensity);
-        CPPUNIT_TEST(faint_intensity_outputs_intensity);
-        CPPUNIT_TEST(normal_intensity_does_not_output_intensity);
-        CPPUNIT_TEST(bold_then_normal_intensity_outputs_intensity);
-        CPPUNIT_TEST(default_intensity_is_normal_intensity);
-
-        CPPUNIT_TEST(positive_polarity_does_not_output_polarity);
-        CPPUNIT_TEST(negative_polarity_outputs_polarity);
-        CPPUNIT_TEST(negative_then_positive_polarity_outputs_polarity);
-        CPPUNIT_TEST(default_polarity_is_positive_polarity);
-
-        CPPUNIT_TEST(positive_underlining_outputs_underlining);
-        CPPUNIT_TEST(negative_underlining_does_not_output_underlining);
-        CPPUNIT_TEST(positive_then_negative_underlining_outputs_underlining);
-        CPPUNIT_TEST(default_underlining_is_negative_underlining);
-
-        CPPUNIT_TEST(foreground_low_colour_outputs_foreground_colour);
-        CPPUNIT_TEST(foreground_high_colour_outputs_foreground_colour);
-        CPPUNIT_TEST(foreground_greyscale_colour_outputs_foreground_colour);
-        CPPUNIT_TEST(default_foreground_colour_does_not_output_foreground_colour);
-        CPPUNIT_TEST(multiple_foreground_colour_codes_outputs_foreground_colours);
-
-        CPPUNIT_TEST(background_low_colour_outputs_background_colour);
-        CPPUNIT_TEST(background_high_colour_outputs_background_colour);
-        CPPUNIT_TEST(background_greyscale_colour_outputs_background_colour);
-        CPPUNIT_TEST(default_background_colour_does_not_output_background_colour);
-        CPPUNIT_TEST(multiple_background_colour_codes_outputs_background_colours);
-
-        CPPUNIT_TEST(multiple_attributes_do_not_output_default_change);
-        CPPUNIT_TEST(encoded_glyphs_output_unicode_text);
-
-        CPPUNIT_TEST(writing_string_moves_cursor);
-        CPPUNIT_TEST(writing_past_terminal_width_moves_cursor_to_next_line);
-        CPPUNIT_TEST(writing_far_past_terminal_width_moves_multiple_lines);
-        CPPUNIT_TEST(writing_past_last_line_scrolls_last_line);
-        
-        CPPUNIT_TEST(can_write_single_element);
-        CPPUNIT_TEST(writing_single_element_moves_cursor);
-    CPPUNIT_TEST_SUITE_END();
-
-private :
-    void empty_string_outputs_nothing();
-    void basic_string_outputs_basic_string();
-
-    void changed_charset_outputs_charset_code();
-    void changed_charset_then_second_charset_outputs_charset_codes();
-
-    void bold_intensity_outputs_intensity();
-    void faint_intensity_outputs_intensity();
-    void normal_intensity_does_not_output_intensity();
-    void bold_then_normal_intensity_outputs_intensity();
-    void default_intensity_is_normal_intensity();
-
-    void positive_polarity_does_not_output_polarity();
-    void negative_polarity_outputs_polarity();
-    void negative_then_positive_polarity_outputs_polarity();
-    void default_polarity_is_positive_polarity();
-
-    void positive_underlining_outputs_underlining();
-    void negative_underlining_does_not_output_underlining();
-    void positive_then_negative_underlining_outputs_underlining();
-    void default_underlining_is_negative_underlining();
-
-    void foreground_low_colour_outputs_foreground_colour();
-    void foreground_high_colour_outputs_foreground_colour();
-    void foreground_greyscale_colour_outputs_foreground_colour();
-    void default_foreground_colour_does_not_output_foreground_colour();
-    void multiple_foreground_colour_codes_outputs_foreground_colours();
-
-    void background_low_colour_outputs_background_colour();
-    void background_high_colour_outputs_background_colour();
-    void background_greyscale_colour_outputs_background_colour();
-    void default_background_colour_does_not_output_background_colour();
-    void multiple_background_colour_codes_outputs_background_colours();
-
-    void multiple_attributes_do_not_output_default_change();
-    void encoded_glyphs_output_unicode_text();
-
-    void writing_string_moves_cursor();
-    void writing_past_terminal_width_moves_cursor_to_next_line();
-    void writing_far_past_terminal_width_moves_multiple_lines();
-    void writing_past_last_line_scrolls_last_line();
-    
-    void can_write_single_element();
-    void writing_single_element_moves_cursor();
-};
-
-CPPUNIT_TEST_SUITE_REGISTRATION(terminal_string_test_fixture);
-
-void terminal_string_test_fixture::empty_string_outputs_nothing()
+TEST(terminal_string_test, empty_string_outputs_nothing)
 {
     terminalpp::terminal terminal;
 
@@ -112,7 +13,7 @@ void terminal_string_test_fixture::empty_string_outputs_nothing()
         terminal.write(""_ets));
 }
 
-void terminal_string_test_fixture::basic_string_outputs_basic_string()
+TEST(terminal_string_test, basic_string_outputs_basic_string)
 {
     terminalpp::terminal terminal;
 
@@ -121,7 +22,7 @@ void terminal_string_test_fixture::basic_string_outputs_basic_string()
         terminal.write("abcde"_ets));
 }
 
-void terminal_string_test_fixture::changed_charset_outputs_charset_code()
+TEST(terminal_string_test, changed_charset_outputs_charset_code)
 {
     terminalpp::terminal terminal;
 
@@ -130,7 +31,7 @@ void terminal_string_test_fixture::changed_charset_outputs_charset_code()
         terminal.write("\\c0abcde"_ets));
 }
 
-void terminal_string_test_fixture::changed_charset_then_second_charset_outputs_charset_codes()
+TEST(terminal_string_test, changed_charset_then_second_charset_outputs_charset_codes)
 {
     terminalpp::terminal terminal;
 
@@ -139,7 +40,7 @@ void terminal_string_test_fixture::changed_charset_then_second_charset_outputs_c
         terminal.write("\\c0abc\\cAde"_ets));
 }
 
-void terminal_string_test_fixture::bold_intensity_outputs_intensity()
+TEST(terminal_string_test, bold_intensity_outputs_intensity)
 {
     terminalpp::terminal terminal;
 
@@ -148,7 +49,7 @@ void terminal_string_test_fixture::bold_intensity_outputs_intensity()
         terminal.write("\\i>abcde"_ets));
 }
 
-void terminal_string_test_fixture::faint_intensity_outputs_intensity()
+TEST(terminal_string_test, faint_intensity_outputs_intensity)
 {
     terminalpp::terminal terminal;
 
@@ -157,7 +58,7 @@ void terminal_string_test_fixture::faint_intensity_outputs_intensity()
         terminal.write("\\i<abcde"_ets));
 }
 
-void terminal_string_test_fixture::normal_intensity_does_not_output_intensity()
+TEST(terminal_string_test, normal_intensity_does_not_output_intensity)
 {
     terminalpp::terminal terminal;
 
@@ -166,7 +67,7 @@ void terminal_string_test_fixture::normal_intensity_does_not_output_intensity()
         terminal.write("\\i=abcde"_ets));
 }
 
-void terminal_string_test_fixture::bold_then_normal_intensity_outputs_intensity()
+TEST(terminal_string_test, bold_then_normal_intensity_outputs_intensity)
 {
     // Note: an alternative possible normal string would be
     // \x1B[22m, but since this is longer, \x1B[0m (all attributes to default)
@@ -178,7 +79,7 @@ void terminal_string_test_fixture::bold_then_normal_intensity_outputs_intensity(
         terminal.write("\\i>abc\\i=de"_ets));
 }
 
-void terminal_string_test_fixture::default_intensity_is_normal_intensity()
+TEST(terminal_string_test, default_intensity_is_normal_intensity)
 {
     terminalpp::terminal terminal;
 
@@ -187,7 +88,7 @@ void terminal_string_test_fixture::default_intensity_is_normal_intensity()
         terminal.write("\\i>abc\\ixde"_ets));
 }
 
-void terminal_string_test_fixture::positive_polarity_does_not_output_polarity()
+TEST(terminal_string_test, positive_polarity_does_not_output_polarity)
 {
     terminalpp::terminal terminal;
 
@@ -196,7 +97,7 @@ void terminal_string_test_fixture::positive_polarity_does_not_output_polarity()
         terminal.write("\\p+abcde"_ets));
 }
 
-void terminal_string_test_fixture::negative_polarity_outputs_polarity()
+TEST(terminal_string_test, negative_polarity_outputs_polarity)
 {
     terminalpp::terminal terminal;
 
@@ -205,7 +106,7 @@ void terminal_string_test_fixture::negative_polarity_outputs_polarity()
         terminal.write("\\p-abcde"_ets));
 }
 
-void terminal_string_test_fixture::negative_then_positive_polarity_outputs_polarity()
+TEST(terminal_string_test, negative_then_positive_polarity_outputs_polarity)
 {
     terminalpp::terminal terminal;
 
@@ -214,7 +115,7 @@ void terminal_string_test_fixture::negative_then_positive_polarity_outputs_polar
         terminal.write("\\p-abc\\p+de"_ets));
 }
 
-void terminal_string_test_fixture::default_polarity_is_positive_polarity()
+TEST(terminal_string_test, default_polarity_is_positive_polarity)
 {
     terminalpp::terminal terminal;
 
@@ -223,7 +124,7 @@ void terminal_string_test_fixture::default_polarity_is_positive_polarity()
         terminal.write("\\p-abc\\p=de"_ets));
 }
 
-void terminal_string_test_fixture::positive_underlining_outputs_underlining()
+TEST(terminal_string_test, positive_underlining_outputs_underlining)
 {
     terminalpp::terminal terminal;
 
@@ -232,7 +133,7 @@ void terminal_string_test_fixture::positive_underlining_outputs_underlining()
         terminal.write("\\u+abcde"_ets));
 }
 
-void terminal_string_test_fixture::negative_underlining_does_not_output_underlining()
+TEST(terminal_string_test, negative_underlining_does_not_output_underlining)
 {
     terminalpp::terminal terminal;
 
@@ -241,7 +142,7 @@ void terminal_string_test_fixture::negative_underlining_does_not_output_underlin
         terminal.write("\\u-abcde"_ets));
 }
 
-void terminal_string_test_fixture::positive_then_negative_underlining_outputs_underlining()
+TEST(terminal_string_test, positive_then_negative_underlining_outputs_underlining)
 {
     terminalpp::terminal terminal;
 
@@ -250,7 +151,7 @@ void terminal_string_test_fixture::positive_then_negative_underlining_outputs_un
         terminal.write("\\u+abc\\u-de"_ets));
 }
 
-void terminal_string_test_fixture::default_underlining_is_negative_underlining()
+TEST(terminal_string_test, default_underlining_is_negative_underlining)
 {
     terminalpp::terminal terminal;
 
@@ -259,7 +160,7 @@ void terminal_string_test_fixture::default_underlining_is_negative_underlining()
         terminal.write("\\u+abc\\u=de"_ets));
 }
 
-void terminal_string_test_fixture::foreground_low_colour_outputs_foreground_colour()
+TEST(terminal_string_test, foreground_low_colour_outputs_foreground_colour)
 {
     terminalpp::terminal terminal;
 
@@ -268,7 +169,7 @@ void terminal_string_test_fixture::foreground_low_colour_outputs_foreground_colo
         terminal.write("\\[2abc"_ets));
 }
 
-void terminal_string_test_fixture::foreground_high_colour_outputs_foreground_colour()
+TEST(terminal_string_test, foreground_high_colour_outputs_foreground_colour)
 {
     terminalpp::terminal terminal;
 
@@ -277,7 +178,7 @@ void terminal_string_test_fixture::foreground_high_colour_outputs_foreground_col
         terminal.write("\\<510abc"_ets));
 }
 
-void terminal_string_test_fixture::foreground_greyscale_colour_outputs_foreground_colour()
+TEST(terminal_string_test, foreground_greyscale_colour_outputs_foreground_colour)
 {
     terminalpp::terminal terminal;
 
@@ -286,7 +187,7 @@ void terminal_string_test_fixture::foreground_greyscale_colour_outputs_foregroun
         terminal.write("\\{12abc"_ets));
 }
 
-void terminal_string_test_fixture::default_foreground_colour_does_not_output_foreground_colour()
+TEST(terminal_string_test, default_foreground_colour_does_not_output_foreground_colour)
 {
     terminalpp::terminal terminal;
 
@@ -295,7 +196,7 @@ void terminal_string_test_fixture::default_foreground_colour_does_not_output_for
         terminal.write("\\[9abc"_ets));
 }
 
-void terminal_string_test_fixture::multiple_foreground_colour_codes_outputs_foreground_colours()
+TEST(terminal_string_test, multiple_foreground_colour_codes_outputs_foreground_colours)
 {
     terminalpp::terminal terminal;
 
@@ -305,7 +206,7 @@ void terminal_string_test_fixture::multiple_foreground_colour_codes_outputs_fore
 }
 
 
-void terminal_string_test_fixture::background_low_colour_outputs_background_colour()
+TEST(terminal_string_test, background_low_colour_outputs_background_colour)
 {
     terminalpp::terminal terminal;
 
@@ -314,7 +215,7 @@ void terminal_string_test_fixture::background_low_colour_outputs_background_colo
         terminal.write("\\]2abc"_ets));
 }
 
-void terminal_string_test_fixture::background_high_colour_outputs_background_colour()
+TEST(terminal_string_test, background_high_colour_outputs_background_colour)
 {
     terminalpp::terminal terminal;
 
@@ -323,7 +224,7 @@ void terminal_string_test_fixture::background_high_colour_outputs_background_col
         terminal.write("\\>510abc"_ets));
 }
 
-void terminal_string_test_fixture::background_greyscale_colour_outputs_background_colour()
+TEST(terminal_string_test, background_greyscale_colour_outputs_background_colour)
 {
     terminalpp::terminal terminal;
 
@@ -332,7 +233,7 @@ void terminal_string_test_fixture::background_greyscale_colour_outputs_backgroun
         terminal.write("\\}12abc"_ets));
 }
 
-void terminal_string_test_fixture::default_background_colour_does_not_output_background_colour()
+TEST(terminal_string_test, default_background_colour_does_not_output_background_colour)
 {
     terminalpp::terminal terminal;
 
@@ -341,7 +242,7 @@ void terminal_string_test_fixture::default_background_colour_does_not_output_bac
         terminal.write("\\]9abc"_ets));
 }
 
-void terminal_string_test_fixture::multiple_background_colour_codes_outputs_background_colours()
+TEST(terminal_string_test, multiple_background_colour_codes_outputs_background_colours)
 {
     terminalpp::terminal terminal;
 
@@ -350,7 +251,7 @@ void terminal_string_test_fixture::multiple_background_colour_codes_outputs_back
         terminal.write("\\]2ab\\>135cd\\}02ef\\]9gh"_ets));
 }
 
-void terminal_string_test_fixture::multiple_attributes_do_not_output_default_change()
+TEST(terminal_string_test, multiple_attributes_do_not_output_default_change)
 {
     // Test that, when switching off and on multiple attributes, they do not in
     // general go back to default.  Instead, they should toggle specific flags.
@@ -366,7 +267,7 @@ void terminal_string_test_fixture::multiple_attributes_do_not_output_default_cha
         terminal.write("\\[2\\]1a\\p-b\\p+c"_ets));
 }
 
-void terminal_string_test_fixture::writing_string_moves_cursor()
+TEST(terminal_string_test, writing_string_moves_cursor)
 {
     terminalpp::terminal terminal;
 
@@ -378,7 +279,7 @@ void terminal_string_test_fixture::writing_string_moves_cursor()
         terminal.move_cursor({10, 5}));
 }
 
-void terminal_string_test_fixture::encoded_glyphs_output_unicode_text()
+TEST(terminal_string_test, encoded_glyphs_output_unicode_text)
 {
     // If a string contains a four-hexdigit unicode code, then
     // it should be output as a unicode character if it can be.
@@ -399,7 +300,7 @@ void terminal_string_test_fixture::encoded_glyphs_output_unicode_text()
         terminal.write("\\U16B8"_ets));
 }
 
-void terminal_string_test_fixture::writing_past_terminal_width_moves_cursor_to_next_line()
+TEST(terminal_string_test, writing_past_terminal_width_moves_cursor_to_next_line)
 {
     terminalpp::terminal terminal;
     terminal.set_size({10, 10});
@@ -411,7 +312,7 @@ void terminal_string_test_fixture::writing_past_terminal_width_moves_cursor_to_n
         terminal.move_cursor({3, 9}));
 }
 
-void terminal_string_test_fixture::writing_far_past_terminal_width_moves_multiple_lines()
+TEST(terminal_string_test, writing_far_past_terminal_width_moves_multiple_lines)
 {
     terminalpp::terminal terminal;
     terminal.set_size({10, 10});
@@ -423,7 +324,7 @@ void terminal_string_test_fixture::writing_far_past_terminal_width_moves_multipl
         terminal.move_cursor({3, 10}));
 }
 
-void terminal_string_test_fixture::writing_past_last_line_scrolls_last_line()
+TEST(terminal_string_test, writing_past_last_line_scrolls_last_line)
 {
     terminalpp::terminal terminal;
     terminal.set_size({10, 10});
@@ -435,7 +336,7 @@ void terminal_string_test_fixture::writing_past_last_line_scrolls_last_line()
         terminal.move_cursor({3, 10}));
 }
 
-void terminal_string_test_fixture::can_write_single_element()
+TEST(terminal_string_test, can_write_single_element)
 {
     terminalpp::terminal terminal;
     terminalpp::element  elem('X');
@@ -447,7 +348,7 @@ void terminal_string_test_fixture::can_write_single_element()
         terminal.write(elem));
 }
 
-void terminal_string_test_fixture::writing_single_element_moves_cursor()
+TEST(terminal_string_test, writing_single_element_moves_cursor)
 {
     terminalpp::terminal terminal;
     terminal.set_size({5, 5});

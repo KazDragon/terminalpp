@@ -1,5 +1,5 @@
 #include "expect_sequence.hpp"
-#include <cppunit/TestAssert.h>
+#include <gtest/gtest.h>
 #include <boost/format.hpp>
 #include <cctype>
 
@@ -32,5 +32,5 @@ void expect_sequence(std::string const &expected, std::string const &result)
                   << "Result:   \"" << escape(result) << "\"\n";
     }
 
-    CPPUNIT_ASSERT_EQUAL(expected, result);
+    ASSERT_EQ(expected, result);
 }
