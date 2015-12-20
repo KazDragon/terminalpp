@@ -19,9 +19,20 @@ find_package(Boost 1.29.0 REQUIRED)
 # which symbols should be included.
 include (GenerateExportHeader)
 
-# Optionally, the built-in tests use CppUnit.  If that is available, the tests
-# will be built as part of the normal compilation.
-find_package(CppUnit)
+# Due to the strange requirements for Google Test, it is assumed to have been
+# built in the "gtest" directory.  For this, it is required to run the moral
+# equivalent of the following script before building Telnet++:
+#
+#  mkdir gtest
+#  cd gtest
+#  cmake /usr/src/gtest && make
+#  export GTEST_ROOT=$PWD
+#  cd ..
+find_package(GTest)
+
+# For GTest, it is necessary to link with the appropriate local threading 
+# library.
+find_package(Threads)
 
 add_library(terminalpp
     src/ansi/charset.cpp
@@ -70,7 +81,23 @@ generate_export_header(terminalpp
         "${PROJECT_SOURCE_DIR}/include/terminalpp/detail/export.hpp"
 )
 
-if (CPPUNIT_FOUND)
+install(
+    TARGETS
+        terminalpp
+    ARCHIVE DESTINATION
+        lib
+    LIBRARY DESTINATION
+        lib
+)
+
+install(
+    DIRECTORY
+        include/
+    DESTINATION
+        include
+)
+
+if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
@@ -91,7 +118,6 @@ if (CPPUNIT_FOUND)
         test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
         test/virtual_key_test.cpp
-        test/main.cpp
     )
 
     target_compile_features(terminalpp_tester
@@ -99,23 +125,12 @@ if (CPPUNIT_FOUND)
             cxx_strong_enums
             cxx_relaxed_constexpr)
 
-    target_link_libraries(terminalpp_tester terminalpp cppunit)
+    target_link_libraries(terminalpp_tester 
+        terminalpp 
+        ${GTEST_LIBRARY}
+        ${GTEST_MAIN_LIBRARY}
+        ${CMAKE_THREAD_LIBS_INIT}
+    )
 
     add_test(terminalpp_test terminalpp_tester)
 endif()
-
-install(
-    TARGETS
-        terminalpp
-    ARCHIVE DESTINATION
-        lib
-    LIBRARY DESTINATION
-        lib
-)
-
-install(
-    DIRECTORY
-        include/
-    DESTINATION
-        include
-)

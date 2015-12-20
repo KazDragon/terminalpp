@@ -1,35 +1,11 @@
 #include "terminalpp/screen.hpp"
 #include "terminalpp/terminal.hpp"
 #include "expect_sequence.hpp"
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
+#include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
 
-class screen_test : public CppUnit::TestFixture
-{
-public :
-    CPPUNIT_TEST_SUITE(screen_test);
-        CPPUNIT_TEST(first_draw_of_blank_screen_draws_clear_screen_only);
-        CPPUNIT_TEST(first_draw_of_screen_with_content_draws_clear_screen_then_content);
-        CPPUNIT_TEST(drawing_after_drawing_draws_nothing);
-        CPPUNIT_TEST(drawing_after_modifying_one_element_writes_one_element);
-        CPPUNIT_TEST(drawing_after_modifying_two_elements_writes_two_elements);
-        CPPUNIT_TEST(drawing_consecutive_elements_does_not_write_cursor_moves);
-    CPPUNIT_TEST_SUITE_END();
-
-private :
-    void first_draw_of_blank_screen_draws_clear_screen_only();
-    void first_draw_of_screen_with_content_draws_clear_screen_then_content();
-    void drawing_after_drawing_draws_nothing();
-    void drawing_after_modifying_one_element_writes_one_element();
-    void drawing_after_modifying_two_elements_writes_two_elements();
-    void drawing_consecutive_elements_does_not_write_cursor_moves();
-};
-
-CPPUNIT_TEST_SUITE_REGISTRATION(screen_test);
-
-void screen_test::first_draw_of_blank_screen_draws_clear_screen_only()
+TEST(screen_test, first_draw_of_blank_screen_draws_clear_screen_only)
 {
     auto const size = terminalpp::extent{5, 5};
     auto const canvas = terminalpp::canvas(size);
@@ -53,7 +29,7 @@ void screen_test::first_draw_of_blank_screen_draws_clear_screen_only()
     expect_sequence(expected, result);
 }
 
-void screen_test::first_draw_of_screen_with_content_draws_clear_screen_then_content()
+TEST(screen_test, first_draw_of_screen_with_content_draws_clear_screen_then_content)
 {
     using namespace terminalpp::literals;
 
@@ -99,7 +75,7 @@ void screen_test::first_draw_of_screen_with_content_draws_clear_screen_then_cont
     expect_sequence(expected, result);
 }
 
-void screen_test::drawing_after_drawing_draws_nothing()
+TEST(screen_test, drawing_after_drawing_draws_nothing)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
@@ -130,7 +106,7 @@ void screen_test::drawing_after_drawing_draws_nothing()
     expect_sequence(expected, result);
 }
 
-void screen_test::drawing_after_modifying_one_element_writes_one_element()
+TEST(screen_test, drawing_after_modifying_one_element_writes_one_element)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
@@ -163,7 +139,7 @@ void screen_test::drawing_after_modifying_one_element_writes_one_element()
     expect_sequence(expected, result);
 }
 
-void screen_test::drawing_after_modifying_two_elements_writes_two_elements()
+TEST(screen_test, drawing_after_modifying_two_elements_writes_two_elements)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
@@ -199,7 +175,7 @@ void screen_test::drawing_after_modifying_two_elements_writes_two_elements()
     expect_sequence(expected, result);
 }
 
-void screen_test::drawing_consecutive_elements_does_not_write_cursor_moves()
+TEST(screen_test, drawing_consecutive_elements_does_not_write_cursor_moves)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);

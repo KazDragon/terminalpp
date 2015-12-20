@@ -1,6 +1,6 @@
 #include "expect_tokens.hpp"
 #include "terminalpp/terminal.hpp"
-#include <cppunit/extensions/HelperMacros.h>
+#include <gtest/gtest.h>
 #include <iostream>
 
 namespace {
@@ -19,7 +19,7 @@ struct token_compare_visitor_impl : boost::static_visitor<>
         std::cerr << "\nExpected was: " << expected_token;
         std::cerr << "\nResult was: " << token_;
 
-        CPPUNIT_ASSERT(false);
+        FAIL();
     }
 
     void operator()(Token const &expected_token)
@@ -30,7 +30,7 @@ struct token_compare_visitor_impl : boost::static_visitor<>
             std::cerr << "\nResult was: " << token_;
         }
 
-        CPPUNIT_ASSERT_EQUAL(expected_token, token_);
+        ASSERT_EQ(expected_token, token_);
     }
 
     Token const &token_;
@@ -70,7 +70,7 @@ void expect_tokens(
 
     auto result = terminal.read(input);
 
-    CPPUNIT_ASSERT_EQUAL(expected_tokens.size(), result.size());
+    ASSERT_EQ(expected_tokens.size(), result.size());
 
     for (std::vector<terminalpp::token>::const_iterator
              lhs = expected_tokens.begin(),
@@ -92,9 +92,9 @@ template <class Expected> void expect_token(
 
     auto result = terminal.read(input);
 
-    CPPUNIT_ASSERT_EQUAL(false, result.empty());
+    ASSERT_EQ(false, result.empty());
 
-    CPPUNIT_ASSERT_EQUAL(
+    ASSERT_EQ(
         boost::get<Expected>(expected),
         boost::get<Expected>(result[0]));
 }

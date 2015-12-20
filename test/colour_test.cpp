@@ -1,21 +1,7 @@
 #include "terminalpp/attribute.hpp"
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
+#include <gtest/gtest.h>
 
-class colour_test : public CppUnit::TestFixture
-{
-public :
-    CPPUNIT_TEST_SUITE(colour_test);
-        CPPUNIT_TEST(can_construct_from_low_colour_enum);
-    CPPUNIT_TEST_SUITE_END();
-    
-private :
-    void can_construct_from_low_colour_enum();
-};
-
-CPPUNIT_TEST_SUITE_REGISTRATION(colour_test);
-
-void colour_test::can_construct_from_low_colour_enum()
+TEST(colour_test, can_construct_from_low_colour_enum)
 {
     terminalpp::ansi::graphics::colour col(
         terminalpp::ansi::graphics::colour::red);
@@ -27,5 +13,5 @@ void colour_test::can_construct_from_low_colour_enum()
         return col;
     }(col);
     
-    CPPUNIT_ASSERT_EQUAL(expected_colour, result_colour);
+    ASSERT_EQ(expected_colour, result_colour);
 }
