@@ -184,14 +184,19 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
 
     assert(seq.command == ansi::csi::KEYPAD_FUNCTION);
 
-    auto const &keypad_command = std::find_if(
+    if (seq.arguments[0].empty() || !isdigit(seq.arguments[0][0]))
+    {
+        // Nothing will match.
+        return seq;
+    }
+    
+    auto argument = atoi(seq.arguments[0].c_str()); 
+    auto keypad_command = std::find_if(
         keypad_commands.begin(),
         keypad_commands.end(),
-        [&seq](auto const &elem)
+        [argument](auto const &elem)
         {
-            return !seq.arguments[0].empty()
-                && isdigit(seq.arguments[0][0])
-                && atoi(seq.arguments[0].c_str()) == elem.first;
+            return argument == elem.first;
         });
 
     if (keypad_command != keypad_commands.end())
