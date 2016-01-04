@@ -30,7 +30,7 @@ include (GenerateExportHeader)
 #  cd ..
 find_package(GTest)
 
-# For GTest, it is necessary to link with the appropriate local threading 
+# For GTest, it is necessary to link with the appropriate local threading
 # library.
 find_package(Threads)
 
@@ -52,6 +52,7 @@ add_library(terminalpp
     src/extent.cpp
     src/glyph.cpp
     src/point.cpp
+    src/rectangle.cpp
     src/screen.cpp
     src/string.cpp
     src/string_io.cpp
@@ -108,6 +109,7 @@ if (GTEST_FOUND)
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/expect_tokens.cpp
+        test/rectangle_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
         test/terminal_cursor_test.cpp
@@ -125,8 +127,8 @@ if (GTEST_FOUND)
             cxx_strong_enums
             cxx_relaxed_constexpr)
 
-    target_link_libraries(terminalpp_tester 
-        terminalpp 
+    target_link_libraries(terminalpp_tester
+        terminalpp
         ${GTEST_LIBRARY}
         ${GTEST_MAIN_LIBRARY}
         ${CMAKE_THREAD_LIBS_INIT}
