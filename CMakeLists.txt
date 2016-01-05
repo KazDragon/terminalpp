@@ -51,12 +51,15 @@ add_library(terminalpp
     src/encoder.cpp
     src/extent.cpp
     src/glyph.cpp
+    src/model/default_brush_model.cpp
     src/point.cpp
     src/rectangle.cpp
     src/screen.cpp
     src/string.cpp
     src/string_io.cpp
     src/terminal.cpp
+    src/views/brush_view.cpp
+    src/views/default_view_context.cpp
     src/virtual_key.cpp
 )
 
@@ -102,9 +105,12 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
+        test/brush_view_test.cpp
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp
+        test/default_brush_model_test.cpp
+        test/default_view_context_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
