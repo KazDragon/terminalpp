@@ -1,7 +1,7 @@
 #include <terminalpp/views/brush_view.hpp>
-#include <terminalpp/views/default_view_context.hpp>
+#include <terminalpp/views/default_draw_context.hpp>
+#include <terminalpp/draw_context.hpp>
 #include <terminalpp/view.hpp>
-#include <terminalpp/view_context.hpp>
 #include <terminalpp/model/default_brush_model.hpp>
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/canvas_view.hpp>
@@ -62,10 +62,10 @@ TEST(brush_view_test, drawing_the_view_draws_the_fill_pattern)
     terminalpp::canvas_view canvas_view(canvas);
     canvas_view.offset_by({1, 1});
 
-    terminalpp::view_context vc{
-        terminalpp::views::default_view_context{canvas_view}};
+    terminalpp::draw_context dc{
+        terminalpp::views::default_draw_context{canvas_view}};
 
-    view.draw(vc, {{}, view.get_size()});
+    view.draw(dc, {{}, view.get_size()});
 
     // This should paint the following picture on the canvas:
     //

@@ -1,5 +1,5 @@
-#ifndef TERMINALPP_VIEW_CONTEXT_HPP_
-#define TERMINALPP_VIEW_CONTEXT_HPP_
+#ifndef TERMINALPP_DRAW_CONTEXT_HPP_
+#define TERMINALPP_DRAW_CONTEXT_HPP_
 
 #include <memory>
 #include <utility>
@@ -12,11 +12,11 @@ class canvas_view;
 /// \brief A Concept class that represents everything necessary for a view
 /// to draw itself.
 //* =========================================================================
-class view_context
+class draw_context
 {
 public :
     template <class Model>
-    explicit view_context(Model &&mdl)
+    explicit draw_context(Model &&mdl)
       : self_(new model<Model>(std::forward<Model>(mdl)))
     {
     }

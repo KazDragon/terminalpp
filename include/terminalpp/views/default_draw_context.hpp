@@ -1,5 +1,5 @@
-#ifndef TERMINALPP_VIEWS_DEFAULT_VIEW_CONTEXT_HPP_
-#define TERMINALPP_VIEWS_DEFAULT_VIEW_CONTEXT_HPP_
+#ifndef TERMINALPP_VIEWS_DEFAULT_DRAW_CONTEXT_HPP_
+#define TERMINALPP_VIEWS_DEFAULT_DRAW_CONTEXT_HPP_
 
 #include "terminalpp/detail/export.hpp"
 
@@ -10,15 +10,15 @@ class canvas_view;
 namespace views {
 
 //* =========================================================================
-/// \brief A default implementation of the view_context concept.
+/// \brief A default implementation of the draw_context concept.
 //* =========================================================================
-class TERMINALPP_EXPORT default_view_context
+class TERMINALPP_EXPORT default_draw_context
 {
 public :
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    default_view_context(terminalpp::canvas_view &canvas_view);
+    default_draw_context(terminalpp::canvas_view &canvas_view);
 
     //* =====================================================================
     /// \brief Returns this context's canvas view.

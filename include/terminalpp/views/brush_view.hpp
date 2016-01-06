@@ -8,7 +8,8 @@
 
 namespace terminalpp {
 
-class view_context;
+class draw_context;
+class event_context;
 
 namespace views {
 
@@ -37,7 +38,7 @@ public :
     /// \brief Draws the view.
     //* =====================================================================
     void draw(
-        terminalpp::view_context &vc,
+        terminalpp::draw_context &dc,
         terminalpp::rectangle const &region) const;
 
     //* =====================================================================
@@ -59,7 +60,7 @@ public :
     //* =====================================================================
     /// \brief Sends an event to the view.  This always goes unhandled.
     //* =====================================================================
-    boost::any event(terminalpp::view_context &vc, boost::any const &ev);
+    boost::any event(terminalpp::event_context &ec, boost::any const &ev);
 
 private :
     terminalpp::extent size_;
