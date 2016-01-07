@@ -1,9 +1,11 @@
 #include <terminalpp/views/brush_view.hpp>
+#include <terminalpp/events/default_event_context.hpp>
 #include <terminalpp/views/default_draw_context.hpp>
 #include <terminalpp/models/default_brush_model.hpp>
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/canvas_view.hpp>
 #include <terminalpp/draw_context.hpp>
+#include <terminalpp/event_context.hpp>
 #include <terminalpp/view.hpp>
 #include <gtest/gtest.h>
 
@@ -89,4 +91,16 @@ TEST(brush_view_test, drawing_the_view_draws_the_fill_pattern)
     ASSERT_EQ(terminalpp::element(' '), canvas[3][1]);
     ASSERT_EQ(terminalpp::element(' '), canvas[3][2]);
     ASSERT_EQ(terminalpp::element(' '), canvas[3][3]);
+}
+
+TEST(brush_view_test, events_are_unhandled)
+{
+    terminalpp::views::brush_view view;
+
+    terminalpp::event_context event_context{
+        terminalpp::events::default_event_context{}};
+
+    auto const &result = view.event(event_context, {});
+
+    ASSERT_TRUE(result.empty());
 }
