@@ -41,19 +41,3 @@ TEST(default_brush_model_test, fill_can_be_set_from_function)
 
     ASSERT_EQ(elem, model.get_fill());
 }
-
-TEST(default_brush_model_test, setting_fill_causes_on_model_changed_event)
-{
-    terminalpp::model::default_brush_model default_model;
-    terminalpp::model::brush_model model{default_model};
-
-    bool called = false;
-    model.on_model_changed([&called]{called = true;});
-
-    terminalpp::element elem('x');
-    elem.attribute_.foreground_colour_ = terminalpp::high_colour(5, 4, 3);
-
-    default_model.set_fill(elem);
-
-    ASSERT_TRUE(called);
-}

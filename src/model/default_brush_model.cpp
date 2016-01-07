@@ -3,18 +3,10 @@
 
 namespace terminalpp { namespace model {
 
-struct default_brush_model::impl
-{
-    boost::signals2::signal<void ()> on_model_changed;
-
-    terminalpp::element fill_;
-};
-
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
 default_brush_model::default_brush_model()
-  : pimpl_(std::make_shared<impl>())
 {
 }
 
@@ -22,9 +14,8 @@ default_brush_model::default_brush_model()
 // CONSTRUCTOR
 // ==========================================================================
 default_brush_model::default_brush_model(terminalpp::element const &fill)
-  : pimpl_(std::make_shared<impl>())
+  : fill_(fill)
 {
-    pimpl_->fill_ = fill;
 }
 
 // ==========================================================================
@@ -32,8 +23,7 @@ default_brush_model::default_brush_model(terminalpp::element const &fill)
 // ==========================================================================
 void default_brush_model::set_fill(terminalpp::element const &fill)
 {
-    pimpl_->fill_ = fill;
-    pimpl_->on_model_changed();
+    fill_ = fill;
 }
 
 // ==========================================================================
@@ -41,16 +31,7 @@ void default_brush_model::set_fill(terminalpp::element const &fill)
 // ==========================================================================
 terminalpp::element default_brush_model::get_fill() const
 {
-    return pimpl_->fill_;
-}
-
-// ==========================================================================
-// ON_MODEL_CHANGED
-// ==========================================================================
-void default_brush_model::on_model_changed(
-    std::function<void ()> const &callable)
-{
-    pimpl_->on_model_changed.connect(callable);
+    return fill_;
 }
 
 }}
