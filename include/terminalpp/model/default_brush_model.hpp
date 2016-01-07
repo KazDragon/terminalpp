@@ -2,6 +2,8 @@
 #define TERMINALPP_MODEL_DEFAULT_BRUSH_MODEL_HPP_
 
 #include "terminalpp/element.hpp"
+#include <functional>
+#include <memory>
 
 namespace terminalpp { namespace model {
 
@@ -31,8 +33,14 @@ public :
     //* =====================================================================
     terminalpp::element get_fill() const;
 
+    //* =====================================================================
+    /// \brief Add a callback to be executed when the model changes.
+    //* =====================================================================
+    void on_model_changed(std::function<void ()> const &callable);
+
 private :
-    terminalpp::element fill_;
+    struct impl;
+    std::shared_ptr<impl> pimpl_;
 };
 
 }}

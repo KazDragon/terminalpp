@@ -2,6 +2,8 @@
 #define TERMINALPP_MODEL_BRUSH_MODEL_HPP_
 
 #include "terminalpp/element.hpp"
+#include <boost/signals2/signal.hpp>
+#include <functional>
 #include <memory>
 
 namespace terminalpp { namespace model {
@@ -31,11 +33,21 @@ public :
         return self_->get_fill();
     }
 
+    //* =====================================================================
+    /// \brief Add a callback to be executed when the model changes.
+    //* =====================================================================
+    void on_model_changed(std::function<void ()> const &callable)
+    {
+        self_->on_model_changed(callable);
+    }
+
 private :
     struct concept
     {
         virtual ~concept(){}
         virtual terminalpp::element get_fill() const = 0;
+        virtual void on_model_changed(
+            std::function<void ()> const &callable) = 0;
     };
 
     template <class Model>
@@ -49,6 +61,12 @@ private :
         terminalpp::element get_fill() const override
         {
             return mdl_.get_fill();
+        }
+
+        void on_model_changed(
+            std::function<void ()> const &callable) override
+        {
+            mdl_.on_model_changed(callable);
         }
 
         Model mdl_;
