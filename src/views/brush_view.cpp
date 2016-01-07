@@ -1,5 +1,5 @@
 #include "terminalpp/views/brush_view.hpp"
-#include "terminalpp/model/default_brush_model.hpp"
+#include "terminalpp/models/default_brush_model.hpp"
 #include "terminalpp/canvas_view.hpp"
 #include "terminalpp/draw_context.hpp"
 
@@ -9,7 +9,7 @@ namespace terminalpp { namespace views {
 // CONSTRUCTOR
 // ==========================================================================
 brush_view::brush_view()
-  : model_(terminalpp::model::default_brush_model())
+  : model_(terminalpp::models::default_brush_model())
 {
 }
 

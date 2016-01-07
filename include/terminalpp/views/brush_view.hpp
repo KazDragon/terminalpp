@@ -1,7 +1,7 @@
 #ifndef TERMINALPP_VIEWS_BRUSH_VIEW_HPP_
 #define TERMINALPP_VIEWS_BRUSH_VIEW_HPP_
 
-#include "terminalpp/model/brush_model.hpp"
+#include "terminalpp/models/brush_model.hpp"
 #include "terminalpp/rectangle.hpp"
 #include <boost/any.hpp>
 #include <utility>
@@ -64,7 +64,7 @@ public :
 
 private :
     terminalpp::extent size_;
-    terminalpp::model::brush_model model_;
+    terminalpp::models::brush_model model_;
 };
 
 }}

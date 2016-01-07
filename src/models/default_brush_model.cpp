@@ -1,7 +1,6 @@
-#include "terminalpp/model/default_brush_model.hpp"
-#include <boost/signals2.hpp>
+#include "terminalpp/models/default_brush_model.hpp"
 
-namespace terminalpp { namespace model {
+namespace terminalpp { namespace models {
 
 // ==========================================================================
 // CONSTRUCTOR

@@ -3,7 +3,7 @@
 
 #include "terminalpp/element.hpp"
 
-namespace terminalpp { namespace model {
+namespace terminalpp { namespace models {
 
 //* =========================================================================
 /// \brief A default implementation of a brush model.

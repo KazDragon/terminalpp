@@ -51,7 +51,7 @@ add_library(terminalpp
     src/encoder.cpp
     src/extent.cpp
     src/glyph.cpp
-    src/model/default_brush_model.cpp
+    src/models/default_brush_model.cpp
     src/point.cpp
     src/rectangle.cpp
     src/screen.cpp

@@ -1,10 +1,10 @@
 #include <terminalpp/views/brush_view.hpp>
 #include <terminalpp/views/default_draw_context.hpp>
-#include <terminalpp/draw_context.hpp>
-#include <terminalpp/view.hpp>
-#include <terminalpp/model/default_brush_model.hpp>
+#include <terminalpp/models/default_brush_model.hpp>
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/canvas_view.hpp>
+#include <terminalpp/draw_context.hpp>
+#include <terminalpp/view.hpp>
 #include <gtest/gtest.h>
 
 TEST(brush_view_test, brush_view_is_a_view)
@@ -50,11 +50,9 @@ TEST(brush_view_test, setting_the_size_changes_the_preferred_size_to_the_same_va
 
 TEST(brush_view_test, drawing_the_view_draws_the_fill_pattern)
 {
-    terminalpp::model::default_brush_model brush_model;
-
     terminalpp::view view{
         terminalpp::views::brush_view{
-            terminalpp::model::default_brush_model{'x'}
+            terminalpp::models::default_brush_model{'x'}
         }};
     view.set_size({2, 2});
 

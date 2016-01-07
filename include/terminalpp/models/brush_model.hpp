@@ -5,7 +5,7 @@
 #include <functional>
 #include <memory>
 
-namespace terminalpp { namespace model {
+namespace terminalpp { namespace models {
 
 //* =========================================================================
 /// \brief A Concept that contains an object that knows all there is to know
