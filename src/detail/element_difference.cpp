@@ -82,12 +82,7 @@ std::string low_foreground_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 std::string high_foreground_colour_code(terminalpp::high_colour const &col)
 {
-    int value = col.red_ * 36
-              + col.green_ * 6
-              + col.blue_
-              + 16;
-
-    return boost::str(boost::format("38;5;%d") % value);
+    return boost::str(boost::format("38;5;%d") % int(col.value_));
 }
 
 // ==========================================================================
@@ -96,9 +91,7 @@ std::string high_foreground_colour_code(terminalpp::high_colour const &col)
 std::string greyscale_foreground_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    int value = col.shade_ + 232;
-
-    return boost::str(boost::format("38;5;%d") % value);
+    return boost::str(boost::format("38;5;%d") % int(col.shade_));
 }
 
 // ==========================================================================
@@ -161,12 +154,7 @@ std::string low_background_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 std::string high_background_colour_code(terminalpp::high_colour const &col)
 {
-    int value = col.red_ * 36
-    + col.green_ * 6
-    + col.blue_
-    + 16;
-
-    return boost::str(boost::format("48;5;%d") % value);
+    return boost::str(boost::format("48;5;%d") % int(col.value_));
 }
 
 // ==========================================================================
@@ -175,9 +163,7 @@ std::string high_background_colour_code(terminalpp::high_colour const &col)
 std::string greyscale_background_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    int value = col.shade_ + 232;
-
-    return boost::str(boost::format("48;5;%d") % value);
+    return boost::str(boost::format("48;5;%d") % int(col.shade_));
 }
 
 // ==========================================================================
