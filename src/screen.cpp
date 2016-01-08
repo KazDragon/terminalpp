@@ -3,69 +3,6 @@
 
 namespace terminalpp {
     
-namespace {
-
-// ==========================================================================
-// STRING_FROM_CANVAS
-// ==========================================================================
-string string_from_canvas(canvas const &cvs, point const &pos, s32 width)
-{
-    auto content = ""_ts;
-    
-    for (s32 x = pos.x; x < pos.x + width; ++x)
-    {
-        content += cvs[x][pos.y];
-    }
-    
-    return content;
-}
-    
-// ==========================================================================
-// DRAW_ENTIRE_CANVAS
-// ==========================================================================
-std::string draw_entire_canvas(terminal &term, canvas const &cvs)
-{
-    std::string result;
-    auto const size = cvs.size();
-    
-    for (s32 row = 0; row < size.height; ++row)
-    {
-        result += term.move_cursor({0, row});
-        result += term.write(string_from_canvas(cvs, {0, row}, size.width));
-    }
-    
-    return result;
-}
-
-// ==========================================================================
-// DRAW_CANVAS_DIFFERENCES
-// ==========================================================================
-std::string draw_canvas_differences(
-    terminal &term, canvas const &front_canvas, canvas const &back_canvas)
-{
-    std::string result;
-    auto const size = front_canvas.size();
-    
-    for (s32 row = 0; row < size.height; ++row)
-    {
-        for (s32 column = 0; column < size.width; ++column)
-        {
-            auto const &front_element = front_canvas[column][row];
-            auto const &back_element = back_canvas[column][row];
-            
-            if (front_element != back_element)
-            {
-                result += term.move_cursor({column, row});
-                result += term.write(front_element);
-            }
-        }
-    }
-    
-    return result;
-}
-
-}
-
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
