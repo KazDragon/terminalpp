@@ -62,15 +62,11 @@ struct high_colour
         terminalpp::u8 red,
         terminalpp::u8 green,
         terminalpp::u8 blue)
-      : red_(red),
-        green_(green),
-        blue_(blue)
+      : value_(red * 36 + green * 6 + blue + 16)
     {
     }
 
-    terminalpp::u8 red_;
-    terminalpp::u8 green_;
-    terminalpp::u8 blue_;
+    terminalpp::u8 value_;
 };
 
 //* =========================================================================
@@ -78,9 +74,7 @@ struct high_colour
 //* =========================================================================
 constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
 {
-    return lhs.red_   == rhs.red_
-        && lhs.green_ == rhs.green_
-        && lhs.blue_  == rhs.blue_;
+    return lhs.value_ == rhs.value_;
 }
 
 //* =========================================================================
@@ -103,7 +97,7 @@ struct greyscale_colour
     }
 
     constexpr explicit greyscale_colour(terminalpp::u8 shade)
-      : shade_(shade)
+      : shade_(shade + 232)
     {
     }
 

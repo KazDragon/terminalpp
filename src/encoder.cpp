@@ -106,6 +106,8 @@ terminalpp::string encode(char const *text, size_t length)
     state current_state = state::normal;
     terminalpp::element current_element;
     bool element_complete = false;
+    terminalpp::u8 red;
+    terminalpp::u8 green;
 
     for (size_t index = 0; index < length; ++index)
     {
@@ -319,20 +321,18 @@ terminalpp::string encode(char const *text, size_t length)
                 break;
 
             case state::high_colour_foreground_red :
-                current_element.attribute_.foreground_colour_ =
-                    terminalpp::high_colour(char(current_character - '0'), 0, 0);
+                red = char(current_character - '0');
                 current_state = state::high_colour_foreground_green;
                 break;
 
             case state::high_colour_foreground_green :
-                current_element.attribute_.foreground_colour_
-                    .high_colour_.green_ = char(current_character - '0');
+                green = char(current_character - '0');
                 current_state = state::high_colour_foreground_blue;
                 break;
 
             case state::high_colour_foreground_blue :
-                current_element.attribute_.foreground_colour_
-                    .high_colour_.blue_ = char(current_character - '0');
+                current_element.attribute_.foreground_colour_ =
+                    high_colour(red, green, char(current_character - '0'));
                 current_state = state::normal;
                 break;
 
@@ -356,20 +356,18 @@ terminalpp::string encode(char const *text, size_t length)
                 break;
 
             case state::high_colour_background_red :
-                current_element.attribute_.background_colour_ =
-                    terminalpp::high_colour(char(current_character - '0'), 0, 0);
+                red = char(current_character - '0');
                 current_state = state::high_colour_background_green;
                 break;
 
             case state::high_colour_background_green :
-                current_element.attribute_.background_colour_
-                    .high_colour_.green_ = char(current_character - '0');
+                green = char(current_character - '0');
                 current_state = state::high_colour_background_blue;
                 break;
 
             case state::high_colour_background_blue :
-                current_element.attribute_.background_colour_
-                    .high_colour_.blue_ = char(current_character - '0');
+                current_element.attribute_.background_colour_ =
+                    high_colour(red, green, char(current_character - '0'));
                 current_state = state::normal;
                 break;
 
