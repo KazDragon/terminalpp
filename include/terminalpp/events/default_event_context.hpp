@@ -3,6 +3,9 @@
 
 namespace terminalpp { namespace events {
 
+//* =========================================================================
+/// \brief A default implementation of an event context.
+//* =========================================================================
 class default_event_context
 {
 };
