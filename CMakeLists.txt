@@ -111,6 +111,7 @@ if (GTEST_FOUND)
         test/colour_test.cpp
         test/default_brush_model_test.cpp
         test/default_draw_context_test.cpp
+        test/default_event_context_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp

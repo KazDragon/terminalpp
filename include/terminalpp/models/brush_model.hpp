@@ -25,6 +25,14 @@ public :
     }
 
     //* =====================================================================
+    /// \brief Sets the fill pattern for the brush.
+    //* =====================================================================
+    void set_fill(terminalpp::element const &fill)
+    {
+        self_->set_fill(fill);
+    }
+
+    //* =====================================================================
     /// \brief Returns the fill pattern for the brush.
     //* =====================================================================
     terminalpp::element get_fill() const
@@ -36,6 +44,7 @@ private :
     struct concept
     {
         virtual ~concept(){}
+        virtual void set_fill(terminalpp::element const &fill) = 0;
         virtual terminalpp::element get_fill() const = 0;
     };
 
@@ -45,6 +54,11 @@ private :
         model(Model &&mdl)
           : mdl_(std::forward<Model>(mdl))
         {
+        }
+
+        void set_fill(terminalpp::element const &fill) override
+        {
+            mdl_.set_fill(fill);
         }
 
         terminalpp::element get_fill() const override
