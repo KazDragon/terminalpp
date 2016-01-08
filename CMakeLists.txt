@@ -30,7 +30,7 @@ include (GenerateExportHeader)
 #  cd ..
 find_package(GTest)
 
-# For GTest, it is necessary to link with the appropriate local threading 
+# For GTest, it is necessary to link with the appropriate local threading
 # library.
 find_package(Threads)
 
@@ -51,11 +51,15 @@ add_library(terminalpp
     src/encoder.cpp
     src/extent.cpp
     src/glyph.cpp
+    src/models/default_brush_model.cpp
     src/point.cpp
+    src/rectangle.cpp
     src/screen.cpp
     src/string.cpp
     src/string_io.cpp
     src/terminal.cpp
+    src/views/brush_view.cpp
+    src/views/default_draw_context.cpp
     src/virtual_key.cpp
 )
 
@@ -101,13 +105,18 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
+        test/brush_view_test.cpp
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp
+        test/default_brush_model_test.cpp
+        test/default_draw_context_test.cpp
+        test/default_event_context_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/expect_tokens.cpp
+        test/rectangle_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
         test/terminal_cursor_test.cpp
@@ -125,8 +134,8 @@ if (GTEST_FOUND)
             cxx_strong_enums
             cxx_relaxed_constexpr)
 
-    target_link_libraries(terminalpp_tester 
-        terminalpp 
+    target_link_libraries(terminalpp_tester
+        terminalpp
         ${GTEST_LIBRARY}
         ${GTEST_MAIN_LIBRARY}
         ${CMAKE_THREAD_LIBS_INIT}
