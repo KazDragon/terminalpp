@@ -156,3 +156,7 @@ int main()
 
 # News
 This project began as an effort to factor out the terminal handling of the Paradice9 project (https://github.com/KazDragon/paradice9).  Just recently, Terminal++ has been ported back to Paradice9 with great success, as a demonstration that the library is ready for general use.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/KazDragon/terminalpp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
