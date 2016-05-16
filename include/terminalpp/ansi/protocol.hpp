@@ -16,12 +16,6 @@ namespace terminalpp { namespace ansi {
 // Single Character Functions and other supporting characters
 static char const PS = terminalpp::ascii::SEMI_COLON; // Parameter Separator
 
-namespace ss3 {
-    // specific control codes for Single Shift Select of character set G3
-    static char const HOME = terminalpp::ascii::UPPERCASE_H;
-    static char const END  = terminalpp::ascii::UPPERCASE_F;
-}
-
 }}
 
 
