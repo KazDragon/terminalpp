@@ -1,8 +1,4 @@
-
-[![Stories on the Backlog](https://badge.waffle.io/KazDragon/terminalpp.png?label=backlog&title=Stories%20On%20The%20Backlog)](https://waffle.io/KazDragon/terminalpp)
-
 [![Stories in Ready](https://badge.waffle.io/KazDragon/terminalpp.png?label=ready&title=Stories%20In%20Ready)](https://waffle.io/KazDragon/terminalpp)
-
 [![Stories in Progress](https://badge.waffle.io/KazDragon/terminalpp.png?label=in%20progress&title=Stories%20In%20Progress)](https://waffle.io/KazDragon/terminalpp)
 
 # Terminal++
