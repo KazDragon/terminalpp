@@ -2,6 +2,7 @@
 [![Stories in Progress](https://badge.waffle.io/KazDragon/terminalpp.png?label=in%20progress&title=Stories%20In%20Progress)](https://waffle.io/KazDragon/terminalpp)
 
 [![Gitter](https://badges.gitter.im/KazDragon/terminalpp.svg)](https://gitter.im/KazDragon/terminalpp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![This is a forkable respository](https://img.shields.io/badge/forkable-yes-brightgreen.svg)](https://basicallydan.github.io/forkability/?u=KazDragon&r=terminalpp)
 [![Documentation](https://codedocs.xyz/KazDragon/terminalpp.svg)](https://codedocs.xyz/KazDragon/terminalpp/)
 
 # Terminal++
