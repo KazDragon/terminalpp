@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 cmake_policy(VERSION 3.2)
 
 if (POLICY CMP0063)
-    cmake_policy(SET CMP0063 NEW) # Allow hidden visibility for static libs
+    cmake_policy(SET CMP0063 OLD) # Do not allow hidden visibility for static libs
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
@@ -67,7 +67,9 @@ set_target_properties(terminalpp
 )
 
 target_include_directories(terminalpp
-    PUBLIC "${PROJECT_SOURCE_DIR}/include"
+    PUBLIC 
+        "${PROJECT_SOURCE_DIR}/include"
+        "${Boost_INCLUDE_DIRS}"
 )
 
 target_compile_features(terminalpp

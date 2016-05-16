@@ -78,6 +78,7 @@ cache:
   - apt: true
   - directories:
     - cmake-3.4.0-Linux-x86_64
+    - gtest
 
 before_install:
 # workaround for not having CMake 3.2
@@ -87,11 +88,12 @@ before_install:
     fi
   - export CMAKE=../cmake-3.4.0-Linux-x86_64/bin/cmake
 # workaround for gtest not providing its own libraries (sigh)
-  - mkdir gtest
-  - cd gtest
-  - CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE /usr/src/gtest && make
-  - export GTEST_ROOT=$PWD
-  - cd ..
+  - if [ ! -d "gtest/libgtest.a" ]; then
+      cd gtest;
+      CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE /usr/src/gtest && make;
+      cd ..;
+    fi
+  - export GTEST_ROOT=$PWD/gtest
 
 before_script:
   - mkdir build
