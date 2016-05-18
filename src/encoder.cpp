@@ -3,6 +3,9 @@
 
 namespace terminalpp { namespace detail {
 
+// ==========================================================================
+// UTF8_ENCODE_GLYPH
+// ==========================================================================
 void utf8_encode_glyph(glyph &gly, char fourth)
 {
     static const terminalpp::u32 maxima[] = {
@@ -16,9 +19,9 @@ void utf8_encode_glyph(glyph &gly, char fourth)
     char text[] = {
         gly.ucharacter_[0], gly.ucharacter_[1], gly.ucharacter_[2], fourth, 0
     };
-    
+
     auto value = strtol(text, nullptr, 16);
-    
+
     // At the moment, we can only convert up to 0xFFFF hex, since we only have
     // three spots in ucharacter_ to play with.  As an arbitrary decision,
     // anything above that will come out as a ? character.  Otherwise,
@@ -46,11 +49,14 @@ void utf8_encode_glyph(glyph &gly, char fourth)
         // Too high to encode right now.
         gly.ucharacter_[0] = '?';
         gly.ucharacter_[1] = 0;
-    } 
+    }
 }
 
 }
 
+// ==========================================================================
+// ENCODE
+// ==========================================================================
 terminalpp::string encode(std::string const &text)
 {
     return encode(text.c_str(), text.size());
@@ -66,7 +72,7 @@ terminalpp::string encode(char const *text)
 }
 
 //* =========================================================================
-/// \brief A function that converts a char* of a given length into a 
+/// \brief A function that converts a char* of a given length into a
 /// terminalpp::string, parsing its contents according to the String To
 /// Elements protocol.
 //* =========================================================================
@@ -186,7 +192,7 @@ terminalpp::string encode(char const *text, size_t length)
                     case '}' :
                         current_state = state::greyscale_colour_background_0;
                         break;
-                        
+
                     case 'U' :
                         current_state = state::utf8_0;
                         break;
@@ -383,24 +389,24 @@ terminalpp::string encode(char const *text, size_t length)
                     .greyscale_colour_.shade_ += char(current_character - '0');
                 current_state = state::normal;
                 break;
-                
+
             case state::utf8_0 :
                 current_element.glyph_.charset_ =
                     terminalpp::ansi::charset::utf8;
                 current_element.glyph_.ucharacter_[0] = current_character;
                 current_state = state::utf8_1;
                 break;
-                
+
             case state::utf8_1 :
                 current_element.glyph_.ucharacter_[1] = current_character;
                 current_state = state::utf8_2;
                 break;
-                
+
             case state::utf8_2 :
                 current_element.glyph_.ucharacter_[2] = current_character;
                 current_state = state::utf8_3;
                 break;
-                
+
             case state::utf8_3 :
                 detail::utf8_encode_glyph(current_element.glyph_, current_character);
                 current_state = state::normal;
@@ -411,14 +417,14 @@ terminalpp::string encode(char const *text, size_t length)
         if (element_complete)
         {
             result += current_element;
-            
+
             if (current_element.glyph_.charset_ == ansi::charset::utf8)
             {
                 // TODO: This should really pop back to whatever the charset
                 // was before.
                 current_element.glyph_.charset_ = ansi::charset::us_ascii;
             }
-            
+
             element_complete = false;
         }
     }

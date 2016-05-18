@@ -3,6 +3,9 @@
 
 namespace terminalpp {
 
+// ==========================================================================
+// OPERATOR==
+// ==========================================================================
 bool operator==(virtual_key const &lhs, virtual_key const &rhs)
 {
     return lhs.key == rhs.key
@@ -10,6 +13,9 @@ bool operator==(virtual_key const &lhs, virtual_key const &rhs)
         && lhs.repeat_count == rhs.repeat_count;
 }
 
+// ==========================================================================
+// OPERATOR<<
+// ==========================================================================
 std::ostream &operator<<(std::ostream &out, virtual_key const &vk)
 {
     return out << "vk[" << static_cast<int>(vk.key)
