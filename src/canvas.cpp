@@ -4,12 +4,18 @@ namespace terminalpp {
 
 namespace {
 
+// ==========================================================================
+// BEGIN_POINTER
+// ==========================================================================
 template <class Container>
 auto begin_pointer(Container &&container)
 {
     return container.empty() ? nullptr : &*container.begin();
 }
 
+// ==========================================================================
+// END_POINTER
+// ==========================================================================
 template <class Container>
 auto end_pointer(Container &&container)
 {
@@ -77,18 +83,18 @@ void canvas::resize(extent const &size)
     std::vector<element> new_grid(size.width * size.height);
     auto min_width  = (std::min)(size.width, size_.width);
     auto min_height = (std::min)(size.height, size_.height);
-    
+
     for (u32 row = 0; row < min_height; ++row)
     {
         for (u32 column = 0; column < min_width; ++column)
         {
             auto new_grid_pos = row * size.width + column;
             auto old_grid_pos = row * size_.width + column;
-         
+
             new_grid[new_grid_pos] = grid_[old_grid_pos];
         }
     }
-    
+
     size_ = size;
     grid_.swap(new_grid);
 }

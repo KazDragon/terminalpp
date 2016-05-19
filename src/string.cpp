@@ -212,7 +212,7 @@ string operator+(string lhs, string const &rhs)
 std::string to_string(string const &tstr)
 {
     std::string result;
-    
+
     for(auto const &elem : tstr)
     {
         if (elem.glyph_.charset_ == ansi::charset::utf8)
@@ -223,7 +223,7 @@ std::string to_string(string const &tstr)
                 {
                     break;
                 }
-                
+
                 result += ch;
             }
         }
@@ -232,17 +232,23 @@ std::string to_string(string const &tstr)
             result += elem.glyph_.character_;
         }
     }
-    
+
     return result;
 }
 
 inline namespace literals { inline namespace string_literals {
 
+// ==========================================================================
+// OPERATOR""_ts
+// ==========================================================================
 terminalpp::string operator ""_ts(char const *text, std::size_t len)
 {
     return terminalpp::string(text, len);
 }
 
+// ==========================================================================
+// OPERATOR""_ets
+// ==========================================================================
 terminalpp::string operator ""_ets(char const *text, std::size_t len)
 {
     return terminalpp::encode(text, len);
