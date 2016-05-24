@@ -1,9 +1,14 @@
+# Terminal++
+
+[![Documentation](https://codedocs.xyz/KazDragon/terminalpp.svg)](https://codedocs.xyz/KazDragon/terminalpp/)
+[![License](https://img.shields.io/github/license/KazDragon/terminalpp.svg)](https://en.wikipedia.org/wiki/MIT_License)
+
+[![Github Issues](https://img.shields.io/github/issues/KazDragon/terminalpp.svg)](https://github.com/KazDragon/terminalpp/issues)
 [![Stories in Ready](https://badge.waffle.io/KazDragon/terminalpp.png?label=ready&title=Stories%20In%20Ready)](https://waffle.io/KazDragon/terminalpp)
 [![Stories in Progress](https://badge.waffle.io/KazDragon/terminalpp.png?label=in%20progress&title=Stories%20In%20Progress)](https://waffle.io/KazDragon/terminalpp)
 
 [![Gitter](https://badges.gitter.im/KazDragon/terminalpp.svg)](https://gitter.im/KazDragon/terminalpp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![This is a forkable respository](https://img.shields.io/badge/forkable-yes-brightgreen.svg)](https://basicallydan.github.io/forkability/?u=KazDragon&r=terminalpp)
-[![Documentation](https://codedocs.xyz/KazDragon/terminalpp.svg)](https://codedocs.xyz/KazDragon/terminalpp/)
 
 # Terminal++
 A C++ library for interacting with ANSI/VT100 terminal or terminal emulator displays.
@@ -156,7 +161,3 @@ int main()
 
 # News
 This project began as an effort to factor out the terminal handling of the Paradice9 project (https://github.com/KazDragon/paradice9).  Just recently, Terminal++ has been ported back to Paradice9 with great success, as a demonstration that the library is ready for general use.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/KazDragon/terminalpp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
