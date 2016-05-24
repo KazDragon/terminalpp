@@ -38,6 +38,9 @@ YOU ARE HERE! What follows is for future implementation.
   * [ ] terminalpp::component
   * [ ] terminalpp::layout
   * This will enable developer to create fully featured console-based UIs that can be delivered over any channel to which you can write text, such as terminal windows or even TCP/IP socket connections.
+  
+5. [ ] A database of terminal types and their associated behaviours
+  * With some kind of application-specific terminal type detection, this would make it possible to write apps that automatically adjust to the most appropriate protocols supported by the client.
 
 # Status
 

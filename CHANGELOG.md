@@ -1,8 +1,10 @@
-# Version 1.2 - Untitled Feature Release
+# Changelog
+
+## Version 1.2 - Untitled Feature Release
 1. [x] Migrated from CppUnit to GTest
 2. [x] Pre-computed values of high_colour and greyscale_colour, which reduced the size of terminalpp::element from 16B to 12B.
 
-# Version 1.0 - Terminal Management
+## Version 1.0 - Terminal Management
 1. [x] A utility for creating strings with embedded ANSI attributes
   * [x] terminalpp::string
   * This will be immediately useful in line-oriented programs to construct and output streams of attributed (coloured, emboldened, underlined, etc.) text.
