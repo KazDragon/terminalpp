@@ -28,7 +28,9 @@ std::string change_charset(
     {
         if (dest == terminalpp::ansi::charset::utf8)
         {
-            result = terminalpp::detail::select_utf8_charset();
+            result =
+                change_charset(source, terminalpp::ansi::charset::us_ascii)
+              + terminalpp::detail::select_utf8_charset();
         }
         else
         {
