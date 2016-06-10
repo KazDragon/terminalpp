@@ -377,3 +377,15 @@ TEST(terminal_string_test, writing_unicode_after_sco_charset_reverts_charset_fir
         std::string("\x1B(U\xCD\x1B(B\x1B%GW"),
         terminal.write("\\cU\\C205\\U0057"_ets));
 }
+
+TEST(terminal_string_test, behaviour_unicode_in_all_charsets_writing_unicode_after_sco_does_not_change_charset_first)
+{
+    terminalpp::terminal::behaviour behaviour;
+    behaviour.unicode_in_all_charsets = true;
+
+    terminalpp::terminal terminal(behaviour);
+    expect_sequence(
+        std::string("\x1B(U\xCD\x1B%GW"),
+        terminal.write("\\cU\\C205\\U0057"_ets));
+
+}
