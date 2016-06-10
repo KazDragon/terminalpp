@@ -1,9 +1,10 @@
 #ifndef TERMINALPP_DETAIL_ELEMENT_DIFFERENCE_HPP_
 #define TERMINALPP_DETAIL_ELEMENT_DIFFERENCE_HPP_
 
+#include "terminalpp/terminal.hpp"
 #include <string>
 
-namespace terminalpp { 
+namespace terminalpp {
 
 class element;
 
@@ -18,7 +19,10 @@ namespace detail {
 /// on each element, whereas other parts of the element that are the same
 /// need not be output.
 //* =========================================================================
-std::string element_difference(element const &lhs, element const &rhs);
+std::string element_difference(
+    element const &lhs,
+    element const &rhs,
+    terminal::behaviour const &behaviour);
 
 }}
 

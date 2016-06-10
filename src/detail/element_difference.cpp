@@ -20,7 +20,8 @@ namespace {
 // ==========================================================================
 std::string change_charset(
     terminalpp::ansi::charset const &source,
-    terminalpp::ansi::charset const &dest)
+    terminalpp::ansi::charset const &dest,
+    terminalpp::terminal::behaviour const &behaviour)
 {
     std::string result;
 
@@ -28,7 +29,17 @@ std::string change_charset(
     {
         if (dest == terminalpp::ansi::charset::utf8)
         {
-            result = terminalpp::detail::select_utf8_charset();
+            // Some terminal emulators don't recognize unicode characters when
+            // not in the default character set, even when prefixing with the
+            // "enter unicode" sequence.  For those, we first drop back to the
+            // default character set before selecting unicode.
+            if (!behaviour.unicode_in_all_charsets)
+            {
+                result += change_charset(
+                    source, terminalpp::ansi::charset::us_ascii, behaviour);
+            }
+
+            result += terminalpp::detail::select_utf8_charset();
         }
         else
         {
@@ -262,11 +273,13 @@ std::string change_attribute(
 // ==========================================================================
 std::string element_difference(
     terminalpp::element const &lhs,
-    terminalpp::element const &rhs)
+    terminalpp::element const &rhs,
+    terminalpp::terminal::behaviour const &behaviour)
 {
     std::string result;
 
-    result += change_charset(lhs.glyph_.charset_, rhs.glyph_.charset_);
+    result += change_charset(
+        lhs.glyph_.charset_, rhs.glyph_.charset_, behaviour);
     result += change_attribute(lhs.attribute_, rhs.attribute_);
 
     return result;

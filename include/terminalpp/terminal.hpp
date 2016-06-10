@@ -64,7 +64,8 @@ public :
             supports_basic_mouse_tracking(false),
             supports_all_mouse_motion_tracking(false),
             supports_window_title_bel(false),
-            supports_window_title_st(false)
+            supports_window_title_st(false),
+            unicode_in_all_charsets(false)
         {
         }
 
@@ -109,6 +110,10 @@ public :
 
         // True if the window title can be set with the ST terminator.
         bool supports_window_title_st : 1;
+
+        // True if unicode can be used in all charsets; false if unicode
+        // can only be used in the default charset;
+        bool unicode_in_all_charsets : 1;
     };
 
     //* =====================================================================
@@ -179,7 +184,7 @@ public :
     /// \brief Writest the specified element.
     //* =====================================================================
     std::string write(element const &elem);
-    
+
     //* =====================================================================
     /// \brief Writes the specified sequence of characters.
     //* =====================================================================

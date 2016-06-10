@@ -317,8 +317,9 @@ std::vector<terminalpp::token> terminal::read(std::string const &data)
 // ==========================================================================
 std::string terminal::write(element const &elem)
 {
-    std::string result = detail::element_difference(last_element_, elem)
-                       + write_element(elem);
+    std::string result =
+        detail::element_difference(last_element_, elem, behaviour_)
+      + write_element(elem);
 
     if (cursor_position_)
     {
