@@ -30,9 +30,16 @@ include (GenerateExportHeader)
 #  cd ..
 find_package(GTest)
 
-# For GTest, it is necessary to link with the appropriate local threading
-# library.
-find_package(Threads)
+# For producing automatically-generated documentation, we use Doxygen.
+find_package(Doxygen)
+
+if (GTEST_FOUND)
+    # For GTest, it is necessary to link with the appropriate local threading
+    # library.
+    find_package(Threads)
+endif()
+
+set (TERMINALPP_VERSION 1.0)
 
 add_library(terminalpp
     src/ansi/charset.cpp
@@ -62,8 +69,8 @@ add_library(terminalpp
 set_target_properties(terminalpp
     PROPERTIES
         CXX_VISIBILITY_PRESET hidden
-        VERSION 1.0
-        SOVERSION 1.0
+        VERSION ${TERMINALPP_VERSION}
+        SOVERSION ${TERMINALPP_VERSION}
 )
 
 target_include_directories(terminalpp
@@ -135,4 +142,20 @@ if (GTEST_FOUND)
     )
 
     add_test(terminalpp_test terminalpp_tester)
+endif()
+
+# Add a rule for generating documentation
+if (DOXYGEN_FOUND)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+        ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+        @ONLY)
+        
+    add_custom_target(doc
+        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+        WORKING_DIRECTORY
+            ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT
+            "Generate API documentation with Doxygen" VERBATIM
+    )
 endif()
