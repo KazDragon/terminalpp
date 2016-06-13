@@ -34,6 +34,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
     {
         state_ = state::escape;
         meta_ = false;
+        extender_ = '\0';
         argument_ = {};
         arguments_ = {};
         return {};
@@ -152,6 +153,10 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
     {
         state_ = state::mouse0;
     }
+    else if (input == terminalpp::ascii::QUESTION_MARK)
+    {
+        extender_ = input;
+    }
     else
     {
         // construct and return a control sequence.
@@ -163,7 +168,8 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
                 initialiser_,
                 input,
                 meta_,
-                arguments_
+                arguments_,
+                extender_
             }
         };
     }

@@ -38,6 +38,7 @@ private :
 
     state                    state_;
     char                     initialiser_;
+    char                     extender_;
     bool                     meta_;
     terminalpp::u8           mouse_button_;
     terminalpp::u32          mouse_x_;

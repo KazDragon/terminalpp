@@ -137,3 +137,16 @@ TEST(terminal_read_test, read_8bit_command_yields_command)
             { "22", "33" }
         });
 }
+
+TEST(terminal_read_test, read_extended_command_yields_extended_command)
+{
+    expect_token(
+        "\x1B[?6n",
+        terminalpp::ansi::control_sequence {
+            '[',
+            'n',
+            false,
+            { "6" },
+            '?'
+        });
+}
