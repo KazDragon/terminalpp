@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_SCREEN_HPP_
-#define TERMINALPP_SCREEN_HPP_
+#pragma once
 
 #include "terminalpp/canvas.hpp"
 #include <string>
@@ -29,5 +28,3 @@ private :
 };
 
 }
-
-#endif

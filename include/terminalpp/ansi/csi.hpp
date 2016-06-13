@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_CSI_HPP_
-#define TERMINALPP_ANSI_CSI_HPP_
+#pragma once
 
 #include "terminalpp/detail/ascii.hpp"
 #include "terminalpp/core.hpp"
@@ -125,5 +124,3 @@ static char const DECRST                           = terminalpp::ascii::LOWERCAS
                                                       terminalpp::ascii::FIVE, 0};
 
 }}}
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_SS3_HPP_
-#define TERMINALPP_ANSI_SS3_HPP_
+#pragma once
 
 #include "terminalpp/detail/ascii.hpp"
 
@@ -29,6 +28,5 @@ static constexpr char const F2           = terminalpp::ascii::UPPERCASE_Q;
 static constexpr char const F3           = terminalpp::ascii::UPPERCASE_R;
 // F4 Key
 static constexpr char const F4           = terminalpp::ascii::UPPERCASE_S;
-}}}
 
-#endif
+}}}

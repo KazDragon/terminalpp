@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_TERMINALPP_HPP_
-#define TERMINALPP_TERMINALPP_HPP_
+#pragma once
 
 // The basic layer of terminal reading and writing is defined in terminal.hpp,
 // which includes everything you need to know about the terminal, including
@@ -14,5 +13,3 @@
 
 // In order to write encoded strings, it is necessary to include the encoder.
 #include "terminalpp/encoder.hpp"
-
-#endif

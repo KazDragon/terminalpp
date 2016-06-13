@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ELEMENT_HPP_
-#define TERMINALPP_ELEMENT_HPP_
+#pragma once
 
 #include "terminalpp/attribute.hpp"
 #include "terminalpp/glyph.hpp"
@@ -34,7 +33,7 @@ struct element
       : element(terminalpp::glyph(ch), attr)
     {
     }
-    
+
     terminalpp::glyph     glyph_;
     terminalpp::attribute attribute_;
 };
@@ -63,5 +62,3 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, element const &element);
 
 }
-
-#endif

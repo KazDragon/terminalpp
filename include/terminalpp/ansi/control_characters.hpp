@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_CONTROL_CHARACTERS_HPP_
-#define TERMINALPP_ANSI_CONTROL_CHARACTERS_HPP_
+#pragma once
 
 #include "terminalpp/detail/ascii.hpp"
 
@@ -97,5 +96,3 @@ static constexpr char const APC[]   = { char(0x9F), 0x00 };
 }
 
 }}
-
-#endif

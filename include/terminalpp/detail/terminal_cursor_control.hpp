@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_DETAIL_TERMINAL_CURSOR_CONTROL_HPP_
-#define TERMINALPP_DETAIL_TERMINAL_CURSOR_CONTROL_HPP_
+#pragma once
 
 #include "terminalpp/point.hpp"
 #include "terminalpp/terminal.hpp"
@@ -51,5 +50,3 @@ std::string cursor_position(
   terminalpp::terminal::control_mode const &control_mode);
 
 }}
-
-#endif

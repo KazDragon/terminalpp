@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_CANVAS_VIEW_HPP_
-#define TERMINALPP_CANVAS_VIEW_HPP_
+#pragma once
 
 #include "terminalpp/element.hpp"
 #include "terminalpp/extent.hpp"
@@ -26,7 +25,7 @@ public :
         // OPERATOR=
         // ==================================================================
         row_proxy &operator=(row_proxy const &other);
-        
+
         // ==================================================================
         // OPERATOR=
         // ==================================================================
@@ -36,12 +35,12 @@ public :
         // CONVERSION OPERATOR: ELEMENT
         // ==================================================================
         operator element &();
-        
+
         // ==================================================================
         // CONVERSION OPERATOR: ELEMENT
         // ==================================================================
         operator element const &() const;
-        
+
     private :
         canvas_view &canvas_;
         u32          column_;
@@ -89,7 +88,7 @@ public :
         canvas_view const &canvas_;
         u32                column_;
     };
-    
+
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
@@ -100,7 +99,7 @@ public :
     /// a view with the offset location as a basis.
     //* =====================================================================
     void offset_by(extent offset);
-    
+
     //* =====================================================================
     /// \brief Returns the size of the canvas.
     //* =====================================================================
@@ -110,32 +109,30 @@ public :
     /// \brief A subscript operator into a column
     //* =====================================================================
     column_proxy operator[](u32 column);
-    
+
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
     const_column_proxy operator[](u32 column) const;
-    
+
 private :
     //* =====================================================================
     /// \brief Set the value of an element.
     //* =====================================================================
     void set_element(u32 column, u32 row, element const &value);
-    
+
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
     element &get_element(u32 column, u32 row);
-    
+
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
     element const &get_element(u32 column, u32 row) const;
-    
+
     canvas &canvas_;
     extent  offset_;
 };
 
 }
-
-#endif

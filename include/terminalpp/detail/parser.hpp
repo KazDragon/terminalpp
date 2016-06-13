@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_DETAIL_PARSER_HPP_
-#define TERMINALPP_DETAIL_PARSER_HPP_
+#pragma once
 
 #include "terminalpp/token.hpp"
 #include <boost/optional.hpp>
@@ -48,5 +47,3 @@ private :
 };
 
 }}
-
-#endif

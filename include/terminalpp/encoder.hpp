@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_DETAIL_ENCODER_HPP_
-#define TERMINALPP_DETAIL_ENCODER_HPP_
+#pragma once
 
 #include "terminalpp/string.hpp"
 #include <string>
@@ -22,7 +21,7 @@ TERMINALPP_EXPORT
 terminalpp::string encode(char const *text);
 
 //* =========================================================================
-/// \brief A function that converts a char* of a given length into a 
+/// \brief A function that converts a char* of a given length into a
 /// terminalpp::string, parsing its contents according to the String To
 /// Elements protocol.
 //* =========================================================================
@@ -30,5 +29,3 @@ TERMINALPP_EXPORT
 terminalpp::string encode(char const *text, size_t length);
 
 }
-
-#endif

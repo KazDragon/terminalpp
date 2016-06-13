@@ -1,12 +1,11 @@
-#ifndef TERMINALPP_CANVAS_HPP_
-#define TERMINALPP_CANVAS_HPP_
+#pragma once
 
 #include "terminalpp/element.hpp"
 #include "terminalpp/extent.hpp"
 #include <vector>
 
 namespace terminalpp {
-    
+
 //* =========================================================================
 /// \brief A class representing a grid onto which elements can be painted.
 ///
@@ -15,7 +14,7 @@ namespace terminalpp {
 /// represents the top left of the grid, and it proceeds in a left-to-right
 /// manner first, then top-to-bottom.
 //* =========================================================================
-class TERMINALPP_EXPORT canvas 
+class TERMINALPP_EXPORT canvas
 {
 public :
     typedef element *iterator;
@@ -62,17 +61,17 @@ public :
         canvas const &canvas_;
         u32           column_;
     };
-    
+
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
     canvas(extent size);
-    
+
     //* =====================================================================
     /// \brief Returns the size of the canvas.
     //* =====================================================================
     extent size() const;
-    
+
     //* =====================================================================
     /// \brief Resizes the canvas to the specified extent.  Content that would
     /// fit in the new size remains as it was, otherwise it is truncated.
@@ -83,7 +82,7 @@ public :
     /// \brief Returns pointer to the top-left element.
     //* =====================================================================
     iterator begin();
-    
+
     //* =====================================================================
     /// \brief Returns pointer to the top-left element.
     //* =====================================================================
@@ -98,12 +97,12 @@ public :
     /// \brief Returns one-past-the-end of the canvas.
     //* =====================================================================
     const_iterator end() const;
-    
+
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
     column_proxy operator[](u32 column);
-    
+
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
@@ -114,21 +113,19 @@ private :
     /// \brief Set the value of an element.
     //* =====================================================================
     void set_element(u32 column, u32 row, element const &value);
-    
+
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
     element &get_element(u32 column, u32 row);
-    
+
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
     element const &get_element(u32 column, u32 row) const;
-    
+
     std::vector<element> grid_;
     extent               size_;
 };
-    
-}
 
-#endif
+}

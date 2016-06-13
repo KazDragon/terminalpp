@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_DETAIL_TERMINAL_CONTROL_HPP_
-#define TERMINALPP_DETAIL_TERMINAL_CONTROL_HPP_
+#pragma once
 
 #include "terminalpp/terminal.hpp"
 #include <string>
@@ -22,5 +21,3 @@ std::string osc(terminalpp::terminal::control_mode const &control_mode);
 std::string st(terminalpp::terminal::control_mode const &control_mode);
 
 }}
-
-#endif
