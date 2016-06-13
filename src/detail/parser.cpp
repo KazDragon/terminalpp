@@ -153,7 +153,8 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
     {
         state_ = state::mouse0;
     }
-    else if (input == terminalpp::ascii::QUESTION_MARK)
+    else if (input == terminalpp::ascii::QUESTION_MARK
+          || input == terminalpp::ascii::GREATER_THAN)
     {
         extender_ = input;
     }

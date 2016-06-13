@@ -138,7 +138,7 @@ TEST(terminal_read_test, read_8bit_command_yields_command)
         });
 }
 
-TEST(terminal_read_test, read_extended_command_yields_extended_command)
+TEST(terminal_read_test, read_query_extended_command_yields_extended_command)
 {
     expect_token(
         "\x1B[?6n",
@@ -148,5 +148,18 @@ TEST(terminal_read_test, read_extended_command_yields_extended_command)
             false,
             { "6" },
             '?'
+        });
+}
+
+TEST(terminal_read_test, read_gt_extended_command_yields_extended_command)
+{
+    expect_token(
+        "\x1B[>5c",
+        terminalpp::ansi::control_sequence {
+            '[',
+            'c',
+            false,
+            { "5" },
+            '>'
         });
 }
