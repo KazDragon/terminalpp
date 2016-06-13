@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_TERMINAL_HPP_
-#define TERMINALPP_TERMINAL_HPP_
+#pragma once
 
 #include "terminalpp/extent.hpp"
 #include "terminalpp/point.hpp"
@@ -219,5 +218,3 @@ private :
 };
 
 }
-
-#endif

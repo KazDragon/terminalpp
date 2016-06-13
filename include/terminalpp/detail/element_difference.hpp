@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_DETAIL_ELEMENT_DIFFERENCE_HPP_
-#define TERMINALPP_DETAIL_ELEMENT_DIFFERENCE_HPP_
+#pragma once
 
 #include "terminalpp/terminal.hpp"
 #include <string>
@@ -25,5 +24,3 @@ std::string element_difference(
     terminal::behaviour const &behaviour);
 
 }}
-
-#endif

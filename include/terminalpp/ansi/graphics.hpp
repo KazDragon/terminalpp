@@ -1,9 +1,8 @@
-#ifndef TERMINALPP_ANSI_GRAPHICS_HPP_
-#define TERMINALPP_ANSI_GRAPHICS_HPP_
+#pragma once
 
 // Namespace for Select Graphics Rendition parameters
 namespace terminalpp { namespace ansi { namespace graphics {
-    
+
 static char const NO_ATTRIBUTES                     = 0;
 
 enum class intensity : char
@@ -46,7 +45,5 @@ enum class polarity : char
     negative                                        = 7,
     positive                                        = 27,
 };
-    
-}}}
 
-#endif
+}}}

@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_CONTROL_SEQUENCE_HPP_
-#define TERMINALPP_ANSI_CONTROL_SEQUENCE_HPP_
+#pragma once
 
 #include "terminalpp/core.hpp"
 #include <string>
@@ -32,5 +31,3 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, control_sequence const &cs);
 
 }}
-
-#endif

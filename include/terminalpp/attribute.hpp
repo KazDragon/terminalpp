@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_ATTRIBUTE_HPP_
-#define TERMINALPP_ANSI_ATTRIBUTE_HPP_
+#pragma once
 
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/core.hpp"
@@ -154,7 +153,7 @@ struct colour
         type_(type::greyscale)
     {
     }
-    
+
     constexpr colour(terminalpp::ansi::graphics::colour col)
       : colour(terminalpp::low_colour(col))
     {
@@ -254,5 +253,3 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, attribute const &attr);
 
 }
-
-#endif

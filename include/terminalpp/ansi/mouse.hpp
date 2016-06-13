@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_MOUSE_HPP_
-#define TERMINALPP_ANSI_MOUSE_HPP_
+#pragma once
 
 #include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
@@ -7,7 +6,7 @@
 
 namespace terminalpp { namespace ansi { namespace mouse {
 
-// Mouse values are encoded by transmitting printable characters starting 
+// Mouse values are encoded by transmitting printable characters starting
 // with the space character.  This counts for both buttons and co-ordinate
 // values.
 static constexpr char const MOUSE_VALUE_OFFSET = terminalpp::ascii::SPACE;
@@ -38,5 +37,3 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, report const &rep);
 
 }}}
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_POINT_HPP_
-#define TERMINALPP_POINT_HPP_
+#pragma once
 
 #include "terminalpp/core.hpp"
 #include <iosfwd>
@@ -9,8 +8,8 @@ namespace terminalpp {
 //* =========================================================================
 /// \brief A class that represents a position in space.
 /// \par
-/// A class that represents a position in space, where x is the co-ordinate 
-/// along the horizontal axis and y being the co-ordinate along the vertical 
+/// A class that represents a position in space, where x is the co-ordinate
+/// along the horizontal axis and y being the co-ordinate along the vertical
 /// axis.
 //* =========================================================================
 struct point
@@ -25,7 +24,7 @@ struct point
         y(0)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Constructor
     /// \par
@@ -37,7 +36,7 @@ struct point
         y(y_coordinate)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Addition
     //* =====================================================================
@@ -47,7 +46,7 @@ struct point
         y += rhs.y;
         return *this;
     }
-    
+
     //* =====================================================================
     /// \brief Subtraction
     //* =====================================================================
@@ -57,7 +56,7 @@ struct point
         y -= rhs.y;
         return *this;
     }
-    
+
     s32 x;
     s32 y;
 };
@@ -99,7 +98,5 @@ constexpr point operator-(point lhs, point const &rhs)
 //* =========================================================================
 TERMINALPP_EXPORT
 std::ostream& operator<<(std::ostream &out, point const &pt);
-    
-}
 
-#endif
+}

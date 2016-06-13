@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_PROTOCOL_HPP_
-#define TERMINALPP_ANSI_PROTOCOL_HPP_
+#pragma once
 
 #include "terminalpp/core.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
@@ -17,7 +16,3 @@ namespace terminalpp { namespace ansi {
 static char const PS = terminalpp::ascii::SEMI_COLON; // Parameter Separator
 
 }}
-
-
-#endif
-

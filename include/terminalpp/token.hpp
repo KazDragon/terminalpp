@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_TOKEN_HPP_
-#define TERMINALPP_TOKEN_HPP_
+#pragma once
 
 #include "terminalpp/ansi/control_sequence.hpp"
 #include "terminalpp/ansi/mouse.hpp"
@@ -15,5 +14,3 @@ using token = boost::variant<
 >;
 
 }
-
-#endif

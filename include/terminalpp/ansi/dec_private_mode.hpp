@@ -1,5 +1,4 @@
-#ifndef TERMINAL_ANSI_DEC_PRIVATE_MODE
-#define TERMINAL_ANSI_DEC_PRIVATE_MODE
+#pragma once
 
 #include "terminalpp/detail/ascii.hpp"
 
@@ -29,7 +28,7 @@ static constexpr char const HILITE_MOUSE_TRACKING[] =
                                           terminalpp::ascii::ZERO,
                                           terminalpp::ascii::ZERO,
                                           terminalpp::ascii::ONE, 0 };
-                                          
+
 static constexpr char const CELL_MOTION_MOUSE_TRACKING[] =
                                         { terminalpp::ascii::ONE,
                                           terminalpp::ascii::ZERO,
@@ -43,5 +42,3 @@ static constexpr char const ALL_MOTION_MOUSE_TRACKING[] =
                                           terminalpp::ascii::THREE, 0 };
 
 }}}
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_DETAIL_WELL_KNOWN_VIRTUAL_KEYS_HPP_
-#define TERMINALPP_DETAIL_WELL_KNOWN_VIRTUAL_KEYS_HPP_
+#pragma once
 
 #include "terminalpp/token.hpp"
 
@@ -13,5 +12,3 @@ namespace terminalpp { namespace detail {
 terminalpp::token get_well_known_virtual_key(terminalpp::token const &orig);
 
 }}
-
-#endif

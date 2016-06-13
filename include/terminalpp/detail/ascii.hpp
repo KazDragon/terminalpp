@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ASCII_PROTOCOL_HPP_
-#define TERMINALPP_ASCII_PROTOCOL_HPP_
+#pragma once
 
 namespace terminalpp { namespace ascii {
 
@@ -138,6 +137,3 @@ static char const TILDE                 = 126; // ~
 static char const DEL                   = 127; // [DELETE]
 
 }}
-
-#endif
-

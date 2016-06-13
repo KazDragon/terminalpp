@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_VIRTUAL_KEY_HPP_
-#define TERMINALPP_VIRTUAL_KEY_HPP_
+#pragma once
 
 #include "terminalpp/ansi/control_sequence.hpp"
 #include "terminalpp/detail/ascii.hpp"
@@ -226,5 +225,3 @@ constexpr vk_modifier &operator&=(vk_modifier &lhs, vk_modifier const &rhs)
 }
 
 }
-
-#endif

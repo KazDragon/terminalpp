@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_STRING_HPP_
-#define TERMINALPP_STRING_HPP_
+#pragma once
 
 #include "terminalpp/element.hpp"
 #include <cstddef>
@@ -45,12 +44,12 @@ public :
       : elements_(begin, end)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Initializer List Constructor
     //* =====================================================================
     string(std::initializer_list<element> const &ilist);
-    
+
     //* =====================================================================
     /// \brief Constructor
     /// \param text the text to build this string around.
@@ -63,7 +62,7 @@ public :
     /// \brief Constructor
     /// \param text the text to build this string around.
     /// \param len the length of text.
-    /// Results in a string of length len with the passed text, with all 
+    /// Results in a string of length len with the passed text, with all
     /// attributes their default values.
     //* =====================================================================
     string(char const *text, std::size_t len);
@@ -103,7 +102,7 @@ public :
     /// string.
     //* =====================================================================
     reverse_iterator rbegin();
-    
+
     //* =====================================================================
     /// \brief Returns a reverse iterator to the reverse beginning of the
     /// string.
@@ -124,7 +123,7 @@ public :
     /// \brief Returns a reverse iterator to the reverse end of the string
     //* =====================================================================
     reverse_iterator rend();
-    
+
     //* =====================================================================
     /// \brief Returns a reverse iterator to the reverse end of the string
     //* =====================================================================
@@ -246,5 +245,3 @@ TERMINALPP_EXPORT
     std::size_t length);
 
 }}}
-
-#endif

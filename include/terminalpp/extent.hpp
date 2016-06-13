@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_EXTENT_HPP_
-#define TERMINALPP_EXTENT_HPP_
+#pragma once
 
 #include "terminalpp/core.hpp"
 #include <iosfwd>
@@ -26,7 +25,7 @@ struct extent
         height(0)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Constructor
     /// \par
@@ -38,7 +37,7 @@ struct extent
         height(h)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Addition
     //* =====================================================================
@@ -48,7 +47,7 @@ struct extent
         height += rhs.height;
         return *this;
     }
-    
+
     //* =====================================================================
     /// \brief Subtraction
     //* =====================================================================
@@ -58,7 +57,7 @@ struct extent
         height -= rhs.height;
         return *this;
     }
-    
+
     s32 width;
     s32 height;
 };
@@ -97,7 +96,5 @@ constexpr extent operator-(extent lhs, extent const &rhs)
 
 TERMINALPP_EXPORT
 std::ostream& operator<<(std::ostream &out, extent const &ext);
-    
-}
 
-#endif
+}

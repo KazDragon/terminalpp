@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_LOCALE_HPP_
-#define TERMINALPP_ANSI_LOCALE_HPP_
+#pragma once
 
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/optional.hpp>
@@ -91,5 +90,3 @@ boost::optional<charset> lookup_charset(char const *code);
 std::string charset_to_string(charset const &loc);
 
 }}
-
-#endif

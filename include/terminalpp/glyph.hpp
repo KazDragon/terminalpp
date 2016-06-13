@@ -1,5 +1,4 @@
-#ifndef TERMINALPP_ANSI_GLYPH_HPP_
-#define TERMINALPP_ANSI_GLYPH_HPP_
+#pragma once
 
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/core.hpp"
@@ -36,7 +35,7 @@ struct glyph
         charset_(terminalpp::ansi::charset::utf8)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
@@ -45,7 +44,7 @@ struct glyph
         charset_(terminalpp::ansi::charset::utf8)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
@@ -54,7 +53,7 @@ struct glyph
         charset_(terminalpp::ansi::charset::utf8)
     {
     }
-    
+
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence.
     //* =====================================================================
@@ -114,5 +113,3 @@ TERMINALPP_EXPORT
 bool is_printable(glyph const &gly);
 
 }
-
-#endif
