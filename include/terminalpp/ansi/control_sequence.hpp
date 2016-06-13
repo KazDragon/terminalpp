@@ -14,12 +14,15 @@ namespace terminalpp { namespace ansi {
 // string arguments.)
 // Note that this must be handled by the client if the 'real' default is a
 // different value (e.g. default co-ordinate positions are 1.)
+// Finally, some sequences have an extra character between the initiator
+// and first argument, e.g. "\x1B[?6n".  This is the extender.
 struct control_sequence
 {
     char initiator;
     char command;
     bool meta;
     std::vector<std::string> arguments;
+    char extender = '\0';
 };
 
 TERMINALPP_EXPORT

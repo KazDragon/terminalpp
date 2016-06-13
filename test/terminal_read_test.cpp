@@ -137,3 +137,42 @@ TEST(terminal_read_test, read_8bit_command_yields_command)
             { "22", "33" }
         });
 }
+
+TEST(terminal_read_test, read_query_extended_command_yields_extended_command)
+{
+    expect_token(
+        "\x1B[?6n",
+        terminalpp::ansi::control_sequence {
+            '[',
+            'n',
+            false,
+            { "6" },
+            '?'
+        });
+}
+
+TEST(terminal_read_test, read_gt_extended_command_yields_extended_command)
+{
+    expect_token(
+        "\x1B[>5c",
+        terminalpp::ansi::control_sequence {
+            '[',
+            'c',
+            false,
+            { "5" },
+            '>'
+        });
+}
+
+TEST(terminal_read_test, read_bang_extended_command_yields_extended_command)
+{
+    expect_token(
+        "\x1B[!p",
+        terminalpp::ansi::control_sequence {
+            '[',
+            'p',
+            false,
+            { "" },
+            '!'
+        });
+}

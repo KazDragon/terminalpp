@@ -4,6 +4,17 @@
 
 namespace terminalpp { namespace detail {
 
+namespace {
+
+bool is_csi_extension_character(char input)
+{
+    return input == terminalpp::ascii::QUESTION_MARK
+        || input == terminalpp::ascii::GREATER_THAN
+        || input == terminalpp::ascii::EXCLAMATION_MARK;
+}
+
+}
+
 parser::parser()
   : state_(state::idle)
 {
@@ -34,6 +45,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
     {
         state_ = state::escape;
         meta_ = false;
+        extender_ = '\0';
         argument_ = {};
         arguments_ = {};
         return {};
@@ -152,6 +164,10 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
     {
         state_ = state::mouse0;
     }
+    else if (is_csi_extension_character(input))
+    {
+        extender_ = input;
+    }
     else
     {
         // construct and return a control sequence.
@@ -163,7 +179,8 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
                 initialiser_,
                 input,
                 meta_,
-                arguments_
+                arguments_,
+                extender_
             }
         };
     }
