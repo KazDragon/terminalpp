@@ -74,7 +74,7 @@ set_target_properties(terminalpp
 )
 
 target_include_directories(terminalpp
-    PUBLIC 
+    PUBLIC
         "${PROJECT_SOURCE_DIR}/include"
         "${Boost_INCLUDE_DIRS}"
 )
@@ -150,8 +150,8 @@ if (DOXYGEN_FOUND)
         ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
         ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
         @ONLY)
-        
-    add_custom_target(doc
+
+    add_custom_target(terminalpp_doc
         ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
         WORKING_DIRECTORY
             ${CMAKE_CURRENT_BINARY_DIR}
