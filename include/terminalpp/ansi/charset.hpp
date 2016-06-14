@@ -86,7 +86,16 @@ static constexpr char const SET_CHARSET_G3_ALT[]          = {terminalpp::ascii::
                                                              terminalpp::ascii::SLASH, 0};
 
 // Locale/Locale Code Conversion
+//* =========================================================================
+/// \brief Look up a character set by the ANSI code it uses.
+/// E.g. lookup_charset("%6") yields charset::portuguese.
+//* =========================================================================
 boost::optional<charset> lookup_charset(char const *code);
+
+//* =========================================================================
+/// \brief Convert a character set to its respective ANSI code.
+/// E.g. charset_to_string(charset::portuguese) yields "%6".
+//* =========================================================================
 std::string charset_to_string(charset const &loc);
 
 }}

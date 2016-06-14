@@ -4,7 +4,10 @@
 
 namespace terminalpp { namespace ansi {
 
-// C1 7-Bit Control Sequences
+//* =========================================================================
+/// \namespace terminalpp::ansi::control7
+/// \brief Constants for 7-bit "C1" ANSI control sequences.
+//* =========================================================================
 namespace control7 {
 
 // Full code for enabling 7-bit control mode.
@@ -64,7 +67,10 @@ static constexpr char const APC[]   = { terminalpp::ascii::ESC,
                                         terminalpp::ascii::UNDERSCORE, 0 };
 }
 
-// C1 8-Bit Control Sequences
+//* =========================================================================
+/// \namespace terminalpp::ansi::control7
+/// \brief Constants for 8-bit "C1" ANSI control sequences.
+//* =========================================================================
 namespace control8 {
 
 // Full command for enabling 8-bit control mode.
