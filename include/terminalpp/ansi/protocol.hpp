@@ -10,9 +10,12 @@
 #include "terminalpp/ansi/ss3.hpp"
 #include "terminalpp/detail/ascii.hpp"
 
+//* =========================================================================
+/// \namespace terminalpp::ansi
+/// \brief Low-level ANSI terminal constants and operations.
+//* =========================================================================
 namespace terminalpp { namespace ansi {
 
-// Single Character Functions and other supporting characters
 static char const PS = terminalpp::ascii::SEMI_COLON; // Parameter Separator
 
 }}

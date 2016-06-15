@@ -7,6 +7,11 @@ namespace terminalpp { namespace ansi {
 // Sequence for introducing DEC Private Mode
 static constexpr char const DEC_PRIVATE_MODE[] = { terminalpp::ascii::QUESTION_MARK, 0 };
 
+//* =========================================================================
+/// \namespace terminalpp::ansi::dec_pm
+/// \brief Contains all of the constants for the commands that begin with the
+/// DEC Private Mode sequence.
+//* =========================================================================
 namespace dec_pm {
 
 static constexpr char const SET[]    = { terminalpp::ascii::LOWERCASE_H, 0 };

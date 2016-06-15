@@ -3,6 +3,11 @@
 #include "terminalpp/detail/ascii.hpp"
 #include "terminalpp/core.hpp"
 
+//* =========================================================================
+/// \namespace terminalpp::ansi::csi
+/// \brief Contains all of the constants for the commands that begin with the
+/// Control Sequence Introducer sequence.
+//* =========================================================================
 namespace terminalpp { namespace ansi { namespace csi {
 
 // Move the cursor up N rows.

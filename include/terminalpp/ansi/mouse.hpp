@@ -4,6 +4,10 @@
 #include "terminalpp/detail/ascii.hpp"
 #include <iosfwd>
 
+//* =========================================================================
+/// \namespace terminalpp::ansi::mouse
+/// \brief Constants and structures for dealing with mouse controls.
+//* =========================================================================
 namespace terminalpp { namespace ansi { namespace mouse {
 
 // Mouse values are encoded by transmitting printable characters starting
@@ -11,6 +15,9 @@ namespace terminalpp { namespace ansi { namespace mouse {
 // values.
 static constexpr char const MOUSE_VALUE_OFFSET = terminalpp::ascii::SPACE;
 
+//* =========================================================================
+/// \brief Structure that encapsulates a report about a mouse action.
+//* =========================================================================
 struct report
 {
     static terminalpp::u8 const LEFT_BUTTON_DOWN   = terminalpp::u8(0);
@@ -26,6 +33,9 @@ struct report
     terminalpp::u32 y_position_;
 };
 
+//* =========================================================================
+/// \brief Equality operator
+//* =========================================================================
 constexpr inline bool operator==(report const &lhs, report const &rhs)
 {
     return lhs.button_     == rhs.button_
@@ -33,6 +43,9 @@ constexpr inline bool operator==(report const &lhs, report const &rhs)
         && lhs.y_position_ == rhs.y_position_;
 }
 
+//* =========================================================================
+/// \brief Streaming operator
+//* =========================================================================
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, report const &rep);
 

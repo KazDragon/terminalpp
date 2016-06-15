@@ -1,5 +1,9 @@
 #pragma once
 
+//* =========================================================================
+/// \namespace terminalpp::ascii
+/// \brief A namespace for constants representing the ASCII character set.
+//* =========================================================================
 namespace terminalpp { namespace ascii {
 
 // Source: http://ascii-table.com/ascii.php
