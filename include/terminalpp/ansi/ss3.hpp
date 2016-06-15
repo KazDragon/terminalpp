@@ -2,6 +2,16 @@
 
 #include "terminalpp/detail/ascii.hpp"
 
+//* =========================================================================
+/// \namespace terminalpp::ansi::ss3
+/// \brief Constants for Single Shift to G3 commands.
+///
+/// \par Note
+/// SS3 is not a command set per se.  Instead, it is a shift to another
+/// character set for exactly one character.  However, since some of the
+/// characters in that set perform actions (e.g. cursor movement), it is
+/// frequently used as shortcut sequences for those commands.
+//* =========================================================================
 namespace terminalpp { namespace ansi { namespace ss3 {
 
 // Move the cursor up one character.

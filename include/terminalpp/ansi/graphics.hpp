@@ -1,6 +1,10 @@
 #pragma once
 
-// Namespace for Select Graphics Rendition parameters
+//* =========================================================================
+/// \namespace terminalpp::ansi::graphics
+/// \brief Contains constants for the Select Graphics Rendition
+/// command parameters.
+//* =========================================================================
 namespace terminalpp { namespace ansi { namespace graphics {
 
 static char const NO_ATTRIBUTES                     = 0;
