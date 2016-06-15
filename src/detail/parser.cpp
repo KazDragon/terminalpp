@@ -8,9 +8,9 @@ namespace {
 
 bool is_csi_extension_character(char input)
 {
-    return input == terminalpp::ascii::QUESTION_MARK
-        || input == terminalpp::ascii::GREATER_THAN
-        || input == terminalpp::ascii::EXCLAMATION_MARK;
+    return input == terminalpp::detail::ascii::QUESTION_MARK
+        || input == terminalpp::detail::ascii::GREATER_THAN
+        || input == terminalpp::detail::ascii::EXCLAMATION_MARK;
 }
 
 }
@@ -41,7 +41,7 @@ boost::optional<terminalpp::token> parser::parser::operator()(char input)
 
 boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
 {
-    if (input == terminalpp::ascii::ESC)
+    if (input == terminalpp::detail::ascii::ESC)
     {
         state_ = state::escape;
         meta_ = false;
@@ -50,7 +50,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
         arguments_ = {};
         return {};
     }
-    else if (input == terminalpp::ascii::CR)
+    else if (input == terminalpp::detail::ascii::CR)
     {
         state_ = state::cr;
         return terminalpp::token {
@@ -62,7 +62,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
             }
         };
     }
-    else if (input == terminalpp::ascii::LF)
+    else if (input == terminalpp::detail::ascii::LF)
     {
         state_ = state::lf;
         return terminalpp::token {
@@ -109,8 +109,8 @@ boost::optional<terminalpp::token> parser::parse_cr(char input)
 {
     state_ = state::idle;
 
-    if (input == terminalpp::ascii::LF
-     || input == terminalpp::ascii::NUL)
+    if (input == terminalpp::detail::ascii::LF
+     || input == terminalpp::detail::ascii::NUL)
     {
         return {};
     }
@@ -124,7 +124,7 @@ boost::optional<terminalpp::token> parser::parse_lf(char input)
 {
     state_ = state::idle;
 
-    if (input == terminalpp::ascii::CR)
+    if (input == terminalpp::detail::ascii::CR)
     {
         return {};
     }
@@ -136,7 +136,7 @@ boost::optional<terminalpp::token> parser::parse_lf(char input)
 
 boost::optional<terminalpp::token> parser::parse_escape(char input)
 {
-    if (input == terminalpp::ascii::ESC)
+    if (input == terminalpp::detail::ascii::ESC)
     {
         meta_ = true;
     }

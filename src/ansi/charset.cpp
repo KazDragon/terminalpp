@@ -5,7 +5,6 @@
 
 namespace terminalpp { namespace ansi {
 
-static constexpr char const CHARSET_EXTENDER = terminalpp::ascii::PERCENT;
 static constexpr std::pair<charset, char const (&)[2]> const charset_map[] =
 {
     { charset::us_ascii,          CHARSET_US_ASCII          },
@@ -45,7 +44,7 @@ boost::optional<charset> lookup_charset(char const *code)
         }
     }
     else
-    {    
+    {
         for (auto &&mapping : charset_map)
         {
             if (code[0] == mapping.second[0])
@@ -54,7 +53,7 @@ boost::optional<charset> lookup_charset(char const *code)
             }
         }
     }
-    
+
     return {};
 }
 
@@ -67,7 +66,7 @@ std::string charset_to_string(charset const &charset)
             return mapping.second;
         }
     }
-    
+
     for (auto &&mapping : extended_charset_map)
     {
         if (mapping.first == charset)
@@ -75,7 +74,7 @@ std::string charset_to_string(charset const &charset)
             return mapping.second;
         }
     }
-    
+
     return CHARSET_US_ASCII;
 }
 

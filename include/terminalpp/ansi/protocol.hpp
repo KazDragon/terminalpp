@@ -16,6 +16,7 @@
 //* =========================================================================
 namespace terminalpp { namespace ansi {
 
-static char const PS = terminalpp::ascii::SEMI_COLON; // Parameter Separator
+// Parameter Separator
+static char const PS = terminalpp::detail::ascii::SEMI_COLON;
 
 }}
