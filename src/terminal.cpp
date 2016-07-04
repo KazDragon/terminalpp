@@ -114,7 +114,7 @@ std::string terminal::set_window_title(std::string const &title)
              + ansi::osc::SET_WINDOW_TITLE
              + ansi::PS
              + title
-             + ascii::BEL;
+             + terminalpp::detail::ascii::BEL;
     }
 
     if (behaviour_.supports_window_title_st)

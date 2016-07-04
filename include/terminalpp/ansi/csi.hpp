@@ -11,81 +11,81 @@
 namespace terminalpp { namespace ansi { namespace csi {
 
 // Move the cursor up N rows.
-static char const CURSOR_UP                        = terminalpp::ascii::UPPERCASE_A;
+static char const CURSOR_UP                        = terminalpp::detail::ascii::UPPERCASE_A;
 // Move the cursor down N rows.
-static char const CURSOR_DOWN                      = terminalpp::ascii::UPPERCASE_B;
+static char const CURSOR_DOWN                      = terminalpp::detail::ascii::UPPERCASE_B;
 // Move the cursor right N columns.
-static char const CURSOR_FORWARD                   = terminalpp::ascii::UPPERCASE_C;
+static char const CURSOR_FORWARD                   = terminalpp::detail::ascii::UPPERCASE_C;
 // Move the cursor left N columns.
-static char const CURSOR_BACKWARD                  = terminalpp::ascii::UPPERCASE_D;
+static char const CURSOR_BACKWARD                  = terminalpp::detail::ascii::UPPERCASE_D;
 
 // Move the cursor to the beginning of the line that is N lines down.
-static char const CURSOR_NEXT_LINE                 = terminalpp::ascii::UPPERCASE_E;
+static char const CURSOR_NEXT_LINE                 = terminalpp::detail::ascii::UPPERCASE_E;
 // Move the cursor to the beginning of the line that is N lines up.
-static char const CURSOR_PREVIOUS_LINE             = terminalpp::ascii::UPPERCASE_F;
+static char const CURSOR_PREVIOUS_LINE             = terminalpp::detail::ascii::UPPERCASE_F;
 // Durin input, this can also mean END.
-static char const CURSOR_END                       = terminalpp::ascii::UPPERCASE_F;
+static char const CURSOR_END                       = terminalpp::detail::ascii::UPPERCASE_F;
 // Move to a specific column.
-static char const CURSOR_HORIZONTAL_ABSOLUTE       = terminalpp::ascii::UPPERCASE_G;
+static char const CURSOR_HORIZONTAL_ABSOLUTE       = terminalpp::detail::ascii::UPPERCASE_G;
 // Move to a specific cursor position (row,column).
-static char const CURSOR_POSITION                  = terminalpp::ascii::UPPERCASE_H;
+static char const CURSOR_POSITION                  = terminalpp::detail::ascii::UPPERCASE_H;
 // During input, this can also mean HOME.
-static char const CURSOR_HOME                      = terminalpp::ascii::UPPERCASE_H;
+static char const CURSOR_HOME                      = terminalpp::detail::ascii::UPPERCASE_H;
 // Move forward N tabs
-static char const CURSOR_TABULATION                = terminalpp::ascii::UPPERCASE_I;
+static char const CURSOR_TABULATION                = terminalpp::detail::ascii::UPPERCASE_I;
 
 // Erase data.
 //  0 - (Default) Clear from the cursor to the end of the screen.
 //  1 - Clear from the cursor to the beginning of the screen.
 //  2 - Clear the entire screen (cursor position is indeterminate).
-static char const ERASE_IN_DISPLAY                 = terminalpp::ascii::UPPERCASE_J;
-    static char const ERASE_IN_DISPLAY_BELOW       = terminalpp::ascii::ZERO;
-    static char const ERASE_IN_DISPLAY_ABOVE       = terminalpp::ascii::ONE;
-    static char const ERASE_IN_DISPLAY_ALL         = terminalpp::ascii::TWO;
+static char const ERASE_IN_DISPLAY                 = terminalpp::detail::ascii::UPPERCASE_J;
+    static char const ERASE_IN_DISPLAY_BELOW       = terminalpp::detail::ascii::ZERO;
+    static char const ERASE_IN_DISPLAY_ABOVE       = terminalpp::detail::ascii::ONE;
+    static char const ERASE_IN_DISPLAY_ALL         = terminalpp::detail::ascii::TWO;
 
 // Erase line
 //  0 - (Default) Clear from the cursor to the end of the line.
 //  1 - Clear from the cursor to the beginning of the line.
 //  2 - Clear entire line (cursor position remains the same).
-static char const ERASE_IN_LINE                    = terminalpp::ascii::UPPERCASE_K;
-    static char const ERASE_IN_LINE_RIGHT          = terminalpp::ascii::ZERO;
-    static char const ERASE_IN_LINE_LEFT           = terminalpp::ascii::ONE;
-    static char const ERASE_IN_LINE_ALL            = terminalpp::ascii::TWO;
+static char const ERASE_IN_LINE                    = terminalpp::detail::ascii::UPPERCASE_K;
+    static char const ERASE_IN_LINE_RIGHT          = terminalpp::detail::ascii::ZERO;
+    static char const ERASE_IN_LINE_LEFT           = terminalpp::detail::ascii::ONE;
+    static char const ERASE_IN_LINE_ALL            = terminalpp::detail::ascii::TWO;
 
 // Scroll up by N lines
-static char const SCROLL_UP                        = terminalpp::ascii::UPPERCASE_S;
+static char const SCROLL_UP                        = terminalpp::detail::ascii::UPPERCASE_S;
 
 // Scroll down by N lines
-static char const SCROLL_DOWN                      = terminalpp::ascii::UPPERCASE_T;
+static char const SCROLL_DOWN                      = terminalpp::detail::ascii::UPPERCASE_T;
 
 // Horizontal and Vertical position - as Cursor Position
-static char const HORIZONTAL_AND_VERTICAL_POSITION = terminalpp::ascii::LOWERCASE_F;
+static char const HORIZONTAL_AND_VERTICAL_POSITION = terminalpp::detail::ascii::LOWERCASE_F;
 
 // Select graphics rendition - see graphics namespace
-static char const SELECT_GRAPHICS_RENDITION        = terminalpp::ascii::LOWERCASE_M;
+static char const SELECT_GRAPHICS_RENDITION        = terminalpp::detail::ascii::LOWERCASE_M;
 
 // Mouse Tracking - see mouse namespace
-static char const MOUSE_TRACKING                   = terminalpp::ascii::UPPERCASE_M;
+static char const MOUSE_TRACKING                   = terminalpp::detail::ascii::UPPERCASE_M;
 
 // Device status report - request requires parameter of 6, response
 // requires parameters of row,column.
-static char const DEVICE_STATUS_REPORT             = terminalpp::ascii::LOWERCASE_N;
-static char const DEVICE_STATUS_REPORT_REPLY       = terminalpp::ascii::UPPERCASE_R;
+static char const DEVICE_STATUS_REPORT             = terminalpp::detail::ascii::LOWERCASE_N;
+static char const DEVICE_STATUS_REPORT_REPLY       = terminalpp::detail::ascii::UPPERCASE_R;
 
 // Save cursor position
-static char const SAVE_CURSOR_POSITION             = terminalpp::ascii::LOWERCASE_S;
+static char const SAVE_CURSOR_POSITION             = terminalpp::detail::ascii::LOWERCASE_S;
 
 // Restore (unsave) cursor
-static char const RESTORE_CURSOR_POSITION          = terminalpp::ascii::LOWERCASE_U;
+static char const RESTORE_CURSOR_POSITION          = terminalpp::detail::ascii::LOWERCASE_U;
 
 // Erase Characters
-static char const ERASE_CHARACTER                  = terminalpp::ascii::UPPERCASE_X;
+static char const ERASE_CHARACTER                  = terminalpp::detail::ascii::UPPERCASE_X;
 
 // Tab backwards
-static char const CURSOR_BACKWARD_TABULATION       = terminalpp::ascii::UPPERCASE_Z;
+static char const CURSOR_BACKWARD_TABULATION       = terminalpp::detail::ascii::UPPERCASE_Z;
 
 // Keypad buttons / Function keys
-static char const KEYPAD_FUNCTION                  = terminalpp::ascii::TILDE;
+static char const KEYPAD_FUNCTION                  = terminalpp::detail::ascii::TILDE;
     static u8 const KEYPAD_HOME                    = 1;
     static u8 const KEYPAD_INSERT                  = 2;
     static u8 const KEYPAD_DEL                     = 3;
@@ -123,9 +123,9 @@ static char const KEYPAD_FUNCTION                  = terminalpp::ascii::TILDE;
     static u8 const MODIFIER_META_SHIFT_ALT_CTRL   = 16;
 
 // DEC Private Mode
-static char const DECSET                           = terminalpp::ascii::LOWERCASE_H;
-static char const DECRST                           = terminalpp::ascii::LOWERCASE_L;
-    static char const CURSOR_STATE[]               = {terminalpp::ascii::TWO,
-                                                      terminalpp::ascii::FIVE, 0};
+static char const DECSET                           = terminalpp::detail::ascii::LOWERCASE_H;
+static char const DECRST                           = terminalpp::detail::ascii::LOWERCASE_L;
+    static char const CURSOR_STATE[]               = {terminalpp::detail::ascii::TWO,
+                                                      terminalpp::detail::ascii::FIVE, 0};
 
 }}}

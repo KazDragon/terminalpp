@@ -1,10 +1,10 @@
 #pragma once
 
 //* =========================================================================
-/// \namespace terminalpp::ascii
+/// \namespace terminalpp::detail::ascii
 /// \brief A namespace for constants representing the ASCII character set.
 //* =========================================================================
-namespace terminalpp { namespace ascii {
+namespace terminalpp { namespace detail { namespace ascii {
 
 // Source: http://ascii-table.com/ascii.php
 
@@ -140,4 +140,4 @@ static char const CLOSE_BRACE           = 125; // }
 static char const TILDE                 = 126; // ~
 static char const DEL                   = 127; // [DELETE]
 
-}}
+}}}
