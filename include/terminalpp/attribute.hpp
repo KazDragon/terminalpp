@@ -11,16 +11,17 @@ namespace terminalpp {
 //* =========================================================================
 struct low_colour
 {
+    //* =====================================================================
+    /// \brief Constructs a low_colour with the "default" colour value.
+    //* =====================================================================
     constexpr low_colour()
         : low_colour(terminalpp::ansi::graphics::colour::default_)
     {
     }
 
-    constexpr low_colour(char value)
-        : low_colour(terminalpp::ansi::graphics::colour(value))
-    {
-    }
-
+    //* =====================================================================
+    /// \brief Constructs a low_colour from the passed-in ANSI colour.
+    //* =====================================================================
     constexpr low_colour(terminalpp::ansi::graphics::colour colour)
         : value_(colour)
     {
@@ -52,11 +53,18 @@ constexpr bool operator!=(low_colour const &lhs, low_colour const &rhs)
 //* =========================================================================
 struct high_colour
 {
+    //* =====================================================================
+    /// \brief Default constructs a high-colour with the value of pure black.
+    //* =====================================================================
     constexpr high_colour()
       : high_colour(0, 0, 0)
     {
     }
 
+    //* =====================================================================
+    /// \brief Constructs a high_colour from the passed-in RGB values, each
+    /// of which should be in the range 0-5.
+    //* =====================================================================
     constexpr high_colour(
         terminalpp::u8 red,
         terminalpp::u8 green,
@@ -90,11 +98,19 @@ constexpr bool operator!=(high_colour const &lhs, high_colour const &rhs)
 //* =========================================================================
 struct greyscale_colour
 {
+    //* =====================================================================
+    /// \brief Default constructs a greyscale value with the darkest
+    /// available grey.
+    //* =====================================================================
     constexpr greyscale_colour()
       : shade_(0)
     {
     }
 
+    //* =====================================================================
+    /// \brief Constructs a greyscale value from the given shade, which
+    /// should be in the range 0-23.
+    //* =====================================================================
     constexpr explicit greyscale_colour(terminalpp::u8 shade)
       : shade_(shade + 232)
     {
@@ -126,34 +142,52 @@ constexpr bool operator!=(
 //* =========================================================================
 struct colour
 {
+    //* =====================================================================
+    /// /brief An enumeration of the possible colour types.
+    //* =====================================================================
     enum class type : terminalpp::u8
     {
         low, high, greyscale
     };
 
+    //* =====================================================================
+    /// \brief Default constructs the colour with the "default" ANSI colour.
+    //* =====================================================================
     constexpr colour()
       : colour(terminalpp::low_colour())
     {
     }
 
+    //* =====================================================================
+    /// \brief Constructs a colour with the passed low_colour value.
+    //* =====================================================================
     constexpr colour(terminalpp::low_colour col)
       : low_colour_(std::move(col)),
         type_(type::low)
     {
     }
 
+    //* =====================================================================
+    /// \brief Constructs a colour with the passed high_colour value.
+    //* =====================================================================
     constexpr colour(terminalpp::high_colour col)
       : high_colour_(std::move(col)),
         type_(type::high)
     {
     }
 
+    //* =====================================================================
+    /// \brief Constructs a colour with the passed greyscale_colour value.
+    //* =====================================================================
     constexpr colour(terminalpp::greyscale_colour col)
       : greyscale_colour_(std::move(col)),
         type_(type::greyscale)
     {
     }
 
+    //* =====================================================================
+    /// \brief Copy constructor
+    //* =====================================================================
     constexpr colour(terminalpp::ansi::graphics::colour col)
       : colour(terminalpp::low_colour(col))
     {

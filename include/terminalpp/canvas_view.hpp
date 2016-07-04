@@ -7,6 +7,10 @@ namespace terminalpp {
 
 class canvas;
 
+//* =========================================================================
+/// \brief A sub-view into a canvas that only allows reading and writing
+/// to a its elements; not operations that would affect the entire canvas.
+//* =========================================================================
 class TERMINALPP_EXPORT canvas_view
 {
 public :

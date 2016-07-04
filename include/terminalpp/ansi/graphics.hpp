@@ -9,6 +9,9 @@ namespace terminalpp { namespace ansi { namespace graphics {
 
 static char const NO_ATTRIBUTES                     = 0;
 
+//* =========================================================================
+/// \brief The intensity (i.e. bold, faint, or normal) of an element.
+//* =========================================================================
 enum class intensity : char
 {
     bold                                            = 1,
@@ -16,12 +19,18 @@ enum class intensity : char
     normal                                          = 22,
 };
 
+//* =========================================================================
+/// \brief Whether an element is underlined or not.
+//* =========================================================================
 enum class underlining : char
 {
     underlined                                      = 4,
     not_underlined                                  = 24,
 };
 
+//* =========================================================================
+/// \brief Whether an element is blinking or not.
+//* =========================================================================
 enum class blinking : char
 {
     blink                                           = 5,
@@ -31,6 +40,9 @@ enum class blinking : char
 static char const FOREGROUND_COLOUR_BASE            = 30;
 static char const BACKGROUND_COLOUR_BASE            = 40;
 
+//* =========================================================================
+/// \brief An enumeration of basic ANSI colours.
+//* =========================================================================
 enum class colour : char
 {
     black                                           = 0,
@@ -44,6 +56,10 @@ enum class colour : char
     default_                                        = 9,
 };
 
+//* =========================================================================
+/// \brief The polarity of an element; a negative polarity will result in the
+/// element's foreground and background colours being swapped.
+//* =========================================================================
 enum class polarity : char
 {
     negative                                        = 7,

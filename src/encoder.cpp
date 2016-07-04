@@ -322,7 +322,9 @@ terminalpp::string encode(char const *text, size_t length)
 
             case state::low_colour_foreground :
                 current_element.attribute_.foreground_colour_ =
-                    terminalpp::low_colour(char(current_character - '0'));
+                    terminalpp::low_colour(
+                        terminalpp::ansi::graphics::colour(
+                            current_character - '0'));
                 current_state = state::normal;
                 break;
 
@@ -357,7 +359,9 @@ terminalpp::string encode(char const *text, size_t length)
 
             case state::low_colour_background :
                 current_element.attribute_.background_colour_ =
-                    terminalpp::low_colour(char(current_character - '0'));
+                    terminalpp::low_colour(
+                        terminalpp::ansi::graphics::colour(
+                            current_character - '0'));
                 current_state = state::normal;
                 break;
 

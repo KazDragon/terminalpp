@@ -29,8 +29,22 @@ struct report
     static terminalpp::u8 const SCROLLWHEEL_UP     = terminalpp::u8(64);
     static terminalpp::u8 const SCROLLWHEEL_DOWN   = terminalpp::u8(65);
 
+    //* =====================================================================
+    /// \brief The mouse button state in this report.  E.g. LEFT_BUTTON_DOWN
+    /// or SCROLLWHEEL_UP.
+    //* =====================================================================
     terminalpp::u8  button_;
+
+    //* =====================================================================
+    /// /brief The horizontal position of the mouse in this report.  The
+    /// leftmost column is given the value 0.
+    //* =====================================================================
     terminalpp::u32 x_position_;
+
+    //* =====================================================================
+    /// \brief The vertical position of the mouse in this report.  The
+    /// uppermost column is given the value 0.
+    //* =====================================================================
     terminalpp::u32 y_position_;
 };
 
