@@ -50,6 +50,10 @@ public :
         all
     };
 
+    //* =====================================================================
+    /// \brief A set of flags that determine how a terminal should behave
+    /// over a datastream.
+    //* =====================================================================
     struct behaviour
     {
         constexpr behaviour()
