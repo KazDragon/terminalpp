@@ -36,7 +36,7 @@ struct report
     terminalpp::u8  button_;
 
     //* =====================================================================
-    /// /brief The horizontal position of the mouse in this report.  The
+    /// \brief The horizontal position of the mouse in this report.  The
     /// leftmost column is given the value 0.
     //* =====================================================================
     terminalpp::u32 x_position_;

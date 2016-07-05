@@ -143,7 +143,7 @@ constexpr bool operator!=(
 struct colour
 {
     //* =====================================================================
-    /// /brief An enumeration of the possible colour types.
+    /// \brief An enumeration of the possible colour types.
     //* =====================================================================
     enum class type : terminalpp::u8
     {
