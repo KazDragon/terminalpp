@@ -7,12 +7,28 @@ namespace terminalpp { namespace ansi {
 
 static constexpr std::pair<charset, char const (&)[2]> const charset_map[] =
 {
-    { charset::us_ascii,          CHARSET_US_ASCII          },
-    { charset::sco,               CHARSET_SCO               },
-    { charset::dec,               CHARSET_DEC               },
-    { charset::dec_supplementary, CHARSET_DEC_SUPPLEMENTARY },
-    { charset::dec_technical,     CHARSET_DEC_TECHNICAL     },
-    { charset::uk,                CHARSET_UK                },
+    { charset::us_ascii,          CHARSET_US_ASCII            },
+    { charset::sco,               CHARSET_SCO                 },
+    { charset::dec,               CHARSET_DEC                 },
+    { charset::dec_supplementary, CHARSET_DEC_SUPPLEMENTARY   },
+    { charset::dec_technical,     CHARSET_DEC_TECHNICAL       },
+    { charset::uk,                CHARSET_UK                  },
+    { charset::dutch,             CHARSET_DUTCH               },
+    { charset::finnish,           CHARSET_FINNISH             },
+    { charset::finnish,           CHARSET_FINNISH_ALT         },
+    { charset::french,            CHARSET_FRENCH              },
+    { charset::french,            CHARSET_FRENCH_ALT          },
+    { charset::french_canadian,   CHARSET_FRENCH_CANADIAN     },
+    { charset::french_canadian,   CHARSET_FRENCH_CANADIAN_ALT },
+    { charset::german,            CHARSET_GERMAN              },
+    { charset::italian,           CHARSET_ITALIAN             },
+    { charset::danish,            CHARSET_DANISH              },
+    { charset::danish,            CHARSET_DANISH_ALT_1        },
+    { charset::danish,            CHARSET_DANISH_ALT_2        },
+    { charset::spanish,           CHARSET_SPANISH             },
+    { charset::swedish,           CHARSET_SWEDISH             },
+    { charset::swedish,           CHARSET_SWEDISH_ALT         },
+    { charset::swiss,             CHARSET_SWISS               },
 };
 
 static constexpr std::pair<charset, char const (&)[3]> const extended_charset_map[] =

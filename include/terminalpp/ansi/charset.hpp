@@ -18,7 +18,6 @@ enum class charset : char {
     french_canadian,
     german,
     italian,
-    norwegian,
     danish,
     portuguese,
     spanish,
@@ -45,9 +44,6 @@ static constexpr char const CHARSET_FRENCH_CANADIAN[]     = {terminalpp::detail:
 static constexpr char const CHARSET_FRENCH_CANADIAN_ALT[] = {terminalpp::detail::ascii::NINE, 0};
 static constexpr char const CHARSET_GERMAN[]              = {terminalpp::detail::ascii::UPPERCASE_K, 0};
 static constexpr char const CHARSET_ITALIAN[]             = {terminalpp::detail::ascii::UPPERCASE_Y, 0};
-static constexpr char const CHARSET_NORWEGIAN[]           = {terminalpp::detail::ascii::GRAVE, 0};
-static constexpr char const CHARSET_NORWEGIAN_ALT_1[]     = {terminalpp::detail::ascii::UPPERCASE_E, 0};
-static constexpr char const CHARSET_NORWEGIAN_ALT_2[]     = {terminalpp::detail::ascii::SIX, 0};
 static constexpr char const CHARSET_DANISH[]              = {terminalpp::detail::ascii::GRAVE, 0};
 static constexpr char const CHARSET_DANISH_ALT_1[]        = {terminalpp::detail::ascii::UPPERCASE_E, 0};
 static constexpr char const CHARSET_DANISH_ALT_2[]        = {terminalpp::detail::ascii::SIX, 0};
