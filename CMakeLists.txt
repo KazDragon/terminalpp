@@ -39,7 +39,7 @@ if (GTEST_FOUND)
     find_package(Threads)
 endif()
 
-set (TERMINALPP_VERSION 1.0)
+set (TERMINALPP_VERSION 1.2)
 
 add_library(terminalpp
     src/ansi/charset.cpp
