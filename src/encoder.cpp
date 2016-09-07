@@ -219,7 +219,7 @@ static encoding_state encode_character_set(char ch, encoding_data &data)
 // ==========================================================================
 static encoding_state encode_character_set_ext(char ch, encoding_data &data)
 {
-    char charset_code[] = {'%', ch};
+    char charset_code[] = {'%', ch, '\0'};
     auto charset =
         terminalpp::ansi::lookup_charset(charset_code);
 
