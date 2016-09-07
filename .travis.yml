@@ -10,6 +10,8 @@ env:
   - CONFIG=Debug SHARED=1 CCOMPILE=clang CXXCOMPILE=clang++
   - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++
   - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++ SANITIZE=address
+  - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++ SANITIZE=thread
+  - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++ SANITIZE=undefined
 
 addons:
   apt:
@@ -100,10 +102,6 @@ before_script:
   - mkdir build
   - cd build
   - CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE ..
-  - export ASAN_SYMBOLIZER_PATH=`find /usr/lib/llvm* -name llvm-symbolizer`
-  - export MSAN_SYMBOLIZER_PATH=`find /usr/lib/llvm* -name llvm-symbolizer`
-  - export TSAN_SYMBOLIZER_PATH=`find /usr/lib/llvm* -name llvm-symbolizer`
-  - echo SYMBOLIZER_PATHS=${ASAN_SYMBOLIZER_PATH}
 
 script:
   - make -j2
