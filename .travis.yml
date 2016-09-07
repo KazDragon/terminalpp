@@ -93,7 +93,7 @@ before_install:
 # workaround for gtest not providing its own libraries (sigh)
   - if [ ! -d "gtest/libgtest.a" ]; then
       cd gtest;
-      CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE /usr/src/gtest && make;
+      CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE /usr/src/gtest -DCMAKE_CXX_FLAGS="-fPIC" && make;
       cd ..;
     fi
   - export GTEST_ROOT=$PWD/gtest
