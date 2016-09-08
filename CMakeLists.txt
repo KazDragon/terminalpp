@@ -39,6 +39,11 @@ if (GTEST_FOUND)
     find_package(Threads)
 endif()
 
+if (TERMINALPP_SANITIZE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${TERMINALPP_SANITIZE}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=${TERMINALPP_SANITIZE}")
+endif()
+
 set (TERMINALPP_VERSION 1.2)
 
 add_library(terminalpp
