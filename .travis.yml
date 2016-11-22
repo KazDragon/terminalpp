@@ -28,6 +28,20 @@ addons:
 matrix:
   include:
 
+    # g++-5.2 with coverage
+    - compiler: g++
+      env: CONFIG=Debug SHARED=0 CCOMPILE=gcc-5 CXXCOMPILE=g++-5 COVERAGE=ON
+      addons:
+        apt:
+          sources: *sources
+          packages:
+            - clang
+            - gcc-5
+            - g++-5
+            - gcov-5
+            - libgtest-dev
+            - libboost1.55-all-dev
+
     # g++-5.2
     - compiler: g++
       env: CONFIG=Release SHARED=1 CCOMPILE=gcc-5 CXXCOMPILE=g++-5
@@ -81,6 +95,7 @@ cache:
   - apt: true
   - directories:
     - cmake-3.4.0-Linux-x86_64
+    - lcov
     - gtest
 
 before_install:
@@ -90,6 +105,14 @@ before_install:
       tar -xzf cmake-3.4.0-Linux-x86_64.tar.gz;
     fi
   - export CMAKE=../cmake-3.4.0-Linux-x86_64/bin/cmake
+# workaround for not having lcov 1.12
+  - if [ ! -d "lcov/usr/bin/lcov" ]; then
+      wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.12.orig.tar.gz;
+      tar -xzf lcov_1.12.orig.tar.gz;
+      mkdir lcov;
+      PREFIX=$HOME/lcov make -C lcov-1.12/ install;
+    fi
+  - export LCOV=$HOME/lcov/usr/bin/lcov
 # workaround for gtest not providing its own libraries (sigh)
   - if [ ! -d "gtest/libgtest.a" ]; then
       cd gtest;
@@ -97,18 +120,31 @@ before_install:
       cd ..;
     fi
   - export GTEST_ROOT=$PWD/gtest
+# install coverage software
+  - if [ "$COVERAGE" == "ON" ]; then gem install coveralls-lcov; fi
 
 before_script:
-  - mkdir build
+  - mkdir build || true
   - cd build
-  - CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE ..
+  - CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE ..
 
 script:
   - make -j2
+  - if [ "$COVERAGE" == "ON" ]; then 
+        $LCOV --gcov-tool=gcov-5 --base-directory . --directory . --zerocounters -q;
+    fi
   - make test
 
 after_failure:
   - cat Testing/Temporary/LastTest.log
+
++after_success:
+  - if [ "$COVERAGE" == "ON" ]; then
+        $LCOV --gcov-tool=gcov-5 --base-directory . --directory .  --capture --output-file coverage.info;
+        $LCOV --gcov-tool=gcov-5 --remove coverage.info 'test/*' '/usr/*' --output-file coverage.info;
+        $LCOV --gcov-tool=gcov-5 --list coverage.info;
+        coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info;
+    fi
 
 notifications:
   email:
