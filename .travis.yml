@@ -10,7 +10,7 @@ env:
   - CONFIG=Debug SHARED=1 CCOMPILE=clang CXXCOMPILE=clang++
   - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++
   - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++ SANITIZE=address
-  - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++ SANITIZE=thread
+#  - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++ SANITIZE=thread
   - CONFIG=Debug SHARED=0 CCOMPILE=clang CXXCOMPILE=clang++ SANITIZE=undefined
 
 addons:
