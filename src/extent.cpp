@@ -8,7 +8,7 @@ namespace terminalpp {
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, extent const &ext)
 {
-    out << "extent(" << ext.width << ", " << ext.height << ")";
+    out << "extent[" << ext.width << ", " << ext.height << "]";
     return out;
 }
 
