@@ -127,6 +127,7 @@ if (GTEST_FOUND)
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/expect_tokens.cpp
+        test/extent_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
         test/terminal_cursor_test.cpp
