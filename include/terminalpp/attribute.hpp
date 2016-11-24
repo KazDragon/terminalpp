@@ -298,10 +298,4 @@ constexpr bool operator!=(attribute const &lhs, attribute const &rhs)
     return !(lhs == rhs);
 }
 
-//* =========================================================================
-/// \brief Stream operator for attributes.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, attribute const &attr);
-
 }

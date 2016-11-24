@@ -94,7 +94,4 @@ constexpr extent operator-(extent lhs, extent const &rhs)
     return lhs -= rhs;
 }
 
-TERMINALPP_EXPORT
-std::ostream& operator<<(std::ostream &out, extent const &ext);
-
 }

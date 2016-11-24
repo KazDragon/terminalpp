@@ -93,10 +93,4 @@ constexpr point operator-(point lhs, point const &rhs)
     return lhs -= rhs;
 }
 
-//* =========================================================================
-/// \brief Stream operator for points.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream& operator<<(std::ostream &out, point const &pt);
-
 }

@@ -55,7 +55,6 @@ add_library(terminalpp
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
     src/ansi/mouse.cpp
-    src/attribute.cpp
     src/canvas.cpp
     src/canvas_view.cpp
     src/detail/terminal_charset_control.cpp
@@ -64,11 +63,8 @@ add_library(terminalpp
     src/detail/element_difference.cpp
     src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
-    src/element.cpp
     src/encoder.cpp
-    src/extent.cpp
     src/glyph.cpp
-    src/point.cpp
     src/screen.cpp
     src/string.cpp
     src/string_io.cpp
@@ -120,6 +116,8 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
+        test/io/attribute.cpp
+        test/io/element.cpp
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp
@@ -127,7 +125,6 @@ if (GTEST_FOUND)
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/expect_tokens.cpp
-        test/extent_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
         test/terminal_cursor_test.cpp

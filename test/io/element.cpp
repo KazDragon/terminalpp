@@ -1,15 +1,15 @@
-#include "terminalpp/extent.hpp"
-#include <ostream>
+#include "element.hpp"
 
 namespace terminalpp {
 
 // ==========================================================================
-// OSTREAM << EXTENT
+// STREAM OPERATOR
 // ==========================================================================
-std::ostream &operator<<(std::ostream &out, extent const &ext)
+std::ostream &operator<<(std::ostream &out, element const &attr)
 {
-    out << "extent[" << ext.width << ", " << ext.height << "]";
+    //out << "elem[" << attr.glyph_ << ", " << attr.attribute_ << "]";
     return out;
 }
+
 
 }
