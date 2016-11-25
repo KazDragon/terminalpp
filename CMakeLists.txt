@@ -116,8 +116,6 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
-        test/io/attribute.cpp
-        test/io/element.cpp
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp

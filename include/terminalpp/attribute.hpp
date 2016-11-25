@@ -46,12 +46,6 @@ constexpr bool operator!=(low_colour const &lhs, low_colour const &rhs)
 }
 
 //* =========================================================================
-/// \brief Streaming operator for low_colours.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, low_colour const &col);
-
-//* =========================================================================
 /// \brief Structure representing the central 216 colours of a 256-colour
 /// palette, where each colour channel is represented by a number in the
 /// range 0..5.
@@ -98,12 +92,6 @@ constexpr bool operator!=(high_colour const &lhs, high_colour const &rhs)
 }
 
 //* =========================================================================
-/// \brief Streaming operator for high_colours.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, high_colour const &col);
-
-//* =========================================================================
 /// \brief Structure representing the 24 greyscale tones of a 256-colour
 /// palette
 //* =========================================================================
@@ -147,12 +135,6 @@ constexpr bool operator!=(
 {
     return !(lhs == rhs);
 }
-
-//* =========================================================================
-/// \brief Streaming operator for greyscale_colours.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, greyscale_colour const &col);
 
 //* =========================================================================
 /// \brief Structure representing a sum type of the available colour styles.
@@ -242,12 +224,6 @@ constexpr bool operator!=(colour const &lhs, colour const &rhs)
 {
     return !(lhs == rhs);
 }
-
-//* =========================================================================
-/// \brief Stream operator for colours.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, colour const &col);
 
 //* =========================================================================
 /// \brief A structure that carries around the presentation attributes of
