@@ -2,7 +2,6 @@
 
 #include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
-#include <iosfwd>
 
 //* =========================================================================
 /// \namespace terminalpp::ansi::mouse
@@ -57,11 +56,5 @@ constexpr inline bool operator==(report const &lhs, report const &rhs)
         && lhs.x_position_ == rhs.x_position_
         && lhs.y_position_ == rhs.y_position_;
 }
-
-//* =========================================================================
-/// \brief Streaming operator
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, report const &rep);
 
 }}}

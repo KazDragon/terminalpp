@@ -54,7 +54,6 @@ set (TERMINALPP_VERSION 1.2)
 add_library(terminalpp
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
-    src/ansi/mouse.cpp
     src/canvas.cpp
     src/canvas_view.cpp
     src/detail/terminal_charset_control.cpp
@@ -116,6 +115,7 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
+        test/io/ansi/mouse.cpp
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp
