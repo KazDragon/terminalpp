@@ -1,7 +1,6 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
-#include <iosfwd>
 
 namespace terminalpp {
 
