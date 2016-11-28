@@ -115,7 +115,9 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
+        test/io/ansi/control_sequence.cpp
         test/io/ansi/mouse.cpp
+        test/io/virtual_key.cpp
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp

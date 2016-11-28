@@ -3,7 +3,6 @@
 #include "terminalpp/ansi/control_sequence.hpp"
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/variant.hpp>
-#include <iosfwd>
 
 namespace terminalpp {
 
@@ -183,12 +182,6 @@ struct TERMINALPP_EXPORT virtual_key
 //* =========================================================================
 TERMINALPP_EXPORT
 bool operator==(virtual_key const &lhs, virtual_key const &rhs);
-
-//* =========================================================================
-/// \brief Stream operator for virtual_keys.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 
 //* =========================================================================
 /// \brief Allow the or-ing of virtual key modifiers.
