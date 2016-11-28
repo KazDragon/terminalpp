@@ -191,12 +191,6 @@ public :
     TERMINALPP_EXPORT
     friend bool operator!=(string const &lhs, string const &rhs);
 
-    //* =====================================================================
-    /// \brief Streaming operator
-    //* =====================================================================
-    TERMINALPP_EXPORT
-    friend std::ostream &operator<<(std::ostream &out, string const &es);
-
 private :
     std::vector<element> elements_;
 };
