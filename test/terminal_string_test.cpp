@@ -389,3 +389,11 @@ TEST(terminal_string_test, behaviour_unicode_in_all_charsets_writing_unicode_aft
         terminal.write("\\cU\\C205\\U0057"_ets));
 
 }
+
+TEST(terminal_string_test, changing_character_set_after_unicode_first_selects_default_charset)
+{
+    terminalpp::terminal terminal;
+    expect_sequence(
+        std::string("\x1B%GW\x1B%@\x1B(A\x9C"),
+        terminal.write("\\U0057\\cA\\C156"_ets));
+}
