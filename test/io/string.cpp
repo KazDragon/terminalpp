@@ -1,15 +1,19 @@
-#include "terminalpp/extent.hpp"
+#include "string.hpp"
+#include <terminalpp/string.hpp>
+#include <terminalpp/terminal.hpp>
 #include <ostream>
 
 namespace terminalpp {
 
 // ==========================================================================
-// OSTREAM << EXTENT
+// OPERATOR <<
 // ==========================================================================
-std::ostream &operator<<(std::ostream &out, extent const &ext)
+std::ostream &operator<<(std::ostream &out, string const &es)
 {
-    out << "extent[" << ext.width << ", " << ext.height << "]";
+    terminal term;
+    out << term.write(es);
     return out;
 }
 
 }
+

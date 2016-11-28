@@ -1,7 +1,6 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
-#include <iosfwd>
 
 namespace terminalpp {
 
@@ -92,11 +91,5 @@ constexpr point operator-(point lhs, point const &rhs)
 {
     return lhs -= rhs;
 }
-
-//* =========================================================================
-/// \brief Stream operator for points.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream& operator<<(std::ostream &out, point const &pt);
 
 }

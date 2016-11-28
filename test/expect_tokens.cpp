@@ -1,5 +1,8 @@
 #include "expect_tokens.hpp"
 #include "terminalpp/terminal.hpp"
+#include "io/ansi/control_sequence.hpp"
+#include "io/ansi/mouse.hpp"
+#include "io/virtual_key.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 

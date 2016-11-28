@@ -2,7 +2,6 @@
 
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/core.hpp"
-#include <iosfwd>
 
 namespace terminalpp {
 
@@ -99,12 +98,6 @@ constexpr bool operator!=(glyph const &lhs, glyph const &rhs)
 {
     return !(lhs == rhs);
 }
-
-//* =========================================================================
-/// \brief Stream operator for glyphs
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, glyph const &attr);
 
 //* =========================================================================
 /// \brief Returns whether a particular glyph is printable.

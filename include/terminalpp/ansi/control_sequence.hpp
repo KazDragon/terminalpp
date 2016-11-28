@@ -3,7 +3,6 @@
 #include "terminalpp/core.hpp"
 #include <string>
 #include <vector>
-#include <iosfwd>
 
 namespace terminalpp { namespace ansi {
 
@@ -30,11 +29,5 @@ struct control_sequence
 //* =========================================================================
 TERMINALPP_EXPORT
 bool operator==(control_sequence const &lhs, control_sequence const &rhs);
-
-//* =========================================================================
-/// \brief Streaming operator.
-//* =========================================================================
-TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, control_sequence const &cs);
 
 }}

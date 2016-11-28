@@ -31,20 +31,4 @@ bool operator==(control_sequence const &lhs, control_sequence const &rhs)
     return false;
 }
 
-std::ostream &operator<<(std::ostream &out, control_sequence const &cs)
-{
-    out << "control_sequence["
-        << "initiator=" << cs.initiator
-        << ",command=" << cs.command
-        << ",meta=" << cs.meta
-        << ",arguments=[";
-
-    for (auto argument : cs.arguments)
-    {
-        out << argument << ",";
-    }
-
-    return out << "]]";
-}
-
 }}
