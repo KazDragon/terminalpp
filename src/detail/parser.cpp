@@ -83,15 +83,6 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
         arguments_ = {};
         return {};
     }
-    else if (input == terminalpp::ansi::control8::OSC[0])
-    {
-        state_ = state::arguments;
-        meta_ = false;
-        initialiser_ = terminalpp::ansi::control7::OSC[1];
-        argument_ = {};
-        arguments_ = {};
-        return {};
-    }
     else
     {
         return terminalpp::token {

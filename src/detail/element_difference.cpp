@@ -18,7 +18,7 @@ namespace {
 // ==========================================================================
 // CHANGE_CHARSET
 // ==========================================================================
-std::string change_charset(
+static std::string change_charset(
     terminalpp::ansi::charset const &source,
     terminalpp::ansi::charset const &dest,
     terminalpp::terminal::behaviour const &behaviour)
@@ -59,7 +59,7 @@ std::string change_charset(
 // APPEND_GRAPHICS_CHANGE
 // ==========================================================================
 template <class GraphicsAttribute>
-void append_graphics_change(
+static void append_graphics_change(
     std::string &change,
     GraphicsAttribute const &source,
     GraphicsAttribute const &dest)
@@ -80,7 +80,7 @@ void append_graphics_change(
 // ==========================================================================
 // LOW_FOREGROUND_COLOUR_CODE
 // ==========================================================================
-std::string low_foreground_colour_code(terminalpp::low_colour const &col)
+static std::string low_foreground_colour_code(terminalpp::low_colour const &col)
 {
     int value = int(col.value_)
               + terminalpp::ansi::graphics::FOREGROUND_COLOUR_BASE;
@@ -91,7 +91,7 @@ std::string low_foreground_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 // HIGH_FOREGROUND_COLOUR_CODE
 // ==========================================================================
-std::string high_foreground_colour_code(terminalpp::high_colour const &col)
+static std::string high_foreground_colour_code(terminalpp::high_colour const &col)
 {
     return boost::str(boost::format("38;5;%d") % int(col.value_));
 }
@@ -99,7 +99,7 @@ std::string high_foreground_colour_code(terminalpp::high_colour const &col)
 // ==========================================================================
 // GREYSCALE_FOREGROUND_COLOUR_CODE
 // ==========================================================================
-std::string greyscale_foreground_colour_code(
+static std::string greyscale_foreground_colour_code(
     terminalpp::greyscale_colour const &col)
 {
     return boost::str(boost::format("38;5;%d") % int(col.shade_));
@@ -108,7 +108,7 @@ std::string greyscale_foreground_colour_code(
 // ==========================================================================
 // FOREGROUND_COLOUR_CODE
 // ==========================================================================
-std::string foreground_colour_code(terminalpp::colour const &col)
+static std::string foreground_colour_code(terminalpp::colour const &col)
 {
     switch (col.type_)
     {
@@ -131,7 +131,7 @@ std::string foreground_colour_code(terminalpp::colour const &col)
 // ==========================================================================
 // APPEND_FOREGROUND_COLOUR
 // ==========================================================================
-void append_foreground_colour(
+static void append_foreground_colour(
     std::string &change,
     terminalpp::colour const &source,
     terminalpp::colour const &dest)
@@ -152,7 +152,7 @@ void append_foreground_colour(
 // ==========================================================================
 // LOW_BACKGROUND_COLOUR_CODE
 // ==========================================================================
-std::string low_background_colour_code(terminalpp::low_colour const &col)
+static std::string low_background_colour_code(terminalpp::low_colour const &col)
 {
     int value = int(col.value_)
     + terminalpp::ansi::graphics::BACKGROUND_COLOUR_BASE;
@@ -163,7 +163,7 @@ std::string low_background_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 // HIGH_BACKGROUND_COLOUR_CODE
 // ==========================================================================
-std::string high_background_colour_code(terminalpp::high_colour const &col)
+static std::string high_background_colour_code(terminalpp::high_colour const &col)
 {
     return boost::str(boost::format("48;5;%d") % int(col.value_));
 }
@@ -171,7 +171,7 @@ std::string high_background_colour_code(terminalpp::high_colour const &col)
 // ==========================================================================
 // GREYSCALE_BACKGROUND_COLOUR_CODE
 // ==========================================================================
-std::string greyscale_background_colour_code(
+static std::string greyscale_background_colour_code(
     terminalpp::greyscale_colour const &col)
 {
     return boost::str(boost::format("48;5;%d") % int(col.shade_));
@@ -180,7 +180,7 @@ std::string greyscale_background_colour_code(
 // ==========================================================================
 // BACKGROUND_COLOUR_CODE
 // ==========================================================================
-std::string background_colour_code(terminalpp::colour const &col)
+static std::string background_colour_code(terminalpp::colour const &col)
 {
     switch (col.type_)
     {
@@ -203,7 +203,7 @@ std::string background_colour_code(terminalpp::colour const &col)
 // ==========================================================================
 // APPEND_BAKCGROUND_COLOUR
 // ==========================================================================
-void append_background_colour(
+static void append_background_colour(
     std::string &change,
     terminalpp::colour const &source,
     terminalpp::colour const &dest)
@@ -224,7 +224,7 @@ void append_background_colour(
 // ==========================================================================
 // DEFAULT_ATTRIBUTE
 // ==========================================================================
-std::string default_attribute()
+static std::string default_attribute()
 {
     return boost::str(
         boost::format("%s%d%c")
@@ -236,7 +236,7 @@ std::string default_attribute()
 // ==========================================================================
 // CHANGE_ATTRIBUTE
 // ==========================================================================
-std::string change_attribute(
+static std::string change_attribute(
     terminalpp::attribute const &source,
     terminalpp::attribute const &dest)
 {
