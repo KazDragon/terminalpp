@@ -3,6 +3,7 @@
 #include "terminalpp/ansi/csi.hpp"
 #include "terminalpp/ansi/dec_private_mode.hpp"
 #include "terminalpp/ansi/ss3.hpp"
+#include "terminalpp/detail/lambda_visitor.hpp"
 #include <algorithm>
 #include <utility>
 
@@ -189,8 +190,8 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
         // Nothing will match.
         return seq;
     }
-    
-    auto argument = atoi(seq.arguments[0].c_str()); 
+
+    auto argument = atoi(seq.arguments[0].c_str());
     auto keypad_command = std::find_if(
         keypad_commands.begin(),
         keypad_commands.end(),
@@ -239,30 +240,21 @@ static token convert_common_control_sequence(ansi::control_sequence const &seq)
     return seq;
 }
 
-struct well_known_virtual_key_visitor : boost::static_visitor<token>
-{
-    // Filter out any control sequences and convert them if necessary.
-    token operator()(ansi::control_sequence const &seq)
-    {
-        return convert_common_control_sequence(seq);
-    }
-
-    // For any other sequence, we have nothing to do, so just return them
-    // as-is.
-    template <class T>
-    token operator()(T &&t) const
-    {
-        return t;
-    }
-};
-
 // ==========================================================================
 // GET_WELL_KNOWN_VIRTUAL_KEY
 // ==========================================================================
 token get_well_known_virtual_key(token const &tok)
 {
-    static well_known_virtual_key_visitor visitor;
-    return boost::apply_visitor(visitor, tok);
+    return boost::apply_visitor(make_lambda_visitor<token>(
+        [](ansi::control_sequence const &seq)
+        {
+            return convert_common_control_sequence(seq);
+        },
+        [](auto &&t)
+        {
+            return t;
+        }),
+        tok);
 }
 
 }}
