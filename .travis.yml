@@ -37,7 +37,6 @@ matrix:
           packages:
             - gcc-5
             - g++-5
-            - gcov-5
             - libgtest-dev
             - libboost1.55-all-dev
 
