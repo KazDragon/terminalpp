@@ -35,7 +35,6 @@ matrix:
         apt:
           sources: *sources
           packages:
-            - clang
             - gcc-5
             - g++-5
             - gcov-5
@@ -130,7 +129,7 @@ before_script:
 
 script:
   - make -j2
-  - if [ "$COVERAGE" == "ON" ]; then 
+  - if [ "$COVERAGE" == "ON" ]; then
         $LCOV --gcov-tool=gcov-5 --base-directory . --directory . --zerocounters -q;
     fi
   - make test
