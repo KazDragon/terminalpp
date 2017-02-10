@@ -79,7 +79,7 @@ set_target_properties(terminalpp
 
 target_include_directories(terminalpp
     PUBLIC
-        "${PROJECT_SOURCE_DIR}/include"
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         "${Boost_INCLUDE_DIRS}"
 )
 
@@ -97,6 +97,8 @@ generate_export_header(terminalpp
 install(
     TARGETS
         terminalpp
+    EXPORT
+        terminalpp-config
     ARCHIVE DESTINATION
         lib
     LIBRARY DESTINATION
@@ -108,6 +110,13 @@ install(
         include/
     DESTINATION
         include
+)
+
+install(
+    EXPORT
+        terminalpp-config
+    DESTINATION
+        lib/terminalpp
 )
 
 if (GTEST_FOUND)
