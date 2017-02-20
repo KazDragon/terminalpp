@@ -1,11 +1,11 @@
-#include "terminalpp/terminal.hpp"
+#include "terminalpp/default_terminal.hpp"
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
 #include <string>
 
 TEST(terminal_settings_test, enabling_mouse_mode_with_default_behaviour_sends_nothing)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string(""),
@@ -14,10 +14,10 @@ TEST(terminal_settings_test, enabling_mouse_mode_with_default_behaviour_sends_no
 
 TEST(terminal_settings_test, enabling_mouse_mode_with_basic_mouse_support_sends_basic_mouse_tracking)
 {
-    terminalpp::terminal::behaviour behaviour;
+    terminalpp::behaviour behaviour;
     behaviour.supports_basic_mouse_tracking = true;
 
-    terminalpp::terminal terminal(behaviour);
+    terminalpp::default_terminal terminal(behaviour);
 
     expect_sequence(
         std::string("\x1B[?1000h"),
@@ -26,9 +26,9 @@ TEST(terminal_settings_test, enabling_mouse_mode_with_basic_mouse_support_sends_
 
 TEST(terminal_settings_test, enabling_mouse_mode_with_all_mouse_tracking_support_sends_all_mouse_tracking)
 {
-    terminalpp::terminal::behaviour behaviour;
+    terminalpp::behaviour behaviour;
     behaviour.supports_all_mouse_motion_tracking = true;
-    terminalpp::terminal terminal(behaviour);
+    terminalpp::default_terminal terminal(behaviour);
 
     expect_sequence(
         std::string("\x1B[?1003h"),
@@ -37,7 +37,7 @@ TEST(terminal_settings_test, enabling_mouse_mode_with_all_mouse_tracking_support
 
 TEST(terminal_settings_test, setting_window_title_with_default_behaviour_sends_nothing)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string(""),
@@ -46,9 +46,9 @@ TEST(terminal_settings_test, setting_window_title_with_default_behaviour_sends_n
 
 TEST(terminal_settings_test, setting_window_title_with_bel_behaviour_sends_window_title_with_bel)
 {
-    terminalpp::terminal::behaviour behaviour;
+    terminalpp::behaviour behaviour;
     behaviour.supports_window_title_bel = true;
-    terminalpp::terminal terminal(behaviour);
+    terminalpp::default_terminal terminal(behaviour);
 
     expect_sequence(
         std::string("\x1B]2;title\x7"),
@@ -57,9 +57,9 @@ TEST(terminal_settings_test, setting_window_title_with_bel_behaviour_sends_windo
 
 TEST(terminal_settings_test, setting_window_title_with_st_behaviour_sends_window_title_with_st)
 {
-    terminalpp::terminal::behaviour behaviour;
+    terminalpp::behaviour behaviour;
     behaviour.supports_window_title_st = true;
-    terminalpp::terminal terminal(behaviour);
+    terminalpp::default_terminal terminal(behaviour);
 
     expect_sequence(
         std::string("\x1B]2;title\x1B\\"),

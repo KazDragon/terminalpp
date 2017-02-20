@@ -1,6 +1,6 @@
 #include "string.hpp"
 #include <terminalpp/string.hpp>
-#include <terminalpp/terminal.hpp>
+#include <terminalpp/default_terminal.hpp>
 #include <ostream>
 
 namespace terminalpp {
@@ -10,7 +10,7 @@ namespace terminalpp {
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, string const &es)
 {
-    terminal term;
+    default_terminal term;
     out << term.write(es);
     return out;
 }

@@ -1,4 +1,4 @@
-#include "terminalpp/terminal.hpp"
+#include "terminalpp/default_terminal.hpp"
 #include "terminalpp/ansi/osc.hpp"
 #include "terminalpp/detail/terminal_control.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
@@ -57,15 +57,15 @@ std::vector<token> replace_well_known_virtual_keys(std::vector<token> tokens)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-terminal::terminal(terminal::behaviour const &behaviour)
-  : behaviour_(behaviour)
+default_terminal::default_terminal(behaviour const &terminal_behaviour)
+  : behaviour_(terminal_behaviour)
 {
 }
 
 // ==========================================================================
 // INIT
 // ==========================================================================
-std::string terminal::init()
+std::string default_terminal::init()
 {
     std::string result;
 
@@ -81,7 +81,7 @@ std::string terminal::init()
 // ==========================================================================
 // ENABLE_MOUSE
 // ==========================================================================
-std::string terminal::enable_mouse()
+std::string default_terminal::enable_mouse()
 {
     std::string result;
 
@@ -106,7 +106,7 @@ std::string terminal::enable_mouse()
 // ==========================================================================
 // SET_WINDOW_TITLE
 // ==========================================================================
-std::string terminal::set_window_title(std::string const &title)
+std::string default_terminal::set_window_title(std::string const &title)
 {
     if (behaviour_.supports_window_title_bel)
     {
@@ -132,7 +132,7 @@ std::string terminal::set_window_title(std::string const &title)
 // ==========================================================================
 // SET_SIZE
 // ==========================================================================
-void terminal::set_size(const extent& size)
+void default_terminal::set_size(const extent& size)
 {
     size_ = size;
 }
@@ -141,7 +141,7 @@ void terminal::set_size(const extent& size)
 // ==========================================================================
 // SHOW_CURSOR
 // ==========================================================================
-std::string terminal::show_cursor()
+std::string default_terminal::show_cursor()
 {
     if (cursor_mode_ != cursor_mode::shown)
     {
@@ -161,7 +161,7 @@ std::string terminal::show_cursor()
 // ==========================================================================
 // HIDE_CURSOR
 // ==========================================================================
-std::string terminal::hide_cursor()
+std::string default_terminal::hide_cursor()
 {
     if (cursor_mode_ != cursor_mode::hidden)
     {
@@ -181,7 +181,7 @@ std::string terminal::hide_cursor()
 // ==========================================================================
 // SAVE_CURSOR
 // ==========================================================================
-std::string terminal::save_cursor()
+std::string default_terminal::save_cursor()
 {
     saved_cursor_position_ = cursor_position_;
 
@@ -192,7 +192,7 @@ std::string terminal::save_cursor()
 // ==========================================================================
 // RESTORE_CURSOR
 // ==========================================================================
-std::string terminal::restore_cursor()
+std::string default_terminal::restore_cursor()
 {
     cursor_position_ = saved_cursor_position_;
 
@@ -203,7 +203,7 @@ std::string terminal::restore_cursor()
 // ==========================================================================
 // MOVE_CURSOR
 // ==========================================================================
-std::string terminal::move_cursor(point const &pos)
+std::string default_terminal::move_cursor(point const &pos)
 {
     std::string result;
 
@@ -292,7 +292,7 @@ std::string terminal::move_cursor(point const &pos)
 // ==========================================================================
 // READ
 // ==========================================================================
-std::vector<terminalpp::token> terminal::read(std::string const &data)
+std::vector<terminalpp::token> default_terminal::read(std::string const &data)
 {
     std::vector<terminalpp::token> results;
 
@@ -315,7 +315,7 @@ std::vector<terminalpp::token> terminal::read(std::string const &data)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string terminal::write(element const &elem)
+std::string default_terminal::write(element const &elem)
 {
     std::string result =
         detail::element_difference(last_element_, elem, behaviour_)
@@ -347,7 +347,7 @@ std::string terminal::write(element const &elem)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string terminal::write(string const& str)
+std::string default_terminal::write(string const& str)
 {
     std::string result;
 
@@ -363,7 +363,7 @@ std::string terminal::write(string const& str)
 // ==========================================================================
 // ERASE_IN_DISPLAY
 // ==========================================================================
-std::string terminal::erase_in_display(terminal::erase_display how)
+std::string default_terminal::erase_in_display(terminal::erase_display how)
 {
     std::string result;
 
@@ -394,7 +394,7 @@ std::string terminal::erase_in_display(terminal::erase_display how)
 // ==========================================================================
 // ERASE_IN_LINE
 // ==========================================================================
-std::string terminal::erase_in_line(terminal::erase_line how)
+std::string default_terminal::erase_in_line(terminal::erase_line how)
 {
     std::string result;
 

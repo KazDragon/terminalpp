@@ -1,5 +1,5 @@
 #include "expect_tokens.hpp"
-#include "terminalpp/terminal.hpp"
+#include "terminalpp/default_terminal.hpp"
 #include <gtest/gtest.h>
 
 TEST(terminal_read_test, read_empty_string_yields_nothing)
@@ -98,7 +98,7 @@ TEST(terminal_read_test, read_partial_command_yields_nothing)
 
 TEST(terminal_read_test, read_partial_command_then_read_remainder_yields_command)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     std::string input0 = "\x1B[";
     std::string input1 = "E";

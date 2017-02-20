@@ -1,5 +1,6 @@
 #include "terminalpp/detail/element_difference.hpp"
 #include "terminalpp/detail/terminal_charset_control.hpp"
+#include "terminalpp/behaviour.hpp"
 #include "terminalpp/element.hpp"
 #include "terminalpp/ansi/protocol.hpp"
 #include <boost/format.hpp>
@@ -21,7 +22,7 @@ namespace {
 static std::string change_charset(
     terminalpp::ansi::charset const &source,
     terminalpp::ansi::charset const &dest,
-    terminalpp::terminal::behaviour const &behaviour)
+    behaviour const &terminal_behaviour)
 {
     std::string result;
 
@@ -33,10 +34,10 @@ static std::string change_charset(
             // not in the default character set, even when prefixing with the
             // "enter unicode" sequence.  For those, we first drop back to the
             // default character set before selecting unicode.
-            if (!behaviour.unicode_in_all_charsets)
+            if (!terminal_behaviour.unicode_in_all_charsets)
             {
                 result += change_charset(
-                    source, terminalpp::ansi::charset::us_ascii, behaviour);
+                    source, terminalpp::ansi::charset::us_ascii, terminal_behaviour);
             }
 
             result += terminalpp::detail::select_utf8_charset();
@@ -274,12 +275,12 @@ static std::string change_attribute(
 std::string element_difference(
     terminalpp::element const &lhs,
     terminalpp::element const &rhs,
-    terminalpp::terminal::behaviour const &behaviour)
+    behaviour const &terminal_behaviour)
 {
     std::string result;
 
     result += change_charset(
-        lhs.glyph_.charset_, rhs.glyph_.charset_, behaviour);
+        lhs.glyph_.charset_, rhs.glyph_.charset_, terminal_behaviour);
     result += change_attribute(lhs.attribute_, rhs.attribute_);
 
     return result;

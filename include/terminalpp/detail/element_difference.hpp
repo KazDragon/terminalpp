@@ -5,6 +5,7 @@
 
 namespace terminalpp {
 
+class behaviour;
 class element;
 
 namespace detail {
@@ -21,6 +22,6 @@ namespace detail {
 std::string element_difference(
     element const &lhs,
     element const &rhs,
-    terminal::behaviour const &behaviour);
+    behaviour const &terminal_behaviour);
 
 }}
