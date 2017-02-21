@@ -146,18 +146,18 @@ if (GTEST_FOUND)
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp
+        test/default_terminal_init_test.cpp
+        test/default_terminal_cursor_test.cpp
+        test/default_terminal_settings_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/expect_tokens.cpp
         test/screen_test.cpp
         test/string_test.cpp
-        test/terminal_cursor_test.cpp
-        test/terminal_init_test.cpp
         test/terminal_read_cursor_test.cpp
         test/terminal_read_fkey_test.cpp
         test/terminal_read_test.cpp
-        test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
         test/virtual_key_test.cpp
     )

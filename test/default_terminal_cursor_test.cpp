@@ -4,32 +4,26 @@
 #include <string>
 #include <iostream>
 
-TEST(terminal_cursor_test, move_from_unknown_location_performs_full_move)
+TEST(a_default_terminal_with_an_unknown_location, sends_absolute_coordinates_when_moving)
 {
-    // When moving to a location from an unknown position (such as it is by
-    // default), then the full cursor position sequence is returned.
-    terminalpp::default_terminal terminal(terminalpp::behaviour{});
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[3;3H"),
         terminal.move_cursor({2, 2}));
 }
 
-TEST(terminal_cursor_test, move_to_same_location_does_nothing)
+TEST(a_default_terminal_with_a_known_location, sends_nothing_when_moving_to_the_same_coordinates)
 {
-    // When moving from one location to the same location, the result should
-    // be an empty string.
     terminalpp::default_terminal terminal;
     terminal.move_cursor({10, 10});
 
     expect_sequence(std::string{}, terminal.move_cursor({10, 10}));
 }
 
-TEST(terminal_cursor_test, move_to_origin_column_supports_cha_and_default_arg_sends_short_sequence)
+TEST(a_default_terminal_supporting_cha_default_and_a_known_location,
+     when_moving_to_the_home_column_sends_cha_with_no_argument)
 {
-    // When moving to the origin column from a known position, and the
-    // terminal supports Cursor Horizontal Absolute, and supports
-    // use of the default argument to CHA, then a short code is output.
     terminalpp::behaviour behaviour;
     behaviour.supports_cha         = true;
     behaviour.supports_cha_default = true;
@@ -42,12 +36,9 @@ TEST(terminal_cursor_test, move_to_origin_column_supports_cha_and_default_arg_se
         terminal.move_cursor({0, 10}));
 }
 
-TEST(terminal_cursor_test, move_to_origin_column_supports_cha_not_default_arg_sends_cha_sequence)
+TEST(a_default_terminal_supporting_cha_but_not_cha_default_and_a_known_location,
+     when_moving_to_the_home_column_sends_cha_with_column_argument)
 {
-    // When moving to the origin column, where CHA is supported but not its
-    // default argument, then the 1 is sent.  This is still the shortest
-    // sequence, either matching CUB or shorter if it has to move at least
-    // 10 columns.
     terminalpp::behaviour behaviour;
     behaviour.supports_cha         = true;
     behaviour.supports_cha_default = false;
@@ -60,10 +51,9 @@ TEST(terminal_cursor_test, move_to_origin_column_supports_cha_not_default_arg_se
         terminal.move_cursor({0, 10}));
 }
 
-TEST(terminal_cursor_test, move_to_origin_column_no_cha_sends_cub)
+TEST(a_default_terminal_not_supporting_cha_and_a_known_location,
+     when_moving_to_the_home_column_sends_cub)
 {
-    // When moving to the origin column, but CHA is not supported, then
-    // the terminal will send Cursor Backward (CUB) instead.
     terminalpp::behaviour behaviour;
     behaviour.supports_cha         = false;
     behaviour.supports_cha_default = false;
@@ -76,39 +66,47 @@ TEST(terminal_cursor_test, move_to_origin_column_no_cha_sends_cub)
         terminal.move_cursor({0, 10}));
 }
 
-TEST(terminal_cursor_test, move_to_column_to_the_left_uses_cub)
+TEST(a_default_terminal_with_known_location,
+     when_moving_left_to_at_least_the_tenth_column_sends_cub)
 {
-    // When moving to a column to the left (that is not < 10, since that
-    // is CHA's domain), the terminal will send Cursor Backward (CUB).
     terminalpp::default_terminal terminal;
     terminal.move_cursor({20, 10});
 
     expect_sequence(
-        std::string("\x1B[5D"),
-        terminal.move_cursor({15, 10}));
+        std::string("\x1B[11D"),
+        terminal.move_cursor({9, 10}));
 }
 
-TEST(terminal_cursor_test, move_to_column_to_the_right_uses_cuf)
+TEST(a_default_terminal_with_known_location,
+     when_moving_left_to_less_than_the_tenth_column_sends_cha)
 {
-    // When moving to a column to the right (that is not < 10, since that
-    // is CHA's domain), the terminal will send Cursor Forward (CUF).
-    terminalpp::default_terminal terminal;
-    terminal.move_cursor({20, 10});
-
-    expect_sequence(
-        std::string("\x1B[5C"),
-        terminal.move_cursor({25, 10}));
-}
-
-TEST(terminal_cursor_test, move_to_column_under_9_supports_cha_uses_cha)
-{
-    // When moving to a column < 10, the shortest sequence is to use
-    // CHA, since it only requires one extra digit in all cases.
     terminalpp::behaviour behaviour;
     behaviour.supports_cha = true;
 
     terminalpp::default_terminal terminal(behaviour);
     terminal.move_cursor({20, 10});
+
+    expect_sequence(
+        std::string("\x1B[9G"),
+        terminal.move_cursor({8, 10}));
+}
+
+TEST(a_default_terminal_with_known_location,
+     when_moving_right_to_at_least_the_tenth_column_sends_cuf)
+{
+    terminalpp::default_terminal terminal;
+    terminal.move_cursor({5, 10});
+
+    expect_sequence(
+        std::string("\x1B[4C"),
+        terminal.move_cursor({9, 10}));
+}
+
+TEST(a_default_terminal_with_known_location,
+     when_moving_right_to_less_than_the_tenth_column_sends_cha)
+{
+    terminalpp::default_terminal terminal;
+    terminal.move_cursor({5, 10});
 
     expect_sequence(
         std::string("\x1B[9G"),

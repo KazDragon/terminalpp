@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <string>
 
-TEST(terminal_settings_test, enabling_mouse_mode_with_default_behaviour_sends_nothing)
+TEST(enabling_mouse_mode_with_default_behaviour, sends_nothing)
 {
     terminalpp::default_terminal terminal;
 
@@ -12,7 +12,7 @@ TEST(terminal_settings_test, enabling_mouse_mode_with_default_behaviour_sends_no
         terminal.enable_mouse());
 }
 
-TEST(terminal_settings_test, enabling_mouse_mode_with_basic_mouse_support_sends_basic_mouse_tracking)
+TEST(enabling_mouse_mode_with_basic_mouse_support, sends_basic_mouse_tracking)
 {
     terminalpp::behaviour behaviour;
     behaviour.supports_basic_mouse_tracking = true;
@@ -24,7 +24,7 @@ TEST(terminal_settings_test, enabling_mouse_mode_with_basic_mouse_support_sends_
         terminal.enable_mouse());
 }
 
-TEST(terminal_settings_test, enabling_mouse_mode_with_all_mouse_tracking_support_sends_all_mouse_tracking)
+TEST(enabling_mouse_mode_with_all_mouse_tracking_support, sends_all_mouse_tracking)
 {
     terminalpp::behaviour behaviour;
     behaviour.supports_all_mouse_motion_tracking = true;
@@ -35,7 +35,7 @@ TEST(terminal_settings_test, enabling_mouse_mode_with_all_mouse_tracking_support
         terminal.enable_mouse());
 }
 
-TEST(terminal_settings_test, setting_window_title_with_default_behaviour_sends_nothing)
+TEST(setting_window_title_with_default_behaviour, sends_nothing)
 {
     terminalpp::default_terminal terminal;
 
@@ -44,7 +44,7 @@ TEST(terminal_settings_test, setting_window_title_with_default_behaviour_sends_n
         terminal.set_window_title("title"));
 }
 
-TEST(terminal_settings_test, setting_window_title_with_bel_behaviour_sends_window_title_with_bel)
+TEST(setting_window_title_with_bel_behaviour, sends_window_title_with_bel)
 {
     terminalpp::behaviour behaviour;
     behaviour.supports_window_title_bel = true;
@@ -55,7 +55,7 @@ TEST(terminal_settings_test, setting_window_title_with_bel_behaviour_sends_windo
         terminal.set_window_title("title"));
 }
 
-TEST(terminal_settings_test, setting_window_title_with_st_behaviour_sends_window_title_with_st)
+TEST(setting_window_title_with_st_behaviour, sends_window_title_with_st)
 {
     terminalpp::behaviour behaviour;
     behaviour.supports_window_title_st = true;
