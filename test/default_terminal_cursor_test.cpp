@@ -91,6 +91,20 @@ TEST(a_default_terminal_with_known_location,
         terminal.move_cursor({8, 10}));
 }
 
+TEST(a_default_terminal_with_a_known_location_but_no_cha_support,
+     when_moving_left_to_less_than_the_tenth_column_sends_cub)
+{
+    terminalpp::behaviour behaviour;
+    behaviour.supports_cha = false;
+
+    terminalpp::default_terminal terminal(behaviour);
+    terminal.move_cursor({20, 10});
+
+    expect_sequence(
+        std::string("\x1B[12D"),
+        terminal.move_cursor({8, 10}));
+}
+
 TEST(a_default_terminal_with_known_location,
      when_moving_right_to_at_least_the_tenth_column_sends_cuf)
 {
@@ -113,26 +127,22 @@ TEST(a_default_terminal_with_known_location,
         terminal.move_cursor({8, 10}));
 }
 
-TEST(terminal_cursor_test, move_to_column_under_9_no_cha_uses_cub_or_cuf)
+TEST(a_default_terminal_with_known_location_but_no_cha_support,
+     when_moving_right_to_less_than_the_tenth_column_sends_cha)
 {
-    // When moving to column < 10, but CHA is not supported, then we must
-    // use either CUB or CUF instead.
     terminalpp::behaviour behaviour;
     behaviour.supports_cha = false;
 
     terminalpp::default_terminal terminal(behaviour);
-    terminal.move_cursor({20, 10});
+    terminal.move_cursor({5, 10});
 
     expect_sequence(
-        std::string("\x1B[15D"),
-        terminal.move_cursor({5, 10}));
-
-    expect_sequence(
-        std::string("\x1B[4C"),
-        terminal.move_cursor({9, 10}));
+        std::string("\x1B[3C"),
+        terminal.move_cursor({8, 10}));
 }
 
-TEST(terminal_cursor_test, move_to_origin_row_uses_cuu)
+TEST(a_default_terminal_with_a_known_location,
+    when_moving_to_the_home_row_sends_cuu)
 {
     // When moving to the origin column, we should use CUU in all
     // circumstances
@@ -152,41 +162,53 @@ TEST(terminal_cursor_test, move_to_origin_row_uses_cuu)
         terminal.move_cursor({9, 1}));
 }
 
-TEST(terminal_cursor_test, move_to_row_above_uses_cuu)
+TEST(a_default_terminal_with_a_known_location,
+    when_moving_up_one_row_sends_cuu_with_no_argument)
 {
-    // When moving to a row above, we should use CUU in all circumstances.
+    terminalpp::default_terminal terminal;
+    terminal.move_cursor({9, 9});
+
+    expect_sequence(
+        std::string("\x1B[A"),
+        terminal.move_cursor({9, 8}));
+}
+
+TEST(a_default_terminal_with_a_known_location,
+    when_moving_up_many_rows_sends_cuu)
+{
     terminalpp::default_terminal terminal;
     terminal.move_cursor({9, 9});
 
     expect_sequence(
         std::string("\x1B[2A"),
         terminal.move_cursor({9, 7}));
-
-    // Check that we also use the default argument if moving only one space.
-    expect_sequence(
-        std::string("\x1B[A"),
-        terminal.move_cursor({9, 6}));
 }
 
-TEST(terminal_cursor_test, move_to_row_below_uses_cud)
+TEST(a_default_terminal_with_a_known_location,
+    when_moving_down_one_row_sends_cud_with_no_argument)
 {
-    // When moving to a row below, we should use CUD in all circumstances.
     terminalpp::default_terminal terminal;
-    terminal.move_cursor({9, 9});
+    terminal.move_cursor({6, 6});
+
+    expect_sequence(
+        std::string("\x1B[B"),
+        terminal.move_cursor({6, 7}));
+}
+
+TEST(a_default_terminal_with_a_known_location,
+    when_moving_down_one_many_rows_sends_cud)
+{
+    terminalpp::default_terminal terminal;
+    terminal.move_cursor({6, 6});
 
     expect_sequence(
         std::string("\x1B[2B"),
-        terminal.move_cursor({9, 11}));
-
-    // Check that we also use the default argument if moving only one space.
-    expect_sequence(
-        std::string("\x1B[B"),
-        terminal.move_cursor({9, 12}));
+        terminal.move_cursor({6, 8}));
 }
 
-TEST(terminal_cursor_test, move_to_different_column_and_row_uses_cup)
+TEST(a_default_terminal_with_a_known_location,
+    when_moving_in_both_axes_sends_cup)
 {
-    // When moving to a different column and row, CUP is used.
     terminalpp::default_terminal terminal;
     terminal.move_cursor({5, 5});
 
@@ -195,7 +217,8 @@ TEST(terminal_cursor_test, move_to_different_column_and_row_uses_cup)
         terminal.move_cursor({10, 3}));
 }
 
-TEST(terminal_cursor_test, show_cursor_by_default_shows_cursor)
+TEST(a_default_terminal_with_an_unkown_cursor_state,
+    when_showing_cursor_sends_show_cursor)
 {
     terminalpp::default_terminal terminal;
 
@@ -204,7 +227,8 @@ TEST(terminal_cursor_test, show_cursor_by_default_shows_cursor)
         terminal.show_cursor());
 }
 
-TEST(terminal_cursor_test, hide_cursor_by_default_hides_cursor)
+TEST(a_default_terminal_with_an_unkown_cursor_state,
+    when_hiding_cursor_sends_hide_cursor)
 {
     terminalpp::default_terminal terminal;
 
@@ -213,7 +237,8 @@ TEST(terminal_cursor_test, hide_cursor_by_default_hides_cursor)
         terminal.hide_cursor());
 }
 
-TEST(terminal_cursor_test, show_cursor_when_shown_does_nothing)
+TEST(a_default_terminal_with_a_shown_cursor,
+    when_showing_cursor_sends_nothing)
 {
     terminalpp::default_terminal terminal;
     terminal.show_cursor();
@@ -223,7 +248,8 @@ TEST(terminal_cursor_test, show_cursor_when_shown_does_nothing)
         terminal.show_cursor());
 }
 
-TEST(terminal_cursor_test, hide_cursor_when_shown_hides_cursor)
+TEST(a_default_terminal_with_a_hidden_cursor,
+    when_showing_cursor_sends_show_cursor)
 {
     terminalpp::default_terminal terminal;
     terminal.show_cursor();
@@ -233,7 +259,8 @@ TEST(terminal_cursor_test, hide_cursor_when_shown_hides_cursor)
         terminal.hide_cursor());
 }
 
-TEST(terminal_cursor_test, show_cursor_when_hidden_sends_show_cursor)
+TEST(a_default_terminal_with_a_shown_cursor,
+    when_hiding_cursor_sends_hide_cursor)
 {
     terminalpp::default_terminal terminal;
     terminal.hide_cursor();
@@ -243,7 +270,8 @@ TEST(terminal_cursor_test, show_cursor_when_hidden_sends_show_cursor)
         terminal.show_cursor());
 }
 
-TEST(terminal_cursor_test, hide_cursor_when_hidden_does_nothing)
+TEST(a_default_terminal_with_a_hidden_cursor,
+    when_hiding_cursor_sends_nothing)
 {
     terminalpp::default_terminal terminal;
     terminal.hide_cursor();
@@ -253,7 +281,8 @@ TEST(terminal_cursor_test, hide_cursor_when_hidden_does_nothing)
         terminal.hide_cursor());
 }
 
-TEST(terminal_cursor_test, save_cursor_position_saves_position)
+TEST(a_default_terminal,
+    when_saving_cursor_position_sends_save_position)
 {
     terminalpp::default_terminal terminal;
 
@@ -262,7 +291,8 @@ TEST(terminal_cursor_test, save_cursor_position_saves_position)
         terminal.save_cursor());
 }
 
-TEST(terminal_cursor_test, restore_cursor_position_restores_position)
+TEST(a_default_terminal,
+    when_restoring_cursor_position_sends_restore_position)
 {
     terminalpp::default_terminal terminal;
     terminal.move_cursor({5, 5});
