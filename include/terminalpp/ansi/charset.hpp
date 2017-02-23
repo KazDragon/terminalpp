@@ -1,5 +1,6 @@
 #pragma once
 
+#include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/optional.hpp>
 
@@ -89,12 +90,14 @@ static constexpr char const SET_CHARSET_G3_ALT[]          = {terminalpp::detail:
 /// \brief Look up a character set by the ANSI code it uses.
 /// E.g. lookup_charset("%6") yields charset::portuguese.
 //* =========================================================================
+TERMINALPP_EXPORT
 boost::optional<charset> lookup_charset(char const *code);
 
 //* =========================================================================
 /// \brief Convert a character set to its respective ANSI code.
 /// E.g. charset_to_string(charset::portuguese) yields "%6".
 //* =========================================================================
+TERMINALPP_EXPORT
 std::string charset_to_string(charset const &loc);
 
 }}

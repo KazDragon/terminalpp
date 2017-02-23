@@ -1,4 +1,4 @@
-#include "terminalpp/terminal.hpp"
+#include "terminalpp/default_terminal.hpp"
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
 
@@ -6,7 +6,7 @@ using namespace terminalpp::literals;
 
 TEST(terminal_string_test, empty_string_outputs_nothing)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string(""),
@@ -15,7 +15,7 @@ TEST(terminal_string_test, empty_string_outputs_nothing)
 
 TEST(terminal_string_test, basic_string_outputs_basic_string)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("abcde"),
@@ -24,7 +24,7 @@ TEST(terminal_string_test, basic_string_outputs_basic_string)
 
 TEST(terminal_string_test, changed_charset_outputs_charset_code)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B(0abcde"),
@@ -33,7 +33,7 @@ TEST(terminal_string_test, changed_charset_outputs_charset_code)
 
 TEST(terminal_string_test, changed_charset_then_second_charset_outputs_charset_codes)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B(0abc\x1B(Ade"),
@@ -42,7 +42,7 @@ TEST(terminal_string_test, changed_charset_then_second_charset_outputs_charset_c
 
 TEST(terminal_string_test, bold_intensity_outputs_intensity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[1mabcde"),
@@ -51,7 +51,7 @@ TEST(terminal_string_test, bold_intensity_outputs_intensity)
 
 TEST(terminal_string_test, faint_intensity_outputs_intensity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[2mabcde"),
@@ -60,7 +60,7 @@ TEST(terminal_string_test, faint_intensity_outputs_intensity)
 
 TEST(terminal_string_test, normal_intensity_does_not_output_intensity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("abcde"),
@@ -72,7 +72,7 @@ TEST(terminal_string_test, bold_then_normal_intensity_outputs_intensity)
     // Note: an alternative possible normal string would be
     // \x1B[22m, but since this is longer, \x1B[0m (all attributes to default)
     // should be chosen.
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[1mabc\x1B[0mde"),
@@ -81,7 +81,7 @@ TEST(terminal_string_test, bold_then_normal_intensity_outputs_intensity)
 
 TEST(terminal_string_test, default_intensity_is_normal_intensity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[1mabc\x1B[0mde"),
@@ -90,7 +90,7 @@ TEST(terminal_string_test, default_intensity_is_normal_intensity)
 
 TEST(terminal_string_test, positive_polarity_does_not_output_polarity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("abcde"),
@@ -99,7 +99,7 @@ TEST(terminal_string_test, positive_polarity_does_not_output_polarity)
 
 TEST(terminal_string_test, negative_polarity_outputs_polarity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[7mabcde"),
@@ -108,7 +108,7 @@ TEST(terminal_string_test, negative_polarity_outputs_polarity)
 
 TEST(terminal_string_test, negative_then_positive_polarity_outputs_polarity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[7mabc\x1B[0mde"),
@@ -117,7 +117,7 @@ TEST(terminal_string_test, negative_then_positive_polarity_outputs_polarity)
 
 TEST(terminal_string_test, default_polarity_is_positive_polarity)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[7mabc\x1B[0mde"),
@@ -126,7 +126,7 @@ TEST(terminal_string_test, default_polarity_is_positive_polarity)
 
 TEST(terminal_string_test, positive_underlining_outputs_underlining)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[4mabcde"),
@@ -135,7 +135,7 @@ TEST(terminal_string_test, positive_underlining_outputs_underlining)
 
 TEST(terminal_string_test, negative_underlining_does_not_output_underlining)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("abcde"),
@@ -144,7 +144,7 @@ TEST(terminal_string_test, negative_underlining_does_not_output_underlining)
 
 TEST(terminal_string_test, positive_then_negative_underlining_outputs_underlining)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[4mabc\x1B[0mde"),
@@ -153,7 +153,7 @@ TEST(terminal_string_test, positive_then_negative_underlining_outputs_underlinin
 
 TEST(terminal_string_test, default_underlining_is_negative_underlining)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[4mabc\x1B[0mde"),
@@ -162,7 +162,7 @@ TEST(terminal_string_test, default_underlining_is_negative_underlining)
 
 TEST(terminal_string_test, foreground_low_colour_outputs_foreground_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[32mabc"),
@@ -171,7 +171,7 @@ TEST(terminal_string_test, foreground_low_colour_outputs_foreground_colour)
 
 TEST(terminal_string_test, foreground_high_colour_outputs_foreground_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[38;5;202mabc"),
@@ -180,7 +180,7 @@ TEST(terminal_string_test, foreground_high_colour_outputs_foreground_colour)
 
 TEST(terminal_string_test, foreground_greyscale_colour_outputs_foreground_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[38;5;244mabc"),
@@ -189,7 +189,7 @@ TEST(terminal_string_test, foreground_greyscale_colour_outputs_foreground_colour
 
 TEST(terminal_string_test, default_foreground_colour_does_not_output_foreground_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("abc"),
@@ -198,7 +198,7 @@ TEST(terminal_string_test, default_foreground_colour_does_not_output_foreground_
 
 TEST(terminal_string_test, multiple_foreground_colour_codes_outputs_foreground_colours)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[32mab\x1B[38;5;202mcd\x1B[38;5;234mef\x1B[0mgh"),
@@ -208,7 +208,7 @@ TEST(terminal_string_test, multiple_foreground_colour_codes_outputs_foreground_c
 
 TEST(terminal_string_test, background_low_colour_outputs_background_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[42mabc"),
@@ -217,7 +217,7 @@ TEST(terminal_string_test, background_low_colour_outputs_background_colour)
 
 TEST(terminal_string_test, background_high_colour_outputs_background_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[48;5;202mabc"),
@@ -226,7 +226,7 @@ TEST(terminal_string_test, background_high_colour_outputs_background_colour)
 
 TEST(terminal_string_test, background_greyscale_colour_outputs_background_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[48;5;244mabc"),
@@ -235,7 +235,7 @@ TEST(terminal_string_test, background_greyscale_colour_outputs_background_colour
 
 TEST(terminal_string_test, default_background_colour_does_not_output_background_colour)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("abc"),
@@ -244,7 +244,7 @@ TEST(terminal_string_test, default_background_colour_does_not_output_background_
 
 TEST(terminal_string_test, multiple_background_colour_codes_outputs_background_colours)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[42mab\x1B[48;5;75mcd\x1B[48;5;234mef\x1B[0mgh"),
@@ -260,7 +260,7 @@ TEST(terminal_string_test, multiple_attributes_do_not_output_default_change)
     // In that case, it may be that switching several attributes off is longer
     // than switching to default then re-enabling one attribute.  It also may
     // be determined by environment - different terminals behave differently.
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B[32;41ma\x1B[7mb\x1B[27mc"),
@@ -269,7 +269,7 @@ TEST(terminal_string_test, multiple_attributes_do_not_output_default_change)
 
 TEST(terminal_string_test, writing_string_moves_cursor)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     terminal.move_cursor({5, 5});
     terminal.write("abcde");
@@ -285,7 +285,7 @@ TEST(terminal_string_test, encoded_glyphs_output_unicode_text)
     // it should be output as a unicode character if it can be.
     // This will include commands to change to and from the utf-8
     // character set and also to reset the character set at the end.
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B%GW"),
@@ -302,7 +302,7 @@ TEST(terminal_string_test, encoded_glyphs_output_unicode_text)
 
 TEST(terminal_string_test, writing_past_terminal_width_moves_cursor_to_next_line)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
     terminal.set_size({10, 10});
     terminal.move_cursor({8, 8});
     terminal.write("abcde");
@@ -314,7 +314,7 @@ TEST(terminal_string_test, writing_past_terminal_width_moves_cursor_to_next_line
 
 TEST(terminal_string_test, writing_far_past_terminal_width_moves_multiple_lines)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
     terminal.set_size({10, 10});
     terminal.move_cursor({8, 8});
     terminal.write("abcdefghijklmno");
@@ -326,7 +326,7 @@ TEST(terminal_string_test, writing_far_past_terminal_width_moves_multiple_lines)
 
 TEST(terminal_string_test, writing_past_last_line_scrolls_last_line)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
     terminal.set_size({10, 10});
     terminal.move_cursor({8, 10});
     terminal.write("abcdefghijklmno");
@@ -338,7 +338,7 @@ TEST(terminal_string_test, writing_past_last_line_scrolls_last_line)
 
 TEST(terminal_string_test, can_write_single_element)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
     terminalpp::element  elem('X');
     elem.attribute_.foreground_colour_ =
         terminalpp::ansi::graphics::colour::red;
@@ -350,7 +350,7 @@ TEST(terminal_string_test, can_write_single_element)
 
 TEST(terminal_string_test, writing_single_element_moves_cursor)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
     terminal.set_size({5, 5});
     terminal.move_cursor({0, 0});
     terminal.write('x');
@@ -362,7 +362,7 @@ TEST(terminal_string_test, writing_single_element_moves_cursor)
 
 TEST(terminal_string_test, writing_unicode_after_default_charset_does_not_change_charset_first)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string(" \x1B%GW"),
@@ -371,7 +371,7 @@ TEST(terminal_string_test, writing_unicode_after_default_charset_does_not_change
 
 TEST(terminal_string_test, writing_unicode_after_sco_charset_reverts_charset_first)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     expect_sequence(
         std::string("\x1B(U\xCD\x1B(B\x1B%GW"),
@@ -380,10 +380,10 @@ TEST(terminal_string_test, writing_unicode_after_sco_charset_reverts_charset_fir
 
 TEST(terminal_string_test, behaviour_unicode_in_all_charsets_writing_unicode_after_sco_does_not_change_charset_first)
 {
-    terminalpp::terminal::behaviour behaviour;
+    terminalpp::behaviour behaviour;
     behaviour.unicode_in_all_charsets = true;
 
-    terminalpp::terminal terminal(behaviour);
+    terminalpp::default_terminal terminal(behaviour);
     expect_sequence(
         std::string("\x1B(U\xCD\x1B%GW"),
         terminal.write("\\cU\\C205\\U0057"_ets));
@@ -392,7 +392,7 @@ TEST(terminal_string_test, behaviour_unicode_in_all_charsets_writing_unicode_aft
 
 TEST(terminal_string_test, changing_character_set_after_unicode_first_selects_default_charset)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
     expect_sequence(
         std::string("\x1B%GW\x1B%@\x1B(A\x9C"),
         terminal.write("\\U0057\\cA\\C156"_ets));

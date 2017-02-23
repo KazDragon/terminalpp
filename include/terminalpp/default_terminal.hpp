@@ -1,68 +1,43 @@
 #pragma once
 
-#include "terminalpp/extent.hpp"
-#include "terminalpp/point.hpp"
-#include "terminalpp/string.hpp"
-#include "terminalpp/token.hpp"
-#include <string>
-#include <vector>
+#include "terminalpp/behaviour.hpp"
+#include "terminalpp/terminal.hpp"
+#include "terminalpp/detail/parser.hpp"
+#include "terminalpp/detail/terminal_control.hpp"
 
 namespace terminalpp {
 
 //* =========================================================================
-/// \brief A class responsible for combining the knowledge and state of a
-/// terminal window to know what the best way to respresent a given string is.
-/// \par
-/// Note: the terminal itself does not send any results anywhere -- instead,
-/// a string is returned that is an ANSI sequence of character that will cause
-/// the required action to be accomplished on the remote terminal -- although
-/// the function descriptions are written as if that were so.  That is just
-/// for clarity's sake (it's easier to write "moves the cursor to the
-/// position" than "returns a string that represents the ANSI sequence of
-/// characters that will move the cursor to the position."
+/// \brief A default implementation of the terminal interface.
 //* =========================================================================
-class TERMINALPP_EXPORT terminal
+class TERMINALPP_EXPORT default_terminal
+  : public terminal
 {
 public :
-    // In erase_in_display, there is the choice of erasing every line
-    // above the cursor, every line below the cursor, or the entire
-    // display.
-    enum class erase_display {
-        below,
-        above,
-        all
-    };
-
-    // In erase_in_line, there is the choice of eraseing everything
-    // to the left of the cursor, everything to the right of the cursor,
-    // or everything on the current line.
-    enum class erase_line {
-        right,
-        left,
-        all
-    };
-
     //* =====================================================================
-    /// \brief Destructor.
+    /// \brief Constructor
     //* =====================================================================
-    virtual ~terminal() = default;
+    explicit default_terminal(behaviour const &beh = behaviour{});
 
     //* =====================================================================
     /// \brief Returns a string that will initialize the terminal.
+    /// Based on the behaviour passed in the constructor, returns a string
+    /// that can be sent to the terminal to put it into the best control mode
+    /// that it can handle.
     //* =====================================================================
-    virtual std::string init() = 0;
+    std::string init() override;
 
     //* =====================================================================
     /// \brief Returns a string that will enable the best possible mouse
     /// mode for the terminal.
     //* =====================================================================
-    virtual std::string enable_mouse() = 0;
+    std::string enable_mouse() override;
 
     //* =====================================================================
     /// \brief Returns a string that will set the window title of the
     /// terminal.
     //* =====================================================================
-    virtual std::string set_window_title(std::string const &title) = 0;
+    std::string set_window_title(std::string const &title) override;
 
     //* =====================================================================
     /// \brief Sets the (local) size of the terminal.
@@ -70,58 +45,75 @@ public :
     /// can set how large the terminal is expected to be.  This affects
     /// things like when does a cursor scroll the screen, etc.
     //* =====================================================================
-    virtual void set_size(extent const &size) = 0;
+    void set_size(extent const &size) override;
 
     //* =====================================================================
     /// \brief Show the cursor.
     //* =====================================================================
-    virtual std::string show_cursor() = 0;
+    std::string show_cursor() override;
 
     //* =====================================================================
     /// \brief Hide the cursor.
     //* =====================================================================
-    virtual std::string hide_cursor() = 0;
+    std::string hide_cursor() override;
 
     //* =====================================================================
     /// \brief Saves the current cursor position.
     //* =====================================================================
-    virtual std::string save_cursor() = 0;
+    std::string save_cursor() override;
 
     //* =====================================================================
     /// \brief Restores the previously saved cursor position.
     //* =====================================================================
-    virtual std::string restore_cursor() = 0;
+    std::string restore_cursor() override;
 
     //* =====================================================================
     /// \brief Move the cursor to the specified position.  Note: terminals are
     /// 1-based.  I.e. the origin position is (1,1).
     //* =====================================================================
-    virtual std::string move_cursor(point const &pt) = 0;
+    std::string move_cursor(point const &pt) override;
 
     //* =====================================================================
     /// \brief Reads a stream of data.
     //* =====================================================================
-    virtual std::vector<token> read(std::string const &data) = 0;
+    std::vector<token> read(std::string const &data) override;
 
     //* =====================================================================
     /// \brief Writes the specified element.
     //* =====================================================================
-    virtual std::string write(element const &elem) = 0;
+    std::string write(element const &elem) override;
 
     //* =====================================================================
     /// \brief Writes the specified sequence of characters.
     //* =====================================================================
-    virtual std::string write(string const &str) = 0;
+    std::string write(string const &str) override;
 
     //* =====================================================================
     /// \brief Erases the display in the specified manner.
     //* =====================================================================
-    virtual std::string erase_in_display(erase_display how) = 0;
+    std::string erase_in_display(erase_display how) override;
 
     //* =====================================================================
     /// \brief Erases the current line in the specified manner.
     //* =====================================================================
-    virtual std::string erase_in_line(erase_line how) = 0;
+    std::string erase_in_line(erase_line how) override;
+
+private :
+    enum class cursor_mode : bool
+    {
+        hidden,
+        shown,
+    };
+
+    behaviour                     behaviour_;
+    detail::control_mode          control_mode_ = detail::control_mode::seven_bit;
+    boost::optional<cursor_mode>  cursor_mode_;
+    boost::optional<point>        cursor_position_;
+    boost::optional<point>        saved_cursor_position_;
+    boost::optional<extent>       size_;
+    element                       last_element_;
+
+    detail::parser                parser_;
 };
 
 }

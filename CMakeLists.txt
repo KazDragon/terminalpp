@@ -51,23 +51,45 @@ endif()
 
 set (TERMINALPP_VERSION 1.2)
 
-add_library(terminalpp
+add_library(terminalpp-core
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
     src/canvas.cpp
     src/canvas_view.cpp
+    src/encoder.cpp
+    src/glyph.cpp
+    src/screen.cpp
+    src/string.cpp
+    src/virtual_key.cpp
+)
+
+set_target_properties(terminalpp-core
+    PROPERTIES
+        CXX_VISIBILITY_PRESET hidden
+        VERSION ${TERMINALPP_VERSION}
+        SOVERSION ${TERMINALPP_VERSION}
+)
+
+target_include_directories(terminalpp-core
+    PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        "${Boost_INCLUDE_DIRS}"
+)
+
+target_compile_features(terminalpp-core
+    PUBLIC
+        cxx_strong_enums
+        cxx_relaxed_constexpr
+)
+
+add_library(terminalpp
     src/detail/terminal_charset_control.cpp
     src/detail/terminal_control.cpp
     src/detail/terminal_cursor_control.cpp
     src/detail/element_difference.cpp
     src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
-    src/encoder.cpp
-    src/glyph.cpp
-    src/screen.cpp
-    src/string.cpp
-    src/terminal.cpp
-    src/virtual_key.cpp
+    src/default_terminal.cpp
 )
 
 set_target_properties(terminalpp
@@ -77,16 +99,9 @@ set_target_properties(terminalpp
         SOVERSION ${TERMINALPP_VERSION}
 )
 
-target_include_directories(terminalpp
+target_link_libraries(terminalpp
     PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-        "${Boost_INCLUDE_DIRS}"
-)
-
-target_compile_features(terminalpp
-    PUBLIC
-        cxx_strong_enums
-        cxx_relaxed_constexpr
+        terminalpp-core
 )
 
 generate_export_header(terminalpp
@@ -96,6 +111,7 @@ generate_export_header(terminalpp
 
 install(
     TARGETS
+        terminalpp-core
         terminalpp
     EXPORT
         terminalpp-config
@@ -130,19 +146,19 @@ if (GTEST_FOUND)
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp
+        test/default_terminal_init_test.cpp
+        test/default_terminal_cursor_test.cpp
+        test/default_terminal_read_cursor_test.cpp
+        test/default_terminal_read_fkey_test.cpp
+        test/default_terminal_read_test.cpp
+        test/default_terminal_settings_test.cpp
+        test/default_terminal_string_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/expect_tokens.cpp
         test/screen_test.cpp
         test/string_test.cpp
-        test/terminal_cursor_test.cpp
-        test/terminal_init_test.cpp
-        test/terminal_read_cursor_test.cpp
-        test/terminal_read_fkey_test.cpp
-        test/terminal_read_test.cpp
-        test/terminal_settings_test.cpp
-        test/terminal_string_test.cpp
         test/virtual_key_test.cpp
     )
 

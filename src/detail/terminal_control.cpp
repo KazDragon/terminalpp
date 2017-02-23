@@ -5,9 +5,9 @@ namespace terminalpp { namespace detail {
 // ==========================================================================
 // CSI
 // ==========================================================================
-std::string csi(terminalpp::terminal::control_mode const &control_mode)
+std::string csi(control_mode const &mode)
 {
-    return control_mode == terminalpp::terminal::control_mode::seven_bit
+    return mode == control_mode::seven_bit
          ? terminalpp::ansi::control7::CSI
          : terminalpp::ansi::control8::CSI;
 }
@@ -15,9 +15,9 @@ std::string csi(terminalpp::terminal::control_mode const &control_mode)
 // ==========================================================================
 // OSC
 // ==========================================================================
-std::string osc(terminalpp::terminal::control_mode const &control_mode)
+std::string osc(control_mode const &mode)
 {
-    return control_mode == terminalpp::terminal::control_mode::seven_bit
+    return mode == control_mode::seven_bit
          ? terminalpp::ansi::control7::OSC
          : terminalpp::ansi::control8::OSC;
 }
@@ -25,9 +25,9 @@ std::string osc(terminalpp::terminal::control_mode const &control_mode)
 // ==========================================================================
 // ST
 // ==========================================================================
-std::string st(terminalpp::terminal::control_mode const &control_mode)
+std::string st(control_mode const &mode)
 {
-    return control_mode == terminalpp::terminal::control_mode::seven_bit
+    return mode == control_mode::seven_bit
          ? terminalpp::ansi::control7::ST
          : terminalpp::ansi::control8::ST;
 }

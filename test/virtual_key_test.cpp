@@ -1,7 +1,7 @@
 #include "terminalpp/virtual_key.hpp"
 #include <gtest/gtest.h>
 
-TEST(virtual_key_test, default_vk_modifier_matches_none)
+TEST(anding_a_default_vk_modifer, matches_none)
 {
     terminalpp::vk_modifier vk_none = terminalpp::vk_modifier::none;
     ASSERT_TRUE(
@@ -9,7 +9,7 @@ TEST(virtual_key_test, default_vk_modifier_matches_none)
             == terminalpp::vk_modifier::none);
 }
 
-TEST(virtual_key_test, oring_several_modifiers_matches_only_those_modifiers)
+TEST(oring_several_vk_modifiers, matches_only_those_modifiers)
 {
     terminalpp::vk_modifier vk_shift_ctrl =
         terminalpp::vk_modifier::shift
@@ -28,7 +28,7 @@ TEST(virtual_key_test, oring_several_modifiers_matches_only_those_modifiers)
             == terminalpp::vk_modifier::none);
 }
 
-TEST(virtual_key_test, or_assignment_matches_those_modifiers_orred)
+TEST(or_assigning_vk_modifiers, matches_those_modifiers_orred)
 {
     terminalpp::vk_modifier vk = terminalpp::vk_modifier::meta;
     vk |= terminalpp::vk_modifier::shift;
@@ -37,7 +37,7 @@ TEST(virtual_key_test, or_assignment_matches_those_modifiers_orred)
         vk == (terminalpp::vk_modifier::meta | terminalpp::vk_modifier::shift));
 }
 
-TEST(virtual_key_test, and_assignment_matches_intersection)
+TEST(and_assigning_vk_modifiers, matches_intersection)
 {
     terminalpp::vk_modifier vk = terminalpp::vk_modifier::shift
                                | terminalpp::vk_modifier::ctrl;

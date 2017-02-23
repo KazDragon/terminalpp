@@ -1,5 +1,5 @@
 #include "expect_tokens.hpp"
-#include "terminalpp/terminal.hpp"
+#include "terminalpp/default_terminal.hpp"
 #include "io/ansi/control_sequence.hpp"
 #include "io/ansi/mouse.hpp"
 #include "io/virtual_key.hpp"
@@ -69,7 +69,7 @@ void expect_tokens(
     std::string const &input,
     std::vector<terminalpp::token> const &expected_tokens)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     auto result = terminal.read(input);
 
@@ -91,7 +91,7 @@ template <class Expected> void expect_token(
     std::string const &input,
     Expected const &expected)
 {
-    terminalpp::terminal terminal;
+    terminalpp::default_terminal terminal;
 
     auto result = terminal.read(input);
 
