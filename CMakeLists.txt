@@ -73,6 +73,7 @@ set_target_properties(terminalpp-core
 target_include_directories(terminalpp-core
     PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
         "${Boost_INCLUDE_DIRS}"
 )
 
@@ -132,7 +133,7 @@ install(
     EXPORT
         terminalpp-config
     DESTINATION
-        lib/terminalpp
+        share/cmake/terminalpp
 )
 
 if (GTEST_FOUND)
