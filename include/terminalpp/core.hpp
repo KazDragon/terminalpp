@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/detail/export.hpp"
+#include <cstddef>
 #include <boost/cstdint.hpp>
 
 namespace terminalpp {
