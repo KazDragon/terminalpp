@@ -49,7 +49,7 @@ if (TERMINALPP_COVERAGE)
     list(APPEND CMAKE_EXE_LINKER_FLAGS "--coverage")
 endif()
 
-set (TERMINALPP_VERSION 1.2.1)
+set (TERMINALPP_VERSION 1.2.2)
 
 add_library(terminalpp-core
     src/ansi/charset.cpp
