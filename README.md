@@ -46,7 +46,7 @@ YOU ARE HERE! What follows is for future implementation.
 
 # Status
 
-Terminal++ is currently automatically tested using Clang 3.4 and GCC 5.2.  For further information about the working status of Telnet++, to report any bugs, or to make any feature requests, visit the [Waffle board](https://waffle.io/KazDragon/terminalpp).
+Terminal++ is currently automatically tested using Clang 3.4 and GCC 5.2.  For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the [Waffle board](https://waffle.io/KazDragon/terminalpp).
 
 # The Basics
 
