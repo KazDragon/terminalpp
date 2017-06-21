@@ -51,7 +51,7 @@ endif()
 
 set (TERMINALPP_VERSION 1.2.2)
 
-add_library(terminalpp-core
+set(TERMINALPP_CORE_SOURCE_FILES
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
     src/canvas.cpp
@@ -61,6 +61,41 @@ add_library(terminalpp-core
     src/screen.cpp
     src/string.cpp
     src/virtual_key.cpp
+)
+
+set(TERMINALPP_CORE_INCLUDE_FILES
+    include/terminalpp/ansi/charset.hpp
+    include/terminalpp/ansi/control_characters.hpp
+    include/terminalpp/ansi/control_sequence.hpp
+    include/terminalpp/ansi/csi.hpp
+    include/terminalpp/ansi/dec_private_mode.hpp
+    include/terminalpp/ansi/graphics.hpp
+    include/terminalpp/ansi/mouse.hpp
+    include/terminalpp/ansi/osc.hpp
+    include/terminalpp/ansi/protocol.hpp
+    include/terminalpp/ansi/ss3.hpp
+    include/terminalpp/attribute.hpp
+    include/terminalpp/behaviour.hpp
+    include/terminalpp/canvas.hpp
+    include/terminalpp/canvas_view.hpp
+    include/terminalpp/core.hpp
+    include/terminalpp/default_terminal.hpp
+    include/terminalpp/element.hpp
+    include/terminalpp/encoder.hpp
+    include/terminalpp/extent.hpp
+    include/terminalpp/glyph.hpp
+    include/terminalpp/point.hpp
+    include/terminalpp/screen.hpp
+    include/terminalpp/string.hpp
+    include/terminalpp/terminal.hpp
+    include/terminalpp/terminalpp.hpp
+    include/terminalpp/token.hpp
+    include/terminalpp/virtual_key.hpp
+)
+
+add_library(terminalpp-core
+    ${TERMINALPP_CORE_SOURCE_FILES}
+    ${TERMINALPP_CORE_INCLUDE_FILES}
 )
 
 set_target_properties(terminalpp-core
@@ -83,7 +118,7 @@ target_compile_features(terminalpp-core
         cxx_relaxed_constexpr
 )
 
-add_library(terminalpp
+set(TERMINALPP_SOURCE_FILES
     src/detail/terminal_charset_control.cpp
     src/detail/terminal_control.cpp
     src/detail/terminal_cursor_control.cpp
@@ -91,6 +126,23 @@ add_library(terminalpp
     src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
     src/default_terminal.cpp
+)
+
+set(TERMINALPP_INCLUDE_FILES
+    include/terminalpp/detail/ascii.hpp
+    include/terminalpp/detail/element_difference.hpp
+    include/terminalpp/detail/export.hpp
+    include/terminalpp/detail/lambda_visitor.hpp
+    include/terminalpp/detail/parser.hpp
+    include/terminalpp/detail/terminal_charset_control.hpp
+    include/terminalpp/detail/terminal_control.hpp
+    include/terminalpp/detail/terminal_cursor_control.hpp
+    include/terminalpp/detail/well_known_virtual_key.hpp
+)
+
+add_library(terminalpp
+    ${TERMINALPP_SOURCE_FILES}
+    ${TERMINALPP_INCLUDE_FILES}
 )
 
 set_target_properties(terminalpp
