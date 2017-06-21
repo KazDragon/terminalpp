@@ -11,7 +11,7 @@ namespace terminalpp { namespace detail {
 
 static vk_modifier convert_modifier_argument(std::string const &modifier)
 {
-    static constexpr std::pair<u8, vk_modifier> modifier_mappings[] = {
+    static constexpr std::pair<u8, vk_modifier> const modifier_mappings[] = {
         { ansi::csi::MODIFIER_SHIFT,               vk_modifier::shift },
         { ansi::csi::MODIFIER_CTRL,                vk_modifier::ctrl  },
         { ansi::csi::MODIFIER_ALT,                 vk_modifier::alt   },
@@ -71,7 +71,7 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
 {
     // Cursor Movement commands are in the form "ESC [ C" where C is some
     // letter indicating the direction in which to move.
-    static std::vector<std::pair<char, vk>> const cursor_movement_commands = {
+    static constexpr std::pair<char, vk> const cursor_movement_commands[] = {
         { ansi::csi::CURSOR_UP,                  vk::cursor_up    },
         { ansi::csi::CURSOR_DOWN,                vk::cursor_down  },
         { ansi::csi::CURSOR_FORWARD,             vk::cursor_right },
@@ -83,26 +83,29 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
 
     assert(seq.initiator == ansi::control7::CSI[1]);
 
+    using std::begin;
+    using std::end;
+
     auto const &cursor_movement_command = std::find_if(
-        cursor_movement_commands.begin(),
-        cursor_movement_commands.end(),
+        begin(cursor_movement_commands),
+        end(cursor_movement_commands),
         [&seq](auto const &elem)
         {
             return elem.first == seq.command;
         });
 
-    auto repeat_count_arg = seq.arguments.empty()
-                          ? std::string("1")
-                          : seq.arguments[0];
-
-    auto repeat_count = u8(std::max(atoi(repeat_count_arg.c_str()), 1));
-
-    vk_modifier modifier = seq.meta
-                         ? vk_modifier::meta
-                         : vk_modifier::none;
-
-    if (cursor_movement_command != cursor_movement_commands.end())
+    if (cursor_movement_command != end(cursor_movement_commands))
     {
+        auto repeat_count_arg = seq.arguments.empty()
+                              ? std::string("1")
+                              : seq.arguments[0];
+
+        auto repeat_count = u8(std::max(atoi(repeat_count_arg.c_str()), 1));
+
+        vk_modifier modifier = seq.meta
+                             ? vk_modifier::meta
+                             : vk_modifier::none;
+
         return virtual_key{
             cursor_movement_command->second,
             modifier,
@@ -117,7 +120,7 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
 {
     // SS3 commands are delivered as "ESC O C" where C is a letter designating
     // the command to perform.
-    static std::vector<std::pair<char, vk>> const ss3_commands = {
+    static constexpr std::pair<char, vk> const ss3_commands[] = {
         { ansi::ss3::CURSOR_UP,    vk::cursor_up    },
         { ansi::ss3::CURSOR_DOWN,  vk::cursor_down  },
         { ansi::ss3::CURSOR_RIGHT, vk::cursor_right },
@@ -134,15 +137,18 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
 
     assert(seq.initiator == ansi::control7::SS3[1]);
 
+    using std::begin;
+    using std::end;
+
     auto const &ss3_command = std::find_if(
-        ss3_commands.begin(),
-        ss3_commands.end(),
+        begin(ss3_commands),
+        end(ss3_commands),
         [&seq](auto const &elem)
         {
             return elem.first == seq.command;
         });
 
-    if (ss3_command != ss3_commands.end())
+    if (ss3_command != end(ss3_commands))
     {
         vk_modifier modifier = seq.meta
                              ? vk_modifier::meta
@@ -162,7 +168,7 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
 {
     // Keypad commands are delivered as "ESC [ N ~" where N is a number
     // designating the key pressed.
-    static std::vector<std::pair<u8, vk>> const keypad_commands = {
+    static constexpr std::pair<char, vk> const keypad_commands[] = {
         { ansi::csi::KEYPAD_HOME,   vk::home },
         { ansi::csi::KEYPAD_INSERT, vk::ins  },
         { ansi::csi::KEYPAD_DEL,    vk::del  },
@@ -191,16 +197,20 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
         return seq;
     }
 
-    auto argument = atoi(seq.arguments[0].c_str());
+    auto const argument = atoi(seq.arguments[0].c_str());
+
+    using std::begin;
+    using std::end;
+
     auto keypad_command = std::find_if(
-        keypad_commands.begin(),
-        keypad_commands.end(),
+        begin(keypad_commands),
+        end(keypad_commands),
         [argument](auto const &elem)
         {
             return argument == elem.first;
         });
 
-    if (keypad_command != keypad_commands.end())
+    if (keypad_command != end(keypad_commands))
     {
         vk_modifier modifier = seq.arguments.size() > 1
                              ? convert_modifier_argument(seq.arguments[1])

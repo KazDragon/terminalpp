@@ -6,7 +6,7 @@ namespace terminalpp { namespace detail {
 
 namespace {
 
-bool is_csi_extension_character(char input)
+static constexpr bool is_csi_extension_character(char input)
 {
     return input == terminalpp::detail::ascii::QUESTION_MARK
         || input == terminalpp::detail::ascii::GREATER_THAN
@@ -24,14 +24,14 @@ boost::optional<terminalpp::token> parser::parser::operator()(char input)
 {
     switch (state_)
     {
-        case state::idle : return parse_idle(input);
-        case state::cr : return parse_cr(input);
-        case state::lf : return parse_lf(input);
-        case state::escape : return parse_escape(input);
+        case state::idle      : return parse_idle(input);
+        case state::cr        : return parse_cr(input);
+        case state::lf        : return parse_lf(input);
+        case state::escape    : return parse_escape(input);
         case state::arguments : return parse_arguments(input);
-        case state::mouse0 : return parse_mouse0(input);
-        case state::mouse1 : return parse_mouse1(input);
-        case state::mouse2 : return parse_mouse2(input);
+        case state::mouse0    : return parse_mouse0(input);
+        case state::mouse1    : return parse_mouse1(input);
+        case state::mouse2    : return parse_mouse2(input);
         default :
             assert(!"state out of range");
     }
