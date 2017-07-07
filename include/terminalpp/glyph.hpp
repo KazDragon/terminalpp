@@ -2,6 +2,7 @@
 
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/core.hpp"
+#include <algorithm>
 
 namespace terminalpp {
 
@@ -87,8 +88,25 @@ struct glyph
 // ==========================================================================
 constexpr bool operator==(glyph const &lhs, glyph const &rhs)
 {
-    return lhs.character_ == rhs.character_
-        && lhs.charset_   == rhs.charset_;
+    if (lhs.charset_ == rhs.charset_)
+    {
+        if (lhs.charset_ == terminalpp::ansi::charset::utf8)
+        {
+            using std::begin;
+            using std::end;
+
+            return std::equal(
+                begin(lhs.ucharacter_),
+                end(lhs.ucharacter_),
+                begin(rhs.ucharacter_));
+        }
+        else
+        {
+            return lhs.character_ == rhs.character_;
+        }
+    }
+
+    return false;
 }
 
 // ==========================================================================
