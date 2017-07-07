@@ -95,10 +95,18 @@ constexpr bool operator==(glyph const &lhs, glyph const &rhs)
             using std::begin;
             using std::end;
 
-            return std::equal(
-                begin(lhs.ucharacter_),
-                end(lhs.ucharacter_),
-                begin(rhs.ucharacter_));
+            // Re-implementing std::equal here for constexprness.
+            for (auto lch = begin(lhs.ucharacter_), rch = begin(rhs.ucharacter_);
+                 lch != end(lhs.ucharacter_);
+                 ++lch, ++rch)
+            {
+                if (*lch != *rch)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
         else
         {
