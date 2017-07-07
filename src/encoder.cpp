@@ -8,12 +8,13 @@ namespace terminalpp { namespace {
 // ==========================================================================
 static void utf8_encode_glyph(glyph &gly, char fourth)
 {
-    static const terminalpp::u32 maxima[] = {
+    static constexpr terminalpp::u32 const maxima[] = {
         0x00007F,
         0x0007FF,
         0x00FFFF,
         0x10FFFF
     };
+
     // Do excuse the weird parameters.  At this point in the parsing, the
     // first, second and third characters are already stored in the glyph.
     char text[] = {
@@ -31,6 +32,7 @@ static void utf8_encode_glyph(glyph &gly, char fourth)
     {
         gly.ucharacter_[0] = char(value & 0x7F);
         gly.ucharacter_[1] = 0;
+        gly.ucharacter_[2] = 0;
     }
     else if (value <= maxima[1])
     {
