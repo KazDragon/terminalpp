@@ -59,6 +59,11 @@ public :
     virtual std::string enable_mouse() = 0;
 
     //* =====================================================================
+    /// \brief Returns a string that will disable the mouse.
+    //* =====================================================================
+    virtual std::string disable_mouse() = 0;
+
+    //* =====================================================================
     /// \brief Returns a string that will set the window title of the
     /// terminal.
     //* =====================================================================

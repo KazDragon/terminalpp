@@ -34,6 +34,11 @@ public :
     std::string enable_mouse() override;
 
     //* =====================================================================
+    /// \brief Returns a string that will disable the mouse.
+    //* =====================================================================
+    std::string disable_mouse() override;
+
+    //* =====================================================================
     /// \brief Returns a string that will set the window title of the
     /// terminal.
     //* =====================================================================

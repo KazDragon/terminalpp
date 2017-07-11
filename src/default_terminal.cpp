@@ -104,6 +104,31 @@ std::string default_terminal::enable_mouse()
 }
 
 // ==========================================================================
+// DISABLE_MOUSE
+// ==========================================================================
+std::string default_terminal::disable_mouse()
+{
+    std::string result;
+
+    if (behaviour_.supports_all_mouse_motion_tracking)
+    {
+        result += detail::csi(control_mode_)
+                + ansi::DEC_PRIVATE_MODE
+                + ansi::dec_pm::ALL_MOTION_MOUSE_TRACKING
+                + ansi::dec_pm::RESET;
+    }
+    else if (behaviour_.supports_basic_mouse_tracking)
+    {
+        result += detail::csi(control_mode_)
+                + ansi::DEC_PRIVATE_MODE
+                + ansi::dec_pm::BASIC_MOUSE_TRACKING
+                + ansi::dec_pm::RESET;
+    }
+
+    return result;
+}
+
+// ==========================================================================
 // SET_WINDOW_TITLE
 // ==========================================================================
 std::string default_terminal::set_window_title(std::string const &title)
