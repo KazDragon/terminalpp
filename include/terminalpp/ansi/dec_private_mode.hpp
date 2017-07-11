@@ -46,4 +46,8 @@ static constexpr char const ALL_MOTION_MOUSE_TRACKING[] =
                                           terminalpp::detail::ascii::ZERO,
                                           terminalpp::detail::ascii::THREE, 0 };
 
+static constexpr char const USE_ALTERNATE_SCREEN_BUFFER[] =
+                                        { terminalpp::detail::ascii::FOUR,
+                                          terminalpp::detail::ascii::SEVEN, 0 };
+
 }}}

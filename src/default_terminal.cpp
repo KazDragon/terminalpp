@@ -422,5 +422,26 @@ std::string default_terminal::erase_in_line(terminal::erase_line how)
     return result;
 }
 
+// ==========================================================================
+// USE_NORMAL_SCREEN_BUFFER
+// ==========================================================================
+std::string default_terminal::use_normal_screen_buffer()
+{
+    return detail::csi(control_mode_)
+         + terminalpp::ansi::DEC_PRIVATE_MODE
+         + terminalpp::ansi::dec_pm::USE_ALTERNATE_SCREEN_BUFFER
+         + terminalpp::ansi::dec_pm::RESET;
+}
+
+// ==========================================================================
+// USE_ALTERNATE_SCREEN_BUFFER
+// ==========================================================================
+std::string default_terminal::use_alternate_screen_buffer()
+{
+    return detail::csi(control_mode_)
+         + terminalpp::ansi::DEC_PRIVATE_MODE
+         + terminalpp::ansi::dec_pm::USE_ALTERNATE_SCREEN_BUFFER
+         + terminalpp::ansi::dec_pm::SET;
+}
 
 }

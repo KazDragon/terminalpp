@@ -122,6 +122,16 @@ public :
     /// \brief Erases the current line in the specified manner.
     //* =====================================================================
     virtual std::string erase_in_line(erase_line how) = 0;
+
+    //* =====================================================================
+    /// \brief Sets the terminal to the normal screen buffer (default).
+    //* =====================================================================
+    virtual std::string use_normal_screen_buffer() = 0;
+
+    //* =====================================================================
+    /// \brief Sets the terminal to the alternate screen buffer.
+    //* =====================================================================
+    virtual std::string use_alternate_screen_buffer() = 0;
 };
 
 }

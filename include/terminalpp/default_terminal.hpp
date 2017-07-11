@@ -98,6 +98,16 @@ public :
     //* =====================================================================
     std::string erase_in_line(erase_line how) override;
 
+    //* =====================================================================
+    /// \brief Sets the terminal to the normal screen buffer (default).
+    //* =====================================================================
+    std::string use_normal_screen_buffer() override;
+
+    //* =====================================================================
+    /// \brief Sets the terminal to the alternate screen buffer.
+    //* =====================================================================
+    std::string use_alternate_screen_buffer() override;
+
 private :
     enum class cursor_mode : bool
     {
