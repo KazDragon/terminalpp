@@ -104,6 +104,31 @@ std::string default_terminal::enable_mouse()
 }
 
 // ==========================================================================
+// DISABLE_MOUSE
+// ==========================================================================
+std::string default_terminal::disable_mouse()
+{
+    std::string result;
+
+    if (behaviour_.supports_all_mouse_motion_tracking)
+    {
+        result += detail::csi(control_mode_)
+                + ansi::DEC_PRIVATE_MODE
+                + ansi::dec_pm::ALL_MOTION_MOUSE_TRACKING
+                + ansi::dec_pm::RESET;
+    }
+    else if (behaviour_.supports_basic_mouse_tracking)
+    {
+        result += detail::csi(control_mode_)
+                + ansi::DEC_PRIVATE_MODE
+                + ansi::dec_pm::BASIC_MOUSE_TRACKING
+                + ansi::dec_pm::RESET;
+    }
+
+    return result;
+}
+
+// ==========================================================================
 // SET_WINDOW_TITLE
 // ==========================================================================
 std::string default_terminal::set_window_title(std::string const &title)
@@ -422,5 +447,26 @@ std::string default_terminal::erase_in_line(terminal::erase_line how)
     return result;
 }
 
+// ==========================================================================
+// USE_NORMAL_SCREEN_BUFFER
+// ==========================================================================
+std::string default_terminal::use_normal_screen_buffer()
+{
+    return detail::csi(control_mode_)
+         + terminalpp::ansi::DEC_PRIVATE_MODE
+         + terminalpp::ansi::dec_pm::USE_ALTERNATE_SCREEN_BUFFER
+         + terminalpp::ansi::dec_pm::RESET;
+}
+
+// ==========================================================================
+// USE_ALTERNATE_SCREEN_BUFFER
+// ==========================================================================
+std::string default_terminal::use_alternate_screen_buffer()
+{
+    return detail::csi(control_mode_)
+         + terminalpp::ansi::DEC_PRIVATE_MODE
+         + terminalpp::ansi::dec_pm::USE_ALTERNATE_SCREEN_BUFFER
+         + terminalpp::ansi::dec_pm::SET;
+}
 
 }
