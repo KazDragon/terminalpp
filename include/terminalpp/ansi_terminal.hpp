@@ -10,14 +10,14 @@ namespace terminalpp {
 //* =========================================================================
 /// \brief A default implementation of the terminal interface.
 //* =========================================================================
-class TERMINALPP_EXPORT default_terminal
+class TERMINALPP_EXPORT ansi_terminal
   : public terminal
 {
 public :
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    explicit default_terminal(behaviour const &beh = behaviour{});
+    explicit ansi_terminal(behaviour const &beh = behaviour{});
 
     //* =====================================================================
     /// \brief Returns a string that will initialize the terminal.
