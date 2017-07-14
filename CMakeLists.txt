@@ -79,7 +79,7 @@ set(TERMINALPP_CORE_INCLUDE_FILES
     include/terminalpp/canvas.hpp
     include/terminalpp/canvas_view.hpp
     include/terminalpp/core.hpp
-    include/terminalpp/default_terminal.hpp
+    include/terminalpp/ansi_terminal.hpp
     include/terminalpp/element.hpp
     include/terminalpp/encoder.hpp
     include/terminalpp/extent.hpp
@@ -125,7 +125,7 @@ set(TERMINALPP_SOURCE_FILES
     src/detail/element_difference.cpp
     src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
-    src/default_terminal.cpp
+    src/ansi_terminal.cpp
 )
 
 set(TERMINALPP_INCLUDE_FILES
@@ -199,13 +199,13 @@ if (GTEST_FOUND)
         test/canvas_test.cpp
         test/canvas_view_test.cpp
         test/colour_test.cpp
-        test/default_terminal_init_test.cpp
-        test/default_terminal_cursor_test.cpp
-        test/default_terminal_read_cursor_test.cpp
-        test/default_terminal_read_fkey_test.cpp
-        test/default_terminal_read_test.cpp
-        test/default_terminal_settings_test.cpp
-        test/default_terminal_string_test.cpp
+        test/ansi_terminal_init_test.cpp
+        test/ansi_terminal_cursor_test.cpp
+        test/ansi_terminal_read_cursor_test.cpp
+        test/ansi_terminal_read_fkey_test.cpp
+        test/ansi_terminal_read_test.cpp
+        test/ansi_terminal_settings_test.cpp
+        test/ansi_terminal_string_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp

@@ -1,4 +1,4 @@
-#include "terminalpp/default_terminal.hpp"
+#include "terminalpp/ansi_terminal.hpp"
 #include "terminalpp/ansi/osc.hpp"
 #include "terminalpp/detail/terminal_control.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
@@ -57,7 +57,7 @@ std::vector<token> replace_well_known_virtual_keys(std::vector<token> tokens)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-default_terminal::default_terminal(behaviour const &terminal_behaviour)
+ansi_terminal::ansi_terminal(behaviour const &terminal_behaviour)
   : behaviour_(terminal_behaviour)
 {
 }
@@ -65,7 +65,7 @@ default_terminal::default_terminal(behaviour const &terminal_behaviour)
 // ==========================================================================
 // INIT
 // ==========================================================================
-std::string default_terminal::init()
+std::string ansi_terminal::init()
 {
     std::string result;
 
@@ -81,7 +81,7 @@ std::string default_terminal::init()
 // ==========================================================================
 // ENABLE_MOUSE
 // ==========================================================================
-std::string default_terminal::enable_mouse()
+std::string ansi_terminal::enable_mouse()
 {
     std::string result;
 
@@ -106,7 +106,7 @@ std::string default_terminal::enable_mouse()
 // ==========================================================================
 // DISABLE_MOUSE
 // ==========================================================================
-std::string default_terminal::disable_mouse()
+std::string ansi_terminal::disable_mouse()
 {
     std::string result;
 
@@ -131,7 +131,7 @@ std::string default_terminal::disable_mouse()
 // ==========================================================================
 // SET_WINDOW_TITLE
 // ==========================================================================
-std::string default_terminal::set_window_title(std::string const &title)
+std::string ansi_terminal::set_window_title(std::string const &title)
 {
     if (behaviour_.supports_window_title_bel)
     {
@@ -157,7 +157,7 @@ std::string default_terminal::set_window_title(std::string const &title)
 // ==========================================================================
 // SET_SIZE
 // ==========================================================================
-void default_terminal::set_size(const extent& size)
+void ansi_terminal::set_size(const extent& size)
 {
     size_ = size;
 }
@@ -166,7 +166,7 @@ void default_terminal::set_size(const extent& size)
 // ==========================================================================
 // SHOW_CURSOR
 // ==========================================================================
-std::string default_terminal::show_cursor()
+std::string ansi_terminal::show_cursor()
 {
     if (cursor_mode_ != cursor_mode::shown)
     {
@@ -186,7 +186,7 @@ std::string default_terminal::show_cursor()
 // ==========================================================================
 // HIDE_CURSOR
 // ==========================================================================
-std::string default_terminal::hide_cursor()
+std::string ansi_terminal::hide_cursor()
 {
     if (cursor_mode_ != cursor_mode::hidden)
     {
@@ -206,7 +206,7 @@ std::string default_terminal::hide_cursor()
 // ==========================================================================
 // SAVE_CURSOR
 // ==========================================================================
-std::string default_terminal::save_cursor()
+std::string ansi_terminal::save_cursor()
 {
     saved_cursor_position_ = cursor_position_;
 
@@ -217,7 +217,7 @@ std::string default_terminal::save_cursor()
 // ==========================================================================
 // RESTORE_CURSOR
 // ==========================================================================
-std::string default_terminal::restore_cursor()
+std::string ansi_terminal::restore_cursor()
 {
     cursor_position_ = saved_cursor_position_;
 
@@ -228,7 +228,7 @@ std::string default_terminal::restore_cursor()
 // ==========================================================================
 // MOVE_CURSOR
 // ==========================================================================
-std::string default_terminal::move_cursor(point const &pos)
+std::string ansi_terminal::move_cursor(point const &pos)
 {
     std::string result;
 
@@ -317,7 +317,7 @@ std::string default_terminal::move_cursor(point const &pos)
 // ==========================================================================
 // READ
 // ==========================================================================
-std::vector<terminalpp::token> default_terminal::read(std::string const &data)
+std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)
 {
     std::vector<terminalpp::token> results;
 
@@ -340,7 +340,7 @@ std::vector<terminalpp::token> default_terminal::read(std::string const &data)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string default_terminal::write(element const &elem)
+std::string ansi_terminal::write(element const &elem)
 {
     std::string result =
         detail::element_difference(last_element_, elem, behaviour_)
@@ -372,7 +372,7 @@ std::string default_terminal::write(element const &elem)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string default_terminal::write(string const& str)
+std::string ansi_terminal::write(string const& str)
 {
     std::string result;
 
@@ -388,7 +388,7 @@ std::string default_terminal::write(string const& str)
 // ==========================================================================
 // ERASE_IN_DISPLAY
 // ==========================================================================
-std::string default_terminal::erase_in_display(terminal::erase_display how)
+std::string ansi_terminal::erase_in_display(terminal::erase_display how)
 {
     std::string result;
 
@@ -419,7 +419,7 @@ std::string default_terminal::erase_in_display(terminal::erase_display how)
 // ==========================================================================
 // ERASE_IN_LINE
 // ==========================================================================
-std::string default_terminal::erase_in_line(terminal::erase_line how)
+std::string ansi_terminal::erase_in_line(terminal::erase_line how)
 {
     std::string result;
 
@@ -450,7 +450,7 @@ std::string default_terminal::erase_in_line(terminal::erase_line how)
 // ==========================================================================
 // USE_NORMAL_SCREEN_BUFFER
 // ==========================================================================
-std::string default_terminal::use_normal_screen_buffer()
+std::string ansi_terminal::use_normal_screen_buffer()
 {
     return detail::csi(control_mode_)
          + terminalpp::ansi::DEC_PRIVATE_MODE
@@ -461,7 +461,7 @@ std::string default_terminal::use_normal_screen_buffer()
 // ==========================================================================
 // USE_ALTERNATE_SCREEN_BUFFER
 // ==========================================================================
-std::string default_terminal::use_alternate_screen_buffer()
+std::string ansi_terminal::use_alternate_screen_buffer()
 {
     return detail::csi(control_mode_)
          + terminalpp::ansi::DEC_PRIVATE_MODE

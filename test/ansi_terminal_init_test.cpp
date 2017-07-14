@@ -1,4 +1,4 @@
-#include "terminalpp/default_terminal.hpp"
+#include "terminalpp/ansi_terminal.hpp"
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
 #include <string>
@@ -10,7 +10,7 @@ TEST(a_terminal_without_8_bit_support, when_init_is_called_sends_nothing)
     terminalpp::behaviour behaviour;
     behaviour.can_use_eight_bit_control_codes = false;
 
-    terminalpp::default_terminal terminal(behaviour);
+    terminalpp::ansi_terminal terminal(behaviour);
     expect_sequence(
         std::string(""),
         terminal.init());
@@ -25,7 +25,7 @@ TEST(a_terminal_that_starts_in_8_bit_mode, when_init_is_called_sends_nothing)
     behaviour.can_use_eight_bit_control_codes = true;
     behaviour.uses_eight_bit_control_codes_by_default = true;
 
-    terminalpp::default_terminal terminal(behaviour);
+    terminalpp::ansi_terminal terminal(behaviour);
     expect_sequence(
         std::string(""),
         terminal.init());
@@ -41,7 +41,7 @@ TEST(a_terminal_that_supports_8_bit_mode_but_starts_in_7_bit_mode,
     behaviour.can_use_eight_bit_control_codes = true;
     behaviour.uses_eight_bit_control_codes_by_default = false;
 
-    terminalpp::default_terminal terminal(behaviour);
+    terminalpp::ansi_terminal terminal(behaviour);
     expect_sequence(
         std::string("\x1B G"),
         terminal.init());

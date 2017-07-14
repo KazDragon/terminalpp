@@ -1,5 +1,5 @@
 #include "expect_tokens.hpp"
-#include "terminalpp/default_terminal.hpp"
+#include "terminalpp/ansi_terminal.hpp"
 #include <gtest/gtest.h>
 
 TEST(terminal_read_cursor_test, up_command_yields_vk_up)
@@ -602,7 +602,7 @@ TEST(terminal_read_cursor_test, crnul_yields_vk_enter)
 
 TEST(terminal_read_cursor_test, cr_then_nul_yields_enter_only)
 {
-    terminalpp::default_terminal terminal;
+    terminalpp::ansi_terminal terminal;
 
     auto expected_after_cr = terminalpp::virtual_key {
         terminalpp::vk::enter,
