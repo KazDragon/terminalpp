@@ -35,15 +35,10 @@ Terminal++ requires a C++14 library and the Boost Libraries.  It also uses CppUn
   * [x] terminalpp::screen
   * This will be useful for those who wish to develop a more graphical or "curses-style" user interface.
 
-YOU ARE HERE! What follows is for future implementation.
-
-4. [ ] A set of classes that implement a windowing user interface
-  * [ ] terminalpp::component
-  * [ ] terminalpp::layout
-  * This will enable developer to create fully featured console-based UIs that can be delivered over any channel to which you can write text, such as terminal windows or even TCP/IP socket connections.
-  
-5. [ ] A database of terminal types and their associated behaviours
+4. [ ] A database of terminal types and their associated behaviours
   * With some kind of application-specific terminal type detection, this would make it possible to write apps that automatically adjust to the most appropriate protocols supported by the client.
+
+A set of classes that implement a windowing user interface are currently being implemented in the [Munin project](https://github.com/KazDragon/munin).
 
 # Status
 
