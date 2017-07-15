@@ -19,7 +19,7 @@ struct lambda_visitor<ReturnType, Lambda1>
 {
     using Lambda1::operator();
 
-    lambda_visitor(Lambda1 &&l1)
+    explicit lambda_visitor(Lambda1 &&l1)
       : Lambda1(std::forward<Lambda1>(l1))
     {
     }
@@ -33,7 +33,7 @@ struct lambda_visitor<ReturnType, Lambda1, Lambdas...>
     using Lambda1::operator();
     using lambda_visitor<ReturnType, Lambdas...>::operator();
 
-    lambda_visitor(Lambda1 &&l1, Lambdas &&... lambdas)
+    explicit lambda_visitor(Lambda1 &&l1, Lambdas &&... lambdas)
       : Lambda1(std::forward<Lambda1>(l1)),
         lambda_visitor<ReturnType, Lambdas...>(std::forward<Lambdas>(lambdas)...)
     {
@@ -42,7 +42,9 @@ struct lambda_visitor<ReturnType, Lambda1, Lambdas...>
 
 template <typename ReturnType = void, typename... Lambdas>
 lambda_visitor<ReturnType, Lambdas...> make_lambda_visitor(Lambdas &&... lambdas) {
-    return { std::forward<Lambdas>(lambdas)... };
+    return lambda_visitor<ReturnType, Lambdas...>{
+        std::forward<Lambdas>(lambdas)...
+    };
 }
 
 }}
