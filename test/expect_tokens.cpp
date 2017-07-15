@@ -11,7 +11,7 @@ namespace {
 template <class Token>
 struct token_compare_visitor_impl : boost::static_visitor<>
 {
-    token_compare_visitor_impl(Token const &token)
+    explicit token_compare_visitor_impl(Token const &token)
       : token_(token)
     {
     }
@@ -41,7 +41,7 @@ struct token_compare_visitor_impl : boost::static_visitor<>
 
 struct token_compare_visitor : boost::static_visitor<>
 {
-    token_compare_visitor(terminalpp::token const &expected_token)
+    explicit token_compare_visitor(terminalpp::token const &expected_token)
       : expected_token_(expected_token)
     {
     }

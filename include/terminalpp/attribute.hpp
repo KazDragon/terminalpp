@@ -21,7 +21,7 @@ struct low_colour
     //* =====================================================================
     /// \brief Constructs a low_colour from the passed-in ANSI colour.
     //* =====================================================================
-    constexpr low_colour(terminalpp::ansi::graphics::colour colour)
+    constexpr explicit low_colour(terminalpp::ansi::graphics::colour colour)
         : value_(colour)
     {
     };

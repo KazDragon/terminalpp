@@ -96,7 +96,7 @@ public :
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    canvas_view(canvas &cvs);
+    explicit canvas_view(canvas &cvs);
 
     //* =====================================================================
     /// \brief Offsets the canvas by a certain amount, causing it to become
