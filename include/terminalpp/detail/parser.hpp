@@ -39,9 +39,9 @@ private :
     char                     initialiser_;
     char                     extender_;
     bool                     meta_;
-    terminalpp::u8           mouse_button_;
-    terminalpp::u32          mouse_x_;
-    terminalpp::u32          mouse_y_;
+    byte                     mouse_button_;
+    coordinate_type          mouse_x_;
+    coordinate_type          mouse_y_;
     std::string              argument_;
     std::vector<std::string> arguments_;
 };

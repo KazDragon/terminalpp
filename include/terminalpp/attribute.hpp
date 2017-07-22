@@ -1,7 +1,6 @@
 #pragma once
 
 #include "terminalpp/ansi/protocol.hpp"
-#include "terminalpp/core.hpp"
 
 namespace terminalpp {
 
@@ -65,14 +64,14 @@ struct high_colour
     /// of which should be in the range 0-5.
     //* =====================================================================
     constexpr high_colour(
-        terminalpp::u8 red,
-        terminalpp::u8 green,
-        terminalpp::u8 blue)
+        byte red,
+        byte green,
+        byte blue)
       : value_(red * 36 + green * 6 + blue + 16)
     {
     }
 
-    terminalpp::u8 value_;
+    byte value_;
 };
 
 //* =========================================================================
@@ -110,12 +109,12 @@ struct greyscale_colour
     /// \brief Constructs a greyscale value from the given shade, which
     /// should be in the range 0-23.
     //* =====================================================================
-    constexpr explicit greyscale_colour(terminalpp::u8 shade)
+    constexpr explicit greyscale_colour(byte shade)
       : shade_(shade + 232)
     {
     }
 
-    terminalpp::u8 shade_;
+    byte shade_;
 };
 
 //* =========================================================================
@@ -144,7 +143,7 @@ struct colour
     //* =====================================================================
     /// \brief An enumeration of the possible colour types.
     //* =====================================================================
-    enum class type : terminalpp::u8
+    enum class type : byte
     {
         low, high, greyscale
     };

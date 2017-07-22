@@ -6,7 +6,7 @@
 
 namespace terminalpp {
 
-enum class vk : u8
+enum class vk : byte
 {
     bs                = terminalpp::detail::ascii::BS, // backspace
     ht                = terminalpp::detail::ascii::HT, // horizontal (forward) tabulation
@@ -147,7 +147,7 @@ enum class vk : u8
 
 };
 
-enum class vk_modifier : u8
+enum class vk_modifier : byte
 {
     none  = 0,
     shift = (1 << 0),
@@ -171,7 +171,7 @@ struct TERMINALPP_EXPORT virtual_key
     vk_modifier modifiers;
 
     /// \brief The repeat count of the character.
-    u32 repeat_count;
+    int repeat_count;
 
     /// \brief The actual received data for the key.
     boost::variant<char, ansi::control_sequence> sequence;
@@ -188,7 +188,7 @@ bool operator==(virtual_key const &lhs, virtual_key const &rhs);
 //* =========================================================================
 constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
 {
-    return vk_modifier(u8(lhs) | u8(rhs));
+    return vk_modifier(byte(lhs) | byte(rhs));
 }
 
 //* =========================================================================
@@ -205,7 +205,7 @@ constexpr vk_modifier &operator|=(vk_modifier &lhs, vk_modifier const &rhs)
 //* =========================================================================
 constexpr vk_modifier operator&(vk_modifier const &lhs, vk_modifier const &rhs)
 {
-    return vk_modifier(u8(lhs) & u8(rhs));
+    return vk_modifier(byte(lhs) & byte(rhs));
 }
 
 //* =========================================================================

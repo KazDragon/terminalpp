@@ -11,7 +11,7 @@ namespace terminalpp { namespace detail {
 
 static vk_modifier convert_modifier_argument(std::string const &modifier)
 {
-    static constexpr std::pair<u8, vk_modifier> const modifier_mappings[] = {
+    static constexpr std::pair<std::int8_t, vk_modifier> const modifier_mappings[] = {
         { ansi::csi::MODIFIER_SHIFT,               vk_modifier::shift },
         { ansi::csi::MODIFIER_CTRL,                vk_modifier::ctrl  },
         { ansi::csi::MODIFIER_ALT,                 vk_modifier::alt   },
@@ -100,7 +100,7 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
                               ? std::string("1")
                               : seq.arguments[0];
 
-        auto repeat_count = u8(std::max(atoi(repeat_count_arg.c_str()), 1));
+        auto repeat_count = std::max(atoi(repeat_count_arg.c_str()), 1);
 
         vk_modifier modifier = seq.meta
                              ? vk_modifier::meta

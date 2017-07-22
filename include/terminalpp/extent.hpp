@@ -31,7 +31,7 @@ struct extent
     /// Constructs an extent with width and height being set to the passed-in
     /// arguments.
     //* =====================================================================
-    constexpr extent(s32 w, s32 h)
+    constexpr extent(coordinate_type w, coordinate_type h)
       : width(w),
         height(h)
     {
@@ -57,8 +57,8 @@ struct extent
         return *this;
     }
 
-    s32 width;
-    s32 height;
+    coordinate_type width;
+    coordinate_type height;
 };
 
 // ==========================================================================
