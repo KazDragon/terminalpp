@@ -14,28 +14,28 @@ namespace detail {
 /// \brief Move the cursor up y spaces.
 //* =========================================================================
 std::string cursor_up(
-    dimension_type      y,
+    coordinate_type     y,
     control_mode const &mode);
 
 //* =========================================================================
 /// \brief Move the cursor down y spaces.
 //* =========================================================================
 std::string cursor_down(
-    dimension_type      y,
+    coordinate_type     y,
     control_mode const &mode);
 
 //* =========================================================================
 /// \brief Move the cursor forward x spaces.
 //* =========================================================================
 std::string cursor_forward(
-    dimension_type      x,
+    coordinate_type     x,
     control_mode const &mode);
 
 //* =========================================================================
 /// \brief Move the cursor backward x spaces.
 //* =========================================================================
 std::string cursor_backward(
-    dimension_type      x,
+    coordinate_type     x,
     control_mode const &mode);
 
 //* =========================================================================
