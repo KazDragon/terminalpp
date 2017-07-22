@@ -171,7 +171,7 @@ bool is_printable(glyph const &gly)
         break;
     }
 
-    return lookup[terminalpp::u8(gly.character_)];
+    return lookup[byte(gly.character_)];
 }
 
 }

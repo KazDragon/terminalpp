@@ -14,6 +14,8 @@ namespace terminalpp {
 //* =========================================================================
 struct extent
 {
+    using dimension_type = std::int32_t;
+
     //* =====================================================================
     /// \brief Default Constructor
     /// \par
@@ -31,7 +33,7 @@ struct extent
     /// Constructs an extent with width and height being set to the passed-in
     /// arguments.
     //* =====================================================================
-    constexpr extent(s32 w, s32 h)
+    constexpr extent(dimension_type w, dimension_type h)
       : width(w),
         height(h)
     {
@@ -57,8 +59,8 @@ struct extent
         return *this;
     }
 
-    s32 width;
-    s32 height;
+    dimension_type width;
+    dimension_type height;
 };
 
 // ==========================================================================

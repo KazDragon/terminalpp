@@ -30,7 +30,7 @@ struct point
     /// Constructs a point from a passed in x co-ordinate and a passed in
     /// y co-ordinate.
     //* =====================================================================
-    constexpr point(s32 x_coordinate, s32 y_coordinate)
+    constexpr point(coordinate_type x_coordinate, coordinate_type y_coordinate)
       : x(x_coordinate),
         y(y_coordinate)
     {
@@ -56,8 +56,8 @@ struct point
         return *this;
     }
 
-    s32 x;
-    s32 y;
+    coordinate_type x;
+    coordinate_type y;
 };
 
 // ==========================================================================

@@ -23,7 +23,8 @@ public :
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        row_proxy(canvas_view &cvs, u32 column, u32 row);
+        row_proxy(
+            canvas_view &cvs, coordinate_type column, coordinate_type row);
 
         // ==================================================================
         // OPERATOR=
@@ -47,8 +48,8 @@ public :
 
     private :
         canvas_view &canvas_;
-        u32          column_;
-        u32          row_;
+        coordinate_type column_;
+        coordinate_type row_;
     };
 
     //* =====================================================================
@@ -60,16 +61,16 @@ public :
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        column_proxy(canvas_view &cvs, u32 column);
+        column_proxy(canvas_view &cvs, coordinate_type column);
 
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        row_proxy operator[](u32 row);
+        row_proxy operator[](coordinate_type row);
 
     private :
         canvas_view &canvas_;
-        u32          column_;
+        coordinate_type column_;
     };
 
     //* =====================================================================
@@ -81,16 +82,16 @@ public :
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        const_column_proxy(canvas_view const &cvs, u32 column);
+        const_column_proxy(canvas_view const &cvs, coordinate_type column);
 
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        element const &operator[](u32 row) const;
+        element const &operator[](coordinate_type row) const;
 
     private :
         canvas_view const &canvas_;
-        u32                column_;
+        coordinate_type column_;
     };
 
     //* =====================================================================
@@ -112,28 +113,30 @@ public :
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
-    column_proxy operator[](u32 column);
+    column_proxy operator[](coordinate_type column);
 
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
-    const_column_proxy operator[](u32 column) const;
+    const_column_proxy operator[](coordinate_type column) const;
 
 private :
     //* =====================================================================
     /// \brief Set the value of an element.
     //* =====================================================================
-    void set_element(u32 column, u32 row, element const &value);
+    void set_element(
+        coordinate_type column, coordinate_type row, element const &value);
 
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
-    element &get_element(u32 column, u32 row);
+    element &get_element(coordinate_type column, coordinate_type row);
 
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
-    element const &get_element(u32 column, u32 row) const;
+    element const &get_element(
+        coordinate_type column, coordinate_type row) const;
 
     canvas &canvas_;
     extent  offset_;

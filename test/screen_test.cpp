@@ -44,9 +44,9 @@ TEST(screen_test, first_draw_of_screen_with_content_draws_clear_screen_then_cont
     auto screen = terminalpp::screen();
 
     char ch = 'a';
-    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
+    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
     {
-        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
+        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
         {
             canvas[x][y] = ch++;
         }
@@ -60,11 +60,11 @@ TEST(screen_test, first_draw_of_screen_with_content_draws_clear_screen_then_cont
         reference_terminal.erase_in_display(
                 terminalpp::terminal::erase_display::all);
 
-    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
+    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
     {
         expected += reference_terminal.move_cursor({0, y});
 
-        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
+        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
         {
             expected += reference_terminal.write(canvas[x][y]);
         }
@@ -88,9 +88,9 @@ TEST(screen_test, drawing_after_drawing_draws_nothing)
     auto screen = terminalpp::screen();
 
     auto ch = 'a';
-    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
+    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
     {
-        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
+        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
         {
             canvas[x][y] = ch++;
         }
@@ -119,9 +119,9 @@ TEST(screen_test, drawing_after_modifying_one_element_writes_one_element)
     auto screen = terminalpp::screen();
 
     auto ch = 'a';
-    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
+    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
     {
-        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
+        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
         {
             canvas[x][y] = ch++;
         }
@@ -152,9 +152,9 @@ TEST(screen_test, drawing_after_modifying_two_elements_writes_two_elements)
     auto screen = terminalpp::screen();
 
     auto ch = 'a';
-    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
+    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
     {
-        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
+        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
         {
             canvas[x][y] = ch++;
         }
@@ -188,9 +188,9 @@ TEST(screen_test, drawing_consecutive_elements_does_not_write_cursor_moves)
     auto screen = terminalpp::screen();
 
     auto ch = 'a';
-    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
+    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
     {
-        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
+        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
         {
             canvas[x][y] = ch++;
         }

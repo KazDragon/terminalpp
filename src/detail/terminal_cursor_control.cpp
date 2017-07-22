@@ -8,7 +8,7 @@ namespace terminalpp { namespace detail {
 // CURSOR_UP
 // ==========================================================================
 std::string cursor_up(
-    s32                 y,
+    dimension_type      y,
     control_mode const &mode)
 {
     std::string result = csi(mode);
@@ -30,7 +30,7 @@ std::string cursor_up(
 // CURSOR_UP
 // ==========================================================================
 std::string cursor_down(
-    s32                 y,
+    dimension_type      y,
     control_mode const &mode)
 {
     std::string result = csi(mode);
@@ -52,7 +52,7 @@ std::string cursor_down(
 // CURSOR_FORWARD
 // ==========================================================================
 std::string cursor_forward(
-    s32                 x,
+    dimension_type      x,
     control_mode const &mode)
 {
     std::string result = csi(mode);
@@ -74,7 +74,7 @@ std::string cursor_forward(
 // CURSOR_BACKWARD
 // ==========================================================================
 std::string cursor_backward(
-    s32                 x,
+    dimension_type      x,
     control_mode const &mode)
 {
     std::string result = csi(mode);
@@ -96,7 +96,7 @@ std::string cursor_backward(
 // CURSOR_HORIZONTAL_ABSOLUTE
 // ==========================================================================
 std::string cursor_horizontal_absolute(
-    s32                          x,
+    coordinate_type              x,
     terminalpp::behaviour const &behaviour,
     control_mode          const &mode)
 {

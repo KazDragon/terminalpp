@@ -1,8 +1,6 @@
 #pragma once
 
 #include "terminalpp/ansi/protocol.hpp"
-#include "terminalpp/core.hpp"
-#include <algorithm>
 
 namespace terminalpp {
 

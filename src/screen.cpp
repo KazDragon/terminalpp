@@ -2,7 +2,7 @@
 #include "terminalpp/terminal.hpp"
 
 namespace terminalpp {
-    
+
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
@@ -23,10 +23,10 @@ std::string screen::draw(terminal& term, canvas const &cvs)
         last_frame_ = canvas(cvs.size());
         result += term.erase_in_display(terminal::erase_display::all);
     }
-    
-    for (s32 y = 0; y < cvs.size().height; ++y)
+
+    for (coordinate_type y = 0; y < cvs.size().height; ++y)
     {
-        for (s32 x = 0; x < cvs.size().width; ++x)
+        for (coordinate_type x = 0; x < cvs.size().width; ++x)
         {
             if (last_frame_[x][y] != cvs[x][y])
             {
@@ -35,7 +35,7 @@ std::string screen::draw(terminal& term, canvas const &cvs)
             }
         }
     }
-    
+
     last_frame_ = cvs;
 
     return result;

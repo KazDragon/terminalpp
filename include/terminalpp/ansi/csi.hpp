@@ -153,41 +153,41 @@ static constexpr char const RESET_MODE                       = terminalpp::detai
 
 // Keypad buttons / Function keys
 static constexpr char const KEYPAD_FUNCTION                  = terminalpp::detail::ascii::TILDE;
-    static constexpr u8 const KEYPAD_HOME                    = 1;
-    static constexpr u8 const KEYPAD_INSERT                  = 2;
-    static constexpr u8 const KEYPAD_DEL                     = 3;
-    static constexpr u8 const KEYPAD_END                     = 4;
-    static constexpr u8 const KEYPAD_PGUP                    = 5;
-    static constexpr u8 const KEYPAD_PGDN                    = 6;
-    static constexpr u8 const KEYPAD_F1                      = 11;
-    static constexpr u8 const KEYPAD_F2                      = 12;
-    static constexpr u8 const KEYPAD_F3                      = 13;
-    static constexpr u8 const KEYPAD_F4                      = 14;
-    static constexpr u8 const KEYPAD_F5                      = 15;
-    static constexpr u8 const KEYPAD_F6                      = 17; // Skip 16.
-    static constexpr u8 const KEYPAD_F7                      = 18;
-    static constexpr u8 const KEYPAD_F8                      = 19;
-    static constexpr u8 const KEYPAD_F9                      = 20;
-    static constexpr u8 const KEYPAD_F10                     = 21;
-    static constexpr u8 const KEYPAD_F11                     = 23; // Skip 22.
-    static constexpr u8 const KEYPAD_F12                     = 24;
+    static constexpr std::int8_t const KEYPAD_HOME                  = 1;
+    static constexpr std::int8_t const KEYPAD_INSERT                = 2;
+    static constexpr std::int8_t const KEYPAD_DEL                   = 3;
+    static constexpr std::int8_t const KEYPAD_END                   = 4;
+    static constexpr std::int8_t const KEYPAD_PGUP                  = 5;
+    static constexpr std::int8_t const KEYPAD_PGDN                  = 6;
+    static constexpr std::int8_t const KEYPAD_F1                    = 11;
+    static constexpr std::int8_t const KEYPAD_F2                    = 12;
+    static constexpr std::int8_t const KEYPAD_F3                    = 13;
+    static constexpr std::int8_t const KEYPAD_F4                    = 14;
+    static constexpr std::int8_t const KEYPAD_F5                    = 15;
+    static constexpr std::int8_t const KEYPAD_F6                    = 17; // Skip 16.
+    static constexpr std::int8_t const KEYPAD_F7                    = 18;
+    static constexpr std::int8_t const KEYPAD_F8                    = 19;
+    static constexpr std::int8_t const KEYPAD_F9                    = 20;
+    static constexpr std::int8_t const KEYPAD_F10                   = 21;
+    static constexpr std::int8_t const KEYPAD_F11                   = 23; // Skip 22.
+    static constexpr std::int8_t const KEYPAD_F12                   = 24;
 
 // The following modifiers can apply to all keypad/function key controls.
-    static constexpr u8 const MODIFIER_SHIFT                 = 2;
-    static constexpr u8 const MODIFIER_ALT                   = 3;
-    static constexpr u8 const MODIFIER_SHIFT_ALT             = 4;
-    static constexpr u8 const MODIFIER_CTRL                  = 5;
-    static constexpr u8 const MODIFIER_SHIFT_CTRL            = 6;
-    static constexpr u8 const MODIFIER_ALT_CTRL              = 7;
-    static constexpr u8 const MODIFIER_SHIFT_ALT_CTRL        = 8;
-    static constexpr u8 const MODIFIER_META                  = 9;
-    static constexpr u8 const MODIFIER_META_SHIFT            = 10;
-    static constexpr u8 const MODIFIER_META_ALT              = 11;
-    static constexpr u8 const MODIFIER_META_SHIFT_ALT        = 12;
-    static constexpr u8 const MODIFIER_META_CTRL             = 13;
-    static constexpr u8 const MODIFIER_META_SHIFT_CTRL       = 14;
-    static constexpr u8 const MODIFIER_META_ALT_CTRL         = 15;
-    static constexpr u8 const MODIFIER_META_SHIFT_ALT_CTRL   = 16;
+    static constexpr std::int8_t const MODIFIER_SHIFT               = 2;
+    static constexpr std::int8_t const MODIFIER_ALT                 = 3;
+    static constexpr std::int8_t const MODIFIER_SHIFT_ALT           = 4;
+    static constexpr std::int8_t const MODIFIER_CTRL                = 5;
+    static constexpr std::int8_t const MODIFIER_SHIFT_CTRL          = 6;
+    static constexpr std::int8_t const MODIFIER_ALT_CTRL            = 7;
+    static constexpr std::int8_t const MODIFIER_SHIFT_ALT_CTRL      = 8;
+    static constexpr std::int8_t const MODIFIER_META                = 9;
+    static constexpr std::int8_t const MODIFIER_META_SHIFT          = 10;
+    static constexpr std::int8_t const MODIFIER_META_ALT            = 11;
+    static constexpr std::int8_t const MODIFIER_META_SHIFT_ALT      = 12;
+    static constexpr std::int8_t const MODIFIER_META_CTRL           = 13;
+    static constexpr std::int8_t const MODIFIER_META_SHIFT_CTRL     = 14;
+    static constexpr std::int8_t const MODIFIER_META_ALT_CTRL       = 15;
+    static constexpr std::int8_t const MODIFIER_META_SHIFT_ALT_CTRL = 16;
 
 // DEC Private Mode
 //  - Require ? extenders

@@ -2,17 +2,18 @@
 #include "terminalpp/canvas.hpp"
 
 namespace terminalpp {
-    
+
 // ==========================================================================
 // ROW_PROXY::CONSTRUCTOR
 // ==========================================================================
-canvas_view::row_proxy::row_proxy(canvas_view& cvs, u32 column, u32 row)
+canvas_view::row_proxy::row_proxy(
+    canvas_view& cvs, coordinate_type column, coordinate_type row)
   : canvas_(cvs),
     column_(column),
     row_(row)
 {
 }
-    
+
 // ==========================================================================
 // ROW_PROXY::OPERATOR=
 // ==========================================================================
@@ -52,7 +53,8 @@ canvas_view::row_proxy::operator element const &() const
 // ==========================================================================
 // COLUMN_PROXY::CONSTRUCTOR
 // ==========================================================================
-canvas_view::column_proxy::column_proxy(canvas_view &cvs, u32 column)
+canvas_view::column_proxy::column_proxy(
+    canvas_view &cvs, coordinate_type column)
   : canvas_(cvs),
     column_(column)
 {
@@ -61,7 +63,8 @@ canvas_view::column_proxy::column_proxy(canvas_view &cvs, u32 column)
 // ==========================================================================
 // COLUMN_PROXY::OPERATOR[]
 // ==========================================================================
-canvas_view::row_proxy canvas_view::column_proxy::operator[](u32 row)
+canvas_view::row_proxy canvas_view::column_proxy::operator[](
+    coordinate_type row)
 {
     return canvas_view::row_proxy(canvas_, column_, row);
 }
@@ -70,7 +73,7 @@ canvas_view::row_proxy canvas_view::column_proxy::operator[](u32 row)
 // CONST_COLUMN_PROXY::CONSTRUCTOR
 // ==========================================================================
 canvas_view::const_column_proxy::const_column_proxy(
-    canvas_view const &cvs, u32 column)
+    canvas_view const &cvs, coordinate_type column)
   : canvas_(cvs),
     column_(column)
 {
@@ -79,7 +82,8 @@ canvas_view::const_column_proxy::const_column_proxy(
 // ==========================================================================
 // CONST_COLUMN_PROXY::OPERATOR[]
 // ==========================================================================
-element const &canvas_view::const_column_proxy::operator[](u32 row) const
+element const &canvas_view::const_column_proxy::operator[](
+    coordinate_type row) const
 {
     return canvas_.get_element(column_, row);
 }
@@ -111,7 +115,7 @@ extent canvas_view::size() const
 // ==========================================================================
 // OPERATOR[]
 // ==========================================================================
-canvas_view::column_proxy canvas_view::operator[](u32 column)
+canvas_view::column_proxy canvas_view::operator[](coordinate_type column)
 {
     return column_proxy(*this, column);
 }
@@ -119,7 +123,8 @@ canvas_view::column_proxy canvas_view::operator[](u32 column)
 // ==========================================================================
 // OPERATOR[]
 // ==========================================================================
-canvas_view::const_column_proxy canvas_view::operator[](u32 column) const
+canvas_view::const_column_proxy canvas_view::operator[](
+    coordinate_type column) const
 {
     return const_column_proxy(*this, column);
 }
@@ -127,7 +132,8 @@ canvas_view::const_column_proxy canvas_view::operator[](u32 column) const
 // ==========================================================================
 // GET_ELEMENT
 // ==========================================================================
-element &canvas_view::get_element(u32 column, u32 row)
+element &canvas_view::get_element(
+    coordinate_type column, coordinate_type row)
 {
     return canvas_[column + offset_.width][row + offset_.height];
 }
@@ -135,7 +141,8 @@ element &canvas_view::get_element(u32 column, u32 row)
 // ==========================================================================
 // GET_ELEMENT
 // ==========================================================================
-element const &canvas_view::get_element(u32 column, u32 row) const
+element const &canvas_view::get_element(
+    coordinate_type column, coordinate_type row) const
 {
     return canvas_[column + offset_.width][row + offset_.height];
 }
@@ -143,7 +150,8 @@ element const &canvas_view::get_element(u32 column, u32 row) const
 // ==========================================================================
 // SET_ELEMENT
 // ==========================================================================
-void canvas_view::set_element(u32 column, u32 row, element const &value)
+void canvas_view::set_element(
+    coordinate_type column, coordinate_type row, element const &value)
 {
     canvas_[column + offset_.width][row + offset_.height] = value;
 }

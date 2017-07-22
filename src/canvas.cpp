@@ -27,7 +27,7 @@ auto end_pointer(Container &&container)
 // ==========================================================================
 // COLUMN_PROXY::CONSTRUCTOR
 // ==========================================================================
-canvas::column_proxy::column_proxy(canvas &cvs, u32 column)
+canvas::column_proxy::column_proxy(canvas &cvs, coordinate_type column)
   : canvas_(cvs),
     column_(column)
 {
@@ -36,7 +36,7 @@ canvas::column_proxy::column_proxy(canvas &cvs, u32 column)
 // ==========================================================================
 // COLUMN_PROXY::OPERATOR[]
 // ==========================================================================
-element &canvas::column_proxy::operator[](u32 row)
+element &canvas::column_proxy::operator[](coordinate_type row)
 {
     return canvas_.get_element(column_, row);
 }
@@ -44,7 +44,8 @@ element &canvas::column_proxy::operator[](u32 row)
 // ==========================================================================
 // CONST_COLUMN_PROXY::CONSTRUCTOR
 // ==========================================================================
-canvas::const_column_proxy::const_column_proxy(canvas const& cvs, u32 column)
+canvas::const_column_proxy::const_column_proxy(
+    canvas const& cvs, coordinate_type column)
   : canvas_(cvs),
     column_(column)
 {
@@ -53,7 +54,8 @@ canvas::const_column_proxy::const_column_proxy(canvas const& cvs, u32 column)
 // ==========================================================================
 // CONST_COLUMN_PROXY::OPERATOR[]
 // ==========================================================================
-element const& canvas::const_column_proxy::operator[](u32 row) const
+element const& canvas::const_column_proxy::operator[](
+    coordinate_type row) const
 {
     return canvas_.get_element(column_, row);
 }
@@ -84,9 +86,9 @@ void canvas::resize(extent const &size)
     auto min_width  = (std::min)(size.width, size_.width);
     auto min_height = (std::min)(size.height, size_.height);
 
-    for (u32 row = 0; row < min_height; ++row)
+    for (coordinate_type row = 0; row < min_height; ++row)
     {
-        for (u32 column = 0; column < min_width; ++column)
+        for (coordinate_type column = 0; column < min_width; ++column)
         {
             auto new_grid_pos = row * size.width + column;
             auto old_grid_pos = row * size_.width + column;
@@ -134,7 +136,7 @@ canvas::const_iterator canvas::end() const
 // ==========================================================================
 // OPERATOR[]
 // ==========================================================================
-canvas::column_proxy canvas::operator[](u32 column)
+canvas::column_proxy canvas::operator[](coordinate_type column)
 {
     return column_proxy(*this, column);
 }
@@ -142,7 +144,7 @@ canvas::column_proxy canvas::operator[](u32 column)
 // ==========================================================================
 // OPERATOR[]
 // ==========================================================================
-canvas::const_column_proxy canvas::operator[](u32 column) const
+canvas::const_column_proxy canvas::operator[](coordinate_type column) const
 {
     return const_column_proxy(*this, column);
 }
@@ -150,7 +152,7 @@ canvas::const_column_proxy canvas::operator[](u32 column) const
 // ==========================================================================
 // SET_ELEMENT
 // ==========================================================================
-element& canvas::get_element(u32 column, u32 row)
+element& canvas::get_element(coordinate_type column, coordinate_type row)
 {
     return grid_[row * size_.width + column];
 }
@@ -158,7 +160,8 @@ element& canvas::get_element(u32 column, u32 row)
 // ==========================================================================
 // GET_ELEMENT
 // ==========================================================================
-const element& canvas::get_element(u32 column, u32 row) const
+const element& canvas::get_element(
+    coordinate_type column, coordinate_type row) const
 {
     return grid_[row * size_.width + column];
 }
@@ -166,7 +169,8 @@ const element& canvas::get_element(u32 column, u32 row) const
 // ==========================================================================
 // GET_ELEMENT
 // ==========================================================================
-void canvas::set_element(u32 column, u32 row, const element& value)
+void canvas::set_element(
+    coordinate_type column, coordinate_type row, const element& value)
 {
     grid_[row * size_.width + column] = value;
 }
