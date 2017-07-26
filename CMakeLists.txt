@@ -1,4 +1,10 @@
-project(terminalpp)
+if (POLICY CMP0048)
+    cmake_policy(SET CMP0048 NEW)
+    project(TERMINALPP VERSION 1.2.5)
+else()
+    project(TERMINALPP)
+endif()
+
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 cmake_policy(VERSION 3.2)
 
@@ -7,6 +13,7 @@ if (POLICY CMP0063)
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
+set(CMAKE_DEBUG_POSTFIX d)
 
 # Boost is required as we used Boost.Variant, Boost.Optional, and
 # Boost.Format.  All of these are header-only libraries, so no subcomponents
@@ -21,7 +28,7 @@ include (GenerateExportHeader)
 
 # Due to the strange requirements for Google Test, it is assumed to have been
 # built in the "gtest" directory.  For this, it is required to run the moral
-# equivalent of the following script before building Telnet++:
+# equivalent of the following script before building Terminal++:
 #
 #  mkdir gtest
 #  cd gtest
@@ -162,6 +169,11 @@ generate_export_header(terminalpp
         "${PROJECT_SOURCE_DIR}/include/terminalpp/detail/export.hpp"
 )
 
+configure_file(
+    ${PROJECT_SOURCE_DIR}/include/terminalpp/version.hpp.in
+    ${PROJECT_SOURCE_DIR}/include/terminalpp/version.hpp
+)
+
 install(
     TARGETS
         terminalpp-core
@@ -169,23 +181,46 @@ install(
     EXPORT
         terminalpp-config
     ARCHIVE DESTINATION
-        lib
+        lib/terminalpp-${TERMINALPP_VERSION}
     LIBRARY DESTINATION
-        lib
+        lib/terminalpp-${TERMINALPP_VERSION}
 )
 
 install(
     DIRECTORY
         include/
     DESTINATION
-        include
+        include/terminalpp-${TERMINALPP_VERSION}
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
+    VERSION
+        "${TERMINALPP_VERSION}"
+    COMPATIBILITY AnyNewerVersion
+)
+
+export(
+    EXPORT
+        terminalpp-config
+    FILE
+        "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config.cmake"
 )
 
 install(
     EXPORT
         terminalpp-config
     DESTINATION
-        share/cmake/terminalpp
+        lib/terminalpp-${TERMINALPP_VERSION}
+)
+
+install(
+    FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
+    DESTINATION
+        lib/terminalpp-${TERMINALPP_VERSION}/cmake
 )
 
 if (GTEST_FOUND)
@@ -246,3 +281,14 @@ if (DOXYGEN_FOUND)
             "Generate API documentation with Doxygen" VERBATIM
     )
 endif()
+
+# Add customizations for packaging
+set(CPACK_PACKAGE_NAME "Terminal++")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Terminal++")
+set(CPACK_PACKAGE_VENDOR "Matthew Chaplain")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README.md")
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR ${TERMINALPP_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${TERMINALPP_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${TERMINALPP_VERSION_PATCH})
+include(CPack)
