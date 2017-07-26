@@ -1,0 +1,4 @@
+#pragma once
+
+#define TERMINALPP_VERSION @TERMINALPP_VERSION@
+
