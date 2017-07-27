@@ -65,6 +65,7 @@ set(TERMINALPP_CORE_SOURCE_FILES
     src/canvas_view.cpp
     src/encoder.cpp
     src/glyph.cpp
+    src/extent.cpp
     src/point.cpp
     src/screen.cpp
     src/string.cpp
@@ -246,6 +247,7 @@ if (GTEST_FOUND)
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/expect_tokens.cpp
+        test/extent_test.cpp
         test/glyph_test.cpp
         test/point_test.cpp
         test/screen_test.cpp
