@@ -61,6 +61,7 @@ set (TERMINALPP_VERSION 1.2.5)
 set(TERMINALPP_CORE_SOURCE_FILES
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
+    src/attribute.cpp
     src/canvas.cpp
     src/canvas_view.cpp
     src/encoder.cpp

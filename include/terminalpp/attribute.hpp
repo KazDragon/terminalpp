@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/ansi/protocol.hpp"
+#include <iosfwd>
 
 namespace terminalpp {
 
@@ -20,7 +21,7 @@ struct low_colour
     //* =====================================================================
     /// \brief Constructs a low_colour from the passed-in ANSI colour.
     //* =====================================================================
-    constexpr explicit low_colour(terminalpp::ansi::graphics::colour colour)
+    constexpr low_colour(terminalpp::ansi::graphics::colour colour)
         : value_(colour)
     {
     };
@@ -43,6 +44,13 @@ constexpr bool operator!=(low_colour const &lhs, low_colour const &rhs)
 {
     return !(lhs == rhs);
 }
+
+//* =========================================================================
+/// \brief Streaming output operator for low_colours.  Prints the text
+/// equivalent of the colour (e.g. red, blue, black)
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, low_colour const &col);
 
 //* =========================================================================
 /// \brief Structure representing the central 216 colours of a 256-colour
