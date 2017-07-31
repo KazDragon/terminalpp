@@ -4,6 +4,9 @@
 
 namespace terminalpp {
 
+// ==========================================================================
+// OPERATOR<<(STREAM, LOW_COLOUR)
+// ==========================================================================
 std::ostream &operator<<(std::ostream &out, low_colour const &col)
 {
     static constexpr struct
@@ -33,6 +36,23 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
     return out << (result == std::end(colour_to_text)
                 ? "unknown"
                 : result->text);
+}
+
+// ==========================================================================
+// OPERATOR<<(STREAM, HIGH_COLOUR)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, high_colour const &col)
+{
+    int value = col.value_ - 16;
+    int red   = value / 36;
+    int green = (value % 36) / 6;
+    int blue  = value % 6;
+
+    return out << "#"
+               << std::to_string(red)
+               << std::to_string(green)
+               << std::to_string(blue);
+
 }
 
 }

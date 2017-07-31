@@ -99,6 +99,13 @@ constexpr bool operator!=(high_colour const &lhs, high_colour const &rhs)
 }
 
 //* =========================================================================
+/// \brief Streaming output operator for high_colours.  Prints the text
+/// equivalent of the colour (e.g. #234, #512, etc.)
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, high_colour const &col);
+
+//* =========================================================================
 /// \brief Structure representing the 24 greyscale tones of a 256-colour
 /// palette
 //* =========================================================================
