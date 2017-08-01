@@ -254,6 +254,77 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, colour const &col);
 
 //* =========================================================================
+/// \brief A structure representing an ANSI graphics attribute (e.g.
+/// intensity, underlining)
+//* =========================================================================
+template <class Type>
+struct graphics_attribute
+{
+    //* =====================================================================
+    /// \brief Initialises the intensity to the default (normal) value
+    //* =====================================================================
+    constexpr graphics_attribute()
+      : graphics_attribute(Type::normal)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Initialises the intensity to the given value
+    //* =====================================================================
+    constexpr graphics_attribute(Type value)
+      : value_(value)
+    {
+    }
+
+    Type value_;
+};
+
+//* =========================================================================
+/// \brief Equality for graphics attributes.
+//* =========================================================================
+template <class Type>
+constexpr bool operator==(
+    graphics_attribute<Type> const &lhs,
+    graphics_attribute<Type> const &rhs)
+{
+    return lhs.value_ == rhs.value_;
+}
+
+//* =========================================================================
+/// \brief Inequality for graphics attributes.
+//* =========================================================================
+template <class Type>
+constexpr bool operator!=(
+    graphics_attribute<Type> const &lhs,
+    graphics_attribute<Type> const &rhs)
+{
+    return !(lhs == rhs);
+}
+
+using intensity   = graphics_attribute<terminalpp::ansi::graphics::intensity>;
+using underlining = graphics_attribute<terminalpp::ansi::graphics::underlining>;
+using polarity    = graphics_attribute<terminalpp::ansi::graphics::polarity>;
+using blinking    = graphics_attribute<terminalpp::ansi::graphics::blinking>;
+
+//* =========================================================================
+/// \brief Streaming output operator for intensities.  Prints the text
+/// equivalent of the intensity (e.g. "normal", "bold", "faint").
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(
+    std::ostream &out,
+    graphics_attribute<ansi::graphics::intensity> const &value);
+
+//* =========================================================================
+/// \brief Streaming output operator for polarities.  Prints the text
+/// equivalent of the intensity (e.g. "positive", "negative").
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(
+    std::ostream &out,
+    graphics_attribute<ansi::graphics::polarity> const &value);
+
+//* =========================================================================
 /// \brief A structure that carries around the presentation attributes of
 /// an ANSI element.
 //* =========================================================================

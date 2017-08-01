@@ -234,9 +234,9 @@ if (GTEST_FOUND)
         test/io/ansi/mouse.cpp
         test/io/string.cpp
         test/io/virtual_key.cpp
+        test/attribute_test.cpp
         test/canvas_test.cpp
         test/canvas_view_test.cpp
-        test/colour_test.cpp
         test/ansi_terminal_init_test.cpp
         test/ansi_terminal_cursor_test.cpp
         test/ansi_terminal_read_cursor_test.cpp

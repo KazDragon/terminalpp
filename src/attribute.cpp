@@ -86,4 +86,39 @@ std::ostream &operator<<(std::ostream &out, colour const &col)
     }
 }
 
+// ==========================================================================
+// OPERATOR<<(STREAM, INTENSITY)
+// ==========================================================================
+std::ostream &operator<<(
+    std::ostream &out,
+    graphics_attribute<terminalpp::ansi::graphics::intensity> const &value)
+{
+    switch (value.value_)
+    {
+        default :
+            // Fall-through
+        case terminalpp::ansi::graphics::intensity::normal :
+            return out << "normal";
+
+        case terminalpp::ansi::graphics::intensity::bold :
+            return out << "bold";
+
+        case terminalpp::ansi::graphics::intensity::faint :
+            return out << "faint";
+    }
+}
+
+// ==========================================================================
+// OPERATOR<<(STREAM, POLARITY)
+// ==========================================================================
+std::ostream &operator<<(
+    std::ostream &out,
+    graphics_attribute<terminalpp::ansi::graphics::polarity> const &value)
+{
+    return out
+        << (value.value_ == terminalpp::ansi::graphics::polarity::positive
+          ? "positive"
+          : "negative");
+}
+
 }

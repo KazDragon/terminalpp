@@ -175,3 +175,73 @@ INSTANTIATE_TEST_CASE_P(
     colours_with_strings,
     ValuesIn(colour_strings)
 );
+
+using intensity_string = std::tuple<
+    terminalpp::intensity,
+    std::string
+>;
+
+class intensities_with_strings
+   : public testing::TestWithParam<intensity_string>
+{
+};
+
+TEST_P(intensities_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &intensity = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << intensity;
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static intensity_string const intensity_strings[] = {
+    intensity_string{ terminalpp::ansi::graphics::intensity::normal,   "normal" },
+    intensity_string{ terminalpp::ansi::graphics::intensity::bold,     "bold"   },
+    intensity_string{ terminalpp::ansi::graphics::intensity::faint,    "faint"  }
+};
+
+INSTANTIATE_TEST_CASE_P(
+    intensities_can_be_streamed_to_an_ostream,
+    intensities_with_strings,
+    ValuesIn(intensity_strings)
+);
+
+using polarity_string = std::tuple<
+    terminalpp::polarity,
+    std::string
+>;
+
+class polarities_with_strings
+   : public testing::TestWithParam<polarity_string>
+{
+};
+
+TEST_P(polarities_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &polarity = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << polarity;
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static polarity_string const polarity_strings[] = {
+    polarity_string{ terminalpp::ansi::graphics::polarity::positive, "positive" },
+    polarity_string{ terminalpp::ansi::graphics::polarity::negative, "negative" },
+};
+
+INSTANTIATE_TEST_CASE_P(
+    polarities_can_be_streamed_to_an_ostream,
+    polarities_with_strings,
+    ValuesIn(polarity_strings)
+);
+
