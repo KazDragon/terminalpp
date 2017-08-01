@@ -24,18 +24,6 @@ using low_colour_string = std::tuple<
     std::string
 >;
 
-static low_colour_string const low_colour_strings[] = {
-  low_colour_string{ terminalpp::ansi::graphics::colour::black,    "black"   },
-  low_colour_string{ terminalpp::ansi::graphics::colour::red,      "red"     },
-  low_colour_string{ terminalpp::ansi::graphics::colour::green,    "green"   },
-  low_colour_string{ terminalpp::ansi::graphics::colour::yellow,   "yellow"  },
-  low_colour_string{ terminalpp::ansi::graphics::colour::blue,     "blue"    },
-  low_colour_string{ terminalpp::ansi::graphics::colour::magenta,  "magenta" },
-  low_colour_string{ terminalpp::ansi::graphics::colour::cyan,     "cyan"    },
-  low_colour_string{ terminalpp::ansi::graphics::colour::white,    "white"   },
-  low_colour_string{ terminalpp::ansi::graphics::colour::default_, "default" }
-};
-
 class low_colours_with_strings
     : public testing::TestWithParam<low_colour_string>
 {
@@ -54,6 +42,18 @@ TEST_P(low_colours_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
+static low_colour_string const low_colour_strings[] = {
+  low_colour_string{ terminalpp::ansi::graphics::colour::black,    "black"   },
+  low_colour_string{ terminalpp::ansi::graphics::colour::red,      "red"     },
+  low_colour_string{ terminalpp::ansi::graphics::colour::green,    "green"   },
+  low_colour_string{ terminalpp::ansi::graphics::colour::yellow,   "yellow"  },
+  low_colour_string{ terminalpp::ansi::graphics::colour::blue,     "blue"    },
+  low_colour_string{ terminalpp::ansi::graphics::colour::magenta,  "magenta" },
+  low_colour_string{ terminalpp::ansi::graphics::colour::cyan,     "cyan"    },
+  low_colour_string{ terminalpp::ansi::graphics::colour::white,    "white"   },
+  low_colour_string{ terminalpp::ansi::graphics::colour::default_, "default" }
+};
+
 INSTANTIATE_TEST_CASE_P(
     low_colours_can_be_streamed_to_an_ostream,
     low_colours_with_strings,
@@ -67,16 +67,8 @@ using high_colour_string = std::tuple<
     std::string          // expected output
 >;
 
-static high_colour_string const high_colour_strings[] = {
-    high_colour_string{ 0, 0, 0, "#000" },
-    high_colour_string{ 3, 0, 0, "#300" },
-    high_colour_string{ 0, 4, 0, "#040" },
-    high_colour_string{ 0, 0, 5, "#005" },
-    high_colour_string{ 5, 3, 1, "#531" }
-};
-
 class high_colours_with_strings
-  : public testing::TestWithParam<high_colour_string>
+   : public testing::TestWithParam<high_colour_string>
 {
 };
 
@@ -95,8 +87,53 @@ TEST_P(high_colours_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
+static high_colour_string const high_colour_strings[] = {
+    high_colour_string{ 0, 0, 0, "#000" },
+    high_colour_string{ 3, 0, 0, "#300" },
+    high_colour_string{ 0, 4, 0, "#040" },
+    high_colour_string{ 0, 0, 5, "#005" },
+    high_colour_string{ 5, 3, 1, "#531" }
+};
+
 INSTANTIATE_TEST_CASE_P(
     high_colours_can_be_streamed_to_an_ostream,
     high_colours_with_strings,
     ValuesIn(high_colour_strings)
+);
+
+using greyscale_string = std::tuple<
+    terminalpp::byte,    // shade
+    std::string          // expected output
+>;
+
+class greyscale_colours_with_strings
+   : public testing::TestWithParam<greyscale_string>
+{
+};
+
+TEST_P(greyscale_colours_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &shade = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << terminalpp::greyscale_colour(shade);
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static greyscale_string const greyscale_strings[] = {
+    greyscale_string{ 0,  "#00" },
+    greyscale_string{ 9,  "#09" },
+    greyscale_string{ 10, "#10" },
+    greyscale_string{ 17, "#17" },
+    greyscale_string{ 22, "#22" },
+};
+
+INSTANTIATE_TEST_CASE_P(
+    greyscale_colours_can_be_streamed_to_an_ostream,
+    greyscale_colours_with_strings,
+    ValuesIn(greyscale_strings)
 );

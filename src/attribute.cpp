@@ -43,16 +43,27 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, high_colour const &col)
 {
-    int value = col.value_ - 16;
-    int red   = value / 36;
-    int green = (value % 36) / 6;
-    int blue  = value % 6;
+    int const value = col.value_ - 16;
+    int const red   = value / 36;
+    int const green = (value % 36) / 6;
+    int const blue  = value % 6;
 
     return out << "#"
                << std::to_string(red)
                << std::to_string(green)
                << std::to_string(blue);
 
+}
+
+// ==========================================================================
+// OPERATOR<<(STREAM, GREYSCALE_COLOUR)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
+{
+    int const shade = col.shade_ - 232;
+    return out << "#"
+               << (shade < 10 ? "0" : "")
+               << std::to_string(shade);
 }
 
 }

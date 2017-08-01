@@ -151,6 +151,13 @@ constexpr bool operator!=(
 }
 
 //* =========================================================================
+/// \brief Streaming output operator for greyscale_colours.  Prints the text
+/// equivalent of the colour (e.g. #22, #00, etc.)
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, greyscale_colour const &col);
+
+//* =========================================================================
 /// \brief Structure representing a sum type of the available colour styles.
 //* =========================================================================
 struct colour
