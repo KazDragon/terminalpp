@@ -247,6 +247,13 @@ constexpr bool operator!=(colour const &lhs, colour const &rhs)
 }
 
 //* =========================================================================
+/// \brief Streaming output operator for colours.  Prints the text equivalent
+/// of the colour (e.g. "red", "#234", "#07", etc.)
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, colour const &col);
+
+//* =========================================================================
 /// \brief A structure that carries around the presentation attributes of
 /// an ANSI element.
 //* =========================================================================

@@ -66,4 +66,24 @@ std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
                << std::to_string(shade);
 }
 
+// ==========================================================================
+// OPERATOR<<(STREAM, COLOUR)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, colour const &col)
+{
+    switch (col.type_)
+    {
+        default :
+            // Fall-through
+        case colour::type::low :
+            return out << col.low_colour_;
+
+        case colour::type::high :
+            return out << col.high_colour_;
+
+        case colour::type::greyscale :
+            return out << col.greyscale_colour_;
+    }
+}
+
 }

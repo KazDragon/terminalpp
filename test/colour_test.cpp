@@ -137,3 +137,41 @@ INSTANTIATE_TEST_CASE_P(
     greyscale_colours_with_strings,
     ValuesIn(greyscale_strings)
 );
+
+using colour_string = std::tuple<
+    terminalpp::colour,
+    std::string
+>;
+
+class colours_with_strings
+   : public testing::TestWithParam<colour_string>
+{
+};
+
+TEST_P(colours_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &colour = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << colour;
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static colour_string const colour_strings[] = {
+    colour_string{ terminalpp::ansi::graphics::colour::red,   "red"   },
+    colour_string{ terminalpp::ansi::graphics::colour::green, "green" },
+    colour_string{ terminalpp::high_colour(1, 2, 3),          "#123"  },
+    colour_string{ terminalpp::high_colour(5, 5, 4),          "#554"  },
+    colour_string{ terminalpp::greyscale_colour(0),           "#00"   },
+    colour_string{ terminalpp::greyscale_colour(21),          "#21"   },
+};
+
+INSTANTIATE_TEST_CASE_P(
+    colours_can_be_streamed_to_an_ostream,
+    colours_with_strings,
+    ValuesIn(colour_strings)
+);
