@@ -89,9 +89,7 @@ std::ostream &operator<<(std::ostream &out, colour const &col)
 // ==========================================================================
 // OPERATOR<<(STREAM, INTENSITY)
 // ==========================================================================
-std::ostream &operator<<(
-    std::ostream &out,
-    graphics_attribute<terminalpp::ansi::graphics::intensity> const &value)
+std::ostream &operator<<(std::ostream &out, intensity const &value)
 {
     switch (value.value_)
     {
@@ -109,11 +107,20 @@ std::ostream &operator<<(
 }
 
 // ==========================================================================
+// OPERATOR<<(STREAM, UNDERLINING)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, underlining const &value)
+{
+    return out
+        << (value.value_ == terminalpp::ansi::graphics::underlining::underlined
+          ? "underlined"
+          : "not underlined");
+}
+
+// ==========================================================================
 // OPERATOR<<(STREAM, POLARITY)
 // ==========================================================================
-std::ostream &operator<<(
-    std::ostream &out,
-    graphics_attribute<terminalpp::ansi::graphics::polarity> const &value)
+std::ostream &operator<<(std::ostream &out, polarity const &value)
 {
     return out
         << (value.value_ == terminalpp::ansi::graphics::polarity::positive

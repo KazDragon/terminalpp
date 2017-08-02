@@ -311,18 +311,21 @@ using blinking    = graphics_attribute<terminalpp::ansi::graphics::blinking>;
 /// equivalent of the intensity (e.g. "normal", "bold", "faint").
 //* =========================================================================
 TERMINALPP_EXPORT
-std::ostream &operator<<(
-    std::ostream &out,
-    graphics_attribute<ansi::graphics::intensity> const &value);
+std::ostream &operator<<(std::ostream &out, intensity const &value);
+
+//* =========================================================================
+/// \brief Streaming output operator for underlining.  Prints the text
+/// equivalent of the underlining (e.g. "underlined", "not underlined").
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, underlining const &value);
 
 //* =========================================================================
 /// \brief Streaming output operator for polarities.  Prints the text
-/// equivalent of the intensity (e.g. "positive", "negative").
+/// equivalent of the polarity (e.g. "positive", "negative").
 //* =========================================================================
 TERMINALPP_EXPORT
-std::ostream &operator<<(
-    std::ostream &out,
-    graphics_attribute<ansi::graphics::polarity> const &value);
+std::ostream &operator<<(std::ostream &out, polarity const &value);
 
 //* =========================================================================
 /// \brief A structure that carries around the presentation attributes of

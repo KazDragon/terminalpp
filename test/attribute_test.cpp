@@ -211,6 +211,40 @@ INSTANTIATE_TEST_CASE_P(
     ValuesIn(intensity_strings)
 );
 
+using underline_string = std::tuple<
+    terminalpp::underlining,
+    std::string
+>;
+
+class underlines_with_strings
+   : public testing::TestWithParam<underline_string>
+{
+};
+
+TEST_P(underlines_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &underline = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << underline;
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static underline_string const underline_strings[] = {
+    underline_string{ terminalpp::ansi::graphics::underlining::underlined,     "underlined"     },
+    underline_string{ terminalpp::ansi::graphics::underlining::not_underlined, "not underlined" },
+};
+
+INSTANTIATE_TEST_CASE_P(
+    underlines_can_be_streamed_to_an_ostream,
+    underlines_with_strings,
+    ValuesIn(underline_strings)
+);
+
 using polarity_string = std::tuple<
     terminalpp::polarity,
     std::string
