@@ -89,9 +89,9 @@ std::ostream &operator<<(std::ostream &out, colour const &col)
 // ==========================================================================
 // OPERATOR<<(STREAM, INTENSITY)
 // ==========================================================================
-std::ostream &operator<<(std::ostream &out, intensity const &value)
+std::ostream &operator<<(std::ostream &out, intensity const &effect)
 {
-    switch (value.value_)
+    switch (effect.value_)
     {
         default :
             // Fall-through
@@ -109,10 +109,10 @@ std::ostream &operator<<(std::ostream &out, intensity const &value)
 // ==========================================================================
 // OPERATOR<<(STREAM, UNDERLINING)
 // ==========================================================================
-std::ostream &operator<<(std::ostream &out, underlining const &value)
+std::ostream &operator<<(std::ostream &out, underlining const &effect)
 {
     return out
-        << (value.value_ == terminalpp::ansi::graphics::underlining::underlined
+        << (effect.value_ == terminalpp::ansi::graphics::underlining::underlined
           ? "underlined"
           : "not underlined");
 }
@@ -120,10 +120,10 @@ std::ostream &operator<<(std::ostream &out, underlining const &value)
 // ==========================================================================
 // OPERATOR<<(STREAM, POLARITY)
 // ==========================================================================
-std::ostream &operator<<(std::ostream &out, polarity const &value)
+std::ostream &operator<<(std::ostream &out, polarity const &effect)
 {
     return out
-        << (value.value_ == terminalpp::ansi::graphics::polarity::positive
+        << (effect.value_ == terminalpp::ansi::graphics::polarity::positive
           ? "positive"
           : "negative");
 }
@@ -131,12 +131,55 @@ std::ostream &operator<<(std::ostream &out, polarity const &value)
 // ==========================================================================
 // OPERATOR<<(STREAM, BLINKING)
 // ==========================================================================
-std::ostream &operator<<(std::ostream &out, blinking const &value)
+std::ostream &operator<<(std::ostream &out, blinking const &effect)
 {
     return out
-        << (value.value_ == terminalpp::ansi::graphics::blinking::blink
+        << (effect.value_ == terminalpp::ansi::graphics::blinking::blink
           ? "blinking"
           : "steady");
+}
+
+// ==========================================================================
+// ==========================================================================
+template <class T>
+bool output_non_default_attribute(
+    std::ostream &out,
+    T const &value,
+    bool with_comma,
+    char const *prefix = "",
+    char const *suffix = "")
+{
+    if (value != T())
+    {
+        if (with_comma)
+        {
+            out << ",";
+        }
+
+        out << prefix << value << suffix;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// ==========================================================================
+// OPERATOR<<(STREAM, ATTRIBUTE)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, attribute const &attr)
+{
+    bool with_comma = false;
+
+    with_comma |= output_non_default_attribute(out, attr.foreground_colour_, with_comma, "foreground[", "]");
+    with_comma |= output_non_default_attribute(out, attr.background_colour_, with_comma, "background[", "]");
+    with_comma |= output_non_default_attribute(out, attr.intensity_, with_comma);
+    with_comma |= output_non_default_attribute(out, attr.underlining_, with_comma);
+    with_comma |= output_non_default_attribute(out, attr.polarity_, with_comma);
+    with_comma |= output_non_default_attribute(out, attr.blinking_, with_comma);
+
+    return out;
 }
 
 }

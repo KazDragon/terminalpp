@@ -254,6 +254,13 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, colour const &col);
 
 //* =========================================================================
+/// \brief A traits class for which attribute is the "default" one.
+///
+//* =========================================================================
+template <class Type>
+struct graphics_attribute_default_setting;
+
+//* =========================================================================
 /// \brief A structure representing an ANSI graphics attribute (e.g.
 /// intensity, underlining)
 //* =========================================================================
@@ -264,7 +271,8 @@ struct graphics_attribute
     /// \brief Initialises the intensity to the default (normal) value
     //* =====================================================================
     constexpr graphics_attribute()
-      : graphics_attribute(Type::normal)
+      : graphics_attribute(
+            graphics_attribute_default_setting<Type>::value)
     {
     }
 
@@ -301,6 +309,54 @@ constexpr bool operator!=(
     return !(lhs == rhs);
 }
 
+//* =========================================================================
+/// \brief Specialization for intensity default case (normal intensity)
+//* =========================================================================
+template <>
+struct graphics_attribute_default_setting<terminalpp::ansi::graphics::intensity>
+  : std::integral_constant<
+        terminalpp::ansi::graphics::intensity,
+        terminalpp::ansi::graphics::intensity::normal
+    >
+{
+};
+
+//* =========================================================================
+/// \brief Specialization for underlining default case (not underlined)
+//* =========================================================================
+template <>
+struct graphics_attribute_default_setting<terminalpp::ansi::graphics::underlining>
+  : std::integral_constant<
+        terminalpp::ansi::graphics::underlining,
+        terminalpp::ansi::graphics::underlining::not_underlined
+    >
+{
+};
+
+//* =========================================================================
+/// \brief Specialization for polarity default case (positive)
+//* =========================================================================
+template <>
+struct graphics_attribute_default_setting<terminalpp::ansi::graphics::polarity>
+  : std::integral_constant<
+        terminalpp::ansi::graphics::polarity,
+        terminalpp::ansi::graphics::polarity::positive
+    >
+{
+};
+
+//* =========================================================================
+/// \brief Specialization for blinking default case (steady)
+//* =========================================================================
+template <>
+struct graphics_attribute_default_setting<terminalpp::ansi::graphics::blinking>
+  : std::integral_constant<
+        terminalpp::ansi::graphics::blinking,
+        terminalpp::ansi::graphics::blinking::steady
+    >
+{
+};
+
 using intensity   = graphics_attribute<terminalpp::ansi::graphics::intensity>;
 using underlining = graphics_attribute<terminalpp::ansi::graphics::underlining>;
 using polarity    = graphics_attribute<terminalpp::ansi::graphics::polarity>;
@@ -311,28 +367,28 @@ using blinking    = graphics_attribute<terminalpp::ansi::graphics::blinking>;
 /// equivalent of the intensity (e.g. "normal", "bold", "faint").
 //* =========================================================================
 TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, intensity const &value);
+std::ostream &operator<<(std::ostream &out, intensity const &effect);
 
 //* =========================================================================
 /// \brief Streaming output operator for underlining.  Prints the text
 /// equivalent of the underlining (e.g. "underlined", "not underlined").
 //* =========================================================================
 TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, underlining const &value);
+std::ostream &operator<<(std::ostream &out, underlining const &effect);
 
 //* =========================================================================
 /// \brief Streaming output operator for polarities.  Prints the text
 /// equivalent of the polarity (e.g. "positive", "negative").
 //* =========================================================================
 TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, polarity const &value);
+std::ostream &operator<<(std::ostream &out, polarity const &effect);
 
 //* =========================================================================
 /// \brief Streaming output operator for blinking.  Prints the text
 /// equivalent of the blink effect (e.g. "blinking", "steady").
 //* =========================================================================
 TERMINALPP_EXPORT
-std::ostream &operator<<(std::ostream &out, blinking const &value);
+std::ostream &operator<<(std::ostream &out, blinking const &effect);
 
 //* =========================================================================
 /// \brief A structure that carries around the presentation attributes of
@@ -341,24 +397,32 @@ std::ostream &operator<<(std::ostream &out, blinking const &value);
 struct attribute
 {
     //* =====================================================================
-    /// \brief Initialises the attribute to having the default colour,
-    /// no intensity, no underlining, and normal polarity.
+    /// \brief Initialises the attribute with the colours and effects
+    /// specified
     //* =====================================================================
-    constexpr attribute()
-      : intensity_(terminalpp::ansi::graphics::intensity::normal),
-        underlining_(terminalpp::ansi::graphics::underlining::not_underlined),
-        polarity_(terminalpp::ansi::graphics::polarity::positive),
-        blinking_(terminalpp::ansi::graphics::blinking::steady)
+    constexpr attribute(
+        colour foreground_colour = colour(),
+        colour background_colour = colour(),
+        intensity intensity_effect = ansi::graphics::intensity::normal,
+        underlining underlining_effect = ansi::graphics::underlining::not_underlined,
+        polarity polarity_effect = ansi::graphics::polarity::positive,
+        blinking blink_effect = ansi::graphics::blinking::steady)
+      : foreground_colour_(foreground_colour),
+        background_colour_(background_colour),
+        intensity_(intensity_effect),
+        underlining_(underlining_effect),
+        polarity_(polarity_effect),
+        blinking_(blink_effect)
     {
     }
 
     // Graphics Attributes
-    colour                                  foreground_colour_;
-    colour                                  background_colour_;
-    terminalpp::ansi::graphics::intensity   intensity_;
-    terminalpp::ansi::graphics::underlining underlining_;
-    terminalpp::ansi::graphics::polarity    polarity_;
-    terminalpp::ansi::graphics::blinking    blinking_;
+    colour      foreground_colour_;
+    colour      background_colour_;
+    intensity   intensity_;
+    underlining underlining_;
+    polarity    polarity_;
+    blinking    blinking_;
 };
 
 //* =========================================================================
@@ -381,5 +445,12 @@ constexpr bool operator!=(attribute const &lhs, attribute const &rhs)
 {
     return !(lhs == rhs);
 }
+
+//* =========================================================================
+/// \brief Streaming output operator for attribute.  Prints the text
+/// equivalent of the attribute (e.g. "foreground_colour[red]")
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, attribute const &attr);
 
 }

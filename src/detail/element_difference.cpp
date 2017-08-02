@@ -75,7 +75,7 @@ static void append_graphics_change(
         change += terminalpp::ansi::PS;
     }
 
-    change += boost::str(boost::format("%d") % int(dest));
+    change += boost::str(boost::format("%d") % int(dest.value_));
 }
 
 // ==========================================================================
