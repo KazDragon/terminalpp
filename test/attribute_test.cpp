@@ -279,3 +279,36 @@ INSTANTIATE_TEST_CASE_P(
     ValuesIn(polarity_strings)
 );
 
+using blink_string = std::tuple<
+    terminalpp::blinking,
+    std::string
+>;
+
+class blinking_with_strings
+   : public testing::TestWithParam<blink_string>
+{
+};
+
+TEST_P(blinking_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &blink = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << blink;
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static blink_string const blink_strings[] = {
+    blink_string{ terminalpp::ansi::graphics::blinking::blink,  "blinking" },
+    blink_string{ terminalpp::ansi::graphics::blinking::steady, "steady"   },
+};
+
+INSTANTIATE_TEST_CASE_P(
+    blinking_can_be_streamed_to_an_ostream,
+    blinking_with_strings,
+    ValuesIn(blink_strings)
+);

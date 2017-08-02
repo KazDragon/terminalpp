@@ -328,6 +328,13 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, polarity const &value);
 
 //* =========================================================================
+/// \brief Streaming output operator for blinking.  Prints the text
+/// equivalent of the blink effect (e.g. "blinking", "steady").
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, blinking const &value);
+
+//* =========================================================================
 /// \brief A structure that carries around the presentation attributes of
 /// an ANSI element.
 //* =========================================================================

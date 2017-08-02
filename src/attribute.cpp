@@ -128,4 +128,15 @@ std::ostream &operator<<(std::ostream &out, polarity const &value)
           : "negative");
 }
 
+// ==========================================================================
+// OPERATOR<<(STREAM, BLINKING)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, blinking const &value)
+{
+    return out
+        << (value.value_ == terminalpp::ansi::graphics::blinking::blink
+          ? "blinking"
+          : "steady");
+}
+
 }
