@@ -1,4 +1,5 @@
 #include "terminalpp/glyph.hpp"
+#include <iomanip>
 #include <iostream>
 
 namespace terminalpp {
@@ -150,7 +151,7 @@ bool is_printable(glyph const &gly)
 {
     bool const *lookup = is_printable_dec;
 
-    switch (gly.charset_)
+    switch (gly.charset_.value_)
     {
     default :
         // Fall-through
@@ -174,5 +175,88 @@ bool is_printable(glyph const &gly)
     return lookup[byte(gly.character_)];
 }
 
+// ==========================================================================
+// OUTPUT_CHARSET_AND_CHARACTER
+// ==========================================================================
+static std::ostream &output_charset_and_character(
+    std::ostream &out,
+    glyph const &gly)
+{
+    if (gly.charset_ != character_set())
+    {
+        out << gly.charset_ << ":";
+    }
+
+    switch (gly.character_)
+    {
+        case '\r' : return out << "\\r";
+        case '\n' : return out << "\\n";
+        case '\t' : return out << "\\t";
+        default :
+            if (is_printable(gly))
+            {
+                return out << gly.character_;
+            }
+            else
+            {
+                return out << "0x" << std::setw(2) << std::setfill('0')
+                           << std::hex << std::uppercase
+                           << int(std::uint8_t(gly.character_));
+            }
+    }
 }
 
+// ==========================================================================
+// UTF8_DECODE
+// ==========================================================================
+static std::uint32_t utf8_decode(glyph const &gly)
+{
+    std::uint32_t value = 0;
+
+    if ((gly.ucharacter_[0] & 0b100000000) == 0)
+    {
+        value = gly.ucharacter_[0];
+    }
+
+    if ((gly.ucharacter_[0] & 0b11100000) == 0b11000000)
+    {
+        value  = std::uint8_t(gly.ucharacter_[0] & 0b00011111) << 6;
+        value |= std::uint8_t(gly.ucharacter_[1] & 0b00111111);
+    }
+
+    if ((gly.ucharacter_[0] & 0b11110000) == 0b11100000)
+    {
+        value  = std::uint8_t(gly.ucharacter_[0] & 0b00001111) << 12;
+        value |= std::uint8_t(gly.ucharacter_[1] & 0b00111111) << 6;
+        value |= std::uint8_t(gly.ucharacter_[2] & 0b00111111);
+    }
+
+    return value;
+}
+
+// ==========================================================================
+// OPERATOR<<(STREAM, GLYPH)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, glyph const &gly)
+{
+    if (gly.charset_ == terminalpp::ansi::charset::utf8)
+    {
+        if (gly.ucharacter_[0] >= 0 && gly.ucharacter_[0] <= 0x7F)
+        {
+            return output_charset_and_character(out, gly);
+        }
+        else
+        {
+            return out << "U+"
+                       << std::setw(4) << std::hex << std::setfill('0')
+                       << std::uppercase
+                       << utf8_decode(gly);
+        }
+    }
+    else
+    {
+        return output_charset_and_character(out, gly);
+    }
+}
+
+}

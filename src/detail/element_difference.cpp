@@ -20,8 +20,8 @@ namespace {
 // CHANGE_CHARSET
 // ==========================================================================
 static std::string change_charset(
-    terminalpp::ansi::charset const &source,
-    terminalpp::ansi::charset const &dest,
+    terminalpp::character_set const &source,
+    terminalpp::character_set const &dest,
     behaviour const &terminal_behaviour)
 {
     std::string result;
@@ -49,7 +49,7 @@ static std::string change_charset(
                 result += terminalpp::detail::select_default_charset();
             }
 
-            result += terminalpp::detail::designate_g0_charset(dest);
+            result += terminalpp::detail::designate_g0_charset(dest.value_);
         }
     }
 

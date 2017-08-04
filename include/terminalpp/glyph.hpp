@@ -1,6 +1,8 @@
 #pragma once
 
 #include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/character_set.hpp"
+#include <iosfwd>
 
 namespace terminalpp {
 
@@ -18,8 +20,7 @@ struct glyph
     //* =====================================================================
     constexpr glyph(
         char character = ' ',
-        terminalpp::ansi::charset charset =
-            terminalpp::ansi::charset::us_ascii)
+        character_set charset = character_set())
       : character_(character),
         charset_(charset)
     {
@@ -78,7 +79,7 @@ struct glyph
         char ucharacter_[3];
     };
 
-    terminalpp::ansi::charset charset_;
+    character_set charset_;
 };
 
 // ==========================================================================
@@ -128,5 +129,12 @@ constexpr bool operator!=(glyph const &lhs, glyph const &rhs)
 //* =========================================================================
 TERMINALPP_EXPORT
 bool is_printable(glyph const &gly);
+
+//* =========================================================================
+/// \brief Streaming output operator for glyph.  Prints the text
+/// equivalent of the attribute (e.g. "c", "U+2048", "uk:£")
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, glyph const &gly);
 
 }
