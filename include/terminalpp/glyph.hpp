@@ -132,7 +132,7 @@ bool is_printable(glyph const &gly);
 
 //* =========================================================================
 /// \brief Streaming output operator for glyph.  Prints the text
-/// equivalent of the attribute (e.g. "c", "U+2048", "uk:£")
+/// equivalent of the element (e.g. "c", "U+2048", "uk:£")
 //* =========================================================================
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, glyph const &gly);

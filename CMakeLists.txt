@@ -69,6 +69,7 @@ set(TERMINALPP_CORE_SOURCE_FILES
     src/encoder.cpp
     src/glyph.cpp
     src/effect.cpp
+    src/element.cpp
     src/extent.cpp
     src/point.cpp
     src/screen.cpp
