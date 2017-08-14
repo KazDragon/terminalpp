@@ -214,6 +214,14 @@ TERMINALPP_EXPORT
 ::terminalpp::string operator+(string lhs, element const &rhs);
 
 //* =========================================================================
+/// \brief Streaming output operator for strings.  Prints the text out
+/// element by element so that it is readable.  Note: NOT rendered as if
+/// to a terminal.
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, string const &text);
+
+//* =========================================================================
 /// \brief Convert a terminalpp::string to a std::string by removing all
 /// attributes and charset information.
 //* =========================================================================

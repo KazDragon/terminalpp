@@ -1,5 +1,4 @@
 #include "terminalpp/encoder.hpp"
-#include "io/string.hpp"
 #include <gtest/gtest.h>
 
 void expect_encoding(

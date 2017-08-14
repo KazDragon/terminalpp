@@ -239,7 +239,6 @@ if (GTEST_FOUND)
     add_executable(terminalpp_tester
         test/io/ansi/control_sequence.cpp
         test/io/ansi/mouse.cpp
-        test/io/string.cpp
         test/io/virtual_key.cpp
         test/ansi_terminal_init_test.cpp
         test/ansi_terminal_cursor_test.cpp

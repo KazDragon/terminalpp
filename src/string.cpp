@@ -207,6 +207,28 @@ string operator+(string lhs, string const &rhs)
 }
 
 // ==========================================================================
+// OPERATOR <<
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, string const &text)
+{
+    bool add_comma = false;
+
+    for (auto const &elem : text)
+    {
+        if (add_comma)
+        {
+            out << ",";
+        }
+
+        out << "element[" <<elem << "]";
+
+        add_comma = true;
+    }
+
+    return out;
+}
+
+// ==========================================================================
 // TO_STRING
 // ==========================================================================
 std::string to_string(string const &tstr)
