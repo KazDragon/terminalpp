@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+#include <iosfwd>
 
 namespace terminalpp {
 
@@ -92,5 +93,12 @@ constexpr extent operator-(extent lhs, extent const &rhs)
 {
     return lhs -= rhs;
 }
+
+//* =====================================================================
+/// \brief Outputs the current state of the extent to a stream.
+/// For example, "extent(35,49)"
+//* =====================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, extent const &ext);
 
 }

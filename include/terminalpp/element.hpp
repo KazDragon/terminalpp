@@ -2,6 +2,7 @@
 
 #include "terminalpp/attribute.hpp"
 #include "terminalpp/glyph.hpp"
+#include <iosfwd>
 #include <utility>
 
 namespace terminalpp {
@@ -54,5 +55,12 @@ constexpr bool operator!=(element const &lhs, element const &rhs)
 {
     return !(lhs == rhs);
 }
+
+//* =========================================================================
+/// \brief Streaming output operator for element.  Prints the text
+/// equivalent of the element (e.g. "glyph[c],attribute[red]").
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, element const &elem);
 
 }
