@@ -142,6 +142,7 @@ set(TERMINALPP_SOURCE_FILES
     src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
     src/ansi_terminal.cpp
+    src/terminal_manip.cpp
 )
 
 set(TERMINALPP_INCLUDE_FILES
@@ -155,6 +156,7 @@ set(TERMINALPP_INCLUDE_FILES
     include/terminalpp/detail/terminal_cursor_control.hpp
     include/terminalpp/detail/well_known_virtual_key.hpp
     include/terminalpp/ansi_terminal.hpp
+    include/terminalpp/terminal_manip.hpp
 )
 
 add_library(terminalpp
@@ -259,6 +261,7 @@ if (GTEST_FOUND)
         test/expect_tokens.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
+        test/manip_test.cpp
         test/point_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
