@@ -3,21 +3,20 @@
 
 namespace terminalpp {
 
-/*
 // ==========================================================================
-// OPERATOR<<(TERMINAL, STRING)
+// TERMINAL_STREAMER::OPERATOR<<(STRING)
 // ==========================================================================
-std::string operator<<(terminal &term, string const &text)
+terminal_streamer &terminal_streamer::operator<<(string const &text)
 {
-    return term.write(text);
+    return *this << write_string(text);
 }
 
 // ==========================================================================
-// OPERATOR<<(TERMINAL, MOVE_CURSOR)
+// TERMINAL_STREAMER::OPERATOR<<(STRING)
 // ==========================================================================
-std::string operator<<(terminal &term, move_cursor const &op)
+terminal_streamer &terminal_streamer::operator<<(string &&text)
 {
-    return term.move_cursor(op.position_);
+    return *this << write_string(std::move(text));
 }
-*/
+
 }
