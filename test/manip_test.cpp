@@ -109,3 +109,29 @@ TEST(a_terminal, can_have_a_window_title_streamed_to_it)
 
     ASSERT_EQ(expected_result, result);
 }
+
+TEST(a_terminal, can_have_a_show_cursor_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    reference_terminal.hide_cursor();
+    std::string const expected_result = reference_terminal.show_cursor();
+
+    terminalpp::ansi_terminal terminal;
+    terminal.hide_cursor();
+    std::string result = terminal << terminalpp::show_cursor();
+
+    ASSERT_EQ(expected_result, result);
+}
+
+TEST(a_terminal, can_have_a_hide_cursor_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    reference_terminal.show_cursor();
+    std::string const expected_result = reference_terminal.hide_cursor();
+
+    terminalpp::ansi_terminal terminal;
+    terminal.show_cursor();
+    std::string result = terminal << terminalpp::hide_cursor();
+
+    ASSERT_EQ(expected_result, result);
+}

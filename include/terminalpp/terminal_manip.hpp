@@ -1,9 +1,11 @@
 #pragma once
 #include "terminalpp/manip/disable_mouse.hpp"
 #include "terminalpp/manip/enable_mouse.hpp"
+#include "terminalpp/manip/hide_cursor.hpp"
 #include "terminalpp/manip/move_cursor.hpp"
 #include "terminalpp/manip/write_string.hpp"
 #include "terminalpp/manip/set_window_title.hpp"
+#include "terminalpp/manip/show_cursor.hpp"
 #include "terminalpp/manip/terminal_streamer.hpp"
 
 namespace terminalpp {
