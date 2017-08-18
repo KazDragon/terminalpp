@@ -142,7 +142,7 @@ set(TERMINALPP_SOURCE_FILES
     src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
     src/ansi_terminal.cpp
-    src/terminal_manip.cpp
+    src/manip/terminal_streamer.cpp
 )
 
 set(TERMINALPP_INCLUDE_FILES
@@ -157,6 +157,12 @@ set(TERMINALPP_INCLUDE_FILES
     include/terminalpp/detail/well_known_virtual_key.hpp
     include/terminalpp/ansi_terminal.hpp
     include/terminalpp/terminal_manip.hpp
+    include/terminalpp/manip/disable_mouse.hpp
+    include/terminalpp/manip/enable_mouse.hpp
+    include/terminalpp/manip/move_cursor.hpp
+    include/terminalpp/manip/set_window_title.hpp
+    include/terminalpp/manip/terminal_streamer.hpp
+    include/terminalpp/manip/write_string.hpp
 )
 
 add_library(terminalpp
