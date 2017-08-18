@@ -135,3 +135,25 @@ TEST(a_terminal, can_have_a_hide_cursor_command_streamed_to_it)
 
     ASSERT_EQ(expected_result, result);
 }
+
+TEST(a_terminal, can_have_a_save_cursor_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    std::string const expected_result = reference_terminal.save_cursor();
+
+    terminalpp::ansi_terminal terminal;
+    std::string result = terminal << terminalpp::save_cursor();
+
+    ASSERT_EQ(expected_result, result);
+}
+
+TEST(a_terminal, can_have_a_restore_cursor_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    std::string const expected_result = reference_terminal.restore_cursor();
+
+    terminalpp::ansi_terminal terminal;
+    std::string result = terminal << terminalpp::restore_cursor();
+
+    ASSERT_EQ(expected_result, result);
+}
