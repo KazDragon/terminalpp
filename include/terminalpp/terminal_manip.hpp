@@ -1,6 +1,8 @@
 #pragma once
 #include "terminalpp/manip/disable_mouse.hpp"
 #include "terminalpp/manip/enable_mouse.hpp"
+#include "terminalpp/manip/erase_in_display.hpp"
+#include "terminalpp/manip/erase_in_line.hpp"
 #include "terminalpp/manip/hide_cursor.hpp"
 #include "terminalpp/manip/move_cursor.hpp"
 #include "terminalpp/manip/write_string.hpp"

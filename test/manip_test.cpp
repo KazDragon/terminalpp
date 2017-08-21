@@ -157,3 +157,29 @@ TEST(a_terminal, can_have_a_restore_cursor_command_streamed_to_it)
 
     ASSERT_EQ(expected_result, result);
 }
+
+TEST(a_terminal, can_have_an_erase_in_display_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    std::string const expected_result = reference_terminal.erase_in_display(
+        terminalpp::terminal::erase_display::all);
+
+    terminalpp::ansi_terminal terminal;
+    std::string result = terminal << terminalpp::erase_in_display(
+        terminalpp::terminal::erase_display::all);
+
+    ASSERT_EQ(expected_result, result);
+}
+
+TEST(a_terminal, can_have_an_erase_in_line_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    std::string const expected_result = reference_terminal.erase_in_line(
+        terminalpp::terminal::erase_line::all);
+
+    terminalpp::ansi_terminal terminal;
+    std::string result = terminal << terminalpp::erase_in_line(
+        terminalpp::terminal::erase_line::all);
+
+    ASSERT_EQ(expected_result, result);
+}
