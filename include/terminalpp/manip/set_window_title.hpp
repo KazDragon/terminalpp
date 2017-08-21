@@ -11,8 +11,8 @@ struct set_window_title
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    set_window_title(std::string title)
-      : title_(std::move(title))
+    explicit set_window_title(std::string const &title)
+      : title_(title)
     {
     }
 
@@ -24,7 +24,7 @@ struct set_window_title
         return term.set_window_title(title_);
     }
 
-    std::string title_;
+    std::string const &title_;
 };
 
 }

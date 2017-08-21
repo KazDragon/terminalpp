@@ -11,7 +11,7 @@ struct write_string
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    write_string(string const &text)
+    explicit write_string(string const &text)
       : text_(text)
     {
     }

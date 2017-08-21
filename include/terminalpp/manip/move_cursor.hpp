@@ -11,7 +11,7 @@ struct move_cursor
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    constexpr move_cursor(terminalpp::point position)
+    constexpr explicit move_cursor(terminalpp::point position)
       : position_(position)
     {
     }

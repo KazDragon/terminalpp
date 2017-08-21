@@ -11,7 +11,7 @@ struct erase_in_display
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    erase_in_display(terminal::erase_display how)
+    constexpr explicit erase_in_display(terminal::erase_display how)
       : how_(how)
     {
     }

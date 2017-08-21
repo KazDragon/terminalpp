@@ -16,7 +16,7 @@ public :
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    terminal_streamer(terminal &term)
+    explicit terminal_streamer(terminal &term)
       : terminal_(term)
     {
     }

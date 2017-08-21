@@ -11,7 +11,7 @@ struct erase_in_line
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    erase_in_line(terminal::erase_line how)
+    constexpr explicit erase_in_line(terminal::erase_line how)
       : how_(how)
     {
     }
