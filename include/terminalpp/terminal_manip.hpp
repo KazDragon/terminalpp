@@ -11,6 +11,8 @@
 #include "terminalpp/manip/set_window_title.hpp"
 #include "terminalpp/manip/show_cursor.hpp"
 #include "terminalpp/manip/terminal_streamer.hpp"
+#include "terminalpp/manip/use_normal_screen_buffer.hpp"
+#include "terminalpp/manip/use_alternate_screen_buffer.hpp"
 
 namespace terminalpp {
 

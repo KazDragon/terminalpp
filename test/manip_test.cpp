@@ -9,7 +9,7 @@ TEST(a_terminal, can_have_a_terminal_string_streamed_to_it)
     terminalpp::ansi_terminal terminal;
 
     std::string const expected_result = "test";
-    std::string const result = terminal << "test"_ets;
+    std::string const result = terminal << "test"_ts;
 
     ASSERT_EQ(expected_result, result);
 }
@@ -180,6 +180,28 @@ TEST(a_terminal, can_have_an_erase_in_line_command_streamed_to_it)
     terminalpp::ansi_terminal terminal;
     std::string result = terminal << terminalpp::erase_in_line(
         terminalpp::terminal::erase_line::all);
+
+    ASSERT_EQ(expected_result, result);
+}
+
+TEST(a_terminal, can_have_a_use_normal_screen_buffer_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    std::string const expected_result = reference_terminal.use_normal_screen_buffer();
+
+    terminalpp::ansi_terminal terminal;
+    std::string result = terminal << terminalpp::use_normal_screen_buffer();
+
+    ASSERT_EQ(expected_result, result);
+}
+
+TEST(a_terminal, can_have_a_use_alternate_screen_buffer_command_streamed_to_it)
+{
+    terminalpp::ansi_terminal reference_terminal;
+    std::string const expected_result = reference_terminal.use_alternate_screen_buffer();
+
+    terminalpp::ansi_terminal terminal;
+    std::string result = terminal << terminalpp::use_alternate_screen_buffer();
 
     ASSERT_EQ(expected_result, result);
 }
