@@ -4,7 +4,7 @@
 namespace terminalpp {
 
 //* =========================================================================
-/// \brief A structure that encapsulates a cursor restore operation
+/// \brief A structure that encapsulates an erase in line operation
 //* =========================================================================
 struct erase_in_line
 {
@@ -17,7 +17,7 @@ struct erase_in_line
     }
 
     //* =====================================================================
-    /// \brief Restores the cursor in the terminal.
+    /// \brief Erases some of the line in the terminal.
     //* =====================================================================
     std::string operator()(terminal &term)
     {

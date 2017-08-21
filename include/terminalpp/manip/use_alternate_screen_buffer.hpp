@@ -4,12 +4,13 @@
 namespace terminalpp {
 
 //* =========================================================================
-/// \brief A structure that encapsulates mouse enable operation
+/// \brief A structure that encapsulates a use alternate screen buffer
+/// operation.
 //* =========================================================================
 struct use_alternate_screen_buffer
 {
     //* =====================================================================
-    /// \brief Enables the mouse in the terminal.
+    /// \brief Uses the alternate screen buffer in the terminal.
     //* =====================================================================
     std::string operator()(terminal &term)
     {
