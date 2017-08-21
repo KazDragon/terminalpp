@@ -142,6 +142,7 @@ set(TERMINALPP_SOURCE_FILES
     src/detail/parser.cpp
     src/detail/well_known_virtual_key.cpp
     src/ansi_terminal.cpp
+    src/manip/terminal_streamer.cpp
 )
 
 set(TERMINALPP_INCLUDE_FILES
@@ -155,6 +156,21 @@ set(TERMINALPP_INCLUDE_FILES
     include/terminalpp/detail/terminal_cursor_control.hpp
     include/terminalpp/detail/well_known_virtual_key.hpp
     include/terminalpp/ansi_terminal.hpp
+    include/terminalpp/terminal_manip.hpp
+    include/terminalpp/manip/disable_mouse.hpp
+    include/terminalpp/manip/enable_mouse.hpp
+    include/terminalpp/manip/erase_in_display.hpp
+    include/terminalpp/manip/erase_in_line.hpp
+    include/terminalpp/manip/hide_cursor.hpp
+    include/terminalpp/manip/move_cursor.hpp
+    include/terminalpp/manip/restore_cursor.hpp
+    include/terminalpp/manip/save_cursor.hpp
+    include/terminalpp/manip/set_window_title.hpp
+    include/terminalpp/manip/show_cursor.hpp
+    include/terminalpp/manip/terminal_streamer.hpp
+    include/terminalpp/manip/use_alternate_screen_buffer.hpp
+    include/terminalpp/manip/use_normal_screen_buffer.hpp
+    include/terminalpp/manip/write_string.hpp
 )
 
 add_library(terminalpp
@@ -259,6 +275,7 @@ if (GTEST_FOUND)
         test/expect_tokens.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
+        test/manip_test.cpp
         test/point_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
