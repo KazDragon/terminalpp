@@ -1,6 +1,6 @@
 if (POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
-    project(TERMINALPP VERSION 1.2.5)
+    project(TERMINALPP VERSION 1.2.6)
 else()
     project(TERMINALPP)
 endif()
@@ -56,7 +56,7 @@ if (TERMINALPP_COVERAGE)
     list(APPEND CMAKE_EXE_LINKER_FLAGS "--coverage")
 endif()
 
-set (TERMINALPP_VERSION 1.2.5)
+set (TERMINALPP_VERSION 1.2.6)
 
 set(TERMINALPP_CORE_SOURCE_FILES
     src/ansi/charset.cpp
