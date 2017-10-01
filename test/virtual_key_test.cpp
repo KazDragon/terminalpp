@@ -1,6 +1,19 @@
 #include "terminalpp/virtual_key.hpp"
 #include <gtest/gtest.h>
 
+TEST(a_default_constructed_vk, has_default_members)
+{
+    terminalpp::virtual_key vk;
+
+    ASSERT_EQ(terminalpp::vk::nul, vk.key);
+    ASSERT_EQ(terminalpp::vk_modifier::none, vk.modifiers);
+    ASSERT_EQ(0, vk.repeat_count);
+
+    char *psequence = boost::get<char>(&vk.sequence);
+    ASSERT_NE(nullptr, psequence);
+    ASSERT_EQ('\0', *psequence);
+}
+
 TEST(anding_a_default_vk_modifer, matches_none)
 {
     terminalpp::vk_modifier vk_none = terminalpp::vk_modifier::none;

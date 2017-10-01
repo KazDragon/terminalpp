@@ -8,6 +8,8 @@ namespace terminalpp {
 
 enum class vk : byte
 {
+    nul               = terminalpp::detail::ascii::NUL,
+
     bs                = terminalpp::detail::ascii::BS, // backspace
     ht                = terminalpp::detail::ascii::HT, // horizontal (forward) tabulation
 
@@ -164,14 +166,14 @@ struct TERMINALPP_EXPORT virtual_key
 {
     /// \brief The actual key we believe was pressed, selected from the
     /// list of VK constants.
-    vk key;
+    vk key = vk::nul;
 
     /// \brief Any modifiers for the key, such as shift, ctrl, alt, meta,
     /// etc.
-    vk_modifier modifiers;
+    vk_modifier modifiers = vk_modifier::none;
 
     /// \brief The repeat count of the character.
-    int repeat_count;
+    int repeat_count = 0;
 
     /// \brief The actual received data for the key.
     boost::variant<char, ansi::control_sequence> sequence;
