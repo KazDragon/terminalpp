@@ -254,7 +254,6 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
-        test/io/virtual_key.cpp
         test/ansi_terminal_init_test.cpp
         test/ansi_terminal_cursor_test.cpp
         test/ansi_terminal_read_cursor_test.cpp

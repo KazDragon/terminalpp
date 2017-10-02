@@ -10,8 +10,8 @@ namespace terminalpp { namespace detail { namespace ascii {
 
 // Control Code Block
 static constexpr char const NUL = 0;   // NULL
-static constexpr char const STX = 1;   // Start Of Header
-static constexpr char const SOT = 2;   // Start Of Text
+static constexpr char const SOH = 1;   // Start Of Header
+static constexpr char const STX = 2;   // Start Of Text
 static constexpr char const ETX = 3;   // End Of Text
 static constexpr char const EOT = 4;   // End Of Transmission
 static constexpr char const ENQ = 5;   // Enquiry

@@ -1,6 +1,5 @@
 #include "expect_tokens.hpp"
 #include "terminalpp/ansi_terminal.hpp"
-#include "io/virtual_key.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 
