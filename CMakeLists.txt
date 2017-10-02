@@ -253,7 +253,6 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
-        test/io/ansi/control_sequence.cpp
         test/io/ansi/mouse.cpp
         test/io/virtual_key.cpp
         test/ansi_terminal_init_test.cpp
@@ -268,6 +267,7 @@ if (GTEST_FOUND)
         test/canvas_view_test.cpp
         test/character_set_test.cpp
         test/colour_test.cpp
+        test/control_sequence_test.cpp
         test/effect_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp

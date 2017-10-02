@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+#include <iosfwd>
 #include <string>
 #include <vector>
 
@@ -17,11 +18,11 @@ namespace terminalpp { namespace ansi {
 //* =========================================================================
 struct control_sequence
 {
-    char initiator;
-    char command;
-    bool meta;
+    char initiator = '\0';
+    char command   = '\0';
+    bool meta      = false;
     std::vector<std::string> arguments;
-    char extender = '\0';
+    char extender  = '\0';
 };
 
 //* =========================================================================
@@ -29,5 +30,11 @@ struct control_sequence
 //* =========================================================================
 TERMINALPP_EXPORT
 bool operator==(control_sequence const &lhs, control_sequence const &rhs);
+
+//* =========================================================================
+/// \brief Streaming output operator.
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, control_sequence const &seq);
 
 }}
