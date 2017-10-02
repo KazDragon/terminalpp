@@ -3,6 +3,8 @@
 
 namespace terminalpp {
 
+static virtual_key const default_vk = {};
+
 // ==========================================================================
 // OPERATOR==
 // ==========================================================================
@@ -107,8 +109,6 @@ static std::ostream &operator<<(std::ostream &out, vk const &key)
 
     return out;
 }
-
-static virtual_key const default_vk = {};
 
 // ==========================================================================
 // OUTPUT_COMMA
