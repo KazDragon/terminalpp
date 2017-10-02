@@ -173,7 +173,7 @@ static void output_input_sequence(
     virtual_key::input_sequence const &sequence,
     bool &comma)
 {
-    if (sequence != default_vk.sequence)
+    if (!(sequence == default_vk.sequence))
     {
         output_comma(out, comma);
         out << "seq:" << sequence;
