@@ -4,6 +4,29 @@
 namespace terminalpp {
 
 // ==========================================================================
+// OPERATOR==
+// ==========================================================================
+bool operator==(virtual_key const &lhs, virtual_key const &rhs)
+{
+    return lhs.key == rhs.key
+        && lhs.modifiers == rhs.modifiers
+        && lhs.repeat_count == rhs.repeat_count;
+}
+
+// ==========================================================================
+// OUTPUT_PIPE
+// ==========================================================================
+static void output_pipe(std::ostream &out, bool &pipe)
+{
+    if (pipe)
+    {
+        out << "|";
+    }
+
+    pipe = true;
+}
+
+// ==========================================================================
 // OPERATOR<<(VK_MODIFIER)
 // ==========================================================================
 static std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
@@ -12,39 +35,25 @@ static std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
 
     if ((vkm & vk_modifier::shift) == vk_modifier::shift)
     {
+        output_pipe(out, pipe);
         out << "shift";
-        pipe = true;
     }
 
     if ((vkm & vk_modifier::ctrl) == vk_modifier::ctrl)
     {
-        if (pipe)
-        {
-            out << "|";
-        }
-
+        output_pipe(out, pipe);
         out << "ctrl";
-        pipe = true;
     }
 
     if ((vkm & vk_modifier::alt) == vk_modifier::alt)
     {
-        if (pipe)
-        {
-            out << "|";
-        }
-
+        output_pipe(out, pipe);
         out << "alt";
-        pipe = true;
     }
 
     if ((vkm & vk_modifier::meta) == vk_modifier::meta)
     {
-        if (pipe)
-        {
-            out << "|";
-        }
-
+        output_pipe(out, pipe);
         out << "meta";
     }
 
@@ -99,65 +108,90 @@ static std::ostream &operator<<(std::ostream &out, vk const &key)
     return out;
 }
 
+static virtual_key const default_vk = {};
+
 // ==========================================================================
-// OPERATOR==
+// OUTPUT_COMMA
 // ==========================================================================
-bool operator==(virtual_key const &lhs, virtual_key const &rhs)
+static void output_comma(std::ostream &out, bool &comma)
 {
-    return lhs.key == rhs.key
-        && lhs.modifiers == rhs.modifiers
-        && lhs.repeat_count == rhs.repeat_count;
+    if (comma)
+    {
+        out << ", ";
+    }
+
+    comma = true;
 }
 
+// ==========================================================================
+// OUTPUT_VK
+// ==========================================================================
+static void output_vk(std::ostream &out, vk const &key, bool &comma)
+{
+    if (key != default_vk.key)
+    {
+        output_comma(out, comma);
+        out << "vk:" << key;
+    }
+}
+
+// ==========================================================================
+// OUTPUT_MODIFIERS
+// ==========================================================================
+static void output_modifiers(
+    std::ostream &out,
+    vk_modifier const &vkm,
+    bool &comma)
+{
+    if (vkm != default_vk.modifiers)
+    {
+        output_comma(out, comma);
+        out << vkm;
+    }
+}
+
+// ==========================================================================
+// OUTPUT_REPEAT_COUNT
+// ==========================================================================
+static void output_repeat_count(
+    std::ostream &out,
+    int repeat_count,
+    bool &comma)
+{
+    if (repeat_count != default_vk.repeat_count)
+    {
+        output_comma(out, comma);
+        out << "repeat:" << repeat_count;
+    }
+}
+
+// ==========================================================================
+// OUTPUT_INPUT_SEQUENCE
+// ==========================================================================
+static void output_input_sequence(
+    std::ostream &out,
+    virtual_key::input_sequence const &sequence,
+    bool &comma)
+{
+    if (sequence != default_vk.sequence)
+    {
+        output_comma(out, comma);
+        out << "seq:" << sequence;
+    }
+}
 
 // ==========================================================================
 // OPERATOR<<
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, virtual_key const &vk)
 {
-    static virtual_key const default_vk = {};
     bool comma = false;
 
     out << "virtual_key[";
-
-    if (vk.key != default_vk.key)
-    {
-        out << "vk:" << vk.key;
-        comma = true;
-    }
-
-    if (vk.modifiers != default_vk.modifiers)
-    {
-        if (comma)
-        {
-            out << ", ";
-        }
-
-        out << vk.modifiers;
-        comma = true;
-    }
-
-    if (vk.repeat_count != default_vk.repeat_count)
-    {
-        if (comma)
-        {
-            out << ", ";
-        }
-
-        out << "repeat:" << vk.repeat_count;
-        comma = true;
-    }
-
-    if (vk.sequence != default_vk.sequence)
-    {
-        if (comma)
-        {
-            out << ", ";
-        }
-
-        out << "seq:" << vk.sequence;
-    }
-
+    output_vk(out, vk.key, comma);
+    output_modifiers(out, vk.modifiers, comma);
+    output_repeat_count(out, vk.repeat_count, comma);
+    output_input_sequence(out, vk.sequence, comma);
     return out << "]";
 }
 

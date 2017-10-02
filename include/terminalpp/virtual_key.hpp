@@ -177,6 +177,8 @@ enum class vk_modifier : byte
 //* =========================================================================
 struct TERMINALPP_EXPORT virtual_key
 {
+    using input_sequence = boost::variant<char, ansi::control_sequence>;
+
     /// \brief The actual key we believe was pressed, selected from the
     /// list of VK constants.
     vk key = vk::nul;
@@ -189,7 +191,7 @@ struct TERMINALPP_EXPORT virtual_key
     int repeat_count = 0;
 
     /// \brief The actual received data for the key.
-    boost::variant<char, ansi::control_sequence> sequence;
+    input_sequence sequence;
 };
 
 //* =========================================================================
