@@ -3,14 +3,25 @@
 #include "terminalpp/ansi/control_sequence.hpp"
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/variant.hpp>
+#include <iosfwd>
 
 namespace terminalpp {
 
 enum class vk : byte
 {
+    nul               = terminalpp::detail::ascii::NUL,
+    soh               = terminalpp::detail::ascii::SOH,
+    stx               = terminalpp::detail::ascii::STX,
+    // ...
+    bel               = terminalpp::detail::ascii::BEL,
     bs                = terminalpp::detail::ascii::BS, // backspace
     ht                = terminalpp::detail::ascii::HT, // horizontal (forward) tabulation
-
+    lf                = terminalpp::detail::ascii::LF,
+    // ...
+    cr                = terminalpp::detail::ascii::CR,
+    // ...
+    esc               = terminalpp::detail::ascii::ESC,
+    // ...
     space             = terminalpp::detail::ascii::SPACE,
     exclamation_mark  = terminalpp::detail::ascii::EXCLAMATION_MARK,
     quotes            = terminalpp::detail::ascii::QUOTES,
@@ -118,6 +129,10 @@ enum class vk : byte
     tilde             = terminalpp::detail::ascii::TILDE,
     del               = terminalpp::detail::ascii::DEL,
 
+    // At this point, we have gone from values 0x00-0x7F.  That is, the 7-byte
+    // ASCII set.  Anything between these values is deliberately convertible to
+    // the char value.  Beyond this point, these are all abstract keys, and NOT
+    // actual character values.
     cursor_up,
     cursor_down,
     cursor_left,
@@ -162,19 +177,21 @@ enum class vk_modifier : byte
 //* =========================================================================
 struct TERMINALPP_EXPORT virtual_key
 {
+    using input_sequence = boost::variant<char, ansi::control_sequence>;
+
     /// \brief The actual key we believe was pressed, selected from the
     /// list of VK constants.
-    vk key;
+    vk key = vk::nul;
 
     /// \brief Any modifiers for the key, such as shift, ctrl, alt, meta,
     /// etc.
-    vk_modifier modifiers;
+    vk_modifier modifiers = vk_modifier::none;
 
     /// \brief The repeat count of the character.
-    int repeat_count;
+    int repeat_count = 0;
 
     /// \brief The actual received data for the key.
-    boost::variant<char, ansi::control_sequence> sequence;
+    input_sequence sequence;
 };
 
 //* =========================================================================
@@ -182,6 +199,12 @@ struct TERMINALPP_EXPORT virtual_key
 //* =========================================================================
 TERMINALPP_EXPORT
 bool operator==(virtual_key const &lhs, virtual_key const &rhs);
+
+//* =========================================================================
+/// \brief Streaming output operator
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 
 //* =========================================================================
 /// \brief Allow the or-ing of virtual key modifiers.

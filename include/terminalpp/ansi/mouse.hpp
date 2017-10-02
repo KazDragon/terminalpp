@@ -2,6 +2,7 @@
 
 #include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
+#include <iosfwd>
 
 //* =========================================================================
 /// \namespace terminalpp::ansi::mouse
@@ -18,7 +19,7 @@ static constexpr byte const MOUSE_VALUE_OFFSET
 //* =========================================================================
 /// \brief Structure that encapsulates a report about a mouse action.
 //* =========================================================================
-struct report
+struct TERMINALPP_EXPORT report
 {
     static constexpr byte const LEFT_BUTTON_DOWN   = byte(0);
     static constexpr byte const MIDDLE_BUTTON_DOWN = byte(1);
@@ -32,19 +33,19 @@ struct report
     /// \brief The mouse button state in this report.  E.g. LEFT_BUTTON_DOWN
     /// or SCROLLWHEEL_UP.
     //* =====================================================================
-    byte  button_;
+    byte  button_ = NO_BUTTON_CHANGE;
 
     //* =====================================================================
     /// \brief The horizontal position of the mouse in this report.  The
     /// leftmost column is given the value 0.
     //* =====================================================================
-    coordinate_type x_position_;
+    coordinate_type x_position_ = 0;
 
     //* =====================================================================
     /// \brief The vertical position of the mouse in this report.  The
     /// uppermost column is given the value 0.
     //* =====================================================================
-    coordinate_type y_position_;
+    coordinate_type y_position_ = 0;
 };
 
 //* =========================================================================
@@ -56,5 +57,11 @@ constexpr inline bool operator==(report const &lhs, report const &rhs)
         && lhs.x_position_ == rhs.x_position_
         && lhs.y_position_ == rhs.y_position_;
 }
+
+//* =========================================================================
+/// \brief Streaming output operator
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, report const &rep);
 
 }}}

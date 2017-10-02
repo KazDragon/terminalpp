@@ -61,6 +61,7 @@ set (TERMINALPP_VERSION 1.2.6)
 set(TERMINALPP_CORE_SOURCE_FILES
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
+    src/ansi/mouse.cpp
     src/attribute.cpp
     src/canvas.cpp
     src/canvas_view.cpp
@@ -253,9 +254,6 @@ if (GTEST_FOUND)
     enable_testing()
 
     add_executable(terminalpp_tester
-        test/io/ansi/control_sequence.cpp
-        test/io/ansi/mouse.cpp
-        test/io/virtual_key.cpp
         test/ansi_terminal_init_test.cpp
         test/ansi_terminal_cursor_test.cpp
         test/ansi_terminal_read_cursor_test.cpp
@@ -268,6 +266,7 @@ if (GTEST_FOUND)
         test/canvas_view_test.cpp
         test/character_set_test.cpp
         test/colour_test.cpp
+        test/control_sequence_test.cpp
         test/effect_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
@@ -276,6 +275,7 @@ if (GTEST_FOUND)
         test/extent_test.cpp
         test/glyph_test.cpp
         test/manip_test.cpp
+        test/mouse_test.cpp
         test/point_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
