@@ -247,7 +247,7 @@ install(
         "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
     DESTINATION
-        lib/terminalpp-${TERMINALPP_VERSION}/cmake
+        lib/terminalpp-${TERMINALPP_VERSION}
 )
 
 if (GTEST_FOUND)
