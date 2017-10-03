@@ -1,5 +1,6 @@
 #include "terminalpp/virtual_key.hpp"
 #include <gtest/gtest.h>
+#include <tuple>
 
 using testing::ValuesIn;
 
