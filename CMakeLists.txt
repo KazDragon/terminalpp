@@ -125,7 +125,7 @@ set_target_properties(terminalpp-core
 target_include_directories(terminalpp-core
     PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
+        $<INSTALL_INTERFACE:include/terminalpp-${TERMINALPP_VERSION}>
         "${Boost_INCLUDE_DIRS}"
 )
 
@@ -220,14 +220,6 @@ install(
         include/terminalpp-${TERMINALPP_VERSION}
 )
 
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
-    VERSION
-        "${TERMINALPP_VERSION}"
-    COMPATIBILITY AnyNewerVersion
-)
-
 export(
     EXPORT
         terminalpp-config
@@ -242,9 +234,16 @@ install(
         lib/terminalpp-${TERMINALPP_VERSION}
 )
 
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
+    VERSION
+        "${TERMINALPP_VERSION}"
+    COMPATIBILITY AnyNewerVersion
+)
+
 install(
     FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
     DESTINATION
         lib/terminalpp-${TERMINALPP_VERSION}
