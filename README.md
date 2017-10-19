@@ -97,7 +97,7 @@ int main()
     using namespace terminalpp
     terminalpp::terminal terminal;
 
-    std::cout << terminal.save_cursor();
+    std::cout << terminal.save_cursor()
               << terminal.move_cursor({0,23})
               << terminal.write("\\U263A"_ets)
               << terminal.restore_cursor()
@@ -119,14 +119,13 @@ int main()
     
     // Set the entire canvas to be the letter 'x' on a shocking pink
     // background.  Because, why not?
-    for (terminalpp::s32 y = 0; y < canvas.size().height; ++y)
-    {
-        for (terminalpp::s32 x = 0; x < canvas.size().width; ++x)
-        {
-            terminalpp::element element('x');
-            element.attribute_.background_colour_ =
-                terminalpp::high_colour(5, 1, 2);
+    terminalpp::element element('x');
+    element.attribute_.background_colour_ = terminalpp::high_colour(5, 1, 2);
                 
+    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
+    {
+        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
+        {
             canvas[x][y] = element;
         }
     }
@@ -140,7 +139,7 @@ To control this, we present the terminalpp::screen class, which represents a dou
 ```
 int main()
 {
-    terminalpp::terminal terminal;
+    terminalpp::ansi_terminal terminal;
     terminalpp::screen screen;
     terminalpp::canvas canvas({80, 24});
     
