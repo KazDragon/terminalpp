@@ -3,6 +3,7 @@
 #include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/optional.hpp>
+#include <string>
 
 namespace terminalpp { namespace ansi {
 
