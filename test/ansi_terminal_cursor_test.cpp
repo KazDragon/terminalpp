@@ -13,6 +13,25 @@ TEST(a_ansi_terminal_with_an_unknown_location, sends_absolute_coordinates_when_m
         terminal.move_cursor({2, 2}));
 }
 
+TEST(a_ansi_terminal_with_an_unknown_location, omits_coordinates_when_moving_to_top_left)
+{
+    terminalpp::ansi_terminal terminal;
+
+    expect_sequence(
+        std::string("\x1B[H"),
+        terminal.move_cursor({0, 0}));
+}
+
+TEST(a_ansi_terminal_with_a_known_location, omits_coordinates_when_moving_to_top_left)
+{
+    terminalpp::ansi_terminal terminal;
+    terminal.move_cursor({10, 10});
+
+    expect_sequence(
+        std::string("\x1B[H"),
+        terminal.move_cursor({0, 0}));
+}
+
 TEST(a_ansi_terminal_with_a_known_location, sends_nothing_when_moving_to_the_same_coordinates)
 {
     terminalpp::ansi_terminal terminal;
