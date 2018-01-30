@@ -86,19 +86,19 @@ matrix:
     env:
       - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=1"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-4.0
-          - libgtest-dev
-          - libboost1.55-all-dev
-    env:
-      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0 && SANITIZE=address"
+#  - os: linux
+#    dist: trusty
+#    addons:
+#      apt:
+#        sources:
+#          - ubuntu-toolchain-r-test
+#          - llvm-toolchain-trusty-4.0
+#        packages:
+#          - clang-4.0
+#          - libgtest-dev
+#          - libboost1.55-all-dev
+#    env:
+#      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0 && SANITIZE=address"
 
   - os: linux
     dist: trusty
