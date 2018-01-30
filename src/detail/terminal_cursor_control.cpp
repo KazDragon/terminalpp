@@ -125,11 +125,14 @@ std::string cursor_position(
     terminalpp::behaviour const &behaviour,
     control_mode          const &mode)
 {
-    return csi(mode)
-         + std::to_string(pt.y)
-         + terminalpp::ansi::PS
-         + std::to_string(pt.x)
-         + terminalpp::ansi::csi::CURSOR_POSITION;
+    auto result = csi(mode);
+    if (pt.x != 1 || pt.y != 1)
+    {
+        result += std::to_string(pt.y)
+          + terminalpp::ansi::PS
+          + std::to_string(pt.x);
+    }
+    return result + terminalpp::ansi::csi::CURSOR_POSITION;
 }
 
 }}
