@@ -18,7 +18,7 @@ string::string(std::initializer_list<element> const &ilist)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const char* text)
+string::string(char const* text)
   : string(text, strlen(text))
 {
 }
@@ -26,7 +26,7 @@ string::string(const char* text)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const char* text, std::size_t len)
+string::string(char const* text, std::size_t len)
   : elements_(text, text + len)
 {
 }
@@ -34,7 +34,7 @@ string::string(const char* text, std::size_t len)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(const std::string& text)
+string::string(std::string const &text)
   : string(text.c_str(), text.size())
 {
 }
@@ -50,6 +50,14 @@ string::string(std::string const &text, terminalpp::attribute const &attr)
     {
         elem.attribute_ = attr;
     });
+}
+
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+string::string(std::size_t size, terminalpp::element const &elem)
+  : elements_(size, elem)
+{
 }
 
 // ==========================================================================
