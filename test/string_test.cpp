@@ -70,6 +70,30 @@ TEST(string_test, converting_tstring_with_unicode_values_yields_plain_string_wit
     ASSERT_EQ(expected, str);
 }
 
+TEST(string_test, constructing_a_string_of_no_elements_constructs_an_empty_string)
+{
+    static auto const space = terminalpp::element(' ');
+    ASSERT_EQ(terminalpp::string(0, space), terminalpp::string());
+}
+
+TEST(string_test, constructing_a_string_with_a_size_and_an_element_constructs_a_string_of_that_many_elements)
+{
+    static auto const elem = terminalpp::element('?');
+    static auto const size = std::size_t(36);
+    static auto const expected = [&]()
+    {
+        terminalpp::string result;
+        for (std::size_t index = 0; index < size; ++index)
+        {
+            result += elem;
+        }
+
+        return result;
+    }();
+
+    ASSERT_EQ(terminalpp::string(size, elem), expected);
+}
+
 using string_string = std::tuple<
     terminalpp::string,
     std::string

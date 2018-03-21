@@ -83,6 +83,13 @@ public :
     string(std::string const &text, terminalpp::attribute const &attr);
 
     //* =====================================================================
+    /// \brief Construct a string of a number of identical elements.
+    /// \param size the size of the string to construct.
+    /// \param elem a prototype element to fill the string with
+    //* =====================================================================
+    string(std::size_t size, terminalpp::element const &elem);
+
+    //* =====================================================================
     /// \brief Returns the number of elements in the string.
     //* =====================================================================
     std::size_t size() const;
