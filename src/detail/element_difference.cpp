@@ -3,7 +3,6 @@
 #include "terminalpp/behaviour.hpp"
 #include "terminalpp/element.hpp"
 #include "terminalpp/ansi/protocol.hpp"
-#include <boost/format.hpp>
 
 // TODO: In some cases, switching from one character set to the other
 // wont make any difference, so we can "carry" the charset for as long as
@@ -75,7 +74,7 @@ static void append_graphics_change(
         change += terminalpp::ansi::PS;
     }
 
-    change += boost::str(boost::format("%d") % int(dest.value_));
+    change += std::to_string(int(dest.value_));
 }
 
 // ==========================================================================
@@ -86,7 +85,7 @@ static std::string low_foreground_colour_code(terminalpp::low_colour const &col)
     int value = int(col.value_)
               + terminalpp::ansi::graphics::FOREGROUND_COLOUR_BASE;
 
-    return boost::str(boost::format("%d") % value);
+    return std::to_string(value);
 }
 
 // ==========================================================================
@@ -94,7 +93,7 @@ static std::string low_foreground_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 static std::string high_foreground_colour_code(terminalpp::high_colour const &col)
 {
-    return boost::str(boost::format("38;5;%d") % int(col.value_));
+    return "38;5;" + std::to_string(int(col.value_));
 }
 
 // ==========================================================================
@@ -103,7 +102,7 @@ static std::string high_foreground_colour_code(terminalpp::high_colour const &co
 static std::string greyscale_foreground_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    return boost::str(boost::format("38;5;%d") % int(col.shade_));
+    return "38;5;" + std::to_string(int(col.shade_));
 }
 
 // ==========================================================================
@@ -158,7 +157,7 @@ static std::string low_background_colour_code(terminalpp::low_colour const &col)
     int value = int(col.value_)
     + terminalpp::ansi::graphics::BACKGROUND_COLOUR_BASE;
 
-    return boost::str(boost::format("%d") % value);
+    return std::to_string(value);
 }
 
 // ==========================================================================
@@ -166,7 +165,7 @@ static std::string low_background_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 static std::string high_background_colour_code(terminalpp::high_colour const &col)
 {
-    return boost::str(boost::format("48;5;%d") % int(col.value_));
+    return "48;5;" + std::to_string(int(col.value_));
 }
 
 // ==========================================================================
@@ -175,7 +174,7 @@ static std::string high_background_colour_code(terminalpp::high_colour const &co
 static std::string greyscale_background_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    return boost::str(boost::format("48;5;%d") % int(col.shade_));
+    return "48;5;" + std::to_string(int(col.shade_));
 }
 
 // ==========================================================================
@@ -227,11 +226,9 @@ static void append_background_colour(
 // ==========================================================================
 static std::string default_attribute()
 {
-    return boost::str(
-        boost::format("%s%d%c")
-      % terminalpp::ansi::control7::CSI
-      % int(terminalpp::ansi::graphics::NO_ATTRIBUTES)
-      % terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
+    return terminalpp::ansi::control7::CSI
+         + std::to_string(int(terminalpp::ansi::graphics::NO_ATTRIBUTES))
+         + terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION;
 }
 
 // ==========================================================================

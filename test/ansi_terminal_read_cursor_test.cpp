@@ -611,13 +611,25 @@ TEST(terminal_read_cursor_test, cr_then_nul_yields_enter_only)
         '\n'
     };
 
-    auto actual_after_cr = terminal.read("\r");
+    std::vector<terminalpp::token> actual_after_cr;
+    terminal.read(
+        "\r",
+        [&](auto const &tokens)
+        {
+            actual_after_cr.assign(tokens.begin(), tokens.end());
+        });
     ASSERT_EQ(size_t{1}, actual_after_cr.size());
     ASSERT_EQ(
         expected_after_cr,
         boost::get<terminalpp::virtual_key>(actual_after_cr[0]));
 
-    auto actual_after_nul = terminal.read(std::string("\0", 1));
+    std::vector<terminalpp::token> actual_after_nul;
+    terminal.read(
+        std::string("\0", 1),
+        [&](auto const &tokens)
+        {
+            actual_after_nul.assign(tokens.begin(), tokens.end());
+        });
     ASSERT_TRUE(actual_after_nul.empty());
 }
 
