@@ -156,4 +156,14 @@ void canvas_view::set_element(
     canvas_[column + offset_.width][row + offset_.height] = value;
 }
 
+// ==========================================================================
+// OPERATOR<<(row_proxy)
+// ==========================================================================
+std::ostream &operator<<(
+    std::ostream &out, 
+    canvas_view::row_proxy const &row)
+{
+    return out << terminalpp::element(row);
+}
+
 }

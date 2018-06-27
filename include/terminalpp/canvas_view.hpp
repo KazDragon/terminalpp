@@ -2,6 +2,7 @@
 
 #include "terminalpp/element.hpp"
 #include "terminalpp/extent.hpp"
+#include <iosfwd>
 
 namespace terminalpp {
 
@@ -141,5 +142,8 @@ private :
     canvas &canvas_;
     extent  offset_;
 };
+
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, canvas_view::row_proxy const &row);
 
 }
