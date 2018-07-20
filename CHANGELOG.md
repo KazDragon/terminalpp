@@ -14,6 +14,5 @@
 
 3. [x] Utilities for managing screens of attributed characters
   * [x] terminalpp::canvas
-  * [x] terminalpp::canvas_view
   * [x] terminalpp::screen
   * This will be useful for those who wish to develop a more graphical or "curses-style" user interface.

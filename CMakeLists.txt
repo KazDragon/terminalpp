@@ -64,7 +64,6 @@ set(TERMINALPP_CORE_SOURCE_FILES
     src/ansi/mouse.cpp
     src/attribute.cpp
     src/canvas.cpp
-    src/canvas_view.cpp
     src/character_set.cpp
     src/colour.cpp
     src/encoder.cpp
@@ -93,7 +92,6 @@ set(TERMINALPP_CORE_INCLUDE_FILES
     include/terminalpp/behaviour.hpp
     include/terminalpp/colour.hpp
     include/terminalpp/canvas.hpp
-    include/terminalpp/canvas_view.hpp
     include/terminalpp/character_set.hpp
     include/terminalpp/core.hpp
     include/terminalpp/effect.hpp
@@ -262,7 +260,6 @@ if (GTEST_FOUND)
         test/ansi_terminal_string_test.cpp
         test/attribute_test.cpp
         test/canvas_test.cpp
-        test/canvas_view_test.cpp
         test/character_set_test.cpp
         test/colour_test.cpp
         test/control_sequence_test.cpp

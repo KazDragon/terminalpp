@@ -31,7 +31,6 @@ Terminal++ requires a C++14 library and the Boost Libraries.  It also uses CppUn
 
 3. [x] Utilities for managing screens of attributed characters
   * [x] terminalpp::canvas
-  * [x] terminalpp::canvas_view
   * [x] terminalpp::screen
   * This will be useful for those who wish to develop a more graphical or "curses-style" user interface.
 
@@ -63,7 +62,7 @@ terminalpp::elements can be collected together using the terminalpp::string clas
 int main()
 {
     using namespace terminalpp::literals;
-    terminalpp::string text = "Hello, world!\n"_ts; 
+    terminalpp::string text = "Hello, world!\n"_ts;
     std::cout << text;
 }
 
@@ -106,7 +105,7 @@ int main()
 
 This writes a smiley face in the (0, 24) position on the terminal -- usually the bottom-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.
 
-Note that it is necessary to output the results of the terminal operations.  This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is.  It could be standard out, it could be some named pipe, or it could be a network socket.  This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions. 
+Note that it is necessary to output the results of the terminal operations.  This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is.  It could be standard out, it could be some named pipe, or it could be a network socket.  This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions.
 
 # Canvas and Screen
 
@@ -116,12 +115,12 @@ For even finer control of the terminal, the terminalpp::canvas class presents a 
 int main()
 {
     terminalpp::canvas canvas({80, 24});
-    
+
     // Set the entire canvas to be the letter 'x' on a shocking pink
     // background.  Because, why not?
     terminalpp::element element('x');
     element.attribute_.background_colour_ = terminalpp::high_colour(5, 1, 2);
-                
+
     for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
     {
         for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
@@ -142,15 +141,15 @@ int main()
     terminalpp::ansi_terminal terminal;
     terminalpp::screen screen;
     terminalpp::canvas canvas({80, 24});
-    
+
     // ... Shocking pink screen as before ...
     std::cout << screen.draw(terminal, canvas);
     // screen is now actually shocking pink.
-    
+
     canvas[10][15].glyph_ = 'y';
-    canvas[10][15].attribute_.background_colour_ = 
+    canvas[10][15].attribute_.background_colour_ =
         terminalpp::ansi::graphics::colour::blue;
-        
+
     std::cout << screen.draw(terminal, canvas);
     // screen is still shocking pink, but there is now a letter 'y' with a
     // blue background at position (10, 15).
