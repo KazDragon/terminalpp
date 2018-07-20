@@ -4,8 +4,9 @@
 #include "terminalpp/point.hpp"
 #include "terminalpp/string.hpp"
 #include "terminalpp/token.hpp"
+#include "nonstd/span.hpp"
+#include <functional>
 #include <string>
-#include <vector>
 
 namespace terminalpp {
 
@@ -104,9 +105,12 @@ public :
     virtual std::string move_cursor(point const &pt) = 0;
 
     //* =====================================================================
-    /// \brief Reads a stream of data.
+    /// \brief Reads a stream of data, passing the result of parsing the
+    /// data to the continuation function specified.
     //* =====================================================================
-    virtual std::vector<token> read(std::string const &data) = 0;
+    virtual void read(
+        std::string const &data,
+        std::function<void (nonstd::span<token> const &)> const &cont) = 0;
 
     //* =====================================================================
     /// \brief Writes the specified element.

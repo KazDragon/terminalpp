@@ -68,7 +68,13 @@ void expect_tokens(
 {
     terminalpp::ansi_terminal terminal;
 
-    auto result = terminal.read(input);
+    std::vector<terminalpp::token> result;
+    terminal.read(
+        input, 
+        [&](auto const &tokens) 
+        { 
+            result.assign(tokens.begin(), tokens.end()); 
+        });
 
     ASSERT_EQ(expected_tokens.size(), result.size());
 
@@ -90,7 +96,13 @@ template <class Expected> void expect_token(
 {
     terminalpp::ansi_terminal terminal;
 
-    auto result = terminal.read(input);
+    std::vector<terminalpp::token> result;
+    terminal.read(
+        input,
+        [&](auto const &tokens)
+        {
+            result.assign(tokens.begin(), tokens.end());
+        });
 
     ASSERT_EQ(false, result.empty());
 

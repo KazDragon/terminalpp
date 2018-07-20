@@ -79,9 +79,12 @@ public :
     std::string move_cursor(point const &pt) override;
 
     //* =====================================================================
-    /// \brief Reads a stream of data.
+    /// \brief Reads a stream of data, passing the result of parsing the
+    /// data to the continuation function specified.
     //* =====================================================================
-    std::vector<token> read(std::string const &data) override;
+    void read(
+        std::string const &data,
+        std::function<void (nonstd::span<token> const &)> const &cont) override;
 
     //* =====================================================================
     /// \brief Writes the specified element.

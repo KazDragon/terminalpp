@@ -90,7 +90,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
-            std::vector<std::string>{ {"arg0"} }
+            { {"arg0"} }
         },
         "control_sequence[args:\"arg0\"]"
     },
@@ -101,7 +101,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
-            std::vector<std::string>{ "arg0", "arg1" }
+            { "arg0", "arg1" }
         },
         "control_sequence[args:\"arg0;arg1\"]"
     },
@@ -110,7 +110,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
-            std::vector<std::string>{ "arg0", "arg1", "arg2" }
+            { "arg0", "arg1", "arg2" }
         },
         "control_sequence[args:\"arg0;arg1;arg2\"]"
     },

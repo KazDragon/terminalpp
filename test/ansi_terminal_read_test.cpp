@@ -112,8 +112,15 @@ TEST(terminal_read_test, read_partial_command_then_read_remainder_yields_command
         }
     };
 
-    terminal.read(input0);
-    auto result = terminal.read(input1);
+    terminal.read(input0, [](auto){});
+
+    std::vector<terminalpp::token> result;
+    terminal.read(
+        input1,
+        [&](auto const &tokens)
+        {
+            result.assign(tokens.begin(), tokens.end());
+        });
 
     ASSERT_EQ(expected.size(), result.size());
     ASSERT_EQ(

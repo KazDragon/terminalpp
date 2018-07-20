@@ -6,6 +6,7 @@
 #include "terminalpp/detail/parser.hpp"
 #include "terminalpp/detail/well_known_virtual_key.hpp"
 #include <cassert>
+#include <vector>
 
 namespace terminalpp {
 
@@ -44,12 +45,14 @@ std::string write_element(const element& elem)
 // ==========================================================================
 // REPLACE_WELL_KNOWN_VIRTUAL_KEYS
 // ==========================================================================
-std::vector<token> replace_well_known_virtual_keys(std::vector<token> tokens)
+void replace_well_known_virtual_keys(
+    nonstd::span<token> tokens,
+    std::function<void (nonstd::span<token> const &)> const &cont)
 {
     std::transform(tokens.begin(), tokens.end(), tokens.begin(),
         detail::get_well_known_virtual_key);
 
-    return tokens;
+    cont(tokens);
 }
 
 }
@@ -317,24 +320,26 @@ std::string ansi_terminal::move_cursor(point const &pos)
 // ==========================================================================
 // READ
 // ==========================================================================
-std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)
+void ansi_terminal::read(
+    std::string const &data,
+    std::function<void (nonstd::span<token> const &)> const &cont)
 {
     std::vector<terminalpp::token> results;
 
     std::for_each(data.begin(), data.end(),
-    [&](auto ch)
-    {
-        auto result = parser_(ch);
-
-        if (result)
+        [&](auto ch)
         {
-            results.push_back(*result);
-        }
-    });
+            auto result = parser_(ch);
+
+            if (result)
+            {
+                results.push_back(*result);
+            }
+        });
 
     // Some postprocessing for well-known control sequence->
     // virtual key mappings.
-    return replace_well_known_virtual_keys(results);
+    replace_well_known_virtual_keys(results, cont);
 }
 
 // ==========================================================================
