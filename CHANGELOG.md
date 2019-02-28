@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.3 - Migrated to Conan
+1. [x] Now uses the Conan package manager for managing its dependencies.
+
 ## Version 1.2 - Untitled Feature Release
 1. [x] Migrated from CppUnit to GTest
 2. [x] Pre-computed values of high_colour and greyscale_colour, which reduced the size of terminalpp::element from 16B to 12B.

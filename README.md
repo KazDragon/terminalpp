@@ -7,18 +7,17 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2741e8f7abf49bc8b496fbf8b51b983)](https://www.codacy.com/app/KazDragon/terminalpp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KazDragon/terminalpp&amp;utm_campaign=Badge_Grade)
 
 [![Github Issues](https://img.shields.io/github/issues/KazDragon/terminalpp.svg)](https://github.com/KazDragon/terminalpp/issues)
-[![Stories in Ready](https://badge.waffle.io/KazDragon/terminalpp.png?label=ready&title=Stories%20In%20Ready)](https://waffle.io/KazDragon/terminalpp)
-[![Stories in Progress](https://badge.waffle.io/KazDragon/terminalpp.png?label=in%20progress&title=Stories%20In%20Progress)](https://waffle.io/KazDragon/terminalpp)
 
 [![Gitter](https://badges.gitter.im/KazDragon/terminalpp.svg)](https://gitter.im/KazDragon/terminalpp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![This is a forkable respository](https://img.shields.io/badge/forkable-yes-brightgreen.svg)](https://basicallydan.github.io/forkability/?u=KazDragon&r=terminalpp)
 
 # Terminal++
 A C++ library for interacting with ANSI/VT100 terminal or terminal emulator displays.
 
 # Requirements
 
-Terminal++ requires a C++14 library and the Boost Libraries.  It also uses CppUnit for its testing suite, which is compiled optionally.
+Terminal++ requires a C++14 library and the Boost Libraries.  It also uses Google Test for its testing suite, which is compiled optionally.
+
+The library uses the Conan package manager to manage its dependencies.
 
 # Features / Roadmap
 

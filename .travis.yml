@@ -4,148 +4,76 @@ sudo: false
 compiler:
   - clang
 
+linux_gcc: &linux_gcc
+  os: linux
+  dist: xenial
+  compiler: gcc
+  addons:
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - g++-5
+
+linux_clang: &linux_clang
+  os: linux
+  dist: xenial
+  compiler: clang
+  addons:
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-trusty-4.0
+      packages:
+        - clang-4.0
+
 matrix:
   include:
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-5
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0 && COVERAGE=ON"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-5
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_gcc
     env:
       - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=1"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-5
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_gcc
     env:
       - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=0"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-5
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_gcc
     env:
       - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=1"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-4.0
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0 && SANITIZE=address"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-4.0
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=1"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0 && COVERAGE=ON"
 
-#  - os: linux
-#    dist: trusty
-#    addons:
-#      apt:
-#        sources:
-#          - ubuntu-toolchain-r-test
-#          - llvm-toolchain-trusty-4.0
-#        packages:
-#          - clang-4.0
-#          - libgtest-dev
-#          - libboost1.55-all-dev
-#    env:
-#      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0 && SANITIZE=address"
-
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-4.0
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_clang
     env:
-      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0 && SANITIZE=undefined"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-4.0
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_clang
     env:
-      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0 && SANITIZE=thread"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=1"
 
-  - os: linux
-    dist: trusty
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-trusty-4.0
-        packages:
-          - clang-4.0
-          - libgtest-dev
-          - libboost1.55-all-dev
+  - <<: *linux_clang
     env:
-      - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=0"
+
+  - <<: *linux_clang
+    env:
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=1"
+
 cache:
   - apt: true
   - directories:
     - lcov
-    - gtest
+    - .conan
 
 before_install:
 # Set up CC/CXX variables
@@ -159,20 +87,18 @@ before_install:
       DESTDIR=$HOME/lcov make -C lcov-1.13/ install;
     fi
   - export LCOV=$HOME/lcov/usr/local/bin/lcov
-# workaround for gtest not providing its own libraries (sigh)
-  - if [ ! -d "gtest/libgtest.a" ]; then
-      cd gtest;
-      CC=$CCOMPILE CXX=$CXXCOMPILE $CMAKE /usr/src/gtest -DCMAKE_CXX_FLAGS="-fPIC" && make;
-      cd ..;
-    fi
-  - export GTEST_ROOT=$PWD/gtest
+# install conan for package dependencies
+  - pip install --user conan
 # install coverage software
   - if [ "$COVERAGE" == "ON" ]; then gem install coveralls-lcov; fi
 
 before_script:
   - mkdir build || true
   - cd build
-  - $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE ..
+  - conan remote add nonstd-lite https://api.bintray.com/conan/agauniyal/nonstd-lite
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 -o terminalpp:withTests=True --build=missing
+  - $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_WITH_TESTS=True -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE ..
 
 script:
   - make -j2
