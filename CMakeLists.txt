@@ -1,6 +1,6 @@
 if (POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
-    project(TERMINALPP VERSION 1.2.7)
+    project(TERMINALPP VERSION 1.3.0)
 else()
     project(TERMINALPP)
 endif()
@@ -12,72 +12,59 @@ if (POLICY CMP0063)
     cmake_policy(SET CMP0063 OLD) # Do not allow hidden visibility for static libs
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules")
-set(CMAKE_DEBUG_POSTFIX d)
+# Include the Conan recipe in order to get our dependencies
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
 
-# Boost is required as we used Boost.Variant, Boost.Optional, and
-# Boost.Format.  All of these are header-only libraries, so no subcomponents
-# are required.
-include(FindBoost)
-find_package(Boost 1.29.0 REQUIRED)
+# The required C++ Standard for Terminal++ is C++14.
+set(CMAKE_CXX_STANDARD 14)
 
 # When building shared objects, etc., we only want to export certain
 # symbols.  Therefore, we need to generate a header suitable for declaring
 # which symbols should be included.
 include (GenerateExportHeader)
 
-# Due to the strange requirements for Google Test, it is assumed to have been
-# built in the "gtest" directory.  For this, it is required to run the moral
-# equivalent of the following script before building Terminal++:
-#
-#  mkdir gtest
-#  cd gtest
-#  cmake /usr/src/gtest && make
-#  export GTEST_ROOT=$PWD
-#  cd ..
-find_package(GTest)
-
 # For producing automatically-generated documentation, we use Doxygen.
 find_package(Doxygen)
 
-if (GTEST_FOUND)
-    # For GTest, it is necessary to link with the appropriate local threading
-    # library.
-    find_package(Threads)
-endif()
-
 if (TERMINALPP_SANITIZE)
-    list(APPEND CMAKE_CXX_FLAGS "-fsanitize=${TERMINALPP_SANITIZE}")
-    list(APPEND CMAKE_EXE_LINKER_FLAGS "-fsanitize=${TERMINALPP_SANITIZE}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${TERMINALPP_SANITIZE}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=${TERMINALPP_SANITIZE}")
 endif()
 
 if (TERMINALPP_COVERAGE)
-    list(APPEND CMAKE_CXX_FLAGS "--coverage -g -O0")
-    list(APPEND CMAKE_EXE_LINKER_FLAGS "--coverage")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif()
 
-set (TERMINALPP_VERSION 1.2.7)
-
-set(TERMINALPP_CORE_SOURCE_FILES
+set(TERMINALPP_SOURCE_FILES
     src/ansi/charset.cpp
     src/ansi/control_sequence.cpp
     src/ansi/mouse.cpp
+    src/ansi_terminal.cpp
     src/attribute.cpp
     src/canvas.cpp
     src/character_set.cpp
     src/colour.cpp
+    src/detail/terminal_charset_control.cpp
+    src/detail/terminal_control.cpp
+    src/detail/terminal_cursor_control.cpp
+    src/detail/element_difference.cpp
+    src/detail/parser.cpp
+    src/detail/well_known_virtual_key.cpp
     src/encoder.cpp
     src/glyph.cpp
     src/effect.cpp
     src/element.cpp
     src/extent.cpp
+    src/manip/terminal_streamer.cpp
     src/point.cpp
     src/screen.cpp
     src/string.cpp
     src/virtual_key.cpp
 )
 
-set(TERMINALPP_CORE_INCLUDE_FILES
+set(TERMINALPP_INCLUDE_FILES
     include/terminalpp/ansi/charset.hpp
     include/terminalpp/ansi/control_characters.hpp
     include/terminalpp/ansi/control_sequence.hpp
@@ -88,63 +75,13 @@ set(TERMINALPP_CORE_INCLUDE_FILES
     include/terminalpp/ansi/osc.hpp
     include/terminalpp/ansi/protocol.hpp
     include/terminalpp/ansi/ss3.hpp
+    include/terminalpp/ansi_terminal.hpp
     include/terminalpp/attribute.hpp
     include/terminalpp/behaviour.hpp
     include/terminalpp/colour.hpp
     include/terminalpp/canvas.hpp
     include/terminalpp/character_set.hpp
     include/terminalpp/core.hpp
-    include/terminalpp/effect.hpp
-    include/terminalpp/element.hpp
-    include/terminalpp/encoder.hpp
-    include/terminalpp/extent.hpp
-    include/terminalpp/glyph.hpp
-    include/terminalpp/point.hpp
-    include/terminalpp/screen.hpp
-    include/terminalpp/string.hpp
-    include/terminalpp/terminal.hpp
-    include/terminalpp/terminalpp.hpp
-    include/terminalpp/token.hpp
-    include/terminalpp/virtual_key.hpp
-)
-
-add_library(terminalpp-core
-    ${TERMINALPP_CORE_SOURCE_FILES}
-    ${TERMINALPP_CORE_INCLUDE_FILES}
-)
-
-set_target_properties(terminalpp-core
-    PROPERTIES
-        CXX_VISIBILITY_PRESET hidden
-        VERSION ${TERMINALPP_VERSION}
-        SOVERSION ${TERMINALPP_VERSION}
-)
-
-target_include_directories(terminalpp-core
-    PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include/terminalpp-${TERMINALPP_VERSION}>
-        "${Boost_INCLUDE_DIRS}"
-)
-
-target_compile_features(terminalpp-core
-    PUBLIC
-        cxx_strong_enums
-        cxx_relaxed_constexpr
-)
-
-set(TERMINALPP_SOURCE_FILES
-    src/detail/terminal_charset_control.cpp
-    src/detail/terminal_control.cpp
-    src/detail/terminal_cursor_control.cpp
-    src/detail/element_difference.cpp
-    src/detail/parser.cpp
-    src/detail/well_known_virtual_key.cpp
-    src/ansi_terminal.cpp
-    src/manip/terminal_streamer.cpp
-)
-
-set(TERMINALPP_INCLUDE_FILES
     include/terminalpp/detail/ascii.hpp
     include/terminalpp/detail/element_difference.hpp
     include/terminalpp/detail/export.hpp
@@ -154,8 +91,11 @@ set(TERMINALPP_INCLUDE_FILES
     include/terminalpp/detail/terminal_control.hpp
     include/terminalpp/detail/terminal_cursor_control.hpp
     include/terminalpp/detail/well_known_virtual_key.hpp
-    include/terminalpp/ansi_terminal.hpp
-    include/terminalpp/terminal_manip.hpp
+    include/terminalpp/effect.hpp
+    include/terminalpp/element.hpp
+    include/terminalpp/encoder.hpp
+    include/terminalpp/extent.hpp
+    include/terminalpp/glyph.hpp
     include/terminalpp/manip/disable_mouse.hpp
     include/terminalpp/manip/enable_mouse.hpp
     include/terminalpp/manip/erase_in_display.hpp
@@ -170,12 +110,25 @@ set(TERMINALPP_INCLUDE_FILES
     include/terminalpp/manip/use_alternate_screen_buffer.hpp
     include/terminalpp/manip/use_normal_screen_buffer.hpp
     include/terminalpp/manip/write_string.hpp
+    include/terminalpp/point.hpp
+    include/terminalpp/screen.hpp
+    include/terminalpp/string.hpp
+    include/terminalpp/terminal.hpp
+    include/terminalpp/terminal_manip.hpp
+    include/terminalpp/terminalpp.hpp
+    include/terminalpp/token.hpp
+    include/terminalpp/virtual_key.hpp
 )
 
 add_library(terminalpp
     ${TERMINALPP_SOURCE_FILES}
     ${TERMINALPP_INCLUDE_FILES}
 )
+
+target_include_directories(terminalpp
+    PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include/terminalpp-${TERMINALPP_VERSION}>)
 
 set_target_properties(terminalpp
     PROPERTIES
@@ -186,7 +139,9 @@ set_target_properties(terminalpp
 
 target_link_libraries(terminalpp
     PUBLIC
-        terminalpp-core
+        CONAN_PKG::boost_format
+        CONAN_PKG::boost_optional
+        CONAN_PKG::boost_variant
 )
 
 generate_export_header(terminalpp
@@ -197,11 +152,11 @@ generate_export_header(terminalpp
 configure_file(
     ${PROJECT_SOURCE_DIR}/include/terminalpp/version.hpp.in
     ${PROJECT_SOURCE_DIR}/include/terminalpp/version.hpp
+    @ONLY
 )
 
 install(
     TARGETS
-        terminalpp-core
         terminalpp
     EXPORT
         terminalpp-config
@@ -247,7 +202,7 @@ install(
         lib/terminalpp-${TERMINALPP_VERSION}
 )
 
-if (GTEST_FOUND)
+if (TERMINALPP_WITH_TESTS)
     enable_testing()
 
     add_executable(terminalpp_tester
@@ -285,9 +240,7 @@ if (GTEST_FOUND)
 
     target_link_libraries(terminalpp_tester
         terminalpp
-        ${GTEST_LIBRARY}
-        ${GTEST_MAIN_LIBRARY}
-        ${CMAKE_THREAD_LIBS_INIT}
+        CONAN_PKG::gtest
     )
 
     add_test(terminalpp_test terminalpp_tester)
