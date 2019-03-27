@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class TerminalppConan(ConanFile):
     name = "terminalpp"
-    version = "2.0.0"
+    version = "1.3.0"
     license = "MIT"
     author = "KazDragon"
     url = "https://github.com/KazDragon/terminalpp"
