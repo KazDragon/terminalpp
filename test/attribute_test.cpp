@@ -29,7 +29,7 @@ TEST_P(attributes_with_strings, can_be_streamed_to_an_ostream)
 
 static attribute_string const attribute_strings[] = {
     // All defaults
-    attribute_string { {},  "" },
+    attribute_string {},
 
     // One non-default value
     attribute_string {
