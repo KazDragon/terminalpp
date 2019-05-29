@@ -10,7 +10,7 @@ class TerminalppConan(ConanFile):
     description = "A C++ library for interacting with ANSI terminal windows"
     topics = ("terminal-emulators", "ansi-escape-codes")
     settings = "os", "compiler", "build_type", "arch"
-    exports = "*"
+    exports = "*.hpp", "*.in", "*.cpp", "CMakeLists.txt", "*.md", "LICENSE"
     options = {"shared": [True, False], "withTests": [True, False]}
     default_options = {"shared": False, "withTests": False}
     requires = ("boost_format/[>=1.69]@bincrafters/stable",
