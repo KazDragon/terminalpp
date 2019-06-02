@@ -139,9 +139,10 @@ set_target_properties(terminalpp
 
 target_link_libraries(terminalpp
     PUBLIC
-        CONAN_PKG::boost_format
         CONAN_PKG::boost_optional
         CONAN_PKG::boost_variant
+    PRIVATE
+        CONAN_PKG::fmt
 )
 
 generate_export_header(terminalpp
@@ -241,6 +242,7 @@ if (TERMINALPP_WITH_TESTS)
     target_link_libraries(terminalpp_tester
         terminalpp
         CONAN_PKG::gtest
+        CONAN_PKG::fmt
     )
 
     add_test(terminalpp_test terminalpp_tester)
