@@ -13,7 +13,7 @@ class TerminalppConan(ConanFile):
     exports = "*.hpp", "*.in", "*.cpp", "CMakeLists.txt", "*.md", "LICENSE"
     options = {"shared": [True, False], "withTests": [True, False]}
     default_options = {"shared": False, "withTests": False}
-    requires = ("boost_format/[>=1.69]@bincrafters/stable",
+    requires = ("fmt/[>=5.3]@bincrafters/stable",
                 "boost_optional/[>=1.69]@bincrafters/stable",
                 "boost_variant/[>=1.69]@bincrafters/stable")
     generators = "cmake"

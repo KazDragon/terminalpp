@@ -1,6 +1,6 @@
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
-#include <boost/format.hpp>
+#include <fmt/format.h>
 #include <cctype>
 
 static std::string escape(std::string const &str)
@@ -11,7 +11,8 @@ static std::string escape(std::string const &str)
     {
         if (!isprint(ch))
         {
-            result += boost::str(boost::format("0x%02X") % int(ch));
+            using namespace fmt::literals;
+            result += "0x{:02X}"_format(int(ch));
         }
         else
         {
@@ -24,7 +25,6 @@ static std::string escape(std::string const &str)
 
 void expect_sequence(std::string const &expected, std::string const &result)
 {
-
     if (expected != result)
     {
         std::cout << "\n"

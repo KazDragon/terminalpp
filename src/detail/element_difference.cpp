@@ -3,7 +3,7 @@
 #include "terminalpp/behaviour.hpp"
 #include "terminalpp/element.hpp"
 #include "terminalpp/ansi/protocol.hpp"
-#include <boost/format.hpp>
+#include <fmt/format.h>
 
 // TODO: In some cases, switching from one character set to the other
 // wont make any difference, so we can "carry" the charset for as long as
@@ -11,6 +11,8 @@
 // but different in DEC (where it is a shadowed block).  Therefore, when
 // printing a glyph in UK charset then 'a' in US charset, it's not actually
 // necessary to change charset (yet).
+
+using namespace fmt::literals;
 
 namespace terminalpp { namespace detail {
 
@@ -75,7 +77,7 @@ static void append_graphics_change(
         change += terminalpp::ansi::PS;
     }
 
-    change += boost::str(boost::format("%d") % int(dest.value_));
+    change += "{}"_format(int(dest.value_));
 }
 
 // ==========================================================================
@@ -86,7 +88,7 @@ static std::string low_foreground_colour_code(terminalpp::low_colour const &col)
     int value = int(col.value_)
               + terminalpp::ansi::graphics::FOREGROUND_COLOUR_BASE;
 
-    return boost::str(boost::format("%d") % value);
+    return "{}"_format(value);
 }
 
 // ==========================================================================
@@ -94,7 +96,7 @@ static std::string low_foreground_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 static std::string high_foreground_colour_code(terminalpp::high_colour const &col)
 {
-    return boost::str(boost::format("38;5;%d") % int(col.value_));
+    return "38;5;{}"_format(int(col.value_));
 }
 
 // ==========================================================================
@@ -103,7 +105,7 @@ static std::string high_foreground_colour_code(terminalpp::high_colour const &co
 static std::string greyscale_foreground_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    return boost::str(boost::format("38;5;%d") % int(col.shade_));
+    return "38;5;{}"_format(int(col.shade_));
 }
 
 // ==========================================================================
@@ -156,9 +158,9 @@ static void append_foreground_colour(
 static std::string low_background_colour_code(terminalpp::low_colour const &col)
 {
     int value = int(col.value_)
-    + terminalpp::ansi::graphics::BACKGROUND_COLOUR_BASE;
+      + terminalpp::ansi::graphics::BACKGROUND_COLOUR_BASE;
 
-    return boost::str(boost::format("%d") % value);
+    return "{}"_format(value);
 }
 
 // ==========================================================================
@@ -166,7 +168,7 @@ static std::string low_background_colour_code(terminalpp::low_colour const &col)
 // ==========================================================================
 static std::string high_background_colour_code(terminalpp::high_colour const &col)
 {
-    return boost::str(boost::format("48;5;%d") % int(col.value_));
+    return "48;5;{}"_format(int(col.value_));
 }
 
 // ==========================================================================
@@ -175,7 +177,7 @@ static std::string high_background_colour_code(terminalpp::high_colour const &co
 static std::string greyscale_background_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    return boost::str(boost::format("48;5;%d") % int(col.shade_));
+    return "48;5;{}"_format(int(col.shade_));
 }
 
 // ==========================================================================
@@ -227,11 +229,12 @@ static void append_background_colour(
 // ==========================================================================
 static std::string default_attribute()
 {
-    return boost::str(
-        boost::format("%s%d%c")
-      % terminalpp::ansi::control7::CSI
-      % int(terminalpp::ansi::graphics::NO_ATTRIBUTES)
-      % terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
+    static auto const default_attribute_string = "{}{}{}"_format(
+        terminalpp::ansi::control7::CSI,
+        int(terminalpp::ansi::graphics::NO_ATTRIBUTES),
+        terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
+
+    return default_attribute_string;
 }
 
 // ==========================================================================
