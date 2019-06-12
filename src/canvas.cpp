@@ -1,4 +1,5 @@
 #include "terminalpp/canvas.hpp"
+#include "terminalpp/algorithm/for_each_in_region.hpp"
 
 namespace terminalpp {
 
@@ -86,16 +87,14 @@ void canvas::resize(extent const &size)
     auto min_width  = (std::min)(size.width, size_.width);
     auto min_height = (std::min)(size.height, size_.height);
 
-    for (coordinate_type row = 0; row < min_height; ++row)
-    {
-        for (coordinate_type column = 0; column < min_width; ++column)
+    for_each_in_region(
+        *this, {{}, {min_width, min_height}},
+        [this, &size, &new_grid](
+            element const &elem, coordinate_type column, coordinate_type row)
         {
-            auto new_grid_pos = row * size.width + column;
-            auto old_grid_pos = row * size_.width + column;
-
-            new_grid[new_grid_pos] = grid_[old_grid_pos];
-        }
-    }
+             auto new_grid_pos = row * size.width + column;
+             new_grid[new_grid_pos] = elem;
+        });
 
     size_ = size;
     grid_.swap(new_grid);

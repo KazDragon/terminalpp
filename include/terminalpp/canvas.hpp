@@ -17,8 +17,9 @@ namespace terminalpp {
 class TERMINALPP_EXPORT canvas
 {
 public :
-    typedef element *iterator;
-    typedef element const *const_iterator;
+    using size_type = coordinate_type;
+    using iterator = element *;
+    using const_iterator = element const *;
 
     //* =====================================================================
     /// \brief A proxy into a column of elements on the canvas
@@ -26,19 +27,21 @@ public :
     class column_proxy
     {
     public :
+        using size_type = coordinate_type;
+
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        column_proxy(canvas &cvs, coordinate_type column);
+        column_proxy(canvas &cvs, size_type column);
 
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        element &operator[](coordinate_type row);
+        element &operator[](size_type row);
 
     private :
         canvas &canvas_;
-        coordinate_type  column_;
+        size_type column_;
     };
 
     //* =====================================================================
@@ -47,19 +50,21 @@ public :
     class const_column_proxy
     {
     public :
+        using size_type = coordinate_type;
+    
         // ==================================================================
         // CONSTRUCTOR
         // ==================================================================
-        const_column_proxy(canvas const &cvs, coordinate_type column);
+        const_column_proxy(canvas const &cvs, size_type column);
 
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        element const &operator[](coordinate_type coordinate_type) const;
+        element const &operator[](size_type coordinate_type) const;
 
     private :
         canvas const &canvas_;
-        coordinate_type column_;
+        size_type column_;
     };
 
     //* =====================================================================
