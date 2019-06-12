@@ -11,6 +11,12 @@ class element;
 namespace detail {
 
 //* =========================================================================
+/// \brief Returns a string of ANSI codes that sets the attributes to the
+/// default.
+//* =========================================================================
+std::string default_attribute();
+
+//* =========================================================================
 /// \brief Returns a string of ANSI codes that describes the difference
 /// between two elements.
 /// \par

@@ -342,9 +342,10 @@ std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)
 // ==========================================================================
 std::string ansi_terminal::write(element const &elem)
 {
-    std::string result =
-        detail::element_difference(last_element_, elem, behaviour_)
-      + write_element(elem);
+    std::string result;
+
+    result += detail::element_difference(*last_element_, elem, behaviour_);
+    result += write_element(elem);
 
     if (cursor_position_)
     {
@@ -375,6 +376,12 @@ std::string ansi_terminal::write(element const &elem)
 std::string ansi_terminal::write(string const& str)
 {
     std::string result;
+
+    if (!last_element_)
+    {
+        result += detail::default_attribute();
+        last_element_ = terminalpp::element{};
+    }
 
     std::for_each(str.begin(), str.end(),
         [&result, this](auto const &elem)

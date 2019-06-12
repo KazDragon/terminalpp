@@ -126,7 +126,7 @@ private :
     boost::optional<point>        cursor_position_;
     boost::optional<point>        saved_cursor_position_;
     boost::optional<extent>       size_;
-    element                       last_element_;
+    boost::optional<element>      last_element_;
 
     detail::parser                parser_;
 };
