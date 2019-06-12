@@ -1,5 +1,6 @@
 #include "terminalpp/screen.hpp"
 #include "terminalpp/terminal.hpp"
+#include "terminalpp/algorithm/for_each_in_region.hpp"
 
 namespace terminalpp {
 
@@ -24,17 +25,18 @@ std::string screen::draw(terminal& term, canvas const &cvs)
         result += term.erase_in_display(terminal::erase_display::all);
     }
 
-    for (coordinate_type y = 0; y < cvs.size().height; ++y)
-    {
-        for (coordinate_type x = 0; x < cvs.size().width; ++x)
+    for_each_in_region(
+        cvs, {{}, cvs.size()},
+        [this, &result, &term](
+            element const &elem, coordinate_type x, coordinate_type y)
         {
-            if (last_frame_[x][y] != cvs[x][y])
+            if (last_frame_[x][y] != elem)
             {
                 result += term.move_cursor({x, y});
-                result += term.write(cvs[x][y]);
+                result += term.write(elem);
             }
-        }
-    }
+        });
+   
 
     last_frame_ = cvs;
 
