@@ -225,19 +225,6 @@ static void append_background_colour(
 }
 
 // ==========================================================================
-// DEFAULT_ATTRIBUTE
-// ==========================================================================
-static std::string default_attribute()
-{
-    static auto const default_attribute_string = "{}{}{}"_format(
-        terminalpp::ansi::control7::CSI,
-        int(terminalpp::ansi::graphics::NO_ATTRIBUTES),
-        terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
-
-    return default_attribute_string;
-}
-
-// ==========================================================================
 // CHANGE_ATTRIBUTE
 // ==========================================================================
 static std::string change_attribute(
@@ -270,6 +257,19 @@ static std::string change_attribute(
     return result;
 }
 
+}
+
+// ==========================================================================
+// DEFAULT_ATTRIBUTE
+// ==========================================================================
+std::string default_attribute()
+{
+    static auto const default_attribute_string = "{}{}{}"_format(
+        terminalpp::ansi::control7::CSI,
+        int(terminalpp::ansi::graphics::NO_ATTRIBUTES),
+        terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
+
+    return default_attribute_string;
 }
 
 // ==========================================================================

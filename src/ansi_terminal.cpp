@@ -5,6 +5,7 @@
 #include "terminalpp/detail/element_difference.hpp"
 #include "terminalpp/detail/parser.hpp"
 #include "terminalpp/detail/well_known_virtual_key.hpp"
+#include <boost/range/numeric.hpp>
 #include <cassert>
 
 namespace terminalpp {
@@ -342,9 +343,16 @@ std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)
 // ==========================================================================
 std::string ansi_terminal::write(element const &elem)
 {
-    std::string result =
-        detail::element_difference(last_element_, elem, behaviour_)
-      + write_element(elem);
+    std::string result;
+
+    if (!last_element_)
+    {
+        result += detail::default_attribute();
+        last_element_ = terminalpp::element{};
+    }
+
+    result += detail::element_difference(*last_element_, elem, behaviour_);
+    result += write_element(elem);
 
     if (cursor_position_)
     {
@@ -376,13 +384,21 @@ std::string ansi_terminal::write(string const& str)
 {
     std::string result;
 
-    std::for_each(str.begin(), str.end(),
-        [&result, this](auto const &elem)
+    if (!last_element_)
+    {
+        result += detail::default_attribute();
+        last_element_ = terminalpp::element{};
+    }
+
+    return boost::accumulate(
+        str,
+        result,
+        [this](std::string &result, terminalpp::element const &elem) 
+            -> std::string &
         {
             result += this->write(elem);
+            return result;
         });
-
-    return result;
 }
 
 // ==========================================================================

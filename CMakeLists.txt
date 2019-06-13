@@ -140,6 +140,7 @@ set_target_properties(terminalpp
 target_link_libraries(terminalpp
     PUBLIC
         CONAN_PKG::boost_optional
+        CONAN_PKG::boost_range
         CONAN_PKG::boost_variant
     PRIVATE
         CONAN_PKG::fmt

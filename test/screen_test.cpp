@@ -112,6 +112,7 @@ TEST(screen_test, drawing_after_modifying_one_element_writes_one_element)
     auto canvas = terminalpp::canvas(size);
     auto terminal = terminalpp::ansi_terminal();
     auto reference_terminal = terminalpp::ansi_terminal();
+    reference_terminal.write(""_ts);
 
     terminal.set_size(size);
     reference_terminal.set_size(size);
@@ -131,8 +132,8 @@ TEST(screen_test, drawing_after_modifying_one_element_writes_one_element)
 
     canvas[2][3] = 'x';
 
-    auto expected = reference_terminal.move_cursor({2, 3})
-                  + reference_terminal.write("x"_ts);
+    auto expected = reference_terminal.move_cursor({2, 3});
+    expected += reference_terminal.write("x"_ts);
 
     auto result = screen.draw(terminal, canvas);
 
@@ -145,6 +146,7 @@ TEST(screen_test, drawing_after_modifying_two_elements_writes_two_elements)
     auto canvas = terminalpp::canvas(size);
     auto terminal = terminalpp::ansi_terminal();
     auto reference_terminal = terminalpp::ansi_terminal();
+    reference_terminal.write(""_ts);
 
     terminal.set_size(size);
     reference_terminal.set_size(size);
@@ -181,6 +183,7 @@ TEST(screen_test, drawing_consecutive_elements_does_not_write_cursor_moves)
     auto canvas = terminalpp::canvas(size);
     auto terminal = terminalpp::ansi_terminal();
     auto reference_terminal = terminalpp::ansi_terminal();
+    reference_terminal.write(""_ts);
 
     terminal.set_size(size);
     reference_terminal.set_size(size);
