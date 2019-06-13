@@ -15,6 +15,7 @@ class TerminalppConan(ConanFile):
     default_options = {"shared": False, "withTests": False}
     requires = ("fmt/[>=5.3]@bincrafters/stable",
                 "boost_optional/[>=1.69]@bincrafters/stable",
+                "boost_range/[>=1.69]@bincrafters/stable",
                 "boost_variant/[>=1.69]@bincrafters/stable")
     generators = "cmake"
 
