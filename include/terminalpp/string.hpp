@@ -65,7 +65,7 @@ public :
     /// Results in a string of length len with the passed text, with all
     /// attributes their default values.
     //* =====================================================================
-    string(char const *text, std::size_t len);
+    string(char const *text, size_type len);
 
     //* =====================================================================
     /// \brief Constructor
@@ -87,12 +87,12 @@ public :
     /// \param size the size of the string to construct.
     /// \param elem a prototype element to fill the string with
     //* =====================================================================
-    string(std::size_t size, terminalpp::element const &elem);
+    string(size_type size, terminalpp::element const &elem);
 
     //* =====================================================================
     /// \brief Returns the number of elements in the string.
     //* =====================================================================
-    std::size_t size() const;
+    size_type size() const;
 
     //* =====================================================================
     /// \brief Returns an iterator to the beginning of the string.
@@ -243,7 +243,7 @@ inline namespace literals { inline namespace string_literals {
 TERMINALPP_EXPORT
 ::terminalpp::string operator ""_ts(
     char const *text,
-    std::size_t length);
+    ::terminalpp::string::size_type length);
 
 //* =========================================================================
 /// \brief Construct an encoded string from literals using "foo"_ets;
@@ -251,6 +251,6 @@ TERMINALPP_EXPORT
 TERMINALPP_EXPORT
 ::terminalpp::string operator ""_ets(
     char const *text,
-    std::size_t length);
+    ::terminalpp::string::size_type length);
 
 }}}

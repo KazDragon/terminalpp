@@ -26,7 +26,7 @@ string::string(char const* text)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(char const* text, std::size_t len)
+string::string(char const* text, size_type len)
   : elements_(text, text + len)
 {
 }
@@ -42,7 +42,7 @@ string::string(std::string const &text)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(std::string const &text, terminalpp::attribute const &attr)
+string::string(std::string const &text, attribute const &attr)
  : string(text)
 {
     std::for_each(elements_.begin(), elements_.end(),
@@ -55,7 +55,7 @@ string::string(std::string const &text, terminalpp::attribute const &attr)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-string::string(std::size_t size, terminalpp::element const &elem)
+string::string(size_type size, element const &elem)
   : elements_(size, elem)
 {
 }
@@ -63,7 +63,7 @@ string::string(std::size_t size, terminalpp::element const &elem)
 // ==========================================================================
 // SIZE
 // ==========================================================================
-std::size_t string::size() const
+string::size_type string::size() const
 {
     return elements_.size();
 }
@@ -271,17 +271,17 @@ inline namespace literals { inline namespace string_literals {
 // ==========================================================================
 // OPERATOR""_ts
 // ==========================================================================
-terminalpp::string operator ""_ts(char const *text, std::size_t len)
+string operator ""_ts(char const *text, string::size_type len)
 {
-    return terminalpp::string(text, len);
+    return string(text, len);
 }
 
 // ==========================================================================
 // OPERATOR""_ets
 // ==========================================================================
-terminalpp::string operator ""_ets(char const *text, std::size_t len)
+string operator ""_ets(char const *text, string::size_type len)
 {
-    return terminalpp::encode(text, len);
+    return encode(text, len);
 }
 
 }}}
