@@ -3,7 +3,6 @@
 #include "terminalpp/core.hpp"
 #include <boost/operators.hpp>
 #include <iosfwd>
-#include <tuple>
 
 namespace terminalpp {
 
@@ -72,7 +71,9 @@ struct point
 // ==========================================================================
 constexpr bool operator<(point const &lhs, point const &rhs)
 {
-    return std::tie(lhs.y, lhs.x) < std::tie(rhs.y, rhs.x);
+    // Note: reimplemented due to std::tie not being constexpr everywhere.
+    return lhs.y < rhs.y
+        || (lhs.y == rhs.y && lhs.x < rhs.x);
 }
 
 // ==========================================================================
