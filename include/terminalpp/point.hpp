@@ -1,7 +1,9 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
+#include <tuple>
 
 namespace terminalpp {
 
@@ -13,6 +15,10 @@ namespace terminalpp {
 /// axis.
 //* =========================================================================
 struct point
+  : private boost::less_than_comparable<point,
+            boost::equality_comparable<point,
+            boost::addable<point,
+            boost::subtractable<point>>>>
 {
     //* =====================================================================
     /// \brief Default Constructor
@@ -62,35 +68,19 @@ struct point
 };
 
 // ==========================================================================
+// OPERATOR<(POINT,POINT)
+// ==========================================================================
+constexpr bool operator<(point const &lhs, point const &rhs)
+{
+    return std::tie(lhs.y, lhs.x) < std::tie(rhs.y, rhs.x);
+}
+
+// ==========================================================================
 // OPERATOR==(POINT,POINT)
 // ==========================================================================
 constexpr bool operator==(point const &lhs, point const &rhs)
 {
     return lhs.x == rhs.x && lhs.y == rhs.y;
-}
-
-// ==========================================================================
-// OPERATOR!=(POINT,POINT)
-// ==========================================================================
-constexpr bool operator!=(point const &lhs, point const &rhs)
-{
-    return !(lhs == rhs);
-}
-
-// ==========================================================================
-// OPERATOR+(POINT,POINT)
-// ==========================================================================
-constexpr point operator+(point lhs, point const &rhs)
-{
-    return lhs += rhs;
-}
-
-// ==========================================================================
-// OPERATOR-(POINT,POINT)
-// ==========================================================================
-constexpr point operator-(point lhs, point const &rhs)
-{
-    return lhs -= rhs;
 }
 
 //* =====================================================================
