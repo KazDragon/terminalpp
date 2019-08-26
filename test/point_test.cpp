@@ -34,3 +34,52 @@ INSTANTIATE_TEST_CASE_P(
         point_string{ {-4, 63},         "point(-4,63)" },
         point_string{ {96583, 1231234}, "point(96583,1231234)" }
     }));
+
+using point_relops_data = std::tuple<
+    terminalpp::point, // lhs
+    terminalpp::point, // rhs
+    bool, // less
+    bool, // less-equal
+    bool, // equal
+    bool, // greater-equal
+    bool  // greater
+>;
+
+class points_compare : public testing::TestWithParam<point_relops_data>
+{
+};
+
+TEST_P(points_compare, according_to_relops)
+{
+    auto const &param = GetParam();
+    auto const &lhs = std::get<0>(param);
+    auto const &rhs = std::get<1>(param);
+    auto const &less = std::get<2>(param);
+    auto const &less_equal = std::get<3>(param);
+    auto const &equal = std::get<4>(param);
+    auto const &greater_equal = std::get<5>(param);
+    auto const &greater = std::get<6>(param);
+    
+    ASSERT_EQ(less, lhs < rhs);
+    ASSERT_EQ(less_equal, lhs <= rhs);
+    ASSERT_EQ(equal, lhs == rhs);
+    ASSERT_EQ(!equal, lhs != rhs);
+    ASSERT_EQ(greater_equal, lhs >= rhs);
+    ASSERT_EQ(greater, lhs > rhs);
+}
+
+INSTANTIATE_TEST_CASE_P(
+    using_relational_operators,
+    points_compare,
+    ValuesIn(std::vector<point_relops_data>{
+        point_relops_data{{0, 0}, {1, 1}, true,  true,  false, false, false },
+        point_relops_data{{1, 0}, {1, 1}, true,  true,  false, false, false },
+        point_relops_data{{2, 0}, {1, 1}, true,  true,  false, false, false },
+        point_relops_data{{0, 1}, {1, 1}, true,  true,  false, false, false },
+        point_relops_data{{1, 1}, {1, 1}, false, true,  true,  true,  false },
+        point_relops_data{{2, 1}, {1, 1}, false, false, false, true,  true  },
+        point_relops_data{{0, 2}, {1, 1}, false, false, false, true,  true  },
+        point_relops_data{{1, 2}, {1, 1}, false, false, false, true,  true  },
+        point_relops_data{{2, 2}, {1, 1}, false, false, false, true,  true  }
+    }));
+    
