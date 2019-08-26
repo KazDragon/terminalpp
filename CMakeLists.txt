@@ -1,6 +1,6 @@
 if (POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
-    project(TERMINALPP VERSION 1.3.0)
+    project(TERMINALPP VERSION 1.3.1)
 else()
     project(TERMINALPP)
 endif()
