@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/element.hpp"
+#include <boost/operators.hpp>
 #include <cstddef>
 #include <initializer_list>
 #include <string>
@@ -14,6 +15,11 @@ namespace terminalpp {
 /// Note: models an STL container.
 //* =========================================================================
 class TERMINALPP_EXPORT string
+  : private boost::addable<string,
+            boost::addable<string, char,
+            boost::addable<string, element,
+            boost::less_than_comparable<string,
+            boost::equality_comparable<string>>>>>
 {
 public :
     //* =====================================================================
@@ -187,38 +193,19 @@ public :
     string &operator+=(string const &rhs);
 
     //* =====================================================================
+    /// \brief Less-than operator
+    //* =====================================================================
+    friend bool operator<(string const &lhs, string const &rhs);
+
+    //* =====================================================================
     /// \brief Equality operator
     //* =====================================================================
     TERMINALPP_EXPORT
     friend bool operator==(string const &lhs, string const &rhs);
 
-    //* =====================================================================
-    /// \brief Inequality operator
-    //* =====================================================================
-    TERMINALPP_EXPORT
-    friend bool operator!=(string const &lhs, string const &rhs);
-
 private :
     std::vector<element> elements_;
 };
-
-//* =========================================================================
-/// \brief Concatenation
-//* =========================================================================
-TERMINALPP_EXPORT
-::terminalpp::string operator+(string lhs, string const &rhs);
-
-//* =========================================================================
-/// \brief Concatenation
-//* =========================================================================
-TERMINALPP_EXPORT
-::terminalpp::string operator+(string lhs, char rhs);
-
-//* =========================================================================
-/// \brief Concatenation
-//* =========================================================================
-TERMINALPP_EXPORT
-::terminalpp::string operator+(string lhs, element const &rhs);
 
 //* =========================================================================
 /// \brief Streaming output operator for strings.  Prints the text out

@@ -131,3 +131,54 @@ INSTANTIATE_TEST_CASE_P(
     strings_with_strings,
     ValuesIn(string_strings)
 );
+
+using string_relops_data = std::tuple<
+    terminalpp::string, // lhs
+    terminalpp::string, // rhs
+    bool, // less
+    bool, // less-equal
+    bool, // equal
+    bool, // greater-equal
+    bool  // greater
+>;
+
+class strings_compare : public testing::TestWithParam<string_relops_data>
+{
+};
+
+TEST_P(strings_compare, according_to_relops)
+{
+    auto const &param = GetParam();
+    auto const &lhs = std::get<0>(param);
+    auto const &rhs = std::get<1>(param);
+    auto const &less = std::get<2>(param);
+    auto const &less_equal = std::get<3>(param);
+    auto const &equal = std::get<4>(param);
+    auto const &greater_equal = std::get<5>(param);
+    auto const &greater = std::get<6>(param);
+    
+    ASSERT_EQ(less, lhs < rhs);
+    ASSERT_EQ(less_equal, lhs <= rhs);
+    ASSERT_EQ(equal, lhs == rhs);
+    ASSERT_EQ(!equal, lhs != rhs);
+    ASSERT_EQ(greater_equal, lhs >= rhs);
+    ASSERT_EQ(greater, lhs > rhs);
+}
+
+INSTANTIATE_TEST_CASE_P(
+    using_relational_operators,
+    strings_compare,
+    ValuesIn(std::vector<string_relops_data>{
+        string_relops_data{"",   "",      false, true,  true,  true,  false },
+
+        string_relops_data{"",   "a",     true,  true,  false, false, false },
+        string_relops_data{"a",  "",      false, false, false, true,  true  },
+
+        string_relops_data{"a",  "b",     true,  true,  false, false, false },
+        string_relops_data{"b",  "a",     false, false, false, true,  true  },
+        string_relops_data{"b",  "b",     false, true,  true,  true,  false },
+        
+        string_relops_data{"ad", "b",     true,  true,  false, false, false },
+        string_relops_data{"b",  "ad",    false, false, false, true,  true  },
+        
+    }));
