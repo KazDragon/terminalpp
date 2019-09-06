@@ -88,6 +88,8 @@ constexpr bool operator<(attribute const &lhs, attribute const &rhs)
             }
         }
     }
+    
+    return false;
 }
 
 //* =========================================================================
