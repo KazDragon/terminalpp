@@ -4,7 +4,6 @@
 #include "terminalpp/effect.hpp"
 #include <boost/operators.hpp>
 #include <iosfwd>
-#include <tuple>
 
 namespace terminalpp {
 
@@ -50,12 +49,45 @@ struct attribute
 //* =========================================================================
 constexpr bool operator<(attribute const &lhs, attribute const &rhs)
 {
-    return std::tie(
-        lhs.foreground_colour_, lhs.background_colour_,
-        lhs.intensity_, lhs.underlining_, lhs.polarity_, lhs.blinking_)
-      < std::tie(
-        rhs.foreground_colour_, rhs.background_colour_,
-        rhs.intensity_, rhs.underlining_, rhs.polarity_, rhs.blinking_);
+    if (lhs.foreground_colour_ < rhs.foreground_colour_)
+    {
+        return true;
+    }
+    else if (lhs.foreground_colour_ == rhs.foreground_colour_)
+    {
+        if (lhs.background_colour_ < rhs.background_colour_)
+        {
+            return true;
+        }
+        else if (lhs.background_colour_ == rhs.background_colour_)
+        {
+            if (lhs.intensity_ < rhs.intensity_)
+            {
+                return true;
+            }
+            else if (lhs.intensity_ == rhs.intensity_)
+            {
+                if (lhs.underlining_ < rhs.underlining_)
+                {
+                    return true;
+                }
+                else if (lhs.underlining_ == rhs.underlining_)
+                {
+                    if (lhs.polarity_ < rhs.polarity_)
+                    {
+                        return true;
+                    }
+                    else if (lhs.polarity_ == rhs.polarity_)
+                    {
+                        if (lhs.blinking_ < rhs.blinking_)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 //* =========================================================================
