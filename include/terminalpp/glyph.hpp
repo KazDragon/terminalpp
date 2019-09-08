@@ -62,7 +62,7 @@ struct glyph
     template <class T = void> // This makes matching these parameters "worse"
                               // than any of the array matches above, and so
                               // avoids ambiguity.
-    explicit glyph(char const *ustr)
+    explicit constexpr glyph(char const *ustr)
       : ucharacter_{0},
         charset_(terminalpp::ansi::charset::utf8)
     {
@@ -143,8 +143,11 @@ constexpr bool operator<(glyph const &lhs, glyph const &rhs)
                  begin1 != end1;
                  ++begin1, ++begin2)
             {
-                if (*begin1 < *begin2) return true;
-                if (*begin1 < *begin2) return false;
+                // We are expecting unicode characters to be ordered so that
+                // outside of the ASCII range is greater, so therefore we must
+                // remove the sign from these comparisons.
+                if (byte(*begin1) < byte(*begin2)) return true;
+                if (byte(*begin2) < byte(*begin1)) return false;
             }
             
             return false;

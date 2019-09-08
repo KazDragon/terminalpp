@@ -241,4 +241,21 @@ INSTANTIATE_TEST_CASE_P(
         string_relops_data{"\\p+a"_ets, "\\p-a"_ets, false, false, false, true,  true  },
 
         // o Blinking (TODO - currently there is no shortcut for blinking)
+
+        // o Character sets
+        string_relops_data{"a",         "\\cAa"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\cAa"_ets, "a",         true,  true,  false, false, false },
+        string_relops_data{"\\cAa"_ets, "\\cAa"_ets, false, true,  true,  true,  false },
+
+        string_relops_data{"a",         "\\c4a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\c4a"_ets, "a",         false, false, false, true,  true  },
+        string_relops_data{"\\c4a"_ets, "\\c4a"_ets, false, true,  true,  true,  false },
+
+        // o Unicode characters
+        string_relops_data{"a",           "\\U0061"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\U0061"_ets, "a",           false, false, false, true,  true  },
+        string_relops_data{"\\U0061"_ets, "\\U0061"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\U0061"_ets, "\\U0062"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\U0061"_ets, "\\UFFFF"_ets, true,  true,  false, false, false },
+
     }));
