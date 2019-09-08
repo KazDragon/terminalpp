@@ -1,6 +1,7 @@
 #include "terminalpp/string.hpp"
 #include <gtest/gtest.h>
 
+using namespace terminalpp::literals;
 using testing::ValuesIn;
 
 TEST(string_test, can_construct_from_string_and_attribute)
@@ -169,16 +170,55 @@ INSTANTIATE_TEST_CASE_P(
     using_relational_operators,
     strings_compare,
     ValuesIn(std::vector<string_relops_data>{
-        string_relops_data{"",   "",      false, true,  true,  true,  false },
+        // Basic string comparisons
+        string_relops_data{"",   "",    false, true,  true,  true,  false },
 
-        string_relops_data{"",   "a",     true,  true,  false, false, false },
-        string_relops_data{"a",  "",      false, false, false, true,  true  },
+        string_relops_data{"",   "a",   true,  true,  false, false, false },
+        string_relops_data{"a",  "",    false, false, false, true,  true  },
 
-        string_relops_data{"a",  "b",     true,  true,  false, false, false },
-        string_relops_data{"b",  "a",     false, false, false, true,  true  },
-        string_relops_data{"b",  "b",     false, true,  true,  true,  false },
+        string_relops_data{"a",  "b",   true,  true,  false, false, false },
+        string_relops_data{"b",  "a",   false, false, false, true,  true  },
+        string_relops_data{"b",  "b",   false, true,  true,  true,  false },
+
+        string_relops_data{"ad", "b",   true,  true,  false, false, false },
+        string_relops_data{"b",  "ad",  false, false, false, true,  true  },
         
-        string_relops_data{"ad", "b",     true,  true,  false, false, false },
-        string_relops_data{"b",  "ad",    false, false, false, true,  true  },
-        
+        // String comparisons based on attributes
+        // o Foreground colour
+        //   o Low colour
+        string_relops_data{"a",         "\\[1a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\[1a"_ets, "a",         true,  true,  false, false, false },
+        string_relops_data{"\\[1a"_ets, "\\[1a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\[1a"_ets, "\\[2a"_ets, true,  true,  false, false, false },
+
+        //   o High colour
+        string_relops_data{"a",           "\\<001a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\<001a"_ets, "a",           false, false, false, true,  true  },
+        string_relops_data{"\\<001a"_ets, "\\<001a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\<001a"_ets, "\\<002a"_ets, true,  true,  false, false, false },
+
+        //   o Greyscale colour
+        string_relops_data{"a",          "\\{01a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\{01a"_ets, "a",          false, false, false, true,  true  },
+        string_relops_data{"\\{01a"_ets, "\\{01a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\{01a"_ets, "\\{02a"_ets, true,  true,  false, false, false },
+
+        // o Background colour
+        //   o Low colour
+        string_relops_data{"a",         "\\]1a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\]1a"_ets, "a",         true,  true,  false, false, false },
+        string_relops_data{"\\]1a"_ets, "\\]1a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\]1a"_ets, "\\]2a"_ets, true,  true,  false, false, false },
+
+        //   o High colour
+        string_relops_data{"a",           "\\>001a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\>001a"_ets, "a",           false, false, false, true,  true  },
+        string_relops_data{"\\>001a"_ets, "\\>001a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\>001a"_ets, "\\>002a"_ets, true,  true,  false, false, false },
+
+        //   o Greyscale colour
+        string_relops_data{"a",          "\\}01a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\}01a"_ets, "a",          false, false, false, true,  true  },
+        string_relops_data{"\\}01a"_ets, "\\}01a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\}01a"_ets, "\\}02a"_ets, true,  true,  false, false, false },
     }));

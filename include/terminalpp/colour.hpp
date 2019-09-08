@@ -153,7 +153,7 @@ constexpr bool operator==(
 constexpr bool operator<(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
-    return lhs.shade_ == rhs.shade_;
+    return lhs.shade_ < rhs.shade_;
 }
 
 //* =========================================================================
