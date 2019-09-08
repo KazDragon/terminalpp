@@ -221,4 +221,24 @@ INSTANTIATE_TEST_CASE_P(
         string_relops_data{"\\}01a"_ets, "a",          false, false, false, true,  true  },
         string_relops_data{"\\}01a"_ets, "\\}01a"_ets, false, true,  true,  true,  false },
         string_relops_data{"\\}01a"_ets, "\\}02a"_ets, true,  true,  false, false, false },
+
+        // o Intensity
+        string_relops_data{"a",         "\\i>a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\i>a"_ets, "a",         true,  true,  false, false, false },
+        string_relops_data{"\\i>a"_ets, "\\i>a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\i<a"_ets, "\\i>a"_ets, false, false, false, true,  true  },
+
+        // o Underlining
+        string_relops_data{"a",         "\\u+a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\u+a"_ets, "a",         true,  true,  false, false, false },
+        string_relops_data{"\\u+a"_ets, "\\u+a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\u-a"_ets, "\\u+a"_ets, false, false, false, true,  true  },
+
+        // o Polarity
+        string_relops_data{"a",         "\\p-a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\p-a"_ets, "a",         true,  true,  false, false, false },
+        string_relops_data{"\\p-a"_ets, "\\p-a"_ets, false, true,  true,  true,  false },
+        string_relops_data{"\\p+a"_ets, "\\p-a"_ets, false, false, false, true,  true  },
+
+        // o Blinking (TODO - currently there is no shortcut for blinking)
     }));
