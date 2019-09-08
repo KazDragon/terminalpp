@@ -2,6 +2,7 @@
 
 #include "terminalpp/attribute.hpp"
 #include "terminalpp/glyph.hpp"
+#include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
 #include <utility>
@@ -38,6 +39,18 @@ struct element
     {
     }
 
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(element const &elem) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, elem.glyph_);
+        boost::hash_combine(seed, elem.attribute_);
+
+        return seed;
+    }
+
     terminalpp::glyph     glyph_;
     terminalpp::attribute attribute_;
 };
@@ -68,3 +81,20 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, element const &elem);
 
 }
+
+namespace std {
+
+template <>
+struct hash<terminalpp::element>
+{
+    using argument_type = terminalpp::element;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &elem) const noexcept
+    {
+        return hash_value(elem);
+    }
+};
+
+}
+

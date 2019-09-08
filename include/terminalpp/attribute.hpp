@@ -2,6 +2,7 @@
 
 #include "terminalpp/colour.hpp"
 #include "terminalpp/effect.hpp"
+#include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
 
@@ -33,6 +34,22 @@ struct attribute
         polarity_(polarity_effect),
         blinking_(blink_effect)
     {
+    }
+
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(attribute const &attr) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, attr.foreground_colour_);
+        boost::hash_combine(seed, attr.background_colour_);
+        boost::hash_combine(seed, attr.intensity_);
+        boost::hash_combine(seed, attr.underlining_);
+        boost::hash_combine(seed, attr.polarity_);
+        boost::hash_combine(seed, attr.blinking_);
+
+        return seed;
     }
 
     // Graphics Attributes
@@ -113,3 +130,20 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, attribute const &attr);
 
 }
+
+namespace std {
+
+template <>
+struct hash<terminalpp::attribute>
+{
+    using argument_type = terminalpp::attribute;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &attr) const noexcept
+    {
+        return hash_value(attr);
+    }
+};
+
+}
+

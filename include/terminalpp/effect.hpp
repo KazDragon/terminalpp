@@ -1,5 +1,6 @@
 #pragma once
 #include "terminalpp/ansi/protocol.hpp"
+#include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iostream>
 
@@ -34,6 +35,16 @@ struct effect
     constexpr effect(Type value)
       : value_(value)
     {
+    }
+
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(effect const &eff) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, eff.value_);
+        return seed;
     }
 
     Type value_;
@@ -137,5 +148,21 @@ std::ostream &operator<<(std::ostream &out, polarity const &eff);
 //* =========================================================================
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, blinking const &eff);
+
+}
+
+namespace std {
+
+template <class Effect>
+struct hash<terminalpp::effect<Effect>>
+{
+    using argument_type = terminalpp::effect<Effect>;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &effect) const noexcept
+    {
+        return hash_value(effect);
+    }
+};
 
 }

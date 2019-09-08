@@ -1,5 +1,6 @@
 #pragma once
 #include "terminalpp/ansi/protocol.hpp"
+#include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
 
@@ -27,6 +28,20 @@ struct low_colour
         : value_(colour)
     {
     };
+
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(low_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(
+            seed, 
+            static_cast<
+                std::underlying_type<decltype(col.value_)>::type
+            >(col.value_));
+        return seed;
+    }
 
     terminalpp::ansi::graphics::colour value_;
 };
@@ -83,6 +98,16 @@ struct high_colour
     {
     }
 
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(high_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, col.value_);
+        return seed;
+    }
+
     byte value_;
 };
 
@@ -133,6 +158,16 @@ struct greyscale_colour
     constexpr explicit greyscale_colour(byte shade)
       : shade_(shade + 232)
     {
+    }
+
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(greyscale_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, col.shade_);
+        return seed;
     }
 
     byte shade_;
@@ -221,6 +256,20 @@ struct colour
     {
     }
 
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(colour const &col) noexcept
+    {
+        switch (col.type_)
+        {
+            case type::low : return hash_value(col.low_colour_);
+            case type::high : return hash_value(col.high_colour_);
+            case type::greyscale : return hash_value(col.greyscale_colour_);
+            default : return 0;
+        }
+    }
+
     union
     {
         terminalpp::low_colour low_colour_;
@@ -276,5 +325,57 @@ constexpr bool operator<(colour const &lhs, colour const &rhs)
 //* =========================================================================
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, colour const &col);
+
+}
+
+namespace std {
+
+template <>
+struct hash<terminalpp::low_colour>
+{
+    using argument_type = terminalpp::low_colour;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
+};
+
+template <>
+struct hash<terminalpp::high_colour>
+{
+    using argument_type = terminalpp::high_colour;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
+};
+
+template <>
+struct hash<terminalpp::greyscale_colour>
+{
+    using argument_type = terminalpp::greyscale_colour;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
+};
+
+template <>
+struct hash<terminalpp::colour>
+{
+    using argument_type = terminalpp::colour;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
+};
 
 }

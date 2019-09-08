@@ -1,4 +1,5 @@
 #include "terminalpp/string.hpp"
+#include <unordered_set>
 #include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
@@ -259,3 +260,8 @@ INSTANTIATE_TEST_CASE_P(
         string_relops_data{"\\U0061"_ets, "\\UFFFF"_ets, true,  true,  false, false, false },
 
     }));
+
+TEST(a_string, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::string> s { ""_ets };
+}

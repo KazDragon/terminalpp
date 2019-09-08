@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/element.hpp"
+#include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <cstddef>
 #include <initializer_list>
@@ -204,6 +205,14 @@ public :
     TERMINALPP_EXPORT
     friend bool operator==(string const &lhs, string const &rhs);
 
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(string const &str) noexcept
+    {
+        return boost::hash_range(str.elements_.begin(), str.elements_.end());
+    }
+
 private :
     std::vector<element> elements_;
 };
@@ -242,3 +251,19 @@ TERMINALPP_EXPORT
     ::terminalpp::string::size_type length);
 
 }}}
+
+namespace std {
+
+template <>
+struct hash<terminalpp::string>
+{
+    using argument_type = terminalpp::string;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &str) const noexcept
+    {
+        return hash_value(str);
+    }
+};
+
+}
