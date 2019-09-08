@@ -2,6 +2,7 @@
 
 #include "terminalpp/attribute.hpp"
 #include "terminalpp/glyph.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 #include <utility>
 
@@ -13,6 +14,8 @@ namespace terminalpp {
 /// attribute (such as colour, intensity, etc.)
 //* =========================================================================
 struct element
+  : private boost::less_than_comparable<element,
+            boost::equality_comparable<element>>
 {
     //* =====================================================================
     /// \brief Value Constructor
@@ -40,20 +43,21 @@ struct element
 };
 
 //* =========================================================================
+/// \brief Less-than Operator
+//* =========================================================================
+constexpr bool operator<(element const &lhs, element const &rhs)
+{
+    return lhs.glyph_ < rhs.glyph_
+        || (lhs.glyph_ == rhs.glyph_ && lhs.attribute_ < rhs.attribute_);
+}
+
+//* =========================================================================
 /// \brief Equality Operator
 //* =========================================================================
 constexpr bool operator==(element const &lhs, element const &rhs)
 {
     return lhs.glyph_     == rhs.glyph_
         && lhs.attribute_ == rhs.attribute_;
-}
-
-//* =========================================================================
-/// \brief Inequality Operator
-//* =========================================================================
-constexpr bool operator!=(element const &lhs, element const &rhs)
-{
-    return !(lhs == rhs);
 }
 
 //* =========================================================================

@@ -2,6 +2,7 @@
 
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/character_set.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -11,6 +12,8 @@ namespace terminalpp {
 /// ANSI element.
 //* =========================================================================
 struct glyph
+  : private boost::less_than_comparable<glyph,
+            boost::equality_comparable<glyph>>
 {
     //* =====================================================================
     /// \brief Default Constructor
@@ -59,7 +62,7 @@ struct glyph
     template <class T = void> // This makes matching these parameters "worse"
                               // than any of the array matches above, and so
                               // avoids ambiguity.
-    explicit glyph(char const *ustr)
+    explicit constexpr glyph(char const *ustr)
       : ucharacter_{0},
         charset_(terminalpp::ansi::charset::utf8)
     {
@@ -117,11 +120,45 @@ constexpr bool operator==(glyph const &lhs, glyph const &rhs)
 }
 
 // ==========================================================================
-// OPERATOR!=
+// OPERATOR<
 // ==========================================================================
-constexpr bool operator!=(glyph const &lhs, glyph const &rhs)
+constexpr bool operator<(glyph const &lhs, glyph const &rhs)
 {
-    return !(lhs == rhs);
+    if (lhs.charset_ < rhs.charset_)
+    {
+        return true;
+    }
+
+    if (lhs.charset_ == rhs.charset_)
+    {
+        if (lhs.charset_ == terminalpp::ansi::charset::utf8)
+        {
+            using std::begin;
+            using std::end;
+
+            // Reimplementing lexicographical_compare here for constexprness.
+            for (auto begin1 = begin(lhs.ucharacter_),
+                      end1   = end(lhs.ucharacter_),
+                      begin2 = begin(rhs.ucharacter_);
+                 begin1 != end1;
+                 ++begin1, ++begin2)
+            {
+                // We are expecting unicode characters to be ordered so that
+                // outside of the ASCII range is greater, so therefore we must
+                // remove the sign from these comparisons.
+                if (byte(*begin1) < byte(*begin2)) return true;
+                if (byte(*begin2) < byte(*begin1)) return false;
+            }
+            
+            return false;
+        }
+        else
+        {
+            return lhs.character_ < rhs.character_;
+        }
+    }
+    
+    return false;
 }
 
 //* =========================================================================

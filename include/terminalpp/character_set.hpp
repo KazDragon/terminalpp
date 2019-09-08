@@ -1,5 +1,6 @@
 #pragma once
 #include "terminalpp/ansi/protocol.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -8,6 +9,8 @@ namespace terminalpp {
 // \brief A structure that represents a character set.
 //* =========================================================================
 struct character_set
+  : private boost::less_than_comparable<character_set,
+            boost::equality_comparable<character_set>>
 {
     //* =====================================================================
     /// \brief Initialises the character set to its default value.
@@ -37,11 +40,11 @@ constexpr bool operator==(character_set const &lhs, character_set const &rhs)
 }
 
 //* =========================================================================
-/// \brief Inequality operator for character sets
+/// \brief Less-than operator for character sets
 //* =========================================================================
-constexpr bool operator!=(character_set const &lhs, character_set const &rhs)
+constexpr bool operator<(character_set const &lhs, character_set const &rhs)
 {
-    return !(lhs == rhs);
+    return lhs.value_ < rhs.value_;
 }
 
 //* =========================================================================

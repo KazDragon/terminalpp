@@ -1,5 +1,6 @@
 #pragma once
 #include "terminalpp/ansi/protocol.hpp"
+#include <boost/operators.hpp>
 #include <iostream>
 
 namespace terminalpp {
@@ -16,6 +17,8 @@ struct effect_default;
 //* =========================================================================
 template <class Type>
 struct effect
+  : private boost::less_than_comparable<effect<Type>,
+            boost::equality_comparable<effect<Type>>>
 {
     //* =====================================================================
     /// \brief Initialises the intensity to the default (normal) value
@@ -37,21 +40,21 @@ struct effect
 };
 
 //* =========================================================================
+/// \brief Less than for effects.
+//* =========================================================================
+template <class Type>
+constexpr bool operator<(effect<Type> const &lhs, effect<Type> const &rhs)
+{
+  return lhs.value_ < rhs.value_;
+}
+
+//* =========================================================================
 /// \brief Equality for effects.
 //* =========================================================================
 template <class Type>
 constexpr bool operator==(effect<Type> const &lhs, effect<Type> const &rhs)
 {
     return lhs.value_ == rhs.value_;
-}
-
-//* =========================================================================
-/// \brief Inequality for effects.
-//* =========================================================================
-template <class Type>
-constexpr bool operator!=(effect<Type> const &lhs, effect<Type> const &rhs)
-{
-    return !(lhs == rhs);
 }
 
 //* =========================================================================

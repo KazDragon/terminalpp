@@ -1,5 +1,6 @@
 #pragma once
 #include "terminalpp/ansi/protocol.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -8,6 +9,8 @@ namespace terminalpp {
 /// \brief Structure representing a normal ANSI 16-colour value
 //* =========================================================================
 struct low_colour
+  : private boost::less_than_comparable<low_colour,
+            boost::equality_comparable<low_colour>>
 {
     //* =====================================================================
     /// \brief Constructs a low_colour with the "default" colour value.
@@ -37,11 +40,11 @@ constexpr bool operator==(low_colour const &lhs, low_colour const &rhs)
 }
 
 //* =========================================================================
-/// \brief Inequality operator for low_colours.
+/// \brief Less-than operator for low_colours.
 //* =========================================================================
-constexpr bool operator!=(low_colour const &lhs, low_colour const &rhs)
+constexpr bool operator<(low_colour const &lhs, low_colour const &rhs)
 {
-    return !(lhs == rhs);
+    return lhs.value_ < rhs.value_;
 }
 
 //* =========================================================================
@@ -57,6 +60,8 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col);
 /// range 0..5.
 //* =========================================================================
 struct high_colour
+  : private boost::less_than_comparable<high_colour,
+            boost::equality_comparable<high_colour>>
 {
     //* =====================================================================
     /// \brief Default constructs a high-colour with the value of pure black.
@@ -90,11 +95,11 @@ constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
 }
 
 //* =========================================================================
-/// \brief Inequality operator for high_colours.
+/// \brief Less-than operator for high_colours.
 //* =========================================================================
-constexpr bool operator!=(high_colour const &lhs, high_colour const &rhs)
+constexpr bool operator<(high_colour const &lhs, high_colour const &rhs)
 {
-    return !(lhs == rhs);
+    return lhs.value_ < rhs.value_;
 }
 
 //* =========================================================================
@@ -109,6 +114,8 @@ std::ostream &operator<<(std::ostream &out, high_colour const &col);
 /// palette
 //* =========================================================================
 struct greyscale_colour
+  : private boost::less_than_comparable<greyscale_colour,
+            boost::equality_comparable<greyscale_colour>>
 {
     //* =====================================================================
     /// \brief Default constructs a greyscale value with the darkest
@@ -141,12 +148,12 @@ constexpr bool operator==(
 }
 
 //* =========================================================================
-/// \brief Inequality operator for greyscale_colours.
+/// \brief Less-than operator for greyscale_colours.
 //* =========================================================================
-constexpr bool operator!=(
+constexpr bool operator<(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
-    return !(lhs == rhs);
+    return lhs.shade_ < rhs.shade_;
 }
 
 //* =========================================================================
@@ -160,6 +167,8 @@ std::ostream &operator<<(std::ostream &out, greyscale_colour const &col);
 /// \brief Structure representing a sum type of the available colour styles.
 //* =========================================================================
 struct colour
+  : private boost::less_than_comparable<colour,
+            boost::equality_comparable<colour>>
 {
     //* =====================================================================
     /// \brief An enumeration of the possible colour types.
@@ -238,11 +247,27 @@ constexpr bool operator==(colour const &lhs, colour const &rhs)
 }
 
 //* =========================================================================
-/// \brief Inequality operator for colours.
+/// \brief Less-than operator for colours.
 //* =========================================================================
-constexpr bool operator!=(colour const &lhs, colour const &rhs)
+constexpr bool operator<(colour const &lhs, colour const &rhs)
 {
-    return !(lhs == rhs);
+    if (lhs.type_ < rhs.type_)
+    {
+        return true;
+    }
+    
+    if (lhs.type_ == rhs.type_)
+    {
+        return lhs.type_ == colour::type::low
+             ? lhs.low_colour_ < rhs.low_colour_
+             : lhs.type_ == colour::type::high
+             ? lhs.high_colour_ < rhs.high_colour_
+             : lhs.type_ == colour::type::greyscale
+             ? lhs.greyscale_colour_ < rhs.greyscale_colour_
+             : false;
+    }
+    
+    return false;
 }
 
 //* =========================================================================

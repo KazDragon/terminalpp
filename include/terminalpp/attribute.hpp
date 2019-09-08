@@ -2,6 +2,7 @@
 
 #include "terminalpp/colour.hpp"
 #include "terminalpp/effect.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -11,6 +12,8 @@ namespace terminalpp {
 /// an ANSI element.
 //* =========================================================================
 struct attribute
+  : private boost::less_than_comparable<attribute,
+            boost::equality_comparable<attribute>>
 {
     //* =====================================================================
     /// \brief Initialises the attribute with the colours and effects
@@ -42,6 +45,54 @@ struct attribute
 };
 
 //* =========================================================================
+/// \brief Less-than operator for attributes.
+//* =========================================================================
+constexpr bool operator<(attribute const &lhs, attribute const &rhs)
+{
+    if (lhs.foreground_colour_ < rhs.foreground_colour_)
+    {
+        return true;
+    }
+    else if (lhs.foreground_colour_ == rhs.foreground_colour_)
+    {
+        if (lhs.background_colour_ < rhs.background_colour_)
+        {
+            return true;
+        }
+        else if (lhs.background_colour_ == rhs.background_colour_)
+        {
+            if (lhs.intensity_ < rhs.intensity_)
+            {
+                return true;
+            }
+            else if (lhs.intensity_ == rhs.intensity_)
+            {
+                if (lhs.underlining_ < rhs.underlining_)
+                {
+                    return true;
+                }
+                else if (lhs.underlining_ == rhs.underlining_)
+                {
+                    if (lhs.polarity_ < rhs.polarity_)
+                    {
+                        return true;
+                    }
+                    else if (lhs.polarity_ == rhs.polarity_)
+                    {
+                        if (lhs.blinking_ < rhs.blinking_)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+//* =========================================================================
 /// \brief Equality operator for attributes.
 //* =========================================================================
 constexpr bool operator==(attribute const &lhs, attribute const &rhs)
@@ -52,14 +103,6 @@ constexpr bool operator==(attribute const &lhs, attribute const &rhs)
         && lhs.underlining_       == rhs.underlining_
         && lhs.polarity_          == rhs.polarity_
         && lhs.blinking_          == rhs.blinking_;
-}
-
-//* =========================================================================
-/// \brief Inequality operator for attributes.
-//* =========================================================================
-constexpr bool operator!=(attribute const &lhs, attribute const &rhs)
-{
-    return !(lhs == rhs);
 }
 
 //* =========================================================================
