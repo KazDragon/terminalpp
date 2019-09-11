@@ -72,8 +72,8 @@ matrix:
 cache:
   - apt: true
   - directories:
-    - lcov
-    - .conan
+    - $HOME/lcov
+    - $HOME/.conan
 
 before_install:
 # Set up CC/CXX variables
