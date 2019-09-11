@@ -79,5 +79,8 @@ INSTANTIATE_TEST_CASE_P(
 
 TEST(a_glyph, can_be_inserted_into_an_unordered_set)
 {
-    std::unordered_set<terminalpp::glyph> g { {} };
+    std::unordered_set<terminalpp::glyph> g { 
+        {},
+        { terminalpp::glyph{"\U000007FF"} }
+    };
 }
