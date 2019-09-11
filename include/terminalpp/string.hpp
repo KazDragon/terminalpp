@@ -194,12 +194,7 @@ public :
     string &operator+=(string const &rhs);
 
     //* =====================================================================
-    /// \brief Character insert
-    //* =====================================================================
-    void insert(iterator pos, char ch);
-
-    //* =====================================================================
-    /// \brief Character insert
+    /// \brief Element insert
     //* =====================================================================
     void insert(iterator pos, element const &elem);
 

@@ -177,14 +177,6 @@ string &string::operator+=(string const &rhs)
 // ==========================================================================
 // INSERT
 // ==========================================================================
-void string::insert(string::iterator pos, char ch)
-{
-    elements_.insert(pos, ch);
-}
-
-// ==========================================================================
-// INSERT
-// ==========================================================================
 void string::insert(string::iterator pos, element const &elem)
 {
     elements_.insert(pos, elem);
