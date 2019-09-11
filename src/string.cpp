@@ -73,7 +73,7 @@ string::size_type string::size() const
 // ==========================================================================
 string::const_iterator string::begin() const
 {
-    return &*elements_.begin();
+    return elements_.begin();
 }
 
 // ==========================================================================
@@ -81,7 +81,7 @@ string::const_iterator string::begin() const
 // ==========================================================================
 string::iterator string::begin()
 {
-    return &*elements_.begin();
+    return elements_.begin();
 }
 
 // ==========================================================================
@@ -89,7 +89,7 @@ string::iterator string::begin()
 // ==========================================================================
 string::const_reverse_iterator string::rbegin() const
 {
-    return &*elements_.rbegin();
+    return elements_.rbegin();
 }
 
 // ==========================================================================
@@ -97,7 +97,7 @@ string::const_reverse_iterator string::rbegin() const
 // ==========================================================================
 string::const_iterator string::end() const
 {
-    return &*elements_.end();
+    return elements_.end();
 }
 
 // ==========================================================================
@@ -105,7 +105,7 @@ string::const_iterator string::end() const
 // ==========================================================================
 string::iterator string::end()
 {
-    return &*elements_.end();
+    return elements_.end();
 }
 
 // ==========================================================================
@@ -113,7 +113,7 @@ string::iterator string::end()
 // ==========================================================================
 string::const_reverse_iterator string::rend() const
 {
-    return &*elements_.rend();
+    return elements_.rend();
 }
 
 // ==========================================================================

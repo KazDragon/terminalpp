@@ -31,10 +31,10 @@ public :
     typedef value_type const &const_reference;
     typedef element          *pointer;
     typedef element const    *const_pointer;
-    typedef element          *iterator;
-    typedef element const    *const_iterator;
-    typedef element          *reverse_iterator;
-    typedef element const    *const_reverse_iterator;
+    typedef std::vector<element>::iterator               iterator;
+    typedef std::vector<element>::const_iterator         const_iterator;
+    typedef std::vector<element>::reverse_iterator       reverse_iterator;
+    typedef std::vector<element>::const_reverse_iterator const_reverse_iterator;
     typedef std::ptrdiff_t    difference_type;
     typedef std::size_t       size_type;
 
@@ -192,6 +192,17 @@ public :
     /// \brief Append operator
     //* =====================================================================
     string &operator+=(string const &rhs);
+
+    //* =====================================================================
+    /// \brief Range insert
+    //* =====================================================================
+    template <class InputIterator>
+    void insert(
+        iterator pos,
+        InputIterator range_begin, InputIterator range_end)
+    {
+        elements_.insert(pos, range_begin, range_end);
+    }
 
     //* =====================================================================
     /// \brief Less-than operator
