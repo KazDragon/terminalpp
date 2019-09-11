@@ -183,6 +183,14 @@ void string::insert(string::iterator pos, char ch)
 }
 
 // ==========================================================================
+// INSERT
+// ==========================================================================
+void string::insert(string::iterator pos, element const &elem)
+{
+    elements_.insert(pos, elem);
+}
+
+// ==========================================================================
 // OPERATOR <
 // ==========================================================================
 bool operator<(string const &lhs, string const &rhs)
