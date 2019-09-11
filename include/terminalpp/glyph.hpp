@@ -2,6 +2,7 @@
 
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/character_set.hpp"
+#include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
 
@@ -75,6 +76,29 @@ struct glyph
                 break;
             }
         }
+    }
+
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(glyph const &gly) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, gly.charset_);
+
+        if (gly.charset_ == terminalpp::ansi::charset::utf8)
+        {
+            for (auto ch : gly.ucharacter_)
+            {
+                boost::hash_combine(seed, ch);
+            }
+        }
+        else
+        {
+            boost::hash_combine(seed, gly.character_);
+        }
+
+        return seed;
     }
 
     union {
@@ -173,5 +197,21 @@ bool is_printable(glyph const &gly);
 //* =========================================================================
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, glyph const &gly);
+
+}
+
+namespace std {
+
+template <>
+struct hash<terminalpp::glyph>
+{
+    using argument_type = terminalpp::glyph;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &elem) const noexcept
+    {
+        return hash_value(elem);
+    }
+};
 
 }

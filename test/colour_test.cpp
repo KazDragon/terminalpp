@@ -1,6 +1,7 @@
 #include "terminalpp/colour.hpp"
 #include <gtest/gtest.h>
 #include <tuple>
+#include <unordered_set>
 
 using testing::ValuesIn;
 
@@ -169,3 +170,27 @@ static colour_string const colour_strings[] = {
     colour_string{ terminalpp::greyscale_colour(0),           "#00"   },
     colour_string{ terminalpp::greyscale_colour(21),          "#21"   },
 };
+
+TEST(low_colours, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::low_colour> c { {} };
+}
+
+TEST(high_colours, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::high_colour> c { {} };
+}
+
+TEST(greyscale_colours, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::greyscale_colour> c { {} };
+}
+
+TEST(a_colour, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::colour> c { 
+        terminalpp::low_colour{},
+        terminalpp::high_colour{},
+        terminalpp::greyscale_colour{} 
+    };
+}

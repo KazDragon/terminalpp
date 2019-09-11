@@ -1,6 +1,7 @@
 #include "terminalpp/attribute.hpp"
 #include <gtest/gtest.h>
 #include <tuple>
+#include <unordered_set>
 
 using testing::ValuesIn;
 
@@ -112,3 +113,8 @@ INSTANTIATE_TEST_CASE_P(
     attributes_with_strings,
     ValuesIn(attribute_strings)
 );
+
+TEST(an_attribute, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::attribute> a { {} };
+}

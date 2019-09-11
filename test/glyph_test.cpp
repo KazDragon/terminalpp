@@ -1,5 +1,6 @@
 #include <terminalpp/glyph.hpp>
 #include <gtest/gtest.h>
+#include <unordered_set>
 
 using testing::ValuesIn;
 
@@ -75,3 +76,11 @@ INSTANTIATE_TEST_CASE_P(
     glyphs_with_strings,
     ValuesIn(glyph_strings)
 );
+
+TEST(a_glyph, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::glyph> g { 
+        {},
+        { terminalpp::glyph{"\U000007FF"} }
+    };
+}
