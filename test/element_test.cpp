@@ -1,5 +1,6 @@
 #include "terminalpp/element.hpp"
 #include <gtest/gtest.h>
+#include <unordered_set>
 
 using testing::ValuesIn;
 
@@ -87,3 +88,8 @@ INSTANTIATE_TEST_CASE_P(
     elements_with_strings,
     ValuesIn(element_strings)
 );
+
+TEST(an_element, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::element> e { {} };
+}

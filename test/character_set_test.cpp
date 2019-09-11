@@ -1,6 +1,7 @@
 #include "terminalpp/character_set.hpp"
 #include <gtest/gtest.h>
 #include <tuple>
+#include <unordered_set>
 
 using testing::ValuesIn;
 
@@ -54,3 +55,8 @@ INSTANTIATE_TEST_CASE_P(
     character_sets_with_strings,
     ValuesIn(character_set_strings)
 );
+
+TEST(a_character_set, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::character_set> c { {} };
+}

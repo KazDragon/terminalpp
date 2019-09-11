@@ -1,6 +1,7 @@
 #include "terminalpp/effect.hpp"
 #include <gtest/gtest.h>
 #include <tuple>
+#include <unordered_set>
 
 using testing::ValuesIn;
 
@@ -140,3 +141,8 @@ INSTANTIATE_TEST_CASE_P(
     blinking_with_strings,
     ValuesIn(blink_strings)
 );
+
+TEST(an_effect, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::intensity> e { {} };
+}
