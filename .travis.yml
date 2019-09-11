@@ -72,8 +72,8 @@ matrix:
 cache:
   - apt: true
   - directories:
-    - lcov
-    - .conan
+    - $HOME/lcov
+    - $HOME/.conan
 
 before_install:
 # Set up CC/CXX variables
@@ -95,8 +95,8 @@ before_install:
 before_script:
   - mkdir build || true
   - cd build
-  - conan remote add nonstd-lite https://api.bintray.com/conan/agauniyal/nonstd-lite
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  - conan remote add nonstd-lite https://api.bintray.com/conan/agauniyal/nonstd-lite || true
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || true
   - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 -o terminalpp:withTests=True --build=missing
   - $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_WITH_TESTS=True -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE ..
 
