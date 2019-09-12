@@ -194,12 +194,12 @@ public :
     string &operator+=(string const &rhs);
 
     //* =====================================================================
-    /// \brief Element insert
+    /// \brief Inserts an element at the iterator position.
     //* =====================================================================
     void insert(iterator pos, element const &elem);
 
     //* =====================================================================
-    /// \brief Range insert
+    /// \brief Inserts a range of elements at the iterator position.
     //* =====================================================================
     template <class InputIterator>
     void insert(
@@ -208,6 +208,21 @@ public :
     {
         elements_.insert(pos, range_begin, range_end);
     }
+
+    //* =====================================================================
+    /// \brief Erase
+    //* =====================================================================
+    void erase();
+
+    //* =====================================================================
+    /// \brief Erase
+    //* =====================================================================
+    void erase(iterator range_begin);
+
+    //* =====================================================================
+    /// \brief Erase
+    //* =====================================================================
+    void erase(iterator range_begin, iterator range_end);
 
     //* =====================================================================
     /// \brief Less-than operator

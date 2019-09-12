@@ -174,3 +174,78 @@ TEST(inserting_into_the_middle_of_a_string_with_content, inserts_text_at_that_lo
     
     ASSERT_EQ(expected_data, str);
 }
+
+TEST(erasing_an_empty_string, gives_an_empty_string)
+{
+    auto const expected_data = ""_ets;
+    
+    terminalpp::string str;
+    str.erase();
+    
+    ASSERT_EQ(expected_data, str);
+}
+
+TEST(erasing_the_end_of_an_empty_string, gives_an_empty_string)
+{
+    auto const expected_data = ""_ets;
+    
+    terminalpp::string str;
+    str.erase(str.end());
+    
+    ASSERT_EQ(expected_data, str);
+}
+
+TEST(erasing_a_string_with_content, gives_an_empty_string)
+{
+    auto const test_data = "test_data"_ets;
+    auto const expected_data = ""_ets;
+    
+    auto str = test_data;
+    str.erase();
+    
+    ASSERT_EQ(expected_data, str);
+}
+
+TEST(erasing_the_beginning_of_a_string_with_content, gives_an_empty_string)
+{
+    auto const test_data = "test_data"_ets;
+    auto const expected_data = ""_ets;
+    
+    auto str = test_data;
+    str.erase(str.begin());
+    
+    ASSERT_EQ(expected_data, str);
+}
+
+TEST(erasing_the_end_of_a_string_with_content, gives_the_content)
+{
+    auto const test_data = "test_data"_ets;
+    auto const expected_data = "test_data"_ets;
+    
+    auto str = test_data;
+    str.erase(str.end());
+    
+    ASSERT_EQ(expected_data, str);
+}
+
+TEST(erasing_from_the_middle_of_a_string_with_content, truncates_the_string_at_that_point)
+{
+    auto const test_data = "test_data"_ets;
+    auto const expected_data = "test"_ets;
+    
+    auto str = test_data;
+    str.erase(str.begin() + 4);
+    
+    ASSERT_EQ(expected_data, str);
+}
+
+TEST(erasing_a_substring_from_a_string_with_content, removes_that_substring_from_the_string)
+{
+    auto const test_data = "test data"_ets;
+    auto const expected_data = "teta"_ets;
+    
+    auto str = test_data;
+    str.erase(str.begin() + 2, str.begin() + 7);
+    
+    ASSERT_EQ(expected_data, str);
+}
