@@ -22,21 +22,23 @@ class TERMINALPP_EXPORT string
             boost::less_than_comparable<string,
             boost::equality_comparable<string>>>>>
 {
+    using elements_storage = std::vector<element>;
+    
 public :
     //* =====================================================================
     /// Container Typedefs
     //* =====================================================================
-    typedef element                                      value_type;
-    typedef value_type                                  &reference;
-    typedef value_type const                            &const_reference;
-    typedef element                                     *pointer;
-    typedef element const                               *const_pointer;
-    typedef std::vector<element>::iterator               iterator;
-    typedef std::vector<element>::const_iterator         const_iterator;
-    typedef std::vector<element>::reverse_iterator       reverse_iterator;
-    typedef std::vector<element>::const_reverse_iterator const_reverse_iterator;
-    typedef std::ptrdiff_t                               difference_type;
-    typedef std::size_t                                  size_type;
+    using value_type             = element;
+    using reference              = value_type &;
+    using const_reference        = value_type const &;
+    using pointer                = element *;
+    using const_pointer          = element const *;
+    using iterator               = elements_storage::iterator;
+    using const_iterator         = elements_storage::const_iterator;
+    using reverse_iterator       = elements_storage::reverse_iterator;
+    using const_reverse_iterator = elements_storage::const_reverse_iterator;
+    using difference_type        = std::ptrdiff_t;
+    using size_type              = std::size_t;
 
     //* =====================================================================
     /// \brief Constructor
@@ -245,7 +247,7 @@ public :
     }
 
 private :
-    std::vector<element> elements_;
+    elements_storage elements_;
 };
 
 //* =========================================================================
