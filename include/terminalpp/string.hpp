@@ -22,21 +22,23 @@ class TERMINALPP_EXPORT string
             boost::less_than_comparable<string,
             boost::equality_comparable<string>>>>>
 {
+    using elements_storage = std::vector<element>;
+    
 public :
     //* =====================================================================
     /// Container Typedefs
     //* =====================================================================
-    typedef element           value_type;
-    typedef value_type       &reference;
-    typedef value_type const &const_reference;
-    typedef element          *pointer;
-    typedef element const    *const_pointer;
-    typedef element          *iterator;
-    typedef element const    *const_iterator;
-    typedef element          *reverse_iterator;
-    typedef element const    *const_reverse_iterator;
-    typedef std::ptrdiff_t    difference_type;
-    typedef std::size_t       size_type;
+    using value_type             = element;
+    using reference              = value_type &;
+    using const_reference        = value_type const &;
+    using pointer                = element *;
+    using const_pointer          = element const *;
+    using iterator               = elements_storage::iterator;
+    using const_iterator         = elements_storage::const_iterator;
+    using reverse_iterator       = elements_storage::reverse_iterator;
+    using const_reverse_iterator = elements_storage::const_reverse_iterator;
+    using difference_type        = std::ptrdiff_t;
+    using size_type              = std::size_t;
 
     //* =====================================================================
     /// \brief Constructor
@@ -194,6 +196,37 @@ public :
     string &operator+=(string const &rhs);
 
     //* =====================================================================
+    /// \brief Inserts an element at the iterator position.
+    //* =====================================================================
+    void insert(iterator pos, element const &elem);
+
+    //* =====================================================================
+    /// \brief Inserts a range of elements at the iterator position.
+    //* =====================================================================
+    template <class InputIterator>
+    void insert(
+        iterator pos,
+        InputIterator range_begin, InputIterator range_end)
+    {
+        elements_.insert(pos, range_begin, range_end);
+    }
+
+    //* =====================================================================
+    /// \brief Erase
+    //* =====================================================================
+    void erase();
+
+    //* =====================================================================
+    /// \brief Erase
+    //* =====================================================================
+    void erase(iterator range_begin);
+
+    //* =====================================================================
+    /// \brief Erase
+    //* =====================================================================
+    void erase(iterator range_begin, iterator range_end);
+
+    //* =====================================================================
     /// \brief Less-than operator
     //* =====================================================================
     TERMINALPP_EXPORT
@@ -214,7 +247,7 @@ public :
     }
 
 private :
-    std::vector<element> elements_;
+    elements_storage elements_;
 };
 
 //* =========================================================================

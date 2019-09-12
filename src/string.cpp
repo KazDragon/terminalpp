@@ -73,7 +73,7 @@ string::size_type string::size() const
 // ==========================================================================
 string::const_iterator string::begin() const
 {
-    return &*elements_.begin();
+    return elements_.begin();
 }
 
 // ==========================================================================
@@ -81,7 +81,7 @@ string::const_iterator string::begin() const
 // ==========================================================================
 string::iterator string::begin()
 {
-    return &*elements_.begin();
+    return elements_.begin();
 }
 
 // ==========================================================================
@@ -89,7 +89,7 @@ string::iterator string::begin()
 // ==========================================================================
 string::const_reverse_iterator string::rbegin() const
 {
-    return &*elements_.rbegin();
+    return elements_.rbegin();
 }
 
 // ==========================================================================
@@ -97,7 +97,7 @@ string::const_reverse_iterator string::rbegin() const
 // ==========================================================================
 string::const_iterator string::end() const
 {
-    return &*elements_.end();
+    return elements_.end();
 }
 
 // ==========================================================================
@@ -105,7 +105,7 @@ string::const_iterator string::end() const
 // ==========================================================================
 string::iterator string::end()
 {
-    return &*elements_.end();
+    return elements_.end();
 }
 
 // ==========================================================================
@@ -113,7 +113,7 @@ string::iterator string::end()
 // ==========================================================================
 string::const_reverse_iterator string::rend() const
 {
-    return &*elements_.rend();
+    return elements_.rend();
 }
 
 // ==========================================================================
@@ -172,6 +172,38 @@ string &string::operator+=(string const &rhs)
 {
     elements_.insert(elements_.end(), rhs.begin(), rhs.end());
     return *this;
+}
+
+// ==========================================================================
+// INSERT
+// ==========================================================================
+void string::insert(string::iterator pos, element const &elem)
+{
+    elements_.insert(pos, elem);
+}
+
+// ==========================================================================
+// ERASE
+// ==========================================================================
+void string::erase()
+{
+    elements_.clear();
+}
+
+// ==========================================================================
+// ERASE
+// ==========================================================================
+void string::erase(string::iterator range_begin)
+{
+    elements_.erase(range_begin, elements_.end());
+}
+
+// ==========================================================================
+// ERASE
+// ==========================================================================
+void string::erase(string::iterator range_begin, string::iterator range_end)
+{
+    elements_.erase(range_begin, range_end);
 }
 
 // ==========================================================================

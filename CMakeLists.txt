@@ -234,6 +234,7 @@ if (TERMINALPP_WITH_TESTS)
         test/point_test.cpp
         test/screen_test.cpp
         test/string_test.cpp
+        test/string_manip_test.cpp
         test/virtual_key_test.cpp
     )
 
