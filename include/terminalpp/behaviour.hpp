@@ -13,6 +13,8 @@ struct behaviour
         uses_eight_bit_control_codes_by_default(false),
         supports_cha(true),
         supports_cha_default(true),
+        supports_vpa(true),
+        supports_vpa_default(true),
         supports_cup_default_row(false),
         supports_cup_default_column(true),
         supports_cup_default_all(true),
@@ -41,6 +43,13 @@ struct behaviour
     // True if the terminal supports the use of a default argument
     // in Cursor Horizontal Absolute
     bool supports_cha_default : 1;
+
+    // True if the terminal supports Line Position Absolute (VPA [sic])
+    bool supports_vpa : 1;
+
+    // True if the terminal supports the use of a default argument
+    // in Line Position Absolute
+    bool supports_vpa_default : 1;
 
     // True if the terminal supports the use of a default row argument
     // (only) in Cursor Position.

@@ -73,10 +73,21 @@ public :
     std::string restore_cursor() override;
 
     //* =====================================================================
-    /// \brief Move the cursor to the specified position.  Note: terminals are
-    /// 1-based.  I.e. the origin position is (1,1).
+    /// \brief Move the cursor to the specified position.  Note: although
+    /// terminals are 1-based in output, this class uses (0,0) as the top-
+    /// left cell and translates it automatically.
     //* =====================================================================
     std::string move_cursor(point const &pt) override;
+
+    //* =====================================================================
+    /// \brief Moves the cursor across the x-axis.
+    //* =====================================================================
+    std::string move_cursor_horizontally(coordinate_type x) override;
+
+    //* =====================================================================
+    /// \brief Moves the cursor across the y-axis.
+    //* =====================================================================
+    std::string move_cursor_vertically(coordinate_type y) override;
 
     //* =====================================================================
     /// \brief Reads a stream of data.

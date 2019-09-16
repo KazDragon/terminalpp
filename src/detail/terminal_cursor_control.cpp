@@ -135,4 +135,29 @@ std::string cursor_position(
     return result + terminalpp::ansi::csi::CURSOR_POSITION;
 }
 
+// ==========================================================================
+// LINE_POSITION_ABSOLUTE
+// ==========================================================================
+std::string line_position_absolute(
+    coordinate_type              x,
+    terminalpp::behaviour const &behaviour,
+    control_mode          const &mode)
+{
+    std::string result;
+
+    result += csi(mode);
+
+    // If x is 1, and our terminal supports VPA with a default argument, then
+    // we can skip the character the column indicator.  Otherwise, we have to
+    // include it.
+    if (x != 1 || !behaviour.supports_vpa_default)
+    {
+        result += std::to_string(x);
+    }
+
+    result += terminalpp::ansi::csi::LINE_POSITION_ABSOLUTE;
+
+    return result;
+}
+
 }}
