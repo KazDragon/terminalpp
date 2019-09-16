@@ -54,4 +54,12 @@ std::string cursor_position(
   terminalpp::behaviour const &behaviour,
   control_mode          const &mode);
 
+//* =========================================================================
+/// \brief Move the cursor to row y.
+//* =========================================================================
+std::string line_position_absolute(
+    coordinate_type              y,
+    terminalpp::behaviour const &behaviour,
+    control_mode          const &mode);
+
 }}

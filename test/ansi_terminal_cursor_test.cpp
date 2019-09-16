@@ -367,3 +367,46 @@ TEST(moving_the_cursor_horizontally_from_a_known_coordinate, allows_shortcuts)
         std::string("\x1B[B"),
         terminal.move_cursor({6, 3}));
 }
+
+TEST(moving_the_cursor_vertically_to_the_home_column, sends_vpa)
+{
+    terminalpp::ansi_terminal terminal;
+
+    expect_sequence(
+        std::string("\x1B[d"),
+        terminal.move_cursor_vertically(0));
+}
+
+TEST(moving_the_cursor_vertically_to_a_non_home_column, sends_cha_and_coordinate)
+{
+    terminalpp::ansi_terminal terminal;
+
+    expect_sequence(
+        std::string("\x1B[8d"),
+        terminal.move_cursor_vertically(7));
+}
+
+TEST(moving_the_cursor_vertically_with_an_unknown_coordinate, leaves_the_coordinate_unknown)
+{
+    terminalpp::ansi_terminal terminal;
+    terminal.move_cursor_vertically(6);
+
+    // We expect that we receive a full move-to because the coordinate
+    // is unknown.
+    expect_sequence(
+        std::string("\x1B[4;7H"),
+        terminal.move_cursor({6, 3}));
+}
+
+TEST(moving_the_cursor_vertically_from_a_known_coordinate, allows_shortcuts)
+{
+    terminalpp::ansi_terminal terminal;
+    terminal.move_cursor({12, 2});
+    terminal.move_cursor_vertically(6);
+
+    // Because the cursor position was known, we know that this just
+    // moves the cursor left one space.
+    expect_sequence(
+        std::string("\x1B[D"),
+        terminal.move_cursor({11, 6}));
+}

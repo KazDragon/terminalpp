@@ -110,6 +110,11 @@ public :
     virtual std::string move_cursor_horizontally(coordinate_type x) = 0;
 
     //* =====================================================================
+    /// \brief Moves the cursor across the y-axis.
+    //* =====================================================================
+    virtual std::string move_cursor_vertically(coordinate_type y) = 0;
+
+    //* =====================================================================
     /// \brief Reads a stream of data.
     //* =====================================================================
     virtual std::vector<token> read(std::string const &data) = 0;

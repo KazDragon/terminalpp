@@ -333,6 +333,23 @@ std::string ansi_terminal::move_cursor_horizontally(coordinate_type x)
 }
 
 // ==========================================================================
+// MOVE_CURSOR_VERTICALLY
+// ==========================================================================
+std::string ansi_terminal::move_cursor_vertically(coordinate_type y)
+{
+    auto const ansi_y_coordinate = y + 1;
+    auto const result = detail::line_position_absolute(
+        ansi_y_coordinate, behaviour_, control_mode_);
+
+    if (cursor_position_)
+    {
+        cursor_position_->y = y;
+    }
+
+    return result;
+}
+
+// ==========================================================================
 // READ
 // ==========================================================================
 std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)

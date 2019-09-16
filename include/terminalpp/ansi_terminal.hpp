@@ -85,6 +85,11 @@ public :
     std::string move_cursor_horizontally(coordinate_type x) override;
 
     //* =====================================================================
+    /// \brief Moves the cursor across the y-axis.
+    //* =====================================================================
+    std::string move_cursor_vertically(coordinate_type y) override;
+
+    //* =====================================================================
     /// \brief Reads a stream of data.
     //* =====================================================================
     std::vector<token> read(std::string const &data) override;
