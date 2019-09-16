@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-TEST(a_ansi_terminal_with_an_unknown_location, sends_absolute_coordinates_when_moving)
+TEST(an_ansi_terminal_with_an_unknown_location, sends_absolute_coordinates_when_moving)
 {
     terminalpp::ansi_terminal terminal;
 
@@ -13,7 +13,7 @@ TEST(a_ansi_terminal_with_an_unknown_location, sends_absolute_coordinates_when_m
         terminal.move_cursor({2, 2}));
 }
 
-TEST(a_ansi_terminal_with_an_unknown_location, omits_coordinates_when_moving_to_top_left)
+TEST(an_ansi_terminal_with_an_unknown_location, omits_coordinates_when_moving_to_top_left)
 {
     terminalpp::ansi_terminal terminal;
 
@@ -22,7 +22,7 @@ TEST(a_ansi_terminal_with_an_unknown_location, omits_coordinates_when_moving_to_
         terminal.move_cursor({0, 0}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location, omits_coordinates_when_moving_to_top_left)
+TEST(an_ansi_terminal_with_a_known_location, omits_coordinates_when_moving_to_top_left)
 {
     terminalpp::ansi_terminal terminal;
     terminal.move_cursor({10, 10});
@@ -32,7 +32,7 @@ TEST(a_ansi_terminal_with_a_known_location, omits_coordinates_when_moving_to_top
         terminal.move_cursor({0, 0}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location, sends_nothing_when_moving_to_the_same_coordinates)
+TEST(an_ansi_terminal_with_a_known_location, sends_nothing_when_moving_to_the_same_coordinates)
 {
     terminalpp::ansi_terminal terminal;
     terminal.move_cursor({10, 10});
@@ -40,7 +40,7 @@ TEST(a_ansi_terminal_with_a_known_location, sends_nothing_when_moving_to_the_sam
     expect_sequence(std::string{}, terminal.move_cursor({10, 10}));
 }
 
-TEST(a_ansi_terminal_supporting_cha_default_and_a_known_location,
+TEST(an_ansi_terminal_supporting_cha_default_and_a_known_location,
      when_moving_to_the_home_column_sends_cha_with_no_argument)
 {
     terminalpp::behaviour behaviour;
@@ -55,7 +55,7 @@ TEST(a_ansi_terminal_supporting_cha_default_and_a_known_location,
         terminal.move_cursor({0, 10}));
 }
 
-TEST(a_ansi_terminal_supporting_cha_but_not_cha_default_and_a_known_location,
+TEST(an_ansi_terminal_supporting_cha_but_not_cha_default_and_a_known_location,
      when_moving_to_the_home_column_sends_cha_with_column_argument)
 {
     terminalpp::behaviour behaviour;
@@ -70,7 +70,7 @@ TEST(a_ansi_terminal_supporting_cha_but_not_cha_default_and_a_known_location,
         terminal.move_cursor({0, 10}));
 }
 
-TEST(a_ansi_terminal_not_supporting_cha_and_a_known_location,
+TEST(an_ansi_terminal_not_supporting_cha_and_a_known_location,
      when_moving_to_the_home_column_sends_cub)
 {
     terminalpp::behaviour behaviour;
@@ -85,7 +85,7 @@ TEST(a_ansi_terminal_not_supporting_cha_and_a_known_location,
         terminal.move_cursor({0, 10}));
 }
 
-TEST(a_ansi_terminal_with_known_location,
+TEST(an_ansi_terminal_with_known_location,
      when_moving_left_to_at_least_the_tenth_column_sends_cub)
 {
     terminalpp::ansi_terminal terminal;
@@ -96,7 +96,7 @@ TEST(a_ansi_terminal_with_known_location,
         terminal.move_cursor({9, 10}));
 }
 
-TEST(a_ansi_terminal_with_known_location,
+TEST(an_ansi_terminal_with_known_location,
      when_moving_left_to_less_than_the_tenth_column_sends_cha)
 {
     terminalpp::behaviour behaviour;
@@ -110,7 +110,7 @@ TEST(a_ansi_terminal_with_known_location,
         terminal.move_cursor({8, 10}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location_but_no_cha_support,
+TEST(an_ansi_terminal_with_a_known_location_but_no_cha_support,
      when_moving_left_to_less_than_the_tenth_column_sends_cub)
 {
     terminalpp::behaviour behaviour;
@@ -124,7 +124,7 @@ TEST(a_ansi_terminal_with_a_known_location_but_no_cha_support,
         terminal.move_cursor({8, 10}));
 }
 
-TEST(a_ansi_terminal_with_known_location,
+TEST(an_ansi_terminal_with_known_location,
      when_moving_right_to_at_least_the_tenth_column_sends_cuf)
 {
     terminalpp::ansi_terminal terminal;
@@ -135,7 +135,7 @@ TEST(a_ansi_terminal_with_known_location,
         terminal.move_cursor({9, 10}));
 }
 
-TEST(a_ansi_terminal_with_known_location,
+TEST(an_ansi_terminal_with_known_location,
      when_moving_right_to_less_than_the_tenth_column_sends_cha)
 {
     terminalpp::ansi_terminal terminal;
@@ -146,7 +146,7 @@ TEST(a_ansi_terminal_with_known_location,
         terminal.move_cursor({8, 10}));
 }
 
-TEST(a_ansi_terminal_with_known_location_but_no_cha_support,
+TEST(an_ansi_terminal_with_known_location_but_no_cha_support,
      when_moving_right_to_less_than_the_tenth_column_sends_cha)
 {
     terminalpp::behaviour behaviour;
@@ -160,7 +160,7 @@ TEST(a_ansi_terminal_with_known_location_but_no_cha_support,
         terminal.move_cursor({8, 10}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location,
+TEST(an_ansi_terminal_with_a_known_location,
     when_moving_to_the_home_row_sends_cuu)
 {
     // When moving to the origin column, we should use CUU in all
@@ -181,7 +181,7 @@ TEST(a_ansi_terminal_with_a_known_location,
         terminal.move_cursor({9, 1}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location,
+TEST(an_ansi_terminal_with_a_known_location,
     when_moving_up_one_row_sends_cuu_with_no_argument)
 {
     terminalpp::ansi_terminal terminal;
@@ -192,7 +192,7 @@ TEST(a_ansi_terminal_with_a_known_location,
         terminal.move_cursor({9, 8}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location,
+TEST(an_ansi_terminal_with_a_known_location,
     when_moving_up_many_rows_sends_cuu)
 {
     terminalpp::ansi_terminal terminal;
@@ -203,7 +203,7 @@ TEST(a_ansi_terminal_with_a_known_location,
         terminal.move_cursor({9, 7}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location,
+TEST(an_ansi_terminal_with_a_known_location,
     when_moving_down_one_row_sends_cud_with_no_argument)
 {
     terminalpp::ansi_terminal terminal;
@@ -214,7 +214,7 @@ TEST(a_ansi_terminal_with_a_known_location,
         terminal.move_cursor({6, 7}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location,
+TEST(an_ansi_terminal_with_a_known_location,
     when_moving_down_one_many_rows_sends_cud)
 {
     terminalpp::ansi_terminal terminal;
@@ -225,7 +225,7 @@ TEST(a_ansi_terminal_with_a_known_location,
         terminal.move_cursor({6, 8}));
 }
 
-TEST(a_ansi_terminal_with_a_known_location,
+TEST(an_ansi_terminal_with_a_known_location,
     when_moving_in_both_axes_sends_cup)
 {
     terminalpp::ansi_terminal terminal;
@@ -236,7 +236,7 @@ TEST(a_ansi_terminal_with_a_known_location,
         terminal.move_cursor({10, 3}));
 }
 
-TEST(a_ansi_terminal_with_an_unkown_cursor_state,
+TEST(an_ansi_terminal_with_an_unkown_cursor_state,
     when_showing_cursor_sends_show_cursor)
 {
     terminalpp::ansi_terminal terminal;
@@ -246,7 +246,7 @@ TEST(a_ansi_terminal_with_an_unkown_cursor_state,
         terminal.show_cursor());
 }
 
-TEST(a_ansi_terminal_with_an_unkown_cursor_state,
+TEST(an_ansi_terminal_with_an_unkown_cursor_state,
     when_hiding_cursor_sends_hide_cursor)
 {
     terminalpp::ansi_terminal terminal;
@@ -256,7 +256,7 @@ TEST(a_ansi_terminal_with_an_unkown_cursor_state,
         terminal.hide_cursor());
 }
 
-TEST(a_ansi_terminal_with_a_shown_cursor,
+TEST(an_ansi_terminal_with_a_shown_cursor,
     when_showing_cursor_sends_nothing)
 {
     terminalpp::ansi_terminal terminal;
@@ -267,7 +267,7 @@ TEST(a_ansi_terminal_with_a_shown_cursor,
         terminal.show_cursor());
 }
 
-TEST(a_ansi_terminal_with_a_hidden_cursor,
+TEST(an_ansi_terminal_with_a_hidden_cursor,
     when_showing_cursor_sends_show_cursor)
 {
     terminalpp::ansi_terminal terminal;
@@ -278,7 +278,7 @@ TEST(a_ansi_terminal_with_a_hidden_cursor,
         terminal.hide_cursor());
 }
 
-TEST(a_ansi_terminal_with_a_shown_cursor,
+TEST(an_ansi_terminal_with_a_shown_cursor,
     when_hiding_cursor_sends_hide_cursor)
 {
     terminalpp::ansi_terminal terminal;
@@ -289,7 +289,7 @@ TEST(a_ansi_terminal_with_a_shown_cursor,
         terminal.show_cursor());
 }
 
-TEST(a_ansi_terminal_with_a_hidden_cursor,
+TEST(an_ansi_terminal_with_a_hidden_cursor,
     when_hiding_cursor_sends_nothing)
 {
     terminalpp::ansi_terminal terminal;
@@ -300,8 +300,7 @@ TEST(a_ansi_terminal_with_a_hidden_cursor,
         terminal.hide_cursor());
 }
 
-TEST(a_ansi_terminal,
-    when_saving_cursor_position_sends_save_position)
+TEST(saving_the_cursor_position_in_an_ansi_terminal, sends_save_position)
 {
     terminalpp::ansi_terminal terminal;
 
@@ -310,8 +309,7 @@ TEST(a_ansi_terminal,
         terminal.save_cursor());
 }
 
-TEST(a_ansi_terminal,
-    when_restoring_cursor_position_sends_restore_position)
+TEST(restoring_the_cursor_position_in_an_ansi_terminal, sends_restore_position)
 {
     terminalpp::ansi_terminal terminal;
     terminal.move_cursor({5, 5});
