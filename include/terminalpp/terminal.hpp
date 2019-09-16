@@ -98,10 +98,16 @@ public :
     virtual std::string restore_cursor() = 0;
 
     //* =====================================================================
-    /// \brief Move the cursor to the specified position.  Note: terminals are
-    /// 1-based.  I.e. the origin position is (1,1).
+    /// \brief Move the cursor to the specified position.  Note: although
+    /// terminals are 1-based in output, this class uses (0,0) as the top-
+    /// left cell and translates it automatically.
     //* =====================================================================
     virtual std::string move_cursor(point const &pt) = 0;
+
+    //* =====================================================================
+    /// \brief Moves the cursor across the x-axis.
+    //* =====================================================================
+    virtual std::string move_cursor_horizontally(coordinate_type x) = 0;
 
     //* =====================================================================
     /// \brief Reads a stream of data.

@@ -316,6 +316,23 @@ std::string ansi_terminal::move_cursor(point const &pos)
 }
 
 // ==========================================================================
+// MOVE_CURSOR_HORIZONTALLY
+// ==========================================================================
+std::string ansi_terminal::move_cursor_horizontally(coordinate_type x)
+{
+    auto const ansi_x_coordinate = x + 1;
+    auto const result = detail::cursor_horizontal_absolute(
+        ansi_x_coordinate, behaviour_, control_mode_);
+
+    if (cursor_position_)
+    {
+        cursor_position_->x = x;
+    }
+
+    return result;
+}
+
+// ==========================================================================
 // READ
 // ==========================================================================
 std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)
