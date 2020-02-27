@@ -1,5 +1,5 @@
 language: cpp
-sudo: false
+os: linux
 
 compiler:
   - clang
@@ -31,47 +31,47 @@ linux_clang: &linux_clang
         - python3
         - python3-pip
 
-matrix:
+jobs:
   include:
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=1"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=True"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=0"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=1"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=True"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0 && SANITIZE=address"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && SANITIZE=address"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0 && COVERAGE=ON"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && COVERAGE=True"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=False"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=1"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=True"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=0"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=False"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=1"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=True"
 
 cache:
   - apt: true
@@ -83,6 +83,8 @@ before_install:
 # Set up CC/CXX variables
   - eval "${MATRIX_EVAL}"
   - export CMAKE=cmake
+  - export COVERAGE=${COVERAGE:-False}
+  - export SANITIZE=${SANITIZE:-off}
 # workaround for not having lcov 1.13
   - if [ ! -d "lcov/usr/local/bin/lcov" ]; then
       wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.13.orig.tar.gz;
@@ -95,18 +97,18 @@ before_install:
   - pip3 install --user --upgrade setuptools
   - pip3 install --user conan
 # install coverage software
-  - if [ "$COVERAGE" == "ON" ]; then gem install coveralls-lcov; fi
+  - if [ "$COVERAGE" == "True" ]; then gem install coveralls-lcov; fi
 
 before_script:
   - mkdir build || true
   - cd build
   - conan remote add nonstd-lite https://api.bintray.com/conan/martinmoene/nonstd-lite || true
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || true
-  - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 --build=missing
+  - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 -o terminalpp:shared=$SHARED -o terminalpp:sanitize=$SANITIZE -o terminalpp:coverage=$COVERAGE --build=missing
 
 script:
   - conan build ..
-  - if [ "$COVERAGE" == "ON" ]; then
+  - if [ "$COVERAGE" == "True" ]; then
         $LCOV --gcov-tool=gcov-5 --base-directory . --directory . --zerocounters -q;
     fi
   - make test
@@ -115,7 +117,7 @@ after_failure:
   - cat Testing/Temporary/LastTest.log
 
 after_success:
-  - if [ "$COVERAGE" == "ON" ]; then
+  - if [ "$COVERAGE" == "True" ]; then
         $LCOV --gcov-tool=gcov-5 --base-directory . --directory .  --capture --output-file coverage.info;
         $LCOV --gcov-tool=gcov-5 --remove coverage.info '*/test/*' '/usr/*' '*/.conan/*' --output-file coverage.info;
         $LCOV --gcov-tool=gcov-5 --list coverage.info;
@@ -128,10 +130,10 @@ notifications:
     on_failure: change # [always|never|change] # default: always
   slack:
     rooms:
-      - kazdragon:E8B4Cs4p3TiVLqHAq8wYYTr3#ci
+      - kazdragon:${SLACK_TOKEN}#ci
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/4812102d2070137f8429
+      - https://webhooks.gitter.im/e/${GITTER_TOKEN}
     on_success: change  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
     on_start: never     # options: [always|never|change] default: always
