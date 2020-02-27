@@ -128,7 +128,7 @@ notifications:
     on_failure: change # [always|never|change] # default: always
   slack:
     rooms:
-      - kazdragon:E8B4Cs4p3TiVLqHAq8wYYTr3#ci
+      - kazdragon:${SLACK_TOKEN}#ci
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/${GITTER_TOKEN}
