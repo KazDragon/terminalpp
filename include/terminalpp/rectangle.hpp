@@ -3,6 +3,7 @@
 #include "terminalpp/detail/export.hpp"
 #include "terminalpp/point.hpp"
 #include "terminalpp/extent.hpp"
+#include <iosfwd>
 
 namespace terminalpp {
 
@@ -52,5 +53,12 @@ constexpr bool operator!=(rectangle const &lhs, rectangle const &rhs)
 {
     return !(lhs == rhs);
 }
+
+//* =====================================================================
+/// \brief Outputs the current state of the point to a stream.
+/// For example, "rectangle(point(35,49), extent(32,90))"
+//* =====================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, rectangle const &pt);
 
 }
