@@ -206,66 +206,64 @@ install(
         lib/terminalpp-${TERMINALPP_VERSION}
 )
 
-if (TERMINALPP_WITH_TESTS)
-    enable_testing()
+enable_testing()
 
-    add_executable(terminalpp_tester
-        test/ansi_terminal_init_test.cpp
-        test/ansi_terminal_cursor_test.cpp
-        test/ansi_terminal_read_cursor_test.cpp
-        test/ansi_terminal_read_fkey_test.cpp
-        test/ansi_terminal_read_test.cpp
-        test/ansi_terminal_settings_test.cpp
-        test/ansi_terminal_string_test.cpp
-        test/attribute_test.cpp
-        test/canvas_test.cpp
-        test/character_set_test.cpp
-        test/colour_test.cpp
-        test/control_sequence_test.cpp
-        test/effect_test.cpp
-        test/element_test.cpp
-        test/encoder_test.cpp
-        test/expect_sequence.cpp
-        test/expect_tokens.cpp
-        test/extent_test.cpp
-        test/glyph_test.cpp
-        test/manip_test.cpp
-        test/mouse_test.cpp
-        test/point_test.cpp
-        test/screen_test.cpp
-        test/string_test.cpp
-        test/string_manip_test.cpp
-        test/virtual_key_test.cpp
-    )
+add_executable(terminalpp_tester
+    test/ansi_terminal_init_test.cpp
+    test/ansi_terminal_cursor_test.cpp
+    test/ansi_terminal_read_cursor_test.cpp
+    test/ansi_terminal_read_fkey_test.cpp
+    test/ansi_terminal_read_test.cpp
+    test/ansi_terminal_settings_test.cpp
+    test/ansi_terminal_string_test.cpp
+    test/attribute_test.cpp
+    test/canvas_test.cpp
+    test/character_set_test.cpp
+    test/colour_test.cpp
+    test/control_sequence_test.cpp
+    test/effect_test.cpp
+    test/element_test.cpp
+    test/encoder_test.cpp
+    test/expect_sequence.cpp
+    test/expect_tokens.cpp
+    test/extent_test.cpp
+    test/glyph_test.cpp
+    test/manip_test.cpp
+    test/mouse_test.cpp
+    test/point_test.cpp
+    test/screen_test.cpp
+    test/string_test.cpp
+    test/string_manip_test.cpp
+    test/virtual_key_test.cpp
+)
 
-    target_compile_features(terminalpp_tester
-        PUBLIC
-            cxx_strong_enums
-            cxx_relaxed_constexpr)
+target_compile_features(terminalpp_tester
+    PUBLIC
+        cxx_strong_enums
+        cxx_relaxed_constexpr)
 
-    target_link_libraries(terminalpp_tester
-        terminalpp
-        CONAN_PKG::gtest
-        CONAN_PKG::fmt
-    )
+target_link_libraries(terminalpp_tester
+    terminalpp
+    CONAN_PKG::gtest
+    CONAN_PKG::fmt
+)
 
-    add_test(terminalpp_test terminalpp_tester)
-endif()
+add_test(terminalpp_test terminalpp_tester)
 
 # Add a rule for generating documentation
 if (DOXYGEN_FOUND)
-    configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
-        ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-        @ONLY)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+    ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    @ONLY)
 
-    add_custom_target(terminalpp_doc
-        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-        WORKING_DIRECTORY
-            ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT
-            "Generate API documentation with Doxygen" VERBATIM
-    )
+add_custom_target(terminalpp_doc
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY
+        ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT
+        "Generate API documentation with Doxygen" VERBATIM
+)
 endif()
 
 # Add customizations for packaging
