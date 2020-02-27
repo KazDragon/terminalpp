@@ -1,5 +1,5 @@
 language: cpp
-sudo: false
+os: linux
 
 compiler:
   - clang
@@ -31,7 +31,7 @@ linux_clang: &linux_clang
         - python3
         - python3-pip
 
-matrix:
+jobs:
   include:
   - <<: *linux_gcc
     env:
