@@ -102,7 +102,7 @@ before_script:
   - cd build
   - conan remote add nonstd-lite https://api.bintray.com/conan/martinmoene/nonstd-lite || true
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || true
-  - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 terminalpp:shared=$SHARED -o terminalpp:sanitize=$SANITIZE -o terminalpp:coverage=$COVERAGE --build=missing
+  - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 -o terminalpp:shared=$SHARED -o terminalpp:sanitize=$SANITIZE -o terminalpp:coverage=$COVERAGE --build=missing
 
 script:
   - conan build ..
