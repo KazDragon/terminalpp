@@ -100,7 +100,7 @@ before_install:
 before_script:
   - mkdir build || true
   - cd build
-  - conan remote add nonstd-lite https://api.bintray.com/conan/agauniyal/nonstd-lite || true
+  - conan remote add nonstd-lite https://api.bintray.com/conan/martinmoene/nonstd-lite || true
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || true
   - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 --build=missing
 
