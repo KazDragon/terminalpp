@@ -61,6 +61,7 @@ set(TERMINALPP_SOURCE_FILES
     src/extent.cpp
     src/manip/terminal_streamer.cpp
     src/point.cpp
+    src/rectangle.cpp
     src/screen.cpp
     src/string.cpp
     src/virtual_key.cpp
@@ -231,6 +232,7 @@ add_executable(terminalpp_tester
     test/manip_test.cpp
     test/mouse_test.cpp
     test/point_test.cpp
+    test/rectangle_test.cpp
     test/screen_test.cpp
     test/string_test.cpp
     test/string_manip_test.cpp
