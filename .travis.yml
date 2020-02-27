@@ -83,6 +83,8 @@ before_install:
 # Set up CC/CXX variables
   - eval "${MATRIX_EVAL}"
   - export CMAKE=cmake
+  - export COVERAGE=${COVERAGE:-False}
+  - export SANITIZE=${SANITIZE:-off}
 # workaround for not having lcov 1.13
   - if [ ! -d "lcov/usr/local/bin/lcov" ]; then
       wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.13.orig.tar.gz;
