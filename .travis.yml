@@ -35,43 +35,43 @@ matrix:
   include:
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=1"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=True"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=0"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=1"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=True"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0 && SANITIZE=address"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && SANITIZE=address"
 
   - <<: *linux_gcc
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=0 && COVERAGE=ON"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && COVERAGE=ON"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=0"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=False"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=1"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=True"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=0"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=False"
 
   - <<: *linux_clang
     env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=1"
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=True"
 
 cache:
   - apt: true
