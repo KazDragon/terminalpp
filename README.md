@@ -19,9 +19,9 @@ Terminal++ requires a C++14 library, the Boost Libraries, and libfmt.  It also u
 
 # Installation - Conan
 
-By default, the library uses [https://conan.io/](the Conan package manager) to manage its dependencies.  
+By default, the library uses [![The Conan Package Manager](https://conan.io/)] to manage its dependencies.  
 
-See the [examples/tprint](tprint example) for a minimalistic project that describes this setup.
+See [![the tprint example](examples/tprint)] for a minimalistic project that describes this setup.
 
 # Installation - Manual
 
