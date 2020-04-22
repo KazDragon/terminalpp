@@ -21,6 +21,6 @@ cmake .
 make -j
 ```
 
-    ./hello_world
+    ./positioned smiley
 
-will print, "Hello, world!" to the terminal.
+will print a smiley character to the top left corner of the terminal.
