@@ -1,4 +1,4 @@
-A program that showcases some basic functionality of Terminal++
+A program that showcases the Canvas and Screen functionality of Terminal++
 
 To build: you will need the Conan remotes that are registered with the following commands:
 
@@ -21,6 +21,9 @@ cmake .
 make -j
 ```
 
-    ./hello_world
+    ./shocking_pink
 
-will print, "Hello, world!" to the terminal.
+Assuming your terminal is in the usual 80x24 configuration, this will fill the console
+with white x characters on a shocking pink background, with a single y character on a
+light blue background at position (10, 15).  Your command prompt will likely continue 
+from that location since that is where the cursor last rested.
