@@ -48,7 +48,7 @@ A set of classes that implement a windowing user interface are currently being i
 
 # Status
 
-Terminal++ is currently automatically tested using Clang 3.4 and GCC 5.2.  For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the [Waffle board](https://waffle.io/KazDragon/terminalpp).
+Terminal++ is currently automatically tested using Clang 4.0 and GCC 5.5.  For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the [Issues page](https://github.com/KazDragon/terminalpp/issues).
 
 # The Basics
 
@@ -65,6 +65,7 @@ These are combined into Terminal++'s fundamental type, terminalpp::element.
 
 terminalpp::elements can be collected together using the terminalpp::string class.  It has several constructors for different uses.  For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message.  In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complicated strings
 
+[Hello, World! project](examples/hello_world)
 ```
 #include <terminalpp/ansi_terminal.hpp>
 
@@ -82,6 +83,7 @@ int main()
 
 By using _ets, you can also encode attributes within the text.  For example:
 
+[Encoded Hello, World! project](examples/encoded_hello_world)
 ```
 #include <terminalpp/ansi_terminal.hpp>
 
@@ -106,6 +108,7 @@ text[0].attribute_.intensity_ = terminalpp::ansi::graphics::intensity::bold;
 
 At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a CMake script or Google Test results, or even standard unix functions such as ls.  But the ansi_terminal class allows for complete control over the terminal's appearance.
 
+[Positioned smiley project](examples/positioned_smiley)
 ```
 #include <terminalpp/ansi_terminal.hpp>
 
@@ -153,7 +156,12 @@ Now, assigning elements to the canvas wont actually cause any immediate effect. 
 
 To control this, we present the terminalpp::screen class, which represents a double-buffered approach to drawing the contents of a canvas.  Its draw() member function will cause only the differences between the previously drawn canvas and the current canvas to be output, with efforts made to keep the output as small as possible.  Note: it is assumed for the first canvas drawn, and for any canvas drawn after a change in output size, that everything has changed.
 
+[Shocking pink project](examples/shocking_pink)
 ```
+#include <terminalpp/ansi_terminal.hpp>
+#include <terminalpp/canvas.hpp>
+#include <terminalpp/screen.hpp>
+
 int main()
 {
     terminalpp::ansi_terminal terminal;
@@ -173,6 +181,3 @@ int main()
     // blue background at position (10, 15).
 }
 ```
-
-# News
-This project began as an effort to factor out the terminal handling of the Paradice9 project (https://github.com/KazDragon/paradice9).  Just recently, Terminal++ has been ported back to Paradice9 with great success, as a demonstration that the library is ready for general use.
