@@ -15,9 +15,17 @@ A C++ library for interacting with ANSI/VT100 terminal or terminal emulator disp
 
 # Requirements
 
-Terminal++ requires a C++14 library and the Boost Libraries.  It also uses Google Test for its testing suite, which is compiled optionally.
+Terminal++ requires a C++14 library, the Boost Libraries, and libfmt.  It also uses Google Test for its testing suite.
 
-The library uses the Conan package manager to manage its dependencies.
+# Installation - Conan
+
+By default, the library uses [https://conan.io/](the Conan package manager) to manage its dependencies.  
+
+See the [examples/tprint](tprint example) for a minimalistic project that describes this setup.
+
+# Installation - Manual
+
+However, Terminal++ has no special flags and can be installed in a more direct manner.  For example, by plugging the files directly into a sub-project in your favourite IDE.  As long as the dependencies are satisfied (see Requirements, above), and the compiler is capable of understanding C++14 code, this should work.
 
 # Features / Roadmap
 
@@ -58,23 +66,32 @@ These are combined into Terminal++'s fundamental type, terminalpp::element.
 terminalpp::elements can be collected together using the terminalpp::string class.  It has several constructors for different uses.  For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message.  In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complicated strings
 
 ```
+#include <terminalpp/ansi_terminal.hpp>
+
 int main()
 {
     using namespace terminalpp::literals;
     terminalpp::string text = "Hello, world!\n"_ts;
-    std::cout << text;
+
+    terminalpp::ansi_terminal terminal;
+    std::cout << terminal.write(text);
 }
 
-// Constructs a terminalpp::string, and then prints it as simply, "Hello, world!"
+// Constructs a terminalpp::string, and then prints it to the terminal as, "Hello, world!"
 ```
 
 By using _ets, you can also encode attributes within the text.  For example:
 
 ```
+#include <terminalpp/ansi_terminal.hpp>
+
 int main()
 {
     using namespace terminalpp::literals;
-    std::cout << "\\[1Hello, \\[2World! \\x\\U263A\n"_ets;
+    terminalpp::string text = "\\[1Hello, \\[2World! \\x\\U263A\n"_ets;
+
+    terminalpp::ansi_terminal terminal;
+    std::cout << terminal.write(text);
 }
 ```
 
@@ -87,22 +104,24 @@ text[0].attribute_.intensity_ = terminalpp::ansi::graphics::intensity::bold;
 
 # Terminals
 
-At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a Cmake script or Google Test results, or even standard unix functions such as ls.  But for greater control over the terminal, Terminal++ supplies the terminalpp::terminal class.  This allows the user complete control over the terminal's appearance.
+At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a CMake script or Google Test results, or even standard unix functions such as ls.  But the ansi_terminal class allows for complete control over the terminal's appearance.
 
 ```
+#include <terminalpp/ansi_terminal.hpp>
+
 int main()
 {
-    using namespace terminalpp
-    terminalpp::terminal terminal;
+    using namespace terminalpp::literals;
+    terminalpp::ansi_terminal terminal;
 
     std::cout << terminal.save_cursor()
-              << terminal.move_cursor({0,23})
+              << terminal.move_cursor({0,0})
               << terminal.write("\\U263A"_ets)
-              << terminal.restore_cursor()
+              << terminal.restore_cursor();
 }
 ```
 
-This writes a smiley face in the (0, 24) position on the terminal -- usually the bottom-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.
+This writes a smiley face in the (0, 0) position on the terminal -- the top-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.
 
 Note that it is necessary to output the results of the terminal operations.  This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is.  It could be standard out, it could be some named pipe, or it could be a network socket.  This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions.
 
