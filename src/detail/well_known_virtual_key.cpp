@@ -77,6 +77,7 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
         { ansi::csi::CURSOR_FORWARD,             vk::cursor_right },
         { ansi::csi::CURSOR_BACKWARD,            vk::cursor_left  },
         { ansi::csi::CURSOR_HOME,                vk::home         },
+        { ansi::csi::CURSOR_END,                 vk::end          },
         { ansi::csi::CURSOR_TABULATION,          vk::ht           },
         { ansi::csi::CURSOR_BACKWARD_TABULATION, vk::bt           },
     };
