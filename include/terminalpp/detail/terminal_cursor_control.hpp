@@ -4,8 +4,8 @@
 
 namespace terminalpp {
 
-class behaviour;
-class point;
+struct behaviour;
+struct point;
 class terminal;
 
 namespace detail {

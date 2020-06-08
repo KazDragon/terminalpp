@@ -5,8 +5,8 @@
 
 namespace terminalpp {
 
-class behaviour;
-class element;
+struct behaviour;
+struct element;
 
 namespace detail {
 
