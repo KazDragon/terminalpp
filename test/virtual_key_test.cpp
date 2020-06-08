@@ -177,6 +177,12 @@ static virtual_key_test_data const virtual_key_strings[] = {
     },
     virtual_key_test_data{
         terminalpp::virtual_key{
+            terminalpp::vk::end
+        },
+        "virtual_key[vk:end]"
+    },
+    virtual_key_test_data{
+        terminalpp::virtual_key{
             terminalpp::vk::ins
         },
         "virtual_key[vk:ins]"
