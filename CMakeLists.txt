@@ -88,6 +88,7 @@ target_sources(terminalpp
         include/terminalpp/manip/use_alternate_screen_buffer.hpp
         include/terminalpp/manip/use_normal_screen_buffer.hpp
         include/terminalpp/manip/write_string.hpp
+        include/terminalpp/palette.hpp
         include/terminalpp/point.hpp
         include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
@@ -228,6 +229,7 @@ target_sources(terminalpp_tester
         test/glyph_test.cpp
         test/manip_test.cpp
         test/mouse_test.cpp
+        test/palette_test.cpp
         test/point_test.cpp
         test/rectangle_test.cpp
         test/screen_test.cpp
