@@ -37,6 +37,7 @@ colour_attribute_data const colour_attributes[] = {
     colour_attribute_data{ terminalpp::palette::aqua,    "\x1B[1;36mx" },
     colour_attribute_data{ terminalpp::palette::white,   "\x1B[1;37mx" },
 
+    colour_attribute_data{ terminalpp::palette::grey0,    "\x1B[38;5;16mx"  },
     colour_attribute_data{ terminalpp::palette::grey3,    "\x1B[38;5;232mx" },
     colour_attribute_data{ terminalpp::palette::grey7,    "\x1B[38;5;233mx" },
     colour_attribute_data{ terminalpp::palette::grey11,   "\x1B[38;5;234mx" },
@@ -46,22 +47,26 @@ colour_attribute_data const colour_attributes[] = {
     colour_attribute_data{ terminalpp::palette::grey27,   "\x1B[38;5;238mx" },
     colour_attribute_data{ terminalpp::palette::grey30,   "\x1B[38;5;239mx" },
     colour_attribute_data{ terminalpp::palette::grey35,   "\x1B[38;5;240mx" },
+    colour_attribute_data{ terminalpp::palette::grey37,   "\x1B[38;5;59mx"  },
     colour_attribute_data{ terminalpp::palette::grey39,   "\x1B[38;5;241mx" },
     colour_attribute_data{ terminalpp::palette::grey42,   "\x1B[38;5;242mx" },
     colour_attribute_data{ terminalpp::palette::grey46,   "\x1B[38;5;243mx" },
     colour_attribute_data{ terminalpp::palette::grey50,   "\x1B[38;5;244mx" },
+    colour_attribute_data{ terminalpp::palette::grey53,   "\x1B[38;5;102mx" },
     colour_attribute_data{ terminalpp::palette::grey54,   "\x1B[38;5;245mx" },
     colour_attribute_data{ terminalpp::palette::grey58,   "\x1B[38;5;246mx" },
     colour_attribute_data{ terminalpp::palette::grey62,   "\x1B[38;5;247mx" },
     colour_attribute_data{ terminalpp::palette::grey66,   "\x1B[38;5;248mx" },
+    colour_attribute_data{ terminalpp::palette::grey69,   "\x1B[38;5;145mx" },
     colour_attribute_data{ terminalpp::palette::grey70,   "\x1B[38;5;249mx" },
     colour_attribute_data{ terminalpp::palette::grey74,   "\x1B[38;5;250mx" },
     colour_attribute_data{ terminalpp::palette::grey78,   "\x1B[38;5;251mx" },
     colour_attribute_data{ terminalpp::palette::grey82,   "\x1B[38;5;252mx" },
+    colour_attribute_data{ terminalpp::palette::grey84,   "\x1B[38;5;188mx" },
     colour_attribute_data{ terminalpp::palette::grey85,   "\x1B[38;5;253mx" },
     colour_attribute_data{ terminalpp::palette::grey89,   "\x1B[38;5;254mx" },
     colour_attribute_data{ terminalpp::palette::grey93,   "\x1B[38;5;255mx" },
-
+    colour_attribute_data{ terminalpp::palette::grey100,  "\x1B[38;5;231mx" },
 };
 
 TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
