@@ -1,6 +1,6 @@
 if (POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
-    project(TERMINALPP VERSION 1.3.5)
+    project(TERMINALPP VERSION 1.4.0)
 else()
     project(TERMINALPP)
 endif()
@@ -39,93 +39,89 @@ if (TERMINALPP_COVERAGE)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif()
 
-set(TERMINALPP_SOURCE_FILES
-    src/ansi/charset.cpp
-    src/ansi/control_sequence.cpp
-    src/ansi/mouse.cpp
-    src/ansi_terminal.cpp
-    src/attribute.cpp
-    src/canvas.cpp
-    src/character_set.cpp
-    src/colour.cpp
-    src/detail/terminal_charset_control.cpp
-    src/detail/terminal_control.cpp
-    src/detail/terminal_cursor_control.cpp
-    src/detail/element_difference.cpp
-    src/detail/parser.cpp
-    src/detail/well_known_virtual_key.cpp
-    src/encoder.cpp
-    src/glyph.cpp
-    src/effect.cpp
-    src/element.cpp
-    src/extent.cpp
-    src/manip/terminal_streamer.cpp
-    src/point.cpp
-    src/rectangle.cpp
-    src/screen.cpp
-    src/string.cpp
-    src/virtual_key.cpp
-)
+add_library(terminalpp)
 
-set(TERMINALPP_INCLUDE_FILES
-    include/terminalpp/ansi/charset.hpp
-    include/terminalpp/ansi/control_characters.hpp
-    include/terminalpp/ansi/control_sequence.hpp
-    include/terminalpp/ansi/csi.hpp
-    include/terminalpp/ansi/dec_private_mode.hpp
-    include/terminalpp/ansi/graphics.hpp
-    include/terminalpp/ansi/mouse.hpp
-    include/terminalpp/ansi/osc.hpp
-    include/terminalpp/ansi/protocol.hpp
-    include/terminalpp/ansi/ss3.hpp
-    include/terminalpp/ansi_terminal.hpp
-    include/terminalpp/attribute.hpp
-    include/terminalpp/behaviour.hpp
-    include/terminalpp/colour.hpp
-    include/terminalpp/canvas.hpp
-    include/terminalpp/character_set.hpp
-    include/terminalpp/core.hpp
-    include/terminalpp/detail/ascii.hpp
-    include/terminalpp/detail/element_difference.hpp
-    include/terminalpp/detail/export.hpp
-    include/terminalpp/detail/lambda_visitor.hpp
-    include/terminalpp/detail/parser.hpp
-    include/terminalpp/detail/terminal_charset_control.hpp
-    include/terminalpp/detail/terminal_control.hpp
-    include/terminalpp/detail/terminal_cursor_control.hpp
-    include/terminalpp/detail/well_known_virtual_key.hpp
-    include/terminalpp/effect.hpp
-    include/terminalpp/element.hpp
-    include/terminalpp/encoder.hpp
-    include/terminalpp/extent.hpp
-    include/terminalpp/glyph.hpp
-    include/terminalpp/manip/disable_mouse.hpp
-    include/terminalpp/manip/enable_mouse.hpp
-    include/terminalpp/manip/erase_in_display.hpp
-    include/terminalpp/manip/erase_in_line.hpp
-    include/terminalpp/manip/hide_cursor.hpp
-    include/terminalpp/manip/move_cursor.hpp
-    include/terminalpp/manip/restore_cursor.hpp
-    include/terminalpp/manip/save_cursor.hpp
-    include/terminalpp/manip/set_window_title.hpp
-    include/terminalpp/manip/show_cursor.hpp
-    include/terminalpp/manip/terminal_streamer.hpp
-    include/terminalpp/manip/use_alternate_screen_buffer.hpp
-    include/terminalpp/manip/use_normal_screen_buffer.hpp
-    include/terminalpp/manip/write_string.hpp
-    include/terminalpp/point.hpp
-    include/terminalpp/screen.hpp
-    include/terminalpp/string.hpp
-    include/terminalpp/terminal.hpp
-    include/terminalpp/terminal_manip.hpp
-    include/terminalpp/terminalpp.hpp
-    include/terminalpp/token.hpp
-    include/terminalpp/virtual_key.hpp
-)
+target_sources(terminalpp
+    PRIVATE
+        include/terminalpp/ansi/charset.hpp
+        include/terminalpp/ansi/control_characters.hpp
+        include/terminalpp/ansi/control_sequence.hpp
+        include/terminalpp/ansi/csi.hpp
+        include/terminalpp/ansi/dec_private_mode.hpp
+        include/terminalpp/ansi/graphics.hpp
+        include/terminalpp/ansi/mouse.hpp
+        include/terminalpp/ansi/osc.hpp
+        include/terminalpp/ansi/protocol.hpp
+        include/terminalpp/ansi/ss3.hpp
+        include/terminalpp/ansi_terminal.hpp
+        include/terminalpp/attribute.hpp
+        include/terminalpp/behaviour.hpp
+        include/terminalpp/colour.hpp
+        include/terminalpp/canvas.hpp
+        include/terminalpp/character_set.hpp
+        include/terminalpp/core.hpp
+        include/terminalpp/detail/ascii.hpp
+        include/terminalpp/detail/element_difference.hpp
+        include/terminalpp/detail/export.hpp
+        include/terminalpp/detail/lambda_visitor.hpp
+        include/terminalpp/detail/parser.hpp
+        include/terminalpp/detail/terminal_charset_control.hpp
+        include/terminalpp/detail/terminal_control.hpp
+        include/terminalpp/detail/terminal_cursor_control.hpp
+        include/terminalpp/detail/well_known_virtual_key.hpp
+        include/terminalpp/effect.hpp
+        include/terminalpp/element.hpp
+        include/terminalpp/encoder.hpp
+        include/terminalpp/extent.hpp
+        include/terminalpp/glyph.hpp
+        include/terminalpp/manip/disable_mouse.hpp
+        include/terminalpp/manip/enable_mouse.hpp
+        include/terminalpp/manip/erase_in_display.hpp
+        include/terminalpp/manip/erase_in_line.hpp
+        include/terminalpp/manip/hide_cursor.hpp
+        include/terminalpp/manip/move_cursor.hpp
+        include/terminalpp/manip/restore_cursor.hpp
+        include/terminalpp/manip/save_cursor.hpp
+        include/terminalpp/manip/set_window_title.hpp
+        include/terminalpp/manip/show_cursor.hpp
+        include/terminalpp/manip/terminal_streamer.hpp
+        include/terminalpp/manip/use_alternate_screen_buffer.hpp
+        include/terminalpp/manip/use_normal_screen_buffer.hpp
+        include/terminalpp/manip/write_string.hpp
+        include/terminalpp/point.hpp
+        include/terminalpp/screen.hpp
+        include/terminalpp/string.hpp
+        include/terminalpp/terminal.hpp
+        include/terminalpp/terminal_manip.hpp
+        include/terminalpp/terminalpp.hpp
+        include/terminalpp/token.hpp
+        include/terminalpp/virtual_key.hpp
 
-add_library(terminalpp
-    ${TERMINALPP_SOURCE_FILES}
-    ${TERMINALPP_INCLUDE_FILES}
+        src/ansi/charset.cpp
+        src/ansi/control_sequence.cpp
+        src/ansi/mouse.cpp
+        src/ansi_terminal.cpp
+        src/attribute.cpp
+        src/canvas.cpp
+        src/character_set.cpp
+        src/colour.cpp
+        src/detail/terminal_charset_control.cpp
+        src/detail/terminal_control.cpp
+        src/detail/terminal_cursor_control.cpp
+        src/detail/element_difference.cpp
+        src/detail/parser.cpp
+        src/detail/well_known_virtual_key.cpp
+        src/encoder.cpp
+        src/glyph.cpp
+        src/effect.cpp
+        src/element.cpp
+        src/extent.cpp
+        src/manip/terminal_streamer.cpp
+        src/point.cpp
+        src/rectangle.cpp
+        src/screen.cpp
+        src/string.cpp
+        src/virtual_key.cpp
 )
 
 target_include_directories(terminalpp
@@ -142,9 +138,7 @@ set_target_properties(terminalpp
 
 target_link_libraries(terminalpp
     PUBLIC
-        CONAN_PKG::boost_optional
-        CONAN_PKG::boost_range
-        CONAN_PKG::boost_variant
+        CONAN_PKG::boost
     PRIVATE
         CONAN_PKG::fmt
 )
@@ -209,40 +203,38 @@ install(
 
 enable_testing()
 
-add_executable(terminalpp_tester
-    test/ansi_terminal_init_test.cpp
-    test/ansi_terminal_cursor_test.cpp
-    test/ansi_terminal_read_cursor_test.cpp
-    test/ansi_terminal_read_fkey_test.cpp
-    test/ansi_terminal_read_test.cpp
-    test/ansi_terminal_settings_test.cpp
-    test/ansi_terminal_string_test.cpp
-    test/attribute_test.cpp
-    test/canvas_test.cpp
-    test/character_set_test.cpp
-    test/colour_test.cpp
-    test/control_sequence_test.cpp
-    test/effect_test.cpp
-    test/element_test.cpp
-    test/encoder_test.cpp
-    test/expect_sequence.cpp
-    test/expect_tokens.cpp
-    test/extent_test.cpp
-    test/glyph_test.cpp
-    test/manip_test.cpp
-    test/mouse_test.cpp
-    test/point_test.cpp
-    test/rectangle_test.cpp
-    test/screen_test.cpp
-    test/string_test.cpp
-    test/string_manip_test.cpp
-    test/virtual_key_test.cpp
-)
+add_executable(terminalpp_tester)
 
-target_compile_features(terminalpp_tester
-    PUBLIC
-        cxx_strong_enums
-        cxx_relaxed_constexpr)
+target_sources(terminalpp_tester
+    PRIVATE
+        test/ansi_terminal_init_test.cpp
+        test/ansi_terminal_cursor_test.cpp
+        test/ansi_terminal_read_cursor_test.cpp
+        test/ansi_terminal_read_fkey_test.cpp
+        test/ansi_terminal_read_test.cpp
+        test/ansi_terminal_settings_test.cpp
+        test/ansi_terminal_string_test.cpp
+        test/attribute_test.cpp
+        test/canvas_test.cpp
+        test/character_set_test.cpp
+        test/colour_test.cpp
+        test/control_sequence_test.cpp
+        test/effect_test.cpp
+        test/element_test.cpp
+        test/encoder_test.cpp
+        test/expect_sequence.cpp
+        test/expect_tokens.cpp
+        test/extent_test.cpp
+        test/glyph_test.cpp
+        test/manip_test.cpp
+        test/mouse_test.cpp
+        test/point_test.cpp
+        test/rectangle_test.cpp
+        test/screen_test.cpp
+        test/string_test.cpp
+        test/string_manip_test.cpp
+        test/virtual_key_test.cpp
+)
 
 target_link_libraries(terminalpp_tester
     terminalpp

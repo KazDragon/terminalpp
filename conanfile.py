@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class TerminalppConan(ConanFile):
     name = "terminalpp"
-    version = "1.3.5"
+    version = "1.4.0"
     license = "MIT"
     author = "KazDragon"
     url = "https://github.com/KazDragon/terminalpp"
@@ -13,12 +13,13 @@ class TerminalppConan(ConanFile):
     exports = "*.hpp", "*.in", "*.cpp", "CMakeLists.txt", "*.md", "LICENSE"
     options = {"shared": [True, False], "coverage": [True, False], "sanitize" : ["off", "address"]}
     default_options = {"shared": False, "coverage": False, "sanitize": "off"}
-    requires = ("fmt/[>=5.3]@bincrafters/stable",
-                "boost_optional/[>=1.69]@bincrafters/stable",
-                "boost_range/[>=1.69]@bincrafters/stable",
-                "boost_variant/[>=1.69]@bincrafters/stable")
-    build_requires = ("gtest/[>=1.8.1]@bincrafters/stable")
+    requires = ("fmt/[>=5.3]",
+                "boost/[>=1.69]")
+    build_requires = ("gtest/[>=1.8.1]")
     generators = "cmake"
+
+    def configure(self):
+        self.options["boost"].without_test = True
 
     def build(self):
         cmake = CMake(self)
