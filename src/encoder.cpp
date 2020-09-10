@@ -1,4 +1,5 @@
 #include "terminalpp/encoder.hpp"
+#include <algorithm>
 #include <cstring>
 
 namespace terminalpp { namespace {

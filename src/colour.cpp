@@ -1,4 +1,5 @@
 #include "terminalpp/colour.hpp"
+#include <boost/range/algorithm/find_if.hpp>
 #include <iostream>
 
 namespace terminalpp {
@@ -24,9 +25,8 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
         { ansi::graphics::colour::default_, "default" }
     };
 
-    auto result = std::find_if(
-        std::begin(colour_to_text),
-        std::end(colour_to_text),
+    auto result = boost::find_if(
+        colour_to_text,
         [col](auto const &entry)
         {
             return col == entry.col;
