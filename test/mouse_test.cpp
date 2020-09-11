@@ -97,7 +97,7 @@ static mouse_report_test_data const mouse_report_strings[] = {
     },
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     mouse_reports_can_be_streamed_to_an_ostream,
     mouse_reports_with_strings,
     ValuesIn(mouse_report_strings)

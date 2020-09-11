@@ -50,7 +50,7 @@ static character_set_string const character_set_strings[] = {
   character_set_string{ terminalpp::ansi::charset::utf8,                       "u"      },
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     character_sets_can_be_streamed_to_an_ostream,
     character_sets_with_strings,
     ValuesIn(character_set_strings)
