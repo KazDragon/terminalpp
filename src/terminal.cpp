@@ -1,4 +1,4 @@
-#include "terminalpp/ansi_terminal.hpp"
+#include "terminalpp/terminal.hpp"
 #include "terminalpp/ansi/osc.hpp"
 #include "terminalpp/detail/terminal_control.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
@@ -58,7 +58,7 @@ std::vector<token> replace_well_known_virtual_keys(std::vector<token> tokens)
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-ansi_terminal::ansi_terminal(behaviour const &terminal_behaviour)
+terminal::terminal(behaviour const &terminal_behaviour)
   : behaviour_(terminal_behaviour)
 {
 }
@@ -66,7 +66,7 @@ ansi_terminal::ansi_terminal(behaviour const &terminal_behaviour)
 // ==========================================================================
 // INIT
 // ==========================================================================
-std::string ansi_terminal::init()
+std::string terminal::init()
 {
     std::string result;
 
@@ -82,7 +82,7 @@ std::string ansi_terminal::init()
 // ==========================================================================
 // ENABLE_MOUSE
 // ==========================================================================
-std::string ansi_terminal::enable_mouse()
+std::string terminal::enable_mouse()
 {
     std::string result;
 
@@ -107,7 +107,7 @@ std::string ansi_terminal::enable_mouse()
 // ==========================================================================
 // DISABLE_MOUSE
 // ==========================================================================
-std::string ansi_terminal::disable_mouse()
+std::string terminal::disable_mouse()
 {
     std::string result;
 
@@ -132,7 +132,7 @@ std::string ansi_terminal::disable_mouse()
 // ==========================================================================
 // SET_WINDOW_TITLE
 // ==========================================================================
-std::string ansi_terminal::set_window_title(std::string const &title)
+std::string terminal::set_window_title(std::string const &title)
 {
     if (behaviour_.supports_window_title_bel)
     {
@@ -158,7 +158,7 @@ std::string ansi_terminal::set_window_title(std::string const &title)
 // ==========================================================================
 // SET_SIZE
 // ==========================================================================
-void ansi_terminal::set_size(const extent& size)
+void terminal::set_size(const extent& size)
 {
     size_ = size;
 }
@@ -167,7 +167,7 @@ void ansi_terminal::set_size(const extent& size)
 // ==========================================================================
 // SHOW_CURSOR
 // ==========================================================================
-std::string ansi_terminal::show_cursor()
+std::string terminal::show_cursor()
 {
     if (cursor_mode_ != cursor_mode::shown)
     {
@@ -187,7 +187,7 @@ std::string ansi_terminal::show_cursor()
 // ==========================================================================
 // HIDE_CURSOR
 // ==========================================================================
-std::string ansi_terminal::hide_cursor()
+std::string terminal::hide_cursor()
 {
     if (cursor_mode_ != cursor_mode::hidden)
     {
@@ -207,7 +207,7 @@ std::string ansi_terminal::hide_cursor()
 // ==========================================================================
 // SAVE_CURSOR
 // ==========================================================================
-std::string ansi_terminal::save_cursor()
+std::string terminal::save_cursor()
 {
     saved_cursor_position_ = cursor_position_;
 
@@ -218,7 +218,7 @@ std::string ansi_terminal::save_cursor()
 // ==========================================================================
 // RESTORE_CURSOR
 // ==========================================================================
-std::string ansi_terminal::restore_cursor()
+std::string terminal::restore_cursor()
 {
     cursor_position_ = saved_cursor_position_;
 
@@ -229,7 +229,7 @@ std::string ansi_terminal::restore_cursor()
 // ==========================================================================
 // MOVE_CURSOR
 // ==========================================================================
-std::string ansi_terminal::move_cursor(point const &pos)
+std::string terminal::move_cursor(point const &pos)
 {
     std::string result;
 
@@ -318,7 +318,7 @@ std::string ansi_terminal::move_cursor(point const &pos)
 // ==========================================================================
 // MOVE_CURSOR_HORIZONTALLY
 // ==========================================================================
-std::string ansi_terminal::move_cursor_horizontally(coordinate_type x)
+std::string terminal::move_cursor_horizontally(coordinate_type x)
 {
     auto const ansi_x_coordinate = x + 1;
     auto const result = detail::cursor_horizontal_absolute(
@@ -335,7 +335,7 @@ std::string ansi_terminal::move_cursor_horizontally(coordinate_type x)
 // ==========================================================================
 // MOVE_CURSOR_VERTICALLY
 // ==========================================================================
-std::string ansi_terminal::move_cursor_vertically(coordinate_type y)
+std::string terminal::move_cursor_vertically(coordinate_type y)
 {
     auto const ansi_y_coordinate = y + 1;
     auto const result = detail::line_position_absolute(
@@ -352,7 +352,7 @@ std::string ansi_terminal::move_cursor_vertically(coordinate_type y)
 // ==========================================================================
 // READ
 // ==========================================================================
-std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)
+std::vector<terminalpp::token> terminal::read(std::string const &data)
 {
     std::vector<terminalpp::token> results;
 
@@ -375,7 +375,7 @@ std::vector<terminalpp::token> ansi_terminal::read(std::string const &data)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string ansi_terminal::write(element const &elem)
+std::string terminal::write(element const &elem)
 {
     std::string result;
 
@@ -414,7 +414,7 @@ std::string ansi_terminal::write(element const &elem)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string ansi_terminal::write(string const& str)
+std::string terminal::write(string const& str)
 {
     std::string result;
 
@@ -438,7 +438,7 @@ std::string ansi_terminal::write(string const& str)
 // ==========================================================================
 // ERASE_IN_DISPLAY
 // ==========================================================================
-std::string ansi_terminal::erase_in_display(terminal::erase_display how)
+std::string terminal::erase_in_display(terminal::erase_display how)
 {
     std::string result;
 
@@ -469,7 +469,7 @@ std::string ansi_terminal::erase_in_display(terminal::erase_display how)
 // ==========================================================================
 // ERASE_IN_LINE
 // ==========================================================================
-std::string ansi_terminal::erase_in_line(terminal::erase_line how)
+std::string terminal::erase_in_line(terminal::erase_line how)
 {
     std::string result;
 
@@ -500,7 +500,7 @@ std::string ansi_terminal::erase_in_line(terminal::erase_line how)
 // ==========================================================================
 // USE_NORMAL_SCREEN_BUFFER
 // ==========================================================================
-std::string ansi_terminal::use_normal_screen_buffer()
+std::string terminal::use_normal_screen_buffer()
 {
     return detail::csi(control_mode_)
          + terminalpp::ansi::DEC_PRIVATE_MODE
@@ -511,7 +511,7 @@ std::string ansi_terminal::use_normal_screen_buffer()
 // ==========================================================================
 // USE_ALTERNATE_SCREEN_BUFFER
 // ==========================================================================
-std::string ansi_terminal::use_alternate_screen_buffer()
+std::string terminal::use_alternate_screen_buffer()
 {
     return detail::csi(control_mode_)
          + terminalpp::ansi::DEC_PRIVATE_MODE

@@ -1,9 +1,9 @@
-#include <terminalpp/ansi_terminal.hpp>
+#include <terminalpp/terminal.hpp>
 
 int main()
 {
     using namespace terminalpp::literals;
-    terminalpp::ansi_terminal terminal;
+    terminalpp::terminal terminal;
 
     std::cout << terminal.save_cursor()
               << terminal.move_cursor({0,0})
