@@ -53,7 +53,6 @@ target_sources(terminalpp
         include/terminalpp/ansi/osc.hpp
         include/terminalpp/ansi/protocol.hpp
         include/terminalpp/ansi/ss3.hpp
-        include/terminalpp/ansi_terminal.hpp
         include/terminalpp/attribute.hpp
         include/terminalpp/behaviour.hpp
         include/terminalpp/colour.hpp
@@ -101,7 +100,6 @@ target_sources(terminalpp
         src/ansi/charset.cpp
         src/ansi/control_sequence.cpp
         src/ansi/mouse.cpp
-        src/ansi_terminal.cpp
         src/attribute.cpp
         src/canvas.cpp
         src/character_set.cpp
@@ -122,6 +120,7 @@ target_sources(terminalpp
         src/rectangle.cpp
         src/screen.cpp
         src/string.cpp
+        src/terminal.cpp
         src/virtual_key.cpp
 )
 
@@ -208,13 +207,6 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
-        test/ansi_terminal_init_test.cpp
-        test/ansi_terminal_cursor_test.cpp
-        test/ansi_terminal_read_cursor_test.cpp
-        test/ansi_terminal_read_fkey_test.cpp
-        test/ansi_terminal_read_test.cpp
-        test/ansi_terminal_settings_test.cpp
-        test/ansi_terminal_string_test.cpp
         test/attribute_test.cpp
         test/canvas_test.cpp
         test/character_set_test.cpp
@@ -235,6 +227,13 @@ target_sources(terminalpp_tester
         test/screen_test.cpp
         test/string_test.cpp
         test/string_manip_test.cpp
+        test/terminal_init_test.cpp
+        test/terminal_cursor_test.cpp
+        test/terminal_read_cursor_test.cpp
+        test/terminal_read_fkey_test.cpp
+        test/terminal_read_test.cpp
+        test/terminal_settings_test.cpp
+        test/terminal_string_test.cpp
         test/virtual_key_test.cpp
 )
 

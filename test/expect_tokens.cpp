@@ -1,5 +1,5 @@
 #include "expect_tokens.hpp"
-#include "terminalpp/ansi_terminal.hpp"
+#include "terminalpp/terminal.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 
@@ -66,7 +66,7 @@ void expect_tokens(
     std::string const &input,
     std::vector<terminalpp::token> const &expected_tokens)
 {
-    terminalpp::ansi_terminal terminal;
+    terminalpp::terminal terminal;
 
     auto result = terminal.read(input);
 
@@ -88,7 +88,7 @@ template <class Expected> void expect_token(
     std::string const &input,
     Expected const &expected)
 {
-    terminalpp::ansi_terminal terminal;
+    terminalpp::terminal terminal;
 
     auto result = terminal.read(input);
 

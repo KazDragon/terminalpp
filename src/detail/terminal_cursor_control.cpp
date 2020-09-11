@@ -1,6 +1,8 @@
 #include "terminalpp/behaviour.hpp"
+#include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/detail/terminal_cursor_control.hpp"
 #include "terminalpp/detail/terminal_control.hpp"
+#include "terminalpp/point.hpp"
 
 namespace terminalpp { namespace detail {
 

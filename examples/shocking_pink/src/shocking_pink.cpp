@@ -1,10 +1,10 @@
-#include <terminalpp/ansi_terminal.hpp>
+#include <terminalpp/terminal.hpp>
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/screen.hpp>
 
 int main()
 {
-    terminalpp::ansi_terminal terminal;
+    terminalpp::terminal terminal;
     terminalpp::screen screen;
     terminalpp::canvas canvas({80, 24});
 

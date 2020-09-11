@@ -1,10 +1,10 @@
-#include <terminalpp/ansi_terminal.hpp>
+#include <terminalpp/terminal.hpp>
 
 int main()
 {
     using namespace terminalpp::literals;
     terminalpp::string text = "Hello, world!\n"_ts;
 
-    terminalpp::ansi_terminal terminal;
+    terminalpp::terminal terminal;
     std::cout << terminal.write(text);
 }

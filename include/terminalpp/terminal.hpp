@@ -1,9 +1,13 @@
 #pragma once
 
+#include "terminalpp/behaviour.hpp"
 #include "terminalpp/extent.hpp"
 #include "terminalpp/point.hpp"
 #include "terminalpp/string.hpp"
 #include "terminalpp/token.hpp"
+#include "terminalpp/detail/parser.hpp"
+#include "terminalpp/detail/terminal_control.hpp"
+#include <boost/optional.hpp>
 #include <string>
 #include <vector>
 
@@ -43,31 +47,31 @@ public :
     };
 
     //* =====================================================================
-    /// \brief Destructor.
+    /// \brief Constructor.
     //* =====================================================================
-    virtual ~terminal() = default;
+    explicit terminal(behaviour const &beh = behaviour{});
 
     //* =====================================================================
     /// \brief Returns a string that will initialize the terminal.
     //* =====================================================================
-    virtual std::string init() = 0;
+    std::string init();
 
     //* =====================================================================
     /// \brief Returns a string that will enable the best possible mouse
     /// mode for the terminal.
     //* =====================================================================
-    virtual std::string enable_mouse() = 0;
+    std::string enable_mouse();
 
     //* =====================================================================
     /// \brief Returns a string that will disable the mouse.
     //* =====================================================================
-    virtual std::string disable_mouse() = 0;
+    std::string disable_mouse();
 
     //* =====================================================================
     /// \brief Returns a string that will set the window title of the
     /// terminal.
     //* =====================================================================
-    virtual std::string set_window_title(std::string const &title) = 0;
+    std::string set_window_title(std::string const &title);
 
     //* =====================================================================
     /// \brief Sets the (local) size of the terminal.
@@ -75,79 +79,96 @@ public :
     /// can set how large the terminal is expected to be.  This affects
     /// things like when does a cursor scroll the screen, etc.
     //* =====================================================================
-    virtual void set_size(extent const &size) = 0;
+    void set_size(extent const &size);
 
     //* =====================================================================
     /// \brief Show the cursor.
     //* =====================================================================
-    virtual std::string show_cursor() = 0;
+    std::string show_cursor();
 
     //* =====================================================================
     /// \brief Hide the cursor.
     //* =====================================================================
-    virtual std::string hide_cursor() = 0;
+    std::string hide_cursor();
 
     //* =====================================================================
     /// \brief Saves the current cursor position.
     //* =====================================================================
-    virtual std::string save_cursor() = 0;
+    std::string save_cursor();
 
     //* =====================================================================
     /// \brief Restores the previously saved cursor position.
     //* =====================================================================
-    virtual std::string restore_cursor() = 0;
+    std::string restore_cursor();
 
     //* =====================================================================
     /// \brief Move the cursor to the specified position.  Note: although
     /// terminals are 1-based in output, this class uses (0,0) as the top-
     /// left cell and translates it automatically.
     //* =====================================================================
-    virtual std::string move_cursor(point const &pt) = 0;
+    std::string move_cursor(point const &pt);
 
     //* =====================================================================
     /// \brief Moves the cursor across the x-axis.
     //* =====================================================================
-    virtual std::string move_cursor_horizontally(coordinate_type x) = 0;
+    std::string move_cursor_horizontally(coordinate_type x);
 
     //* =====================================================================
     /// \brief Moves the cursor across the y-axis.
     //* =====================================================================
-    virtual std::string move_cursor_vertically(coordinate_type y) = 0;
+    std::string move_cursor_vertically(coordinate_type y);
 
     //* =====================================================================
     /// \brief Reads a stream of data.
     //* =====================================================================
-    virtual std::vector<token> read(std::string const &data) = 0;
+    std::vector<token> read(std::string const &data);
 
     //* =====================================================================
     /// \brief Writes the specified element.
     //* =====================================================================
-    virtual std::string write(element const &elem) = 0;
+    std::string write(element const &elem);
 
     //* =====================================================================
     /// \brief Writes the specified sequence of characters.
     //* =====================================================================
-    virtual std::string write(string const &str) = 0;
+    std::string write(string const &str);
 
     //* =====================================================================
     /// \brief Erases the display in the specified manner.
     //* =====================================================================
-    virtual std::string erase_in_display(erase_display how) = 0;
+    std::string erase_in_display(erase_display how);
 
     //* =====================================================================
     /// \brief Erases the current line in the specified manner.
     //* =====================================================================
-    virtual std::string erase_in_line(erase_line how) = 0;
+    std::string erase_in_line(erase_line how);
 
     //* =====================================================================
     /// \brief Sets the terminal to the normal screen buffer (default).
     //* =====================================================================
-    virtual std::string use_normal_screen_buffer() = 0;
+    std::string use_normal_screen_buffer();
 
     //* =====================================================================
     /// \brief Sets the terminal to the alternate screen buffer.
     //* =====================================================================
-    virtual std::string use_alternate_screen_buffer() = 0;
+    std::string use_alternate_screen_buffer();
+
+private :
+    enum class cursor_mode : bool
+    {
+        hidden,
+        shown,
+    };
+
+    behaviour                     behaviour_;
+    detail::control_mode          control_mode_ = detail::control_mode::seven_bit;
+    boost::optional<cursor_mode>  cursor_mode_;
+    boost::optional<point>        cursor_position_;
+    boost::optional<point>        saved_cursor_position_;
+    boost::optional<extent>       size_;
+    boost::optional<element>      last_element_;
+
+    detail::parser                parser_;
 };
 
 }

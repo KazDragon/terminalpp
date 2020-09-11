@@ -1,5 +1,5 @@
 #include <terminalpp/palette.hpp>
-#include <terminalpp/ansi_terminal.hpp>
+#include <terminalpp/terminal.hpp>
 #include <gtest/gtest.h>
 
 using testing::ValuesIn;
@@ -96,7 +96,7 @@ TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
     auto const &expected = get<1>(param);
 
     terminalpp::element const elem = {'x', attr};
-    terminalpp::ansi_terminal terminal;
+    terminalpp::terminal terminal;
 
     // First write a space in the default attribute.  Thereafter, we write 
     // only what is not default about the palette-based element.

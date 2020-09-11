@@ -1,5 +1,5 @@
 #include "terminalpp/screen.hpp"
-#include "terminalpp/ansi_terminal.hpp"
+#include "terminalpp/terminal.hpp"
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
 
@@ -9,8 +9,8 @@ TEST(screen_test, first_draw_of_blank_screen_draws_clear_screen_only)
 {
     auto const size = terminalpp::extent{5, 5};
     auto const canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::ansi_terminal();
-    auto reference_terminal = terminalpp::ansi_terminal();
+    auto terminal = terminalpp::terminal();
+    auto reference_terminal = terminalpp::terminal();
 
     terminal.set_size(size);
     reference_terminal.set_size(size);
@@ -35,8 +35,8 @@ TEST(screen_test, first_draw_of_screen_with_content_draws_clear_screen_then_cont
 
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::ansi_terminal();
-    auto reference_terminal = terminalpp::ansi_terminal();
+    auto terminal = terminalpp::terminal();
+    auto reference_terminal = terminalpp::terminal();
 
     terminal.set_size(size);
     reference_terminal.set_size(size);
@@ -79,8 +79,8 @@ TEST(screen_test, drawing_after_drawing_draws_nothing)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::ansi_terminal();
-    auto reference_terminal = terminalpp::ansi_terminal();
+    auto terminal = terminalpp::terminal();
+    auto reference_terminal = terminalpp::terminal();
 
     terminal.set_size(size);
     reference_terminal.set_size(size);
@@ -110,8 +110,8 @@ TEST(screen_test, drawing_after_modifying_one_element_writes_one_element)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::ansi_terminal();
-    auto reference_terminal = terminalpp::ansi_terminal();
+    auto terminal = terminalpp::terminal();
+    auto reference_terminal = terminalpp::terminal();
     reference_terminal.write(""_ts);
 
     terminal.set_size(size);
@@ -144,8 +144,8 @@ TEST(screen_test, drawing_after_modifying_two_elements_writes_two_elements)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::ansi_terminal();
-    auto reference_terminal = terminalpp::ansi_terminal();
+    auto terminal = terminalpp::terminal();
+    auto reference_terminal = terminalpp::terminal();
     reference_terminal.write(""_ts);
 
     terminal.set_size(size);
@@ -181,8 +181,8 @@ TEST(screen_test, drawing_consecutive_elements_does_not_write_cursor_moves)
 {
     auto const size = terminalpp::extent{5, 5};
     auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::ansi_terminal();
-    auto reference_terminal = terminalpp::ansi_terminal();
+    auto terminal = terminalpp::terminal();
+    auto reference_terminal = terminalpp::terminal();
     reference_terminal.write(""_ts);
 
     terminal.set_size(size);

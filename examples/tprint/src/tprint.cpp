@@ -1,4 +1,4 @@
-#include <terminalpp/ansi_terminal.hpp>
+#include <terminalpp/terminal.hpp>
 #include <terminalpp/encoder.hpp>
 #include <cstdlib>
 
@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        terminalpp::ansi_terminal terminal;
+        terminalpp::terminal terminal;
         std::cout << terminal.write(terminalpp::encode(argv[1])) << "\n";
     }
 

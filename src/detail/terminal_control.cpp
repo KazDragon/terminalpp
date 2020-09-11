@@ -1,4 +1,5 @@
 #include "terminalpp/detail/terminal_control.hpp"
+#include "terminalpp/ansi/control_characters.hpp"
 
 namespace terminalpp { namespace detail {
 
