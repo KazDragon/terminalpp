@@ -25,7 +25,7 @@ TEST_P(points_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected, stream.str());
 }
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     points_can_be_streamed_to_an_ostream,
     points_with_strings,
     ValuesIn(std::vector<point_string>{
@@ -68,7 +68,7 @@ TEST_P(points_compare, according_to_relops)
     ASSERT_EQ(greater, lhs > rhs);
 }
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     using_relational_operators,
     points_compare,
     ValuesIn(std::vector<point_relops_data>{
