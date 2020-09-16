@@ -194,3 +194,10 @@ TEST(a_colour, can_be_inserted_into_an_unordered_set)
         terminalpp::greyscale_colour{} 
     };
 }
+
+INSTANTIATE_TEST_SUITE_P(
+    colours_can_be_streamed_to_an_ostream,
+    colours_with_strings,
+    ValuesIn(colour_strings)
+);
+
