@@ -108,7 +108,7 @@ static attribute_string const attribute_strings[] = {
     },
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     attributes_can_be_streamed_to_an_ostream,
     attributes_with_strings,
     ValuesIn(attribute_strings)

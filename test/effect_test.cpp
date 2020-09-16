@@ -34,7 +34,7 @@ static intensity_string const intensity_strings[] = {
     intensity_string{ terminalpp::ansi::graphics::intensity::faint,    "faint"  }
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     intensities_can_be_streamed_to_an_ostream,
     intensities_with_strings,
     ValuesIn(intensity_strings)
@@ -68,7 +68,7 @@ static underline_string const underline_strings[] = {
     underline_string{ terminalpp::ansi::graphics::underlining::not_underlined, "not underlined" },
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     underlines_can_be_streamed_to_an_ostream,
     underlines_with_strings,
     ValuesIn(underline_strings)
@@ -102,7 +102,7 @@ static polarity_string const polarity_strings[] = {
     polarity_string{ terminalpp::ansi::graphics::polarity::negative, "negative" },
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     polarities_can_be_streamed_to_an_ostream,
     polarities_with_strings,
     ValuesIn(polarity_strings)
@@ -136,7 +136,7 @@ static blink_string const blink_strings[] = {
     blink_string{ terminalpp::ansi::graphics::blinking::steady, "steady"   },
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     blinking_can_be_streamed_to_an_ostream,
     blinking_with_strings,
     ValuesIn(blink_strings)

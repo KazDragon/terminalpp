@@ -128,7 +128,7 @@ static string_string const string_strings[] = {
                                      "element[glyph[g],attribute[foreground[red],background[green]]]" }
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     strings_can_be_streamed_to_an_ostream,
     strings_with_strings,
     ValuesIn(string_strings)
@@ -167,7 +167,7 @@ TEST_P(strings_compare, according_to_relops)
     ASSERT_EQ(greater, lhs > rhs);
 }
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     using_relational_operators,
     strings_compare,
     ValuesIn(std::vector<string_relops_data>{

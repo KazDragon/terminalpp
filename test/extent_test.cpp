@@ -25,7 +25,7 @@ TEST_P(extents_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected, stream.str());
 }
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     extents_can_be_streamed_to_an_ostream,
     extents_with_strings,
     ValuesIn(std::vector<extent_string>{

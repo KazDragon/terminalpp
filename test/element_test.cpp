@@ -83,7 +83,7 @@ static element_string const element_strings[] = {
     }
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     elements_can_be_streamed_to_an_ostream,
     elements_with_strings,
     ValuesIn(element_strings)
