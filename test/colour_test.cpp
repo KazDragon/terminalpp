@@ -55,7 +55,7 @@ static low_colour_string const low_colour_strings[] = {
   low_colour_string{ terminalpp::ansi::graphics::colour::default_, "default" }
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     low_colours_can_be_streamed_to_an_ostream,
     low_colours_with_strings,
     ValuesIn(low_colour_strings)
@@ -96,7 +96,7 @@ static high_colour_string const high_colour_strings[] = {
     high_colour_string{ 5, 3, 1, "#531" }
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     high_colours_can_be_streamed_to_an_ostream,
     high_colours_with_strings,
     ValuesIn(high_colour_strings)
@@ -133,7 +133,7 @@ static greyscale_string const greyscale_strings[] = {
     greyscale_string{ 22, "#22" },
 };
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     greyscale_colours_can_be_streamed_to_an_ostream,
     greyscale_colours_with_strings,
     ValuesIn(greyscale_strings)
@@ -194,3 +194,10 @@ TEST(a_colour, can_be_inserted_into_an_unordered_set)
         terminalpp::greyscale_colour{} 
     };
 }
+
+INSTANTIATE_TEST_CASE_P(
+    colours_can_be_streamed_to_an_ostream,
+    colours_with_strings,
+    ValuesIn(colour_strings)
+);
+

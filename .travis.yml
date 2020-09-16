@@ -12,10 +12,11 @@ linux_gcc: &linux_gcc
     apt:
       sources:
         - ubuntu-toolchain-r-test
+        - sourceline: 'ppa:mhier/libboost-latest'
       packages:
         - g++-5
-        - python3
-        - python3-pip
+        - libgtest-dev
+        - boost1.74
 
 linux_clang: &linux_clang
   os: linux
@@ -26,10 +27,11 @@ linux_clang: &linux_clang
       sources:
         - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty-4.0
+        - sourceline: 'ppa:mhier/libboost-latest'
       packages:
         - clang-4.0
-        - python3
-        - python3-pip
+        - libgtest-dev
+        - boost1.74
 
 jobs:
   include:
@@ -77,7 +79,8 @@ cache:
   - apt: true
   - directories:
     - $HOME/lcov
-    - $HOME/.conan
+    - $HOME/gtest
+    - $HOME/fmt
 
 before_install:
 # Set up CC/CXX variables
@@ -85,7 +88,11 @@ before_install:
   - export CMAKE=cmake
   - export COVERAGE=${COVERAGE:-False}
   - export SANITIZE=${SANITIZE:-off}
-# workaround for not having lcov 1.13
+
+# Install coverage software
+  - if [ "$COVERAGE" == "True" ]; then gem install coveralls-lcov; fi
+
+# Workaround for not having lcov 1.13
   - if [ ! -d "lcov/usr/local/bin/lcov" ]; then
       wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.13.orig.tar.gz;
       tar -xzf lcov_1.13.orig.tar.gz;
@@ -93,24 +100,35 @@ before_install:
       DESTDIR=$HOME/lcov make -C lcov-1.13/ install;
     fi
   - export LCOV=$HOME/lcov/usr/local/bin/lcov
-# install conan for package dependencies
-  - pip3 install --user --upgrade setuptools
-  - pip3 install --user conan
-
-# Important: conan center is rather slow when fetching Boost, and fill fail
-# a decent portion of the time unless it is given a loose timeout.
-  - conan config set general.request_timeout=120
   
-# Install coverage software
-  - if [ "$COVERAGE" == "True" ]; then gem install coveralls-lcov; fi
+# workaround for gtest not providing its own libraries (sigh)
+  - if [ ! -d "gtest/libgtest.a" ]; then
+      mkdir gtest || true;
+      cd gtest;
+      $CMAKE /usr/src/gtest -DCMAKE_CXX_FLAGS='-fPIC' && make;
+      cd ..;
+    fi
+  - export GTEST_ROOT=$PWD/gtest
+
+# install libfmt
+  - if [ ! -d "libfmt/include/fmt/format.h" ]; then
+      wget https://github.com/fmtlib/fmt/archive/5.3.0.tar.gz;
+      tar -xzf 5.3.0.tar.gz;
+      mkdir libfmt || true;
+      cd fmt-5.3.0;
+      $CMAKE -DCMAKE_INSTALL_PREFIX=$HOME/libfmt -DFMT_TEST=OFF -DCMAKE_CXX_FLAGS='-fPIC' .;
+      make -j2 && make install;
+      cd ..;
+    fi
+  - export FMT_ROOT=$HOME/libfmt
 
 before_script:
   - mkdir build || true
   - cd build
-  - conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=14 -o terminalpp:shared=$SHARED -o terminalpp:sanitize=$SANITIZE -o terminalpp:coverage=$COVERAGE --build=missing
+  - $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE -Dfmt_DIR=$FMT_ROOT/lib/cmake/fmt ..
 
 script:
-  - conan build ..
+  - make VERBOSE=1
   - if [ "$COVERAGE" == "True" ]; then
         $LCOV --gcov-tool=gcov-5 --base-directory . --directory . --zerocounters -q;
     fi
@@ -122,7 +140,7 @@ after_failure:
 after_success:
   - if [ "$COVERAGE" == "True" ]; then
         $LCOV --gcov-tool=gcov-5 --base-directory . --directory .  --capture --output-file coverage.info;
-        $LCOV --gcov-tool=gcov-5 --remove coverage.info '*/test/*' '/usr/*' '*/.conan/*' --output-file coverage.info;
+        $LCOV --gcov-tool=gcov-5 --remove coverage.info '*/test/*' '/usr/*' '*/libfmt/*' --output-file coverage.info;
         $LCOV --gcov-tool=gcov-5 --list coverage.info;
         coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info;
     fi

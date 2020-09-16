@@ -104,7 +104,7 @@ TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
     ASSERT_EQ(expected, terminal.write(elem));
 }
 
-INSTANTIATE_TEST_SUITE_P(
+INSTANTIATE_TEST_CASE_P(
     palette_colours_stream_to_terminals,
     colour_attribute_strings,
     ValuesIn(colour_attributes)

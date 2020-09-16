@@ -5,6 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/KazDragon/terminalpp/badge.svg?branch=master)](https://coveralls.io/github/KazDragon/terminalpp?branch=master)
 [![Build Status](https://travis-ci.org/KazDragon/terminalpp.svg?branch=master)](https://travis-ci.org/KazDragon/terminalpp)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2741e8f7abf49bc8b496fbf8b51b983)](https://www.codacy.com/app/KazDragon/terminalpp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KazDragon/terminalpp&amp;utm_campaign=Badge_Grade)
+[![Download](https://api.bintray.com/packages/kazdragon/conan-public/terminalpp%3Akazdragon/images/download.svg)](https://bintray.com/kazdragon/conan-public/terminalpp%3Akazdragon/_latestVersion)
 
 [![Github Issues](https://img.shields.io/github/issues/KazDragon/terminalpp.svg)](https://github.com/KazDragon/terminalpp/issues)
 
@@ -15,17 +16,26 @@ A C++ library for interacting with ANSI/VT100 terminal or terminal emulator disp
 
 # Requirements
 
-Terminal++ requires a C++14 library, the Boost Libraries, and libfmt.  It also uses Google Test for its testing suite.
+Terminal++ requires a C++14 library and the following libraries:
+  * Boost (At least version 1.69.0)
+  * libfmt (At least version 5.3)
+  * (For testing only) Google Test
+
+# Installation - CMake
+
+Terminal++ can be installed from source using CMake.  This requires Boost, libfmt and any other dependencies to have been installed beforehand, using their own instructions, or for the call to `cmake --configure` to be adjusted appropriately (e.g. `-DBOOST_ROOT=...` or `-Dfmt_DIR=...`).  If you do not wish to install into a system directory, and thus avoid the use of sudo, you can also pass `-DCMAKE_INSTALL_PREFIX=...` into the `cmake --configure` call.
+
+    git clone https://github.com/KazDragon/terminalpp.git && cd terminalpp
+    mkdir build && cd build
+    cmake --configure -DCMAKE_BUILD_TYPE=Release ..
+    cmake --build .
+    sudo cmake --install .
 
 # Installation - Conan
 
-By default, the library uses [The Conan Package Manager](https://conan.io/) to manage its dependencies.  
+You can also use [the Conan Package Manager](https://conan.io/) to install Terminal++ and its dependencies.
 
 See [the tprint example](examples/tprint) for a minimalistic project that describes this setup.
-
-# Installation - Manual
-
-However, Terminal++ has no special flags and can be installed in a more direct manner.  For example, by plugging the files directly into a sub-project in your favourite IDE.  As long as the dependencies are satisfied (see Requirements, above), and the compiler is capable of understanding C++14 code, this should work.
 
 # Features / Roadmap
 

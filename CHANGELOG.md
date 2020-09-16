@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.4 - Migrated away from Conan
+1. [x] Conan packages are still built for Terminal++, but it is no longer required for building.
+2. [x] Added some constants for a more accessible colour palette.
+
 ## Version 1.3 - Migrated to Conan
 1. [x] Now uses the Conan package manager for managing its dependencies.
 
