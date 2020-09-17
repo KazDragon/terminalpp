@@ -16,7 +16,7 @@ A C++ library for interacting with ANSI/VT100 terminal or terminal emulator disp
 
 # Requirements
 
-Terminal++ requires a C++14 library and the following libraries:
+Terminal++ requires a C++14 compiler and the following libraries:
   * Boost (At least version 1.69.0)
   * libfmt (At least version 5.3)
   * (For testing only) Google Test
