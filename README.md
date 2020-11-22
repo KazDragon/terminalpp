@@ -23,8 +23,13 @@ Terminal++ requires a C++14 compiler and the following libraries:
 
 # Installation - CMake
 
-Terminal++ can be installed from source using CMake.  This requires Boost, libfmt and any other dependencies to have been installed beforehand, using their own instructions, or for the call to `cmake --configure` to be adjusted appropriately (e.g. `-DBOOST_ROOT=...` or `-Dfmt_DIR=...`).  If you do not wish to install into a system directory, and thus avoid the use of sudo, you can also pass `-DCMAKE_INSTALL_PREFIX=...` into the `cmake --configure` call.
+Terminal++ can be installed from source using CMake.  
 
+Dependencies are coming from conan
+    conan remote add conan-center https://conan.bintray.com
+    conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
+Building terminalapp from sources
     git clone https://github.com/KazDragon/terminalpp.git && cd terminalpp
     mkdir build && cd build
     cmake --configure -DCMAKE_BUILD_TYPE=Release ..
