@@ -1,5 +1,6 @@
 #include "terminalpp/extent.hpp"
 #include <ostream>
+#include <string>
 
 namespace terminalpp {
 

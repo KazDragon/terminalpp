@@ -1,5 +1,6 @@
 #include "terminalpp/point.hpp"
 #include <ostream>
+#include <string>
 
 namespace terminalpp {
 

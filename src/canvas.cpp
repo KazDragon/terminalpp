@@ -20,7 +20,7 @@ auto begin_pointer(Container &&container)
 template <class Container>
 auto end_pointer(Container &&container)
 {
-    return container.empty() ? nullptr : &*container.end();
+    return container.empty() ? nullptr : &*container.begin() + container.size();
 }
 
 }
