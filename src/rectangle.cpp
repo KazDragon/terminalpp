@@ -1,4 +1,5 @@
 #include "terminalpp/rectangle.hpp"
+#include <ostream>
 
 namespace terminalpp {
 
