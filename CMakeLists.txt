@@ -12,6 +12,15 @@ if (POLICY CMP0063)
     cmake_policy(SET CMP0063 OLD) # Do not allow hidden visibility for static libs
 endif()
 
+include(cmake/conan.cmake)
+conan_cmake_run(REQUIRES
+	gtest/1.10.0
+	boost/1.69.0
+	fmt/5.3.0
+        OPTIONS boost:shared=True
+        BASIC_SETUP CMAKE_TARGETS
+        BUILD missing)
+
 option(TERMINALPP_COVERAGE  "Build with code coverage options")
 option(TERMINALPP_SANITIZE "Build using sanitizers" "")
 option(TERMINALPP_WITH_TESTS "Build with tests" True)
@@ -22,17 +31,6 @@ message("Building Terminal++ with tests: ${TERMINALPP_WITH_TESTS}")
 
 # The required C++ Standard for Terminal++ is C++14.
 set(CMAKE_CXX_STANDARD 14)
-
-# Terminal++ requires at least Boost 1.69
-find_package(Boost 1.69.0 REQUIRED)
-
-# Terminal++ requires libfmt
-find_package(fmt 5.3 REQUIRED)
-
-# If we are building with tests, then we require the GTest library
-if (${TERMINALPP_WITH_TESTS})
-    find_package(GTest REQUIRED)
-endif()
 
 # When building shared objects, etc., we only want to export certain
 # symbols.  Therefore, we need to generate a header suitable for declaring
@@ -141,9 +139,9 @@ target_sources(terminalpp
 
 target_link_libraries(terminalpp
     PUBLIC
-        Boost::boost
+        CONAN_PKG::boost
     PRIVATE
-        fmt::fmt
+        CONAN_PKG::fmt
 )
 
 target_include_directories(terminalpp
@@ -255,9 +253,8 @@ target_sources(terminalpp_tester
 
 target_link_libraries(terminalpp_tester
     terminalpp
-    fmt::fmt
-    GTest::GTest
-    GTest::Main
+    CONAN_PKG::fmt
+    CONAN_PKG::gtest
 )
 
 add_test(terminalpp_test terminalpp_tester)
