@@ -36,56 +36,63 @@ linux_clang: &linux_clang
 jobs:
   include:
   - <<: *linux_gcc
+    addons:
+      apt:
+        packages:
+          python3-pip
     env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False && USE_CONAN=true"
 
-  - <<: *linux_gcc
-    env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=True"
-
-  - <<: *linux_gcc
-    env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False"
-
-  - <<: *linux_gcc
-    env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=True"
-
-  - <<: *linux_gcc
-    env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && SANITIZE=address"
-
-  - <<: *linux_gcc
-    env:
-      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && COVERAGE=True"
-
-  - <<: *linux_clang
-    env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=False"
-
-  - <<: *linux_clang
-    env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=True"
-
-  - <<: *linux_clang
-    env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=False"
-
-  - <<: *linux_clang
-    env:
-     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=True"
+#  - <<: *linux_gcc
+#    env:
+#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False"
+#
+#  - <<: *linux_gcc
+#    env:
+#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=True"
+#
+#  - <<: *linux_gcc
+#    env:
+#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False"
+#
+#  - <<: *linux_gcc
+#    env:
+#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=True"
+#
+#  - <<: *linux_gcc
+#    env:
+#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && SANITIZE=address"
+#
+#  - <<: *linux_gcc
+#    env:
+#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && COVERAGE=True"
+#
+#  - <<: *linux_clang
+#    env:
+#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=False"
+#
+#  - <<: *linux_clang
+#    env:
+#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=True"
+#
+#  - <<: *linux_clang
+#    env:
+#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=False"
+#
+#  - <<: *linux_clang
+#    env:
+#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=True"
 
 cache:
-  - apt: true
   - directories:
     - $HOME/lcov
-    - $HOME/gtest
-    - $HOME/fmt
+    - $HOME/3party
+    - $HOME/.conan
 
 before_install:
 # Set up CC/CXX variables
   - eval "${MATRIX_EVAL}"
-  - export CMAKE=cmake
+  - export EXTERNAL_ROOT=$HOME/3party
   - export COVERAGE=${COVERAGE:-False}
   - export SANITIZE=${SANITIZE:-off}
 
@@ -101,31 +108,16 @@ before_install:
     fi
   - export LCOV=$HOME/lcov/usr/local/bin/lcov
   
-# workaround for gtest not providing its own libraries (sigh)
-  - if [ ! -d "gtest/libgtest.a" ]; then
-      mkdir gtest || true;
-      cd gtest;
-      $CMAKE /usr/src/gtest -DCMAKE_CXX_FLAGS='-fPIC' && make;
-      cd ..;
+  - if [ "$USE_CONAN" == "true" ]; then
+      ./.travis/fetch_conan_dependencies.sh;
+    else
+      ./.travis/fetch_system_dependencies.sh;
     fi
-  - export GTEST_ROOT=$PWD/gtest
-
-# install libfmt
-  - if [ ! -d "libfmt/include/fmt/format.h" ]; then
-      wget https://github.com/fmtlib/fmt/archive/5.3.0.tar.gz;
-      tar -xzf 5.3.0.tar.gz;
-      mkdir libfmt || true;
-      cd fmt-5.3.0;
-      $CMAKE -DCMAKE_INSTALL_PREFIX=$HOME/libfmt -DFMT_TEST=OFF -DCMAKE_CXX_FLAGS='-fPIC' .;
-      make -j2 && make install;
-      cd ..;
-    fi
-  - export FMT_ROOT=$HOME/libfmt
 
 before_script:
   - mkdir build || true
   - cd build
-  - $CMAKE -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE -Dfmt_DIR=$FMT_ROOT/lib/cmake/fmt ..
+  - cmake -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT ..
 
 script:
   - make VERBOSE=1

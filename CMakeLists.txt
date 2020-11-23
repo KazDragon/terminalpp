@@ -23,8 +23,8 @@ message("Building Terminal++ with tests: ${TERMINALPP_WITH_TESTS}")
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     message("Using Conan due to conanbuildinfo.cmake")
     set(TERMINALPP_USE_CONAN ON)
-    include(${CMAKE_BINARY_DIR/conanbuildinfo.cmake})
-    conan_basic_setup(TARGETS)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
 endif()
 
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -32,7 +32,7 @@ set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # The required C++ Standard for Terminal++ is C++14.
 set(CMAKE_CXX_STANDARD 14)
 
-if (TERMINALPP_USE_CONAN_)
+if (TERMINALPP_USE_CONAN)
     set(TERMINALPP_PUBLIC_LIBRARIES
         CONAN_PKG::boost
     )
