@@ -20,18 +20,61 @@ message("Building Terminal++ with code coverage: ${TERMINALPP_COVERAGE}")
 message("Building Terminal++ with sanitizers: ${TERMINALPP_SANITIZE}")
 message("Building Terminal++ with tests: ${TERMINALPP_WITH_TESTS}")
 
+if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    message("Using Conan due to conanbuildinfo.cmake")
+    set(TERMINALPP_USE_CONAN ON)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
+endif()
+
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # The required C++ Standard for Terminal++ is C++14.
 set(CMAKE_CXX_STANDARD 14)
 
-# Terminal++ requires at least Boost 1.69
-find_package(Boost 1.69.0 REQUIRED)
+if (TERMINALPP_USE_CONAN)
+    set(TERMINALPP_PUBLIC_LIBRARIES
+        CONAN_PKG::boost
+    )
 
-# Terminal++ requires libfmt
-find_package(fmt 5.3 REQUIRED)
+    set(TERMINALPP_PRIVATE_LIBRARIES
+        CONAN_PKG::fmt)
 
-# If we are building with tests, then we require the GTest library
-if (${TERMINALPP_WITH_TESTS})
-    find_package(GTest REQUIRED)
+    if (${TERMINALPP_WITH_TESTS})
+        set(TERMINALPP_TEST_LIBRARIES
+            terminalpp
+            CONAN_PKG::fmt
+            CONAN_PKG::gtest
+        )
+    endif()
+else()
+    # Terminal++ requires at least Boost 1.69
+    find_package(Boost 1.69.0 REQUIRED)
+
+    # Terminal++ requires libfmt
+    find_package(fmt 5.3 REQUIRED)
+
+    # If we are building with tests, then we require the GTest library
+    if (${TERMINALPP_WITH_TESTS})
+        find_package(GTest REQUIRED)
+    endif()
+
+    set(TERMINALPP_PUBLIC_LIBRARIES
+        Boost::boost
+    )
+
+    set(TERMINALPP_PRIVATE_LIBRARIES
+        fmt::fmt
+    )
+
+    if (${TERMINALPP_WITH_TESTS})
+        set(TERMINALPP_TEST_LIBRARIES
+            terminalpp
+            fmt::fmt
+            GTest::GTest
+            GTest::Main
+        )
+    endif()    
 endif()
 
 # When building shared objects, etc., we only want to export certain
@@ -141,9 +184,9 @@ target_sources(terminalpp
 
 target_link_libraries(terminalpp
     PUBLIC
-        Boost::boost
+        ${TERMINALPP_PUBLIC_LIBRARIES}
     PRIVATE
-        fmt::fmt
+        ${TERMINALPP_PRIVATE_LIBRARIES}
 )
 
 target_include_directories(terminalpp
@@ -253,14 +296,9 @@ target_sources(terminalpp_tester
         test/virtual_key_test.cpp
 )
 
-target_link_libraries(terminalpp_tester
-    terminalpp
-    fmt::fmt
-    GTest::GTest
-    GTest::Main
-)
-
+target_link_libraries(terminalpp_tester ${TERMINALPP_TEST_LIBRARIES})
 add_test(terminalpp_test terminalpp_tester)
+
 endif()
 
 # Add a rule for generating documentation
