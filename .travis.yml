@@ -95,6 +95,7 @@ before_install:
   - export EXTERNAL_ROOT=$HOME/3party
   - export COVERAGE=${COVERAGE:-False}
   - export SANITIZE=${SANITIZE:-off}
+  - export BUILD_SHARED_LIBS=$SHARED
 
 # Install coverage software
   - if [ "$COVERAGE" == "True" ]; then gem install coveralls-lcov; fi
@@ -117,7 +118,7 @@ before_install:
 before_script:
   - mkdir build || true
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=$CONFIG -DBUILD_SHARED_LIBS=$SHARED -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT ..
+  - cmake -DCMAKE_BUILD_TYPE=$CONFIG -DTERMINALPP_SANITIZE=$SANITIZE -DTERMINALPP_COVERAGE=$COVERAGE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT ..
 
 script:
   - make VERBOSE=1
