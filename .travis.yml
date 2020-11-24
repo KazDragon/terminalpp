@@ -43,45 +43,45 @@ jobs:
     env:
       - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False && USE_CONAN=true"
 
-#  - <<: *linux_gcc
-#    env:
-#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False"
-#
-#  - <<: *linux_gcc
-#    env:
-#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=True"
-#
-#  - <<: *linux_gcc
-#    env:
-#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False"
-#
-#  - <<: *linux_gcc
-#    env:
-#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=True"
-#
-#  - <<: *linux_gcc
-#    env:
-#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && SANITIZE=address"
-#
-#  - <<: *linux_gcc
-#    env:
-#      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && COVERAGE=True"
-#
-#  - <<: *linux_clang
-#    env:
-#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=False"
-#
-#  - <<: *linux_clang
-#    env:
-#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=True"
-#
-#  - <<: *linux_clang
-#    env:
-#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=False"
-#
-#  - <<: *linux_clang
-#    env:
-#     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=True"
+  - <<: *linux_gcc
+    env:
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False"
+
+  - <<: *linux_gcc
+    env:
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=True"
+
+  - <<: *linux_gcc
+    env:
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=False"
+
+  - <<: *linux_gcc
+    env:
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Release && SHARED=True"
+
+  - <<: *linux_gcc
+    env:
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && SANITIZE=address"
+
+  - <<: *linux_gcc
+    env:
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && CONFIG=Debug && SHARED=False && COVERAGE=True"
+
+  - <<: *linux_clang
+    env:
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=False"
+
+  - <<: *linux_clang
+    env:
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Debug && SHARED=True"
+
+  - <<: *linux_clang
+    env:
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=False"
+
+  - <<: *linux_clang
+    env:
+     - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CONFIG=Release && SHARED=True"
 
 cache:
   - directories:
