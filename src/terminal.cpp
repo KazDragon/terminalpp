@@ -457,7 +457,8 @@ std::string terminal::erase_in_display(terminal::erase_display how)
             break;
 
         case terminal::erase_display::below :
-            result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_BELOW;
+            // Erase below uses code 0, which can be omitted.
+            // result += terminalpp::ansi::csi::ERASE_IN_DISPLAY_BELOW;
             break;
     }
 
@@ -488,7 +489,8 @@ std::string terminal::erase_in_line(terminal::erase_line how)
             break;
 
         case terminal::erase_line::right :
-            result += terminalpp::ansi::csi::ERASE_IN_LINE_RIGHT;
+            // Erase to the right uses code 0, which can be omitted.
+            // result += terminalpp::ansi::csi::ERASE_IN_LINE_RIGHT;
             break;
     }
 
