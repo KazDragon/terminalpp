@@ -10,7 +10,8 @@ TEST(a_new_terminal, can_have_a_new_terminal_string_streamed_to_it)
     terminal.write(""_ets);
 
     std::string const expected_result = "test";
-    std::string const result = terminal << "test"_ts;
+    auto const data = "test"_ts;
+    std::string const result = terminal << data;
 
     ASSERT_EQ(expected_result, result);
 }

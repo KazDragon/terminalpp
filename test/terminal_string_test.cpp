@@ -1,4 +1,4 @@
-#include "terminalpp/terminal.hpp"
+#include "terminal_test.hpp"
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
 
@@ -41,19 +41,6 @@ TEST(terminal_string_test, outputting_another_basic_string_does_not_output_defau
         std::string("abcde"),
         terminal.write("abcde"_ets));
 }
-
-class a_terminal : public testing::Test
-{
-protected:
-    a_terminal()
-    {
-        // Here we stimulate the terminal to output its initial attribute-clear
-        // so that it isn't involved in every other test.
-        terminal_.write(""_ets);
-    }
-
-    terminalpp::terminal terminal_;
-};
 
 TEST_F(a_terminal, changed_charset_outputs_charset_code)
 {

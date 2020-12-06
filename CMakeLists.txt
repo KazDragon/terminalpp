@@ -266,6 +266,9 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
+        test/expect_tokens.hpp
+        test/terminal_test.hpp
+
         test/attribute_test.cpp
         test/canvas_test.cpp
         test/character_set_test.cpp
@@ -288,6 +291,7 @@ target_sources(terminalpp_tester
         test/string_manip_test.cpp
         test/terminal_init_test.cpp
         test/terminal_cursor_test.cpp
+        test/terminal_erase_test.cpp
         test/terminal_read_cursor_test.cpp
         test/terminal_read_fkey_test.cpp
         test/terminal_read_test.cpp
