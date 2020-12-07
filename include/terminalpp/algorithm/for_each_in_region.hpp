@@ -1,5 +1,6 @@
 #pragma once
 
+#include "terminalpp/element.hpp"
 #include "terminalpp/rectangle.hpp"
 #include <type_traits>
 #include <utility>
