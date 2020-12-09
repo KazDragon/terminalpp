@@ -1,2 +1,4 @@
 export.hpp
 version.hpp
+/.vs
+/out

@@ -9,7 +9,7 @@ namespace terminalpp { namespace {
 // ==========================================================================
 static void utf8_encode_glyph(glyph &gly, char fourth)
 {
-    static constexpr std::uint32_t const maxima[] = {
+    static constexpr long const maxima[] = {
         0x00007F,
         0x0007FF,
         0x00FFFF,
