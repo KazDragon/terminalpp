@@ -28,7 +28,7 @@ install:
   - git pull
   - .\bootstrap-vcpkg.bat
   - cd %appveyor_build_folder%
-  - vcpkg install boost-container_hash:%platform%-windows
+  - vcpkg install boost-container-hash:%platform%-windows
   - vcpkg install boost-core:%platform%-windows
   - vcpkg install boost-optional:%platform%-windows
   - vcpkg install boost-range:%platform%-windows
