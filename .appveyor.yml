@@ -33,5 +33,5 @@ build_script:
   - cmake -G "%generator" -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake 
   - cmake --build . --config Release
 
-test_script
+test_script:
   - ctest . -C Release
