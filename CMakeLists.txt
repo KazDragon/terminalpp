@@ -108,6 +108,9 @@ endif()
 # which symbols should be included.
 include (GenerateExportHeader)
 
+# For producing automatically-generated documentation, we use Doxygen.
+find_package(Doxygen)
+
 # Increase warning level for GNU or Clang compilers.
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILE_ID STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
