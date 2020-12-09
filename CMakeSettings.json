@@ -10,13 +10,7 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "variables": [
-        {
-          "name": "CMAKE_CXX_FLAGS",
-          "value": "/DWIN32 /D_WINDOWS /W3 /GR /EHsc",
-          "type": "STRING"
-        }
-      ]
+      "variables": []
     },
     {
       "name": "x64-Release",
