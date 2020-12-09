@@ -40,7 +40,7 @@ build_script:
   - mkdir build
   - cd build
   - cmake -G "%generator%" -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-  - cmake --build . --config Release
+  - cmake --build . --config %configuration%
 
 test_script:
-  - ctest . -C Release
+  - ctest . -C %configuration%
