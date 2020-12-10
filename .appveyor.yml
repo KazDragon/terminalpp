@@ -1,0 +1,46 @@
+image:
+  - Visual Studio 2019
+
+build:
+  parallel: true
+  verbosity: detailed
+
+configuration:
+  - Debug
+  - Release
+
+environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR:: true
+
+  matrix:
+    - platform: x64
+
+cache:
+  - C:\Tools\vcpkg\installed
+
+init:
+  - echo Appveyor Image = %APPVEYOR_BUILD_WORKER_IMAGE%
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set "generator=Visual Studio 16 2019" && set "toolset=v142" )
+  - echo Generator = %generator%
+
+install:
+  - cd C:\Tools\vcpkg
+  - git pull
+  - .\bootstrap-vcpkg.bat
+  - cd %appveyor_build_folder%
+  - vcpkg install boost-container-hash:%platform%-windows
+  - vcpkg install boost-core:%platform%-windows
+  - vcpkg install boost-optional:%platform%-windows
+  - vcpkg install boost-range:%platform%-windows
+  - vcpkg install boost-variant:%platform%-windows
+  - vcpkg install fmt:%platform%-windows
+  - vcpkg install gtest:%platform%-windows
+
+build_script:
+  - mkdir build
+  - cd build
+  - cmake -G "%generator%" -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake --build . --config %configuration%
+
+test_script:
+  - ctest . -C %configuration%
