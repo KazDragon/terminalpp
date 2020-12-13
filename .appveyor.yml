@@ -1,6 +1,11 @@
 image:
   - Visual Studio 2019
 
+# Build only on the master branch, and for PRs.
+branches:
+  only:
+    - master
+
 build:
   parallel: true
   verbosity: detailed
@@ -10,7 +15,7 @@ configuration:
   - Release
 
 environment:
-  APPVEYOR_SAVE_CACHE_ON_ERROR:: true
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   matrix:
     - platform: x64
