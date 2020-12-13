@@ -15,10 +15,36 @@ endif()
 option(TERMINALPP_COVERAGE  "Build with code coverage options")
 option(TERMINALPP_SANITIZE "Build using sanitizers" "")
 option(TERMINALPP_WITH_TESTS "Build with tests" True)
+option(TERMINALPP_DOC_ONLY "Build only documentation" False)
+
 message("Building Terminal++ with config: ${CMAKE_BUILD_TYPE}")
 message("Building Terminal++ with code coverage: ${TERMINALPP_COVERAGE}")
 message("Building Terminal++ with sanitizers: ${TERMINALPP_SANITIZE}")
 message("Building Terminal++ with tests: ${TERMINALPP_WITH_TESTS}")
+message("Building Terminal++ with only documentation: ${TERMINALPP_DOC_ONLY}")
+
+# For producing automatically-generated documentation, we use Doxygen.
+find_package(Doxygen)
+
+# Add a rule for generating documentation
+if (DOXYGEN_FOUND)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+    ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    @ONLY)
+
+add_custom_target(terminalpp_doc
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY
+        ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT
+        "Generate API documentation with Doxygen" VERBATIM
+)
+endif()
+
+if (TERMINALPP_DOC_ONLY)
+    return()
+endif()
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     message("Using Conan due to conanbuildinfo.cmake")
@@ -81,9 +107,6 @@ endif()
 # symbols.  Therefore, we need to generate a header suitable for declaring
 # which symbols should be included.
 include (GenerateExportHeader)
-
-# For producing automatically-generated documentation, we use Doxygen.
-find_package(Doxygen)
 
 # Increase warning level for GNU or Clang compilers.
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILE_ID STREQUAL "GNU")
@@ -306,22 +329,6 @@ target_sources(terminalpp_tester
 target_link_libraries(terminalpp_tester ${TERMINALPP_TEST_LIBRARIES})
 add_test(terminalpp_test terminalpp_tester)
 
-endif()
-
-# Add a rule for generating documentation
-if (DOXYGEN_FOUND)
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
-    ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-    @ONLY)
-
-add_custom_target(terminalpp_doc
-    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-    WORKING_DIRECTORY
-        ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT
-        "Generate API documentation with Doxygen" VERBATIM
-)
 endif()
 
 # Add customizations for packaging
