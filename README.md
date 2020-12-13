@@ -2,14 +2,11 @@
 
 [![Documentation](https://codedocs.xyz/KazDragon/terminalpp.svg)](https://codedocs.xyz/KazDragon/terminalpp/)
 [![License](https://img.shields.io/github/license/KazDragon/terminalpp.svg)](https://en.wikipedia.org/wiki/MIT_License)
-[![Coverage Status](https://coveralls.io/repos/github/KazDragon/terminalpp/badge.svg?branch=master)](https://coveralls.io/github/KazDragon/terminalpp?branch=master)
-[![Build Status](https://travis-ci.org/KazDragon/terminalpp.svg?branch=master)](https://travis-ci.org/KazDragon/terminalpp)
+[![MSVC Build status](https://ci.appveyor.com/api/projects/status/ywpx7m37e902hdoy/branch/master?svg=true)](https://ci.appveyor.com/project/KazDragon/terminalpp/branch/master) 
+[![Linux Build status](https://github.com/KazDragon/terminalpp/workflows/build/badge.svg)](https://github.com/KazDragon/terminalpp/actions?query=event%3Apush) 
+[![Coverage Status](https://coveralls.io/repos/github/KazDragon/terminalpp/badge.svg?branch=master)](https://coveralls.io/github/KazDragon/terminalpp?branch=master) 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2741e8f7abf49bc8b496fbf8b51b983)](https://www.codacy.com/app/KazDragon/terminalpp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KazDragon/terminalpp&amp;utm_campaign=Badge_Grade)
 [![Download](https://api.bintray.com/packages/kazdragon/conan-public/terminalpp%3Akazdragon/images/download.svg)](https://bintray.com/kazdragon/conan-public/terminalpp%3Akazdragon/_latestVersion)
-
-[![Github Issues](https://img.shields.io/github/issues/KazDragon/terminalpp.svg)](https://github.com/KazDragon/terminalpp/issues)
-
-[![Gitter](https://badges.gitter.im/KazDragon/terminalpp.svg)](https://gitter.im/KazDragon/terminalpp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # Terminal++
 A C++ library for interacting with ANSI/VT100 terminal or terminal emulator displays.
@@ -58,7 +55,7 @@ A set of classes that implement a windowing user interface are currently being i
 
 # Status
 
-Terminal++ is currently automatically tested using Clang 4.0 and GCC 5.5.  For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the [Issues page](https://github.com/KazDragon/terminalpp/issues).
+Terminal++ is currently automatically tested using MSVC 2019 and GCC 7.5.  For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the [Issues page](https://github.com/KazDragon/terminalpp/issues).  Feel free to discuss using Github Discussions!
 
 # The Basics
 
