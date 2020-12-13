@@ -1,6 +1,6 @@
 # Terminal++
 
-[![Documentation](https://codedocs.xyz/KazDragon/terminalpp.svg)](https://codedocs.xyz/KazDragon/terminalpp/)
+[![Documentation](https://img.shields.io/badge/code-documented-brightgreen.svg?style=flat)](https://kazdragon.github.io/terminalpp/) 
 [![License](https://img.shields.io/github/license/KazDragon/terminalpp.svg)](https://en.wikipedia.org/wiki/MIT_License)
 [![MSVC Build status](https://ci.appveyor.com/api/projects/status/ywpx7m37e902hdoy/branch/master?svg=true)](https://ci.appveyor.com/project/KazDragon/terminalpp/branch/master) 
 [![Linux Build status](https://github.com/KazDragon/terminalpp/workflows/build/badge.svg)](https://github.com/KazDragon/terminalpp/actions?query=event%3Apush) 
