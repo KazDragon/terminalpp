@@ -38,7 +38,7 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT -DTELNETPP_WITH_ZLIB=True
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT
 
     - name: Build
       shell: bash
@@ -163,7 +163,7 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT -DTELNETPP_WITH_ZLIB=True -DTELNETPP_COVERAGE=True
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT -DTERMINALPP_COVERAGE=True
 
     - name: Build
       shell: bash
@@ -211,7 +211,7 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DTELNETPP_DOC_ONLY=True
+      run: cmake $GITHUB_WORKSPACE -DTERMINALPP_DOC_ONLY=True
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
