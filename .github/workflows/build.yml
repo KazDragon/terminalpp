@@ -106,7 +106,7 @@ jobs:
       run: ctest -C $BUILD_TYPE
 
   build-coverage:
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
