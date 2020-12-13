@@ -30,7 +30,7 @@ jobs:
         sudo apt install boost1.74
       
     - name: Install dependencies from source
-      run: .travis/fetch_system_dependencies.sh
+      run: .ci/fetch_system_dependencies.sh
       
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
@@ -155,7 +155,7 @@ jobs:
       id: lcov
 
     - name: Install dependencies from source
-      run: .travis/fetch_system_dependencies.sh
+      run: .ci/fetch_system_dependencies.sh
       
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
