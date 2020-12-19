@@ -386,7 +386,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
     },
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     virtual_keys_can_be_streamed_to_an_ostream,
     virtual_keys_with_strings,
     ValuesIn(virtual_key_strings)

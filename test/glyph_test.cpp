@@ -71,7 +71,7 @@ static glyph_string const glyph_strings[] = {
 
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     glyphs_can_be_streamed_to_an_ostream,
     glyphs_with_strings,
     ValuesIn(glyph_strings)
