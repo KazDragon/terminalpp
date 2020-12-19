@@ -12,7 +12,7 @@ namespace terminalpp {
 /// \brief A structure that carries around the character attributes of an
 /// ANSI element.
 //* =========================================================================
-struct glyph
+struct TERMINALPP_EXPORT glyph
   : private boost::less_than_comparable<glyph,
             boost::equality_comparable<glyph>>
 {
@@ -112,6 +112,7 @@ struct glyph
 // ==========================================================================
 // OPERATOR==
 // ==========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator==(glyph const &lhs, glyph const &rhs)
 {
     if (lhs.charset_ == rhs.charset_)
@@ -146,6 +147,7 @@ constexpr bool operator==(glyph const &lhs, glyph const &rhs)
 // ==========================================================================
 // OPERATOR<
 // ==========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator<(glyph const &lhs, glyph const &rhs)
 {
     if (lhs.charset_ < rhs.charset_)

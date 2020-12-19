@@ -9,7 +9,7 @@ namespace terminalpp {
 //* =========================================================================
 /// \brief Structure representing a normal ANSI 16-colour value
 //* =========================================================================
-struct low_colour
+struct TERMINALPP_EXPORT low_colour
   : private boost::less_than_comparable<low_colour,
             boost::equality_comparable<low_colour>>
 {
@@ -49,6 +49,7 @@ struct low_colour
 //* =========================================================================
 /// \brief Equality operator for low_colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator==(low_colour const &lhs, low_colour const &rhs)
 {
     return lhs.value_ == rhs.value_;
@@ -57,6 +58,7 @@ constexpr bool operator==(low_colour const &lhs, low_colour const &rhs)
 //* =========================================================================
 /// \brief Less-than operator for low_colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator<(low_colour const &lhs, low_colour const &rhs)
 {
     return lhs.value_ < rhs.value_;
@@ -74,7 +76,7 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col);
 /// palette, where each colour channel is represented by a number in the
 /// range 0..5.
 //* =========================================================================
-struct high_colour
+struct TERMINALPP_EXPORT high_colour
   : private boost::less_than_comparable<high_colour,
             boost::equality_comparable<high_colour>>
 {
@@ -114,6 +116,7 @@ struct high_colour
 //* =========================================================================
 /// \brief Equality operator for high_colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
 {
     return lhs.value_ == rhs.value_;
@@ -122,6 +125,7 @@ constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
 //* =========================================================================
 /// \brief Less-than operator for high_colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator<(high_colour const &lhs, high_colour const &rhs)
 {
     return lhs.value_ < rhs.value_;
@@ -138,7 +142,7 @@ std::ostream &operator<<(std::ostream &out, high_colour const &col);
 /// \brief Structure representing the 24 greyscale tones of a 256-colour
 /// palette
 //* =========================================================================
-struct greyscale_colour
+struct TERMINALPP_EXPORT greyscale_colour
   : private boost::less_than_comparable<greyscale_colour,
             boost::equality_comparable<greyscale_colour>>
 {
@@ -176,6 +180,7 @@ struct greyscale_colour
 //* =========================================================================
 /// \brief Equality operator for greyscale_colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator==(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
@@ -185,6 +190,7 @@ constexpr bool operator==(
 //* =========================================================================
 /// \brief Less-than operator for greyscale_colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator<(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
@@ -201,7 +207,7 @@ std::ostream &operator<<(std::ostream &out, greyscale_colour const &col);
 //* =========================================================================
 /// \brief Structure representing a sum type of the available colour styles.
 //* =========================================================================
-struct colour
+struct TERMINALPP_EXPORT colour
   : private boost::less_than_comparable<colour,
             boost::equality_comparable<colour>>
 {
@@ -283,6 +289,7 @@ struct colour
 //* =========================================================================
 /// \brief Equality operator for colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator==(colour const &lhs, colour const &rhs)
 {
     return lhs.type_             == rhs.type_
@@ -298,6 +305,7 @@ constexpr bool operator==(colour const &lhs, colour const &rhs)
 //* =========================================================================
 /// \brief Less-than operator for colours.
 //* =========================================================================
+TERMINALPP_EXPORT 
 constexpr bool operator<(colour const &lhs, colour const &rhs)
 {
     if (lhs.type_ < rhs.type_)

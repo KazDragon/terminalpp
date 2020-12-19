@@ -9,7 +9,7 @@ namespace terminalpp {
 //* =========================================================================
 // \brief A structure that represents a character set.
 //* =========================================================================
-struct character_set
+struct TERMINALPP_EXPORT character_set
   : private boost::less_than_comparable<character_set,
             boost::equality_comparable<character_set>>
 {

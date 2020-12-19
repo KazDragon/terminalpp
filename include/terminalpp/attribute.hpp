@@ -12,7 +12,7 @@ namespace terminalpp {
 /// \brief A structure that carries around the presentation attributes of
 /// an ANSI element.
 //* =========================================================================
-struct attribute
+struct TERMINALPP_EXPORT attribute
   : private boost::less_than_comparable<attribute,
             boost::equality_comparable<attribute>>
 {

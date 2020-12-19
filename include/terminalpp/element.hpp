@@ -14,7 +14,7 @@ namespace terminalpp {
 /// a terminal screen, which comprises a glyph modified by a set of
 /// attribute (such as colour, intensity, etc.)
 //* =========================================================================
-struct element
+struct TERMINALPP_EXPORT element
   : private boost::less_than_comparable<element,
             boost::equality_comparable<element>>
 {
