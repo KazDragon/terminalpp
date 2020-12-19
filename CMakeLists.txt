@@ -227,6 +227,16 @@ set_target_properties(terminalpp
         SOVERSION ${TERMINALPP_VERSION}
 )
 
+target_compile_options(terminalpp
+    PRIVATE
+        # Do not generate warning C4251 (member needs dll linkage) on MSVC
+        $<$<CXX_COMPILER_ID:MSVC>:/wd4251>
+        # Do not generate warning C4275 (type needs dll linkage) on MSVC
+        $<$<CXX_COMPILER_ID:MSVC>:/wd4275>
+        # Any warning on MSVC is an error
+        $<$<CXX_COMPILER_ID:MSVC>:/WX>
+)
+
 generate_export_header(terminalpp
     EXPORT_FILE_NAME
         "${PROJECT_SOURCE_DIR}/include/terminalpp/detail/export.hpp"
@@ -244,6 +254,8 @@ install(
     EXPORT
         terminalpp-config
     ARCHIVE DESTINATION
+        lib/terminalpp-${TERMINALPP_VERSION}
+    RUNTIME DESTINATION
         lib/terminalpp-${TERMINALPP_VERSION}
     LIBRARY DESTINATION
         lib/terminalpp-${TERMINALPP_VERSION}
@@ -324,6 +336,16 @@ target_sources(terminalpp_tester
         test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
         test/virtual_key_test.cpp
+)
+
+target_compile_options(terminalpp_tester
+    PRIVATE
+        # Do not generate warning C4251 (member needs dll linkage) on MSVC
+        $<$<CXX_COMPILER_ID:MSVC>:/wd4251>
+        # Do not generate warning C4275 (type needs dll linkage) on MSVC
+        $<$<CXX_COMPILER_ID:MSVC>:/wd4275>
+        # Any warning on MSVC is an error
+        $<$<CXX_COMPILER_ID:MSVC>:/WX>
 )
 
 target_link_libraries(terminalpp_tester ${TERMINALPP_TEST_LIBRARIES})
