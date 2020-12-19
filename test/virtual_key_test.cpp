@@ -89,12 +89,11 @@ TEST_P(virtual_keys_with_strings, can_be_streamed_to_an_ostream)
 static terminalpp::virtual_key const default_vk = {};
 
 static virtual_key_test_data const virtual_key_strings[] = {
-    // A virtual key should just output the wrapper
+    // A virtual key should just output the wrapper.
     virtual_key_test_data{
         terminalpp::virtual_key{},
         "virtual_key[]"
     },
-
     // Virtual keys with non-default printable characters should print those out
     virtual_key_test_data{
         terminalpp::virtual_key{
@@ -120,19 +119,19 @@ static virtual_key_test_data const virtual_key_strings[] = {
         terminalpp::virtual_key{
             terminalpp::vk::lf
         },
-        "virtual_key[vk:'\n']"
+        "virtual_key[vk:'\\n']"
     },
     virtual_key_test_data{
         terminalpp::virtual_key{
             terminalpp::vk::cr
         },
-        "virtual_key[vk:'\r']"
+        "virtual_key[vk:'\\r']"
     },
     virtual_key_test_data{
         terminalpp::virtual_key{
             terminalpp::vk::ht
         },
-        "virtual_key[vk:'\t']"
+        "virtual_key[vk:'\\t']"
     },
 
     // Virtual keys with non-printable control characters should print out
@@ -141,7 +140,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
         terminalpp::virtual_key{
             terminalpp::vk::esc
         },
-        "virtual_key[vk:'\x1B']"
+        "virtual_key[vk:'\\x1B']"
     },
 
     // Virtual non-ASCII codes should print the name of the key
@@ -385,10 +384,9 @@ static virtual_key_test_data const virtual_key_strings[] = {
         },
         "virtual_key[vk:'A', shift, repeat:17, seq:A]"
     },
-
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     virtual_keys_can_be_streamed_to_an_ostream,
     virtual_keys_with_strings,
     ValuesIn(virtual_key_strings)

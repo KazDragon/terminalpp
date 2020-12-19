@@ -1,4 +1,6 @@
 #include "terminalpp/virtual_key.hpp"
+#include <boost/io/ios_state.hpp>
+#include <iomanip>
 #include <iostream>
 
 namespace terminalpp {
@@ -67,13 +69,39 @@ static std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
 // ==========================================================================
 static std::ostream &operator<<(std::ostream &out, vk const &key)
 {
-    static constexpr vk abstract_key_start = vk::cursor_up;
-
-    if (key < abstract_key_start)
+    auto is_control_key = [](vk const &key)
     {
-        out << "'" << static_cast<char>(key) << "'";
+        static constexpr vk control_set_begin = vk::nul;
+        static constexpr vk control_set_end = vk::space;
+
+        return key >= control_set_begin && key < control_set_end;
+    };
+
+    auto is_abstract_key = [](vk const &key)
+    {
+        static constexpr vk abstract_key_start = vk::cursor_up;
+
+        return key >= abstract_key_start;
+    };
+
+    if (is_control_key(key))
+    {
+        switch (key)
+        {
+            case vk::cr :           out << "'\\r'"; break;
+            case vk::lf :           out << "'\\n'"; break;
+            case vk::ht :           out << "'\\t'"; break;
+            default :
+            {
+                boost::io::ios_all_saver ias(out);
+                out << "'\\x" 
+                    << std::hex << std::setfill('0') << std::setw(2) << std::uppercase 
+                    << int(static_cast<unsigned char>(key))
+                    << "'";
+            }
+        }
     }
-    else
+    else if (is_abstract_key(key))
     {
         switch (key)
         {
@@ -103,8 +131,12 @@ static std::ostream &operator<<(std::ostream &out, vk const &key)
             case vk::f10 :          out << "f10"; break;
             case vk::f11 :          out << "f11"; break;
             case vk::f12 :          out << "f12"; break;
-            default :           out << "unk"; break;
+            default :               out << "unk"; break;
         }
+    }
+    else
+    {
+        out << "'" << static_cast<char>(key) << "'";
     }
 
     return out;

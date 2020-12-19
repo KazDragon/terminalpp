@@ -162,7 +162,7 @@ static control_sequence_test_data const control_sequence_strings[] =
 
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     control_sequences_can_be_streamed_to_an_ostream,
     control_sequences_with_strings,
     ValuesIn(control_sequence_strings)
