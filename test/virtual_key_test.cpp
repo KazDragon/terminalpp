@@ -89,7 +89,7 @@ TEST_P(virtual_keys_with_strings, can_be_streamed_to_an_ostream)
 static terminalpp::virtual_key const default_vk = {};
 
 static virtual_key_test_data const virtual_key_strings[] = {
-    // A virtual key should just output the wrapper and the \x00 sequence.
+    // A virtual key should just output the wrapper.
     virtual_key_test_data{
         terminalpp::virtual_key{},
         "virtual_key[]"
