@@ -13,7 +13,7 @@ namespace terminalpp {
 /// extent in the horizontal axis, and height being the extent in the
 /// vertical axis.
 //* =========================================================================
-struct extent
+struct TERMINALPP_EXPORT extent
 {
     //* =====================================================================
     /// \brief Default Constructor

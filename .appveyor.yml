@@ -14,11 +14,15 @@ configuration:
   - Debug
   - Release
 
+platform:
+  - x64
+
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   matrix:
-    - platform: x64
+    - shared: True
+    - shared: False
 
 cache:
   - C:\Tools\vcpkg\installed
@@ -44,7 +48,7 @@ install:
 build_script:
   - mkdir build
   - cd build
-  - cmake -G "%generator%" -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake -G "%generator%" -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DBUILD_SHARED_LIBS=%shared% ..
   - cmake --build . --config %configuration%
 
 test_script:

@@ -13,7 +13,7 @@ namespace terminalpp {
 /// along the horizontal axis and y being the co-ordinate along the vertical
 /// axis.
 //* =========================================================================
-struct point
+struct TERMINALPP_EXPORT point
   : private boost::less_than_comparable<point,
             boost::equality_comparable<point,
             boost::addable<point,

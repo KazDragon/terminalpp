@@ -10,7 +10,7 @@ namespace terminalpp {
 //* =========================================================================
 /// \brief A class that represents a rectangle in space.
 //* =========================================================================
-struct rectangle
+struct TERMINALPP_EXPORT rectangle
 {
     //* =====================================================================
     /// \brief Default Constructor

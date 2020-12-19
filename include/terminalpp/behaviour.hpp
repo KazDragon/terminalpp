@@ -1,12 +1,14 @@
 #pragma once
 
+#include "terminalpp/core.hpp"
+
 namespace terminalpp {
 
 //* =====================================================================
 /// \brief A set of flags that determine how a terminal should behave
 /// over a datastream.
 //* =====================================================================
-struct behaviour
+struct TERMINALPP_EXPORT behaviour
 {
     constexpr behaviour()
       : can_use_eight_bit_control_codes(false),

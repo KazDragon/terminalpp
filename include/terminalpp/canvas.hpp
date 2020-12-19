@@ -24,7 +24,7 @@ public :
     //* =====================================================================
     /// \brief A proxy into a column of elements on the canvas
     //* =====================================================================
-    class column_proxy
+    class TERMINALPP_EXPORT column_proxy
     {
     public :
         using size_type = coordinate_type;
@@ -47,7 +47,7 @@ public :
     //* =====================================================================
     /// \brief A constant proxy into a column of elements on the canvas
     //* =====================================================================
-    class const_column_proxy
+    class TERMINALPP_EXPORT const_column_proxy
     {
     public :
         using size_type = coordinate_type;
