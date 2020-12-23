@@ -248,17 +248,46 @@ configure_file(
     @ONLY
 )
 
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(
+    ${PROJECT_SOURCE_DIR}/cmake/terminalpp-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/terminalpp
+)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
+    VERSION
+        "${TERMINALPP_VERSION}"
+    COMPATIBILITY AnyNewerVersion
+)
+
+export(
+    TARGETS 
+        terminalpp
+    FILE ${PROJECT_BINARY_DIR}/terminalpp-targets.cmake
+)
+
 install(
     TARGETS
         terminalpp
     EXPORT
-        terminalpp-config
-    ARCHIVE DESTINATION
-        lib/terminalpp-${TERMINALPP_VERSION}
-    RUNTIME DESTINATION
-        lib/terminalpp-${TERMINALPP_VERSION}
+        terminalpp-targets
     LIBRARY DESTINATION
-        lib/terminalpp-${TERMINALPP_VERSION}
+        ${CMAKE_INSTALL_LIBDIR}/terminalpp-${TERMINALPP_VERSION}
+    ARCHIVE DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/terminalpp-${TERMINALPP_VERSION}
+    RUNTIME DESTINATION
+        ${CMAKE_INSTALL_BINDIR}/terminalpp-${TERMINALPP_VERSION}
+)
+
+install(
+    EXPORT
+        terminalpp-targets
+    DESTINATION
+        ${CMAKE_INSTALL_DATADIR}/terminalpp-${TERMINALPP_VERSION}
 )
 
 install(
@@ -268,33 +297,12 @@ install(
         include/terminalpp-${TERMINALPP_VERSION}
 )
 
-export(
-    EXPORT
-        terminalpp-config
-    FILE
-        "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config.cmake"
-)
-
-install(
-    EXPORT
-        terminalpp-config
-    DESTINATION
-        lib/terminalpp-${TERMINALPP_VERSION}
-)
-
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
-    VERSION
-        "${TERMINALPP_VERSION}"
-    COMPATIBILITY AnyNewerVersion
-)
-
 install(
     FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/terminalpp-config-version.cmake"
     DESTINATION
-        lib/terminalpp-${TERMINALPP_VERSION}
+        ${CMAKE_INSTALL_DATADIR}/terminalpp-${TERMINALPP_VERSION}
 )
 
 if (TERMINALPP_WITH_TESTS)
