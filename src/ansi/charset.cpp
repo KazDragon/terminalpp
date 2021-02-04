@@ -5,7 +5,7 @@
 
 namespace terminalpp { namespace ansi {
 
-static constexpr std::pair<charset, char const (&)[2]> const charset_map[] =
+static constexpr std::pair<charset, byte const (&)[1]> const charset_map[] =
 {
     { charset::us_ascii,          CHARSET_US_ASCII            },
     { charset::sco,               CHARSET_SCO                 },
@@ -31,15 +31,15 @@ static constexpr std::pair<charset, char const (&)[2]> const charset_map[] =
     { charset::swiss,             CHARSET_SWISS               },
 };
 
-static constexpr std::pair<charset, char const (&)[3]> const extended_charset_map[] =
+static constexpr std::pair<charset, byte const (&)[2]> const extended_charset_map[] =
 {
     { charset::dec_supplementary_graphics, CHARSET_DEC_SUPPLEMENTARY_GR },
     { charset::portuguese,                 CHARSET_PORTUGUESE           },
 };
 
-boost::optional<charset> lookup_charset(char const *code)
+boost::optional<charset> lookup_charset(bytes code)
 {
-    auto len = code == nullptr ? 0 : strlen(code);
+    const auto len = code.size();
 
     if (len == 0)
     {
@@ -71,27 +71,6 @@ boost::optional<charset> lookup_charset(char const *code)
     }
 
     return {};
-}
-
-std::string charset_to_string(charset const &charset)
-{
-    for (auto &&mapping : charset_map)
-    {
-        if (mapping.first == charset)
-        {
-            return mapping.second;
-        }
-    }
-
-    for (auto &&mapping : extended_charset_map)
-    {
-        if (mapping.first == charset)
-        {
-            return mapping.second;
-        }
-    }
-
-    return CHARSET_US_ASCII;
 }
 
 }}
