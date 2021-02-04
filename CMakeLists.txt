@@ -160,7 +160,7 @@ target_sources(terminalpp
 #        include/terminalpp/element.hpp
 #        include/terminalpp/encoder.hpp
         include/terminalpp/extent.hpp
-#        include/terminalpp/glyph.hpp
+        include/terminalpp/glyph.hpp
 #        include/terminalpp/manip/disable_mouse.hpp
 #        include/terminalpp/manip/enable_mouse.hpp
 #        include/terminalpp/manip/erase_in_display.hpp
@@ -200,7 +200,7 @@ target_sources(terminalpp
 #        src/detail/parser.cpp
 #        src/detail/well_known_virtual_key.cpp
 #        src/encoder.cpp
-#        src/glyph.cpp
+        src/glyph.cpp
 #        src/effect.cpp
 #        src/element.cpp
         src/extent.cpp
@@ -240,6 +240,9 @@ target_compile_options(terminalpp
         $<$<CXX_COMPILER_ID:MSVC>:/wd4275>
         # Any warning on MSVC is an error
         $<$<CXX_COMPILER_ID:MSVC>:/WX>
+
+        # Add warnings on g++
+        $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror>
 )
 
 generate_export_header(terminalpp
@@ -331,7 +334,7 @@ target_sources(terminalpp_tester
 #        test/expect_sequence.cpp
 #        test/expect_tokens.cpp
         test/extent_test.cpp
-#        test/glyph_test.cpp
+        test/glyph_test.cpp
 #        test/manip_test.cpp
 #        test/mouse_test.cpp
 #        test/palette_test.cpp
