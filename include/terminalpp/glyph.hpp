@@ -1,7 +1,9 @@
 #pragma once
 
+#include "terminalpp/core.hpp"
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/character_set.hpp"
+#include "terminalpp/detail/ascii.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
@@ -16,6 +18,7 @@ struct TERMINALPP_EXPORT glyph
   : private boost::less_than_comparable<glyph,
             boost::equality_comparable<glyph>>
 {
+public:
     //* =====================================================================
     /// \brief Default Constructor
     /// \par
@@ -23,8 +26,8 @@ struct TERMINALPP_EXPORT glyph
     /// character set.  That is, it is blank.
     //* =====================================================================
     constexpr glyph(
-        char character = ' ',
-        character_set charset = character_set())
+        byte const character = detail::ascii::SPACE,
+        character_set const charset = character_set())
       : character_(character),
         charset_(charset)
     {
@@ -33,7 +36,7 @@ struct TERMINALPP_EXPORT glyph
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
-    explicit constexpr glyph(char const (&text)[2])
+    explicit constexpr glyph(byte const (&text)[2])
       : ucharacter_{text[0]},
         charset_(terminalpp::ansi::charset::utf8)
     {
@@ -42,7 +45,7 @@ struct TERMINALPP_EXPORT glyph
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
-    explicit constexpr glyph(char const (&text)[3])
+    explicit constexpr glyph(byte const (&text)[3])
       : ucharacter_{text[0], text[1]},
         charset_(terminalpp::ansi::charset::utf8)
     {
@@ -51,7 +54,7 @@ struct TERMINALPP_EXPORT glyph
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
-    explicit constexpr glyph(char const (&text)[4])
+    explicit constexpr glyph(byte const (&text)[4])
       : ucharacter_{text[0], text[1], text[2]},
         charset_(terminalpp::ansi::charset::utf8)
     {
@@ -59,6 +62,14 @@ struct TERMINALPP_EXPORT glyph
 
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence.
+    /// \par
+    /// This constructor is specifically for unicode characters stored as
+    /// UTF-8.  For example:
+    /// \code
+    ///     glyph g(u8"\U00002501");
+    /// \endcode
+    /// The result of passing in a sequence that is not a UTF-8 string is
+    /// undefined.
     //* =====================================================================
     template <class T = void> // This makes matching these parameters "worse"
                               // than any of the array matches above, and so
@@ -102,8 +113,8 @@ struct TERMINALPP_EXPORT glyph
     }
 
     union {
-        char character_;
-        char ucharacter_[3];
+        byte character_;
+        byte ucharacter_[3];
     };
 
     character_set charset_;
