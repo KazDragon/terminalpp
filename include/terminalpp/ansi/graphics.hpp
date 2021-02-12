@@ -7,12 +7,12 @@
 //* =========================================================================
 namespace terminalpp { namespace ansi { namespace graphics {
 
-static char const NO_ATTRIBUTES                     = 0;
+static constexpr byte const NO_ATTRIBUTES           = 0;
 
 //* =========================================================================
 /// \brief The intensity (i.e. bold, faint, or normal) of an element.
 //* =========================================================================
-enum class intensity : char
+enum class intensity : byte
 {
     bold                                            = 1,
     faint                                           = 2,
@@ -22,7 +22,7 @@ enum class intensity : char
 //* =========================================================================
 /// \brief Whether an element is underlined or not.
 //* =========================================================================
-enum class underlining : char
+enum class underlining : byte
 {
     underlined                                      = 4,
     not_underlined                                  = 24,
@@ -31,19 +31,19 @@ enum class underlining : char
 //* =========================================================================
 /// \brief Whether an element is blinking or not.
 //* =========================================================================
-enum class blinking : char
+enum class blinking : byte
 {
     blink                                           = 5,
     steady                                          = 25,
 };
 
-static char const FOREGROUND_COLOUR_BASE            = 30;
-static char const BACKGROUND_COLOUR_BASE            = 40;
+static constexpr byte FOREGROUND_COLOUR_BASE        = 30;
+static constexpr byte BACKGROUND_COLOUR_BASE        = 40;
 
 //* =========================================================================
 /// \brief An enumeration of basic ANSI colours.
 //* =========================================================================
-enum class colour : char
+enum class colour : byte
 {
     black                                           = 0,
     red                                             = 1,
@@ -60,7 +60,7 @@ enum class colour : char
 /// \brief The polarity of an element; a negative polarity will result in the
 /// element's foreground and background colours being swapped.
 //* =========================================================================
-enum class polarity : char
+enum class polarity : byte
 {
     negative                                        = 7,
     positive                                        = 27,

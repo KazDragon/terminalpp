@@ -132,15 +132,15 @@ add_library(terminalpp)
 target_sources(terminalpp
     PRIVATE
         include/terminalpp/ansi/charset.hpp
-#        include/terminalpp/ansi/control_characters.hpp
-#        include/terminalpp/ansi/control_sequence.hpp
-#        include/terminalpp/ansi/csi.hpp
-#        include/terminalpp/ansi/dec_private_mode.hpp
-#        include/terminalpp/ansi/graphics.hpp
-#        include/terminalpp/ansi/mouse.hpp
-#        include/terminalpp/ansi/osc.hpp
+        include/terminalpp/ansi/control_characters.hpp
+        include/terminalpp/ansi/control_sequence.hpp
+        include/terminalpp/ansi/csi.hpp
+        include/terminalpp/ansi/dec_private_mode.hpp
+        include/terminalpp/ansi/graphics.hpp
+        include/terminalpp/ansi/mouse.hpp
+        include/terminalpp/ansi/osc.hpp
         include/terminalpp/ansi/protocol.hpp
-#        include/terminalpp/ansi/ss3.hpp
+        include/terminalpp/ansi/ss3.hpp
 #        include/terminalpp/attribute.hpp
 #        include/terminalpp/behaviour.hpp
 #        include/terminalpp/colour.hpp
@@ -187,7 +187,7 @@ target_sources(terminalpp
 #        include/terminalpp/virtual_key.hpp
 
         src/ansi/charset.cpp
-#        src/ansi/control_sequence.cpp
+        src/ansi/control_sequence.cpp
 #        src/ansi/mouse.cpp
 #        src/attribute.cpp
 #        src/canvas.cpp
@@ -323,11 +323,12 @@ target_sources(terminalpp_tester
 #        test/expect_tokens.hpp
 #        test/terminal_test.hpp
 
+        test/ansi_charset_test.cpp
 #        test/attribute_test.cpp
 #        test/canvas_test.cpp
         test/character_set_test.cpp
 #        test/colour_test.cpp
-#        test/control_sequence_test.cpp
+        test/control_sequence_test.cpp
 #        test/effect_test.cpp
 #        test/element_test.cpp
 #        test/encoder_test.cpp

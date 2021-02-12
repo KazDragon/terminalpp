@@ -21,13 +21,13 @@ static constexpr byte const MOUSE_VALUE_OFFSET
 //* =========================================================================
 struct TERMINALPP_EXPORT report
 {
-    static constexpr byte const LEFT_BUTTON_DOWN   = byte(0);
-    static constexpr byte const MIDDLE_BUTTON_DOWN = byte(1);
-    static constexpr byte const RIGHT_BUTTON_DOWN  = byte(2);
-    static constexpr byte const BUTTON_UP          = byte(3);
-    static constexpr byte const NO_BUTTON_CHANGE   = byte(32);
-    static constexpr byte const SCROLLWHEEL_UP     = byte(64);
-    static constexpr byte const SCROLLWHEEL_DOWN   = byte(65);
+    static constexpr byte LEFT_BUTTON_DOWN   = byte(0);
+    static constexpr byte MIDDLE_BUTTON_DOWN = byte(1);
+    static constexpr byte RIGHT_BUTTON_DOWN  = byte(2);
+    static constexpr byte BUTTON_UP          = byte(3);
+    static constexpr byte NO_BUTTON_CHANGE   = byte(32);
+    static constexpr byte SCROLLWHEEL_UP     = byte(64);
+    static constexpr byte SCROLLWHEEL_DOWN   = byte(65);
 
     //* =====================================================================
     /// \brief The mouse button state in this report.  E.g. LEFT_BUTTON_DOWN

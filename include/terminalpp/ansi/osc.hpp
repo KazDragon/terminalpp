@@ -9,6 +9,6 @@
 //* =========================================================================
 namespace terminalpp { namespace ansi { namespace osc {
 
-static constexpr char const SET_WINDOW_TITLE = terminalpp::detail::ascii::TWO;
+static constexpr byte const SET_WINDOW_TITLE = terminalpp::detail::ascii::TWO;
 
 }}}
