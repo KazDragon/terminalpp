@@ -67,7 +67,7 @@ element const& canvas::const_column_proxy::operator[](
 canvas::canvas(extent size)
   : size_(size)
 {
-    grid_.resize(size.width * size.height);
+    grid_.resize(std::vector<element>::size_type(size.width * size.height));
 }
 
 // ==========================================================================
@@ -83,7 +83,9 @@ extent canvas::size() const
 // ==========================================================================
 void canvas::resize(extent const &size)
 {
-    std::vector<element> new_grid(size.width * size.height);
+    std::vector<element> new_grid(std::vector<element>::size_type(
+        size.width * size.height));
+
     auto min_width  = (std::min)(size.width, size_.width);
     auto min_height = (std::min)(size.height, size_.height);
 
@@ -92,7 +94,8 @@ void canvas::resize(extent const &size)
         [this, &size, &new_grid](
             element const &elem, coordinate_type column, coordinate_type row)
         {
-             auto new_grid_pos = row * size.width + column;
+             auto const new_grid_pos = std::vector<element>::size_type(
+                 row * size.width + column);
              new_grid[new_grid_pos] = elem;
         });
 
@@ -153,7 +156,9 @@ canvas::const_column_proxy canvas::operator[](coordinate_type column) const
 // ==========================================================================
 element& canvas::get_element(coordinate_type column, coordinate_type row)
 {
-    return grid_[row * size_.width + column];
+    return grid_[std::vector<element>::size_type(
+        row * size_.width + column
+    )];
 }
 
 // ==========================================================================
@@ -162,7 +167,9 @@ element& canvas::get_element(coordinate_type column, coordinate_type row)
 const element& canvas::get_element(
     coordinate_type column, coordinate_type row) const
 {
-    return grid_[row * size_.width + column];
+    return grid_[std::vector<element>::size_type(
+        row * size_.width + column
+    )];
 }
 
 // ==========================================================================
@@ -171,7 +178,7 @@ const element& canvas::get_element(
 void canvas::set_element(
     coordinate_type column, coordinate_type row, const element& value)
 {
-    grid_[row * size_.width + column] = value;
+    grid_[std::vector<element>::size_type(row * size_.width + column)] = value;
 }
 
 }
