@@ -188,7 +188,7 @@ target_sources(terminalpp
 
         src/ansi/charset.cpp
         src/ansi/control_sequence.cpp
-#        src/ansi/mouse.cpp
+        src/ansi/mouse.cpp
 #        src/attribute.cpp
 #        src/canvas.cpp
         src/character_set.cpp
@@ -337,7 +337,7 @@ target_sources(terminalpp_tester
         test/extent_test.cpp
         test/glyph_test.cpp
 #        test/manip_test.cpp
-#        test/mouse_test.cpp
+        test/mouse_test.cpp
 #        test/palette_test.cpp
         test/point_test.cpp
         test/rectangle_test.cpp
