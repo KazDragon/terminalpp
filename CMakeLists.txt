@@ -158,7 +158,7 @@ target_sources(terminalpp
 #        include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/effect.hpp
         include/terminalpp/element.hpp
-#        include/terminalpp/encoder.hpp
+        include/terminalpp/encoder.hpp
         include/terminalpp/extent.hpp
         include/terminalpp/glyph.hpp
 #        include/terminalpp/manip/disable_mouse.hpp
@@ -179,7 +179,7 @@ target_sources(terminalpp
         include/terminalpp/point.hpp
         include/terminalpp/rectangle.hpp
 #        include/terminalpp/screen.hpp
-#        include/terminalpp/string.hpp
+        include/terminalpp/string.hpp
 #        include/terminalpp/terminal.hpp
 #        include/terminalpp/terminal_manip.hpp
 #        include/terminalpp/terminalpp.hpp
@@ -199,7 +199,7 @@ target_sources(terminalpp
 #        src/detail/element_difference.cpp
         src/detail/parser.cpp
 #        src/detail/well_known_virtual_key.cpp
-#        src/encoder.cpp
+        src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp
         src/element.cpp
@@ -208,7 +208,7 @@ target_sources(terminalpp
         src/point.cpp
         src/rectangle.cpp
 #        src/screen.cpp
-#        src/string.cpp
+        src/string.cpp
 #        src/terminal.cpp
 #        src/virtual_key.cpp
 )
@@ -331,7 +331,7 @@ target_sources(terminalpp_tester
         test/control_sequence_test.cpp
         test/effect_test.cpp
         test/element_test.cpp
-#        test/encoder_test.cpp
+        test/encoder_test.cpp
 #        test/expect_sequence.cpp
 #        test/expect_tokens.cpp
         test/extent_test.cpp
@@ -342,7 +342,7 @@ target_sources(terminalpp_tester
         test/point_test.cpp
         test/rectangle_test.cpp
 #        test/screen_test.cpp
-#        test/string_test.cpp
+        test/string_test.cpp
 #        test/string_manip_test.cpp
 #        test/terminal_init_test.cpp
 #        test/terminal_cursor_test.cpp

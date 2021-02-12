@@ -17,7 +17,7 @@ namespace terminalpp {
 //* =========================================================================
 class TERMINALPP_EXPORT string
   : private boost::addable<string,
-            boost::addable<string, char,
+            boost::addable<string, byte,
             boost::addable<string, element,
             boost::less_than_comparable<string,
             boost::equality_comparable<string>>>>>
@@ -183,7 +183,7 @@ public :
     //* =====================================================================
     /// \brief Append operator
     //* =====================================================================
-    string &operator+=(char ch);
+    string &operator+=(byte ch);
 
     //* =====================================================================
     /// \brief Append operator

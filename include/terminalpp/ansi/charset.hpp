@@ -80,7 +80,7 @@ static constexpr byte SET_CHARSET_G2[]              = {terminalpp::detail::ascii
 static constexpr byte SET_CHARSET_G3[]              = {terminalpp::detail::ascii::ESC,
                                                        terminalpp::detail::ascii::PLUS};
 static constexpr byte SET_CHARSET_G1_ALT[]          = {terminalpp::detail::ascii::ESC,
-                                                       terminalpp::detail::ascii::DASH};
+                                                       terminalpp::detail::ascii::MINUS};
 static constexpr byte SET_CHARSET_G2_ALT[]          = {terminalpp::detail::ascii::ESC,
                                                        terminalpp::detail::ascii::FULL_STOP};
 static constexpr byte SET_CHARSET_G3_ALT[]          = {terminalpp::detail::ascii::ESC,
