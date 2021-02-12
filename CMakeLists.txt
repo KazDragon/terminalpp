@@ -155,7 +155,7 @@ target_sources(terminalpp
 #        include/terminalpp/detail/terminal_charset_control.hpp
 #        include/terminalpp/detail/terminal_control.hpp
 #        include/terminalpp/detail/terminal_cursor_control.hpp
-#        include/terminalpp/detail/well_known_virtual_key.hpp
+        include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/effect.hpp
         include/terminalpp/element.hpp
         include/terminalpp/encoder.hpp
@@ -184,7 +184,7 @@ target_sources(terminalpp
 #        include/terminalpp/terminal_manip.hpp
 #        include/terminalpp/terminalpp.hpp
 #        include/terminalpp/token.hpp
-#        include/terminalpp/virtual_key.hpp
+        include/terminalpp/virtual_key.hpp
 
         src/ansi/charset.cpp
         src/ansi/control_sequence.cpp
@@ -198,7 +198,7 @@ target_sources(terminalpp
 #        src/detail/terminal_cursor_control.cpp
 #        src/detail/element_difference.cpp
         src/detail/parser.cpp
-#        src/detail/well_known_virtual_key.cpp
+        src/detail/well_known_virtual_key.cpp
         src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp
@@ -210,7 +210,7 @@ target_sources(terminalpp
 #        src/screen.cpp
         src/string.cpp
 #        src/terminal.cpp
-#        src/virtual_key.cpp
+        src/virtual_key.cpp
 )
 
 target_link_libraries(terminalpp
@@ -352,7 +352,7 @@ target_sources(terminalpp_tester
 #        test/terminal_read_test.cpp
 #        test/terminal_settings_test.cpp
 #        test/terminal_string_test.cpp
-#        test/virtual_key_test.cpp
+        test/virtual_key_test.cpp
 )
 
 target_compile_options(terminalpp_tester
