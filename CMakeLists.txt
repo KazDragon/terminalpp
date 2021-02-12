@@ -143,7 +143,7 @@ target_sources(terminalpp
         include/terminalpp/ansi/ss3.hpp
         include/terminalpp/attribute.hpp
 #        include/terminalpp/behaviour.hpp
-#        include/terminalpp/colour.hpp
+        include/terminalpp/colour.hpp
 #        include/terminalpp/canvas.hpp
         include/terminalpp/character_set.hpp
 #        include/terminalpp/core.hpp
@@ -157,7 +157,7 @@ target_sources(terminalpp
 #        include/terminalpp/detail/terminal_cursor_control.hpp
 #        include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/effect.hpp
-#        include/terminalpp/element.hpp
+        include/terminalpp/element.hpp
 #        include/terminalpp/encoder.hpp
         include/terminalpp/extent.hpp
         include/terminalpp/glyph.hpp
@@ -192,7 +192,7 @@ target_sources(terminalpp
         src/attribute.cpp
 #        src/canvas.cpp
         src/character_set.cpp
-#        src/colour.cpp
+        src/colour.cpp
 #        src/detail/terminal_charset_control.cpp
 #        src/detail/terminal_control.cpp
 #        src/detail/terminal_cursor_control.cpp
@@ -202,7 +202,7 @@ target_sources(terminalpp
 #        src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp
-#        src/element.cpp
+        src/element.cpp
         src/extent.cpp
 #        src/manip/terminal_streamer.cpp
         src/point.cpp
@@ -327,10 +327,10 @@ target_sources(terminalpp_tester
         test/attribute_test.cpp
 #        test/canvas_test.cpp
         test/character_set_test.cpp
-#        test/colour_test.cpp
+        test/colour_test.cpp
         test/control_sequence_test.cpp
         test/effect_test.cpp
-#        test/element_test.cpp
+        test/element_test.cpp
 #        test/encoder_test.cpp
 #        test/expect_sequence.cpp
 #        test/expect_tokens.cpp

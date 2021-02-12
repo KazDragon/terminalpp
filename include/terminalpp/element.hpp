@@ -33,7 +33,7 @@ struct TERMINALPP_EXPORT element
     /// \brief Char Constructor
     //* =====================================================================
     constexpr element(
-        char ch,
+        byte ch,
         terminalpp::attribute attr = {})
       : element(terminalpp::glyph(ch), attr)
     {
