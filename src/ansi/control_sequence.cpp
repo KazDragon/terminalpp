@@ -72,7 +72,7 @@ static void output_meta(std::ostream &out, bool meta, bool &comma)
 // ==========================================================================
 static void output_arguments(
     std::ostream &out,
-    std::vector<std::string> const &arguments,
+    std::vector<byte_storage> const &arguments,
     bool &comma)
 {
     if (!arguments.empty())
@@ -84,14 +84,17 @@ static void output_arguments(
                  arguments.begin(),
                  arguments.end(),
                  std::string{},
-                 [](std::string &result, std::string const &current_argument)
+                 [](std::string &result, byte_storage const &current_argument)
                  {
                      if (!result.empty())
                      {
                          result += ';';
                      }
 
-                     result += current_argument;
+                     for (auto const &by : current_argument)
+                     {
+                        result += char(by);
+                     }
 
                      return result;
                  })

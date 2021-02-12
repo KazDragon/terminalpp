@@ -142,16 +142,16 @@ target_sources(terminalpp
         include/terminalpp/ansi/protocol.hpp
         include/terminalpp/ansi/ss3.hpp
         include/terminalpp/attribute.hpp
-#        include/terminalpp/behaviour.hpp
+        include/terminalpp/behaviour.hpp
         include/terminalpp/colour.hpp
 #        include/terminalpp/canvas.hpp
         include/terminalpp/character_set.hpp
-#        include/terminalpp/core.hpp
-#        include/terminalpp/detail/ascii.hpp
+        include/terminalpp/core.hpp
+        include/terminalpp/detail/ascii.hpp
 #        include/terminalpp/detail/element_difference.hpp
-#        include/terminalpp/detail/export.hpp
-#        include/terminalpp/detail/lambda_visitor.hpp
-#        include/terminalpp/detail/parser.hpp
+        include/terminalpp/detail/export.hpp
+        include/terminalpp/detail/lambda_visitor.hpp
+        include/terminalpp/detail/parser.hpp
 #        include/terminalpp/detail/terminal_charset_control.hpp
 #        include/terminalpp/detail/terminal_control.hpp
 #        include/terminalpp/detail/terminal_cursor_control.hpp
@@ -197,7 +197,7 @@ target_sources(terminalpp
 #        src/detail/terminal_control.cpp
 #        src/detail/terminal_cursor_control.cpp
 #        src/detail/element_difference.cpp
-#        src/detail/parser.cpp
+        src/detail/parser.cpp
 #        src/detail/well_known_virtual_key.cpp
 #        src/encoder.cpp
         src/glyph.cpp

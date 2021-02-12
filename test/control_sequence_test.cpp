@@ -3,6 +3,7 @@
 #include <tuple>
 
 using testing::ValuesIn;
+using namespace terminalpp::literals;
 
 TEST(a_default_constructed_control_sequence, has_a_known_value)
 {
@@ -90,7 +91,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
-            std::vector<std::string>{ {"arg0"} }
+            { "arg0"_tb }
         },
         "control_sequence[args:\"arg0\"]"
     },
@@ -101,7 +102,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
-            std::vector<std::string>{ "arg0", "arg1" }
+            { "arg0"_tb, "arg1"_tb }
         },
         "control_sequence[args:\"arg0;arg1\"]"
     },
@@ -110,7 +111,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
-            std::vector<std::string>{ "arg0", "arg1", "arg2" }
+            { "arg0"_tb, "arg1"_tb, "arg2"_tb }
         },
         "control_sequence[args:\"arg0;arg1;arg2\"]"
     },
@@ -143,7 +144,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             '[',
             'H',
             true,
-            { "29" },
+            { "29"_tb },
             '?'
         },
         "control_sequence[initiator:'[', command:'H', meta, args:\"29\", extender:'?']"
@@ -154,7 +155,7 @@ static control_sequence_test_data const control_sequence_strings[] =
             '[',
             'H',
             default_sequence.meta,
-            { "29" },
+            { "29"_tb },
             '?'
         },
         "control_sequence[initiator:'[', command:'H', args:\"29\", extender:'?']"
