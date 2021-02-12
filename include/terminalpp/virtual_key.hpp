@@ -35,7 +35,7 @@ enum class vk : byte
     asterisk          = terminalpp::detail::ascii::ASTERISK,
     plus              = terminalpp::detail::ascii::PLUS,
     comma             = terminalpp::detail::ascii::COMMA,
-    dash              = terminalpp::detail::ascii::DASH,
+    minus             = terminalpp::detail::ascii::MINUS,
     full_stop         = terminalpp::detail::ascii::FULL_STOP,
     slash             = terminalpp::detail::ascii::SLASH,
     zero              = terminalpp::detail::ascii::ZERO,

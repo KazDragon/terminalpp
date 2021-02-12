@@ -1,4 +1,6 @@
 #include "terminalpp/encoder.hpp"
+#include "terminalpp/ansi/charset.hpp"
+#include "terminalpp/detail/ascii.hpp"
 #include <algorithm>
 #include <cstring>
 
@@ -7,7 +9,7 @@ namespace terminalpp { namespace {
 // ==========================================================================
 // UTF8_ENCODE_GLYPH
 // ==========================================================================
-static void utf8_encode_glyph(glyph &gly, char fourth)
+static void utf8_encode_glyph(glyph &gly, byte fourth)
 {
     static constexpr long const maxima[] = {
         0x00007F,
@@ -19,7 +21,11 @@ static void utf8_encode_glyph(glyph &gly, char fourth)
     // Do excuse the weird parameters.  At this point in the parsing, the
     // first, second and third characters are already stored in the glyph.
     char text[] = {
-        gly.ucharacter_[0], gly.ucharacter_[1], gly.ucharacter_[2], fourth, 0
+        char(gly.ucharacter_[0]),
+        char(gly.ucharacter_[1]), 
+        char(gly.ucharacter_[2]),
+        char(fourth), 
+        0
     };
 
     auto value = strtol(text, nullptr, 16);
@@ -31,26 +37,26 @@ static void utf8_encode_glyph(glyph &gly, char fourth)
     // array.
     if (value <= maxima[0])
     {
-        gly.ucharacter_[0] = char(value & 0x7F);
+        gly.ucharacter_[0] = byte(value & 0x7F);
         gly.ucharacter_[1] = 0;
         gly.ucharacter_[2] = 0;
     }
     else if (value <= maxima[1])
     {
-        gly.ucharacter_[0] = char(0b11000000 | (value >> 6));
-        gly.ucharacter_[1] = char(0b10000000 | (value & 0b00111111));
+        gly.ucharacter_[0] = byte(0b11000000 | (value >> 6));
+        gly.ucharacter_[1] = byte(0b10000000 | (value & 0b00111111));
         gly.ucharacter_[2] = 0;
     }
     else if (value <= maxima[2])
     {
-        gly.ucharacter_[0] = char(0b11100000 | (value >> 12));
-        gly.ucharacter_[1] = char(0b10000000 | ((value >> 6) & 0b00111111));
-        gly.ucharacter_[2] = char(0b10000000 | (value & 0b00111111));
+        gly.ucharacter_[0] = byte(0b11100000 | (value >> 12));
+        gly.ucharacter_[1] = byte(0b10000000 | ((value >> 6) & 0b00111111));
+        gly.ucharacter_[2] = byte(0b10000000 | (value & 0b00111111));
     }
     else
     {
         // Too high to encode right now.
-        gly.ucharacter_[0] = '?';
+        gly.ucharacter_[0] = byte('?');
         gly.ucharacter_[1] = 0;
     }
 }
@@ -96,7 +102,7 @@ struct encoding_data
 // ==========================================================================
 // ENCODE_NORMAL
 // ==========================================================================
-static encoding_state encode_normal(char ch, encoding_data &data)
+static encoding_state encode_normal(byte ch, encoding_data &data)
 {
     if (ch == '\\')
     {
@@ -104,7 +110,7 @@ static encoding_state encode_normal(char ch, encoding_data &data)
     }
     else
     {
-        data.current_element.glyph_.character_ = ch;
+        data.current_element.glyph_.character_ = byte(ch);
         data.element_complete = true;
     }
 
@@ -114,7 +120,7 @@ static encoding_state encode_normal(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_ESCAPED
 // ==========================================================================
-static encoding_state encode_escaped(char ch, encoding_data &data)
+static encoding_state encode_escaped(byte ch, encoding_data &data)
 {
     switch (ch)
     {
@@ -168,27 +174,27 @@ static encoding_state encode_escaped(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_CHARACTER_CODE_0
 // ==========================================================================
-static encoding_state encode_character_code_0(char ch, encoding_data &data)
+static encoding_state encode_character_code_0(byte ch, encoding_data &data)
 {
-    data.current_element.glyph_.character_ = char((ch - '0') * 100);
+    data.current_element.glyph_.character_ = byte((ch - '0') * 100);
     return encoding_state::character_code_1;
 }
 
 // ==========================================================================
 // ENCODE_CHARACTER_CODE_1
 // ==========================================================================
-static encoding_state encode_character_code_1(char ch, encoding_data &data)
+static encoding_state encode_character_code_1(byte ch, encoding_data &data)
 {
-    data.current_element.glyph_.character_ += char((ch - '0') * 10);
+    data.current_element.glyph_.character_ += byte((ch - '0') * 10);
     return encoding_state::character_code_2;
 }
 
 // ==========================================================================
 // ENCODE_CHARACTER_CODE_2
 // ==========================================================================
-static encoding_state encode_character_code_2(char ch, encoding_data &data)
+static encoding_state encode_character_code_2(byte ch, encoding_data &data)
 {
-    data.current_element.glyph_.character_ += char((ch - '0'));
+    data.current_element.glyph_.character_ += byte((ch - '0'));
     data.element_complete = true;
     return encoding_state::normal;
 }
@@ -196,17 +202,16 @@ static encoding_state encode_character_code_2(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_CHARACTER_SET
 // ==========================================================================
-static encoding_state encode_character_set(char ch, encoding_data &data)
+static encoding_state encode_character_set(byte ch, encoding_data &data)
 {
-    if (ch == '%')
+    if (ch == ansi::CHARSET_EXTENDER)
     {
         return encoding_state::character_set_ext;
     }
     else
     {
-        char charset_code[] = {ch, 0};
-        auto charset =
-            terminalpp::ansi::lookup_charset(charset_code);
+        byte const charset_code[] = {ch};
+        auto const charset = terminalpp::ansi::lookup_charset(charset_code);
 
         if (charset)
         {
@@ -220,11 +225,10 @@ static encoding_state encode_character_set(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_CHARACTER_SET_EXT
 // ==========================================================================
-static encoding_state encode_character_set_ext(char ch, encoding_data &data)
+static encoding_state encode_character_set_ext(byte ch, encoding_data &data)
 {
-    char charset_code[] = {'%', ch, '\0'};
-    auto charset =
-        terminalpp::ansi::lookup_charset(charset_code);
+    byte const charset_code[] = { ansi::CHARSET_EXTENDER, ch };
+    auto const charset = terminalpp::ansi::lookup_charset(charset_code);
 
     if (charset)
     {
@@ -237,23 +241,23 @@ static encoding_state encode_character_set_ext(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_INTENSITY
 // ==========================================================================
-static encoding_state encode_intensity(char ch, encoding_data &data)
+static encoding_state encode_intensity(byte ch, encoding_data &data)
 {
     switch (ch)
     {
         default :
             // Fall-through
-        case '=' :
+        case detail::ascii::EQUALS:
             data.current_element.attribute_.intensity_ =
                 terminalpp::ansi::graphics::intensity::normal;
             break;
 
-        case '>' :
+        case detail::ascii::GREATER_THAN:
             data.current_element.attribute_.intensity_ =
                 terminalpp::ansi::graphics::intensity::bold;
             break;
 
-        case '<' :
+        case detail::ascii::LESS_THAN:
             data.current_element.attribute_.intensity_ =
                 terminalpp::ansi::graphics::intensity::faint;
             break;
@@ -265,20 +269,20 @@ static encoding_state encode_intensity(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_POLARITY
 // ==========================================================================
-static encoding_state encode_polarity(char ch, encoding_data &data)
+static encoding_state encode_polarity(byte ch, encoding_data &data)
 {
     switch (ch)
     {
         default :
             // Fall-through
-        case '=' :
+        case detail::ascii::EQUALS:
             // Fall-through
-        case '+' :
+        case detail::ascii::PLUS:
             data.current_element.attribute_.polarity_ =
                 terminalpp::ansi::graphics::polarity::positive;
             break;
 
-        case '-' :
+        case detail::ascii::MINUS:
             data.current_element.attribute_.polarity_ =
                 terminalpp::ansi::graphics::polarity::negative;
             break;
@@ -290,20 +294,20 @@ static encoding_state encode_polarity(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_UNDERLINING
 // ==========================================================================
-static encoding_state encode_underlining(char ch, encoding_data &data)
+static encoding_state encode_underlining(byte ch, encoding_data &data)
 {
     switch (ch)
     {
         default :
             // Fall-through :
-        case '=' :
+        case detail::ascii::EQUALS:
             // Fall-through :
-        case '-' :
+        case detail::ascii::MINUS:
             data.current_element.attribute_.underlining_ =
                 terminalpp::ansi::graphics::underlining::not_underlined;
             break;
 
-        case '+' :
+        case detail::ascii::PLUS:
             data.current_element.attribute_.underlining_ =
                 terminalpp::ansi::graphics::underlining::underlined;
             break;
@@ -315,7 +319,7 @@ static encoding_state encode_underlining(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_LOW_COLOUR_FOREGROUND
 // ==========================================================================
-static encoding_state encode_low_colour_foreground(char ch, encoding_data &data)
+static encoding_state encode_low_colour_foreground(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.foreground_colour_ =
         terminalpp::low_colour(
@@ -326,7 +330,7 @@ static encoding_state encode_low_colour_foreground(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_LOW_COLOUR_BACKGROUND
 // ==========================================================================
-static encoding_state encode_low_colour_background(char ch, encoding_data &data)
+static encoding_state encode_low_colour_background(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.background_colour_ =
         terminalpp::low_colour(
@@ -337,103 +341,103 @@ static encoding_state encode_low_colour_background(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_HIGH_COLOUR_FOREGROUND_RED
 // ==========================================================================
-static encoding_state encode_high_colour_foreground_red(char ch, encoding_data &data)
+static encoding_state encode_high_colour_foreground_red(byte ch, encoding_data &data)
 {
-    data.red = char(ch - '0');
+    data.red = byte(ch - '0');
     return encoding_state::high_colour_foreground_green;
 }
 
 // ==========================================================================
 // ENCODE_HIGH_COLOUR_FOREGROUND_GREEN
 // ==========================================================================
-static encoding_state encode_high_colour_foreground_green(char ch, encoding_data &data)
+static encoding_state encode_high_colour_foreground_green(byte ch, encoding_data &data)
 {
-    data.green = char(ch - '0');
+    data.green = byte(ch - '0');
     return encoding_state::high_colour_foreground_blue;
 }
 
 // ==========================================================================
 // ENCODE_HIGH_COLOUR_FOREGROUND_BLUE
 // ==========================================================================
-static encoding_state encode_high_colour_foreground_blue(char ch, encoding_data &data)
+static encoding_state encode_high_colour_foreground_blue(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.foreground_colour_ =
-        high_colour(data.red, data.green, char(ch - '0'));
+        high_colour(data.red, data.green, byte(ch - '0'));
     return encoding_state::normal;
 }
 
 // ==========================================================================
 // ENCODE_HIGH_COLOUR_BACKGROUND_RED
 // ==========================================================================
-static encoding_state encode_high_colour_background_red(char ch, encoding_data &data)
+static encoding_state encode_high_colour_background_red(byte ch, encoding_data &data)
 {
-    data.red = char(ch - '0');
+    data.red = byte(ch - '0');
     return encoding_state::high_colour_background_green;
 }
 
 // ==========================================================================
 // ENCODE_HIGH_COLOUR_BACKGROUND_GREEN
 // ==========================================================================
-static encoding_state encode_high_colour_background_green(char ch, encoding_data &data)
+static encoding_state encode_high_colour_background_green(byte ch, encoding_data &data)
 {
-    data.green = char(ch - '0');
+    data.green = byte(ch - '0');
     return encoding_state::high_colour_background_blue;
 }
 
 // ==========================================================================
 // ENCODE_HIGH_COLOUR_BACKGROUND_BLUE
 // ==========================================================================
-static encoding_state encode_high_colour_background_blue(char ch, encoding_data &data)
+static encoding_state encode_high_colour_background_blue(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.background_colour_ =
-        high_colour(data.red, data.green, char(ch - '0'));
+        high_colour(data.red, data.green, byte(ch - '0'));
     return encoding_state::normal;
 }
 
 // ==========================================================================
 // ENCODE_GREYSCALE_FOREGROUND_0
 // ==========================================================================
-static encoding_state encode_greyscale_foreground_0(char ch, encoding_data &data)
+static encoding_state encode_greyscale_foreground_0(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.foreground_colour_ =
-        terminalpp::greyscale_colour(char((ch - '0') * 10));
+        terminalpp::greyscale_colour(byte((ch - '0') * 10));
     return encoding_state::greyscale_colour_foreground_1;
 }
 
 // ==========================================================================
 // ENCODE_GREYSCALE_FOREGROUND_1
 // ==========================================================================
-static encoding_state encode_greyscale_foreground_1(char ch, encoding_data &data)
+static encoding_state encode_greyscale_foreground_1(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.foreground_colour_
-        .greyscale_colour_.shade_ += char(ch - '0');
+        .greyscale_colour_.shade_ += byte(ch - '0');
     return encoding_state::normal;
 }
 
 // ==========================================================================
 // ENCODE_GREYSCALE_BACKGROUND_0
 // ==========================================================================
-static encoding_state encode_greyscale_background_0(char ch, encoding_data &data)
+static encoding_state encode_greyscale_background_0(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.background_colour_ =
-        terminalpp::greyscale_colour(char((ch - '0') * 10));
+        terminalpp::greyscale_colour(byte((ch - '0') * 10));
     return encoding_state::greyscale_colour_background_1;
 }
 
 // ==========================================================================
 // ENCODE_GREYSCALE_BACKGROUND_1
 // ==========================================================================
-static encoding_state encode_greyscale_background_1(char ch, encoding_data &data)
+static encoding_state encode_greyscale_background_1(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.background_colour_
-        .greyscale_colour_.shade_ += char(ch - '0');
+        .greyscale_colour_.shade_ += byte(ch - '0');
     return encoding_state::normal;
 }
 
 // ==========================================================================
 // ENCODE_UTF8_0
 // ==========================================================================
-static encoding_state encode_utf8_0(char ch, encoding_data &data)
+static encoding_state encode_utf8_0(byte ch, encoding_data &data)
 {
     data.current_element.glyph_.charset_ = terminalpp::ansi::charset::utf8;
     data.current_element.glyph_.ucharacter_[0] = ch;
@@ -443,7 +447,7 @@ static encoding_state encode_utf8_0(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_UTF8_1
 // ==========================================================================
-static encoding_state encode_utf8_1(char ch, encoding_data &data)
+static encoding_state encode_utf8_1(byte ch, encoding_data &data)
 {
     data.current_element.glyph_.ucharacter_[1] = ch;
     return encoding_state::utf8_2;
@@ -452,7 +456,7 @@ static encoding_state encode_utf8_1(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_UTF8_2
 // ==========================================================================
-static encoding_state encode_utf8_2(char ch, encoding_data &data)
+static encoding_state encode_utf8_2(byte ch, encoding_data &data)
 {
     data.current_element.glyph_.ucharacter_[2] = ch;
     return encoding_state::utf8_3;
@@ -462,7 +466,7 @@ static encoding_state encode_utf8_2(char ch, encoding_data &data)
 // ==========================================================================
 // ENCODE_UTF8_3
 // ==========================================================================
-static encoding_state encode_utf8_3(char ch, encoding_data &data)
+static encoding_state encode_utf8_3(byte ch, encoding_data &data)
 {
     utf8_encode_glyph(data.current_element.glyph_, ch);
     data.element_complete = true;
@@ -502,112 +506,113 @@ terminalpp::string encode(char const *text, size_t length)
     std::for_each(
         text, text + length, [&data, &state, &result](char ch)
     {
+        auto const by = byte(ch);
         switch (state)
         {
             //default :
                 // Fall-through
             case encoding_state::normal :
-                state = encode_normal(ch, data);
+                state = encode_normal(by, data);
                 break;
 
             case encoding_state::escaped :
-                state = encode_escaped(ch, data);
+                state = encode_escaped(by, data);
                 break;
 
             case encoding_state::character_code_0 :
-                state = encode_character_code_0(ch, data);
+                state = encode_character_code_0(by, data);
                 break;
 
             case encoding_state::character_code_1 :
-                state = encode_character_code_1(ch, data);
+                state = encode_character_code_1(by, data);
                 break;
 
             case encoding_state::character_code_2 :
-                state = encode_character_code_2(ch, data);
+                state = encode_character_code_2(by, data);
                 break;
 
             case encoding_state::character_set :
-                state = encode_character_set(ch, data);
+                state = encode_character_set(by, data);
                 break;
 
             case encoding_state::character_set_ext :
-                state = encode_character_set_ext(ch, data);
+                state = encode_character_set_ext(by, data);
                 break;
 
             case encoding_state::intensity :
-                state = encode_intensity(ch, data);
+                state = encode_intensity(by, data);
                 break;
 
             case encoding_state::polarity :
-                state = encode_polarity(ch, data);
+                state = encode_polarity(by, data);
                 break;
 
             case encoding_state::underlining :
-                state = encode_underlining(ch, data);
+                state = encode_underlining(by, data);
                 break;
 
             case encoding_state::low_colour_background :
-                state = encode_low_colour_background(ch, data);
+                state = encode_low_colour_background(by, data);
                 break;
 
             case encoding_state::low_colour_foreground :
-                state = encode_low_colour_foreground(ch, data);
+                state = encode_low_colour_foreground(by, data);
                 break;
 
             case encoding_state::high_colour_background_red :
-                state = encode_high_colour_background_red(ch, data);
+                state = encode_high_colour_background_red(by, data);
                 break;
 
             case encoding_state::high_colour_background_green :
-                state = encode_high_colour_background_green(ch, data);
+                state = encode_high_colour_background_green(by, data);
                 break;
 
             case encoding_state::high_colour_background_blue :
-                state = encode_high_colour_background_blue(ch, data);
+                state = encode_high_colour_background_blue(by, data);
                 break;
 
             case encoding_state::high_colour_foreground_red :
-                state = encode_high_colour_foreground_red(ch, data);
+                state = encode_high_colour_foreground_red(by, data);
                 break;
 
             case encoding_state::high_colour_foreground_green :
-                state = encode_high_colour_foreground_green(ch, data);
+                state = encode_high_colour_foreground_green(by, data);
                 break;
 
             case encoding_state::high_colour_foreground_blue :
-                state = encode_high_colour_foreground_blue(ch, data);
+                state = encode_high_colour_foreground_blue(by, data);
                 break;
 
             case encoding_state::greyscale_colour_background_0 :
-                state = encode_greyscale_background_0(ch, data);
+                state = encode_greyscale_background_0(by, data);
                 break;
 
             case encoding_state::greyscale_colour_background_1 :
-                state = encode_greyscale_background_1(ch, data);
+                state = encode_greyscale_background_1(by, data);
                 break;
 
             case encoding_state::greyscale_colour_foreground_0 :
-                state = encode_greyscale_foreground_0(ch, data);
+                state = encode_greyscale_foreground_0(by, data);
                 break;
 
             case encoding_state::greyscale_colour_foreground_1 :
-                state = encode_greyscale_foreground_1(ch, data);
+                state = encode_greyscale_foreground_1(by, data);
                 break;
 
             case encoding_state::utf8_0 :
-                state = encode_utf8_0(ch, data);
+                state = encode_utf8_0(by, data);
                 break;
 
             case encoding_state::utf8_1 :
-                state = encode_utf8_1(ch, data);
+                state = encode_utf8_1(by, data);
                 break;
 
             case encoding_state::utf8_2 :
-                state = encode_utf8_2(ch, data);
+                state = encode_utf8_2(by, data);
                 break;
 
             case encoding_state::utf8_3 :
-                state = encode_utf8_3(ch, data);
+                state = encode_utf8_3(by, data);
                 break;
         }
 
@@ -629,4 +634,4 @@ terminalpp::string encode(char const *text, size_t length)
     return result;
 }
 
-};
+}
