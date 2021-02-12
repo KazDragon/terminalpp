@@ -6,7 +6,7 @@ namespace terminalpp { namespace detail {
 
 namespace {
 
-static constexpr bool is_csi_extension_character(char input)
+static constexpr bool is_csi_extension_character(byte input)
 {
     return input == terminalpp::detail::ascii::QUESTION_MARK
         || input == terminalpp::detail::ascii::GREATER_THAN
@@ -20,7 +20,7 @@ parser::parser()
 {
 }
 
-boost::optional<terminalpp::token> parser::parser::operator()(char input)
+boost::optional<terminalpp::token> parser::parser::operator()(byte input)
 {
     switch (state_)
     {
@@ -39,7 +39,7 @@ boost::optional<terminalpp::token> parser::parser::operator()(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
+boost::optional<terminalpp::token> parser::parser::parse_idle(byte input)
 {
     if (input == terminalpp::detail::ascii::ESC)
     {
@@ -96,7 +96,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_cr(char input)
+boost::optional<terminalpp::token> parser::parse_cr(byte input)
 {
     state_ = state::idle;
 
@@ -111,7 +111,7 @@ boost::optional<terminalpp::token> parser::parse_cr(char input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_lf(char input)
+boost::optional<terminalpp::token> parser::parse_lf(byte input)
 {
     state_ = state::idle;
 
@@ -125,7 +125,7 @@ boost::optional<terminalpp::token> parser::parse_lf(char input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_escape(char input)
+boost::optional<terminalpp::token> parser::parse_escape(byte input)
 {
     if (input == terminalpp::detail::ascii::ESC)
     {
@@ -139,7 +139,7 @@ boost::optional<terminalpp::token> parser::parse_escape(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_arguments(char input)
+boost::optional<terminalpp::token> parser::parse_arguments(byte input)
 {
     if (isdigit(input)) // TODO: depends on initiator.
     {
@@ -179,7 +179,7 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse0(char input)
+boost::optional<terminalpp::token> parser::parse_mouse0(byte input)
 {
     // Mouse values have an offset applied to them to make the
     // co-ordinates appear over the wire as printable characters.
@@ -188,7 +188,7 @@ boost::optional<terminalpp::token> parser::parse_mouse0(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse1(char input)
+boost::optional<terminalpp::token> parser::parse_mouse1(byte input)
 {
     // In addition to the offset described above, ANSI co-ordinates are
     // 1-based, whereas Terminal++ is 0-based, which means an extra offset
@@ -198,7 +198,7 @@ boost::optional<terminalpp::token> parser::parse_mouse1(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse2(char input)
+boost::optional<terminalpp::token> parser::parse_mouse2(byte input)
 {
     mouse_y_ = coordinate_type((input - ansi::mouse::MOUSE_VALUE_OFFSET) - 1);
     state_ = state::idle;

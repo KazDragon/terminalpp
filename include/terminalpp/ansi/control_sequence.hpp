@@ -21,7 +21,7 @@ struct control_sequence
     byte initiator = 0;
     byte command   = 0;
     bool meta      = false;
-    std::vector<std::string> arguments;
+    std::vector<byte_storage> arguments;
     byte extender  = 0;
 };
 
