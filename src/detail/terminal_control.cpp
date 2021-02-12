@@ -6,7 +6,7 @@ namespace terminalpp { namespace detail {
 // ==========================================================================
 // CSI
 // ==========================================================================
-std::string csi(control_mode const &mode)
+byte_storage csi(control_mode const &mode)
 {
     return mode == control_mode::seven_bit
          ? terminalpp::ansi::control7::CSI
@@ -16,7 +16,7 @@ std::string csi(control_mode const &mode)
 // ==========================================================================
 // OSC
 // ==========================================================================
-std::string osc(control_mode const &mode)
+byte_storage osc(control_mode const &mode)
 {
     return mode == control_mode::seven_bit
          ? terminalpp::ansi::control7::OSC
@@ -26,7 +26,7 @@ std::string osc(control_mode const &mode)
 // ==========================================================================
 // ST
 // ==========================================================================
-std::string st(control_mode const &mode)
+byte_storage st(control_mode const &mode)
 {
     return mode == control_mode::seven_bit
          ? terminalpp::ansi::control7::ST

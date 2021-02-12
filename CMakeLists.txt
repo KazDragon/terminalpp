@@ -148,13 +148,13 @@ target_sources(terminalpp
         include/terminalpp/character_set.hpp
         include/terminalpp/core.hpp
         include/terminalpp/detail/ascii.hpp
-#        include/terminalpp/detail/element_difference.hpp
+        include/terminalpp/detail/element_difference.hpp
         include/terminalpp/detail/export.hpp
         include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
-#        include/terminalpp/detail/terminal_charset_control.hpp
-#        include/terminalpp/detail/terminal_control.hpp
-#        include/terminalpp/detail/terminal_cursor_control.hpp
+        include/terminalpp/detail/terminal_charset_control.hpp
+        include/terminalpp/detail/terminal_control.hpp
+        include/terminalpp/detail/terminal_cursor_control.hpp
         include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/effect.hpp
         include/terminalpp/element.hpp
@@ -180,9 +180,9 @@ target_sources(terminalpp
         include/terminalpp/rectangle.hpp
 #        include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
-#        include/terminalpp/terminal.hpp
+        include/terminalpp/terminal.hpp
 #        include/terminalpp/terminal_manip.hpp
-#        include/terminalpp/terminalpp.hpp
+        include/terminalpp/terminalpp.hpp
 #        include/terminalpp/token.hpp
         include/terminalpp/virtual_key.hpp
 
@@ -193,10 +193,10 @@ target_sources(terminalpp
         src/canvas.cpp
         src/character_set.cpp
         src/colour.cpp
-#        src/detail/terminal_charset_control.cpp
-#        src/detail/terminal_control.cpp
-#        src/detail/terminal_cursor_control.cpp
-#        src/detail/element_difference.cpp
+        src/detail/terminal_charset_control.cpp
+        src/detail/terminal_control.cpp
+        src/detail/terminal_cursor_control.cpp
+        src/detail/element_difference.cpp
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
         src/encoder.cpp
@@ -209,7 +209,7 @@ target_sources(terminalpp
         src/rectangle.cpp
 #        src/screen.cpp
         src/string.cpp
-#        src/terminal.cpp
+        src/terminal.cpp
         src/virtual_key.cpp
 )
 
@@ -320,7 +320,7 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
-#        test/expect_tokens.hpp
+        test/expect_tokens.hpp
 #        test/terminal_test.hpp
 
         test/ansi_charset_test.cpp
@@ -332,7 +332,7 @@ target_sources(terminalpp_tester
         test/effect_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
-#        test/expect_sequence.cpp
+        test/expect_sequence.cpp
 #        test/expect_tokens.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
@@ -344,7 +344,7 @@ target_sources(terminalpp_tester
 #        test/screen_test.cpp
         test/string_test.cpp
 #        test/string_manip_test.cpp
-#        test/terminal_init_test.cpp
+        test/terminal_init_test.cpp
 #        test/terminal_cursor_test.cpp
 #        test/terminal_erase_test.cpp
 #        test/terminal_read_cursor_test.cpp

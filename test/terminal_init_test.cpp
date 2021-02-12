@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include <string>
 
+using namespace terminalpp::literals;
+
 TEST(a_terminal_without_8_bit_support, when_init_is_called_sends_nothing)
 {
     // If a terminal cannot support 8-bit control codes, then there's no need
@@ -12,7 +14,7 @@ TEST(a_terminal_without_8_bit_support, when_init_is_called_sends_nothing)
 
     terminalpp::terminal terminal(behaviour);
     expect_sequence(
-        std::string(""),
+        ""_tb,
         terminal.init());
 }
 
@@ -27,7 +29,7 @@ TEST(a_terminal_that_starts_in_8_bit_mode, when_init_is_called_sends_nothing)
 
     terminalpp::terminal terminal(behaviour);
     expect_sequence(
-        std::string(""),
+        ""_tb,
         terminal.init());
 }
 
@@ -43,6 +45,6 @@ TEST(a_terminal_that_supports_8_bit_mode_but_starts_in_7_bit_mode,
 
     terminalpp::terminal terminal(behaviour);
     expect_sequence(
-        std::string("\x1B G"),
+        "\x1B G"_tb,
         terminal.init());
 }

@@ -14,7 +14,7 @@ namespace detail {
 /// \brief Returns a string of ANSI codes that sets the attributes to the
 /// default.
 //* =========================================================================
-std::string default_attribute();
+byte_storage default_attribute();
 
 //* =========================================================================
 /// \brief Returns a string of ANSI codes that describes the difference
@@ -25,7 +25,7 @@ std::string default_attribute();
 /// on each element, whereas other parts of the element that are the same
 /// need not be output.
 //* =========================================================================
-std::string element_difference(
+byte_storage element_difference(
     element const &lhs,
     element const &rhs,
     behaviour const &terminal_behaviour);

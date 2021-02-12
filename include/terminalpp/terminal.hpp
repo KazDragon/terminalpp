@@ -54,24 +54,24 @@ public :
     //* =====================================================================
     /// \brief Returns a string that will initialize the terminal.
     //* =====================================================================
-    std::string init();
+    byte_storage init();
 
     //* =====================================================================
     /// \brief Returns a string that will enable the best possible mouse
     /// mode for the terminal.
     //* =====================================================================
-    std::string enable_mouse();
+    byte_storage enable_mouse();
 
     //* =====================================================================
     /// \brief Returns a string that will disable the mouse.
     //* =====================================================================
-    std::string disable_mouse();
+    byte_storage disable_mouse();
 
     //* =====================================================================
     /// \brief Returns a string that will set the window title of the
     /// terminal.
     //* =====================================================================
-    std::string set_window_title(std::string const &title);
+    byte_storage set_window_title(byte_storage const &title);
 
     //* =====================================================================
     /// \brief Sets the (local) size of the terminal.
@@ -84,74 +84,74 @@ public :
     //* =====================================================================
     /// \brief Show the cursor.
     //* =====================================================================
-    std::string show_cursor();
+    byte_storage show_cursor();
 
     //* =====================================================================
     /// \brief Hide the cursor.
     //* =====================================================================
-    std::string hide_cursor();
+    byte_storage hide_cursor();
 
     //* =====================================================================
     /// \brief Saves the current cursor position.
     //* =====================================================================
-    std::string save_cursor();
+    byte_storage save_cursor();
 
     //* =====================================================================
     /// \brief Restores the previously saved cursor position.
     //* =====================================================================
-    std::string restore_cursor();
+    byte_storage restore_cursor();
 
     //* =====================================================================
     /// \brief Move the cursor to the specified position.  Note: although
     /// terminals are 1-based in output, this class uses (0,0) as the top-
     /// left cell and translates it automatically.
     //* =====================================================================
-    std::string move_cursor(point const &pt);
+    byte_storage move_cursor(point const &pt);
 
     //* =====================================================================
     /// \brief Moves the cursor across the x-axis.
     //* =====================================================================
-    std::string move_cursor_horizontally(coordinate_type x);
+    byte_storage move_cursor_horizontally(coordinate_type x);
 
     //* =====================================================================
     /// \brief Moves the cursor across the y-axis.
     //* =====================================================================
-    std::string move_cursor_vertically(coordinate_type y);
+    byte_storage move_cursor_vertically(coordinate_type y);
 
     //* =====================================================================
     /// \brief Reads a stream of data.
     //* =====================================================================
-    std::vector<token> read(std::string const &data);
+    std::vector<token> read(byte_storage const &data);
 
     //* =====================================================================
     /// \brief Writes the specified element.
     //* =====================================================================
-    std::string write(element const &elem);
+    byte_storage write(element const &elem);
 
     //* =====================================================================
     /// \brief Writes the specified sequence of characters.
     //* =====================================================================
-    std::string write(string const &str);
+    byte_storage write(string const &str);
 
     //* =====================================================================
     /// \brief Erases the display in the specified manner.
     //* =====================================================================
-    std::string erase_in_display(erase_display how);
+    byte_storage erase_in_display(erase_display how);
 
     //* =====================================================================
     /// \brief Erases the current line in the specified manner.
     //* =====================================================================
-    std::string erase_in_line(erase_line how);
+    byte_storage erase_in_line(erase_line how);
 
     //* =====================================================================
     /// \brief Sets the terminal to the normal screen buffer (default).
     //* =====================================================================
-    std::string use_normal_screen_buffer();
+    byte_storage use_normal_screen_buffer();
 
     //* =====================================================================
     /// \brief Sets the terminal to the alternate screen buffer.
     //* =====================================================================
-    std::string use_alternate_screen_buffer();
+    byte_storage use_alternate_screen_buffer();
 
 private :
     enum class cursor_mode : bool

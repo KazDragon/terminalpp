@@ -13,6 +13,7 @@
 // necessary to change charset (yet).
 
 using namespace fmt::literals;
+using namespace terminalpp::literals;
 
 namespace terminalpp { namespace detail {
 
@@ -21,12 +22,12 @@ namespace {
 // ==========================================================================
 // CHANGE_CHARSET
 // ==========================================================================
-static std::string change_charset(
+static byte_storage change_charset(
     terminalpp::character_set const &source,
     terminalpp::character_set const &dest,
     behaviour const &terminal_behaviour)
 {
-    std::string result;
+    byte_storage result;
 
     if (source != dest)
     {
@@ -63,7 +64,7 @@ static std::string change_charset(
 // ==========================================================================
 template <class GraphicsAttribute>
 static void append_graphics_change(
-    std::string &change,
+    byte_storage &change,
     GraphicsAttribute const &source,
     GraphicsAttribute const &dest)
 {
@@ -77,41 +78,41 @@ static void append_graphics_change(
         change += terminalpp::ansi::PS;
     }
 
-    change += "{}"_format(int(dest.value_));
+    change += to_bytes("{}"_format(int(dest.value_)));
 }
 
 // ==========================================================================
 // LOW_FOREGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string low_foreground_colour_code(terminalpp::low_colour const &col)
+static byte_storage low_foreground_colour_code(terminalpp::low_colour const &col)
 {
     int value = int(col.value_)
               + terminalpp::ansi::graphics::FOREGROUND_COLOUR_BASE;
 
-    return "{}"_format(value);
+    return to_bytes("{}"_format(value));
 }
 
 // ==========================================================================
 // HIGH_FOREGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string high_foreground_colour_code(terminalpp::high_colour const &col)
+static byte_storage high_foreground_colour_code(terminalpp::high_colour const &col)
 {
-    return "38;5;{}"_format(int(col.value_));
+    return to_bytes("38;5;{}"_format(int(col.value_)));
 }
 
 // ==========================================================================
 // GREYSCALE_FOREGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string greyscale_foreground_colour_code(
+static byte_storage greyscale_foreground_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    return "38;5;{}"_format(int(col.shade_));
+    return to_bytes("38;5;{}"_format(int(col.shade_)));
 }
 
 // ==========================================================================
 // FOREGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string foreground_colour_code(terminalpp::colour const &col)
+static byte_storage foreground_colour_code(terminalpp::colour const &col)
 {
     switch (col.type_)
     {
@@ -135,7 +136,7 @@ static std::string foreground_colour_code(terminalpp::colour const &col)
 // APPEND_FOREGROUND_COLOUR
 // ==========================================================================
 static void append_foreground_colour(
-    std::string &change,
+    byte_storage &change,
     terminalpp::colour const &source,
     terminalpp::colour const &dest)
 {
@@ -155,35 +156,35 @@ static void append_foreground_colour(
 // ==========================================================================
 // LOW_BACKGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string low_background_colour_code(terminalpp::low_colour const &col)
+static byte_storage low_background_colour_code(terminalpp::low_colour const &col)
 {
     int value = int(col.value_)
       + terminalpp::ansi::graphics::BACKGROUND_COLOUR_BASE;
 
-    return "{}"_format(value);
+    return to_bytes("{}"_format(value));
 }
 
 // ==========================================================================
 // HIGH_BACKGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string high_background_colour_code(terminalpp::high_colour const &col)
+static byte_storage high_background_colour_code(terminalpp::high_colour const &col)
 {
-    return "48;5;{}"_format(int(col.value_));
+    return to_bytes("48;5;{}"_format(int(col.value_)));
 }
 
 // ==========================================================================
 // GREYSCALE_BACKGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string greyscale_background_colour_code(
+static byte_storage greyscale_background_colour_code(
     terminalpp::greyscale_colour const &col)
 {
-    return "48;5;{}"_format(int(col.shade_));
+    return to_bytes("48;5;{}"_format(int(col.shade_)));
 }
 
 // ==========================================================================
 // BACKGROUND_COLOUR_CODE
 // ==========================================================================
-static std::string background_colour_code(terminalpp::colour const &col)
+static byte_storage background_colour_code(terminalpp::colour const &col)
 {
     switch (col.type_)
     {
@@ -207,7 +208,7 @@ static std::string background_colour_code(terminalpp::colour const &col)
 // APPEND_BAKCGROUND_COLOUR
 // ==========================================================================
 static void append_background_colour(
-    std::string &change,
+    byte_storage &change,
     terminalpp::colour const &source,
     terminalpp::colour const &dest)
 {
@@ -227,13 +228,13 @@ static void append_background_colour(
 // ==========================================================================
 // CHANGE_ATTRIBUTE
 // ==========================================================================
-static std::string change_attribute(
+static byte_storage change_attribute(
     terminalpp::attribute const &source,
     terminalpp::attribute const &dest)
 {
     if (source == dest)
     {
-        return "";
+        return ""_tb;
     }
 
     if (dest == terminalpp::attribute{})
@@ -241,7 +242,7 @@ static std::string change_attribute(
         return default_attribute();
     }
 
-    std::string change;
+    byte_storage change;
 
     append_graphics_change(change, source.intensity_, dest.intensity_);
     append_graphics_change(change, source.polarity_, dest.polarity_);
@@ -249,7 +250,7 @@ static std::string change_attribute(
     append_foreground_colour(change, source.foreground_colour_, dest.foreground_colour_);
     append_background_colour(change, source.background_colour_, dest.background_colour_);
 
-    std::string result =
+    byte_storage result =
         terminalpp::ansi::control7::CSI
       + change
       + terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION;
@@ -262,12 +263,12 @@ static std::string change_attribute(
 // ==========================================================================
 // DEFAULT_ATTRIBUTE
 // ==========================================================================
-std::string default_attribute()
+byte_storage default_attribute()
 {
-    static auto const default_attribute_string = "{}{}{}"_format(
+    static auto const default_attribute_string = to_bytes("{}{}{}"_format(
         terminalpp::ansi::control7::CSI,
         int(terminalpp::ansi::graphics::NO_ATTRIBUTES),
-        terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION);
+        terminalpp::ansi::csi::SELECT_GRAPHICS_RENDITION));
 
     return default_attribute_string;
 }
@@ -275,12 +276,12 @@ std::string default_attribute()
 // ==========================================================================
 // ELEMENT_DIFFERENCE
 // ==========================================================================
-std::string element_difference(
+byte_storage element_difference(
     terminalpp::element const &lhs,
     terminalpp::element const &rhs,
     behaviour const &terminal_behaviour)
 {
-    std::string result;
+    byte_storage result;
 
     result += change_charset(
         lhs.glyph_.charset_, rhs.glyph_.charset_, terminal_behaviour);

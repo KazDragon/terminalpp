@@ -14,35 +14,35 @@ namespace detail {
 //* =========================================================================
 /// \brief Move the cursor up y spaces.
 //* =========================================================================
-std::string cursor_up(
+byte_storage cursor_up(
     coordinate_type     y,
     control_mode const &mode);
 
 //* =========================================================================
 /// \brief Move the cursor down y spaces.
 //* =========================================================================
-std::string cursor_down(
+byte_storage cursor_down(
     coordinate_type     y,
     control_mode const &mode);
 
 //* =========================================================================
 /// \brief Move the cursor forward x spaces.
 //* =========================================================================
-std::string cursor_forward(
+byte_storage cursor_forward(
     coordinate_type     x,
     control_mode const &mode);
 
 //* =========================================================================
 /// \brief Move the cursor backward x spaces.
 //* =========================================================================
-std::string cursor_backward(
+byte_storage cursor_backward(
     coordinate_type     x,
     control_mode const &mode);
 
 //* =========================================================================
 /// \brief Move the cursor to column x.
 //* =========================================================================
-std::string cursor_horizontal_absolute(
+byte_storage cursor_horizontal_absolute(
     coordinate_type              x,
     terminalpp::behaviour const &behaviour,
     control_mode          const &mode);
@@ -50,7 +50,7 @@ std::string cursor_horizontal_absolute(
 //* =========================================================================
 /// \brief Move the cursor to the specified position.
 //* =========================================================================
-std::string cursor_position(
+byte_storage cursor_position(
   terminalpp::point     const &pt,
   terminalpp::behaviour const &behaviour,
   control_mode          const &mode);
@@ -58,7 +58,7 @@ std::string cursor_position(
 //* =========================================================================
 /// \brief Move the cursor to row y.
 //* =========================================================================
-std::string line_position_absolute(
+byte_storage line_position_absolute(
     coordinate_type              y,
     terminalpp::behaviour const &behaviour,
     control_mode          const &mode);
