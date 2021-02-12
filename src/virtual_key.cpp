@@ -17,10 +17,12 @@ bool operator==(virtual_key const &lhs, virtual_key const &rhs)
         && lhs.repeat_count == rhs.repeat_count;
 }
 
+namespace {
+
 // ==========================================================================
 // OUTPUT_PIPE
 // ==========================================================================
-static void output_pipe(std::ostream &out, bool &pipe)
+void output_pipe(std::ostream &out, bool &pipe)
 {
     if (pipe)
     {
@@ -33,7 +35,7 @@ static void output_pipe(std::ostream &out, bool &pipe)
 // ==========================================================================
 // OPERATOR<<(VK_MODIFIER)
 // ==========================================================================
-static std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
+std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
 {
     bool pipe = false;
 
@@ -67,21 +69,21 @@ static std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
 // ==========================================================================
 // OPERATOR<<(VK)
 // ==========================================================================
-static std::ostream &operator<<(std::ostream &out, vk const &key)
+std::ostream &operator<<(std::ostream &out, vk const &key)
 {
-    auto is_control_key = [](vk const &key)
+    auto is_control_key = [](vk const &control_key)
     {
         static constexpr vk control_set_begin = vk::nul;
         static constexpr vk control_set_end = vk::space;
 
-        return key >= control_set_begin && key < control_set_end;
+        return control_key >= control_set_begin && control_key < control_set_end;
     };
 
-    auto is_abstract_key = [](vk const &key)
+    auto is_abstract_key = [](vk const &abstract_key)
     {
         static constexpr vk abstract_key_start = vk::cursor_up;
 
-        return key >= abstract_key_start;
+        return abstract_key >= abstract_key_start;
     };
 
     if (is_control_key(key))
@@ -145,7 +147,7 @@ static std::ostream &operator<<(std::ostream &out, vk const &key)
 // ==========================================================================
 // OUTPUT_COMMA
 // ==========================================================================
-static void output_comma(std::ostream &out, bool &comma)
+void output_comma(std::ostream &out, bool &comma)
 {
     if (comma)
     {
@@ -158,7 +160,7 @@ static void output_comma(std::ostream &out, bool &comma)
 // ==========================================================================
 // OUTPUT_VK
 // ==========================================================================
-static void output_vk(std::ostream &out, vk const &key, bool &comma)
+void output_vk(std::ostream &out, vk const &key, bool &comma)
 {
     if (key != default_vk.key)
     {
@@ -170,7 +172,7 @@ static void output_vk(std::ostream &out, vk const &key, bool &comma)
 // ==========================================================================
 // OUTPUT_MODIFIERS
 // ==========================================================================
-static void output_modifiers(
+void output_modifiers(
     std::ostream &out,
     vk_modifier const &vkm,
     bool &comma)
@@ -185,7 +187,7 @@ static void output_modifiers(
 // ==========================================================================
 // OUTPUT_REPEAT_COUNT
 // ==========================================================================
-static void output_repeat_count(
+void output_repeat_count(
     std::ostream &out,
     int repeat_count,
     bool &comma)
@@ -200,7 +202,7 @@ static void output_repeat_count(
 // ==========================================================================
 // OUTPUT_INPUT_SEQUENCE
 // ==========================================================================
-static void output_input_sequence(
+void output_input_sequence(
     std::ostream &out,
     virtual_key::input_sequence const &sequence,
     bool &comma)
@@ -210,6 +212,8 @@ static void output_input_sequence(
         output_comma(out, comma);
         out << "seq:" << sequence;
     }
+}
+
 }
 
 // ==========================================================================

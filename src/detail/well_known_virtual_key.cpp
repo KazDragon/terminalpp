@@ -7,9 +7,13 @@
 #include <algorithm>
 #include <utility>
 
+using namespace terminalpp::literals;
+
 namespace terminalpp { namespace detail {
 
-static vk_modifier convert_modifier_argument(std::string const &modifier)
+namespace {
+
+vk_modifier convert_modifier_argument(byte_storage const &modifier)
 {
     static constexpr std::pair<std::int8_t, vk_modifier> const modifier_mappings[] = {
         { ansi::csi::MODIFIER_SHIFT,               vk_modifier::shift },
@@ -49,7 +53,7 @@ static vk_modifier convert_modifier_argument(std::string const &modifier)
                                                  | vk_modifier::ctrl  },
     };
 
-    auto value = atoi(modifier.c_str());
+    auto value = atoi(reinterpret_cast<char const *>(modifier.c_str()));
 
     using std::begin;
     using std::end;
@@ -57,9 +61,9 @@ static vk_modifier convert_modifier_argument(std::string const &modifier)
     auto mapping = std::find_if(
         begin(modifier_mappings),
         end(modifier_mappings),
-        [value](auto const &mapping)
+        [value](auto const &inner_mapping)
         {
-            return mapping.first == value;
+            return inner_mapping.first == value;
         });
 
     return mapping != end(modifier_mappings)
@@ -67,7 +71,7 @@ static vk_modifier convert_modifier_argument(std::string const &modifier)
          : vk_modifier::none;
 }
 
-static token convert_control_sequence(ansi::control_sequence const &seq)
+token convert_control_sequence(ansi::control_sequence const &seq)
 {
     // Cursor Movement commands are in the form "ESC [ C" where C is some
     // letter indicating the direction in which to move.
@@ -98,10 +102,12 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
     if (cursor_movement_command != end(cursor_movement_commands))
     {
         auto repeat_count_arg = seq.arguments.empty()
-                              ? std::string("1")
+                              ? byte_storage("1"_tb)
                               : seq.arguments[0];
 
-        auto repeat_count = std::max(atoi(repeat_count_arg.c_str()), 1);
+        auto repeat_count = std::max(
+            atoi(reinterpret_cast<char const *>(repeat_count_arg.c_str())), 
+            1);
 
         vk_modifier modifier = seq.meta
                              ? vk_modifier::meta
@@ -117,7 +123,7 @@ static token convert_control_sequence(ansi::control_sequence const &seq)
     return seq;
 }
 
-static token convert_ss3_sequence(ansi::control_sequence const &seq)
+token convert_ss3_sequence(ansi::control_sequence const &seq)
 {
     // SS3 commands are delivered as "ESC O C" where C is a letter designating
     // the command to perform.
@@ -165,7 +171,7 @@ static token convert_ss3_sequence(ansi::control_sequence const &seq)
     return seq;
 }
 
-static token convert_keypad_sequence(ansi::control_sequence const &seq)
+token convert_keypad_sequence(ansi::control_sequence const &seq)
 {
     // Keypad commands are delivered as "ESC [ N ~" where N is a number
     // designating the key pressed.
@@ -198,7 +204,8 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
         return seq;
     }
 
-    auto const argument = atoi(seq.arguments[0].c_str());
+    auto const argument = atoi(
+        reinterpret_cast<char const *>(seq.arguments[0].c_str()));
 
     using std::begin;
     using std::end;
@@ -232,7 +239,7 @@ static token convert_keypad_sequence(ansi::control_sequence const &seq)
     return seq;
 }
 
-static token convert_common_control_sequence(ansi::control_sequence const &seq)
+token convert_common_control_sequence(ansi::control_sequence const &seq)
 {
     if (seq.initiator == ansi::control7::CSI[1])
     {
@@ -249,6 +256,8 @@ static token convert_common_control_sequence(ansi::control_sequence const &seq)
     }
 
     return seq;
+}
+
 }
 
 // ==========================================================================
