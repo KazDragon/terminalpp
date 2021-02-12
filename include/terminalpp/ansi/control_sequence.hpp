@@ -18,11 +18,11 @@ namespace terminalpp { namespace ansi {
 //* =========================================================================
 struct control_sequence
 {
-    char initiator = '\0';
-    char command   = '\0';
+    byte initiator = 0;
+    byte command   = 0;
     bool meta      = false;
     std::vector<std::string> arguments;
-    char extender  = '\0';
+    byte extender  = 0;
 };
 
 //* =========================================================================

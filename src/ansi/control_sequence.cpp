@@ -34,24 +34,24 @@ static void output_comma(std::ostream &out, bool &comma)
 // ==========================================================================
 // OUTPUT_INITIATOR
 // ==========================================================================
-static void output_initiator(std::ostream &out, char initiator, bool &comma)
+static void output_initiator(std::ostream &out, byte initiator, bool &comma)
 {
     if (initiator != default_sequence.initiator)
     {
         output_comma(out, comma);
-        out << "initiator:'" << initiator << "'";
+        out << "initiator:'" << static_cast<char>(initiator) << "'";
     }
 }
 
 // ==========================================================================
 // OUTPUT_COMMAND
 // ==========================================================================
-static void output_command(std::ostream &out, char command, bool &comma)
+static void output_command(std::ostream &out, byte command, bool &comma)
 {
     if (command != default_sequence.command)
     {
         output_comma(out, comma);
-        out << "command:'" << command << "'";
+        out << "command:'" << static_cast<char>(command) << "'";
     }
 }
 
@@ -102,12 +102,12 @@ static void output_arguments(
 // ==========================================================================
 // OUTPUT_EXTENDER
 // ==========================================================================
-static void output_extender(std::ostream &out, char extender, bool &comma)
+static void output_extender(std::ostream &out, byte extender, bool &comma)
 {
     if (extender != default_sequence.extender)
     {
         output_comma(out, comma);
-        out << "extender:'" << extender << "'";
+        out << "extender:'" << static_cast<char>(extender) << "'";
     }
 }
 
