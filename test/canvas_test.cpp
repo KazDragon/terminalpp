@@ -73,7 +73,7 @@ TEST(canvas_test, resizing_canvas_smaller_truncates_content)
     {
         for (terminalpp::coordinate_type column = 0; column < large_size.width; ++column)
         {
-            canvas[column][row] = {char(column * row)};
+            canvas[column][row] = {terminalpp::byte(column * row)};
         }
     }
 
@@ -83,7 +83,7 @@ TEST(canvas_test, resizing_canvas_smaller_truncates_content)
     {
         for (terminalpp::coordinate_type column = 0; column < small_size.width; ++column)
         {
-            auto expected = terminalpp::element(char(column * row));
+            auto expected = terminalpp::element(terminalpp::byte(column * row));
             auto result   = terminalpp::element(canvas[column][row]);
 
             ASSERT_EQ(expected, result);

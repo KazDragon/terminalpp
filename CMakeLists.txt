@@ -144,7 +144,7 @@ target_sources(terminalpp
         include/terminalpp/attribute.hpp
         include/terminalpp/behaviour.hpp
         include/terminalpp/colour.hpp
-#        include/terminalpp/canvas.hpp
+        include/terminalpp/canvas.hpp
         include/terminalpp/character_set.hpp
         include/terminalpp/core.hpp
         include/terminalpp/detail/ascii.hpp
@@ -190,7 +190,7 @@ target_sources(terminalpp
         src/ansi/control_sequence.cpp
         src/ansi/mouse.cpp
         src/attribute.cpp
-#        src/canvas.cpp
+        src/canvas.cpp
         src/character_set.cpp
         src/colour.cpp
 #        src/detail/terminal_charset_control.cpp
@@ -325,7 +325,7 @@ target_sources(terminalpp_tester
 
         test/ansi_charset_test.cpp
         test/attribute_test.cpp
-#        test/canvas_test.cpp
+        test/canvas_test.cpp
         test/character_set_test.cpp
         test/colour_test.cpp
         test/control_sequence_test.cpp
