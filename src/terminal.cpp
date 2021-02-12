@@ -15,9 +15,9 @@ namespace {
 // ==========================================================================
 // WRITE_ELEMENT
 // ==========================================================================
-std::string write_element(const element& elem)
+byte_storage write_element(const element& elem)
 {
-    std::string text;
+    byte_storage text;
 
     if (elem.glyph_.charset_ == terminalpp::ansi::charset::utf8)
     {
@@ -66,14 +66,16 @@ terminal::terminal(behaviour const &terminal_behaviour)
 // ==========================================================================
 // INIT
 // ==========================================================================
-std::string terminal::init()
+byte_storage terminal::init()
 {
-    std::string result;
+    byte_storage result;
 
     if (behaviour_.can_use_eight_bit_control_codes
      && !behaviour_.uses_eight_bit_control_codes_by_default)
     {
-        result += terminalpp::ansi::control8::ENABLE;
+        result.append(
+            std::cbegin(terminalpp::ansi::control8::ENABLE),
+            std::cend(terminalpp::ansi::control8::ENABLE));
     }
 
     return result;
@@ -82,9 +84,9 @@ std::string terminal::init()
 // ==========================================================================
 // ENABLE_MOUSE
 // ==========================================================================
-std::string terminal::enable_mouse()
+byte_storage terminal::enable_mouse()
 {
-    std::string result;
+    byte_storage result;
 
     if (behaviour_.supports_all_mouse_motion_tracking)
     {
@@ -107,9 +109,9 @@ std::string terminal::enable_mouse()
 // ==========================================================================
 // DISABLE_MOUSE
 // ==========================================================================
-std::string terminal::disable_mouse()
+byte_storage terminal::disable_mouse()
 {
-    std::string result;
+    byte_storage result;
 
     if (behaviour_.supports_all_mouse_motion_tracking)
     {
@@ -132,7 +134,7 @@ std::string terminal::disable_mouse()
 // ==========================================================================
 // SET_WINDOW_TITLE
 // ==========================================================================
-std::string terminal::set_window_title(std::string const &title)
+byte_storage terminal::set_window_title(byte_storage const &title)
 {
     if (behaviour_.supports_window_title_bel)
     {
@@ -167,7 +169,7 @@ void terminal::set_size(const extent& size)
 // ==========================================================================
 // SHOW_CURSOR
 // ==========================================================================
-std::string terminal::show_cursor()
+byte_storage terminal::show_cursor()
 {
     if (cursor_mode_ != cursor_mode::shown)
     {
@@ -187,7 +189,7 @@ std::string terminal::show_cursor()
 // ==========================================================================
 // HIDE_CURSOR
 // ==========================================================================
-std::string terminal::hide_cursor()
+byte_storage terminal::hide_cursor()
 {
     if (cursor_mode_ != cursor_mode::hidden)
     {
@@ -207,7 +209,7 @@ std::string terminal::hide_cursor()
 // ==========================================================================
 // SAVE_CURSOR
 // ==========================================================================
-std::string terminal::save_cursor()
+byte_storage terminal::save_cursor()
 {
     saved_cursor_position_ = cursor_position_;
 
@@ -218,7 +220,7 @@ std::string terminal::save_cursor()
 // ==========================================================================
 // RESTORE_CURSOR
 // ==========================================================================
-std::string terminal::restore_cursor()
+byte_storage terminal::restore_cursor()
 {
     cursor_position_ = saved_cursor_position_;
 
@@ -229,9 +231,9 @@ std::string terminal::restore_cursor()
 // ==========================================================================
 // MOVE_CURSOR
 // ==========================================================================
-std::string terminal::move_cursor(point const &pos)
+byte_storage terminal::move_cursor(point const &pos)
 {
-    std::string result;
+    byte_storage result;
 
     // Note: terminal uses 0-based co-ordinates whereas ANSI uses a
     // 1-based indexing.  Therefore, we need to offset the cursor position
@@ -318,7 +320,7 @@ std::string terminal::move_cursor(point const &pos)
 // ==========================================================================
 // MOVE_CURSOR_HORIZONTALLY
 // ==========================================================================
-std::string terminal::move_cursor_horizontally(coordinate_type x)
+byte_storage terminal::move_cursor_horizontally(coordinate_type x)
 {
     auto const ansi_x_coordinate = x + 1;
     auto const result = detail::cursor_horizontal_absolute(
@@ -335,7 +337,7 @@ std::string terminal::move_cursor_horizontally(coordinate_type x)
 // ==========================================================================
 // MOVE_CURSOR_VERTICALLY
 // ==========================================================================
-std::string terminal::move_cursor_vertically(coordinate_type y)
+byte_storage terminal::move_cursor_vertically(coordinate_type y)
 {
     auto const ansi_y_coordinate = y + 1;
     auto const result = detail::line_position_absolute(
@@ -352,7 +354,7 @@ std::string terminal::move_cursor_vertically(coordinate_type y)
 // ==========================================================================
 // READ
 // ==========================================================================
-std::vector<terminalpp::token> terminal::read(std::string const &data)
+std::vector<terminalpp::token> terminal::read(byte_storage const &data)
 {
     std::vector<terminalpp::token> results;
 
@@ -375,9 +377,9 @@ std::vector<terminalpp::token> terminal::read(std::string const &data)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string terminal::write(element const &elem)
+byte_storage terminal::write(element const &elem)
 {
-    std::string result;
+    byte_storage result;
 
     if (!last_element_)
     {
@@ -414,9 +416,9 @@ std::string terminal::write(element const &elem)
 // ==========================================================================
 // WRITE
 // ==========================================================================
-std::string terminal::write(string const& str)
+byte_storage terminal::write(string const& str)
 {
-    std::string result;
+    byte_storage result;
 
     if (!last_element_)
     {
@@ -427,20 +429,20 @@ std::string terminal::write(string const& str)
     return boost::accumulate(
         str,
         result,
-        [this](std::string &result, terminalpp::element const &elem) 
-            -> std::string &
+        [this](byte_storage &res, terminalpp::element const &elem) 
+            -> byte_storage &
         {
-            result += this->write(elem);
-            return result;
+            res += this->write(elem);
+            return res;
         });
 }
 
 // ==========================================================================
 // ERASE_IN_DISPLAY
 // ==========================================================================
-std::string terminal::erase_in_display(terminal::erase_display how)
+byte_storage terminal::erase_in_display(terminal::erase_display how)
 {
-    std::string result;
+    byte_storage result;
 
     result = detail::csi(control_mode_);
 
@@ -470,9 +472,9 @@ std::string terminal::erase_in_display(terminal::erase_display how)
 // ==========================================================================
 // ERASE_IN_LINE
 // ==========================================================================
-std::string terminal::erase_in_line(terminal::erase_line how)
+byte_storage terminal::erase_in_line(terminal::erase_line how)
 {
-    std::string result;
+    byte_storage result;
 
     result = detail::csi(control_mode_);
 
@@ -502,7 +504,7 @@ std::string terminal::erase_in_line(terminal::erase_line how)
 // ==========================================================================
 // USE_NORMAL_SCREEN_BUFFER
 // ==========================================================================
-std::string terminal::use_normal_screen_buffer()
+byte_storage terminal::use_normal_screen_buffer()
 {
     return detail::csi(control_mode_)
          + terminalpp::ansi::DEC_PRIVATE_MODE
@@ -513,7 +515,7 @@ std::string terminal::use_normal_screen_buffer()
 // ==========================================================================
 // USE_ALTERNATE_SCREEN_BUFFER
 // ==========================================================================
-std::string terminal::use_alternate_screen_buffer()
+byte_storage terminal::use_alternate_screen_buffer()
 {
     return detail::csi(control_mode_)
          + terminalpp::ansi::DEC_PRIVATE_MODE

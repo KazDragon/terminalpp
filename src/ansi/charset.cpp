@@ -73,4 +73,25 @@ boost::optional<charset> lookup_charset(bytes code)
     return {};
 }
 
+byte_storage charset_to_string(charset const &cs)
+{
+    for (auto const &mapping : charset_map)
+    {
+        if (mapping.first == cs)
+        {
+            return mapping.second;
+        }
+    }
+
+    for (auto const &mapping : extended_charset_map)
+    {
+        if (mapping.first == cs)
+        {
+            return mapping.second;
+        }
+    }
+
+    return CHARSET_US_ASCII;
+}
+
 }}

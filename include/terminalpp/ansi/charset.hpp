@@ -3,7 +3,6 @@
 #include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/optional.hpp>
-#include <string>
 
 namespace terminalpp { namespace ansi {
 
@@ -93,5 +92,12 @@ static constexpr byte SET_CHARSET_G3_ALT[]          = {terminalpp::detail::ascii
 //* =========================================================================
 TERMINALPP_EXPORT
 boost::optional<charset> lookup_charset(bytes code);
+
+//* =========================================================================
+/// \brief Convert a character set to its respective ANSI code.
+/// E.g. charset_to_string(charset::portuguese) yields "%6".
+//* =========================================================================
+TERMINALPP_EXPORT
+byte_storage charset_to_string(charset const &loc);
 
 }}

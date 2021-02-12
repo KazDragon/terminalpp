@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "terminalpp/core.hpp"
 
 namespace terminalpp { namespace detail {
 
@@ -13,16 +13,16 @@ enum class control_mode
 //* =========================================================================
 /// \brief Returns the Command Sequence Introducer sequence
 //* =========================================================================
-std::string csi(control_mode const &mode);
+byte_storage csi(control_mode const &mode);
 
 //* =========================================================================
 /// \brief Returns the Operating System Control sequence
 //* =========================================================================
-std::string osc(control_mode const &mode);
+byte_storage osc(control_mode const &mode);
 
 //* =========================================================================
 /// \brief Returns the String Terminator sequence
 //* =========================================================================
-std::string st(control_mode const &mode);
+byte_storage st(control_mode const &mode);
 
 }}

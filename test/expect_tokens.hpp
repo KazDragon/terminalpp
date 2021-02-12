@@ -6,12 +6,12 @@
 
 // When a string is read in by a terminal, expect the one following token.
 void expect_token(
-    std::string const &input,
+    terminalpp::bytes input,
     terminalpp::token const &expected_token);
 
 // When a string is read in by a terminal, expect the following tokens.
 void expect_tokens(
-    std::string const &input,
+    terminalpp::bytes input,
     std::vector<terminalpp::token> const &expected_tokens);
 
 #endif
