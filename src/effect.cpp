@@ -12,13 +12,13 @@ std::ostream &operator<<(std::ostream &out, intensity const &effect)
     {
         default :
             // Fall-through
-        case terminalpp::ansi::graphics::intensity::normal :
+        case terminalpp::graphics::intensity::normal :
             return out << "normal";
 
-        case terminalpp::ansi::graphics::intensity::bold :
+        case terminalpp::graphics::intensity::bold :
             return out << "bold";
 
-        case terminalpp::ansi::graphics::intensity::faint :
+        case terminalpp::graphics::intensity::faint :
             return out << "faint";
     }
 }
@@ -29,7 +29,7 @@ std::ostream &operator<<(std::ostream &out, intensity const &effect)
 std::ostream &operator<<(std::ostream &out, underlining const &effect)
 {
     return out
-        << (effect.value_ == terminalpp::ansi::graphics::underlining::underlined
+        << (effect.value_ == terminalpp::graphics::underlining::underlined
           ? "underlined"
           : "not underlined");
 }
@@ -40,7 +40,7 @@ std::ostream &operator<<(std::ostream &out, underlining const &effect)
 std::ostream &operator<<(std::ostream &out, polarity const &effect)
 {
     return out
-        << (effect.value_ == terminalpp::ansi::graphics::polarity::positive
+        << (effect.value_ == terminalpp::graphics::polarity::positive
           ? "positive"
           : "negative");
 }
@@ -51,7 +51,7 @@ std::ostream &operator<<(std::ostream &out, polarity const &effect)
 std::ostream &operator<<(std::ostream &out, blinking const &effect)
 {
     return out
-        << (effect.value_ == terminalpp::ansi::graphics::blinking::blink
+        << (effect.value_ == terminalpp::graphics::blinking::blink
           ? "blinking"
           : "steady");
 }

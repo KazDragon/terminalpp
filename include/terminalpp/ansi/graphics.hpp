@@ -11,17 +11,21 @@ namespace terminalpp { namespace ansi { namespace graphics {
 static constexpr byte no_attributes = 0;
 
 // Intensity Constants
-static constexpr byte intensity_bold   = 1;
-static constexpr byte intensity_faint  = 2;
-static constexpr byte intensity_normal = 22;
+static constexpr byte bold   = 1;
+static constexpr byte faint  = 2;
+static constexpr byte normal_intensity = 22;
 
 // Underlining Constants
-static constexpr byte underlining_underlined     = 4;
-static constexpr byte underlining_no_underlining = 24;
+static constexpr byte underlined     = 4;
+static constexpr byte not_underlined = 24;
 
 // Blinking Constants
-static constexpr byte blinking_blinking = 5;
-static constexpr byte blinking_steady   = 25;
+static constexpr byte blinking = 5;
+static constexpr byte steady   = 25;
+
+// Polarity Constants
+static constexpr byte negative_polarity = 7;
+static constexpr byte positive_polarity = 27;
 
 // "Low" colour constants
 static constexpr byte foreground_colour_base = 30;

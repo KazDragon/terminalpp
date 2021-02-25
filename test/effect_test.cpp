@@ -29,9 +29,9 @@ TEST_P(intensities_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static intensity_string const intensity_strings[] = {
-    intensity_string{ terminalpp::ansi::graphics::intensity::normal,   "normal" },
-    intensity_string{ terminalpp::ansi::graphics::intensity::bold,     "bold"   },
-    intensity_string{ terminalpp::ansi::graphics::intensity::faint,    "faint"  }
+    intensity_string{ terminalpp::graphics::intensity::normal, "normal" },
+    intensity_string{ terminalpp::graphics::intensity::bold,   "bold"   },
+    intensity_string{ terminalpp::graphics::intensity::faint,  "faint"  }
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -64,8 +64,8 @@ TEST_P(underlines_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static underline_string const underline_strings[] = {
-    underline_string{ terminalpp::ansi::graphics::underlining::underlined,     "underlined"     },
-    underline_string{ terminalpp::ansi::graphics::underlining::not_underlined, "not underlined" },
+    underline_string{ terminalpp::graphics::underlining::underlined,     "underlined"     },
+    underline_string{ terminalpp::graphics::underlining::not_underlined, "not underlined" },
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -98,8 +98,8 @@ TEST_P(polarities_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static polarity_string const polarity_strings[] = {
-    polarity_string{ terminalpp::ansi::graphics::polarity::positive, "positive" },
-    polarity_string{ terminalpp::ansi::graphics::polarity::negative, "negative" },
+    polarity_string{ terminalpp::graphics::polarity::positive, "positive" },
+    polarity_string{ terminalpp::graphics::polarity::negative, "negative" },
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -132,8 +132,8 @@ TEST_P(blinking_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static blink_string const blink_strings[] = {
-    blink_string{ terminalpp::ansi::graphics::blinking::blink,  "blinking" },
-    blink_string{ terminalpp::ansi::graphics::blinking::steady, "steady"   },
+    blink_string{ terminalpp::graphics::blinking::blink,  "blinking" },
+    blink_string{ terminalpp::graphics::blinking::steady, "steady"   },
 };
 
 INSTANTIATE_TEST_SUITE_P(
