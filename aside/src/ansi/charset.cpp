@@ -5,47 +5,9 @@
 
 namespace terminalpp { namespace ansi {
 
-static constexpr std::pair<charset, byte const (&)[1]> const charset_map[] =
-{
-    { charset::us_ascii,          CHARSET_US_ASCII            },
-    { charset::sco,               CHARSET_SCO                 },
-    { charset::dec,               CHARSET_DEC                 },
-    { charset::dec_supplementary, CHARSET_DEC_SUPPLEMENTARY   },
-    { charset::dec_technical,     CHARSET_DEC_TECHNICAL       },
-    { charset::uk,                CHARSET_UK                  },
-    { charset::dutch,             CHARSET_DUTCH               },
-    { charset::finnish,           CHARSET_FINNISH             },
-    { charset::finnish,           CHARSET_FINNISH_ALT         },
-    { charset::french,            CHARSET_FRENCH              },
-    { charset::french,            CHARSET_FRENCH_ALT          },
-    { charset::french_canadian,   CHARSET_FRENCH_CANADIAN     },
-    { charset::french_canadian,   CHARSET_FRENCH_CANADIAN_ALT },
-    { charset::german,            CHARSET_GERMAN              },
-    { charset::italian,           CHARSET_ITALIAN             },
-    { charset::danish,            CHARSET_DANISH              },
-    { charset::danish,            CHARSET_DANISH_ALT_1        },
-    { charset::danish,            CHARSET_DANISH_ALT_2        },
-    { charset::spanish,           CHARSET_SPANISH             },
-    { charset::swedish,           CHARSET_SWEDISH             },
-    { charset::swedish,           CHARSET_SWEDISH_ALT         },
-    { charset::swiss,             CHARSET_SWISS               },
-};
-
-static constexpr std::pair<charset, byte const (&)[2]> const extended_charset_map[] =
-{
-    { charset::dec_supplementary_graphics, CHARSET_DEC_SUPPLEMENTARY_GR },
-    { charset::portuguese,                 CHARSET_PORTUGUESE           },
-};
-
 // TODO: reinstate this code when it becomes necessary.
 #if 0
 // Locale/Locale Code Conversion
-//* =========================================================================
-/// \brief Look up a character set by the ANSI code it uses.
-/// E.g. lookup_charset("%6") yields charset::portuguese.
-//* =========================================================================
-TERMINALPP_EXPORT
-boost::optional<charset> lookup_charset(bytes code);
 
 //* =========================================================================
 /// \brief Convert a character set to its respective ANSI code.
@@ -53,43 +15,6 @@ boost::optional<charset> lookup_charset(bytes code);
 //* =========================================================================
 TERMINALPP_EXPORT
 byte_storage charset_to_string(charset const &loc);
-
-
-boost::optional<charset> lookup_charset(bytes code)
-{
-    const auto len = code.size();
-
-    if (len == 0)
-    {
-        return {};
-    }
-
-    if (code[0] == CHARSET_EXTENDER)
-    {
-        if (len > 1)
-        {
-            for (auto &&mapping : extended_charset_map)
-            {
-                if (code[1] == mapping.second[1])
-                {
-                    return mapping.first;
-                }
-            }
-        }
-    }
-    else
-    {
-        for (auto &&mapping : charset_map)
-        {
-            if (code[0] == mapping.second[0])
-            {
-                return mapping.first;
-            }
-        }
-    }
-
-    return {};
-}
 
 byte_storage charset_to_string(charset const &cs)
 {

@@ -1,10 +1,82 @@
 #include "terminalpp/encoder.hpp"
 #include "terminalpp/ansi/charset.hpp"
 #include "terminalpp/detail/ascii.hpp"
+#include <boost/optional.hpp>
 #include <algorithm>
 #include <cstring>
 
 namespace terminalpp { namespace {
+
+static constexpr std::pair<charset, byte const (&)[1]> const charset_map[] =
+{
+    { charset::us_ascii,          ansi::charset_us_ascii            },
+    { charset::sco,               ansi::charset_sco                 },
+    { charset::dec,               ansi::charset_dec                 },
+    { charset::dec_supplementary, ansi::charset_dec_supplementary   },
+    { charset::dec_technical,     ansi::charset_dec_technical       },
+    { charset::uk,                ansi::charset_uk                  },
+    { charset::dutch,             ansi::charset_dutch               },
+    { charset::finnish,           ansi::charset_finnish             },
+    { charset::finnish,           ansi::charset_finnish_alt         },
+    { charset::french,            ansi::charset_french              },
+    { charset::french,            ansi::charset_french_alt          },
+    { charset::french_canadian,   ansi::charset_french_canadian     },
+    { charset::french_canadian,   ansi::charset_french_canadian_alt },
+    { charset::german,            ansi::charset_german              },
+    { charset::italian,           ansi::charset_italian             },
+    { charset::danish,            ansi::charset_danish              },
+    { charset::danish,            ansi::charset_danish_alt_1        },
+    { charset::danish,            ansi::charset_danish_alt_2        },
+    { charset::spanish,           ansi::charset_spanish             },
+    { charset::swedish,           ansi::charset_swedish             },
+    { charset::swedish,           ansi::charset_swedish_alt         },
+    { charset::swiss,             ansi::charset_swiss               },
+};
+
+static constexpr std::pair<charset, byte const (&)[2]> const extended_charset_map[] =
+{
+    { charset::dec_supplementary_graphics, ansi::charset_dec_supplementary_gr },
+    { charset::portuguese,                 ansi::charset_portuguese           },
+};
+
+// ==========================================================================
+// LOOKUP_CHARSET
+// ==========================================================================
+boost::optional<charset> lookup_charset(bytes code)
+{
+    const auto len = code.size();
+
+    if (len == 0)
+    {
+        return {};
+    }
+
+    if (code[0] == ansi::charset_extender)
+    {
+        if (len > 1)
+        {
+            for (auto &&mapping : extended_charset_map)
+            {
+                if (code[1] == mapping.second[1])
+                {
+                    return mapping.first;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (auto &&mapping : charset_map)
+        {
+            if (code[0] == mapping.second[0])
+            {
+                return mapping.first;
+            }
+        }
+    }
+
+    return {};
+}
 
 // ==========================================================================
 // UTF8_ENCODE_GLYPH
@@ -204,14 +276,14 @@ static encoding_state encode_character_code_2(byte ch, encoding_data &data)
 // ==========================================================================
 static encoding_state encode_character_set(byte ch, encoding_data &data)
 {
-    if (ch == ansi::CHARSET_EXTENDER)
+    if (ch == ansi::charset_extender)
     {
         return encoding_state::character_set_ext;
     }
     else
     {
         byte const charset_code[] = {ch};
-        auto const charset = terminalpp::ansi::lookup_charset(charset_code);
+        auto const charset = lookup_charset(charset_code);
 
         if (charset)
         {
@@ -227,8 +299,8 @@ static encoding_state encode_character_set(byte ch, encoding_data &data)
 // ==========================================================================
 static encoding_state encode_character_set_ext(byte ch, encoding_data &data)
 {
-    byte const charset_code[] = { ansi::CHARSET_EXTENDER, ch };
-    auto const charset = terminalpp::ansi::lookup_charset(charset_code);
+    byte const charset_code[] = { ansi::charset_extender, ch };
+    auto const charset = lookup_charset(charset_code);
 
     if (charset)
     {
@@ -247,19 +319,19 @@ static encoding_state encode_intensity(byte ch, encoding_data &data)
     {
         default :
             // Fall-through
-        case detail::ascii::EQUALS:
+        case detail::ascii::equals:
             data.current_element.attribute_.intensity_ =
-                terminalpp::ansi::graphics::intensity::normal;
+                terminalpp::graphics::intensity::normal;
             break;
 
-        case detail::ascii::GREATER_THAN:
+        case detail::ascii::greater_than:
             data.current_element.attribute_.intensity_ =
-                terminalpp::ansi::graphics::intensity::bold;
+                terminalpp::graphics::intensity::bold;
             break;
 
-        case detail::ascii::LESS_THAN:
+        case detail::ascii::less_than:
             data.current_element.attribute_.intensity_ =
-                terminalpp::ansi::graphics::intensity::faint;
+                terminalpp::graphics::intensity::faint;
             break;
     }
 
@@ -275,16 +347,16 @@ static encoding_state encode_polarity(byte ch, encoding_data &data)
     {
         default :
             // Fall-through
-        case detail::ascii::EQUALS:
+        case detail::ascii::equals:
             // Fall-through
-        case detail::ascii::PLUS:
+        case detail::ascii::plus:
             data.current_element.attribute_.polarity_ =
-                terminalpp::ansi::graphics::polarity::positive;
+                terminalpp::graphics::polarity::positive;
             break;
 
-        case detail::ascii::MINUS:
+        case detail::ascii::minus:
             data.current_element.attribute_.polarity_ =
-                terminalpp::ansi::graphics::polarity::negative;
+                terminalpp::graphics::polarity::negative;
             break;
     }
 
@@ -300,16 +372,16 @@ static encoding_state encode_underlining(byte ch, encoding_data &data)
     {
         default :
             // Fall-through :
-        case detail::ascii::EQUALS:
+        case detail::ascii::equals:
             // Fall-through :
-        case detail::ascii::MINUS:
+        case detail::ascii::minus:
             data.current_element.attribute_.underlining_ =
-                terminalpp::ansi::graphics::underlining::not_underlined;
+                terminalpp::graphics::underlining::not_underlined;
             break;
 
-        case detail::ascii::PLUS:
+        case detail::ascii::plus:
             data.current_element.attribute_.underlining_ =
-                terminalpp::ansi::graphics::underlining::underlined;
+                terminalpp::graphics::underlining::underlined;
             break;
     }
 
@@ -323,7 +395,7 @@ static encoding_state encode_low_colour_foreground(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.foreground_colour_ =
         terminalpp::low_colour(
-            terminalpp::ansi::graphics::colour(ch - '0'));
+            terminalpp::graphics::colour(ch - '0'));
     return encoding_state::normal;
 }
 
@@ -334,7 +406,7 @@ static encoding_state encode_low_colour_background(byte ch, encoding_data &data)
 {
     data.current_element.attribute_.background_colour_ =
         terminalpp::low_colour(
-            terminalpp::ansi::graphics::colour(ch - '0'));
+            terminalpp::graphics::colour(ch - '0'));
     return encoding_state::normal;
 }
 
@@ -439,7 +511,7 @@ static encoding_state encode_greyscale_background_1(byte ch, encoding_data &data
 // ==========================================================================
 static encoding_state encode_utf8_0(byte ch, encoding_data &data)
 {
-    data.current_element.glyph_.charset_ = terminalpp::ansi::charset::utf8;
+    data.current_element.glyph_.charset_ = terminalpp::charset::utf8;
     data.current_element.glyph_.ucharacter_[0] = ch;
     return encoding_state::utf8_1;
 }
@@ -620,11 +692,11 @@ terminalpp::string encode(char const *text, size_t length)
         {
             result += data.current_element;
 
-            if (data.current_element.glyph_.charset_ == ansi::charset::utf8)
+            if (data.current_element.glyph_.charset_ == charset::utf8)
             {
                 // TODO: This should really pop back to whatever the charset
                 // was before.
-                data.current_element.glyph_.charset_ = ansi::charset::us_ascii;
+                data.current_element.glyph_.charset_ = charset::us_ascii;
             }
 
             data.element_complete = false;

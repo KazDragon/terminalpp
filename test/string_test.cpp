@@ -8,7 +8,7 @@ using testing::ValuesIn;
 TEST(string_test, can_construct_from_string_and_attribute)
 {
     terminalpp::attribute attr;
-    attr.polarity_ = terminalpp::ansi::graphics::polarity::negative;
+    attr.polarity_ = terminalpp::graphics::polarity::negative;
 
     auto str = [](terminalpp::string const &str)
     {
@@ -25,7 +25,7 @@ TEST(string_test, can_construct_from_string_and_attribute)
 TEST(string_test, can_aggregate_initialize_from_string_and_attribute)
 {
     terminalpp::attribute attr;
-    attr.polarity_ = terminalpp::ansi::graphics::polarity::negative;
+    attr.polarity_ = terminalpp::graphics::polarity::negative;
 
     auto str = [](terminalpp::string const &str)
     {
