@@ -23,10 +23,10 @@ struct TERMINALPP_EXPORT attribute
     constexpr attribute(
         colour foreground_colour = colour(),
         colour background_colour = colour(),
-        intensity intensity_effect = ansi::graphics::intensity::normal,
-        underlining underlining_effect = ansi::graphics::underlining::not_underlined,
-        polarity polarity_effect = ansi::graphics::polarity::positive,
-        blinking blink_effect = ansi::graphics::blinking::steady)
+        intensity intensity_effect = graphics::intensity::normal,
+        underlining underlining_effect = graphics::underlining::not_underlined,
+        polarity polarity_effect = graphics::polarity::positive,
+        blinking blink_effect = graphics::blinking::steady)
       : foreground_colour_(foreground_colour),
         background_colour_(background_colour),
         intensity_(intensity_effect),

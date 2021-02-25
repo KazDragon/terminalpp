@@ -37,6 +37,24 @@ static constexpr std::pair<charset, byte const (&)[2]> const extended_charset_ma
     { charset::portuguese,                 CHARSET_PORTUGUESE           },
 };
 
+// TODO: reinstate this code when it becomes necessary.
+#if 0
+// Locale/Locale Code Conversion
+//* =========================================================================
+/// \brief Look up a character set by the ANSI code it uses.
+/// E.g. lookup_charset("%6") yields charset::portuguese.
+//* =========================================================================
+TERMINALPP_EXPORT
+boost::optional<charset> lookup_charset(bytes code);
+
+//* =========================================================================
+/// \brief Convert a character set to its respective ANSI code.
+/// E.g. charset_to_string(charset::portuguese) yields "%6".
+//* =========================================================================
+TERMINALPP_EXPORT
+byte_storage charset_to_string(charset const &loc);
+
+
 boost::optional<charset> lookup_charset(bytes code)
 {
     const auto len = code.size();
@@ -93,5 +111,6 @@ byte_storage charset_to_string(charset const &cs)
 
     return CHARSET_US_ASCII;
 }
+#endif
 
 }}
