@@ -128,7 +128,7 @@ add_library(terminalpp)
 target_sources(terminalpp
     PRIVATE
         include/terminalpp/ansi/charset.hpp
-#        include/terminalpp/ansi/control_characters.hpp
+        include/terminalpp/ansi/control_characters.hpp
 #        include/terminalpp/ansi/control_sequence.hpp
 #        include/terminalpp/ansi/csi.hpp
 #        include/terminalpp/ansi/dec_private_mode.hpp
@@ -138,7 +138,7 @@ target_sources(terminalpp
 #        include/terminalpp/ansi/protocol.hpp
 #        include/terminalpp/ansi/ss3.hpp
         include/terminalpp/attribute.hpp
-#        include/terminalpp/behaviour.hpp
+        include/terminalpp/behaviour.hpp
 #        include/terminalpp/colour.hpp
 #        include/terminalpp/canvas.hpp
         include/terminalpp/character_set.hpp
@@ -178,7 +178,7 @@ target_sources(terminalpp
         include/terminalpp/rectangle.hpp
 #        include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
-#        include/terminalpp/terminal.hpp
+        include/terminalpp/terminal.hpp
 #        include/terminalpp/terminal_manip.hpp
 #        include/terminalpp/terminalpp.hpp
 #        include/terminalpp/token.hpp
@@ -208,7 +208,7 @@ target_sources(terminalpp
         src/rectangle.cpp
 #        src/screen.cpp
         src/string.cpp
-#        src/terminal.cpp
+        src/terminal.cpp
 #        src/virtual_key.cpp
 )
 
@@ -331,7 +331,8 @@ target_sources(terminalpp_tester
         test/effect_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
-#        test/expect_sequence.cpp
+        test/expect_sequence.hpp
+        test/expect_sequence.cpp
 #        test/expect_tokens.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
@@ -343,7 +344,7 @@ target_sources(terminalpp_tester
 #        test/screen_test.cpp
         test/string_test.cpp
         test/string_manip_test.cpp
-#        test/terminal_init_test.cpp
+        test/terminal_init_test.cpp
 #        test/terminal_cursor_test.cpp
 #        test/terminal_erase_test.cpp
 #        test/terminal_read_cursor_test.cpp
