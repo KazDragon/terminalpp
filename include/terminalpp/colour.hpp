@@ -103,7 +103,7 @@ struct TERMINALPP_EXPORT high_colour
     /// \brief Constructs a high_colour from the passed-in RGB values, each
     /// of which should be in the range 0-5.
     //* =====================================================================
-constexpr high_colour(byte red, byte green, byte blue)
+    constexpr high_colour(byte red, byte green, byte blue)
       : value_(
           detail::high_colour_offset
         + ansi::graphics::encode_high_components(red, green, blue))

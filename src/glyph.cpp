@@ -155,19 +155,19 @@ bool is_printable(glyph const &gly)
     {
     default :
         // Fall-through
-    case terminalpp::ansi::charset::dec:
+    case terminalpp::charset::dec:
         lookup = is_printable_dec;
         break;
 
-    case terminalpp::ansi::charset::uk:
+    case terminalpp::charset::uk:
         lookup = is_printable_uk;
         break;
 
-    case terminalpp::ansi::charset::us_ascii:
+    case terminalpp::charset::us_ascii:
         lookup = is_printable_us_ascii;
         break;
 
-    case terminalpp::ansi::charset::sco:
+    case terminalpp::charset::sco:
         lookup = is_printable_sco;
         break;
     }
@@ -239,7 +239,7 @@ static std::uint32_t utf8_decode(glyph const &gly)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, glyph const &gly)
 {
-    if (gly.charset_ == terminalpp::ansi::charset::utf8)
+    if (gly.charset_ == terminalpp::charset::utf8)
     {
         if (gly.ucharacter_[0] <= 0x7F)
         {

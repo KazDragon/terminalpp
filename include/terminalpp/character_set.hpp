@@ -1,5 +1,5 @@
 #pragma once
-#include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/core.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
@@ -7,7 +7,32 @@
 namespace terminalpp {
 
 //* =========================================================================
-// \brief A structure that represents a character set.
+/// \brief An enumeration for all supported character sets.
+//* =========================================================================
+enum class charset : char {
+    dec,
+    dec_supplementary,
+    dec_supplementary_graphics,
+    dec_technical,
+    uk,
+    us_ascii,
+    dutch,
+    finnish,
+    french,
+    french_canadian,
+    german,
+    italian,
+    danish,
+    portuguese,
+    spanish,
+    swedish,
+    swiss,
+    sco,
+    utf8,
+};
+
+//* =========================================================================
+/// \brief A structure that represents a character set.
 //* =========================================================================
 struct TERMINALPP_EXPORT character_set
   : private boost::less_than_comparable<character_set,
@@ -17,14 +42,14 @@ struct TERMINALPP_EXPORT character_set
     /// \brief Initialises the character set to its default value.
     //* =====================================================================
     constexpr character_set()
-      : character_set(ansi::charset::us_ascii)
+      : character_set(charset::us_ascii)
     {
     }
 
     //* =====================================================================
     /// \brief Initialises the character set the given value.
     //* =====================================================================
-    constexpr character_set(ansi::charset const &set)
+    constexpr character_set(charset const &set)
       : value_(set)
     {
     }
@@ -40,7 +65,7 @@ struct TERMINALPP_EXPORT character_set
         return seed;
     }
 
-    terminalpp::ansi::charset value_;
+    terminalpp::charset value_;
 };
 
 //* =========================================================================

@@ -35,7 +35,7 @@ static attribute_string const attribute_strings[] = {
     // One non-default value
     attribute_string {
         terminalpp::attribute {
-            terminalpp::colour{ terminalpp::ansi::graphics::colour::red }
+            terminalpp::colour{ terminalpp::graphics::colour::red }
         },
         "foreground[red]"
     },
@@ -50,7 +50,7 @@ static attribute_string const attribute_strings[] = {
         terminalpp::attribute {
             {},
             {},
-            terminalpp::ansi::graphics::intensity::bold
+            terminalpp::graphics::intensity::bold
         },
         "bold"
     },
@@ -59,7 +59,7 @@ static attribute_string const attribute_strings[] = {
             {},
             {},
             {},
-            terminalpp::ansi::graphics::underlining::underlined
+            terminalpp::graphics::underlining::underlined
         },
         "underlined"
     },
@@ -69,7 +69,7 @@ static attribute_string const attribute_strings[] = {
             {},
             {},
             {},
-            terminalpp::ansi::graphics::polarity::negative
+            terminalpp::graphics::polarity::negative
         },
         "negative"
     },
@@ -80,7 +80,7 @@ static attribute_string const attribute_strings[] = {
             {},
             {},
             {},
-            terminalpp::ansi::graphics::blinking::blink
+            terminalpp::graphics::blinking::blink
         },
         "blinking"
     },
@@ -91,18 +91,18 @@ static attribute_string const attribute_strings[] = {
             {},
             terminalpp::greyscale_colour(7),
             {},
-            terminalpp::ansi::graphics::underlining::underlined
+            terminalpp::graphics::underlining::underlined
         },
         "background[#07],underlined"
     },
     attribute_string {
         terminalpp::attribute {
             {},
-            terminalpp::ansi::graphics::colour::green,
+            terminalpp::graphics::colour::green,
             {},
-            terminalpp::ansi::graphics::underlining::not_underlined,
-            terminalpp::ansi::graphics::polarity::negative,
-            terminalpp::ansi::graphics::blinking::blink
+            terminalpp::graphics::underlining::not_underlined,
+            terminalpp::graphics::polarity::negative,
+            terminalpp::graphics::blinking::blink
         },
         "background[green],negative,blinking"
     },

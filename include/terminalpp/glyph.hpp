@@ -1,7 +1,6 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
-#include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/character_set.hpp"
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/container_hash/hash.hpp>
@@ -26,7 +25,7 @@ public:
     /// character set.  That is, it is blank.
     //* =====================================================================
     constexpr glyph(
-        byte const character = detail::ascii::SPACE,
+        byte const character = detail::ascii::space,
         character_set const charset = character_set())
       : character_(character),
         charset_(charset)
@@ -38,7 +37,7 @@ public:
     //* =====================================================================
     explicit constexpr glyph(byte const (&text)[2])
       : ucharacter_{text[0]},
-        charset_(terminalpp::ansi::charset::utf8)
+        charset_(terminalpp::charset::utf8)
     {
     }
 
@@ -47,7 +46,7 @@ public:
     //* =====================================================================
     explicit constexpr glyph(byte const (&text)[3])
       : ucharacter_{text[0], text[1]},
-        charset_(terminalpp::ansi::charset::utf8)
+        charset_(terminalpp::charset::utf8)
     {
     }
 
@@ -56,7 +55,7 @@ public:
     //* =====================================================================
     explicit constexpr glyph(byte const (&text)[4])
       : ucharacter_{text[0], text[1], text[2]},
-        charset_(terminalpp::ansi::charset::utf8)
+        charset_(terminalpp::charset::utf8)
     {
     }
 
@@ -76,7 +75,7 @@ public:
                               // avoids ambiguity.
     explicit constexpr glyph(char const *ustr)
       : ucharacter_{0},
-        charset_(terminalpp::ansi::charset::utf8)
+        charset_(terminalpp::charset::utf8)
     {
         for (size_t index = 0; index < sizeof(ucharacter_); ++index)
         {
@@ -97,7 +96,7 @@ public:
         std::size_t seed = 0;
         boost::hash_combine(seed, gly.charset_);
 
-        if (gly.charset_ == terminalpp::ansi::charset::utf8)
+        if (gly.charset_ == terminalpp::charset::utf8)
         {
             for (auto ch : gly.ucharacter_)
             {
@@ -128,7 +127,7 @@ constexpr bool operator==(glyph const &lhs, glyph const &rhs)
 {
     if (lhs.charset_ == rhs.charset_)
     {
-        if (lhs.charset_ == terminalpp::ansi::charset::utf8)
+        if (lhs.charset_ == terminalpp::charset::utf8)
         {
             using std::begin;
             using std::end;
@@ -168,7 +167,7 @@ constexpr bool operator<(glyph const &lhs, glyph const &rhs)
 
     if (lhs.charset_ == rhs.charset_)
     {
-        if (lhs.charset_ == terminalpp::ansi::charset::utf8)
+        if (lhs.charset_ == terminalpp::charset::utf8)
         {
             using std::begin;
             using std::end;
