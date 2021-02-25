@@ -11,18 +11,18 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
 {
     static constexpr struct
     {
-        ansi::graphics::colour col;
+        colour_code col;
         char const *text;
     } const colour_to_text[] = {
-        { ansi::graphics::colour::black,    "black"   },
-        { ansi::graphics::colour::red,      "red"     },
-        { ansi::graphics::colour::green,    "green"   },
-        { ansi::graphics::colour::yellow,   "yellow"  },
-        { ansi::graphics::colour::blue,     "blue"    },
-        { ansi::graphics::colour::magenta,  "magenta" },
-        { ansi::graphics::colour::cyan,     "cyan"    },
-        { ansi::graphics::colour::white,    "white"   },
-        { ansi::graphics::colour::default_, "default" }
+        { colour_code::black,    "black"   },
+        { colour_code::red,      "red"     },
+        { colour_code::green,    "green"   },
+        { colour_code::yellow,   "yellow"  },
+        { colour_code::blue,     "blue"    },
+        { colour_code::magenta,  "magenta" },
+        { colour_code::cyan,     "cyan"    },
+        { colour_code::white,    "white"   },
+        { colour_code::default_, "default" }
     };
 
     auto result = boost::find_if(
@@ -42,15 +42,15 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, high_colour const &col)
 {
-    int const value = col.value_ - 16;
-    int const red   = value / 36;
-    int const green = (value % 36) / 6;
-    int const blue  = value % 6;
+    byte const value = col.value_ - detail::high_colour_offset;
+    byte const red   = ansi::graphics::high_red_component(value);
+    byte const green = ansi::graphics::high_green_component(value);
+    byte const blue  = ansi::graphics::high_blue_component(value);
 
     return out << "#"
-               << std::to_string(red)
-               << std::to_string(green)
-               << std::to_string(blue);
+               << std::to_string(int(red))
+               << std::to_string(int(green))
+               << std::to_string(int(blue));
 
 }
 
@@ -59,10 +59,10 @@ std::ostream &operator<<(std::ostream &out, high_colour const &col)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
 {
-    int const shade = col.shade_ - 232;
+    byte const shade = col.shade_ - detail::greyscale_colour_offset;
     return out << "#"
                << (shade < 10 ? "0" : "")
-               << std::to_string(shade);
+               << std::to_string(int(shade));
 }
 
 // ==========================================================================

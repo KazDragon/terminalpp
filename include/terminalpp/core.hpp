@@ -49,6 +49,7 @@ inline byte_storage operator ""_tb(char const *text, size_t length)
 
 }
 
+/*
 // A helper function to convert from strings to stored bytes.
 inline byte_storage to_bytes(std::string const &str)
 {
@@ -76,5 +77,6 @@ inline std::string to_string(byte_storage const &text)
 
     return result;
 }
+*/
 
 }
