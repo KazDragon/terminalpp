@@ -144,7 +144,7 @@ target_sources(terminalpp
         include/terminalpp/character_set.hpp
 #        include/terminalpp/core.hpp
 #        include/terminalpp/detail/ascii.hpp
-#        include/terminalpp/detail/element_difference.hpp
+        include/terminalpp/detail/element_difference.hpp
 #        include/terminalpp/detail/export.hpp
 #        include/terminalpp/detail/lambda_visitor.hpp
 #        include/terminalpp/detail/parser.hpp
@@ -194,7 +194,7 @@ target_sources(terminalpp
 #        src/detail/terminal_charset_control.cpp
 #        src/detail/terminal_control.cpp
 #        src/detail/terminal_cursor_control.cpp
-#        src/detail/element_difference.cpp
+        src/detail/element_difference.cpp
 #        src/detail/parser.cpp
 #        src/detail/well_known_virtual_key.cpp
         src/encoder.cpp
@@ -351,7 +351,7 @@ target_sources(terminalpp_tester
 #        test/terminal_read_fkey_test.cpp
 #        test/terminal_read_test.cpp
 #        test/terminal_settings_test.cpp
-#        test/terminal_string_test.cpp
+        test/terminal_string_test.cpp
 #        test/virtual_key_test.cpp
 )
 

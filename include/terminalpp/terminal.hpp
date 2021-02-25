@@ -4,6 +4,9 @@
 #include "terminalpp/behaviour.hpp"
 #include "terminalpp/string.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
+#include "terminalpp/detail/element_difference.hpp"
+#include <boost/range/algorithm/for_each.hpp>
+#include <boost/optional.hpp>
 
 namespace terminalpp {
 
@@ -18,9 +21,83 @@ class TERMINALPP_EXPORT terminal_writer;
 //* =========================================================================
 struct terminal_state
 {
+    boost::optional<element> last_element_;
 };
 
 namespace detail {
+
+//* =========================================================================
+/// \brief A manipulator that sets up the initial required state of a 
+/// terminal.
+//* =========================================================================
+struct initialise_terminal
+{
+    //* =====================================================================
+    /// \brief Write the initializer for the 8-bit control mode if necessary.
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state, 
+        WriteContinuation &&cont)
+    {
+        if (beh.can_use_eight_bit_control_codes
+         && !beh.uses_eight_bit_control_codes_by_default)
+        {
+            cont({
+                std::cbegin(terminalpp::ansi::control8::enable),
+                std::cend(terminalpp::ansi::control8::enable)});
+        }
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that initializes the attributes to the default if it
+/// has not yet been done.
+//* =========================================================================
+struct write_optional_default_attribute
+{
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state, 
+        WriteContinuation &&cont)
+    {
+        if (!state.last_element_)
+        {
+            cont(detail::default_attribute());
+            state.last_element_ = terminalpp::element{};
+        }
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that converts encoded attribute strings into ANSI 
+/// protocol bytes.
+//* =========================================================================
+struct write_element
+{
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    write_element(terminalpp::element const &elem)
+      : element_(elem)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Convert the text and write the result to the continuation
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont)
+    {
+    }
+
+    terminalpp::element element_;
+};
 
 //* =========================================================================
 /// \brief A class that is used to stream manipulators together to a 
@@ -54,35 +131,29 @@ public:
         return *this;
     }
 
+    //* =====================================================================
+    /// \brief Streams attributed text elements to the writer, which sends 
+    /// their equivalent representation in ANSI protocol bytes to the
+    /// continuation.
+    //* =====================================================================
+    terminal_writer const &operator<<(terminalpp::string text) const
+    {
+        *this << write_optional_default_attribute();
+        
+        boost::for_each(
+            text,
+            [this](terminalpp::element const &elem)
+            {
+                *this << detail::write_element(elem);
+            });
+            
+        return *this;
+    }
+
 private:
     behaviour const &behaviour_;
     terminal_state &state_;
     WriteContinuation write_continuation_;
-};
-
-//* =========================================================================
-/// \brief A manipulator that sets up the initial required state of a 
-/// terminal.
-//* =========================================================================
-struct initialise_terminal
-{
-    //* =====================================================================
-    /// \brief Write the initializer for the 8-bit control mode if necessary.
-    //* =====================================================================
-    template <class WriteContinuation>
-    void operator()(
-        terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state, 
-        WriteContinuation &&cont)
-    {
-        if (beh.can_use_eight_bit_control_codes
-         && !beh.uses_eight_bit_control_codes_by_default)
-        {
-            cont({
-                std::cbegin(terminalpp::ansi::control8::enable),
-                std::cend(terminalpp::ansi::control8::enable)});
-        }
-    }
 };
 
 }
