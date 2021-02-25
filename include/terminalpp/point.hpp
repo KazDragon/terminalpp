@@ -25,8 +25,8 @@ struct TERMINALPP_EXPORT point
     /// Constructs a point, leaving the values uninitialised.
     //* =====================================================================
     constexpr point()
-      : x(0),
-        y(0)
+      : x_(0),
+        y_(0)
     {
     }
 
@@ -36,9 +36,9 @@ struct TERMINALPP_EXPORT point
     /// Constructs a point from a passed in x co-ordinate and a passed in
     /// y co-ordinate.
     //* =====================================================================
-    constexpr point(coordinate_type x_coordinate, coordinate_type y_coordinate)
-      : x(x_coordinate),
-        y(y_coordinate)
+    constexpr point(coordinate_type x, coordinate_type y)
+      : x_(x),
+        y_(y)
     {
     }
 
@@ -47,8 +47,8 @@ struct TERMINALPP_EXPORT point
     //* =====================================================================
     constexpr point &operator+=(point const &rhs)
     {
-        x += rhs.x;
-        y += rhs.y;
+        x_ += rhs.x_;
+        y_ += rhs.y_;
         return *this;
     }
 
@@ -57,32 +57,32 @@ struct TERMINALPP_EXPORT point
     //* =====================================================================
     constexpr point &operator-=(point const &rhs)
     {
-        x -= rhs.x;
-        y -= rhs.y;
+        x_ -= rhs.x_;
+        y_ -= rhs.y_;
         return *this;
     }
 
-    coordinate_type x;
-    coordinate_type y;
+    // ======================================================================
+    // OPERATOR<(POINT,POINT)
+    // ======================================================================
+    constexpr friend bool operator<(point const &lhs, point const &rhs)
+    {
+        // Note: reimplemented due to std::tie not being constexpr everywhere.
+        return lhs.y_ < rhs.y_
+            || (lhs.y_ == rhs.y_ && lhs.x_ < rhs.x_);
+    }
+
+    // ======================================================================
+    // OPERATOR==(POINT,POINT)
+    // ======================================================================
+    constexpr friend bool operator==(point const &lhs, point const &rhs)
+    {
+        return lhs.x_ == rhs.x_ && lhs.y_ == rhs.y_;
+    }
+
+    coordinate_type x_;
+    coordinate_type y_;
 };
-
-// ==========================================================================
-// OPERATOR<(POINT,POINT)
-// ==========================================================================
-constexpr bool operator<(point const &lhs, point const &rhs)
-{
-    // Note: reimplemented due to std::tie not being constexpr everywhere.
-    return lhs.y < rhs.y
-        || (lhs.y == rhs.y && lhs.x < rhs.x);
-}
-
-// ==========================================================================
-// OPERATOR==(POINT,POINT)
-// ==========================================================================
-constexpr bool operator==(point const &lhs, point const &rhs)
-{
-    return lhs.x == rhs.x && lhs.y == rhs.y;
-}
 
 //* =====================================================================
 /// \brief Outputs the current state of the point to a stream.
