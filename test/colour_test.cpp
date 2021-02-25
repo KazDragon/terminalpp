@@ -7,7 +7,7 @@ using testing::ValuesIn;
 
 TEST(colour_test, can_construct_from_low_colour_enum)
 {
-    terminalpp::colour_code const col{terminalpp::colour_code::red};
+    terminalpp::graphics::colour const col{terminalpp::graphics::colour::red};
     terminalpp::colour const expected_colour = terminalpp::low_colour(col);
     terminalpp::colour const result_colour{col};
 
@@ -38,15 +38,15 @@ TEST_P(low_colours_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static low_colour_string const low_colour_strings[] = {
-  low_colour_string{ terminalpp::colour_code::black,    "black"   },
-  low_colour_string{ terminalpp::colour_code::red,      "red"     },
-  low_colour_string{ terminalpp::colour_code::green,    "green"   },
-  low_colour_string{ terminalpp::colour_code::yellow,   "yellow"  },
-  low_colour_string{ terminalpp::colour_code::blue,     "blue"    },
-  low_colour_string{ terminalpp::colour_code::magenta,  "magenta" },
-  low_colour_string{ terminalpp::colour_code::cyan,     "cyan"    },
-  low_colour_string{ terminalpp::colour_code::white,    "white"   },
-  low_colour_string{ terminalpp::colour_code::default_, "default" }
+  low_colour_string{ terminalpp::graphics::colour::black,    "black"   },
+  low_colour_string{ terminalpp::graphics::colour::red,      "red"     },
+  low_colour_string{ terminalpp::graphics::colour::green,    "green"   },
+  low_colour_string{ terminalpp::graphics::colour::yellow,   "yellow"  },
+  low_colour_string{ terminalpp::graphics::colour::blue,     "blue"    },
+  low_colour_string{ terminalpp::graphics::colour::magenta,  "magenta" },
+  low_colour_string{ terminalpp::graphics::colour::cyan,     "cyan"    },
+  low_colour_string{ terminalpp::graphics::colour::white,    "white"   },
+  low_colour_string{ terminalpp::graphics::colour::default_, "default" }
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -157,12 +157,12 @@ TEST_P(colours_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static colour_string const colour_strings[] = {
-    colour_string{ terminalpp::colour_code::red,     "red"   },
-    colour_string{ terminalpp::colour_code::green,   "green" },
-    colour_string{ terminalpp::high_colour(1, 2, 3), "#123"  },
-    colour_string{ terminalpp::high_colour(5, 5, 4), "#554"  },
-    colour_string{ terminalpp::greyscale_colour(0),  "#00"   },
-    colour_string{ terminalpp::greyscale_colour(21), "#21"   },
+    colour_string{ terminalpp::graphics::colour::red,     "red"   },
+    colour_string{ terminalpp::graphics::colour::green,   "green" },
+    colour_string{ terminalpp::high_colour(1, 2, 3),      "#123"  },
+    colour_string{ terminalpp::high_colour(5, 5, 4),      "#554"  },
+    colour_string{ terminalpp::greyscale_colour(0),       "#00"   },
+    colour_string{ terminalpp::greyscale_colour(21),      "#21"   },
 };
 
 TEST(low_colours, can_be_inserted_into_an_unordered_set)

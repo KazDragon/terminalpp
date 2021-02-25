@@ -4,6 +4,23 @@
 namespace terminalpp { namespace graphics {
 
 //* =========================================================================
+/// \brief An enumeration of basic ANSI colours.
+//* =========================================================================
+enum class colour : byte
+{
+    black    = terminalpp::ansi::graphics::colour_black,
+    red      = terminalpp::ansi::graphics::colour_red,
+    green    = terminalpp::ansi::graphics::colour_green,
+    yellow   = terminalpp::ansi::graphics::colour_yellow,
+    blue     = terminalpp::ansi::graphics::colour_blue,
+    magenta  = terminalpp::ansi::graphics::colour_magenta,
+    cyan     = terminalpp::ansi::graphics::colour_cyan,
+    white    = terminalpp::ansi::graphics::colour_white,
+    default_ = terminalpp::ansi::graphics::colour_default,
+};
+
+
+//* =========================================================================
 /// \brief The intensity (i.e. bold, faint, or normal) of an element.
 //* =========================================================================
 enum class intensity : byte
