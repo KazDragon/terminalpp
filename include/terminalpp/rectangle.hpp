@@ -3,6 +3,7 @@
 #include "terminalpp/detail/export.hpp"
 #include "terminalpp/point.hpp"
 #include "terminalpp/extent.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -11,6 +12,8 @@ namespace terminalpp {
 /// \brief A class that represents a rectangle in space.
 //* =========================================================================
 struct TERMINALPP_EXPORT rectangle
+  : private boost::less_than_comparable<rectangle,
+            boost::equality_comparable<rectangle>>
 {
     //* =====================================================================
     /// \brief Default Constructor
@@ -24,35 +27,36 @@ struct TERMINALPP_EXPORT rectangle
     /// \par
     /// Constructs the rectangle, using the specified origin and size.
     //* =====================================================================
-    constexpr rectangle(terminalpp::point org, terminalpp::extent sz)
-      : origin(org),
-        size(sz)
+    constexpr rectangle(terminalpp::point origin, terminalpp::extent size)
+      : origin_(origin),
+        size_(size)
     {
     }
 
+    // ======================================================================
+    // OPERATOR<(RECTANGLE,RECTANGLE)
+    // ======================================================================
+    constexpr friend bool operator<(rectangle const &lhs, rectangle const &rhs)
+    {
+        return lhs.origin_ < rhs.origin_
+            || (lhs.origin_ == rhs.origin_ && lhs.size_ < rhs.size_);
+    }
+
+    // ======================================================================
+    // OPERATOR==(RECTANGLE,RECTANGLE)
+    // ======================================================================
+    constexpr friend bool operator==(rectangle const &lhs, rectangle const &rhs)
+    {
+        return lhs.origin_ == rhs.origin_ && lhs.size_ == rhs.size_;
+    }
+
     /// \brief The origin (top-left point) of the rectangle.
-    terminalpp::point  origin;
+    terminalpp::point  origin_;
 
     /// \brief The size (amount the rectangle extends right and down) of
     /// the rectangle.
-    terminalpp::extent size;
+    terminalpp::extent size_;
 };
-
-// ==========================================================================
-// OPERATOR==(RECTANGLE,RECTANGLE)
-// ==========================================================================
-constexpr bool operator==(rectangle const &lhs, rectangle const &rhs)
-{
-    return lhs.origin == rhs.origin && lhs.size == rhs.size;
-}
-
-// ==========================================================================
-// OPERATOR!=(RECTANGLE,RECTANGLE)
-// ==========================================================================
-constexpr bool operator!=(rectangle const &lhs, rectangle const &rhs)
-{
-    return !(lhs == rhs);
-}
 
 //* =====================================================================
 /// \brief Outputs the current state of the point to a stream.

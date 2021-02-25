@@ -3,9 +3,12 @@
 
 namespace terminalpp {
 
+// ==========================================================================
+// OPERATOR<<(OSTREAM, RECTANGLE)
+// ==========================================================================
 std::ostream &operator<<(std::ostream &out, terminalpp::rectangle const &rect)
 {
-    return out << "rectangle(" << rect.origin << ", " << rect.size << ")";
+    return out << "rectangle(" << rect.origin_ << ", " << rect.size_ << ")";
 }
 
 }
