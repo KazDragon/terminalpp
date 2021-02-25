@@ -133,7 +133,7 @@ target_sources(terminalpp
 #        include/terminalpp/ansi/csi.hpp
 #        include/terminalpp/ansi/dec_private_mode.hpp
 #        include/terminalpp/ansi/graphics.hpp
-#        include/terminalpp/ansi/mouse.hpp
+        include/terminalpp/ansi/mouse.hpp
 #        include/terminalpp/ansi/osc.hpp
 #        include/terminalpp/ansi/protocol.hpp
 #        include/terminalpp/ansi/ss3.hpp
@@ -172,6 +172,7 @@ target_sources(terminalpp
 #        include/terminalpp/manip/use_alternate_screen_buffer.hpp
 #        include/terminalpp/manip/use_normal_screen_buffer.hpp
 #        include/terminalpp/manip/write_string.hpp
+        include/terminalpp/mouse.hpp
 #        include/terminalpp/palette.hpp
         include/terminalpp/point.hpp
         include/terminalpp/rectangle.hpp
@@ -202,6 +203,7 @@ target_sources(terminalpp
         src/element.cpp
         src/extent.cpp
 #        src/manip/terminal_streamer.cpp
+        src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
 #        src/screen.cpp
@@ -334,7 +336,7 @@ target_sources(terminalpp_tester
         test/extent_test.cpp
         test/glyph_test.cpp
 #        test/manip_test.cpp
-#        test/mouse_test.cpp
+        test/mouse_test.cpp
 #        test/palette_test.cpp
         test/point_test.cpp
         test/rectangle_test.cpp
