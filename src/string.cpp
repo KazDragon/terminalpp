@@ -253,7 +253,7 @@ std::string to_string(string const &tstr)
 
     for(auto const &elem : tstr)
     {
-        if (elem.glyph_.charset_ == ansi::charset::utf8)
+        if (elem.glyph_.charset_ == charset::utf8)
         {
             for (auto const &ch : elem.glyph_.ucharacter_)
             {

@@ -44,9 +44,9 @@ TEST(string_encoder_test, charset_code_encodes_charset)
 {
     expect_encoding(
         {
-            { terminalpp::glyph('a', terminalpp::ansi::charset::dec) },
-            { terminalpp::glyph('b', terminalpp::ansi::charset::dec) },
-            { terminalpp::glyph('c', terminalpp::ansi::charset::dec) }
+            { terminalpp::glyph('a', terminalpp::charset::dec) },
+            { terminalpp::glyph('b', terminalpp::charset::dec) },
+            { terminalpp::glyph('c', terminalpp::charset::dec) }
         },
         "\\c0abc");
 }
@@ -55,7 +55,7 @@ TEST(string_encoder_test, extended_charset_code_encodes_charset)
 {
     expect_encoding(
         {
-            { terminalpp::glyph('a', terminalpp::ansi::charset::portuguese) }
+            { terminalpp::glyph('a', terminalpp::charset::portuguese) }
         },
         "\\c%6a");
 }
@@ -63,7 +63,7 @@ TEST(string_encoder_test, extended_charset_code_encodes_charset)
 TEST(string_encoder_test, bold_intensity_code_encodes_bold_intensity)
 {
     terminalpp::attribute bold_attribute;
-    bold_attribute.intensity_ = terminalpp::ansi::graphics::intensity::bold;
+    bold_attribute.intensity_ = terminalpp::graphics::intensity::bold;
 
     expect_encoding(
         {
@@ -77,7 +77,7 @@ TEST(string_encoder_test, bold_intensity_code_encodes_bold_intensity)
 TEST(string_encoder_test, faint_intensity_code_encodes_faint_intensity)
 {
     terminalpp::attribute faint_attribute;
-    faint_attribute.intensity_ = terminalpp::ansi::graphics::intensity::faint;
+    faint_attribute.intensity_ = terminalpp::graphics::intensity::faint;
 
     expect_encoding(
         {
@@ -109,10 +109,10 @@ TEST(string_encoder_test, default_code_encodes_normal_intensity)
 TEST(string_encoder_test, default_and_normal_revert_bold_and_faint)
 {
     terminalpp::attribute bold_attribute;
-    bold_attribute.intensity_ = terminalpp::ansi::graphics::intensity::bold;
+    bold_attribute.intensity_ = terminalpp::graphics::intensity::bold;
 
     terminalpp::attribute faint_attribute;
-    faint_attribute.intensity_ = terminalpp::ansi::graphics::intensity::faint;
+    faint_attribute.intensity_ = terminalpp::graphics::intensity::faint;
 
     expect_encoding(
         {
@@ -141,7 +141,7 @@ TEST(string_encoder_test, positive_polarity_code_encodes_positive_polarity)
 TEST(string_encoder_test, negative_polarity_code_encodes_negative_polarity)
 {
     terminalpp::attribute negative_polarity;
-    negative_polarity.polarity_ = terminalpp::ansi::graphics::polarity::negative;
+    negative_polarity.polarity_ = terminalpp::graphics::polarity::negative;
 
     expect_encoding(
         {
@@ -155,7 +155,7 @@ TEST(string_encoder_test, negative_polarity_code_encodes_negative_polarity)
 TEST(string_encoder_test, positive_and_negative_polarity_revert_each_other)
 {
     terminalpp::attribute negative_polarity;
-    negative_polarity.polarity_ = terminalpp::ansi::graphics::polarity::negative;
+    negative_polarity.polarity_ = terminalpp::graphics::polarity::negative;
 
     expect_encoding(
         {
@@ -169,7 +169,7 @@ TEST(string_encoder_test, positive_and_negative_polarity_revert_each_other)
 TEST(string_encoder_test, positive_underlining_code_encodes_positive_underlining)
 {
     terminalpp::attribute underlining;
-    underlining.underlining_ = terminalpp::ansi::graphics::underlining::underlined;
+    underlining.underlining_ = terminalpp::graphics::underlining::underlined;
 
     expect_encoding(
         {
@@ -194,7 +194,7 @@ TEST(string_encoder_test, negative_underlining_code_encodes_negative_underlining
 TEST(string_encoder_test, positive_and_negative_underlining_revert_each_other)
 {
     terminalpp::attribute underlined;
-    underlined.underlining_ = terminalpp::ansi::graphics::underlining::underlined;
+    underlined.underlining_ = terminalpp::graphics::underlining::underlined;
 
     expect_encoding(
         {
@@ -209,7 +209,7 @@ TEST(string_encoder_test, low_foreground_colour_code_encodes_colour)
 {
     terminalpp::attribute low_foreground_colour_attribute;
     low_foreground_colour_attribute.foreground_colour_ =
-        terminalpp::low_colour(terminalpp::ansi::graphics::colour::green);
+        terminalpp::low_colour(terminalpp::graphics::colour::green);
 
     expect_encoding(
         {
@@ -254,7 +254,7 @@ TEST(string_encoder_test, low_background_colour_code_encodes_colour)
 {
     terminalpp::attribute low_background_colour_attribute;
     low_background_colour_attribute.background_colour_ =
-        terminalpp::low_colour(terminalpp::ansi::graphics::colour::green);
+        terminalpp::low_colour(terminalpp::graphics::colour::green);
 
     expect_encoding(
         {
