@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -14,6 +15,10 @@ namespace terminalpp {
 /// vertical axis.
 //* =========================================================================
 struct TERMINALPP_EXPORT extent
+  : private boost::less_than_comparable<extent,
+            boost::equality_comparable<extent,
+            boost::addable<extent,
+            boost::subtractable<extent>>>>
 {
     //* =====================================================================
     /// \brief Default Constructor
@@ -59,35 +64,20 @@ struct TERMINALPP_EXPORT extent
     }
 
     // ======================================================================
+    // OPERATOR<(EXTENT,EXTENT)
+    // ======================================================================
+    constexpr friend bool operator<(extent const &lhs, extent const &rhs)
+    {
+        return lhs.width_ < rhs.width_
+            || (lhs.width_ == rhs.width_ && lhs.height_ < rhs.height_);
+    }
+
+    // ======================================================================
     // OPERATOR==(EXTENT,EXTENT)
     // ======================================================================
     constexpr friend bool operator==(extent const &lhs, extent const &rhs)
     {
         return lhs.width_ == rhs.width_ && lhs.height_ == rhs.height_;
-    }
-
-    // ======================================================================
-    // OPERATOR!=(EXTENT,EXTENT)
-    // ======================================================================
-    constexpr friend bool operator!=(extent const &lhs, extent const &rhs)
-    {
-        return !(lhs == rhs);
-    }
-
-    // ======================================================================
-    // OPERATOR+(EXTENT,EXTENT)
-    // ======================================================================
-    constexpr friend extent operator+(extent lhs, extent const &rhs)
-    {
-        return lhs += rhs;
-    }
-
-    // ======================================================================
-    // OPERATOR-(EXTENT,EXTENT)
-    // ======================================================================
-    constexpr friend extent operator-(extent lhs, extent const &rhs)
-    {
-        return lhs -= rhs;
     }
 
     coordinate_type width_;
