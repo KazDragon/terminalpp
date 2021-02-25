@@ -11,18 +11,18 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
 {
     static constexpr struct
     {
-        colour_code col;
+        graphics::colour col;
         char const *text;
     } const colour_to_text[] = {
-        { colour_code::black,    "black"   },
-        { colour_code::red,      "red"     },
-        { colour_code::green,    "green"   },
-        { colour_code::yellow,   "yellow"  },
-        { colour_code::blue,     "blue"    },
-        { colour_code::magenta,  "magenta" },
-        { colour_code::cyan,     "cyan"    },
-        { colour_code::white,    "white"   },
-        { colour_code::default_, "default" }
+        { graphics::colour::black,    "black"   },
+        { graphics::colour::red,      "red"     },
+        { graphics::colour::green,    "green"   },
+        { graphics::colour::yellow,   "yellow"  },
+        { graphics::colour::blue,     "blue"    },
+        { graphics::colour::magenta,  "magenta" },
+        { graphics::colour::cyan,     "cyan"    },
+        { graphics::colour::white,    "white"   },
+        { graphics::colour::default_, "default" }
     };
 
     auto result = boost::find_if(
@@ -32,7 +32,7 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
             return col == entry.col;
         });
 
-    return out << (result == std::end(colour_to_text)
+    return out << (result == std::cend(colour_to_text)
                 ? "unknown"
                 : result->text);
 }
