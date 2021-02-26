@@ -100,6 +100,12 @@ struct write_element
             beh,
             cont);
 
+        change_attribute(
+            state.last_element_->attribute_,
+            element_.attribute_,
+            beh,
+            cont);
+
         terminalpp::bytes data{&element_.glyph_.character_, 1};
         cont(data);
         state.last_element_ = element_;
