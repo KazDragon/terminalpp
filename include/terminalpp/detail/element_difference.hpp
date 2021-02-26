@@ -5,6 +5,8 @@
 #include "terminalpp/ansi/control_characters.hpp"
 #include "terminalpp/ansi/graphics.hpp"
 #include "terminalpp/ansi/csi.hpp"
+#include "terminalpp/ansi/protocol.hpp"
+#include <fmt/format.h>
 
 namespace terminalpp { namespace detail {
 
@@ -76,6 +78,63 @@ void change_charset(
     {
         designate_g0_charset(dest, terminal_behaviour, wc);
     }
+}
+
+//* =========================================================================
+/// \brief Changes an effect from the source to destination.
+//* =========================================================================
+template <class EffectType, class WriteContinuation>
+void change_effect(
+    effect<EffectType> const &source,
+    effect<EffectType> const &dest,
+    bool &change_appended,
+    WriteContinuation &&wc)
+{
+    using namespace fmt::literals;
+
+    if (source != dest)
+    {
+        if (std::exchange(change_appended, true))
+        {
+            byte_storage const separator = { ansi::ps };
+            wc(separator);
+        }
+
+        wc(to_bytes("{}"_format(int(dest.value_))));
+    }
+}
+
+//* =========================================================================
+/// \brief Changes attribute from the source to destination.
+//* =========================================================================
+template <class WriteContinuation>
+void change_attribute(
+    attribute const &source,
+    attribute const &dest,
+    behaviour const &terminal_behaviour,
+    WriteContinuation &&wc)
+{
+    if (source == dest)
+    {
+        return;
+    }
+
+    if (dest == terminalpp::attribute{})
+    {
+        default_attribute(terminal_behaviour, wc);
+        return;
+    }
+
+    csi(terminal_behaviour, wc);
+    
+    bool change_appended = false;
+    change_effect(source.intensity_, dest.intensity_, change_appended, wc);
+
+    static byte_storage const sgr_trailer = {
+        ansi::csi::select_graphics_rendition
+    };
+
+    wc(sgr_trailer);
 }
 
 }}

@@ -51,26 +51,28 @@ TEST_F(a_terminal, changed_charset_then_second_charset_outputs_charset_codes)
     expect_sequence("\x1B(0abc\x1B(%6de"_tb, result_);
 }
 
-/*
 TEST_F(a_terminal, bold_intensity_outputs_intensity)
 {
-    expect_sequence(
-        std::string("\x1B[1mabcde"),
-        terminal_.write("\\i>abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\i>abcde"_ets;
+
+    expect_sequence("\x1B[1mabcde"_tb, result_);
 }
 
 TEST_F(a_terminal, faint_intensity_outputs_intensity)
 {
-    expect_sequence(
-        std::string("\x1B[2mabcde"),
-        terminal_.write("\\i<abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\i<abcde"_ets;
+
+    expect_sequence("\x1B[2mabcde"_tb, result_);
 }
 
 TEST_F(a_terminal, normal_intensity_does_not_output_intensity)
 {
-    expect_sequence(
-        std::string("abcde"),
-        terminal_.write("\\i=abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\i=abcde"_ets;
+
+    expect_sequence("abcde"_tb, result_);
 }
 
 TEST_F(a_terminal, bold_then_normal_intensity_outputs_intensity)
@@ -78,18 +80,21 @@ TEST_F(a_terminal, bold_then_normal_intensity_outputs_intensity)
     // Note: an alternative possible normal string would be
     // \x1B[22m, but since this is longer, \x1B[0m (all attributes to default)
     // should be chosen.
-    expect_sequence(
-        std::string("\x1B[1mabc\x1B[0mde"),
-        terminal_.write("\\i>abc\\i=de"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\i>abc\\i=de"_ets;
+
+    expect_sequence("\x1B[1mabc\x1B[0mde"_tb, result_);
 }
 
 TEST_F(a_terminal, default_intensity_is_normal_intensity)
 {
-    expect_sequence(
-        std::string("\x1B[1mabc\x1B[0mde"),
-        terminal_.write("\\i>abc\\ixde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\i>abc\\ixde"_ets;
+
+    expect_sequence("\x1B[1mabc\x1B[0mde"_tb, result_);
 }
 
+/*
 TEST_F(a_terminal, positive_polarity_does_not_output_polarity)
 {
     expect_sequence(
