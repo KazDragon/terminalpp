@@ -2,6 +2,7 @@
 #include "terminalpp/core.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
+#include <boost/optional.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -83,6 +84,18 @@ constexpr bool operator<(character_set const &lhs, character_set const &rhs)
 {
     return lhs.value_ < rhs.value_;
 }
+
+//* =========================================================================
+/// \brief Looks up a character set from a set of ANSI bytes.
+//* =========================================================================
+TERMINALPP_EXPORT
+boost::optional<character_set> lookup_character_set(bytes code);
+
+//* =========================================================================
+/// \brief Encodes a character set into a set of ANSI bytes.
+//* =========================================================================
+TERMINALPP_EXPORT
+byte_storage encode_character_set(character_set const &set);
 
 //* =========================================================================
 /// \brief Streaming output operator for character sets.  Outputs the name

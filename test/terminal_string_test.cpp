@@ -8,55 +8,50 @@ TEST_F(a_terminal, empty_string_outputs_default_attributes)
 {
     terminal_.write(append_to_result) << ""_ets;
 
-    expect_sequence(
-        "\x1B[0m"_tb,
-        result_);
+    expect_sequence("\x1B[0m"_tb, result_);
 }
 
-/*
-TEST(terminal_string_test, outputting_an_empty_string_after_an_empty_string_outputs_nothing)
+TEST_F(a_terminal, outputting_an_empty_string_after_an_empty_string_outputs_nothing)
 {
-    terminalpp::terminal terminal;
-    terminal.write(""_ets);
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << ""_ets;
 
-    expect_sequence(
-        std::string(""),
-        terminal.write(""_ets));
+    expect_sequence(""_tb, result_);
 }
 
-TEST(terminal_string_test, basic_string_outputs_default_attributes_and_basic_string)
-{
-    terminalpp::terminal terminal;
 
-    expect_sequence(
-        std::string("\x1B[0mabcde"),
-        terminal.write("abcde"_ets));
+TEST_F(a_terminal, basic_string_outputs_default_attributes_and_basic_string)
+{
+    terminal_.write(append_to_result) << "abcde"_ets;
+
+    expect_sequence("\x1B[0mabcde"_tb, result_);
 }
 
-TEST(terminal_string_test, outputting_another_basic_string_does_not_output_default_attributes)
+TEST_F(a_terminal, outputting_another_basic_string_does_not_output_default_attributes)
 {
-    terminalpp::terminal terminal;
-    terminal.write("abcde"_ets);
+    terminal_.write(discard_result) << "abcde"_ets;
+    terminal_.write(append_to_result) << "abcde"_ets;
 
-    expect_sequence(
-        std::string("abcde"),
-        terminal.write("abcde"_ets));
+    expect_sequence("abcde"_tb, result_);
 }
 
 TEST_F(a_terminal, changed_charset_outputs_charset_code)
 {
-    expect_sequence(
-        std::string("\x1B(0abcde"),
-        terminal_.write("\\c0abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\c0abcde"_ets;
+
+    expect_sequence("\x1B(0abcde"_tb, result_);
 }
 
 TEST_F(a_terminal, changed_charset_then_second_charset_outputs_charset_codes)
 {
-    expect_sequence(
-        std::string("\x1B(0abc\x1B(Ade"),
-        terminal_.write("\\c0abc\\cAde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\c0abc\\c%6de"_ets;
+
+    expect_sequence("\x1B(0abc\x1B(%6de"_tb, result_);
 }
 
+/*
 TEST_F(a_terminal, bold_intensity_outputs_intensity)
 {
     expect_sequence(

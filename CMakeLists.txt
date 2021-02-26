@@ -194,7 +194,6 @@ target_sources(terminalpp
 #        src/detail/terminal_charset_control.cpp
 #        src/detail/terminal_control.cpp
 #        src/detail/terminal_cursor_control.cpp
-        src/detail/element_difference.cpp
 #        src/detail/parser.cpp
 #        src/detail/well_known_virtual_key.cpp
         src/encoder.cpp

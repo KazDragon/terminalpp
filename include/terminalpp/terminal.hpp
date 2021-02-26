@@ -65,7 +65,7 @@ struct write_optional_default_attribute
     {
         if (!state.last_element_)
         {
-            cont(detail::default_attribute());
+            detail::default_attribute(beh, cont);
             state.last_element_ = terminalpp::element{};
         }
     }
@@ -94,6 +94,15 @@ struct write_element
         terminalpp::terminal_state &state,
         WriteContinuation &&cont)
     {
+        change_charset(
+            state.last_element_->glyph_.charset_, 
+            element_.glyph_.charset_,
+            beh,
+            cont);
+
+        terminalpp::bytes data{&element_.glyph_.character_, 1};
+        cont(data);
+        state.last_element_ = element_;
     }
 
     terminalpp::element element_;

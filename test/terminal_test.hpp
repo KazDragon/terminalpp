@@ -19,6 +19,11 @@ protected:
             this->result_.append(std::cbegin(data), std::cend(data));
         };
 
+    std::function<void (terminalpp::bytes)> discard_result =
+        [this](terminalpp::bytes)
+        {
+        };
+
     terminalpp::terminal terminal_;
     terminalpp::byte_storage result_;
 };
