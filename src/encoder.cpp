@@ -1,4 +1,5 @@
 #include "terminalpp/encoder.hpp"
+#include "terminalpp/character_set.hpp"
 #include "terminalpp/ansi/charset.hpp"
 #include "terminalpp/detail/ascii.hpp"
 #include <boost/optional.hpp>
@@ -6,77 +7,6 @@
 #include <cstring>
 
 namespace terminalpp { namespace {
-
-static constexpr std::pair<charset, byte const (&)[1]> const charset_map[] =
-{
-    { charset::us_ascii,          ansi::charset_us_ascii            },
-    { charset::sco,               ansi::charset_sco                 },
-    { charset::dec,               ansi::charset_dec                 },
-    { charset::dec_supplementary, ansi::charset_dec_supplementary   },
-    { charset::dec_technical,     ansi::charset_dec_technical       },
-    { charset::uk,                ansi::charset_uk                  },
-    { charset::dutch,             ansi::charset_dutch               },
-    { charset::finnish,           ansi::charset_finnish             },
-    { charset::finnish,           ansi::charset_finnish_alt         },
-    { charset::french,            ansi::charset_french              },
-    { charset::french,            ansi::charset_french_alt          },
-    { charset::french_canadian,   ansi::charset_french_canadian     },
-    { charset::french_canadian,   ansi::charset_french_canadian_alt },
-    { charset::german,            ansi::charset_german              },
-    { charset::italian,           ansi::charset_italian             },
-    { charset::danish,            ansi::charset_danish              },
-    { charset::danish,            ansi::charset_danish_alt_1        },
-    { charset::danish,            ansi::charset_danish_alt_2        },
-    { charset::spanish,           ansi::charset_spanish             },
-    { charset::swedish,           ansi::charset_swedish             },
-    { charset::swedish,           ansi::charset_swedish_alt         },
-    { charset::swiss,             ansi::charset_swiss               },
-};
-
-static constexpr std::pair<charset, byte const (&)[2]> const extended_charset_map[] =
-{
-    { charset::dec_supplementary_graphics, ansi::charset_dec_supplementary_gr },
-    { charset::portuguese,                 ansi::charset_portuguese           },
-};
-
-// ==========================================================================
-// LOOKUP_CHARSET
-// ==========================================================================
-boost::optional<charset> lookup_charset(bytes code)
-{
-    const auto len = code.size();
-
-    if (len == 0)
-    {
-        return {};
-    }
-
-    if (code[0] == ansi::charset_extender)
-    {
-        if (len > 1)
-        {
-            for (auto &&mapping : extended_charset_map)
-            {
-                if (code[1] == mapping.second[1])
-                {
-                    return mapping.first;
-                }
-            }
-        }
-    }
-    else
-    {
-        for (auto &&mapping : charset_map)
-        {
-            if (code[0] == mapping.second[0])
-            {
-                return mapping.first;
-            }
-        }
-    }
-
-    return {};
-}
 
 // ==========================================================================
 // UTF8_ENCODE_GLYPH
@@ -283,7 +213,7 @@ static encoding_state encode_character_set(byte ch, encoding_data &data)
     else
     {
         byte const charset_code[] = {ch};
-        auto const charset = lookup_charset(charset_code);
+        auto const charset = lookup_character_set(charset_code);
 
         if (charset)
         {
@@ -300,7 +230,7 @@ static encoding_state encode_character_set(byte ch, encoding_data &data)
 static encoding_state encode_character_set_ext(byte ch, encoding_data &data)
 {
     byte const charset_code[] = { ansi::charset_extender, ch };
-    auto const charset = lookup_charset(charset_code);
+    auto const charset = lookup_character_set(charset_code);
 
     if (charset)
     {
