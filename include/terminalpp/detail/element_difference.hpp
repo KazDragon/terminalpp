@@ -128,8 +128,9 @@ void change_attribute(
     csi(terminal_behaviour, wc);
     
     bool change_appended = false;
-    change_effect(source.intensity_, dest.intensity_, change_appended, wc);
-    change_effect(source.polarity_,  dest.polarity_,  change_appended, wc);
+    change_effect(source.intensity_,   dest.intensity_,   change_appended, wc);
+    change_effect(source.polarity_,    dest.polarity_,    change_appended, wc);
+    change_effect(source.underlining_, dest.underlining_, change_appended, wc);
 
     static byte_storage const sgr_trailer = {
         ansi::csi::select_graphics_rendition

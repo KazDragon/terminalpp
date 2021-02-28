@@ -126,35 +126,39 @@ TEST_F(a_terminal, default_polarity_is_positive_polarity)
     expect_sequence("\x1B[7mabc\x1B[0mde"_tb, result_);
 }
 
-/*
 TEST_F(a_terminal, positive_underlining_outputs_underlining)
 {
-    expect_sequence(
-        std::string("\x1B[4mabcde"),
-        terminal_.write("\\u+abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\u+abcde"_ets;
+
+    expect_sequence("\x1B[4mabcde"_tb, result_);
 }
 
 TEST_F(a_terminal, negative_underlining_does_not_output_underlining)
 {
-    expect_sequence(
-        std::string("abcde"),
-        terminal_.write("\\u-abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\u-abcde"_ets;
+
+    expect_sequence("abcde"_tb, result_);
 }
 
 TEST_F(a_terminal, positive_then_negative_underlining_outputs_underlining)
 {
-    expect_sequence(
-        std::string("\x1B[4mabc\x1B[0mde"),
-        terminal_.write("\\u+abc\\u-de"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\u+abc\\u-de"_ets;
+
+    expect_sequence("\x1B[4mabc\x1B[0mde"_tb, result_);
 }
 
 TEST_F(a_terminal, default_underlining_is_negative_underlining)
 {
-    expect_sequence(
-        std::string("\x1B[4mabc\x1B[0mde"),
-        terminal_.write("\\u+abc\\u=de"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\u+abc\\u=de"_ets;
+
+    expect_sequence("\x1B[4mabc\x1B[0mde"_tb, result_);
 }
 
+/*
 TEST_F(a_terminal, foreground_low_colour_outputs_foreground_colour)
 {
     expect_sequence(
