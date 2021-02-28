@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
+using testing::ValuesIn;
 
 TEST_F(a_terminal, empty_string_outputs_default_attributes)
 {
@@ -11,238 +12,126 @@ TEST_F(a_terminal, empty_string_outputs_default_attributes)
     expect_sequence("\x1B[0m"_tb, result_);
 }
 
-TEST_F(a_terminal, outputting_an_empty_string_after_an_empty_string_outputs_nothing)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << ""_ets;
-
-    expect_sequence(""_tb, result_);
-}
-
-
 TEST_F(a_terminal, basic_string_outputs_default_attributes_and_basic_string)
 {
     terminal_.write(append_to_result) << "abcde"_ets;
-
     expect_sequence("\x1B[0mabcde"_tb, result_);
 }
 
 TEST_F(a_terminal, outputting_another_basic_string_does_not_output_default_attributes)
 {
-    terminal_.write(discard_result) << "abcde"_ets;
-    terminal_.write(append_to_result) << "abcde"_ets;
-
-    expect_sequence("abcde"_tb, result_);
+    expect_when_streaming("abcde"_tb, "abcde"_ets);
 }
 
-TEST_F(a_terminal, changed_charset_outputs_charset_code)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\c0abcde"_ets;
+namespace {
 
-    expect_sequence("\x1B(0abcde"_tb, result_);
+using streaming_text_data = std::tuple<
+    terminalpp::string,       // initial string to discard
+    terminalpp::string,       // text streamed to terminal
+    terminalpp::byte_storage  // expected output
+>;
+
+class streaming_text : public testing::TestWithParam<streaming_text_data>
+{
+};
+
 }
 
-TEST_F(a_terminal, changed_charset_then_second_charset_outputs_charset_codes)
+TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
 {
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\c0abc\\c%6de"_ets;
+    using std::get;
 
-    expect_sequence("\x1B(0abc\x1B(%6de"_tb, result_);
-}
+    auto const &params = GetParam();
+    auto const &init_string = get<0>(params);
+    auto const &text_to_stream = get<1>(params);
+    auto const &expected_output = get<2>(params);
 
-TEST_F(a_terminal, bold_intensity_outputs_intensity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\i>abcde"_ets;
+    terminalpp::byte_storage result;
+    auto const discard_result = [](terminalpp::bytes){};
+    auto const append_result = 
+        [&result](auto const &data)
+        {
+            result.append(data.begin(), data.end());
+        };
 
-    expect_sequence("\x1B[1mabcde"_tb, result_);
-}
+    terminalpp::terminal terminal{discard_result};
+    terminal.write(discard_result) << init_string;
+    terminal.write(append_result) << text_to_stream;
 
-TEST_F(a_terminal, faint_intensity_outputs_intensity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\i<abcde"_ets;
-
-    expect_sequence("\x1B[2mabcde"_tb, result_);
-}
-
-TEST_F(a_terminal, normal_intensity_does_not_output_intensity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\i=abcde"_ets;
-
-    expect_sequence("abcde"_tb, result_);
-}
-
-TEST_F(a_terminal, bold_then_normal_intensity_outputs_intensity)
-{
-    // Note: an alternative possible normal string would be
-    // \x1B[22m, but since this is longer, \x1B[0m (all attributes to default)
-    // should be chosen.
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\i>abc\\i=de"_ets;
-
-    expect_sequence("\x1B[1mabc\x1B[0mde"_tb, result_);
-}
-
-TEST_F(a_terminal, default_intensity_is_normal_intensity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\i>abc\\ixde"_ets;
-
-    expect_sequence("\x1B[1mabc\x1B[0mde"_tb, result_);
-}
-
-TEST_F(a_terminal, positive_polarity_does_not_output_polarity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\p+abcde"_ets;
-
-    expect_sequence("abcde"_tb, result_);
-}
-
-TEST_F(a_terminal, negative_polarity_outputs_polarity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\p-abcde"_ets;
-
-    expect_sequence("\x1B[7mabcde"_tb, result_);
-}
-
-TEST_F(a_terminal, negative_then_positive_polarity_outputs_polarity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\p-abc\\p+de"_ets;
-
-    expect_sequence("\x1B[7mabc\x1B[0mde"_tb, result_);
-}
-
-TEST_F(a_terminal, default_polarity_is_positive_polarity)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\p-abc\\p=de"_ets;
-
-    expect_sequence("\x1B[7mabc\x1B[0mde"_tb, result_);
-}
-
-TEST_F(a_terminal, positive_underlining_outputs_underlining)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\u+abcde"_ets;
-
-    expect_sequence("\x1B[4mabcde"_tb, result_);
-}
-
-TEST_F(a_terminal, negative_underlining_does_not_output_underlining)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\u-abcde"_ets;
-
-    expect_sequence("abcde"_tb, result_);
-}
-
-TEST_F(a_terminal, positive_then_negative_underlining_outputs_underlining)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\u+abc\\u-de"_ets;
-
-    expect_sequence("\x1B[4mabc\x1B[0mde"_tb, result_);
-}
-
-TEST_F(a_terminal, default_underlining_is_negative_underlining)
-{
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << "\\u+abc\\u=de"_ets;
-
-    expect_sequence("\x1B[4mabc\x1B[0mde"_tb, result_);
-}
-
-/*
-TEST_F(a_terminal, foreground_low_colour_outputs_foreground_colour)
-{
-    expect_sequence(
-        std::string("\x1B[32mabc"),
-        terminal_.write("\\[2abc"_ets));
-}
-
-TEST_F(a_terminal, foreground_high_colour_outputs_foreground_colour)
-{
-    expect_sequence(
-        std::string("\x1B[38;5;202mabc"),
-        terminal_.write("\\<510abc"_ets));
-}
-
-TEST_F(a_terminal, foreground_greyscale_colour_outputs_foreground_colour)
-{
-    expect_sequence(
-        std::string("\x1B[38;5;244mabc"),
-        terminal_.write("\\{12abc"_ets));
-}
-
-TEST_F(a_terminal, default_foreground_colour_does_not_output_foreground_colour)
-{
-    expect_sequence(
-        std::string("abc"),
-        terminal_.write("\\[9abc"_ets));
-}
-
-TEST_F(a_terminal, multiple_foreground_colour_codes_outputs_foreground_colours)
-{
-    expect_sequence(
-        std::string("\x1B[32mab\x1B[38;5;202mcd\x1B[38;5;234mef\x1B[0mgh"),
-        terminal_.write("\\[2ab\\<510cd\\{02ef\\[9gh"_ets));
+    expect_sequence(expected_output, result);
 }
 
 
-TEST_F(a_terminal, background_low_colour_outputs_background_colour)
-{
-    expect_sequence(
-        std::string("\x1B[42mabc"),
-        terminal_.write("\\]2abc"_ets));
-}
+static streaming_text_data const streaming_text_data_table[] = {
+    streaming_text_data{ ""_ets, ""_ets, ""_tb },
 
-TEST_F(a_terminal, background_high_colour_outputs_background_colour)
-{
-    expect_sequence(
-        std::string("\x1B[48;5;202mabc"),
-        terminal_.write("\\>510abc"_ets));
-}
+    // Test character set changes.
+    streaming_text_data{ ""_ets,        "\\c0abcde"_ets, "\x1B(0abcde"_tb },
+    streaming_text_data{ "\\c0abc"_ets, "\\c0de"_ets,    "de"_tb },
+    streaming_text_data{ "\\c0abc"_ets, "\\c%6de"_ets,   "\x1B(%6de"_tb },
 
-TEST_F(a_terminal, background_greyscale_colour_outputs_background_colour)
-{
-    expect_sequence(
-        std::string("\x1B[48;5;244mabc"),
-        terminal_.write("\\}12abc"_ets));
-}
+    // Test intensity (bold/faint) changes
+    streaming_text_data{ ""_ets,        "\\i>abcde"_ets, "\x1B[1mabcde"_tb },
+    streaming_text_data{ ""_ets,        "\\i<abcde"_ets, "\x1B[2mabcde"_tb },
+    streaming_text_data{ ""_ets,        "\\i=abcde"_ets, "abcde"_tb },
+    streaming_text_data{ "\\i>abc"_ets, "\\i>abcde"_ets, "abcde"_tb },
+    streaming_text_data{ "\\i>abc"_ets, "\\i=de"_ets,    "\x1B[0mde"_tb },
+    streaming_text_data{ "\\i>abc"_ets, "\\ixde"_ets,    "\x1B[0mde"_tb },
 
-TEST_F(a_terminal, default_background_colour_does_not_output_background_colour)
-{
-    expect_sequence(
-        std::string("abc"),
-        terminal_.write("\\]9abc"_ets));
-}
+    // Test polarity changes
+    streaming_text_data{ ""_ets,        "\\p+abcde"_ets, "abcde"_tb },
+    streaming_text_data{ ""_ets,        "\\p-abcde"_ets, "\x1B[7mabcde"_tb },
+    streaming_text_data{ "\\p-abc"_ets, "\\p+de"_ets,    "\x1B[0mde"_tb },
+    streaming_text_data{ "\\p-abc"_ets, "\\p=de"_ets,    "\x1B[0mde"_tb },
 
-TEST_F(a_terminal, multiple_background_colour_codes_outputs_background_colours)
-{
-    expect_sequence(
-        std::string("\x1B[42mab\x1B[48;5;75mcd\x1B[48;5;234mef\x1B[0mgh"),
-        terminal_.write("\\]2ab\\>135cd\\}02ef\\]9gh"_ets));
-}
+    // Test underlining changes
+    streaming_text_data{ ""_ets,        "\\u+abcde"_ets, "\x1B[4mabcde"_tb },
+    streaming_text_data{ ""_ets,        "\\u-abcde"_ets, "abcde"_tb },
+    streaming_text_data{ "\\u+abc"_ets, "\\u+de"_ets,    "de"_tb },
+    streaming_text_data{ "\\u+abc"_ets, "\\u-de"_ets,    "\x1B[0mde"_tb },
+    streaming_text_data{ "\\u+abc"_ets, "\\u=de"_ets,    "\x1B[0mde"_tb },
 
-TEST_F(a_terminal, multiple_attributes_do_not_output_default_change)
-{
-    // Test that, when switching off and on multiple attributes, they do not in
-    // general go back to default.  Instead, they should toggle specific flags.
+    // Test foreground colour
+    streaming_text_data{ ""_ets,        "\\[2abc"_ets,   "\x1B[32mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\[3abc"_ets,   "\x1B[33mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\<510abc"_ets, "\x1B[38;5;202mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\{12abc"_ets,  "\x1B[38;5;244mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\[9abc"_ets,   "abc"_tb },
+
+    streaming_text_data{ 
+        ""_ets,        
+        "\\[2ab\\<510cd\\{02ef\\[9gh"_ets,
+        "\x1B[32mab\x1B[38;5;202mcd\x1B[38;5;234mef\x1B[0mgh"_tb },
+
+    // Test background colour
+    streaming_text_data{ ""_ets,        "\\]2abc"_ets,   "\x1B[42mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\>510abc"_ets, "\x1B[48;5;202mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\}12abc"_ets,  "\x1B[48;5;244mabc"_tb },
+
+    streaming_text_data{ 
+        ""_ets,        
+        "\\]2ab\\>135cd\\}02ef\\]9gh"_ets,
+        "\x1B[42mab\x1B[48;5;75mcd\x1B[48;5;234mef\x1B[0mgh"_tb },
+
+    // Test interoperability of attributes.
     // NOTE: At a later date, it may be implemented that the algorithm will
     // branch and look for strategies for producing the shortest sequence.
     // In that case, it may be that switching several attributes off is longer
     // than switching to default then re-enabling one attribute.  It also may
     // be determined by environment - different terminals behave differently.
-    expect_sequence(
-        std::string("\x1B[32;41ma\x1B[7mb\x1B[27mc"),
-        terminal_.write("\\[2\\]1a\\p-b\\p+c"_ets));
-}
+    streaming_text_data{ 
+        ""_ets,        
+        "\\[2\\]1a\\p-b\\p+c"_ets,
+        "\x1B[32;41ma\x1B[7mb\x1B[27mc"_tb },
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    text_can_be_streamed_to_a_terminal,
+    streaming_text,
+    ValuesIn(streaming_text_data_table)
+);
+
+/*
 
 TEST_F(a_terminal, writing_string_moves_cursor)
 {

@@ -5,7 +5,7 @@
 
 namespace {
 
-std::string escape(terminalpp::byte_storage const &text)
+std::string escape(terminalpp::bytes const &text)
 {
     std::string result;
 
@@ -29,7 +29,7 @@ std::string escape(terminalpp::byte_storage const &text)
 
 }
 
-void expect_sequence(terminalpp::byte_storage const &expected, terminalpp::byte_storage const &result)
+void expect_sequence(terminalpp::bytes const &expected, terminalpp::bytes const &result)
 {
     if (expected != result)
     {
