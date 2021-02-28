@@ -3,6 +3,6 @@
 
 #include <terminalpp/core.hpp>
 
-void expect_sequence(terminalpp::byte_storage const &expected, terminalpp::byte_storage const &result);
+void expect_sequence(terminalpp::bytes const &expected, terminalpp::bytes const &result);
 
 #endif

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "expect_sequence.hpp"
 #include <terminalpp/terminal.hpp>
 #include <functional>
 #include <gtest/gtest.h>
@@ -10,6 +11,17 @@ public:
     a_terminal()
       : terminal_(append_to_result)
     {
+    }
+
+    void expect_when_streaming(
+        terminalpp::bytes  const &expected_result,
+        terminalpp::string const &encoded_text)
+    {
+        using namespace terminalpp::literals;
+        terminal_.write(discard_result) << ""_ets;
+        terminal_.write(append_to_result) << encoded_text;
+
+        expect_sequence(expected_result, result_);
     }
 
 protected:
