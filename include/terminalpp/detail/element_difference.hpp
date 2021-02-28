@@ -46,7 +46,21 @@ void default_attribute(
 }
 
 //* =========================================================================
-/// \brief
+/// \brief Enables the utf8 charset
+//* =========================================================================
+template <class WriteContinuation>
+void select_utf8_charset(WriteContinuation &&wc)
+{
+    static constexpr bytes select_utf8_charset_command = {
+        std::cbegin(ansi::select_utf8_character_set),
+        std::cend(ansi::select_utf8_character_set)
+    };
+
+    wc(select_utf8_charset_command);
+}
+
+//* =========================================================================
+/// \brief Designates the G0 charset as the given character set.
 //* =========================================================================
 template <class WriteContinuation>
 void designate_g0_charset(
@@ -76,7 +90,14 @@ void change_charset(
 {
     if (source != dest)
     {
-        designate_g0_charset(dest, terminal_behaviour, wc);
+        if (dest == charset::utf8)
+        {
+            select_utf8_charset(wc);
+        }
+        else
+        {
+            designate_g0_charset(dest, terminal_behaviour, wc);
+        }
     }
 }
 
