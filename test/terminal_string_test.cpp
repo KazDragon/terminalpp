@@ -94,35 +94,39 @@ TEST_F(a_terminal, default_intensity_is_normal_intensity)
     expect_sequence("\x1B[1mabc\x1B[0mde"_tb, result_);
 }
 
-/*
 TEST_F(a_terminal, positive_polarity_does_not_output_polarity)
 {
-    expect_sequence(
-        std::string("abcde"),
-        terminal_.write("\\p+abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\p+abcde"_ets;
+
+    expect_sequence("abcde"_tb, result_);
 }
 
 TEST_F(a_terminal, negative_polarity_outputs_polarity)
 {
-    expect_sequence(
-        std::string("\x1B[7mabcde"),
-        terminal_.write("\\p-abcde"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\p-abcde"_ets;
+
+    expect_sequence("\x1B[7mabcde"_tb, result_);
 }
 
 TEST_F(a_terminal, negative_then_positive_polarity_outputs_polarity)
 {
-    expect_sequence(
-        std::string("\x1B[7mabc\x1B[0mde"),
-        terminal_.write("\\p-abc\\p+de"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\p-abc\\p+de"_ets;
+
+    expect_sequence("\x1B[7mabc\x1B[0mde"_tb, result_);
 }
 
 TEST_F(a_terminal, default_polarity_is_positive_polarity)
 {
-    expect_sequence(
-        std::string("\x1B[7mabc\x1B[0mde"),
-        terminal_.write("\\p-abc\\p=de"_ets));
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << "\\p-abc\\p=de"_ets;
+
+    expect_sequence("\x1B[7mabc\x1B[0mde"_tb, result_);
 }
 
+/*
 TEST_F(a_terminal, positive_underlining_outputs_underlining)
 {
     expect_sequence(

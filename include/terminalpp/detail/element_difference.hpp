@@ -96,7 +96,7 @@ void change_effect(
     {
         if (std::exchange(change_appended, true))
         {
-            byte_storage const separator = { ansi::ps };
+            static byte_storage const separator = { ansi::ps };
             wc(separator);
         }
 
@@ -129,6 +129,7 @@ void change_attribute(
     
     bool change_appended = false;
     change_effect(source.intensity_, dest.intensity_, change_appended, wc);
+    change_effect(source.polarity_,  dest.polarity_,  change_appended, wc);
 
     static byte_storage const sgr_trailer = {
         ansi::csi::select_graphics_rendition
