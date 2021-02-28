@@ -7,7 +7,7 @@
 #include "terminalpp/detail/element_difference.hpp"
 #include <boost/range/algorithm/for_each.hpp>
 #include <boost/optional.hpp>
-
+#include <algorithm>
 namespace terminalpp {
 
 class terminal;
@@ -106,8 +106,31 @@ struct write_element
             beh,
             cont);
 
-        terminalpp::bytes data{&element_.glyph_.character_, 1};
-        cont(data);
+        if (element_.glyph_.charset_ == charset::utf8)
+        {
+            std::size_t index = 0;
+            for (;
+                 index < sizeof(element_.glyph_.ucharacter_)
+              && element_.glyph_.ucharacter_[index] != '\0';
+                 ++index)
+            {
+                if (!(element_.glyph_.ucharacter_[index] & 0x80))
+                {
+                    break;
+                }
+            }
+
+            terminalpp::bytes data{
+                element_.glyph_.ucharacter_, 
+                std::max(index, std::size_t{1u})};
+            cont(data);
+        }
+        else
+        {
+            terminalpp::bytes data{&element_.glyph_.character_, 1};
+            cont(data);
+        }
+
         state.last_element_ = element_;
     }
 

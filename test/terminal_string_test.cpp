@@ -123,6 +123,16 @@ static streaming_text_data const streaming_text_data_table[] = {
         ""_ets,        
         "\\[2\\]1a\\p-b\\p+c"_ets,
         "\x1B[32;41ma\x1B[7mb\x1B[27mc"_tb },
+
+    // Test unicode output.
+    // If a string contains a four-hexdigit unicode code, then
+    // it should be output as a unicode character if it can be.
+    // This will include commands to change to and from the utf-8
+    // character set and also to reset the character set at the end.
+    streaming_text_data{ ""_ets,        "\\U0000"_ets,   "\x1B%G\x00"_tb },
+    streaming_text_data{ ""_ets,        "\\U0057"_ets,   "\x1B%GW"_tb },
+    streaming_text_data{ "\\U0057"_ets, "\\U010E"_ets,   "\xC4\x8E"_tb },
+    streaming_text_data{ "\\U0057"_ets, "\\U16B8"_ets,   "\xE1\x9A\xB8"_tb },
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -133,6 +143,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 /*
 
+
 TEST_F(a_terminal, writing_string_moves_cursor)
 {
     terminal_.move_cursor({5, 5});
@@ -141,25 +152,6 @@ TEST_F(a_terminal, writing_string_moves_cursor)
     expect_sequence(
         std::string(""),
         terminal_.move_cursor({10, 5}));
-}
-
-TEST_F(a_terminal, encoded_glyphs_output_unicode_text)
-{
-    // If a string contains a four-hexdigit unicode code, then
-    // it should be output as a unicode character if it can be.
-    // This will include commands to change to and from the utf-8
-    // character set and also to reset the character set at the end.
-    expect_sequence(
-        std::string("\x1B%GW"),
-        terminal_.write("\\U0057"_ets));
-
-    expect_sequence(
-        std::string("\xC4\x8E"),
-        terminal_.write("\\U010E"_ets));
-
-    expect_sequence(
-        std::string("\xE1\x9A\xB8"),
-        terminal_.write("\\U16B8"_ets));
 }
 
 TEST_F(a_terminal, writing_past_terminal_width_moves_cursor_to_next_line)
