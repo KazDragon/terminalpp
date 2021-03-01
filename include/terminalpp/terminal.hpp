@@ -16,11 +16,6 @@
 
 namespace terminalpp {
 
-class terminal;
-
-template <class WriteContinuation>
-class terminal_writer;
-
 //* =========================================================================
 /// \brief The state of a terminal, which manipulators are allowed to use and
 /// edit.
@@ -68,6 +63,9 @@ struct TERMINALPP_EXPORT initialise_terminal
 //* =========================================================================
 struct TERMINALPP_EXPORT write_optional_default_attribute
 {
+    //* =====================================================================
+    /// \brief Writes the default attribute to the terminal if necessary.
+    //* =====================================================================
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
@@ -120,27 +118,11 @@ public:
 
         if (element_.glyph_.charset_ == charset::utf8)
         {
-            std::size_t index = 0;
-            for (;
-                 index < sizeof(element_.glyph_.ucharacter_)
-              && element_.glyph_.ucharacter_[index] != '\0';
-                 ++index)
-            {
-                if (!(element_.glyph_.ucharacter_[index] & 0x80))
-                {
-                    break;
-                }
-            }
-
-            terminalpp::bytes data{
-                element_.glyph_.ucharacter_, 
-                std::max(index, std::size_t{1u})};
-            cont(data);
+            write_utf8_glyph(cont);
         }
         else
         {
-            terminalpp::bytes data{&element_.glyph_.character_, 1};
-            cont(data);
+            write_regular_glyph(cont);
         }
 
         state.last_element_ = element_;
@@ -149,6 +131,50 @@ public:
     }
 
 private:
+    // ======================================================================
+    // WRITE_UTF8_GLYPH
+    // ======================================================================
+    template <class WriteContinuation>
+    void write_utf8_glyph(WriteContinuation &&cont) const
+    {
+        std::size_t const last_utf8_index = 
+            [this]()
+            {
+                std::size_t index = 0;
+
+                for (;
+                       index < sizeof(element_.glyph_.ucharacter_)
+                    && element_.glyph_.ucharacter_[index] != '\0';
+                       ++index)
+                {
+                    if (!(element_.glyph_.ucharacter_[index] & 0x80))
+                    {
+                        break;
+                    }
+                }
+
+                return index;
+            }();
+
+        terminalpp::bytes const data{
+            element_.glyph_.ucharacter_, 
+            std::max(last_utf8_index, std::size_t{1u})};
+        cont(data);
+    }
+
+    // ======================================================================
+    // WRITE_REGULAR_GLYPH
+    // ======================================================================
+    template <class WriteContinuation>
+    void write_regular_glyph(WriteContinuation &&cont) const
+    {
+        terminalpp::bytes data{&element_.glyph_.character_, 1};
+        cont(data);
+    }
+
+    // ======================================================================
+    // ADVANCE_CURSOR_POSITION
+    // ======================================================================
     void advance_cursor_position(terminal_state &state) const
     {
         if (state.cursor_position_)
@@ -313,11 +339,18 @@ private:
 class TERMINALPP_EXPORT move_cursor
 {
 public:
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
     constexpr move_cursor(point const &destination)
       : destination_(destination)
     {
     }
 
+    //* =====================================================================
+    /// \brief Writes the ANSI protocol codes necessary to move the cursor to
+    /// the initialized location to the continuation.
+    //* =====================================================================
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
@@ -337,6 +370,9 @@ public:
     }
 
 private:
+    // ======================================================================
+    // MOVE_FROM_KNOWN_POSITION
+    // ======================================================================
     template <class WriteContinuation>
     void move_from_known_position(
         behaviour const &beh,
@@ -370,6 +406,9 @@ private:
         }
     }
 
+    // ======================================================================
+    // WRITE_CURSOR_POSITION
+    // ======================================================================
     template <class WriteContinuation>
     void write_cursor_position(
         behaviour const &beh,
@@ -402,6 +441,9 @@ private:
         cont(cursor_position_suffix);
     }
 
+    // ======================================================================
+    // WRITE_CURSOR_HORIZONTAL_ABSOLUTE
+    // ======================================================================
     template <class WriteContinuation>
     void write_cursor_horizontal_absolute(
         behaviour const &beh,
@@ -424,6 +466,9 @@ private:
         cont(cursor_horizontal_absolute_suffix);
     }
 
+    // ======================================================================
+    // WRITE_CURSOR_UP
+    // ======================================================================
     template <class WriteContinuation>
     void write_cursor_up(
         behaviour const &beh,
@@ -447,6 +492,9 @@ private:
         cont(cursor_up_suffix);
     }
 
+    // ======================================================================
+    // WRITE_CURSOR_DOWN
+    // ======================================================================
     template <class WriteContinuation>
     void write_cursor_down(
         behaviour const &beh,
@@ -479,6 +527,10 @@ private:
 class TERMINALPP_EXPORT hide_cursor
 {
 public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to hide the cursor to the
+    /// continuation.
+    //* =====================================================================
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
@@ -506,6 +558,10 @@ public:
 class TERMINALPP_EXPORT show_cursor
 {
 public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to show the cursor to the
+    /// continuation.
+    //* =====================================================================
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
