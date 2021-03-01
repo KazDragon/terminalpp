@@ -46,7 +46,7 @@ struct TERMINALPP_EXPORT initialise_terminal
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state, 
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         if (beh.can_use_eight_bit_control_codes
          && !beh.uses_eight_bit_control_codes_by_default)
@@ -68,7 +68,7 @@ struct TERMINALPP_EXPORT write_optional_default_attribute
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state, 
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         if (!state.last_element_)
         {
@@ -87,7 +87,7 @@ struct TERMINALPP_EXPORT write_element
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    write_element(terminalpp::element const &elem)
+    constexpr write_element(terminalpp::element const &elem)
       : element_(elem)
     {
     }
@@ -99,7 +99,7 @@ struct TERMINALPP_EXPORT write_element
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         change_charset(
             state.last_element_->glyph_.charset_, 
@@ -290,7 +290,7 @@ private:
 class TERMINALPP_EXPORT move_cursor
 {
 public:
-    move_cursor(point const &destination)
+    constexpr move_cursor(point const &destination)
       : destination_(destination)
     {
     }
@@ -299,7 +299,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state, 
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         if (!state.cursor_position_)
         {
@@ -341,7 +341,7 @@ private:
     template <class WriteContinuation>
     void write_cursor_position(
         behaviour const &beh,
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         using namespace terminalpp::literals;
         using namespace fmt::literals;
@@ -373,7 +373,7 @@ private:
     template <class WriteContinuation>
     void write_cursor_horizontal_absolute(
         behaviour const &beh,
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         using namespace terminalpp::literals;
         using namespace fmt::literals;
@@ -396,7 +396,7 @@ private:
     void write_cursor_up(
         behaviour const &beh,
         coordinate_type const distance,
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         using namespace terminalpp::literals;
         using namespace fmt::literals;
@@ -419,7 +419,7 @@ private:
     void write_cursor_down(
         behaviour const &beh,
         coordinate_type const distance,
-        WriteContinuation &&cont)
+        WriteContinuation &&cont) const
     {
         using namespace terminalpp::literals;
         using namespace fmt::literals;
@@ -439,6 +439,38 @@ private:
     }
 
     point destination_;
+};
+
+//* =========================================================================
+/// \brief A manipulator that hides the cursor.
+//* =========================================================================
+class TERMINALPP_EXPORT hide_cursor
+{
+public:
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that shows the cursor.
+//* =========================================================================
+class TERMINALPP_EXPORT show_cursor
+{
+public:
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+
+    }
 };
 
 }
