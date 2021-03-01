@@ -25,7 +25,7 @@ using byte_storage = std::basic_string<byte>;
 // 32-bit integer.
 using coordinate_type = std::int32_t;
 
-namespace literals {
+inline namespace literals {
 
 // A helper function to convert from a character literal to a byte.
 inline byte operator ""_tb(char const text)
