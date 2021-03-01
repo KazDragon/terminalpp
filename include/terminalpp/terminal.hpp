@@ -17,14 +17,16 @@ namespace terminalpp {
 class terminal;
 
 template <class WriteContinuation>
-class TERMINALPP_EXPORT terminal_writer;
+class terminal_writer;
 
 //* =========================================================================
 /// \brief The state of a terminal, which manipulators are allowed to use and
 /// edit.
 //* =========================================================================
-struct terminal_state
+struct TERMINALPP_EXPORT terminal_state
 {
+    terminal_state();
+
     boost::optional<element> last_element_;
     boost::optional<point>   cursor_position_;
 };
@@ -35,7 +37,7 @@ namespace detail {
 /// \brief A manipulator that sets up the initial required state of a 
 /// terminal.
 //* =========================================================================
-struct initialise_terminal
+struct TERMINALPP_EXPORT initialise_terminal
 {
     //* =====================================================================
     /// \brief Write the initializer for the 8-bit control mode if necessary.
@@ -60,7 +62,7 @@ struct initialise_terminal
 /// \brief A manipulator that initializes the attributes to the default if it
 /// has not yet been done.
 //* =========================================================================
-struct write_optional_default_attribute
+struct TERMINALPP_EXPORT write_optional_default_attribute
 {
     template <class WriteContinuation>
     void operator()(
@@ -80,7 +82,7 @@ struct write_optional_default_attribute
 /// \brief A manipulator that converts encoded attribute strings into ANSI 
 /// protocol bytes.
 //* =========================================================================
-struct write_element
+struct TERMINALPP_EXPORT write_element
 {
     //* =====================================================================
     /// \brief Constructor
@@ -147,7 +149,7 @@ struct write_element
 /// terminal.
 //* =========================================================================
 template <class WriteContinuation>
-class TERMINALPP_EXPORT terminal_writer
+class terminal_writer
 {
 public:
     //* =====================================================================
@@ -285,7 +287,7 @@ private:
 //* =========================================================================
 /// \brief A manipulator that moves the cursor to a new location.
 //* =========================================================================
-class move_cursor
+class TERMINALPP_EXPORT move_cursor
 {
 public:
     move_cursor(point const &destination)
