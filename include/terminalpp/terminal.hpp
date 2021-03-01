@@ -2,9 +2,13 @@
 
 #include "terminalpp/core.hpp"
 #include "terminalpp/behaviour.hpp"
+#include "terminalpp/extent.hpp"
+#include "terminalpp/point.hpp"
 #include "terminalpp/string.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
+#include "terminalpp/ansi/csi.hpp"
 #include "terminalpp/detail/element_difference.hpp"
+#include <fmt/format.h>
 #include <boost/range/algorithm/for_each.hpp>
 #include <boost/optional.hpp>
 #include <algorithm>
@@ -235,6 +239,15 @@ public:
     }
 
     //* =====================================================================
+    /// \brief Sets the size of the terminal.
+    /// This is used to determine cursor locations when writing text that 
+    /// wraps at the end of the line, etc.
+    //* =====================================================================
+    void set_size(terminalpp::extent size)
+    {
+    }
+    
+    //* =====================================================================
     /// \brief Write to the terminal.
     ///
     /// \par Usage
@@ -266,6 +279,49 @@ public:
 private:
     behaviour behaviour_;
     terminal_state state_;
+};
+
+//* =========================================================================
+/// \brief A manipulator that moves the cursor to a new location.
+//* =========================================================================
+class move_cursor
+{
+public:
+    move_cursor(point const &destination)
+      : destination_(destination)
+    {
+    }
+
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state, 
+        WriteContinuation &&cont)
+    {
+        using namespace terminalpp::literals;
+        using namespace fmt::literals;
+
+        detail::csi(beh, cont);
+
+        if (destination_.x_ != 0 || destination_.y_ != 0)
+        {
+            cont(to_bytes("{}"_format(destination_.y_ + 1)));
+        }
+
+        if (destination_.x_ != 0)
+        {
+            cont(to_bytes(";{}"_format(destination_.x_ + 1)));
+        }
+
+        static const byte_storage cursor_position_suffix = {
+            ansi::csi::cursor_position
+        };
+
+        cont(cursor_position_suffix);
+    }
+
+private:
+    point destination_;
 };
 
 }
