@@ -31,6 +31,7 @@ struct TERMINALPP_EXPORT terminal_state
 
     boost::optional<element> last_element_;
     boost::optional<point>   cursor_position_;
+    boost::optional<bool>    cursor_visible_;
 };
 
 namespace detail {
@@ -455,13 +456,18 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
-        detail::dec_pm(beh, cont);
-        cont({
-            std::cbegin(ansi::dec_pm::cursor), 
-            std::cend(ansi::dec_pm::cursor)});
-        cont({
-            std::cbegin(ansi::dec_pm::reset),
-            std::cend(ansi::dec_pm::reset)});
+        if (!state.cursor_visible_ || *state.cursor_visible_)
+        {
+            detail::dec_pm(beh, cont);
+            cont({
+                std::cbegin(ansi::dec_pm::cursor), 
+                std::cend(ansi::dec_pm::cursor)});
+            cont({
+                std::cbegin(ansi::dec_pm::reset),
+                std::cend(ansi::dec_pm::reset)});
+        }
+
+        state.cursor_visible_ = false;
     }
 };
 
@@ -477,13 +483,18 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
-        detail::dec_pm(beh, cont);
-        cont({
-            std::cbegin(ansi::dec_pm::cursor), 
-            std::cend(ansi::dec_pm::cursor)});
-        cont({
-            std::cbegin(ansi::dec_pm::set),
-            std::cend(ansi::dec_pm::set)});
+        if (!state.cursor_visible_ || !*state.cursor_visible_)
+        {
+            detail::dec_pm(beh, cont);
+            cont({
+                std::cbegin(ansi::dec_pm::cursor), 
+                std::cend(ansi::dec_pm::cursor)});
+            cont({
+                std::cbegin(ansi::dec_pm::set),
+                std::cend(ansi::dec_pm::set)});
+        }
+
+        state.cursor_visible_ = true;
     }
 };
 
