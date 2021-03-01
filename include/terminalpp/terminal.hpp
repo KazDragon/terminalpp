@@ -26,6 +26,7 @@ class TERMINALPP_EXPORT terminal_writer;
 struct terminal_state
 {
     boost::optional<element> last_element_;
+    boost::optional<point>   cursor_position_;
 };
 
 namespace detail {
@@ -298,6 +299,48 @@ public:
         terminalpp::terminal_state &state, 
         WriteContinuation &&cont)
     {
+        if (!state.cursor_position_)
+        {
+            write_cursor_position(beh, cont);
+        }
+        else
+        {
+            if (*state.cursor_position_ != destination_)
+            {
+                if (state.cursor_position_->y_ == destination_.y_)
+                {
+                    write_cursor_horizontal_absolute(beh, cont);
+                }
+                else if (state.cursor_position_->x_ == destination_.x_)
+                {
+                    auto const distance = 
+                        state.cursor_position_->y_ - destination_.y_;
+
+                    if (distance > 0)
+                    {
+                        write_cursor_up(beh, distance, cont);
+                    }
+                    else
+                    {
+                        write_cursor_down(beh, -distance, cont);
+                    }
+                }
+                else
+                {
+                    write_cursor_position(beh, cont);
+                }
+            }
+        }
+
+        state.cursor_position_ = destination_;
+    }
+
+private:
+    template <class WriteContinuation>
+    void write_cursor_position(
+        behaviour const &beh,
+        WriteContinuation &&cont)
+    {
         using namespace terminalpp::literals;
         using namespace fmt::literals;
 
@@ -305,12 +348,17 @@ public:
 
         if (destination_.x_ != 0 || destination_.y_ != 0)
         {
-            cont(to_bytes("{}"_format(destination_.y_ + 1)));
-        }
-
-        if (destination_.x_ != 0)
-        {
-            cont(to_bytes(";{}"_format(destination_.x_ + 1)));
+            if (destination_.x_ == 0)
+            {
+                cont(to_bytes("{}"_format(destination_.y_ + 1)));
+            }
+            else
+            {
+                cont(to_bytes("{};{}"_format(
+                    destination_.y_ + 1,
+                    destination_.x_ + 1
+                )));
+            }
         }
 
         static const byte_storage cursor_position_suffix = {
@@ -320,7 +368,74 @@ public:
         cont(cursor_position_suffix);
     }
 
-private:
+    template <class WriteContinuation>
+    void write_cursor_horizontal_absolute(
+        behaviour const &beh,
+        WriteContinuation &&cont)
+    {
+        using namespace terminalpp::literals;
+        using namespace fmt::literals;
+
+        detail::csi(beh, cont);
+
+        if (destination_.x_ != 0)
+        {
+            cont(to_bytes("{}"_format(destination_.x_ + 1)));
+        }
+
+        static const byte_storage cursor_horizontal_absolute_suffix = {
+            ansi::csi::cursor_horizontal_absolute
+        };
+
+        cont(cursor_horizontal_absolute_suffix);
+    }
+
+    template <class WriteContinuation>
+    void write_cursor_up(
+        behaviour const &beh,
+        coordinate_type const distance,
+        WriteContinuation &&cont)
+    {
+        using namespace terminalpp::literals;
+        using namespace fmt::literals;
+
+        detail::csi(beh, cont);
+
+        if (distance != 1)
+        {
+            cont(to_bytes("{}"_format(distance)));
+        }
+
+        static const byte_storage cursor_up_suffix = {
+            ansi::csi::cursor_up
+        };
+
+        cont(cursor_up_suffix);
+    }
+
+    template <class WriteContinuation>
+    void write_cursor_down(
+        behaviour const &beh,
+        coordinate_type const distance,
+        WriteContinuation &&cont)
+    {
+        using namespace terminalpp::literals;
+        using namespace fmt::literals;
+
+        detail::csi(beh, cont);
+
+        if (distance != 1)
+        {
+            cont(to_bytes("{}"_format(distance)));
+        }
+
+        static const byte_storage cursor_down_suffix = {
+            ansi::csi::cursor_down
+        };
+
+        cont(cursor_down_suffix);
+    }
+
     point destination_;
 };
 
