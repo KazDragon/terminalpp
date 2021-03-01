@@ -29,6 +29,7 @@ struct TERMINALPP_EXPORT terminal_state
 {
     terminal_state();
 
+    extent                   terminal_size_;
     boost::optional<element> last_element_;
     boost::optional<point>   cursor_position_;
     boost::optional<bool>    cursor_visible_;
@@ -85,8 +86,9 @@ struct TERMINALPP_EXPORT write_optional_default_attribute
 /// \brief A manipulator that converts encoded attribute strings into ANSI 
 /// protocol bytes.
 //* =========================================================================
-struct TERMINALPP_EXPORT write_element
+class TERMINALPP_EXPORT write_element
 {
+public:
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
@@ -142,6 +144,23 @@ struct TERMINALPP_EXPORT write_element
         }
 
         state.last_element_ = element_;
+        
+        advance_cursor_position(state);
+    }
+
+private:
+    void advance_cursor_position(terminal_state &state) const
+    {
+        if (state.cursor_position_)
+        {
+            if (++state.cursor_position_->x_ == state.terminal_size_.width_)
+            {
+                state.cursor_position_->x_ = 0;
+                state.cursor_position_->y_ = std::min(
+                    ++state.cursor_position_->y_, 
+                    state.terminal_size_.height_ - 1);
+            }
+        }
     }
 
     terminalpp::element element_;
@@ -249,8 +268,9 @@ public:
     /// This is used to determine cursor locations when writing text that 
     /// wraps at the end of the line, etc.
     //* =====================================================================
-    void set_size(terminalpp::extent /*size*/)
+    void set_size(terminalpp::extent size)
     {
+        state_.terminal_size_ = size;
     }
     
     //* =====================================================================
@@ -310,37 +330,46 @@ public:
         }
         else
         {
-            if (*state.cursor_position_ != destination_)
-            {
-                if (state.cursor_position_->y_ == destination_.y_)
-                {
-                    write_cursor_horizontal_absolute(beh, cont);
-                }
-                else if (state.cursor_position_->x_ == destination_.x_)
-                {
-                    auto const distance = 
-                        state.cursor_position_->y_ - destination_.y_;
-
-                    if (distance > 0)
-                    {
-                        write_cursor_up(beh, distance, cont);
-                    }
-                    else
-                    {
-                        write_cursor_down(beh, -distance, cont);
-                    }
-                }
-                else
-                {
-                    write_cursor_position(beh, cont);
-                }
-            }
+            move_from_known_position(beh, state, cont);
         }
 
         state.cursor_position_ = destination_;
     }
 
 private:
+    template <class WriteContinuation>
+    void move_from_known_position(
+        behaviour const &beh,
+        terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        if (*state.cursor_position_ != destination_)
+        {
+            if (state.cursor_position_->y_ == destination_.y_)
+            {
+                write_cursor_horizontal_absolute(beh, cont);
+            }
+            else if (state.cursor_position_->x_ == destination_.x_)
+            {
+                auto const distance = 
+                    state.cursor_position_->y_ - destination_.y_;
+
+                if (distance > 0)
+                {
+                    write_cursor_up(beh, distance, cont);
+                }
+                else
+                {
+                    write_cursor_down(beh, -distance, cont);
+                }
+            }
+            else
+            {
+                write_cursor_position(beh, cont);
+            }
+        }
+    }
+
     template <class WriteContinuation>
     void write_cursor_position(
         behaviour const &beh,

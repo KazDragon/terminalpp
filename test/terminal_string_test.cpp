@@ -171,60 +171,71 @@ TEST(a_terminal_that_supports_unicode_in_all_charsets, skips_charset_switch_befo
 
     expect_sequence("\x1B[0m\x1B(U\xCD\x1B%GW"_tb, result);
 }
-/*
 
-TEST_F(a_terminal, writing_single_element_moves_cursor)
+namespace {
+
+using write_position_data = std::tuple<
+    terminalpp::point,  // Initial cursor position
+    terminalpp::string, // String to write
+    terminalpp::point   // Expected terminal position
+>;
+
+class writing_at_a_position
+  : public testing::TestWithParam<write_position_data>,
+    public terminal_test_base
 {
-    terminal_.set_size({5, 5});
-    terminal_.move_cursor({0, 0});
-    terminal_.write('x');
+public:
+    writing_at_a_position()
+    {
+        // All tests run in a 10x10 screen
+        terminal_.set_size({10, 10});
+    }
+};
 
-    expect_sequence(
-        std::string(""),
-        terminal_.move_cursor({1, 0}));
 }
 
-TEST_F(a_terminal, writing_string_moves_cursor)
+TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
 {
-    terminal_.move_cursor({5, 5});
-    terminal_.write("abcde");
+    using std::get;
 
-    expect_sequence(
-        std::string(""),
-        terminal_.move_cursor({10, 5}));
+    auto const &params = GetParam();
+    auto const &init_position = get<0>(params);
+    auto const &text_to_stream = get<1>(params);
+    auto const &expected_position = get<2>(params);
+
+    terminal_.write(discard_result) 
+        << ""_ets
+        << terminalpp::move_cursor(init_position)
+        << text_to_stream;
+
+    terminal_.write(append_to_result)
+        << terminalpp::move_cursor(expected_position);
+
+    // Moving to the position we are already at should yield no required
+    // output.
+    expect_sequence(""_tb, result_);
 }
 
-TEST_F(a_terminal, writing_past_terminal_width_moves_cursor_to_next_line)
-{
-    terminal_.set_size({10, 10});
-    terminal_.move_cursor({8, 8});
-    terminal_.write("abcde");
+static write_position_data const write_position_data_table[] = {
+    // Writing within the same row moves the cursor to the write
+    write_position_data{ {0, 0}, ""_ets,                {0, 0} },
+    write_position_data{ {0, 0}, "x"_ets,               {1, 0} },
+    write_position_data{ {0, 0}, "abcde"_ets,           {5, 0} },
+    write_position_data{ {2, 3}, "abcde"_ets,           {7, 3} },
 
-    expect_sequence(
-        std::string(""),
-        terminal_.move_cursor({3, 9}));
-}
+    // Writing past the terminal width moves the cursor to the next line
+    write_position_data{ {9, 0}, "x"_ets,               {0, 1} },
+    write_position_data{ {9, 0}, "xyz"_ets,             {2, 1} },
+    write_position_data{ {8, 7}, "abcdefghijlkmno"_ets, {3, 9} },
 
-TEST_F(a_terminal, writing_far_past_terminal_width_moves_multiple_lines)
-{
-    terminal_.set_size({10, 10});
-    terminal_.move_cursor({8, 8});
-    terminal_.write("abcdefghijklmno");
+    // Writing past the last line scrolls the terminal, meaning that the
+    // the cursor wraps to the last line again.
+    write_position_data{ {9, 9}, "x"_ets,               {0, 9} },
 
-    expect_sequence(
-        std::string(""),
-        terminal_.move_cursor({3, 10}));
-}
+};
 
-TEST_F(a_terminal, writing_past_last_line_scrolls_last_line)
-{
-    terminal_.set_size({10, 10});
-    terminal_.move_cursor({8, 10});
-    terminal_.write("abcdefghijklmno");
-
-    expect_sequence(
-        std::string(""),
-        terminal_.move_cursor({3, 10}));
-}
-
-*/
+INSTANTIATE_TEST_SUITE_P(
+    streaming_text_moves_the_cursor,
+    writing_at_a_position,
+    ValuesIn(write_position_data_table)
+);
