@@ -32,7 +32,9 @@ using streaming_text_data = std::tuple<
     terminalpp::byte_storage  // expected output
 >;
 
-class streaming_text : public testing::TestWithParam<streaming_text_data>
+class streaming_text 
+  : public testing::TestWithParam<streaming_text_data>,
+    public terminal_test_base
 {
 };
 
@@ -47,19 +49,10 @@ TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
     auto const &text_to_stream = get<1>(params);
     auto const &expected_output = get<2>(params);
 
-    terminalpp::byte_storage result;
-    auto const discard_result = [](terminalpp::bytes){};
-    auto const append_result = 
-        [&result](auto const &data)
-        {
-            result.append(data.begin(), data.end());
-        };
+    terminal_.write(discard_result) << init_string;
+    terminal_.write(append_to_result) << text_to_stream;
 
-    terminalpp::terminal terminal{discard_result};
-    terminal.write(discard_result) << init_string;
-    terminal.write(append_result) << text_to_stream;
-
-    expect_sequence(expected_output, result);
+    expect_sequence(expected_output, result_);
 }
 
 

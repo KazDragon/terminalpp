@@ -5,10 +5,10 @@
 #include <functional>
 #include <gtest/gtest.h>
 
-class a_terminal : public testing::Test
+class terminal_test_base
 {
 public:
-    a_terminal()
+    terminal_test_base()
       : terminal_(append_to_result)
     {
     }
@@ -38,4 +38,10 @@ protected:
 
     terminalpp::terminal terminal_;
     terminalpp::byte_storage result_;
+};
+
+class a_terminal : 
+    public testing::Test,
+    public terminal_test_base
+{
 };
