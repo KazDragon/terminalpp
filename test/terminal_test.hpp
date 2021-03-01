@@ -8,8 +8,8 @@
 class terminal_test_base
 {
 public:
-    terminal_test_base()
-      : terminal_(append_to_result)
+    terminal_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
+      : terminal_(append_to_result, behaviour)
     {
     }
 
@@ -36,7 +36,7 @@ protected:
         {
         };
 
-    terminalpp::terminal terminal_;
+    terminalpp::terminal  terminal_;
     terminalpp::byte_storage result_;
 };
 
