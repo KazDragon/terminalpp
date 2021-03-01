@@ -7,11 +7,13 @@
 #include "terminalpp/string.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
 #include "terminalpp/ansi/csi.hpp"
+#include "terminalpp/ansi/dec_private_mode.hpp"
 #include "terminalpp/detail/element_difference.hpp"
 #include <fmt/format.h>
 #include <boost/range/algorithm/for_each.hpp>
 #include <boost/optional.hpp>
 #include <algorithm>
+
 namespace terminalpp {
 
 class terminal;
@@ -246,7 +248,7 @@ public:
     /// This is used to determine cursor locations when writing text that 
     /// wraps at the end of the line, etc.
     //* =====================================================================
-    void set_size(terminalpp::extent size)
+    void set_size(terminalpp::extent /*size*/)
     {
     }
     
@@ -453,7 +455,13 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
-
+        detail::dec_pm(beh, cont);
+        cont({
+            std::cbegin(ansi::dec_pm::cursor), 
+            std::cend(ansi::dec_pm::cursor)});
+        cont({
+            std::cbegin(ansi::dec_pm::reset),
+            std::cend(ansi::dec_pm::reset)});
     }
 };
 
@@ -469,7 +477,13 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
-
+        detail::dec_pm(beh, cont);
+        cont({
+            std::cbegin(ansi::dec_pm::cursor), 
+            std::cend(ansi::dec_pm::cursor)});
+        cont({
+            std::cbegin(ansi::dec_pm::set),
+            std::cend(ansi::dec_pm::set)});
     }
 };
 

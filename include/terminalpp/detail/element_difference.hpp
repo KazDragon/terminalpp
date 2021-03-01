@@ -29,6 +29,21 @@ void csi(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 }
 
 //* =========================================================================
+/// \brief Returns the DEC_PM code
+//* =========================================================================
+template <class WriteContinuation>
+void dec_pm(behaviour const &terminal_behaviour, WriteContinuation &&wc)
+{
+    csi(terminal_behaviour, wc);
+
+    static byte_storage const dec_pm = {
+        terminalpp::ansi::dec_private_mode[0]
+    };
+
+    wc(dec_pm);    
+}
+
+//* =========================================================================
 /// \brief Returns a string of ANSI codes that sets the attributes to the
 /// default.
 //* =========================================================================
