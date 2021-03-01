@@ -1,5 +1,6 @@
 #include "terminal_test.hpp"
 #include "expect_sequence.hpp"
+#include <terminalpp/graphics.hpp>
 #include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
@@ -129,10 +130,13 @@ static streaming_text_data const streaming_text_data_table[] = {
     // it should be output as a unicode character if it can be.
     // This will include commands to change to and from the utf-8
     // character set and also to reset the character set at the end.
-    streaming_text_data{ ""_ets,        "\\U0000"_ets,   "\x1B%G\x00"_tb },
-    streaming_text_data{ ""_ets,        "\\U0057"_ets,   "\x1B%GW"_tb },
-    streaming_text_data{ "\\U0057"_ets, "\\U010E"_ets,   "\xC4\x8E"_tb },
-    streaming_text_data{ "\\U0057"_ets, "\\U16B8"_ets,   "\xE1\x9A\xB8"_tb },
+    streaming_text_data{ ""_ets,           "\\U0000"_ets,    "\x1B%G\x00"_tb },
+    streaming_text_data{ ""_ets,           "\\U0057"_ets,    "\x1B%GW"_tb },
+    streaming_text_data{ "\\U0057"_ets,    "\\U010E"_ets,    "\xC4\x8E"_tb },
+    streaming_text_data{ "\\U0057"_ets,    "\\U16B8"_ets,    "\xE1\x9A\xB8"_tb },
+
+    streaming_text_data{ "\\cU\\C205"_ets, "\\U0057"_ets,    "\x1B(B\x1B%GW"_tb },
+    streaming_text_data{ "\\U0057"_ets,    "\\cA\\C156"_ets, "\x1B%@\x1B(A\x9C"_tb },
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -141,8 +145,51 @@ INSTANTIATE_TEST_SUITE_P(
     ValuesIn(streaming_text_data_table)
 );
 
+TEST_F(a_terminal, can_stream_a_single_element)
+{
+    terminalpp::element const elem{'X', {terminalpp::graphics::colour::red}};
+
+    terminal_.write(discard_result) << ""_ets;
+    terminal_.write(append_to_result) << elem;
+
+    expect_sequence("\x1B[31mX"_tb, result_);
+}
+
+TEST(a_terminal_that_supports_unicode_in_all_charsets, skips_charset_switch_before_selecting_utf8_charset)
+{
+    terminalpp::behaviour const behaviour = 
+        []()
+        {
+            terminalpp::behaviour behaviour;
+            behaviour.unicode_in_all_charsets = true;
+            return behaviour;
+        }();
+
+    terminalpp::byte_storage result;
+    auto const discard_result = [](terminalpp::bytes){};
+    auto const append_result =
+        [&result](terminalpp::bytes data)
+        {
+            result.append(data.begin(), data.end());
+        };
+
+    terminalpp::terminal terminal{discard_result, behaviour};
+    terminal.write(append_result) << "\\cU\\C205\\U0057"_ets;
+
+    expect_sequence("\x1B[0m\x1B(U\xCD\x1B%GW"_tb, result);
+}
 /*
 
+TEST_F(a_terminal, writing_single_element_moves_cursor)
+{
+    terminal_.set_size({5, 5});
+    terminal_.move_cursor({0, 0});
+    terminal_.write('x');
+
+    expect_sequence(
+        std::string(""),
+        terminal_.move_cursor({1, 0}));
+}
 
 TEST_F(a_terminal, writing_string_moves_cursor)
 {
@@ -187,58 +234,4 @@ TEST_F(a_terminal, writing_past_last_line_scrolls_last_line)
         terminal_.move_cursor({3, 10}));
 }
 
-TEST_F(a_terminal, can_write_single_element)
-{
-    terminalpp::element  elem('X');
-    elem.attribute_.foreground_colour_ =
-        terminalpp::ansi::graphics::colour::red;
-
-    expect_sequence(
-        std::string("\x1B[31mX"),
-        terminal_.write(elem));
-}
-
-TEST_F(a_terminal, writing_single_element_moves_cursor)
-{
-    terminal_.set_size({5, 5});
-    terminal_.move_cursor({0, 0});
-    terminal_.write('x');
-
-    expect_sequence(
-        std::string(""),
-        terminal_.move_cursor({1, 0}));
-}
-
-TEST_F(a_terminal, writing_unicode_after_default_charset_does_not_change_charset_first)
-{
-    expect_sequence(
-        std::string(" \x1B%GW"),
-        terminal_.write(" \\U0057"_ets));
-}
-
-TEST_F(a_terminal, writing_unicode_after_sco_charset_reverts_charset_first)
-{
-    expect_sequence(
-        std::string("\x1B(U\xCD\x1B(B\x1B%GW"),
-        terminal_.write("\\cU\\C205\\U0057"_ets));
-}
-
-TEST(terminal_string_test, behaviour_unicode_in_all_charsets_writing_unicode_after_sco_does_not_change_charset_first)
-{
-    terminalpp::behaviour behaviour;
-    behaviour.unicode_in_all_charsets = true;
-    terminalpp::terminal terminal{behaviour};
-
-    expect_sequence(
-        std::string("\x1B[0m\x1B(U\xCD\x1B%GW"),
-        terminal.write("\\cU\\C205\\U0057"_ets));
-
-}
-
-TEST_F(a_terminal, changing_character_set_after_unicode_first_selects_default_charset)
-{
-    expect_sequence(
-        std::string("\x1B%GW\x1B%@\x1B(A\x9C"),
-        terminal_.write("\\U0057\\cA\\C156"_ets));
-}
 */
