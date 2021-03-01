@@ -46,20 +46,6 @@ void default_attribute(
 }
 
 //* =========================================================================
-/// \brief Enables the utf8 charset
-//* =========================================================================
-template <class WriteContinuation>
-void select_utf8_charset(WriteContinuation &&wc)
-{
-    static constexpr bytes select_utf8_charset_command = {
-        std::cbegin(ansi::select_utf8_character_set),
-        std::cend(ansi::select_utf8_character_set)
-    };
-
-    wc(select_utf8_charset_command);
-}
-
-//* =========================================================================
 /// \brief Designates the G0 charset as the given character set.
 //* =========================================================================
 template <class WriteContinuation>
@@ -78,6 +64,34 @@ void designate_g0_charset(
 }
 
 //* =========================================================================
+/// \brief Enables the utf8 charset
+//* =========================================================================
+template <class WriteContinuation>
+void select_utf8_charset(WriteContinuation &&wc)
+{
+    static constexpr bytes select_utf8_charset_command = {
+        std::cbegin(ansi::select_utf8_character_set),
+        std::cend(ansi::select_utf8_character_set)
+    };
+
+    wc(select_utf8_charset_command);
+}
+
+//* =========================================================================
+/// \brief Disables the utf8 charset
+//* =========================================================================
+template <class WriteContinuation>
+void select_default_charset(WriteContinuation &&wc)
+{
+    static constexpr bytes select_default_charset_command = {
+        std::cbegin(ansi::select_default_character_set),
+        std::cend(ansi::select_default_character_set)
+    };
+
+    wc(select_default_charset_command);
+}
+
+//* =========================================================================
 /// \brief Changes charset from the source to destination, skipping over the
 /// operation if they are already compatible.
 //* =========================================================================
@@ -92,10 +106,20 @@ void change_charset(
     {
         if (dest == charset::utf8)
         {
+            if (!terminal_behaviour.unicode_in_all_charsets)
+            {
+                change_charset(source, charset::us_ascii, terminal_behaviour, wc);
+            }
+            
             select_utf8_charset(wc);
         }
         else
         {
+            if (source == charset::utf8)
+            {
+                select_default_charset(wc);
+            }
+
             designate_g0_charset(dest, terminal_behaviour, wc);
         }
     }
