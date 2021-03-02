@@ -13,9 +13,9 @@ TEST(canvas_test, can_perform_loops_over_canvas)
         elem = {'x'};
     }
 
-    for (terminalpp::coordinate_type row = 0; row < size.height; ++row)
+    for (terminalpp::coordinate_type row = 0; row < size.height_; ++row)
     {
-        for (terminalpp::coordinate_type column = 0; column < size.width; column++)
+        for (terminalpp::coordinate_type column = 0; column < size.width_; column++)
         {
             auto expected = terminalpp::element('x');
             auto result   = terminalpp::element(canvas[column][row]);
@@ -47,12 +47,12 @@ TEST(canvas_test, resizing_canvas_larger_keeps_content)
     canvas.resize(large_size);
     ASSERT_EQ(large_size, canvas.size());
 
-    for (terminalpp::coordinate_type row = 0; row < large_size.height; ++row)
+    for (terminalpp::coordinate_type row = 0; row < large_size.height_; ++row)
     {
-        for (terminalpp::coordinate_type column = 0; column < large_size.width; ++column)
+        for (terminalpp::coordinate_type column = 0; column < large_size.width_; ++column)
         {
             auto expected =
-                row < small_size.height && column < small_size.width
+                row < small_size.height_ && column < small_size.width_
               ? terminalpp::element{'x'}
               : terminalpp::element{' '};
 
@@ -69,9 +69,9 @@ TEST(canvas_test, resizing_canvas_smaller_truncates_content)
 
     terminalpp::canvas canvas(large_size);
 
-    for (terminalpp::coordinate_type row = 0; row < large_size.height; ++row)
+    for (terminalpp::coordinate_type row = 0; row < large_size.height_; ++row)
     {
-        for (terminalpp::coordinate_type column = 0; column < large_size.width; ++column)
+        for (terminalpp::coordinate_type column = 0; column < large_size.width_; ++column)
         {
             canvas[column][row] = {terminalpp::byte(column * row)};
         }
@@ -79,9 +79,9 @@ TEST(canvas_test, resizing_canvas_smaller_truncates_content)
 
     canvas.resize(small_size);
 
-    for (terminalpp::coordinate_type row = 0; row < small_size.height; ++row)
+    for (terminalpp::coordinate_type row = 0; row < small_size.height_; ++row)
     {
-        for (terminalpp::coordinate_type column = 0; column < small_size.width; ++column)
+        for (terminalpp::coordinate_type column = 0; column < small_size.width_; ++column)
         {
             auto expected = terminalpp::element(terminalpp::byte(column * row));
             auto result   = terminalpp::element(canvas[column][row]);
