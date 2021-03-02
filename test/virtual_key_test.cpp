@@ -365,7 +365,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
             default_vk.key,
             default_vk.modifiers,
             default_vk.repeat_count,
-            terminalpp::ansi::control_sequence{
+            terminalpp::control_sequence{
                 '[',
                 'H',
                 false,
