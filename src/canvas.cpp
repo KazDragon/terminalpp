@@ -67,7 +67,7 @@ element const& canvas::const_column_proxy::operator[](
 canvas::canvas(extent size)
   : size_(size)
 {
-    grid_.resize(std::vector<element>::size_type(size.width * size.height));
+    grid_.resize(std::vector<element>::size_type(size.width_ * size.height_));
 }
 
 // ==========================================================================
@@ -84,10 +84,10 @@ extent canvas::size() const
 void canvas::resize(extent const &size)
 {
     std::vector<element> new_grid(std::vector<element>::size_type(
-        size.width * size.height));
+        size.width_ * size.height_));
 
-    auto min_width  = (std::min)(size.width, size_.width);
-    auto min_height = (std::min)(size.height, size_.height);
+    auto min_width  = (std::min)(size.width_, size_.width_);
+    auto min_height = (std::min)(size.height_, size_.height_);
 
     for_each_in_region(
         *this, {{}, {min_width, min_height}},
@@ -95,7 +95,7 @@ void canvas::resize(extent const &size)
             element const &elem, coordinate_type column, coordinate_type row)
         {
              auto const new_grid_pos = std::vector<element>::size_type(
-                 row * size.width + column);
+                 row * size.width_ + column);
              new_grid[new_grid_pos] = elem;
         });
 
@@ -157,7 +157,7 @@ canvas::const_column_proxy canvas::operator[](coordinate_type column) const
 element& canvas::get_element(coordinate_type column, coordinate_type row)
 {
     return grid_[std::vector<element>::size_type(
-        row * size_.width + column
+        row * size_.width_ + column
     )];
 }
 
@@ -168,7 +168,7 @@ const element& canvas::get_element(
     coordinate_type column, coordinate_type row) const
 {
     return grid_[std::vector<element>::size_type(
-        row * size_.width + column
+        row * size_.width_ + column
     )];
 }
 
@@ -178,7 +178,7 @@ const element& canvas::get_element(
 void canvas::set_element(
     coordinate_type column, coordinate_type row, const element& value)
 {
-    grid_[std::vector<element>::size_type(row * size_.width + column)] = value;
+    grid_[std::vector<element>::size_type(row * size_.width_ + column)] = value;
 }
 
 }
