@@ -163,7 +163,7 @@ target_sources(terminalpp
 #        include/terminalpp/palette.hpp
         include/terminalpp/point.hpp
         include/terminalpp/rectangle.hpp
-#        include/terminalpp/screen.hpp
+        include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
         include/terminalpp/terminal.hpp
 #        include/terminalpp/terminal_manip.hpp
@@ -193,7 +193,7 @@ target_sources(terminalpp
         src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
-#        src/screen.cpp
+        src/screen.cpp
         src/string.cpp
         src/terminal.cpp
         src/virtual_key.cpp
@@ -328,7 +328,7 @@ target_sources(terminalpp_tester
 #        test/palette_test.cpp
         test/point_test.cpp
         test/rectangle_test.cpp
-#        test/screen_test.cpp
+        test/screen_test.cpp
         test/string_test.cpp
         test/string_manip_test.cpp
         test/terminal_init_test.cpp
