@@ -345,7 +345,7 @@ target_sources(terminalpp_tester
         test/string_manip_test.cpp
         test/terminal_init_test.cpp
         test/terminal_cursor_test.cpp
-#        test/terminal_erase_test.cpp
+        test/terminal_erase_test.cpp
 #        test/terminal_read_cursor_test.cpp
 #        test/terminal_read_fkey_test.cpp
 #        test/terminal_read_test.cpp
