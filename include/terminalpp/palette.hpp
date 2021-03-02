@@ -6,36 +6,36 @@ namespace terminalpp { namespace palette {
 // Low colour, normal intensity.  Note: console colours tend to be more
 // variable than "pure" colours.  For example, on my terminal, maroon
 // is really a little bit pink.
-constexpr colour black   { low_colour(ansi::graphics::colour::black)   }; // #000000
-constexpr colour maroon  { low_colour(ansi::graphics::colour::red)     }; // #800000
-constexpr colour green   { low_colour(ansi::graphics::colour::green)   }; // #008000
-constexpr colour olive   { low_colour(ansi::graphics::colour::yellow)  }; // #808000
-constexpr colour navy    { low_colour(ansi::graphics::colour::blue)    }; // #000080
-constexpr colour purple  { low_colour(ansi::graphics::colour::magenta) }; // #800080
-constexpr colour teal    { low_colour(ansi::graphics::colour::cyan)    }; // #008080
-constexpr colour silver  { low_colour(ansi::graphics::colour::white)   }; // #C0C0C0
+constexpr colour black   { low_colour(graphics::colour::black)   }; // #000000
+constexpr colour maroon  { low_colour(graphics::colour::red)     }; // #800000
+constexpr colour green   { low_colour(graphics::colour::green)   }; // #008000
+constexpr colour olive   { low_colour(graphics::colour::yellow)  }; // #808000
+constexpr colour navy    { low_colour(graphics::colour::blue)    }; // #000080
+constexpr colour purple  { low_colour(graphics::colour::magenta) }; // #800080
+constexpr colour teal    { low_colour(graphics::colour::cyan)    }; // #008080
+constexpr colour silver  { low_colour(graphics::colour::white)   }; // #C0C0C0
 
 // Low colour, bold intensity.  These must be attributes and separated into
 // forground and background in order to be complete.  Note: lines also come
 // out thicker due to boldness, so even if they match up with other colours,
 // they behave differently.
-constexpr attribute fg_grey    { low_colour(ansi::graphics::colour::black), {}, ansi::graphics::intensity::bold   }; // #808080
-constexpr attribute fg_red     { low_colour(ansi::graphics::colour::red), {}, ansi::graphics::intensity::bold     }; // #FF0000
-constexpr attribute fg_lime    { low_colour(ansi::graphics::colour::green), {}, ansi::graphics::intensity::bold   }; // #00FF00
-constexpr attribute fg_yellow  { low_colour(ansi::graphics::colour::yellow), {}, ansi::graphics::intensity::bold  }; // #FFFF00
-constexpr attribute fg_blue    { low_colour(ansi::graphics::colour::blue), {}, ansi::graphics::intensity::bold    }; // #0000FF
-constexpr attribute fg_fuchsia { low_colour(ansi::graphics::colour::magenta), {}, ansi::graphics::intensity::bold }; // #FF00FF
-constexpr attribute fg_aqua    { low_colour(ansi::graphics::colour::cyan), {}, ansi::graphics::intensity::bold    }; // #00FFFF
-constexpr attribute fg_white   { low_colour(ansi::graphics::colour::white), {}, ansi::graphics::intensity::bold   }; // #FFFFFF
+constexpr attribute fg_grey    { low_colour(graphics::colour::black), {}, graphics::intensity::bold   }; // #808080
+constexpr attribute fg_red     { low_colour(graphics::colour::red), {}, graphics::intensity::bold     }; // #FF0000
+constexpr attribute fg_lime    { low_colour(graphics::colour::green), {}, graphics::intensity::bold   }; // #00FF00
+constexpr attribute fg_yellow  { low_colour(graphics::colour::yellow), {}, graphics::intensity::bold  }; // #FFFF00
+constexpr attribute fg_blue    { low_colour(graphics::colour::blue), {}, graphics::intensity::bold    }; // #0000FF
+constexpr attribute fg_fuchsia { low_colour(graphics::colour::magenta), {}, graphics::intensity::bold }; // #FF00FF
+constexpr attribute fg_aqua    { low_colour(graphics::colour::cyan), {}, graphics::intensity::bold    }; // #00FFFF
+constexpr attribute fg_white   { low_colour(graphics::colour::white), {}, graphics::intensity::bold   }; // #FFFFFF
 
-constexpr attribute bg_grey    { {}, low_colour(ansi::graphics::colour::black), ansi::graphics::intensity::bold   }; // #808080
-constexpr attribute bg_red     { {}, low_colour(ansi::graphics::colour::red), ansi::graphics::intensity::bold     }; // #FF0000
-constexpr attribute bg_lime    { {}, low_colour(ansi::graphics::colour::green), ansi::graphics::intensity::bold   }; // #00FF00
-constexpr attribute bg_yellow  { {}, low_colour(ansi::graphics::colour::yellow), ansi::graphics::intensity::bold  }; // #FFFF00
-constexpr attribute bg_blue    { {}, low_colour(ansi::graphics::colour::blue), ansi::graphics::intensity::bold    }; // #0000FF
-constexpr attribute bg_fuchsia { {}, low_colour(ansi::graphics::colour::magenta), ansi::graphics::intensity::bold }; // #FF00FF
-constexpr attribute bg_aqua    { {}, low_colour(ansi::graphics::colour::cyan), ansi::graphics::intensity::bold    }; // #00FFFF
-constexpr attribute bg_white   { {}, low_colour(ansi::graphics::colour::white), ansi::graphics::intensity::bold   }; // #FFFFFF
+constexpr attribute bg_grey    { {}, low_colour(graphics::colour::black), graphics::intensity::bold   }; // #808080
+constexpr attribute bg_red     { {}, low_colour(graphics::colour::red), graphics::intensity::bold     }; // #FF0000
+constexpr attribute bg_lime    { {}, low_colour(graphics::colour::green), graphics::intensity::bold   }; // #00FF00
+constexpr attribute bg_yellow  { {}, low_colour(graphics::colour::yellow), graphics::intensity::bold  }; // #FFFF00
+constexpr attribute bg_blue    { {}, low_colour(graphics::colour::blue), graphics::intensity::bold    }; // #0000FF
+constexpr attribute bg_fuchsia { {}, low_colour(graphics::colour::magenta), graphics::intensity::bold }; // #FF00FF
+constexpr attribute bg_aqua    { {}, low_colour(graphics::colour::cyan), graphics::intensity::bold    }; // #00FFFF
+constexpr attribute bg_white   { {}, low_colour(graphics::colour::white), graphics::intensity::bold   }; // #FFFFFF
 
 // Pure greys
 constexpr colour grey0   { high_colour(0, 0, 0) };  // #000000

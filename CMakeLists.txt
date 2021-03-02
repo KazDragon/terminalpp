@@ -160,7 +160,7 @@ target_sources(terminalpp
         include/terminalpp/glyph.hpp
         include/terminalpp/graphics.hpp
         include/terminalpp/mouse.hpp
-#        include/terminalpp/palette.hpp
+        include/terminalpp/palette.hpp
         include/terminalpp/point.hpp
         include/terminalpp/rectangle.hpp
         include/terminalpp/screen.hpp
@@ -325,7 +325,7 @@ target_sources(terminalpp_tester
         test/glyph_test.cpp
 #        test/manip_test.cpp
         test/mouse_test.cpp
-#        test/palette_test.cpp
+        test/palette_test.cpp
         test/point_test.cpp
         test/rectangle_test.cpp
         test/screen_test.cpp
