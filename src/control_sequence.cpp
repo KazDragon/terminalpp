@@ -1,8 +1,9 @@
-#include "terminalpp/ansi/control_sequence.hpp"
+#include "terminalpp/control_sequence.hpp"
+#include <boost/spirit/home/karma.hpp>
 #include <iostream>
 #include <numeric>
 
-namespace terminalpp { namespace ansi {
+namespace terminalpp {
 
 static control_sequence const default_sequence = {};
 
@@ -79,26 +80,10 @@ static void output_arguments(
     {
         output_comma(out, comma);
 
-        out << "args:\""
-            << std::accumulate(
-                 arguments.begin(),
-                 arguments.end(),
-                 std::string{},
-                 [](std::string &result, byte_storage const &current_argument)
-                 {
-                     if (!result.empty())
-                     {
-                         result += ';';
-                     }
-
-                     for (auto const &by : current_argument)
-                     {
-                        result += char(by);
-                     }
-
-                     return result;
-                 })
-            << "\"";
+        boost::spirit::karma::generate(
+            std::ostream_iterator<char>(out),
+            "args:\"" << boost::spirit::karma::string % ';' << "\"",
+            arguments);
     }
 }
 
@@ -130,4 +115,4 @@ std::ostream &operator<<(std::ostream &out, control_sequence const &seq)
     return out << "]";
 }
 
-}}
+}
