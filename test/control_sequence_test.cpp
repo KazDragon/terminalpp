@@ -1,4 +1,4 @@
-#include <terminalpp/ansi/control_sequence.hpp>
+#include <terminalpp/control_sequence.hpp>
 #include <gtest/gtest.h>
 #include <tuple>
 
@@ -7,7 +7,7 @@ using namespace terminalpp::literals;
 
 TEST(a_default_constructed_control_sequence, has_a_known_value)
 {
-    terminalpp::ansi::control_sequence seq;
+    terminalpp::control_sequence seq;
 
     ASSERT_EQ('\0', seq.initiator);
     ASSERT_EQ('\0', seq.command);
@@ -17,7 +17,7 @@ TEST(a_default_constructed_control_sequence, has_a_known_value)
 }
 
 using control_sequence_test_data = std::tuple<
-    terminalpp::ansi::control_sequence, // input data
+    terminalpp::control_sequence, // input data
     std::string                         // expected output
 >;
 
@@ -39,36 +39,36 @@ TEST_P(control_sequences_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static terminalpp::ansi::control_sequence const default_sequence = {};
+static terminalpp::control_sequence const default_sequence = {};
 
 static control_sequence_test_data const control_sequence_strings[] =
 {
     // A default sequence should just print out its wrapper
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{},
+        terminalpp::control_sequence{},
         "control_sequence[]"
     },
 
     // A control sequence with only the initiator changed outputs only the initiator
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{'['},
+        terminalpp::control_sequence{'['},
         "control_sequence[initiator:'[']"
     },
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{'?'},
+        terminalpp::control_sequence{'?'},
         "control_sequence[initiator:'?']"
     },
 
     // A control sequence with only the command changed outputs only the command
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             'm'
         },
         "control_sequence[command:'m']"
     },
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             'H'
         },
@@ -77,7 +77,7 @@ static control_sequence_test_data const control_sequence_strings[] =
 
     // A control sequence with only the meta flag raised outputs only the meta flag
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             default_sequence.command,
             true
@@ -87,7 +87,7 @@ static control_sequence_test_data const control_sequence_strings[] =
 
     // A control sequence with only one argument outputs the argument
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
@@ -98,7 +98,7 @@ static control_sequence_test_data const control_sequence_strings[] =
 
     // A control sequence with multiple arguments outputs the arguments separated by ;
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
@@ -107,7 +107,7 @@ static control_sequence_test_data const control_sequence_strings[] =
         "control_sequence[args:\"arg0;arg1\"]"
     },
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
@@ -118,7 +118,7 @@ static control_sequence_test_data const control_sequence_strings[] =
 
     // control sequences with only an extender output only the extender
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
@@ -128,7 +128,7 @@ static control_sequence_test_data const control_sequence_strings[] =
         "control_sequence[extender:'*']"
     },
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
@@ -140,7 +140,7 @@ static control_sequence_test_data const control_sequence_strings[] =
 
     // Control sequences with multiple active fields separate them with commas
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             '[',
             'H',
             true,
@@ -151,7 +151,7 @@ static control_sequence_test_data const control_sequence_strings[] =
     },
 
     control_sequence_test_data{
-        terminalpp::ansi::control_sequence{
+        terminalpp::control_sequence{
             '[',
             'H',
             default_sequence.meta,
