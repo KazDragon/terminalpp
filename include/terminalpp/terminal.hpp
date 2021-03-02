@@ -229,7 +229,29 @@ public:
     /// the equivalent representation in ANSI protocol bytes to the
     /// continuation.
     //* =====================================================================
+    terminal_writer const &operator<<(terminalpp::element &elem) const
+    {
+        *this << write_optional_default_attribute();
+        return *this << detail::write_element(elem);
+    }
+
+    //* =====================================================================
+    /// \brief Streams an attributed text element to the writer, which sends
+    /// the equivalent representation in ANSI protocol bytes to the
+    /// continuation.
+    //* =====================================================================
     terminal_writer const &operator<<(terminalpp::element const &elem) const
+    {
+        *this << write_optional_default_attribute();
+        return *this << detail::write_element(elem);
+    }
+
+    //* =====================================================================
+    /// \brief Streams an attributed text element to the writer, which sends
+    /// the equivalent representation in ANSI protocol bytes to the
+    /// continuation.
+    //* =====================================================================
+    terminal_writer const &operator<<(terminalpp::element &&elem) const
     {
         *this << write_optional_default_attribute();
         return *this << detail::write_element(elem);

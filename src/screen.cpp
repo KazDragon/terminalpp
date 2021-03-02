@@ -15,6 +15,7 @@ screen::screen()
 // ==========================================================================
 // DRAW
 // ==========================================================================
+/*
 std::string screen::draw(terminal& term, canvas const &cvs)
 {
     auto result = std::string();
@@ -42,5 +43,6 @@ std::string screen::draw(terminal& term, canvas const &cvs)
 
     return result;
 }
+*/
 
 }
