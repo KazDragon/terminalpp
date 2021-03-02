@@ -169,7 +169,7 @@ target_sources(terminalpp
 #        include/terminalpp/terminalpp.hpp
 #        include/terminalpp/token.hpp
         include/terminalpp/version.hpp
-#        include/terminalpp/virtual_key.hpp
+        include/terminalpp/virtual_key.hpp
 
 #        src/ansi/charset.cpp
 #        src/ansi/mouse.cpp
@@ -195,7 +195,7 @@ target_sources(terminalpp
 #        src/screen.cpp
         src/string.cpp
         src/terminal.cpp
-#        src/virtual_key.cpp
+        src/virtual_key.cpp
 )
 
 target_link_libraries(terminalpp
@@ -338,7 +338,7 @@ target_sources(terminalpp_tester
 #        test/terminal_read_test.cpp
 #        test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
-#        test/virtual_key_test.cpp
+        test/virtual_key_test.cpp
 )
 
 target_compile_options(terminalpp_tester
