@@ -44,4 +44,9 @@ class a_terminal :
     public testing::Test,
     public terminal_test_base
 {
+public:
+    a_terminal(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
+      : terminal_test_base(behaviour)
+    {
+    }
 };
