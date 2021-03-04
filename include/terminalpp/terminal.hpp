@@ -8,11 +8,13 @@
 #include "terminalpp/ansi/control_characters.hpp"
 #include "terminalpp/ansi/csi.hpp"
 #include "terminalpp/ansi/dec_private_mode.hpp"
+#include "terminalpp/ansi/osc.hpp"
 #include "terminalpp/detail/element_difference.hpp"
 #include <fmt/format.h>
 #include <boost/range/algorithm/for_each.hpp>
 #include <boost/optional.hpp>
 #include <algorithm>
+#include <string>
 
 namespace terminalpp {
 
@@ -841,6 +843,64 @@ public:
                 std::cend(ansi::dec_pm::reset)});
         }
     }
+};
+
+//* =========================================================================
+/// \brief A manipulator that sets the window title according to the terminal
+/// behaviour.
+//* =========================================================================
+class TERMINALPP_EXPORT set_window_title
+{
+public:
+    set_window_title(std::string const &title)
+      : title_(title)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to disable the mouse
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        static byte_storage const set_window_title_prefix = {
+            ansi::osc::set_window_title,
+            ansi::ps,
+        };
+
+        if (beh.supports_window_title_bel)
+        {
+            detail::osc(beh, cont);
+
+            cont(set_window_title_prefix);
+            cont({
+                reinterpret_cast<byte const *>(title_.data()),
+                title_.size()});
+
+            static byte_storage const set_window_title_bel_suffix = {
+                detail::ascii::bel
+            };
+
+            cont(set_window_title_bel_suffix);
+        }
+        else if (beh.supports_window_title_st)
+        {
+            detail::osc(beh, cont);
+
+            cont(set_window_title_prefix);
+            cont({
+                reinterpret_cast<byte const *>(title_.data()),
+                title_.size()});
+
+            detail::st(beh, cont);
+        }
+    }
+
+private:
+    std::string title_;
 };
 
 }

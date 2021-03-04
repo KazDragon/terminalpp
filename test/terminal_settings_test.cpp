@@ -31,7 +31,6 @@ public:
             }())
     {
     }
-
 };
 
 }
@@ -63,7 +62,6 @@ public:
             }())
     {
     }
-
 };
 
 }
@@ -80,38 +78,63 @@ TEST_F(a_terminal_with_all_mouse_motion_support, sends_disable_basic_mouse_motio
     expect_sequence("\x1B[?1003l"_tb, result_);
 }
 
+TEST_F(a_terminal, setting_window_title_sends_nothing)
+{
+    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    expect_sequence(""_tb, result_);
+}
+
+namespace {
+
+class a_terminal_with_support_for_window_title_bel : public a_terminal
+{
+public:
+    a_terminal_with_support_for_window_title_bel()
+      : a_terminal(
+            []
+            {
+                terminalpp::behaviour beh;
+                beh.supports_window_title_bel = true;
+                return beh;
+            }())
+    {
+    }
+};
+
+}
+
+TEST_F(a_terminal_with_support_for_window_title_bel, sends_window_title_with_bel)
+{
+    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    expect_sequence("\x1B]2;title\x7"_tb, result_);
+}
+
+namespace {
+
+class a_terminal_with_support_for_window_title_st : public a_terminal
+{
+public:
+    a_terminal_with_support_for_window_title_st()
+      : a_terminal(
+            []
+            {
+                terminalpp::behaviour beh;
+                beh.supports_window_title_st = true;
+                return beh;
+            }())
+    {
+    }
+};
+
+}
+
+TEST_F(a_terminal_with_support_for_window_title_st, sends_window_title_with_bel)
+{
+    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    expect_sequence("\x1B]2;title\x1B\\"_tb, result_);
+}
+
 /*
-
-TEST(setting_window_title_with_default_behaviour, sends_nothing)
-{
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        std::string(""),
-        terminal.set_window_title("title"));
-}
-
-TEST(setting_window_title_with_bel_behaviour, sends_window_title_with_bel)
-{
-    terminalpp::behaviour behaviour;
-    behaviour.supports_window_title_bel = true;
-    terminalpp::terminal terminal(behaviour);
-
-    expect_sequence(
-        std::string("\x1B]2;title\x7"),
-        terminal.set_window_title("title"));
-}
-
-TEST(setting_window_title_with_st_behaviour, sends_window_title_with_st)
-{
-    terminalpp::behaviour behaviour;
-    behaviour.supports_window_title_st = true;
-    terminalpp::terminal terminal(behaviour);
-
-    expect_sequence(
-        std::string("\x1B]2;title\x1B\\"),
-        terminal.set_window_title("title"));
-}
 
 TEST(activating_normal_screen_buffer, sends_use_normal_screen_buffer)
 {
