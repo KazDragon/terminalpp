@@ -456,7 +456,7 @@ private:
             }
         }
 
-        static const byte_storage cursor_position_suffix = {
+        static byte_storage const cursor_position_suffix = {
             ansi::csi::cursor_position
         };
 
@@ -481,7 +481,7 @@ private:
             cont(to_bytes("{}"_format(destination_.x_ + 1)));
         }
 
-        static const byte_storage cursor_horizontal_absolute_suffix = {
+        static byte_storage const cursor_horizontal_absolute_suffix = {
             ansi::csi::cursor_horizontal_absolute
         };
 
@@ -507,7 +507,7 @@ private:
             cont(to_bytes("{}"_format(distance)));
         }
 
-        static const byte_storage cursor_up_suffix = {
+        static byte_storage const cursor_up_suffix = {
             ansi::csi::cursor_up
         };
 
@@ -533,7 +533,7 @@ private:
             cont(to_bytes("{}"_format(distance)));
         }
 
-        static const byte_storage cursor_down_suffix = {
+        static byte_storage const cursor_down_suffix = {
             ansi::csi::cursor_down
         };
 
@@ -622,7 +622,7 @@ public:
     {
         detail::csi(beh, cont);
 
-        static const byte_storage erase_all_suffix = {  
+        static byte_storage const erase_all_suffix = {  
             ansi::csi::erase_in_display_all,
             ansi::csi::erase_in_display,
         };
@@ -649,7 +649,7 @@ public:
     {
         detail::csi(beh, cont);
 
-        static const byte_storage erase_above_suffix = {  
+        static byte_storage const erase_above_suffix = {  
             ansi::csi::erase_in_display_above,
             ansi::csi::erase_in_display,
         };
@@ -676,7 +676,7 @@ public:
     {
         detail::csi(beh, cont);
 
-        static const byte_storage erase_below_suffix = {  
+        static byte_storage const erase_below_suffix = {  
             // The constant for erase below is 0, which can be elided
             ansi::csi::erase_in_display,
         };
@@ -702,7 +702,7 @@ public:
     {
         detail::csi(beh, cont);
 
-        static const byte_storage erase_line_suffix = {  
+        static byte_storage const erase_line_suffix = {  
             ansi::csi::erase_in_line_all,
             ansi::csi::erase_in_line,
         };
@@ -729,7 +729,7 @@ public:
     {
         detail::csi(beh, cont);
 
-        static const byte_storage erase_line_left_suffix = {  
+        static byte_storage const erase_line_left_suffix = {  
             ansi::csi::erase_in_line_left,
             ansi::csi::erase_in_line,
         };
@@ -756,12 +756,90 @@ public:
     {
         detail::csi(beh, cont);
 
-        static const byte_storage erase_line_right_suffix = {  
+        static byte_storage const erase_line_right_suffix = {  
             // The code for erase right is 0, which can be elided.
             ansi::csi::erase_in_line,
         };
 
         cont(erase_line_right_suffix);
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that enables mouse clicks according to the terminal
+/// behaviour.
+//* =========================================================================
+class TERMINALPP_EXPORT enable_mouse
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to enable the mouse
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        if (beh.supports_basic_mouse_tracking)
+        {
+            detail::dec_pm(beh, cont);
+            cont({
+                std::cbegin(ansi::dec_pm::basic_mouse_tracking),
+                std::cend(ansi::dec_pm::basic_mouse_tracking)});
+            cont({
+                std::cbegin(ansi::dec_pm::set),
+                std::cend(ansi::dec_pm::set)});
+        }
+        else if (beh.supports_all_mouse_motion_tracking)
+        {
+            detail::dec_pm(beh, cont);
+            cont({
+                std::cbegin(ansi::dec_pm::all_motion_mouse_tracking),
+                std::cend(ansi::dec_pm::all_motion_mouse_tracking)});
+            cont({
+                std::cbegin(ansi::dec_pm::set),
+                std::cend(ansi::dec_pm::set)});
+        }
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that disables mouse clicks according to the terminal
+/// behaviour.
+//* =========================================================================
+class TERMINALPP_EXPORT disable_mouse
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to disable the mouse
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        if (beh.supports_basic_mouse_tracking)
+        {
+            detail::dec_pm(beh, cont);
+            cont({
+                std::cbegin(ansi::dec_pm::basic_mouse_tracking),
+                std::cend(ansi::dec_pm::basic_mouse_tracking)});
+            cont({
+                std::cbegin(ansi::dec_pm::reset),
+                std::cend(ansi::dec_pm::reset)});
+        }
+        else if (beh.supports_all_mouse_motion_tracking)
+        {
+            detail::dec_pm(beh, cont);
+            cont({
+                std::cbegin(ansi::dec_pm::all_motion_mouse_tracking),
+                std::cend(ansi::dec_pm::all_motion_mouse_tracking)});
+            cont({
+                std::cbegin(ansi::dec_pm::reset),
+                std::cend(ansi::dec_pm::reset)});
+        }
     }
 };
 
