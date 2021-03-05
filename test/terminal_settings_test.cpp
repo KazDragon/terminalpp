@@ -161,23 +161,14 @@ TEST_F(a_terminal_with_support_for_window_title_st_and_8bit_control_codes, sends
     expect_sequence("\x9D"_tb "2;title\x9C"_tb, result_);
 }
 
-/*
-
-TEST(activating_normal_screen_buffer, sends_use_normal_screen_buffer)
+TEST_F(a_terminal, activating_normal_screen_buffer_sends_use_normal_screen_buffer_codes)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        std::string("\x1B[?47l"),
-        terminal.use_normal_screen_buffer());
+    terminal_.write(append_to_result) << terminalpp::use_normal_screen_buffer();
+    expect_sequence("\x1B[?47l"_tb, result_);
 }
 
-TEST(activating_alternate_screen_buffer, sends_use_alternate_screen_buffer)
+TEST_F(a_terminal, activating_alternate_screen_buffer_sends_use_alternate_screen_buffer_codes)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        std::string("\x1B[?47h"),
-        terminal.use_alternate_screen_buffer());
+    terminal_.write(append_to_result) << terminalpp::use_alternate_screen_buffer();
+    expect_sequence("\x1B[?47h"_tb, result_);
 }
-*/

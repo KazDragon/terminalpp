@@ -903,4 +903,58 @@ private:
     std::string title_;
 };
 
+//* =========================================================================
+/// \brief A manipulator that enables the use of the normal screen buffer.
+//* =========================================================================
+class TERMINALPP_EXPORT use_normal_screen_buffer
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to enable the mouse
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        detail::dec_pm(beh, cont);
+
+        cont({
+            std::cbegin(ansi::dec_pm::use_alternate_screen_buffer),
+            std::cend(ansi::dec_pm::use_alternate_screen_buffer)});
+
+        cont({
+            std::cbegin(ansi::dec_pm::reset),
+            std::cend(ansi::dec_pm::reset) });
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that enables the use of the alternate screen buffer.
+//* =========================================================================
+class TERMINALPP_EXPORT use_alternate_screen_buffer
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to enable the mouse
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        detail::dec_pm(beh, cont);
+
+        cont({
+            std::cbegin(ansi::dec_pm::use_alternate_screen_buffer),
+            std::cend(ansi::dec_pm::use_alternate_screen_buffer) });
+
+        cont({
+            std::cbegin(ansi::dec_pm::set),
+            std::cend(ansi::dec_pm::set) });
+    }
+};
+
 }
