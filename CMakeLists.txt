@@ -139,9 +139,9 @@ target_sources(terminalpp
 #        include/terminalpp/ansi/ss3.hpp
         include/terminalpp/detail/ascii.hpp
         include/terminalpp/detail/element_difference.hpp
-#        include/terminalpp/detail/export.hpp
+        include/terminalpp/detail/export.hpp
 #        include/terminalpp/detail/lambda_visitor.hpp
-#        include/terminalpp/detail/parser.hpp
+        include/terminalpp/detail/parser.hpp
 #        include/terminalpp/detail/terminal_charset_control.hpp
 #        include/terminalpp/detail/terminal_control.hpp
 #        include/terminalpp/detail/terminal_cursor_control.hpp
@@ -166,30 +166,23 @@ target_sources(terminalpp
         include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
         include/terminalpp/terminal.hpp
-#        include/terminalpp/terminal_manip.hpp
 #        include/terminalpp/terminalpp.hpp
-#        include/terminalpp/token.hpp
+        include/terminalpp/token.hpp
         include/terminalpp/version.hpp
         include/terminalpp/virtual_key.hpp
 
-#        src/ansi/charset.cpp
-#        src/ansi/mouse.cpp
         src/attribute.cpp
         src/canvas.cpp
         src/character_set.cpp
         src/colour.cpp
         src/control_sequence.cpp
-#        src/detail/terminal_charset_control.cpp
-#        src/detail/terminal_control.cpp
-#        src/detail/terminal_cursor_control.cpp
-#        src/detail/parser.cpp
+        src/detail/parser.cpp
 #        src/detail/well_known_virtual_key.cpp
         src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp
         src/element.cpp
         src/extent.cpp
-#        src/manip/terminal_streamer.cpp
         src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
@@ -306,8 +299,8 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
-#        test/expect_tokens.hpp
-#        test/terminal_test.hpp
+        test/expect_tokens.hpp
+        test/terminal_test.hpp
 
 #        test/ansi_charset_test.cpp
         test/attribute_test.cpp
@@ -320,7 +313,7 @@ target_sources(terminalpp_tester
         test/encoder_test.cpp
         test/expect_sequence.hpp
         test/expect_sequence.cpp
-#        test/expect_tokens.cpp
+        test/expect_tokens.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
 #        test/manip_test.cpp
@@ -336,7 +329,7 @@ target_sources(terminalpp_tester
         test/terminal_erase_test.cpp
 #        test/terminal_read_cursor_test.cpp
 #        test/terminal_read_fkey_test.cpp
-#        test/terminal_read_test.cpp
+        test/terminal_read_test.cpp
         test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
         test/virtual_key_test.cpp
