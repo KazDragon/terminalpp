@@ -25,6 +25,8 @@ public:
     }
 
 protected:
+    terminalpp::byte_storage result_;
+
     std::function<void (terminalpp::bytes)> append_to_result =
         [this](terminalpp::bytes data)
         {
@@ -37,7 +39,6 @@ protected:
         };
 
     terminalpp::terminal  terminal_;
-    terminalpp::byte_storage result_;
 };
 
 class a_terminal : 
