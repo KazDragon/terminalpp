@@ -62,7 +62,17 @@ static token_test_data const token_test_data_table[] = {
     { ""_tb, {} },
 
     // Single characters yield virtual keys
-    { "z"_tb, { terminalpp::virtual_key{ terminalpp::vk::lowercase_z, terminalpp::vk_modifier::none, 1, { 'z' } } } },
+    { "z"_tb, { terminalpp::virtual_key{ terminalpp::vk::lowercase_z, terminalpp::vk_modifier::none, 1, { 'z'_tb } } } },
+    { "a"_tb, { terminalpp::virtual_key{ terminalpp::vk::lowercase_a, terminalpp::vk_modifier::none, 1, { 'a'_tb } } } },
+    { "J"_tb, { terminalpp::virtual_key{ terminalpp::vk::uppercase_j, terminalpp::vk_modifier::none, 1, { 'J'_tb } } } },
+    { "X"_tb, { terminalpp::virtual_key{ terminalpp::vk::uppercase_x, terminalpp::vk_modifier::none, 1, { 'X'_tb } } } },
+
+    // Protocol-encoded commands are converted to control sequences
+    { "\x1B[S"_tb,      { terminalpp::control_sequence{'[', 'S', false, { ""_tb }} } },
+    { "\x1B[22;33S"_tb, { terminalpp::control_sequence{'[', 'S', false, { "22"_tb, "33"_tb }} } },
+
+    // Doubly-escaped protocol-encoded commands are converted to control sequences with the meta flag.
+    { "\x1B\x1B[S"_tb,  { terminalpp::control_sequence{'[', 'S', true,  { ""_tb }} } },
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -72,66 +82,6 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 /*
-TEST(terminal_read_test, read_character_yields_virtual_key)
-{
-    expect_token(
-        "z",
-        terminalpp::virtual_key{
-            terminalpp::vk::lowercase_z,
-            terminalpp::vk_modifier::none,
-            1,
-            { 'z' }
-        });
-}
-
-TEST(terminal_read_test, read_uppercase_character_yields_character_without_modifier)
-{
-    // We consider uppercase letters to be entirely different keypresses.
-    expect_token(
-        "Z",
-        terminalpp::virtual_key{
-            terminalpp::vk::uppercase_z,
-            terminalpp::vk_modifier::none,
-            1,
-            { 'Z' }
-        });
-}
-
-TEST(terminal_read_test, read_command_yields_command)
-{
-    expect_token(
-        "\x1B[S",
-        terminalpp::ansi::control_sequence {
-            '[',
-            'S',
-            false,
-            { "" }
-        });
-}
-
-TEST(terminal_read_test, read_command_with_arguments_yields_command_with_arguments)
-{
-    expect_token(
-        "\x1B[22;33S",
-        terminalpp::ansi::control_sequence {
-            '[',
-            'S',
-            false,
-            { "22", "33" }
-        });
-}
-
-TEST(terminal_read_test, read_meta_command_yields_meta_command)
-{
-    expect_token(
-        "\x1B\x1B[S",
-        terminalpp::ansi::control_sequence {
-            '[',
-            'S',
-            true,
-            { "" }
-        });
-}
 
 TEST(terminal_read_test, read_mouse_command_yields_mouse_report)
 {
