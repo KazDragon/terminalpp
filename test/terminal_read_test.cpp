@@ -2,11 +2,76 @@
 #include "terminalpp/terminal.hpp"
 #include <gtest/gtest.h>
 
-TEST(terminal_read_test, read_empty_string_yields_nothing)
+using namespace terminalpp::literals;
+using testing::ValuesIn;
+
+namespace {
+
+class terminal_read_test_base
 {
-    expect_tokens("", {});
+public:
+    terminal_read_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
+      : terminal_([](terminalpp::bytes) {}, behaviour)
+    {
+    }
+
+protected:
+    std::vector<terminalpp::token> result_;
+
+    std::function<void (terminalpp::tokens)> discard_result =
+        [](terminalpp::tokens)
+        {
+        };
+
+    std::function<void (terminalpp::tokens)> append_to_result =
+        [this](terminalpp::tokens tokens)
+        {
+            result_.insert(result_.end(), tokens.cbegin(), tokens.cend());
+        };
+
+    terminalpp::terminal terminal_;
+};
+
+using token_test_data = std::tuple<
+    terminalpp::byte_storage, // Input byte sequence
+    terminalpp::token_storage // Expected output
+>;
+
+class a_terminal_reading_input_tokens :
+    public testing::TestWithParam<token_test_data>,
+    public terminal_read_test_base
+{
+};
+
 }
 
+TEST_P(a_terminal_reading_input_tokens, tokenizes_the_results)
+{
+    using std::get;
+
+    auto const &param = GetParam();
+    auto const &input_sequence = get<0>(param);
+    auto const &expected_result = get<1>(param);
+
+    terminal_.read(append_to_result) >> input_sequence;
+
+    expect_tokens(expected_result, result_);
+}
+
+static token_test_data const token_test_data_table[] = {
+    { ""_tb, {} },
+
+    // Single characters yield virtual keys
+    { "z"_tb, { terminalpp::virtual_key{ terminalpp::vk::lowercase_z, terminalpp::vk_modifier::none, 1, { 'z' } } } },
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    reading_terminal_bytes_in_a_terminal_yields_tokens,
+    a_terminal_reading_input_tokens,
+    ValuesIn(token_test_data_table)
+);
+
+/*
 TEST(terminal_read_test, read_character_yields_virtual_key)
 {
     expect_token(
@@ -176,3 +241,4 @@ TEST(terminal_read_test, read_bang_extended_command_yields_extended_command)
             '!'
         });
 }
+*/

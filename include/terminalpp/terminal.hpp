@@ -5,16 +5,19 @@
 #include "terminalpp/extent.hpp"
 #include "terminalpp/point.hpp"
 #include "terminalpp/string.hpp"
+#include "terminalpp/token.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
 #include "terminalpp/ansi/csi.hpp"
 #include "terminalpp/ansi/dec_private_mode.hpp"
 #include "terminalpp/ansi/osc.hpp"
 #include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/detail/parser.hpp"
 #include <fmt/format.h>
 #include <boost/range/algorithm/for_each.hpp>
 #include <boost/optional.hpp>
 #include <algorithm>
 #include <string>
+#include <type_traits>
 
 namespace terminalpp {
 
@@ -30,6 +33,7 @@ struct TERMINALPP_EXPORT terminal_state
     boost::optional<element> last_element_;
     boost::optional<point>   cursor_position_;
     boost::optional<bool>    cursor_visible_;
+    detail::parser           input_parser_;
 };
 
 namespace detail {
@@ -284,6 +288,99 @@ private:
     WriteContinuation write_continuation_;
 };
 
+//* =========================================================================
+/// \brief A manipulator that converts ANSI protocol bytes into terminal
+/// tokens.
+//* =========================================================================
+class read_tokens
+{
+public:
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    read_tokens(terminalpp::bytes data)
+      : data_(data)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Convert the text and write the result to the continuation
+    //* =====================================================================
+    template <class ReadContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        ReadContinuation &&cont)
+    {
+        boost::for_each(
+            data_, 
+            [&](terminalpp::byte data)
+            {
+                auto const result = state.input_parser_(data);
+
+                if (result)
+                {
+                    cont({&*result, 1});
+                }
+            });
+    }
+
+private:
+    terminalpp::bytes data_;
+};
+
+//* =========================================================================
+/// \brief A class that is used to stream manipulators together to a 
+/// terminal.
+//* =========================================================================
+template <class ReadContinuation>
+class terminal_reader
+{
+public:
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    terminal_reader(
+        behaviour const &beh,
+        terminal_state &state,
+        ReadContinuation &&rc)
+      : behaviour_(beh),
+        state_(state),
+        read_continuation_(std::forward<ReadContinuation>(rc))
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Streams a manipulator to the reader, which executes it on the
+    /// current state.
+    //* =====================================================================
+    template <
+        typename Manip,
+        typename = typename std::enable_if<
+            !std::is_convertible<Manip, terminalpp::bytes>::value
+        >::type
+    >
+    terminal_reader &operator>>(Manip &&manip)
+    {
+        manip(behaviour_, state_, read_continuation_);
+        return *this;
+    }
+
+    //* =====================================================================
+    /// \brief Parses ANSI protocol bytes and sends their tokenized 
+    /// representation to the continuation.
+    //* =====================================================================
+    terminal_reader &operator>>(terminalpp::bytes const &data)
+    {
+        return *this >> detail::read_tokens(data);
+    }
+
+private:
+    behaviour const &behaviour_;
+    terminal_state &state_;
+    ReadContinuation read_continuation_;
+};
+
 }
 
 //* =========================================================================
@@ -331,7 +428,7 @@ public:
     /// terminal.
     /// \code
     /// void raw_write(terminalpp::bytes);
-    /// terminal term;
+    /// terminal term{raw_write};
     /// term.write(raw_write) << "Hello, world!"
     ///                       << move_cursor({17, 29});
     /// \endcode
@@ -350,6 +447,30 @@ public:
             behaviour_,
             state_,
             std::forward<WriteContinuation>(wc));
+    }
+
+    //* =====================================================================
+    /// \brief Read from the terminal.
+    ///
+    /// \par Usage
+    /// Stream in bytes, and the resultant tokens parsed from the stream will
+    /// be sent to the continuation passed in.
+    /// \code
+    /// using namespace terminalpp::literals;
+    /// void read_tokens(terminalpp::tokens);
+    /// void raw_write(terminalpp::bytes);
+    /// terminal term{raw_write};
+    /// term.read(read_tokens) << "\\x1B[13~"_tb;
+    /// // read_tokens was called with a collection of one token, which
+    /// // contained the f3 virtual key.
+    //* =====================================================================
+    template <class ReadContinuation>
+    detail::terminal_reader<ReadContinuation> read(ReadContinuation &&rc)
+    {
+        return detail::terminal_reader<ReadContinuation>(
+            behaviour_,
+            state_,
+            std::forward<ReadContinuation>(rc));
     }
 
 private:

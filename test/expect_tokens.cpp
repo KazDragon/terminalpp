@@ -9,7 +9,7 @@ template <class Token>
 struct token_compare_visitor_impl : boost::static_visitor<>
 {
     explicit token_compare_visitor_impl(Token const &token)
-      : token_(token)
+        : token_(token)
     {
     }
 
@@ -39,7 +39,7 @@ struct token_compare_visitor_impl : boost::static_visitor<>
 struct token_compare_visitor : boost::static_visitor<>
 {
     explicit token_compare_visitor(terminalpp::token const &expected_token)
-      : expected_token_(expected_token)
+        : expected_token_(expected_token)
     {
     }
 
@@ -55,46 +55,18 @@ struct token_compare_visitor : boost::static_visitor<>
 
 }
 
-void expect_token(
-    std::string const &input,
-    terminalpp::token const &expected_token)
-{
-    expect_tokens(input, {expected_token});
-}
-
 void expect_tokens(
-    std::string const &input,
-    std::vector<terminalpp::token> const &expected_tokens)
+    terminalpp::tokens const &expected_tokens,
+    terminalpp::tokens const &result_tokens)
 {
-    terminalpp::terminal terminal;
+    ASSERT_EQ(expected_tokens.size(), result_tokens.size());
 
-    auto result = terminal.read(input);
-
-    ASSERT_EQ(expected_tokens.size(), result.size());
-
-    for (std::vector<terminalpp::token>::const_iterator
-             lhs = expected_tokens.begin(),
-             rhs = result.begin();
-         lhs != expected_tokens.end();
+    for (auto &&lhs = expected_tokens.cbegin(),
+              &&rhs = result_tokens.cbegin();
+         lhs != expected_tokens.cend();
          ++lhs, ++rhs)
     {
         token_compare_visitor visitor(*lhs);
         boost::apply_visitor(visitor, *rhs);
     }
-
-}
-
-template <class Expected> void expect_token(
-    std::string const &input,
-    Expected const &expected)
-{
-    terminalpp::terminal terminal;
-
-    auto result = terminal.read(input);
-
-    ASSERT_EQ(false, result.empty());
-
-    ASSERT_EQ(
-        boost::get<Expected>(expected),
-        boost::get<Expected>(result[0]));
 }
