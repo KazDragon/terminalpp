@@ -136,15 +136,12 @@ target_sources(terminalpp
         include/terminalpp/ansi/mouse.hpp
         include/terminalpp/ansi/osc.hpp
         include/terminalpp/ansi/protocol.hpp
-#        include/terminalpp/ansi/ss3.hpp
+        include/terminalpp/ansi/ss3.hpp
         include/terminalpp/detail/ascii.hpp
         include/terminalpp/detail/element_difference.hpp
         include/terminalpp/detail/export.hpp
-#        include/terminalpp/detail/lambda_visitor.hpp
+        include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
-#        include/terminalpp/detail/terminal_charset_control.hpp
-#        include/terminalpp/detail/terminal_control.hpp
-#        include/terminalpp/detail/terminal_cursor_control.hpp
         include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/attribute.hpp
         include/terminalpp/behaviour.hpp
@@ -166,18 +163,18 @@ target_sources(terminalpp
         include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
         include/terminalpp/terminal.hpp
-#        include/terminalpp/terminalpp.hpp
+        include/terminalpp/terminalpp.hpp
         include/terminalpp/token.hpp
         include/terminalpp/version.hpp
         include/terminalpp/virtual_key.hpp
 
+        src/detail/parser.cpp
+        src/detail/well_known_virtual_key.cpp
         src/attribute.cpp
         src/canvas.cpp
         src/character_set.cpp
         src/colour.cpp
         src/control_sequence.cpp
-        src/detail/parser.cpp
-        src/detail/well_known_virtual_key.cpp
         src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp
