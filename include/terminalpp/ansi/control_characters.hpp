@@ -82,22 +82,22 @@ static constexpr byte enable[] = { terminalpp::detail::ascii::esc,
 // They have the same meaning, but a shorter representation.  However, only
 // some terminals support them.
 
-static constexpr byte ind[]   = { 0x84, 0x00 };
-static constexpr byte nel[]   = { 0x85, 0x00 };
-static constexpr byte hts[]   = { 0x88, 0x00 };
-static constexpr byte ri[]    = { 0x8D, 0x00 };
-static constexpr byte ss2[]   = { 0x8E, 0x00 };
-static constexpr byte ss3[]   = { 0x8F, 0x00 };
-static constexpr byte dcs[]   = { 0x90, 0x00 };
-static constexpr byte spa[]   = { 0x96, 0x00 };
-static constexpr byte epa[]   = { 0x97, 0x00 };
-static constexpr byte sos[]   = { 0x98, 0x00 };
-static constexpr byte decid[] = { 0x9A, 0x00 };
-static constexpr byte csi[]   = { 0x9B, 0x00 };
-static constexpr byte st[]    = { 0x9C, 0x00 };
-static constexpr byte osc[]   = { 0x9D, 0x00 };
-static constexpr byte pm[]    = { 0x9E, 0x00 };
-static constexpr byte apc[]   = { 0x9F, 0x00 };
+static constexpr byte ind   = 0x84;
+static constexpr byte nel   = 0x85;
+static constexpr byte hts   = 0x88;
+static constexpr byte ri    = 0x8D;
+static constexpr byte ss2   = 0x8E;
+static constexpr byte ss3   = 0x8F;
+static constexpr byte dcs   = 0x90;
+static constexpr byte spa   = 0x96;
+static constexpr byte epa   = 0x97;
+static constexpr byte sos   = 0x98;
+static constexpr byte decid = 0x9A;
+static constexpr byte csi   = 0x9B;
+static constexpr byte st    = 0x9C;
+static constexpr byte osc   = 0x9D;
+static constexpr byte pm    = 0x9E;
+static constexpr byte apc   = 0x9F;
 
 }
 

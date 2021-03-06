@@ -153,41 +153,41 @@ static constexpr byte reset_mode                       = terminalpp::detail::asc
 
 // Keypad buttons / Function keys
 static constexpr byte keypad_function                  = terminalpp::detail::ascii::tilde;
-    static constexpr std::int8_t const keypad_home                  = 1;
-    static constexpr std::int8_t const keypad_insert                = 2;
-    static constexpr std::int8_t const keypad_del                   = 3;
-    static constexpr std::int8_t const keypad_end                   = 4;
-    static constexpr std::int8_t const keypad_pgup                  = 5;
-    static constexpr std::int8_t const keypad_pgdn                  = 6;
-    static constexpr std::int8_t const keypad_f1                    = 11;
-    static constexpr std::int8_t const keypad_f2                    = 12;
-    static constexpr std::int8_t const keypad_f3                    = 13;
-    static constexpr std::int8_t const keypad_f4                    = 14;
-    static constexpr std::int8_t const keypad_f5                    = 15;
-    static constexpr std::int8_t const keypad_f6                    = 17; // Skip 16.
-    static constexpr std::int8_t const keypad_f7                    = 18;
-    static constexpr std::int8_t const keypad_f8                    = 19;
-    static constexpr std::int8_t const keypad_f9                    = 20;
-    static constexpr std::int8_t const keypad_f10                   = 21;
-    static constexpr std::int8_t const keypad_f11                   = 23; // Skip 22.
-    static constexpr std::int8_t const keypad_f12                   = 24;
+    static constexpr byte keypad_home                  = 1;
+    static constexpr byte keypad_insert                = 2;
+    static constexpr byte keypad_del                   = 3;
+    static constexpr byte keypad_end                   = 4;
+    static constexpr byte keypad_pgup                  = 5;
+    static constexpr byte keypad_pgdn                  = 6;
+    static constexpr byte keypad_f1                    = 11;
+    static constexpr byte keypad_f2                    = 12;
+    static constexpr byte keypad_f3                    = 13;
+    static constexpr byte keypad_f4                    = 14;
+    static constexpr byte keypad_f5                    = 15;
+    static constexpr byte keypad_f6                    = 17; // Skip 16.
+    static constexpr byte keypad_f7                    = 18;
+    static constexpr byte keypad_f8                    = 19;
+    static constexpr byte keypad_f9                    = 20;
+    static constexpr byte keypad_f10                   = 21;
+    static constexpr byte keypad_f11                   = 23; // Skip 22.
+    static constexpr byte keypad_f12                   = 24;
 
 // The following modifiers can apply to all keypad/function key controls.
-    static constexpr std::int8_t const modifier_shift               = 2;
-    static constexpr std::int8_t const modifier_alt                 = 3;
-    static constexpr std::int8_t const modifier_shift_alt           = 4;
-    static constexpr std::int8_t const modifier_ctrl                = 5;
-    static constexpr std::int8_t const modifier_shift_ctrl          = 6;
-    static constexpr std::int8_t const modifier_alt_ctrl            = 7;
-    static constexpr std::int8_t const modifier_shift_alt_ctrl      = 8;
-    static constexpr std::int8_t const modifier_meta                = 9;
-    static constexpr std::int8_t const modifier_meta_shift          = 10;
-    static constexpr std::int8_t const modifier_meta_alt            = 11;
-    static constexpr std::int8_t const modifier_meta_shift_alt      = 12;
-    static constexpr std::int8_t const modifier_meta_ctrl           = 13;
-    static constexpr std::int8_t const modifier_meta_shift_ctrl     = 14;
-    static constexpr std::int8_t const modifier_meta_alt_ctrl       = 15;
-    static constexpr std::int8_t const modifier_meta_shift_alt_ctrl = 16;
+    static constexpr byte modifier_shift               = 2;
+    static constexpr byte modifier_alt                 = 3;
+    static constexpr byte modifier_shift_alt           = 4;
+    static constexpr byte modifier_ctrl                = 5;
+    static constexpr byte modifier_shift_ctrl          = 6;
+    static constexpr byte modifier_alt_ctrl            = 7;
+    static constexpr byte modifier_shift_alt_ctrl      = 8;
+    static constexpr byte modifier_meta                = 9;
+    static constexpr byte modifier_meta_shift          = 10;
+    static constexpr byte modifier_meta_alt            = 11;
+    static constexpr byte modifier_meta_shift_alt      = 12;
+    static constexpr byte modifier_meta_ctrl           = 13;
+    static constexpr byte modifier_meta_shift_ctrl     = 14;
+    static constexpr byte modifier_meta_alt_ctrl       = 15;
+    static constexpr byte modifier_meta_shift_alt_ctrl = 16;
 
 // DEC Private Mode
 //  - Require ? extenders

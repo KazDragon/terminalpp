@@ -15,28 +15,28 @@
 namespace terminalpp { namespace ansi { namespace ss3 {
 
 // Move the cursor up one character.
-static constexpr byte CURSOR_UP    = terminalpp::detail::ascii::UPPERCASE_A;
+static constexpr byte cursor_up    = terminalpp::detail::ascii::uppercase_a;
 // Move the cursor down one character.
-static constexpr byte CURSOR_DOWN  = terminalpp::detail::ascii::UPPERCASE_B;
+static constexpr byte cursor_down  = terminalpp::detail::ascii::uppercase_b;
 // Move the cursor right one character.
-static constexpr byte CURSOR_RIGHT = terminalpp::detail::ascii::UPPERCASE_C;
+static constexpr byte cursor_right = terminalpp::detail::ascii::uppercase_c;
 // Move the cursor left one character.
-static constexpr byte CURSOR_LEFT  = terminalpp::detail::ascii::UPPERCASE_D;
+static constexpr byte cursor_left  = terminalpp::detail::ascii::uppercase_d;
 // Move the cursor to the home row.
-static constexpr byte CURSOR_HOME  = terminalpp::detail::ascii::UPPERCASE_H;
+static constexpr byte cursor_home  = terminalpp::detail::ascii::uppercase_h;
 // Move to the next tab stop.
-static constexpr byte CURSOR_TAB   = terminalpp::detail::ascii::UPPERCASE_I;
+static constexpr byte cursor_tab   = terminalpp::detail::ascii::uppercase_i;
 // Move the cursor to the end of the line.
-static constexpr byte CURSOR_END   = terminalpp::detail::ascii::UPPERCASE_F;
+static constexpr byte cursor_end   = terminalpp::detail::ascii::uppercase_f;
 // Enter key
-static constexpr byte ENTER        = terminalpp::detail::ascii::UPPERCASE_M;
+static constexpr byte enter        = terminalpp::detail::ascii::uppercase_m;
 // F1 Key
-static constexpr byte F1           = terminalpp::detail::ascii::UPPERCASE_P;
+static constexpr byte f1           = terminalpp::detail::ascii::uppercase_p;
 // F2 Key
-static constexpr byte F2           = terminalpp::detail::ascii::UPPERCASE_Q;
+static constexpr byte f2           = terminalpp::detail::ascii::uppercase_q;
 // F3 Key
-static constexpr byte F3           = terminalpp::detail::ascii::UPPERCASE_R;
+static constexpr byte f3           = terminalpp::detail::ascii::uppercase_r;
 // F4 Key
-static constexpr byte F4           = terminalpp::detail::ascii::UPPERCASE_S;
+static constexpr byte f4           = terminalpp::detail::ascii::uppercase_s;
 
 }}}

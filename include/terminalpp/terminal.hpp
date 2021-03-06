@@ -12,6 +12,7 @@
 #include "terminalpp/ansi/osc.hpp"
 #include "terminalpp/detail/element_difference.hpp"
 #include "terminalpp/detail/parser.hpp"
+#include "terminalpp/detail/well_known_virtual_key.hpp"
 #include <fmt/format.h>
 #include <boost/range/algorithm/for_each.hpp>
 #include <boost/optional.hpp>
@@ -320,7 +321,11 @@ public:
 
                 if (result)
                 {
-                    cont({&*result, 1});
+                    terminalpp::token const well_known_results[] = {
+                        detail::get_well_known_virtual_key(*result)
+                    };
+
+                    cont(well_known_results);
                 }
             });
     }
