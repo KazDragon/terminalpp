@@ -1,11 +1,17 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+#include "terminalpp/behaviour.hpp"
 #include "terminalpp/ansi/charset.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
+#include "terminalpp/ansi/dec_private_mode.hpp"
 #include "terminalpp/ansi/graphics.hpp"
 #include "terminalpp/ansi/csi.hpp"
 #include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/attribute.hpp"
+#include "terminalpp/character_set.hpp"
+#include "terminalpp/colour.hpp"
+#include "terminalpp/effect.hpp"
 #include <fmt/format.h>
 
 namespace terminalpp { namespace detail {
