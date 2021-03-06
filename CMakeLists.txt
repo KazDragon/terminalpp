@@ -163,6 +163,7 @@ target_sources(terminalpp
         include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
         include/terminalpp/terminal.hpp
+        include/terminalpp/terminal_state.hpp
         include/terminalpp/terminalpp.hpp
         include/terminalpp/token.hpp
         include/terminalpp/version.hpp
