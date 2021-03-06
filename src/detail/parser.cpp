@@ -3,6 +3,8 @@
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
 #include "terminalpp/ansi/csi.hpp"
+#include "terminalpp/ansi/mouse.hpp"
+#include <boost/range/algorithm/find_if.hpp>
 #include <cctype>
 
 namespace terminalpp { namespace detail {
@@ -184,12 +186,35 @@ boost::optional<terminalpp::token> parser::parse_arguments(byte input)
 
 boost::optional<terminalpp::token> parser::parse_mouse0(byte input)
 {
-    // Mouse values have an offset applied to them to make the
-    // co-ordinates appear over the wire as printable characters.
-    /*
-    mouse_button_ = byte(input - mouse::MOUSE_VALUE_OFFSET);
+    static constexpr struct {
+        byte ansi_mouse_event;
+        mouse::event_type mouse_event;
+    } mouse_event_table[] = 
+    {
+        { ansi::mouse::left_button_down,   mouse::event_type::left_button_down   },
+        { ansi::mouse::middle_button_down, mouse::event_type::middle_button_down },
+        { ansi::mouse::right_button_down,  mouse::event_type::right_button_down  },
+        { ansi::mouse::button_up,          mouse::event_type::button_up          },
+        { ansi::mouse::no_button_change,   mouse::event_type::no_button_change   },
+        { ansi::mouse::scrollwheel_up,     mouse::event_type::scrollwheel_up     },
+        { ansi::mouse::scrollwheel_down,   mouse::event_type::scrollwheel_down   },
+    };
+
+    auto result = boost::find_if(
+        mouse_event_table,
+        [value = input - ansi::mouse::mouse_value_offset](auto const &entry)
+        {
+            // Note: all mouse values have an offset applied to them to make
+            // the events and co-ordinates appear over the wire as printable
+            // characters.
+            return value == entry.ansi_mouse_event;
+        });
+
+    mouse_event_type_ = result != std::cend(mouse_event_table)
+                      ? result->mouse_event
+                      : mouse::event_type::no_button_change;
+
     state_ = state::mouse1;
-    */
     return {};
 }
 
@@ -198,30 +223,27 @@ boost::optional<terminalpp::token> parser::parse_mouse1(byte input)
     // In addition to the offset described above, ANSI co-ordinates are
     // 1-based, whereas Terminal++ is 0-based, which means an extra offset
     // is required.
-    /*
-    mouse_x_ = coordinate_type((input - ansi::mouse::MOUSE_VALUE_OFFSET) - 1);
+    mouse_coordinate_.x_ = coordinate_type(
+        (input - ansi::mouse::mouse_value_offset) - 1);
     state_ = state::mouse2;
-    */
+
     return {};
 }
 
 boost::optional<terminalpp::token> parser::parse_mouse2(byte input)
 {
-    /*
-    mouse_y_ = coordinate_type((input - ansi::mouse::MOUSE_VALUE_OFFSET) - 1);
+    mouse_coordinate_.y_ = coordinate_type(
+        (input - ansi::mouse::mouse_value_offset) - 1);
     state_ = state::idle;
 
     return {
         terminalpp::token {
             terminalpp::mouse::event {
-                mouse_button_,
-                mouse_x_,
-                mouse_y_
+                mouse_event_type_,
+                mouse_coordinate_
             }
         }
     };
-    */
-    return {};
 }
 
 }}

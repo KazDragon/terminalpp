@@ -39,9 +39,8 @@ private :
     byte                      initialiser_;
     byte                      extender_;
     bool                      meta_;
-    byte                      mouse_button_;
-    coordinate_type           mouse_x_;
-    coordinate_type           mouse_y_;
+    mouse::event_type         mouse_event_type_;
+    point                     mouse_coordinate_;
     byte_storage              argument_;
     std::vector<byte_storage> arguments_;
 };
