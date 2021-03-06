@@ -145,7 +145,7 @@ target_sources(terminalpp
 #        include/terminalpp/detail/terminal_charset_control.hpp
 #        include/terminalpp/detail/terminal_control.hpp
 #        include/terminalpp/detail/terminal_cursor_control.hpp
-#        include/terminalpp/detail/well_known_virtual_key.hpp
+        include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/attribute.hpp
         include/terminalpp/behaviour.hpp
         include/terminalpp/character_set.hpp
@@ -177,7 +177,7 @@ target_sources(terminalpp
         src/colour.cpp
         src/control_sequence.cpp
         src/detail/parser.cpp
-#        src/detail/well_known_virtual_key.cpp
+        src/detail/well_known_virtual_key.cpp
         src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp

@@ -79,11 +79,20 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(byte input)
             }
         };
     }
-    else if (input == terminalpp::ansi::control8::csi[0])
+    else if (input == terminalpp::ansi::control8::csi)
     {
         state_ = state::arguments;
         meta_ = false;
         initialiser_ = terminalpp::ansi::control7::csi[1];
+        argument_ = {};
+        arguments_ = {};
+        return {};
+    }
+    else if (input == terminalpp::ansi::control8::ss3)
+    {
+        state_ = state::arguments;
+        meta_ = false;
+        initialiser_ = terminalpp::ansi::control7::ss3[1];
         argument_ = {};
         arguments_ = {};
         return {};
