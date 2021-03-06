@@ -299,7 +299,8 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
-        test/expect_tokens.hpp
+#        test/expect_tokens.hpp
+        test/expect_sequence.hpp
         test/terminal_test.hpp
 
 #        test/ansi_charset_test.cpp
@@ -311,9 +312,8 @@ target_sources(terminalpp_tester
         test/effect_test.cpp
         test/element_test.cpp
         test/encoder_test.cpp
-        test/expect_sequence.hpp
         test/expect_sequence.cpp
-        test/expect_tokens.cpp
+#        test/expect_tokens.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
 #        test/manip_test.cpp
