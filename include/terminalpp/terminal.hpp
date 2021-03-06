@@ -224,22 +224,17 @@ public:
     /// \brief Streams a manipulator to the writer, which executes it on the
     /// current state.
     //* =====================================================================
-    template <class Manip>
+    template <
+        typename Manip,
+        typename = typename std::enable_if<
+            !std::is_convertible<typename std::remove_cv<Manip>::type, terminalpp::element>::value
+         && !std::is_convertible<typename std::remove_cv<Manip>::type, terminalpp::string>::value
+        >::type
+    >
     terminal_writer const &operator<<(Manip &&manip) const
     {
         manip(behaviour_, state_, write_continuation_);
         return *this;
-    }
-
-    //* =====================================================================
-    /// \brief Streams an attributed text element to the writer, which sends
-    /// the equivalent representation in ANSI protocol bytes to the
-    /// continuation.
-    //* =====================================================================
-    terminal_writer const &operator<<(terminalpp::element &elem) const
-    {
-        *this << write_optional_default_attribute();
-        return *this << detail::write_element(elem);
     }
 
     //* =====================================================================
@@ -254,22 +249,11 @@ public:
     }
 
     //* =====================================================================
-    /// \brief Streams an attributed text element to the writer, which sends
-    /// the equivalent representation in ANSI protocol bytes to the
-    /// continuation.
-    //* =====================================================================
-    terminal_writer const &operator<<(terminalpp::element &&elem) const
-    {
-        *this << write_optional_default_attribute();
-        return *this << detail::write_element(elem);
-    }
-
-    //* =====================================================================
     /// \brief Streams attributed text elements to the writer, which sends 
     /// their equivalent representation in ANSI protocol bytes to the
     /// continuation.
     //* =====================================================================
-    terminal_writer const &operator<<(terminalpp::string text) const
+    terminal_writer const &operator<<(terminalpp::string const &text) const
     {
         *this << write_optional_default_attribute();
         
@@ -311,7 +295,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        ReadContinuation &&cont)
+        ReadContinuation &&cont) const
     {
         boost::for_each(
             data_, 
@@ -365,7 +349,7 @@ public:
             !std::is_convertible<Manip, terminalpp::bytes>::value
         >::type
     >
-    terminal_reader &operator>>(Manip &&manip)
+    terminal_reader const &operator>>(Manip &&manip) const
     {
         manip(behaviour_, state_, read_continuation_);
         return *this;
@@ -375,7 +359,7 @@ public:
     /// \brief Parses ANSI protocol bytes and sends their tokenized 
     /// representation to the continuation.
     //* =====================================================================
-    terminal_reader &operator>>(terminalpp::bytes const &data)
+    terminal_reader const &operator>>(terminalpp::bytes const &data) const
     {
         return *this >> detail::read_tokens(data);
     }
