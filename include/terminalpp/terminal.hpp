@@ -5,6 +5,7 @@
 #include "terminalpp/extent.hpp"
 #include "terminalpp/point.hpp"
 #include "terminalpp/string.hpp"
+#include "terminalpp/terminal_state.hpp"
 #include "terminalpp/token.hpp"
 #include "terminalpp/ansi/control_characters.hpp"
 #include "terminalpp/ansi/csi.hpp"
@@ -15,27 +16,11 @@
 #include "terminalpp/detail/well_known_virtual_key.hpp"
 #include <fmt/format.h>
 #include <boost/range/algorithm/for_each.hpp>
-#include <boost/optional.hpp>
 #include <algorithm>
 #include <string>
 #include <type_traits>
 
 namespace terminalpp {
-
-//* =========================================================================
-/// \brief The state of a terminal, which manipulators are allowed to use and
-/// edit.
-//* =========================================================================
-struct TERMINALPP_EXPORT terminal_state
-{
-    terminal_state();
-
-    extent                   terminal_size_;
-    boost::optional<element> last_element_;
-    boost::optional<point>   cursor_position_;
-    boost::optional<bool>    cursor_visible_;
-    detail::parser           input_parser_;
-};
 
 namespace detail {
 
