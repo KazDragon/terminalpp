@@ -63,20 +63,4 @@ inline byte_storage to_bytes(std::string const &str)
     return result;
 }
 
-/*
-// A helper function to convert from stores bytes to strings.
-inline std::string to_string(byte_storage const &text)
-{
-    std::string result;
-    result.reserve(text.size());
-
-    for (auto const by : text)
-    {
-        result.push_back(char(by));
-    }
-
-    return result;
-}
-*/
-
 }

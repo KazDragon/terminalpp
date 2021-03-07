@@ -186,7 +186,6 @@ target_sources(terminalpp
         src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
-        src/screen.cpp
         src/string.cpp
         src/terminal.cpp
         src/virtual_key.cpp
