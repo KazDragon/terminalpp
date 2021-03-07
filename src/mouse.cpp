@@ -9,10 +9,10 @@ namespace terminalpp { namespace mouse {
 std::ostream &operator<<(std::ostream &out, event const &ev)
 {
     out << "mouse_event["
-        << ev.position
+        << ev.position_
         << ", ";
 
-    switch(ev.action)
+    switch(ev.action_)
     {
        case event_type::left_button_down :   out << "lmb"; break;
        case event_type::middle_button_down : out << "mmb"; break;

@@ -24,20 +24,20 @@ struct TERMINALPP_EXPORT event
     //* =====================================================================
     /// \brief The type of action that caused this event.
     //* =====================================================================
-    event_type action = event_type::no_button_change;
+    event_type action_ = event_type::no_button_change;
 
     //* =====================================================================
     /// \brief The position of the mouse in this event.
     //* =====================================================================
-    point position;
+    point position_;
 
     //* =====================================================================
     /// \brief Equality operator
     //* =====================================================================
     constexpr friend bool operator==(event const &lhs, event const &rhs)
     {
-        return lhs.action   == rhs.action
-            && lhs.position == rhs.position;
+        return lhs.action_   == rhs.action_
+            && lhs.position_ == rhs.position_;
     }
 };
 
