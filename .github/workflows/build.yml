@@ -146,10 +146,10 @@ jobs:
         if [ ! -f "$HOME/.lcov/local/bin/lcov" ]; then
           mkdir $HOME/.lcov-build || true;
           cd $HOME/.lcov-build;
-          wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.13.orig.tar.gz;
-          tar -xzf lcov_1.13.orig.tar.gz;
+          wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.14.orig.tar.gz;
+          tar -xzf lcov_1.14.orig.tar.gz;
           mkdir -p $HOME/.lcov || true;
-          DESTDIR=$HOME/.lcov make -C lcov-1.13/ install;
+          DESTDIR=$HOME/.lcov make -C lcov-1.14/ install;
         fi
         echo "##[set-output name=bin;]$(echo $HOME/.lcov/usr/local/bin/lcov)"
       id: lcov
