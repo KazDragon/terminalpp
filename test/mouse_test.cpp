@@ -8,9 +8,9 @@ TEST(a_default_constructed_mouse_event, has_known_values)
 {
     terminalpp::mouse::event ev;
 
-    ASSERT_EQ(terminalpp::mouse::event_type::no_button_change, ev.action);
-    ASSERT_EQ(0, ev.position.x_);
-    ASSERT_EQ(0, ev.position.y_);
+    ASSERT_EQ(terminalpp::mouse::event_type::no_button_change, ev.action_);
+    ASSERT_EQ(0, ev.position_.x_);
+    ASSERT_EQ(0, ev.position_.y_);
 }
 
 using mouse_event_test_data = std::tuple<
