@@ -1,5 +1,5 @@
 [requires]
-terminalpp/[>=1.3.4]@kazdragon/conan-public
+terminalpp/[>=2.0.0]@kazdragon/conan-public
 
 [generators]
 cmake
