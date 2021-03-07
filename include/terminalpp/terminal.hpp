@@ -665,7 +665,7 @@ class TERMINALPP_EXPORT use_normal_screen_buffer
 {
 public:
     //* =====================================================================
-    /// \brief Writes ANSI codes necessary to enable the mouse
+    /// \brief Writes ANSI codes necessary to use the normal screen buffer.
     //* =====================================================================
     template <class WriteContinuation>
     void operator()(
@@ -692,7 +692,8 @@ class TERMINALPP_EXPORT use_alternate_screen_buffer
 {
 public:
     //* =====================================================================
-    /// \brief Writes ANSI codes necessary to enable the mouse
+    /// \brief Writes ANSI codes necessary to use the alternate screen 
+    /// buffer.
     //* =====================================================================
     template <class WriteContinuation>
     void operator()(
@@ -709,6 +710,60 @@ public:
         cont({
             std::cbegin(ansi::dec_pm::set),
             std::cend(ansi::dec_pm::set) });
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that saves the cursor position
+//* =========================================================================
+class TERMINALPP_EXPORT save_cursor_position
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to save the cursor position.
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        detail::csi(beh, cont);
+
+        static byte_storage const save_cursor_suffix = {
+            ansi::csi::save_cursor_position
+        };
+
+        cont(save_cursor_suffix);
+
+        state.saved_cursor_position_ = state.cursor_position_;
+    }
+};
+
+//* =========================================================================
+/// \brief A manipulator that restores the cursor position
+//* =========================================================================
+class TERMINALPP_EXPORT restore_cursor_position
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to restore the cursor position.
+    //* =====================================================================
+    template <class WriteContinuation>
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        WriteContinuation &&cont) const
+    {
+        detail::csi(beh, cont);
+
+        static byte_storage const restore_cursor_suffix = {
+            ansi::csi::restore_cursor_position
+        };
+
+        cont(restore_cursor_suffix);
+
+        state.cursor_position_ = state.saved_cursor_position_;
     }
 };
 

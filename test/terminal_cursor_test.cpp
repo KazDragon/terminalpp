@@ -184,3 +184,32 @@ TEST_F(a_terminal_with_a_hidden_cursor, when_showing_the_cursor_sends_ansi_codes
     terminal_.write(append_to_result) << terminalpp::show_cursor();
     expect_sequence("\x1B[?25h"_tb, result_);
 }
+
+TEST_F(a_terminal, when_saving_the_cursor_sends_ansi_codes)
+{
+    terminal_.write(append_to_result) << terminalpp::save_cursor_position();
+    expect_sequence("\x1B[s"_tb, result_);
+}
+
+TEST_F(a_terminal, when_restoring_the_cursor_sends_ansi_codes)
+{
+    terminal_.write(append_to_result) << terminalpp::restore_cursor_position();
+    expect_sequence("\x1B[u"_tb, result_);
+}
+
+TEST_F(a_terminal, when_restoring_the_cursor_to_a_known_location_remembers_that_location)
+{
+    terminal_.set_size({30, 30});
+    terminal_.write(discard_result)
+        << terminalpp::move_cursor({10, 10})
+        << terminalpp::save_cursor_position()
+        << terminalpp::move_cursor({0, 0})
+        << "?"
+        << terminalpp::restore_cursor_position();
+
+    terminal_.write(append_to_result)
+        << terminalpp::move_cursor({10, 10})
+        << "x";
+
+    expect_sequence("x"_tb, result_);      
+}
