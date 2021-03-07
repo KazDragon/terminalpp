@@ -159,7 +159,6 @@ enum class vk : byte
     f10,
     f11,
     f12,
-
 };
 
 enum class vk_modifier : byte

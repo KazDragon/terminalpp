@@ -24,12 +24,10 @@ bool operator==(control_sequence const &lhs, control_sequence const &rhs)
 // ==========================================================================
 static void output_comma(std::ostream &out, bool &comma)
 {
-    if (comma)
+    if (std::exchange(comma, true))
     {
         out << ", ";
     }
-
-    comma = true;
 }
 
 // ==========================================================================
