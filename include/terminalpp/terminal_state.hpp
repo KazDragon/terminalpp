@@ -19,6 +19,7 @@ struct TERMINALPP_EXPORT terminal_state
     extent                   terminal_size_;
     boost::optional<element> last_element_;
     boost::optional<point>   cursor_position_;
+    boost::optional<point>   saved_cursor_position_;
     boost::optional<bool>    cursor_visible_;
     detail::parser           input_parser_;
 };
