@@ -176,6 +176,8 @@ enum class vk_modifier : byte
 //* =========================================================================
 struct TERMINALPP_EXPORT virtual_key
 {
+    /// \brief A virtual key is generated from either a single character or
+    /// some control sequence that represents the key.
     using input_sequence = boost::variant<byte, control_sequence>;
 
     /// \brief The actual key we believe was pressed, selected from the
