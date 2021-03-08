@@ -1,12 +1,13 @@
 #pragma once
 
+#include "terminalpp/core.hpp"
 #include "terminalpp/token.hpp"
 #include <boost/optional.hpp>
 #include <vector>
 
 namespace terminalpp { namespace detail {
 
-class parser
+class TERMINALPP_EXPORT parser
 {
 public :
     parser();

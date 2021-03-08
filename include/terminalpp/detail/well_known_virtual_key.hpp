@@ -1,5 +1,6 @@
 #pragma once
 
+#include "terminalpp/core.hpp"
 #include "terminalpp/token.hpp"
 
 namespace terminalpp { namespace detail {
@@ -9,6 +10,7 @@ namespace terminalpp { namespace detail {
 /// particular control sequence is shift-F12), then return a token for the
 /// virtual key.  Otherwise, return the original token.
 //* =========================================================================
+TERMINALPP_EXPORT
 terminalpp::token get_well_known_virtual_key(terminalpp::token const &orig);
 
 }}

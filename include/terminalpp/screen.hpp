@@ -14,7 +14,7 @@ namespace terminalpp {
 /// new canvas is drawn to the terminal, it is compared with the previously
 /// drawn screen so that only differences are sent.
 //* =========================================================================
-class TERMINALPP_EXPORT screen
+class screen
 {
 public :
     //* =====================================================================
