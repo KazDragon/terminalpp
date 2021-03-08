@@ -183,7 +183,7 @@ token convert_keypad_sequence(control_sequence const &seq)
         { ansi::csi::keypad_f12,    vk::f12  },
     };
 
-    assert(seq.command == ansi::csi::KEYPAD_FUNCTION);
+    assert(seq.command == ansi::csi::keypad_function);
 
     if (seq.arguments[0].empty() || !isdigit(seq.arguments[0][0]))
     {
