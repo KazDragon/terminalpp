@@ -11,9 +11,7 @@ namespace terminalpp {
 struct TERMINALPP_EXPORT behaviour
 {
     constexpr behaviour()
-      : can_use_eight_bit_control_codes(false),
-        uses_eight_bit_control_codes_by_default(false),
-        supports_cha(true),
+      : supports_cha(true),
         supports_cha_default(true),
         supports_vpa(true),
         supports_vpa_default(true),
@@ -27,17 +25,6 @@ struct TERMINALPP_EXPORT behaviour
         unicode_in_all_charsets(false)
     {
     }
-
-    // Eight bit control codes save on a character each time an ANSI
-    // control code is used.  This could amount to quite the saving over
-    // time.
-    bool can_use_eight_bit_control_codes : 1;
-
-    // If a terminal can use eight bit control codes, it may require a
-    // code to enable that sequence.  Some terminals may default to using
-    // eight bit control codes, but not understand the enable sequence, so
-    // it should only be used if actually required.
-    bool uses_eight_bit_control_codes_by_default : 1;
 
     // True if the terminal supports Cursor Horizontal Absolute
     bool supports_cha : 1;

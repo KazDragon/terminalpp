@@ -9,7 +9,7 @@ class terminal_test_base
 {
 public:
     terminal_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
-      : terminal_(append_to_result, behaviour)
+      : terminal_{behaviour}
     {
     }
 

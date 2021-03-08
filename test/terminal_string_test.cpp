@@ -166,7 +166,7 @@ TEST(a_terminal_that_supports_unicode_in_all_charsets, skips_charset_switch_befo
             result.append(data.begin(), data.end());
         };
 
-    terminalpp::terminal terminal{discard_result, behaviour};
+    terminalpp::terminal terminal{behaviour};
     terminal.write(append_result) << "\\cU\\C205\\U0057"_ets;
 
     expect_sequence("\x1B[0m\x1B(U\xCD\x1B%GW"_tb, result);
