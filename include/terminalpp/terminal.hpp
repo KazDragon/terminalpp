@@ -121,7 +121,7 @@ public:
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    constexpr move_cursor(point const &destination)
+    constexpr explicit move_cursor(point const &destination)
       : destination_(destination)
     {
     }
@@ -607,7 +607,7 @@ public:
 class TERMINALPP_EXPORT set_window_title
 {
 public:
-    set_window_title(std::string const &title)
+    explicit set_window_title(std::string const &title)
       : title_(title)
     {
     }

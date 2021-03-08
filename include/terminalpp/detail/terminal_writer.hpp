@@ -67,7 +67,7 @@ public:
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    constexpr write_element(terminalpp::element const &elem)
+    constexpr explicit write_element(terminalpp::element const &elem)
       : element_(elem)
     {
     }

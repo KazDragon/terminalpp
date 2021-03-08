@@ -17,7 +17,7 @@ public:
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    read_tokens(terminalpp::bytes data)
+    constexpr explicit read_tokens(terminalpp::bytes data)
       : data_(data)
     {
     }
