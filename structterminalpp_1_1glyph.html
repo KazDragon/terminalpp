@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">1.4.2</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -90,37 +90,36 @@ Inheritance diagram for terminalpp::glyph:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a14ae52b86b99a2076d6fd804631ae2c0"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#a14ae52b86b99a2076d6fd804631ae2c0">glyph</a> (char character=' ', <a class="el" href="structterminalpp_1_1character__set.html">character_set</a> charset=<a class="el" href="structterminalpp_1_1character__set.html">character_set</a>())</td></tr>
-<tr class="memdesc:a14ae52b86b99a2076d6fd804631ae2c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default Constructor.  <a href="structterminalpp_1_1glyph.html#a14ae52b86b99a2076d6fd804631ae2c0">More...</a><br /></td></tr>
-<tr class="separator:a14ae52b86b99a2076d6fd804631ae2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd8ec6b638736644aaa4b7f494e28dd9"><td class="memItemLeft" align="right" valign="top"><a id="acd8ec6b638736644aaa4b7f494e28dd9"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#acd8ec6b638736644aaa4b7f494e28dd9">glyph</a> (char const (&amp;text)[2])</td></tr>
-<tr class="memdesc:acd8ec6b638736644aaa4b7f494e28dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence. <br /></td></tr>
-<tr class="separator:acd8ec6b638736644aaa4b7f494e28dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a893a69856c1ab5e2367ba71961a43433"><td class="memItemLeft" align="right" valign="top"><a id="a893a69856c1ab5e2367ba71961a43433"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#a893a69856c1ab5e2367ba71961a43433">glyph</a> (char const (&amp;text)[3])</td></tr>
-<tr class="memdesc:a893a69856c1ab5e2367ba71961a43433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence. <br /></td></tr>
-<tr class="separator:a893a69856c1ab5e2367ba71961a43433"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebbc0fdd33d084356c266323032bfa6a"><td class="memItemLeft" align="right" valign="top"><a id="aebbc0fdd33d084356c266323032bfa6a"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#aebbc0fdd33d084356c266323032bfa6a">glyph</a> (char const (&amp;text)[4])</td></tr>
-<tr class="memdesc:aebbc0fdd33d084356c266323032bfa6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence. <br /></td></tr>
-<tr class="separator:aebbc0fdd33d084356c266323032bfa6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf5078c03187defb033c300701658c12"><td class="memTemplParams" colspan="2"><a id="abf5078c03187defb033c300701658c12"></a>
-template&lt;class T  = void&gt; </td></tr>
+<tr class="memitem:a46e4cfccfab8cfc06627f8ed53b9a40f"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#a46e4cfccfab8cfc06627f8ed53b9a40f">glyph</a> (byte const character=detail::ascii::space, <a class="el" href="structterminalpp_1_1character__set.html">character_set</a> const charset=<a class="el" href="structterminalpp_1_1character__set.html">character_set</a>())</td></tr>
+<tr class="memdesc:a46e4cfccfab8cfc06627f8ed53b9a40f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default Constructor.  <a href="structterminalpp_1_1glyph.html#a46e4cfccfab8cfc06627f8ed53b9a40f">More...</a><br /></td></tr>
+<tr class="separator:a46e4cfccfab8cfc06627f8ed53b9a40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa093f63ccfafb9cc6700f39d78114104"><td class="memItemLeft" align="right" valign="top"><a id="aa093f63ccfafb9cc6700f39d78114104"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#aa093f63ccfafb9cc6700f39d78114104">glyph</a> (byte const (&amp;text)[2])</td></tr>
+<tr class="memdesc:aa093f63ccfafb9cc6700f39d78114104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence. <br /></td></tr>
+<tr class="separator:aa093f63ccfafb9cc6700f39d78114104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf68a2b6c4b0009803e940fb0f0f259"><td class="memItemLeft" align="right" valign="top"><a id="aeaf68a2b6c4b0009803e940fb0f0f259"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#aeaf68a2b6c4b0009803e940fb0f0f259">glyph</a> (byte const (&amp;text)[3])</td></tr>
+<tr class="memdesc:aeaf68a2b6c4b0009803e940fb0f0f259"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence. <br /></td></tr>
+<tr class="separator:aeaf68a2b6c4b0009803e940fb0f0f259"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0c75f01f9e72b581da2939028d7f143"><td class="memItemLeft" align="right" valign="top"><a id="ac0c75f01f9e72b581da2939028d7f143"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#ac0c75f01f9e72b581da2939028d7f143">glyph</a> (byte const (&amp;text)[4])</td></tr>
+<tr class="memdesc:ac0c75f01f9e72b581da2939028d7f143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence. <br /></td></tr>
+<tr class="separator:ac0c75f01f9e72b581da2939028d7f143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf5078c03187defb033c300701658c12"><td class="memTemplParams" colspan="2">template&lt;class T  = void&gt; </td></tr>
 <tr class="memitem:abf5078c03187defb033c300701658c12"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#abf5078c03187defb033c300701658c12">glyph</a> (char const *ustr)</td></tr>
-<tr class="memdesc:abf5078c03187defb033c300701658c12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence. <br /></td></tr>
+<tr class="memdesc:abf5078c03187defb033c300701658c12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a UTF-8 glyph from a char sequence.  <a href="structterminalpp_1_1glyph.html#abf5078c03187defb033c300701658c12">More...</a><br /></td></tr>
 <tr class="separator:abf5078c03187defb033c300701658c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a73e28c23e7d1537da252a6a41a958a18"><td class="memItemLeft" ><a id="a73e28c23e7d1537da252a6a41a958a18"></a>
 union {</td></tr>
-<tr class="memitem:a5cd8e7ca88d188f34c50fb06da489269"><td class="memItemLeft" >
-&#160;&#160;&#160;char&#160;&#160;&#160;<b>character_</b></td></tr>
-<tr class="separator:a5cd8e7ca88d188f34c50fb06da489269"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a85570a313ed8a54d4fa75907c5d48c"><td class="memItemLeft" >
-&#160;&#160;&#160;char&#160;&#160;&#160;<b>ucharacter_</b> [3]</td></tr>
-<tr class="separator:a4a85570a313ed8a54d4fa75907c5d48c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc2a3420340924af10a7485e397e362"><td class="memItemLeft" >
+&#160;&#160;&#160;byte&#160;&#160;&#160;<b>character_</b></td></tr>
+<tr class="separator:abfc2a3420340924af10a7485e397e362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8177b72cf6fb80af915e1d0a1b9e06a"><td class="memItemLeft" >
+&#160;&#160;&#160;byte&#160;&#160;&#160;<b>ucharacter_</b> [3]</td></tr>
+<tr class="separator:ac8177b72cf6fb80af915e1d0a1b9e06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73e28c23e7d1537da252a6a41a958a18"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:a73e28c23e7d1537da252a6a41a958a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90aa2fac849a0b9ffe8da2db567f4025"><td class="memItemLeft" align="right" valign="top"><a id="a90aa2fac849a0b9ffe8da2db567f4025"></a>
@@ -129,6 +128,14 @@ union {</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
+<tr class="memitem:a3b24f945ef9d4c76f9a42f19aa28c7d4"><td class="memItemLeft" align="right" valign="top"><a id="a3b24f945ef9d4c76f9a42f19aa28c7d4"></a>
+constexpr TERMINALPP_EXPORT friend bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#a3b24f945ef9d4c76f9a42f19aa28c7d4">operator==</a> (<a class="el" href="structterminalpp_1_1glyph.html">glyph</a> const &amp;lhs, <a class="el" href="structterminalpp_1_1glyph.html">glyph</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a3b24f945ef9d4c76f9a42f19aa28c7d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality operator. <br /></td></tr>
+<tr class="separator:a3b24f945ef9d4c76f9a42f19aa28c7d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab34fc8ff58354999742fea8a0549ae7a"><td class="memItemLeft" align="right" valign="top"><a id="ab34fc8ff58354999742fea8a0549ae7a"></a>
+constexpr friend bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#ab34fc8ff58354999742fea8a0549ae7a">operator&lt;</a> (<a class="el" href="structterminalpp_1_1glyph.html">glyph</a> const &amp;lhs, <a class="el" href="structterminalpp_1_1glyph.html">glyph</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:ab34fc8ff58354999742fea8a0549ae7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than operator. <br /></td></tr>
+<tr class="separator:ab34fc8ff58354999742fea8a0549ae7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20ec2cb0f3d1e9fc23f9408dd3b842f4"><td class="memItemLeft" align="right" valign="top"><a id="a20ec2cb0f3d1e9fc23f9408dd3b842f4"></a>
 std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1glyph.html#a20ec2cb0f3d1e9fc23f9408dd3b842f4">hash_value</a> (<a class="el" href="structterminalpp_1_1glyph.html">glyph</a> const &amp;gly) noexcept</td></tr>
 <tr class="memdesc:a20ec2cb0f3d1e9fc23f9408dd3b842f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash function. <br /></td></tr>
@@ -137,8 +144,8 @@ std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A structure that carries around the character attributes of an ANSI element. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a14ae52b86b99a2076d6fd804631ae2c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14ae52b86b99a2076d6fd804631ae2c0">&#9670;&nbsp;</a></span>glyph()</h2>
+<a id="a46e4cfccfab8cfc06627f8ed53b9a40f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46e4cfccfab8cfc06627f8ed53b9a40f">&#9670;&nbsp;</a></span>glyph() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,13 +156,13 @@ std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
         <tr>
           <td class="memname">constexpr terminalpp::glyph::glyph </td>
           <td>(</td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>character</em> = <code>'&#160;'</code>, </td>
+          <td class="paramtype">byte const&#160;</td>
+          <td class="paramname"><em>character</em> = <code>detail::ascii::space</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structterminalpp_1_1character__set.html">character_set</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structterminalpp_1_1character__set.html">character_set</a> const&#160;</td>
           <td class="paramname"><em>charset</em> = <code><a class="el" href="structterminalpp_1_1character__set.html">character_set</a>()</code>&#160;</td>
         </tr>
         <tr>
@@ -176,13 +183,46 @@ std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
+<a id="abf5078c03187defb033c300701658c12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf5078c03187defb033c300701658c12">&#9670;&nbsp;</a></span>glyph() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = void&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr terminalpp::glyph::glyph </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>ustr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a UTF-8 glyph from a char sequence. </p>
+<dl class="section user"><dt></dt><dd>This constructor is specifically for unicode characters stored as UTF-8. For example: <div class="fragment"><div class="line"><a class="code" href="structterminalpp_1_1glyph.html#a46e4cfccfab8cfc06627f8ed53b9a40f">glyph</a> g(u8<span class="stringliteral">&quot;\U00002501&quot;</span>);</div>
+</div><!-- fragment --> The result of passing in a sequence that is not a UTF-8 string is undefined. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/runner/work/terminalpp/terminalpp/include/terminalpp/<a class="el" href="glyph_8hpp_source.html">glyph.hpp</a></li>
 </ul>
 </div><!-- contents -->
+<div class="ttc" id="astructterminalpp_1_1glyph_html_a46e4cfccfab8cfc06627f8ed53b9a40f"><div class="ttname"><a href="structterminalpp_1_1glyph.html#a46e4cfccfab8cfc06627f8ed53b9a40f">terminalpp::glyph::glyph</a></div><div class="ttdeci">constexpr glyph(byte const character=detail::ascii::space, character_set const charset=character_set())</div><div class="ttdoc">Default Constructor.</div><div class="ttdef"><b>Definition:</b> glyph.hpp:27</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 8 2021 07:22:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 10:05:34 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

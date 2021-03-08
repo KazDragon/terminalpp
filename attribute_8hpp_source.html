@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">1.4.2</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -89,13 +89,13 @@ $(function() {
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment">//* =====================================================================</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"></span>    <span class="comment">//* =====================================================================</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structterminalpp_1_1attribute.html#a10866676bd84d93493239775d3e5eee7">   23</a></span>&#160;    constexpr <a class="code" href="structterminalpp_1_1attribute.html#a10866676bd84d93493239775d3e5eee7">attribute</a>(</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structterminalpp_1_1attribute.html#a33a90e7031e97d8112c8db4181f7b388">   23</a></span>&#160;    constexpr <a class="code" href="structterminalpp_1_1attribute.html#a33a90e7031e97d8112c8db4181f7b388">attribute</a>(</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="structterminalpp_1_1colour.html">colour</a> foreground_colour = <a class="code" href="structterminalpp_1_1colour.html">colour</a>(),</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="structterminalpp_1_1colour.html">colour</a> background_colour = <a class="code" href="structterminalpp_1_1colour.html">colour</a>(),</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">intensity</a> intensity_effect = ansi::graphics::intensity::normal,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">underlining</a> underlining_effect = ansi::graphics::underlining::not_underlined,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">polarity</a> polarity_effect = ansi::graphics::polarity::positive,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">blinking</a> blink_effect = ansi::graphics::blinking::steady)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">intensity</a> intensity_effect = graphics::intensity::normal,</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">underlining</a> underlining_effect = graphics::underlining::not_underlined,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">polarity</a> polarity_effect = graphics::polarity::positive,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="structterminalpp_1_1effect.html">blinking</a> blink_effect = graphics::blinking::steady)</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      : foreground_colour_(foreground_colour),</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        background_colour_(background_colour),</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        intensity_(intensity_effect),</div>
@@ -178,7 +178,7 @@ $(function() {
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">//* =========================================================================</span></div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;constexpr <span class="keywordtype">bool</span> <a class="code" href="namespaceterminalpp_1_1ansi.html#aff38dffb01d92f4c3e48eb0096c7d09b">operator==</a>(attribute <span class="keyword">const</span> &amp;lhs, attribute <span class="keyword">const</span> &amp;rhs)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;constexpr <span class="keywordtype">bool</span> operator==(attribute <span class="keyword">const</span> &amp;lhs, attribute <span class="keyword">const</span> &amp;rhs)</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">return</span> lhs.foreground_colour_ == rhs.foreground_colour_</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        &amp;&amp; lhs.background_colour_ == rhs.background_colour_</div>
@@ -191,7 +191,7 @@ $(function() {
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">//* =========================================================================</span></div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;TERMINALPP_EXPORT</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;std::ostream &amp;<a class="code" href="namespaceterminalpp_1_1ansi.html#a9c10781279b6a2202300e1d3637bda76">operator&lt;&lt;</a>(std::ostream &amp;out, attribute <span class="keyword">const</span> &amp;attr);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, attribute <span class="keyword">const</span> &amp;attr);</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
@@ -212,16 +212,14 @@ $(function() {
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;}</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructterminalpp_1_1effect_html"><div class="ttname"><a href="structterminalpp_1_1effect.html">terminalpp::effect&lt; terminalpp::ansi::graphics::intensity &gt;</a></div></div>
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_html_a9c10781279b6a2202300e1d3637bda76"><div class="ttname"><a href="namespaceterminalpp_1_1ansi.html#a9c10781279b6a2202300e1d3637bda76">terminalpp::ansi::operator&lt;&lt;</a></div><div class="ttdeci">TERMINALPP_EXPORT std::ostream &amp; operator&lt;&lt;(std::ostream &amp;out, control_sequence const &amp;seq)</div><div class="ttdoc">Streaming output operator.</div><div class="ttdef"><b>Definition:</b> control_sequence.cpp:117</div></div>
-<div class="ttc" id="astructterminalpp_1_1colour_html"><div class="ttname"><a href="structterminalpp_1_1colour.html">terminalpp::colour</a></div><div class="ttdoc">Structure representing a sum type of the available colour styles.</div><div class="ttdef"><b>Definition:</b> colour.hpp:210</div></div>
+<div class="ttc" id="astructterminalpp_1_1effect_html"><div class="ttname"><a href="structterminalpp_1_1effect.html">terminalpp::effect&lt; terminalpp::graphics::intensity &gt;</a></div></div>
+<div class="ttc" id="astructterminalpp_1_1colour_html"><div class="ttname"><a href="structterminalpp_1_1colour.html">terminalpp::colour</a></div><div class="ttdoc">Structure representing a sum type of the available colour styles.</div><div class="ttdef"><b>Definition:</b> colour.hpp:220</div></div>
+<div class="ttc" id="astructterminalpp_1_1attribute_html_a33a90e7031e97d8112c8db4181f7b388"><div class="ttname"><a href="structterminalpp_1_1attribute.html#a33a90e7031e97d8112c8db4181f7b388">terminalpp::attribute::attribute</a></div><div class="ttdeci">constexpr attribute(colour foreground_colour=colour(), colour background_colour=colour(), intensity intensity_effect=graphics::intensity::normal, underlining underlining_effect=graphics::underlining::not_underlined, polarity polarity_effect=graphics::polarity::positive, blinking blink_effect=graphics::blinking::steady)</div><div class="ttdoc">Initialises the attribute with the colours and effects specified.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:23</div></div>
 <div class="ttc" id="astructterminalpp_1_1attribute_html_a4f4365117a9551d6653c07abd3dbb9f9"><div class="ttname"><a href="structterminalpp_1_1attribute.html#a4f4365117a9551d6653c07abd3dbb9f9">terminalpp::attribute::hash_value</a></div><div class="ttdeci">friend std::size_t hash_value(attribute const &amp;attr) noexcept</div><div class="ttdoc">Hash function.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:42</div></div>
-<div class="ttc" id="astructterminalpp_1_1attribute_html_a10866676bd84d93493239775d3e5eee7"><div class="ttname"><a href="structterminalpp_1_1attribute.html#a10866676bd84d93493239775d3e5eee7">terminalpp::attribute::attribute</a></div><div class="ttdeci">constexpr attribute(colour foreground_colour=colour(), colour background_colour=colour(), intensity intensity_effect=ansi::graphics::intensity::normal, underlining underlining_effect=ansi::graphics::underlining::not_underlined, polarity polarity_effect=ansi::graphics::polarity::positive, blinking blink_effect=ansi::graphics::blinking::steady)</div><div class="ttdoc">Initialises the attribute with the colours and effects specified.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:23</div></div>
 <div class="ttc" id="astructterminalpp_1_1attribute_html"><div class="ttname"><a href="structterminalpp_1_1attribute.html">terminalpp::attribute</a></div><div class="ttdoc">A structure that carries around the presentation attributes of an ANSI element.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:15</div></div>
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_html_aff38dffb01d92f4c3e48eb0096c7d09b"><div class="ttname"><a href="namespaceterminalpp_1_1ansi.html#aff38dffb01d92f4c3e48eb0096c7d09b">terminalpp::ansi::operator==</a></div><div class="ttdeci">TERMINALPP_EXPORT bool operator==(control_sequence const &amp;lhs, control_sequence const &amp;rhs)</div><div class="ttdoc">Equality operator.</div><div class="ttdef"><b>Definition:</b> control_sequence.cpp:12</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 8 2021 07:22:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 10:05:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

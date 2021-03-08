@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blinking_248',['blinking',['../namespaceterminalpp_1_1ansi_1_1graphics.html#a54668618869fc70fab6a3a29040d592b',1,'terminalpp::ansi::graphics']]]
+  ['type_182',['type',['../structterminalpp_1_1colour.html#a7d2c49f16ab0b6ff9e80b12d61a8427b',1,'terminalpp::colour']]]
 ];

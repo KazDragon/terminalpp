@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">1.4.2</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -75,108 +75,70 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;terminalpp/core.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;terminalpp/detail/ascii.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;boost/optional.hpp&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi.html">    6</a></span>&#160;<span class="keyword">namespace </span>terminalpp { <span class="keyword">namespace </span>ansi {</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi.html">    8</a></span>&#160;<span class="keyword">namespace </span>terminalpp { <span class="keyword">namespace </span>ansi {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">enum class</span> charset : char {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    dec,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    dec_supplementary,</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    dec_supplementary_graphics,</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    dec_technical,</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    uk,</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    us_ascii,</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    dutch,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    finnish,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    french,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    french_canadian,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    german,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    italian,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    danish,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    portuguese,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    spanish,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    swedish,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    swiss,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    sco,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    utf8,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">// Note: For extended ASCII, both PuTTY and TeraTerm support SCO.</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DEC[]                 = {terminalpp::detail::ascii::ZERO, 0};</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DEC_SUPPLEMENTARY[]   = {terminalpp::detail::ascii::LESS_THAN, 0};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DEC_SUPPLEMENTARY_GR[]= {terminalpp::detail::ascii::PERCENT,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                                                             terminalpp::detail::ascii::FIVE, 0};</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DEC_TECHNICAL[]       = {terminalpp::detail::ascii::GREATER_THAN, 0};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_UK[]                  = {terminalpp::detail::ascii::UPPERCASE_A, 0};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_US_ASCII[]            = {terminalpp::detail::ascii::UPPERCASE_B, 0};</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DUTCH[]               = {terminalpp::detail::ascii::FOUR, 0};</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_FINNISH[]             = {terminalpp::detail::ascii::UPPERCASE_C, 0};</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_FINNISH_ALT[]         = {terminalpp::detail::ascii::FIVE, 0};</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_FRENCH[]              = {terminalpp::detail::ascii::UPPERCASE_R, 0};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_FRENCH_ALT[]          = {terminalpp::detail::ascii::LOWERCASE_F, 0};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_FRENCH_CANADIAN[]     = {terminalpp::detail::ascii::UPPERCASE_Q, 0};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_FRENCH_CANADIAN_ALT[] = {terminalpp::detail::ascii::NINE, 0};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_GERMAN[]              = {terminalpp::detail::ascii::UPPERCASE_K, 0};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_ITALIAN[]             = {terminalpp::detail::ascii::UPPERCASE_Y, 0};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DANISH[]              = {terminalpp::detail::ascii::GRAVE, 0};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DANISH_ALT_1[]        = {terminalpp::detail::ascii::UPPERCASE_E, 0};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_DANISH_ALT_2[]        = {terminalpp::detail::ascii::SIX, 0};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_PORTUGUESE[]          = {terminalpp::detail::ascii::PERCENT,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                                             terminalpp::detail::ascii::SIX, 0};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_SPANISH[]             = {terminalpp::detail::ascii::UPPERCASE_Z, 0};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_SWEDISH[]             = {terminalpp::detail::ascii::UPPERCASE_H, 0};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_SWEDISH_ALT[]         = {terminalpp::detail::ascii::SEVEN, 0};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_SWISS[]               = {terminalpp::detail::ascii::EQUALS, 0};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_SCO[]                 = {terminalpp::detail::ascii::UPPERCASE_U, 0};</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">// Not defined by ANSI/VT100; just me bolting this on.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_UTF8[]                = {terminalpp::detail::ascii::LOWERCASE_U, 0};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">// Some charsets (e.g. Portuguese) require an extender character</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> CHARSET_EXTENDER = terminalpp::detail::ascii::PERCENT;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">// Commands for Charset Selection</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SELECT_DEFAULT_CHARACTER_SET[]= {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                                             terminalpp::detail::ascii::PERCENT,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                                             terminalpp::detail::ascii::AT, 0};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SELECT_UTF8_CHARACTER_SET[]   = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                                             terminalpp::detail::ascii::PERCENT,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                                             terminalpp::detail::ascii::UPPERCASE_G, 0};</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">// Command openers for Designate G? Character Set commands.</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SET_CHARSET_G0[]              = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                             terminalpp::detail::ascii::OPEN_PARENTHESIS, 0};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SET_CHARSET_G1[]              = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                                             terminalpp::detail::ascii::CLOSE_PARENTHESIS, 0};</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SET_CHARSET_G2[]              = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                                                             terminalpp::detail::ascii::ASTERISK, 0};</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SET_CHARSET_G3[]              = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                                             terminalpp::detail::ascii::PLUS, 0};</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SET_CHARSET_G1_ALT[]          = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                                             terminalpp::detail::ascii::DASH, 0};</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SET_CHARSET_G2_ALT[]          = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                                             terminalpp::detail::ascii::FULL_STOP, 0};</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <span class="keyword">const</span> SET_CHARSET_G3_ALT[]          = {terminalpp::detail::ascii::ESC,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                                             terminalpp::detail::ascii::SLASH, 0};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">// Locale/Locale Code Conversion</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;TERMINALPP_EXPORT</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;boost::optional&lt;charset&gt; <a class="code" href="namespaceterminalpp_1_1ansi.html#a913cb4a68d8dde0379f2ea287c7b7ff9">lookup_charset</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> *code);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;TERMINALPP_EXPORT</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;std::string <a class="code" href="namespaceterminalpp_1_1ansi.html#a28fb4462f270720f1f2575158ca06e1f">charset_to_string</a>(charset <span class="keyword">const</span> &amp;loc);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}}</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// Note: For extended ASCII, both PuTTY and TeraTerm support SCO.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_dec[]                  = {terminalpp::detail::ascii::zero};</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_dec_supplementary[]    = {terminalpp::detail::ascii::less_than};</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_dec_supplementary_gr[] = {terminalpp::detail::ascii::percent,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                        terminalpp::detail::ascii::five};</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_dec_technical[]        = {terminalpp::detail::ascii::greater_than};</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_uk[]                   = {terminalpp::detail::ascii::uppercase_a};</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_us_ascii[]             = {terminalpp::detail::ascii::uppercase_b};</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_dutch[]                = {terminalpp::detail::ascii::four};</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_finnish[]              = {terminalpp::detail::ascii::uppercase_c};</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_finnish_alt[]          = {terminalpp::detail::ascii::five};</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_french[]               = {terminalpp::detail::ascii::uppercase_r};</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_french_alt[]           = {terminalpp::detail::ascii::lowercase_f};</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_french_canadian[]      = {terminalpp::detail::ascii::uppercase_q};</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_french_canadian_alt[]  = {terminalpp::detail::ascii::nine};</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_german[]               = {terminalpp::detail::ascii::uppercase_k};</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_italian[]              = {terminalpp::detail::ascii::uppercase_y};</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_danish[]               = {terminalpp::detail::ascii::grave};</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_danish_alt_1[]         = {terminalpp::detail::ascii::uppercase_e};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_danish_alt_2[]         = {terminalpp::detail::ascii::six};</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_portuguese[]           = {terminalpp::detail::ascii::percent,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                                                        terminalpp::detail::ascii::six};</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_spanish[]              = {terminalpp::detail::ascii::uppercase_z};</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_swedish[]              = {terminalpp::detail::ascii::uppercase_h};</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_swedish_alt[]          = {terminalpp::detail::ascii::seven};</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_swiss[]                = {terminalpp::detail::ascii::equals};</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_sco[]                  = {terminalpp::detail::ascii::uppercase_u};</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// Not defined by ANSI/VT100; just me bolting this on.</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_utf8[]                 = {terminalpp::detail::ascii::lowercase_u};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">// Some charsets (e.g. Portuguese) require an extender character</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> charset_extender               = terminalpp::detail::ascii::percent;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// Commands for Charset Selection</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> select_default_character_set[] = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                                                        terminalpp::detail::ascii::percent,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                                        terminalpp::detail::ascii::at};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> select_utf8_character_set[]    = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                                        terminalpp::detail::ascii::percent,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                                        terminalpp::detail::ascii::uppercase_g};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">// Command openers for Designate G? Character Set commands.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> set_charset_g0[]               = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                                        terminalpp::detail::ascii::open_parenthesis};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> set_charset_g1[]               = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                                        terminalpp::detail::ascii::close_parenthesis};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> set_charset_g2[]               = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                                        terminalpp::detail::ascii::asterisk};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> set_charset_g3[]               = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                                                        terminalpp::detail::ascii::plus};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> set_charset_g1_alt[]           = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                                        terminalpp::detail::ascii::minus};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> set_charset_g2_alt[]           = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                                        terminalpp::detail::ascii::full_stop};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> set_charset_g3_alt[]           = {terminalpp::detail::ascii::esc,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                                        terminalpp::detail::ascii::slash};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_html_a913cb4a68d8dde0379f2ea287c7b7ff9"><div class="ttname"><a href="namespaceterminalpp_1_1ansi.html#a913cb4a68d8dde0379f2ea287c7b7ff9">terminalpp::ansi::lookup_charset</a></div><div class="ttdeci">TERMINALPP_EXPORT boost::optional&lt; charset &gt; lookup_charset(char const *code)</div><div class="ttdoc">Look up a character set by the ANSI code it uses. E.g. lookup_charset(&quot;%6&quot;) yields charset::portugues...</div><div class="ttdef"><b>Definition:</b> charset.cpp:40</div></div>
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_html_a28fb4462f270720f1f2575158ca06e1f"><div class="ttname"><a href="namespaceterminalpp_1_1ansi.html#a28fb4462f270720f1f2575158ca06e1f">terminalpp::ansi::charset_to_string</a></div><div class="ttdeci">TERMINALPP_EXPORT std::string charset_to_string(charset const &amp;loc)</div><div class="ttdoc">Convert a character set to its respective ANSI code. E.g. charset_to_string(charset::portuguese) yiel...</div><div class="ttdef"><b>Definition:</b> charset.cpp:76</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 8 2021 07:22:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 10:05:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

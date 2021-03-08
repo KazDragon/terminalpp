@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">1.4.2</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -98,7 +98,7 @@ Features / Roadmap</h1>
 </ul>
 </li>
 <li>[x] A utility for managing ANSI escape codes that are not bound to specific characters. For example, commands for moving the cursor, changing the screen's title, clearing the screen, etc.<ul>
-<li>[x] <a class="el" href="classterminalpp_1_1terminal.html" title="A class responsible for combining the knowledge and state of a terminal window to know what the best ...">terminalpp::terminal</a></li>
+<li>[x] terminalpp::terminal</li>
 </ul>
 </li>
 <li>[x] Utilities for managing screens of attributed characters<ul>
@@ -125,49 +125,66 @@ The Basics</h1>
 <li><a class="el" href="structterminalpp_1_1attribute.html" title="A structure that carries around the presentation attributes of an ANSI element.">terminalpp::attribute</a> - a collection of variables that describe the non-character graphical part of the output, such as the foreground and background colours, whether it is bold, underlined, and so on.</li>
 </ul>
 <p>These are combined into Terminal++'s fundamental type, <a class="el" href="structterminalpp_1_1element.html" title="A structure that represents the fundamental printable element of a terminal screen,...">terminalpp::element</a>.</p>
+<p>The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it. Because the terminal is unaware whether you are sending data to the console or over a network connection, each writing operation takes a function parameter that states the destination. You see this as the write_to_console function in the examples below. This also allows for other use cases where, for example, the continuation collects data from several operations in memory before transmitting the entire chunk in one go.</p>
 <h1><a class="anchor" id="autotoc_md19"></a>
 Strings</h1>
 <p>terminalpp::elements can be collected together using the <a class="el" href="classterminalpp_1_1string.html" title="A class that represents strings of elements.">terminalpp::string</a> class. It has several constructors for different uses. For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message. In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complicated strings</p>
-<p><a href="examples/hello_world">Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/ansi_terminal.hpp&gt;</span></div>
+<p><a href="examples/hello_world">Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; std::string{data.begin(), data.end()};</div>
+<div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>terminalpp::literals;</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1string.html">terminalpp::string</a> text = <span class="stringliteral">&quot;Hello, world!\n&quot;</span>_ts;</div>
 <div class="line"> </div>
-<div class="line">    terminalpp::ansi_terminal terminal;</div>
-<div class="line">    std::cout &lt;&lt; terminal.write(text);</div>
+<div class="line">    terminalpp::terminal terminal{write_to_console};</div>
+<div class="line">    terminal.write(write_to_console) &lt;&lt; text;</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Constructs a terminalpp::string, and then prints it to the terminal as, &quot;Hello, world!&quot;</span></div>
 </div><!-- fragment --><p>By using _ets, you can also encode attributes within the text. For example:</p>
-<p><a href="examples/encoded_hello_world">Encoded Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/ansi_terminal.hpp&gt;</span></div>
+<p><a href="examples/encoded_hello_world">Encoded Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; std::string(data.begin(), data.end());</div>
+<div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>terminalpp::literals;</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1string.html">terminalpp::string</a> text = <span class="stringliteral">&quot;\\[1Hello, \\[2World! \\x\\U263A\n&quot;</span>_ets;</div>
 <div class="line"> </div>
-<div class="line">    terminalpp::ansi_terminal terminal;</div>
-<div class="line">    std::cout &lt;&lt; terminal.write(text);</div>
+<div class="line">    terminalpp::terminal terminal{write_to_console};</div>
+<div class="line">    terminal.write(write_to_console) &lt;&lt; text;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>This prints out "Hello, " in red text, then "World!" in green text, and then a smiley face in the default colour. See the Wiki for more information about the attribute encoding used and its possibilities. It is also possible to change the attributes for each element programatically.</p>
 <div class="fragment"><div class="line"><a class="code" href="classterminalpp_1_1string.html">terminalpp::string</a> text = ...;</div>
-<div class="line">text[0].attribute_.intensity_ = terminalpp::ansi::graphics::intensity::bold;</div>
+<div class="line">text[0].attribute_.intensity_ = terminalpp::graphics::intensity::bold;</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md20"></a>
 Terminals</h1>
-<p>At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a CMake script or Google Test results, or even standard unix functions such as ls. But the ansi_terminal class allows for complete control over the terminal's appearance.</p>
-<p><a href="examples/positioned_smiley">Positioned smiley project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/ansi_terminal.hpp&gt;</span></div>
+<p>At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a CMake script or Google Test results, or even standard unix functions such as ls. But the terminal class allows for complete control over the terminal's appearance.</p>
+<p><a href="examples/positioned_smiley">Positioned smiley project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; std::string{data.begin(), data.end()};</div>
+<div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>terminalpp::literals;</div>
-<div class="line">    terminalpp::ansi_terminal terminal;</div>
+<div class="line">    terminalpp::terminal terminal{write_to_console};</div>
 <div class="line"> </div>
-<div class="line">    std::cout &lt;&lt; terminal.save_cursor()</div>
-<div class="line">              &lt;&lt; terminal.move_cursor({0,0})</div>
-<div class="line">              &lt;&lt; terminal.write(<span class="stringliteral">&quot;\\U263A&quot;</span>_ets)</div>
-<div class="line">              &lt;&lt; terminal.restore_cursor();</div>
+<div class="line">    terminal.write(write_to_console)</div>
+<div class="line">        &lt;&lt; terminalpp::save_cursor_position()</div>
+<div class="line">        &lt;&lt; terminalpp::move_cursor({0, 0})</div>
+<div class="line">        &lt;&lt; <span class="stringliteral">&quot;\\U263A&quot;</span>_ets</div>
+<div class="line">        &lt;&lt; terminalpp::restore_cursor_position();</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>This writes a smiley face in the (0, 0) position on the terminal &ndash; the top-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.</p>
 <p>Note that it is necessary to output the results of the terminal operations. This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is. It could be standard out, it could be some named pipe, or it could be a network socket. This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions.</p>
@@ -193,39 +210,55 @@ Canvas and Screen</h1>
 <div class="line">}</div>
 </div><!-- fragment --><p>Now, assigning elements to the canvas wont actually cause any immediate effect. For that, you would need to index over the entire canvas and output it, element-by-element, to a terminal. But it's very wasteful to output the entire screen each time that a small part of it changes.</p>
 <p>To control this, we present the <a class="el" href="classterminalpp_1_1screen.html" title="A class that represents a screen for a terminal.">terminalpp::screen</a> class, which represents a double-buffered approach to drawing the contents of a canvas. Its draw() member function will cause only the differences between the previously drawn canvas and the current canvas to be output, with efforts made to keep the output as small as possible. Note: it is assumed for the first canvas drawn, and for any canvas drawn after a change in output size, that everything has changed.</p>
-<p><a href="examples/shocking_pink">Shocking pink project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/ansi_terminal.hpp&gt;</span></div>
+<p><a href="examples/shocking_pink">Shocking pink project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;terminalpp/canvas.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;terminalpp/screen.hpp&gt;</span></div>
 <div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; std::string{data.begin(), data.end()};</div>
+<div class="line">}</div>
+<div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
-<div class="line">    terminalpp::ansi_terminal terminal;</div>
+<div class="line">    terminalpp::terminal terminal{write_to_console};</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1screen.html">terminalpp::screen</a> screen;</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1canvas.html">terminalpp::canvas</a> canvas({80, 24});</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// ... Shocking pink screen as before ...</span></div>
-<div class="line">    std::cout &lt;&lt; screen.<a class="code" href="classterminalpp_1_1screen.html#abb13e1d3e320d60cb5508a8890e40ff0">draw</a>(terminal, canvas);</div>
+<div class="line">    <span class="comment">// Set the entire canvas to be the letter &#39;x&#39; on a shocking pink</span></div>
+<div class="line">    <span class="comment">// background.  Because, why not?</span></div>
+<div class="line">    <a class="code" href="structterminalpp_1_1element.html">terminalpp::element</a> element(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line">    element.attribute_.background_colour_ = <a class="code" href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a>(5, 1, 2);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (terminalpp::coordinate_type y = 0; y &lt; canvas.size().height_; ++y)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">for</span> (terminalpp::coordinate_type x = 0; x &lt; canvas.size().width_; ++x)</div>
+<div class="line">        {</div>
+<div class="line">            canvas[x][y] = element;</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    screen.<a class="code" href="classterminalpp_1_1screen.html#a056a356801a60ded3fb5a651e7f1fb85">draw</a>(terminal, canvas, write_to_console);</div>
 <div class="line">    <span class="comment">// screen is now actually shocking pink.</span></div>
 <div class="line"> </div>
 <div class="line">    canvas[10][15].glyph_ = <span class="charliteral">&#39;y&#39;</span>;</div>
-<div class="line">    canvas[10][15].attribute_.background_colour_ =</div>
-<div class="line">        terminalpp::ansi::graphics::colour::blue;</div>
+<div class="line">    canvas[10][15].attribute_.background_colour_ = terminalpp::graphics::colour::blue;</div>
 <div class="line"> </div>
-<div class="line">    std::cout &lt;&lt; screen.<a class="code" href="classterminalpp_1_1screen.html#abb13e1d3e320d60cb5508a8890e40ff0">draw</a>(terminal, canvas);</div>
+<div class="line">    screen.<a class="code" href="classterminalpp_1_1screen.html#a056a356801a60ded3fb5a651e7f1fb85">draw</a>(terminal, canvas, write_to_console);</div>
 <div class="line">    <span class="comment">// screen is still shocking pink, but there is now a letter &#39;y&#39; with a</span></div>
 <div class="line">    <span class="comment">// blue background at position (10, 15).</span></div>
 <div class="line">}</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <div class="ttc" id="aclassterminalpp_1_1string_html"><div class="ttname"><a href="classterminalpp_1_1string.html">terminalpp::string</a></div><div class="ttdoc">A class that represents strings of elements.</div><div class="ttdef"><b>Definition:</b> string.hpp:18</div></div>
+<div class="ttc" id="aclassterminalpp_1_1screen_html_a056a356801a60ded3fb5a651e7f1fb85"><div class="ttname"><a href="classterminalpp_1_1screen.html#a056a356801a60ded3fb5a651e7f1fb85">terminalpp::screen::draw</a></div><div class="ttdeci">void draw(terminal &amp;term, canvas const &amp;cvs, WriteContinuation &amp;&amp;wc)</div><div class="ttdoc">Draws the current screen to the terminal.</div><div class="ttdef"><b>Definition:</b> screen.hpp:24</div></div>
 <div class="ttc" id="astructterminalpp_1_1element_html"><div class="ttname"><a href="structterminalpp_1_1element.html">terminalpp::element</a></div><div class="ttdoc">A structure that represents the fundamental printable element of a terminal screen,...</div><div class="ttdef"><b>Definition:</b> element.hpp:17</div></div>
-<div class="ttc" id="aclassterminalpp_1_1screen_html_abb13e1d3e320d60cb5508a8890e40ff0"><div class="ttname"><a href="classterminalpp_1_1screen.html#abb13e1d3e320d60cb5508a8890e40ff0">terminalpp::screen::draw</a></div><div class="ttdeci">std::string draw(terminal &amp;term, canvas const &amp;cvs)</div><div class="ttdoc">Draws the current screen to the terminal.</div><div class="ttdef"><b>Definition:</b> screen.cpp:18</div></div>
-<div class="ttc" id="aclassterminalpp_1_1screen_html"><div class="ttname"><a href="classterminalpp_1_1screen.html">terminalpp::screen</a></div><div class="ttdoc">A class that represents a screen for a terminal.</div><div class="ttdef"><b>Definition:</b> screen.hpp:13</div></div>
-<div class="ttc" id="astructterminalpp_1_1high__colour_html"><div class="ttname"><a href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a></div><div class="ttdoc">Structure representing the central 216 colours of a 256-colour palette, where each colour channel is ...</div><div class="ttdef"><b>Definition:</b> colour.hpp:79</div></div>
+<div class="ttc" id="aclassterminalpp_1_1screen_html"><div class="ttname"><a href="classterminalpp_1_1screen.html">terminalpp::screen</a></div><div class="ttdoc">A class that represents a screen for a terminal.</div><div class="ttdef"><b>Definition:</b> screen.hpp:17</div></div>
+<div class="ttc" id="astructterminalpp_1_1high__colour_html"><div class="ttname"><a href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a></div><div class="ttdoc">Structure representing the central 216 colours of a 256-colour palette, where each colour channel is ...</div><div class="ttdef"><b>Definition:</b> colour.hpp:90</div></div>
 <div class="ttc" id="aclassterminalpp_1_1canvas_html"><div class="ttname"><a href="classterminalpp_1_1canvas.html">terminalpp::canvas</a></div><div class="ttdoc">A class representing a grid onto which elements can be painted.</div><div class="ttdef"><b>Definition:</b> canvas.hpp:17</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 8 2021 07:22:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 10:05:34 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

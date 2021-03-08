@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">1.4.2</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -68,10 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
 <div class="title">terminalpp::ansi Namespace Reference</div>  </div>
 </div><!--header-->
@@ -97,77 +94,19 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespaceterminalpp_1_1ansi_1_1graphics"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi_1_1graphics.html">graphics</a></td></tr>
 <tr class="memdesc:namespaceterminalpp_1_1ansi_1_1graphics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains constants for the Select Graphics Rendition command parameters. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespaceterminalpp_1_1ansi_1_1mouse"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi_1_1mouse.html">mouse</a></td></tr>
-<tr class="memdesc:namespaceterminalpp_1_1ansi_1_1mouse"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants and structures for dealing with mouse controls. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceterminalpp_1_1ansi_1_1osc"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi_1_1osc.html">osc</a></td></tr>
 <tr class="memdesc:namespaceterminalpp_1_1ansi_1_1osc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants for commands that begin with the Operating System Control sequence. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceterminalpp_1_1ansi_1_1ss3"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi_1_1ss3.html">ss3</a></td></tr>
 <tr class="memdesc:namespaceterminalpp_1_1ansi_1_1ss3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants for Single Shift to G3 commands. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1ansi_1_1control__sequence.html">control_sequence</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class that encapsulates an ANSI control sequence. In the sequence "ESC[x;h;yC", '[' is the initiator, "C" is the command, and "x", "h" and "y" are the arguments. Additionally, some terminals send an extra escape when certain keys are held down, and if this occurs, then meta is true. Finally, some control sequences have an extender character after the initiator, such as "ESC[?6n". In this example, '?' is the extender.  <a href="structterminalpp_1_1ansi_1_1control__sequence.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a7a63756e002fd1ca645d9f86c4eba80d"><td class="memItemLeft" align="right" valign="top"><a id="a7a63756e002fd1ca645d9f86c4eba80d"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>charset</b> : char { <br />
-&#160;&#160;<b>dec</b>, 
-<b>dec_supplementary</b>, 
-<b>dec_supplementary_graphics</b>, 
-<b>dec_technical</b>, 
-<br />
-&#160;&#160;<b>uk</b>, 
-<b>us_ascii</b>, 
-<b>dutch</b>, 
-<b>finnish</b>, 
-<br />
-&#160;&#160;<b>french</b>, 
-<b>french_canadian</b>, 
-<b>german</b>, 
-<b>italian</b>, 
-<br />
-&#160;&#160;<b>danish</b>, 
-<b>portuguese</b>, 
-<b>spanish</b>, 
-<b>swedish</b>, 
-<br />
-&#160;&#160;<b>swiss</b>, 
-<b>sco</b>, 
-<b>utf8</b>
-<br />
- }</td></tr>
-<tr class="separator:a7a63756e002fd1ca645d9f86c4eba80d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a913cb4a68d8dde0379f2ea287c7b7ff9"><td class="memItemLeft" align="right" valign="top"><a id="a913cb4a68d8dde0379f2ea287c7b7ff9"></a>
-TERMINALPP_EXPORT boost::optional&lt; charset &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi.html#a913cb4a68d8dde0379f2ea287c7b7ff9">lookup_charset</a> (char const *code)</td></tr>
-<tr class="memdesc:a913cb4a68d8dde0379f2ea287c7b7ff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Look up a character set by the ANSI code it uses. E.g. lookup_charset("%6") yields charset::portuguese. <br /></td></tr>
-<tr class="separator:a913cb4a68d8dde0379f2ea287c7b7ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28fb4462f270720f1f2575158ca06e1f"><td class="memItemLeft" align="right" valign="top"><a id="a28fb4462f270720f1f2575158ca06e1f"></a>
-TERMINALPP_EXPORT std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi.html#a28fb4462f270720f1f2575158ca06e1f">charset_to_string</a> (charset const &amp;loc)</td></tr>
-<tr class="memdesc:a28fb4462f270720f1f2575158ca06e1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a character set to its respective ANSI code. E.g. charset_to_string(charset::portuguese) yields "%6". <br /></td></tr>
-<tr class="separator:a28fb4462f270720f1f2575158ca06e1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff38dffb01d92f4c3e48eb0096c7d09b"><td class="memItemLeft" align="right" valign="top"><a id="aff38dffb01d92f4c3e48eb0096c7d09b"></a>
-TERMINALPP_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi.html#aff38dffb01d92f4c3e48eb0096c7d09b">operator==</a> (<a class="el" href="structterminalpp_1_1ansi_1_1control__sequence.html">control_sequence</a> const &amp;lhs, <a class="el" href="structterminalpp_1_1ansi_1_1control__sequence.html">control_sequence</a> const &amp;rhs)</td></tr>
-<tr class="memdesc:aff38dffb01d92f4c3e48eb0096c7d09b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality operator. <br /></td></tr>
-<tr class="separator:aff38dffb01d92f4c3e48eb0096c7d09b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c10781279b6a2202300e1d3637bda76"><td class="memItemLeft" align="right" valign="top"><a id="a9c10781279b6a2202300e1d3637bda76"></a>
-TERMINALPP_EXPORT std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceterminalpp_1_1ansi.html#a9c10781279b6a2202300e1d3637bda76">operator&lt;&lt;</a> (std::ostream &amp;out, <a class="el" href="structterminalpp_1_1ansi_1_1control__sequence.html">control_sequence</a> const &amp;seq)</td></tr>
-<tr class="memdesc:a9c10781279b6a2202300e1d3637bda76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streaming output operator. <br /></td></tr>
-<tr class="separator:a9c10781279b6a2202300e1d3637bda76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Low-level ANSI terminal constants and operations. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 8 2021 07:22:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 10:05:34 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
