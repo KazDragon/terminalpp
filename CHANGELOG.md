@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.0 - Continuations API
+1. [x] The terminal class has been re-worked to use a continuation-based approach consistent with Console++, Server++ and Telnet++.
+
 ## Version 1.4 - Migrated away from Conan
 1. [x] Conan packages are still built for Terminal++, but it is no longer required for building.
 2. [x] Added some constants for a more accessible colour palette.
