@@ -2,74 +2,40 @@
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
 
+using namespace terminalpp::literals;
+
 TEST_F(a_terminal, can_erase_its_entire_display)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        // str seq actual output,
-        std::string("\x1B[2J"),
-
-        // action
-        terminal.erase_in_display(terminalpp::terminal::erase_display::all));
+    terminal_.write(append_to_result) << terminalpp::erase_display();
+    expect_sequence("\x1B[2J"_tb, result_);
 }
 
-TEST_F(a_terminal, can_erase_its_entire_display_above_the_cursor)
+TEST_F(a_terminal, can_erase_its_display_above_the_cursor)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        // str seq actual output,
-        std::string("\x1B[1J"),
-
-        // action
-        terminal.erase_in_display(terminalpp::terminal::erase_display::above));
+    terminal_.write(append_to_result) << terminalpp::erase_display_above();
+    expect_sequence("\x1B[1J"_tb, result_);
 }
 
-TEST_F(a_terminal, can_erase_its_entire_display_below_the_cursor)
+TEST_F(a_terminal, can_erase_its_display_below_the_cursor)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        // str seq actual output,
-        std::string("\x1B[J"),
-
-        // action
-        terminal.erase_in_display(terminalpp::terminal::erase_display::below));
+    terminal_.write(append_to_result) << terminalpp::erase_display_below();
+    expect_sequence("\x1B[J"_tb, result_);
 }
 
-TEST_F(a_terminal, can_erase_an_entire_line)
+TEST_F(a_terminal, can_erase_its_current_line)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        // str seq actual output,
-        std::string("\x1B[2K"),
-
-        // action
-        terminal.erase_in_line(terminalpp::terminal::erase_line::all));
+    terminal_.write(append_to_result) << terminalpp::erase_line();
+    expect_sequence("\x1B[2K"_tb, result_);
 }
 
-TEST_F(a_terminal, can_erase_an_entire_line_to_the_left_of_the_cursor)
+TEST_F(a_terminal, can_erase_to_the_left_of_the_cursor)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        // str seq actual output,
-        std::string("\x1B[1K"),
-
-        // action
-        terminal.erase_in_line(terminalpp::terminal::erase_line::left));
+    terminal_.write(append_to_result) << terminalpp::erase_line_left();
+    expect_sequence("\x1B[1K"_tb, result_);
 }
 
-TEST_F(a_terminal, can_erase_an_entire_line_to_the_right_of_the_cursor)
+TEST_F(a_terminal, can_erase_to_the_right_of_the_cursor)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        // str seq actual output,
-        std::string("\x1B[K"),
-
-        // action
-        terminal.erase_in_line(terminalpp::terminal::erase_line::right));
+    terminal_.write(append_to_result) << terminalpp::erase_line_right();
+    expect_sequence("\x1B[K"_tb, result_);
 }

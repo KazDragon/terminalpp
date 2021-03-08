@@ -77,7 +77,7 @@ static element_string const element_strings[] = {
     element_string{ terminalpp::glyph{"\\U0000005A"}, "glyph[u:\\]" },
     element_string{ {
             'x',
-            terminalpp::attribute{terminalpp::ansi::graphics::colour::red}
+            terminalpp::attribute{terminalpp::graphics::colour::red}
         },
         "glyph[x],attribute[foreground[red]]"
     }

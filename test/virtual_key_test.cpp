@@ -3,6 +3,7 @@
 #include <tuple>
 
 using testing::ValuesIn;
+using namespace terminalpp::literals;
 
 TEST(a_default_constructed_vk, has_default_members)
 {
@@ -12,9 +13,9 @@ TEST(a_default_constructed_vk, has_default_members)
     ASSERT_EQ(terminalpp::vk_modifier::none, vk.modifiers);
     ASSERT_EQ(0, vk.repeat_count);
 
-    char *psequence = boost::get<char>(&vk.sequence);
+    auto *psequence = boost::get<terminalpp::byte>(&vk.sequence);
     ASSERT_NE(nullptr, psequence);
-    ASSERT_EQ('\0', *psequence);
+    ASSERT_EQ(0, *psequence);
 }
 
 TEST(anding_a_default_vk_modifer, matches_none)
@@ -364,11 +365,11 @@ static virtual_key_test_data const virtual_key_strings[] = {
             default_vk.key,
             default_vk.modifiers,
             default_vk.repeat_count,
-            terminalpp::ansi::control_sequence{
+            terminalpp::control_sequence{
                 '[',
                 'H',
                 false,
-                { {"23"} }
+                { {"23"_tb} }
             }
         },
         "virtual_key[seq:control_sequence[initiator:'[', command:'H', args:\"23\"]]"

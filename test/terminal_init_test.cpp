@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include <string>
 
+using namespace terminalpp::literals;
+
 TEST(a_terminal_without_8_bit_support, when_init_is_called_sends_nothing)
 {
     // If a terminal cannot support 8-bit control codes, then there's no need
@@ -10,10 +12,15 @@ TEST(a_terminal_without_8_bit_support, when_init_is_called_sends_nothing)
     terminalpp::behaviour behaviour;
     behaviour.can_use_eight_bit_control_codes = false;
 
-    terminalpp::terminal terminal(behaviour);
-    expect_sequence(
-        std::string(""),
-        terminal.init());
+    terminalpp::byte_storage init_result;
+    terminalpp::terminal terminal(
+        [&](terminalpp::bytes data)
+        {
+            init_result.append(data.begin(), data.end());
+        },
+        behaviour);
+
+    expect_sequence(""_tb, init_result);
 }
 
 TEST(a_terminal_that_starts_in_8_bit_mode, when_init_is_called_sends_nothing)
@@ -25,10 +32,15 @@ TEST(a_terminal_that_starts_in_8_bit_mode, when_init_is_called_sends_nothing)
     behaviour.can_use_eight_bit_control_codes = true;
     behaviour.uses_eight_bit_control_codes_by_default = true;
 
-    terminalpp::terminal terminal(behaviour);
-    expect_sequence(
-        std::string(""),
-        terminal.init());
+    terminalpp::byte_storage init_result;
+    terminalpp::terminal terminal(
+        [&](terminalpp::bytes data)
+        {
+            init_result.append(data.begin(), data.end());
+        },
+        behaviour);
+
+    expect_sequence(""_tb, init_result);
 }
 
 TEST(a_terminal_that_supports_8_bit_mode_but_starts_in_7_bit_mode,
@@ -41,8 +53,13 @@ TEST(a_terminal_that_supports_8_bit_mode_but_starts_in_7_bit_mode,
     behaviour.can_use_eight_bit_control_codes = true;
     behaviour.uses_eight_bit_control_codes_by_default = false;
 
-    terminalpp::terminal terminal(behaviour);
-    expect_sequence(
-        std::string("\x1B G"),
-        terminal.init());
+    terminalpp::byte_storage init_result;
+    terminalpp::terminal terminal(
+        [&](terminalpp::bytes data)
+        {
+            init_result.append(data.begin(), data.end());
+        },
+        behaviour);
+
+    expect_sequence("\x1B G"_tb, init_result);
 }

@@ -1,8 +1,9 @@
-#include "terminalpp/ansi/control_sequence.hpp"
+#include "terminalpp/control_sequence.hpp"
+#include <boost/spirit/home/karma.hpp>
 #include <iostream>
 #include <numeric>
 
-namespace terminalpp { namespace ansi {
+namespace terminalpp {
 
 static control_sequence const default_sequence = {};
 
@@ -23,35 +24,33 @@ bool operator==(control_sequence const &lhs, control_sequence const &rhs)
 // ==========================================================================
 static void output_comma(std::ostream &out, bool &comma)
 {
-    if (comma)
+    if (std::exchange(comma, true))
     {
         out << ", ";
     }
-
-    comma = true;
 }
 
 // ==========================================================================
 // OUTPUT_INITIATOR
 // ==========================================================================
-static void output_initiator(std::ostream &out, char initiator, bool &comma)
+static void output_initiator(std::ostream &out, byte initiator, bool &comma)
 {
     if (initiator != default_sequence.initiator)
     {
         output_comma(out, comma);
-        out << "initiator:'" << initiator << "'";
+        out << "initiator:'" << static_cast<char>(initiator) << "'";
     }
 }
 
 // ==========================================================================
 // OUTPUT_COMMAND
 // ==========================================================================
-static void output_command(std::ostream &out, char command, bool &comma)
+static void output_command(std::ostream &out, byte command, bool &comma)
 {
     if (command != default_sequence.command)
     {
         output_comma(out, comma);
-        out << "command:'" << command << "'";
+        out << "command:'" << static_cast<char>(command) << "'";
     }
 }
 
@@ -72,42 +71,29 @@ static void output_meta(std::ostream &out, bool meta, bool &comma)
 // ==========================================================================
 static void output_arguments(
     std::ostream &out,
-    std::vector<std::string> const &arguments,
+    std::vector<byte_storage> const &arguments,
     bool &comma)
 {
     if (!arguments.empty())
     {
         output_comma(out, comma);
 
-        out << "args:\""
-            << std::accumulate(
-                 arguments.begin(),
-                 arguments.end(),
-                 std::string{},
-                 [](std::string &result, std::string const &current_argument)
-                 {
-                     if (!result.empty())
-                     {
-                         result += ';';
-                     }
-
-                     result += current_argument;
-
-                     return result;
-                 })
-            << "\"";
+        boost::spirit::karma::generate(
+            std::ostream_iterator<char>(out),
+            "args:\"" << boost::spirit::karma::string % ';' << "\"",
+            arguments);
     }
 }
 
 // ==========================================================================
 // OUTPUT_EXTENDER
 // ==========================================================================
-static void output_extender(std::ostream &out, char extender, bool &comma)
+static void output_extender(std::ostream &out, byte extender, bool &comma)
 {
     if (extender != default_sequence.extender)
     {
         output_comma(out, comma);
-        out << "extender:'" << extender << "'";
+        out << "extender:'" << static_cast<char>(extender) << "'";
     }
 }
 
@@ -127,4 +113,4 @@ std::ostream &operator<<(std::ostream &out, control_sequence const &seq)
     return out << "]";
 }
 
-}}
+}

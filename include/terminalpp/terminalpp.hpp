@@ -1,5 +1,7 @@
 #pragma once
 
+// A convenience header for fundamental Terminal++ usage.
+
 // The basic layer of terminal reading and writing is defined in terminal.hpp,
 // which includes everything you need to know about the terminal, including
 // token types (virtual keys, control sequences, mouse reports),

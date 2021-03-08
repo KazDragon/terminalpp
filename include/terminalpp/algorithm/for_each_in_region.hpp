@@ -51,12 +51,12 @@ void for_each_in_region(
             >::type
         >::type>::value, "container[x][y] must yield an element");
 
-    for (auto row = region.origin.y; 
-         row < region.origin.y + region.size.height; 
+    for (auto row = region.origin_.y_; 
+         row < region.origin_.y_ + region.size_.height_; 
          ++row)
     {
-        for (auto column = region.origin.x; 
-             column < region.origin.x + region.size.width; 
+        for (auto column = region.origin_.x_; 
+             column < region.origin_.x_ + region.size_.width_; 
              ++column)
         {
             callable(container[column][row], column, row);

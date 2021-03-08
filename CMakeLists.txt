@@ -1,6 +1,6 @@
 if (POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
-    project(TERMINALPP VERSION 1.4.2)
+    project(TERMINALPP VERSION 2.0.0)
 else()
     project(TERMINALPP)
 endif()
@@ -61,6 +61,7 @@ set(CMAKE_CXX_STANDARD 14)
 if (TERMINALPP_USE_CONAN)
     set(TERMINALPP_PUBLIC_LIBRARIES
         CONAN_PKG::boost
+        CONAN_PKG::gsl-lite
     )
 
     set(TERMINALPP_PRIVATE_LIBRARIES
@@ -76,6 +77,9 @@ if (TERMINALPP_USE_CONAN)
 else()
     # Terminal++ requires at least Boost 1.69
     find_package(Boost 1.69.0 REQUIRED)
+
+    # Terminal++ requires exactly version 0.34 of gsl-lite
+    find_package(gsl-lite 0.34.0 REQUIRED)
 
     # Terminal++ requires libfmt
     find_package(fmt 5.3 REQUIRED)
@@ -109,10 +113,6 @@ endif()
 include (GenerateExportHeader)
 
 # Increase warning level for GNU or Clang compilers.
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILE_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-endif()
-
 if (TERMINALPP_SANITIZE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${TERMINALPP_SANITIZE}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=${TERMINALPP_SANITIZE}")
@@ -127,9 +127,9 @@ add_library(terminalpp)
 
 target_sources(terminalpp
     PRIVATE
+        include/terminalpp/algorithm/for_each_in_region.hpp
         include/terminalpp/ansi/charset.hpp
         include/terminalpp/ansi/control_characters.hpp
-        include/terminalpp/ansi/control_sequence.hpp
         include/terminalpp/ansi/csi.hpp
         include/terminalpp/ansi/dec_private_mode.hpp
         include/terminalpp/ansi/graphics.hpp
@@ -137,72 +137,55 @@ target_sources(terminalpp
         include/terminalpp/ansi/osc.hpp
         include/terminalpp/ansi/protocol.hpp
         include/terminalpp/ansi/ss3.hpp
-        include/terminalpp/attribute.hpp
-        include/terminalpp/behaviour.hpp
-        include/terminalpp/colour.hpp
-        include/terminalpp/canvas.hpp
-        include/terminalpp/character_set.hpp
-        include/terminalpp/core.hpp
         include/terminalpp/detail/ascii.hpp
         include/terminalpp/detail/element_difference.hpp
         include/terminalpp/detail/export.hpp
         include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
-        include/terminalpp/detail/terminal_charset_control.hpp
-        include/terminalpp/detail/terminal_control.hpp
-        include/terminalpp/detail/terminal_cursor_control.hpp
+        include/terminalpp/detail/terminal_reader.hpp
+        include/terminalpp/detail/terminal_writer.hpp
         include/terminalpp/detail/well_known_virtual_key.hpp
+        include/terminalpp/attribute.hpp
+        include/terminalpp/behaviour.hpp
+        include/terminalpp/character_set.hpp
+        include/terminalpp/colour.hpp
+        include/terminalpp/canvas.hpp
+        include/terminalpp/control_sequence.hpp
+        include/terminalpp/core.hpp
         include/terminalpp/effect.hpp
         include/terminalpp/element.hpp
         include/terminalpp/encoder.hpp
         include/terminalpp/extent.hpp
         include/terminalpp/glyph.hpp
-        include/terminalpp/manip/disable_mouse.hpp
-        include/terminalpp/manip/enable_mouse.hpp
-        include/terminalpp/manip/erase_in_display.hpp
-        include/terminalpp/manip/erase_in_line.hpp
-        include/terminalpp/manip/hide_cursor.hpp
-        include/terminalpp/manip/move_cursor.hpp
-        include/terminalpp/manip/restore_cursor.hpp
-        include/terminalpp/manip/save_cursor.hpp
-        include/terminalpp/manip/set_window_title.hpp
-        include/terminalpp/manip/show_cursor.hpp
-        include/terminalpp/manip/terminal_streamer.hpp
-        include/terminalpp/manip/use_alternate_screen_buffer.hpp
-        include/terminalpp/manip/use_normal_screen_buffer.hpp
-        include/terminalpp/manip/write_string.hpp
+        include/terminalpp/graphics.hpp
+        include/terminalpp/mouse.hpp
         include/terminalpp/palette.hpp
         include/terminalpp/point.hpp
+        include/terminalpp/rectangle.hpp
         include/terminalpp/screen.hpp
         include/terminalpp/string.hpp
         include/terminalpp/terminal.hpp
-        include/terminalpp/terminal_manip.hpp
+        include/terminalpp/terminal_state.hpp
         include/terminalpp/terminalpp.hpp
         include/terminalpp/token.hpp
+        include/terminalpp/version.hpp
         include/terminalpp/virtual_key.hpp
 
-        src/ansi/charset.cpp
-        src/ansi/control_sequence.cpp
-        src/ansi/mouse.cpp
+        src/detail/parser.cpp
+        src/detail/well_known_virtual_key.cpp
         src/attribute.cpp
         src/canvas.cpp
         src/character_set.cpp
         src/colour.cpp
-        src/detail/terminal_charset_control.cpp
-        src/detail/terminal_control.cpp
-        src/detail/terminal_cursor_control.cpp
-        src/detail/element_difference.cpp
-        src/detail/parser.cpp
-        src/detail/well_known_virtual_key.cpp
+        src/control_sequence.cpp
         src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp
         src/element.cpp
         src/extent.cpp
-        src/manip/terminal_streamer.cpp
+        src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
-        src/screen.cpp
         src/string.cpp
         src/terminal.cpp
         src/virtual_key.cpp
@@ -235,6 +218,9 @@ target_compile_options(terminalpp
         $<$<CXX_COMPILER_ID:MSVC>:/wd4275>
         # Any warning on MSVC is an error
         $<$<CXX_COMPILER_ID:MSVC>:/WX>
+
+        # Add warnings on g++ and Clang
+        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror>
 )
 
 generate_export_header(terminalpp
@@ -312,7 +298,7 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
-        test/expect_tokens.hpp
+        test/expect_sequence.hpp
         test/terminal_test.hpp
 
         test/attribute_test.cpp
@@ -324,10 +310,8 @@ target_sources(terminalpp_tester
         test/element_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
-        test/expect_tokens.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
-        test/manip_test.cpp
         test/mouse_test.cpp
         test/palette_test.cpp
         test/point_test.cpp
@@ -338,8 +322,6 @@ target_sources(terminalpp_tester
         test/terminal_init_test.cpp
         test/terminal_cursor_test.cpp
         test/terminal_erase_test.cpp
-        test/terminal_read_cursor_test.cpp
-        test/terminal_read_fkey_test.cpp
         test/terminal_read_test.cpp
         test/terminal_settings_test.cpp
         test/terminal_string_test.cpp

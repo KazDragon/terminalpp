@@ -2,103 +2,63 @@
 
 #include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
-#include <boost/optional.hpp>
-#include <string>
 
 namespace terminalpp { namespace ansi {
 
-enum class charset : char {
-    dec,
-    dec_supplementary,
-    dec_supplementary_graphics,
-    dec_technical,
-    uk,
-    us_ascii,
-    dutch,
-    finnish,
-    french,
-    french_canadian,
-    german,
-    italian,
-    danish,
-    portuguese,
-    spanish,
-    swedish,
-    swiss,
-    sco,
-    utf8,
-};
-
 // Note: For extended ASCII, both PuTTY and TeraTerm support SCO.
-static constexpr char const CHARSET_DEC[]                 = {terminalpp::detail::ascii::ZERO, 0};
-static constexpr char const CHARSET_DEC_SUPPLEMENTARY[]   = {terminalpp::detail::ascii::LESS_THAN, 0};
-static constexpr char const CHARSET_DEC_SUPPLEMENTARY_GR[]= {terminalpp::detail::ascii::PERCENT,
-                                                             terminalpp::detail::ascii::FIVE, 0};
-static constexpr char const CHARSET_DEC_TECHNICAL[]       = {terminalpp::detail::ascii::GREATER_THAN, 0};
-static constexpr char const CHARSET_UK[]                  = {terminalpp::detail::ascii::UPPERCASE_A, 0};
-static constexpr char const CHARSET_US_ASCII[]            = {terminalpp::detail::ascii::UPPERCASE_B, 0};
-static constexpr char const CHARSET_DUTCH[]               = {terminalpp::detail::ascii::FOUR, 0};
-static constexpr char const CHARSET_FINNISH[]             = {terminalpp::detail::ascii::UPPERCASE_C, 0};
-static constexpr char const CHARSET_FINNISH_ALT[]         = {terminalpp::detail::ascii::FIVE, 0};
-static constexpr char const CHARSET_FRENCH[]              = {terminalpp::detail::ascii::UPPERCASE_R, 0};
-static constexpr char const CHARSET_FRENCH_ALT[]          = {terminalpp::detail::ascii::LOWERCASE_F, 0};
-static constexpr char const CHARSET_FRENCH_CANADIAN[]     = {terminalpp::detail::ascii::UPPERCASE_Q, 0};
-static constexpr char const CHARSET_FRENCH_CANADIAN_ALT[] = {terminalpp::detail::ascii::NINE, 0};
-static constexpr char const CHARSET_GERMAN[]              = {terminalpp::detail::ascii::UPPERCASE_K, 0};
-static constexpr char const CHARSET_ITALIAN[]             = {terminalpp::detail::ascii::UPPERCASE_Y, 0};
-static constexpr char const CHARSET_DANISH[]              = {terminalpp::detail::ascii::GRAVE, 0};
-static constexpr char const CHARSET_DANISH_ALT_1[]        = {terminalpp::detail::ascii::UPPERCASE_E, 0};
-static constexpr char const CHARSET_DANISH_ALT_2[]        = {terminalpp::detail::ascii::SIX, 0};
-static constexpr char const CHARSET_PORTUGUESE[]          = {terminalpp::detail::ascii::PERCENT,
-                                                             terminalpp::detail::ascii::SIX, 0};
-static constexpr char const CHARSET_SPANISH[]             = {terminalpp::detail::ascii::UPPERCASE_Z, 0};
-static constexpr char const CHARSET_SWEDISH[]             = {terminalpp::detail::ascii::UPPERCASE_H, 0};
-static constexpr char const CHARSET_SWEDISH_ALT[]         = {terminalpp::detail::ascii::SEVEN, 0};
-static constexpr char const CHARSET_SWISS[]               = {terminalpp::detail::ascii::EQUALS, 0};
-static constexpr char const CHARSET_SCO[]                 = {terminalpp::detail::ascii::UPPERCASE_U, 0};
+static constexpr byte charset_dec[]                  = {terminalpp::detail::ascii::zero};
+static constexpr byte charset_dec_supplementary[]    = {terminalpp::detail::ascii::less_than};
+static constexpr byte charset_dec_supplementary_gr[] = {terminalpp::detail::ascii::percent,
+                                                        terminalpp::detail::ascii::five};
+static constexpr byte charset_dec_technical[]        = {terminalpp::detail::ascii::greater_than};
+static constexpr byte charset_uk[]                   = {terminalpp::detail::ascii::uppercase_a};
+static constexpr byte charset_us_ascii[]             = {terminalpp::detail::ascii::uppercase_b};
+static constexpr byte charset_dutch[]                = {terminalpp::detail::ascii::four};
+static constexpr byte charset_finnish[]              = {terminalpp::detail::ascii::uppercase_c};
+static constexpr byte charset_finnish_alt[]          = {terminalpp::detail::ascii::five};
+static constexpr byte charset_french[]               = {terminalpp::detail::ascii::uppercase_r};
+static constexpr byte charset_french_alt[]           = {terminalpp::detail::ascii::lowercase_f};
+static constexpr byte charset_french_canadian[]      = {terminalpp::detail::ascii::uppercase_q};
+static constexpr byte charset_french_canadian_alt[]  = {terminalpp::detail::ascii::nine};
+static constexpr byte charset_german[]               = {terminalpp::detail::ascii::uppercase_k};
+static constexpr byte charset_italian[]              = {terminalpp::detail::ascii::uppercase_y};
+static constexpr byte charset_danish[]               = {terminalpp::detail::ascii::grave};
+static constexpr byte charset_danish_alt_1[]         = {terminalpp::detail::ascii::uppercase_e};
+static constexpr byte charset_danish_alt_2[]         = {terminalpp::detail::ascii::six};
+static constexpr byte charset_portuguese[]           = {terminalpp::detail::ascii::percent,
+                                                        terminalpp::detail::ascii::six};
+static constexpr byte charset_spanish[]              = {terminalpp::detail::ascii::uppercase_z};
+static constexpr byte charset_swedish[]              = {terminalpp::detail::ascii::uppercase_h};
+static constexpr byte charset_swedish_alt[]          = {terminalpp::detail::ascii::seven};
+static constexpr byte charset_swiss[]                = {terminalpp::detail::ascii::equals};
+static constexpr byte charset_sco[]                  = {terminalpp::detail::ascii::uppercase_u};
 
 // Not defined by ANSI/VT100; just me bolting this on.
-static constexpr char const CHARSET_UTF8[]                = {terminalpp::detail::ascii::LOWERCASE_U, 0};
+static constexpr byte charset_utf8[]                 = {terminalpp::detail::ascii::lowercase_u};
 
 // Some charsets (e.g. Portuguese) require an extender character
-static constexpr char const CHARSET_EXTENDER = terminalpp::detail::ascii::PERCENT;
+static constexpr byte charset_extender               = terminalpp::detail::ascii::percent;
 
 // Commands for Charset Selection
-static constexpr char const SELECT_DEFAULT_CHARACTER_SET[]= {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::PERCENT,
-                                                             terminalpp::detail::ascii::AT, 0};
-static constexpr char const SELECT_UTF8_CHARACTER_SET[]   = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::PERCENT,
-                                                             terminalpp::detail::ascii::UPPERCASE_G, 0};
+static constexpr byte select_default_character_set[] = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::percent,
+                                                        terminalpp::detail::ascii::at};
+static constexpr byte select_utf8_character_set[]    = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::percent,
+                                                        terminalpp::detail::ascii::uppercase_g};
 // Command openers for Designate G? Character Set commands.
-static constexpr char const SET_CHARSET_G0[]              = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::OPEN_PARENTHESIS, 0};
-static constexpr char const SET_CHARSET_G1[]              = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::CLOSE_PARENTHESIS, 0};
-static constexpr char const SET_CHARSET_G2[]              = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::ASTERISK, 0};
-static constexpr char const SET_CHARSET_G3[]              = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::PLUS, 0};
-static constexpr char const SET_CHARSET_G1_ALT[]          = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::DASH, 0};
-static constexpr char const SET_CHARSET_G2_ALT[]          = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::FULL_STOP, 0};
-static constexpr char const SET_CHARSET_G3_ALT[]          = {terminalpp::detail::ascii::ESC,
-                                                             terminalpp::detail::ascii::SLASH, 0};
-
-// Locale/Locale Code Conversion
-//* =========================================================================
-/// \brief Look up a character set by the ANSI code it uses.
-/// E.g. lookup_charset("%6") yields charset::portuguese.
-//* =========================================================================
-TERMINALPP_EXPORT
-boost::optional<charset> lookup_charset(char const *code);
-
-//* =========================================================================
-/// \brief Convert a character set to its respective ANSI code.
-/// E.g. charset_to_string(charset::portuguese) yields "%6".
-//* =========================================================================
-TERMINALPP_EXPORT
-std::string charset_to_string(charset const &loc);
-
+static constexpr byte set_charset_g0[]               = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::open_parenthesis};
+static constexpr byte set_charset_g1[]               = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::close_parenthesis};
+static constexpr byte set_charset_g2[]               = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::asterisk};
+static constexpr byte set_charset_g3[]               = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::plus};
+static constexpr byte set_charset_g1_alt[]           = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::minus};
+static constexpr byte set_charset_g2_alt[]           = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::full_stop};
+static constexpr byte set_charset_g3_alt[]           = {terminalpp::detail::ascii::esc,
+                                                        terminalpp::detail::ascii::slash};
 }}

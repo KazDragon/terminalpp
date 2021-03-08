@@ -1,213 +1,154 @@
+#include "terminal_test.hpp"
 #include "terminalpp/screen.hpp"
-#include "terminalpp/terminal.hpp"
 #include "expect_sequence.hpp"
 #include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
 
-TEST(screen_test, first_draw_of_blank_screen_draws_clear_screen_only)
+namespace {
+
+class a_screen : public a_terminal
 {
-    auto const size = terminalpp::extent{5, 5};
-    auto const canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::terminal();
-    auto reference_terminal = terminalpp::terminal();
+public:
+    a_screen()
+      : size_{5, 5},
+        canvas_(size_),
+        reference_terminal_(discard_result)
+    {
+        terminal_.set_size(size_);
+        reference_terminal_.set_size(size_);
 
-    terminal.set_size(size);
-    reference_terminal.set_size(size);
+        terminal_.write(discard_result) << ""_ets;
+        reference_terminal_.write(discard_result) << ""_ets;
+    }
 
-    auto screen = terminalpp::screen();
+protected:
+    void fill_canvas()
+    {
+        auto ch = 'a';
+        for (terminalpp::coordinate_type y = 0; y < canvas_.size().height_; ++y)
+        {
+            for (terminalpp::coordinate_type x = 0; x < canvas_.size().width_; ++x)
+            {
+                canvas_[x][y] = ch++;
+            }
+        }
+    }
 
+    terminalpp::extent size_;
+    terminalpp::canvas canvas_;
+    terminalpp::screen screen_;
+    terminalpp::terminal reference_terminal_;
+    terminalpp::byte_storage reference_result_;
+
+    std::function<void (terminalpp::bytes)> append_to_reference =
+        [this](terminalpp::bytes data)
+        {
+            reference_result_.append(data.begin(), data.end());
+        };
+};
+
+}
+
+TEST_F(a_screen, first_draw_of_blank_screen_draws_clear_screen_only)
+{
     // What is expected is that the screen will be cleared, and then since
     // each element is assumed to be a blank, and the canvas is also blank,
     // no further drawing is necessary.
-    auto expected =
-        reference_terminal.erase_in_display(
-            terminalpp::terminal::erase_display::all);
+    reference_terminal_.write(append_to_reference) 
+        << terminalpp::erase_display();
+    
+    screen_.draw(terminal_, canvas_, append_to_result);
 
-    auto result = screen.draw(terminal, canvas);
-
-    expect_sequence(expected, result);
+    expect_sequence(reference_result_, result_);
 }
 
-TEST(screen_test, first_draw_of_screen_with_content_draws_clear_screen_then_content)
+TEST_F(a_screen, first_draw_of_screen_with_content_draws_clear_screen_then_content)
 {
-    using namespace terminalpp::literals;
-
-    auto const size = terminalpp::extent{5, 5};
-    auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::terminal();
-    auto reference_terminal = terminalpp::terminal();
-
-    terminal.set_size(size);
-    reference_terminal.set_size(size);
-
-    auto screen = terminalpp::screen();
-
-    char ch = 'a';
-    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
-    {
-        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
-        {
-            canvas[x][y] = ch++;
-        }
-    }
+    fill_canvas();
 
     // What is expected here is that the screen will be cleared, and then
     // the content will be drawn starting by moving the cursor to the top
     // left and proceeding left-to-right, top-to-bottom, moving the cursor
     // on each new line.
-    auto expected =
-        reference_terminal.erase_in_display(
-                terminalpp::terminal::erase_display::all);
+    reference_terminal_.write(append_to_reference)
+        << terminalpp::erase_display();
 
-    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
+    for (terminalpp::coordinate_type y = 0; y < canvas_.size().height_; ++y)
     {
-        expected += reference_terminal.move_cursor({0, y});
+        reference_terminal_.write(append_to_reference)
+            << terminalpp::move_cursor({0, y});
 
-        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
+        for (terminalpp::coordinate_type x = 0; x < canvas_.size().width_; ++x)
         {
-            expected += reference_terminal.write(canvas[x][y]);
+            reference_terminal_.write(append_to_reference)
+                << canvas_[x][y];
         }
     }
 
-    auto result = screen.draw(terminal, canvas);
+    screen_.draw(terminal_, canvas_, append_to_result);
 
-    expect_sequence(expected, result);
+    expect_sequence(reference_result_, result_);
 }
 
-TEST(screen_test, drawing_after_drawing_draws_nothing)
+TEST_F(a_screen, drawing_after_drawing_draws_nothing)
 {
-    auto const size = terminalpp::extent{5, 5};
-    auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::terminal();
-    auto reference_terminal = terminalpp::terminal();
+    fill_canvas();
 
-    terminal.set_size(size);
-    reference_terminal.set_size(size);
-
-    auto screen = terminalpp::screen();
-
-    auto ch = 'a';
-    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
-    {
-        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
-        {
-            canvas[x][y] = ch++;
-        }
-    }
-
-    screen.draw(terminal, canvas);
+    screen_.draw(terminal_, canvas_, discard_result);
 
     // Since we have just drawn this screen, we expect that drawing it again
     // will yield no changes.
-    auto expected = std::string("");
-    auto result = screen.draw(terminal, canvas);
-
-    expect_sequence(expected, result);
+    screen_.draw(terminal_, canvas_, append_to_result);
+    expect_sequence(reference_result_, result_);
 }
 
-TEST(screen_test, drawing_after_modifying_one_element_writes_one_element)
+TEST_F(a_screen, drawing_after_modifying_one_element_writes_one_element)
 {
-    auto const size = terminalpp::extent{5, 5};
-    auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::terminal();
-    auto reference_terminal = terminalpp::terminal();
-    reference_terminal.write(""_ts);
+    fill_canvas();
+    screen_.draw(terminal_, canvas_, discard_result);
 
-    terminal.set_size(size);
-    reference_terminal.set_size(size);
+    canvas_[2][3] = 'x';
+    
+    reference_terminal_.write(append_to_reference)
+        << terminalpp::move_cursor({2, 3})
+        << terminalpp::element{'x'};
 
-    auto screen = terminalpp::screen();
-
-    auto ch = 'a';
-    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
-    {
-        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
-        {
-            canvas[x][y] = ch++;
-        }
-    }
-
-    screen.draw(terminal, canvas);
-
-    canvas[2][3] = 'x';
-
-    auto expected = reference_terminal.move_cursor({2, 3});
-    expected += reference_terminal.write("x"_ts);
-
-    auto result = screen.draw(terminal, canvas);
-
-    expect_sequence(expected, result);
+    screen_.draw(terminal_, canvas_, append_to_result);
+    expect_sequence(reference_result_, result_);
 }
 
-TEST(screen_test, drawing_after_modifying_two_elements_writes_two_elements)
+TEST_F(a_screen, drawing_after_modifying_two_elements_writes_two_elements)
 {
-    auto const size = terminalpp::extent{5, 5};
-    auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::terminal();
-    auto reference_terminal = terminalpp::terminal();
-    reference_terminal.write(""_ts);
+    fill_canvas();
+    screen_.draw(terminal_, canvas_, discard_result);
 
-    terminal.set_size(size);
-    reference_terminal.set_size(size);
+    canvas_[2][3] = 'x';
+    canvas_[3][4] = 'y';
+    
+    reference_terminal_.write(append_to_reference)
+        << terminalpp::move_cursor({2, 3})
+        << terminalpp::element{'x'}
+        << terminalpp::move_cursor({3, 4})
+        << terminalpp::element{'y'};
 
-    auto screen = terminalpp::screen();
-
-    auto ch = 'a';
-    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
-    {
-        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
-        {
-            canvas[x][y] = ch++;
-        }
-    }
-
-    screen.draw(terminal, canvas);
-
-    canvas[2][3] = 'x';
-    canvas[3][4] = 'y';
-
-    auto expected = reference_terminal.move_cursor({2, 3});
-    expected += reference_terminal.write("x"_ts);
-    expected += reference_terminal.move_cursor({3, 4});
-    expected += reference_terminal.write("y"_ts);
-
-    auto result = screen.draw(terminal, canvas);
-
-    expect_sequence(expected, result);
+    screen_.draw(terminal_, canvas_, append_to_result);
+    expect_sequence(reference_result_, result_);
 }
 
-TEST(screen_test, drawing_consecutive_elements_does_not_write_cursor_moves)
+TEST_F(a_screen, drawing_consecutive_elements_does_not_write_cursor_moves)
 {
-    auto const size = terminalpp::extent{5, 5};
-    auto canvas = terminalpp::canvas(size);
-    auto terminal = terminalpp::terminal();
-    auto reference_terminal = terminalpp::terminal();
-    reference_terminal.write(""_ts);
+    fill_canvas();
+    screen_.draw(terminal_, canvas_, discard_result);
 
-    terminal.set_size(size);
-    reference_terminal.set_size(size);
+    canvas_[2][3] = 'x';
+    canvas_[3][3] = 'y';
+    
+    reference_terminal_.write(append_to_reference)
+        << terminalpp::move_cursor({2, 3})
+        << terminalpp::element{'x'}
+        << terminalpp::element{'y'};
 
-    auto screen = terminalpp::screen();
-
-    auto ch = 'a';
-    for (terminalpp::coordinate_type y = 0; y < canvas.size().height; ++y)
-    {
-        for (terminalpp::coordinate_type x = 0; x < canvas.size().width; ++x)
-        {
-            canvas[x][y] = ch++;
-        }
-    }
-
-    screen.draw(terminal, canvas);
-
-    canvas[2][3] = 'x';
-    canvas[3][3] = 'y';
-
-    auto expected = reference_terminal.move_cursor({2, 3})
-                  + reference_terminal.write("xy"_ts);
-
-    auto result = screen.draw(terminal, canvas);
-
-    expect_sequence(expected, result);
+    screen_.draw(terminal_, canvas_, append_to_result);
+    expect_sequence(reference_result_, result_);
 }

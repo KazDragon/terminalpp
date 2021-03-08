@@ -1,8 +1,8 @@
 #ifndef TERMINALPP_TEST_EXPECT_SEQUENCE_HPP_
 #define TERMINALPP_TEST_EXPECT_SEQUENCE_HPP_
 
-#include <string>
+#include <terminalpp/core.hpp>
 
-void expect_sequence(std::string const &expected, std::string const &result);
+void expect_sequence(terminalpp::bytes const &expected, terminalpp::bytes const &result);
 
 #endif

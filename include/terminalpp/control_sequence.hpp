@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace terminalpp { namespace ansi {
+namespace terminalpp {
 
 //* =========================================================================
 /// \brief A class that encapsulates an ANSI control sequence.
@@ -18,11 +18,11 @@ namespace terminalpp { namespace ansi {
 //* =========================================================================
 struct control_sequence
 {
-    char initiator = '\0';
-    char command   = '\0';
+    byte initiator = 0;
+    byte command   = 0;
     bool meta      = false;
-    std::vector<std::string> arguments;
-    char extender  = '\0';
+    std::vector<byte_storage> arguments;
+    byte extender  = 0;
 };
 
 //* =========================================================================
@@ -37,4 +37,4 @@ bool operator==(control_sequence const &lhs, control_sequence const &rhs);
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, control_sequence const &seq);
 
-}}
+}

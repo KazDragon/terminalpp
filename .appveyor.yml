@@ -41,7 +41,9 @@ install:
   - vcpkg install boost-core:%platform%-windows
   - vcpkg install boost-optional:%platform%-windows
   - vcpkg install boost-range:%platform%-windows
+  - vcpkg install boost-spirit:%platform%-windows
   - vcpkg install boost-variant:%platform%-windows
+  - vcpkg install gsl-lite:%platform%-windows
   - vcpkg install fmt:%platform%-windows
   - vcpkg install gtest:%platform%-windows
 

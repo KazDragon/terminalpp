@@ -1,117 +1,174 @@
-#include "terminalpp/terminal.hpp"
 #include "expect_sequence.hpp"
+#include "terminal_test.hpp"
 #include <gtest/gtest.h>
-#include <string>
 
-TEST(enabling_mouse_mode_with_default_behaviour, sends_nothing)
+using namespace terminalpp::literals;
+
+TEST_F(a_terminal, enabling_mouse_mode_sends_nothing)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        std::string(""),
-        terminal.enable_mouse());
+    terminal_.write(append_to_result) << terminalpp::enable_mouse();
+    expect_sequence(""_tb, result_);
 }
 
-TEST(disabling_mouse_mode_with_default_behaviour, sends_nothing)
+TEST_F(a_terminal, disabling_mouse_mode_sends_nothing)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        std::string(""),
-        terminal.disable_mouse());
+    terminal_.write(append_to_result) << terminalpp::disable_mouse();
+    expect_sequence(""_tb, result_);
 }
 
-TEST(enabling_mouse_mode_with_basic_mouse_support, sends_enable_basic_mouse_tracking)
+namespace {
+
+class a_terminal_with_basic_mouse_support : public a_terminal
 {
-    terminalpp::behaviour behaviour;
-    behaviour.supports_basic_mouse_tracking = true;
+public:
+    a_terminal_with_basic_mouse_support()
+      : a_terminal(
+            []
+            {
+                terminalpp::behaviour beh;
+                beh.supports_basic_mouse_tracking = true;
+                return beh;
+            }())
+    {
+    }
+};
 
-    terminalpp::terminal terminal(behaviour);
-
-    expect_sequence(
-        std::string("\x1B[?1000h"),
-        terminal.enable_mouse());
 }
 
-TEST(disabling_mouse_mode_with_basic_mouse_support, sends_disable_basic_mouse_tracking)
+TEST_F(a_terminal_with_basic_mouse_support, sends_enable_basic_mouse_tracking_when_enabling_mouse)
 {
-    terminalpp::behaviour behaviour;
-    behaviour.supports_basic_mouse_tracking = true;
-
-    terminalpp::terminal terminal(behaviour);
-
-    expect_sequence(
-        std::string("\x1B[?1000l"),
-        terminal.disable_mouse());
+    terminal_.write(append_to_result) << terminalpp::enable_mouse();
+    expect_sequence("\x1B[?1000h"_tb, result_);
 }
 
-TEST(enabling_mouse_mode_with_all_mouse_tracking_support, sends_enable_all_mouse_tracking)
+TEST_F(a_terminal_with_basic_mouse_support, sends_disable_basic_mouse_tracking_when_disabling_mouse)
 {
-    terminalpp::behaviour behaviour;
-    behaviour.supports_all_mouse_motion_tracking = true;
-    terminalpp::terminal terminal(behaviour);
-
-    expect_sequence(
-        std::string("\x1B[?1003h"),
-        terminal.enable_mouse());
+    terminal_.write(append_to_result) << terminalpp::disable_mouse();
+    expect_sequence("\x1B[?1000l"_tb, result_);
 }
 
-TEST(disabling_mouse_mode_with_all_mouse_tracking_support, sends_disable_all_mouse_tracking)
-{
-    terminalpp::behaviour behaviour;
-    behaviour.supports_all_mouse_motion_tracking = true;
-    terminalpp::terminal terminal(behaviour);
+namespace {
 
-    expect_sequence(
-        std::string("\x1B[?1003l"),
-        terminal.disable_mouse());
+class a_terminal_with_all_mouse_motion_support : public a_terminal
+{
+public:
+    a_terminal_with_all_mouse_motion_support()
+      : a_terminal(
+            []
+            {
+                terminalpp::behaviour beh;
+                beh.supports_all_mouse_motion_tracking = true;
+                return beh;
+            }())
+    {
+    }
+};
+
 }
 
-TEST(setting_window_title_with_default_behaviour, sends_nothing)
+TEST_F(a_terminal_with_all_mouse_motion_support, sends_enable_all_mouse_motion_when_enabling_mouse)
 {
-    terminalpp::terminal terminal;
-
-    expect_sequence(
-        std::string(""),
-        terminal.set_window_title("title"));
+    terminal_.write(append_to_result) << terminalpp::enable_mouse();
+    expect_sequence("\x1B[?1003h"_tb, result_);
 }
 
-TEST(setting_window_title_with_bel_behaviour, sends_window_title_with_bel)
+TEST_F(a_terminal_with_all_mouse_motion_support, sends_disable_basic_mouse_motion_when_disabling_mouse)
 {
-    terminalpp::behaviour behaviour;
-    behaviour.supports_window_title_bel = true;
-    terminalpp::terminal terminal(behaviour);
-
-    expect_sequence(
-        std::string("\x1B]2;title\x7"),
-        terminal.set_window_title("title"));
+    terminal_.write(append_to_result) << terminalpp::disable_mouse();
+    expect_sequence("\x1B[?1003l"_tb, result_);
 }
 
-TEST(setting_window_title_with_st_behaviour, sends_window_title_with_st)
+TEST_F(a_terminal, setting_window_title_sends_nothing)
 {
-    terminalpp::behaviour behaviour;
-    behaviour.supports_window_title_st = true;
-    terminalpp::terminal terminal(behaviour);
-
-    expect_sequence(
-        std::string("\x1B]2;title\x1B\\"),
-        terminal.set_window_title("title"));
+    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    expect_sequence(""_tb, result_);
 }
 
-TEST(activating_normal_screen_buffer, sends_use_normal_screen_buffer)
-{
-    terminalpp::terminal terminal;
+namespace {
 
-    expect_sequence(
-        std::string("\x1B[?47l"),
-        terminal.use_normal_screen_buffer());
+class a_terminal_with_support_for_window_title_bel : public a_terminal
+{
+public:
+    a_terminal_with_support_for_window_title_bel()
+      : a_terminal(
+            []
+            {
+                terminalpp::behaviour beh;
+                beh.supports_window_title_bel = true;
+                return beh;
+            }())
+    {
+    }
+};
+
 }
 
-TEST(activating_alternate_screen_buffer, sends_use_alternate_screen_buffer)
+TEST_F(a_terminal_with_support_for_window_title_bel, sends_window_title_with_bel)
 {
-    terminalpp::terminal terminal;
+    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    expect_sequence("\x1B]2;title\x7"_tb, result_);
+}
 
-    expect_sequence(
-        std::string("\x1B[?47h"),
-        terminal.use_alternate_screen_buffer());
+namespace {
+
+class a_terminal_with_support_for_window_title_st : public a_terminal
+{
+public:
+    a_terminal_with_support_for_window_title_st()
+      : a_terminal(
+            []
+            {
+                terminalpp::behaviour beh;
+                beh.supports_window_title_st = true;
+                return beh;
+            }())
+    {
+    }
+};
+
+}
+
+TEST_F(a_terminal_with_support_for_window_title_st, sends_window_title_with_bel)
+{
+    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    expect_sequence("\x1B]2;title\x1B\\"_tb, result_);
+}
+
+namespace {
+
+class a_terminal_with_support_for_window_title_st_and_8bit_control_codes : public a_terminal
+{
+public:
+    a_terminal_with_support_for_window_title_st_and_8bit_control_codes()
+        : a_terminal(
+            []
+            {
+                terminalpp::behaviour beh;
+                beh.supports_window_title_st = true;
+                beh.can_use_eight_bit_control_codes = true;
+                beh.uses_eight_bit_control_codes_by_default = true;
+                return beh;
+            }())
+    {
+    }
+};
+
+}
+
+TEST_F(a_terminal_with_support_for_window_title_st_and_8bit_control_codes, sends_window_title_with_bel)
+{
+    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    expect_sequence("\x9D"_tb "2;title\x9C"_tb, result_);
+}
+
+TEST_F(a_terminal, activating_normal_screen_buffer_sends_use_normal_screen_buffer_codes)
+{
+    terminal_.write(append_to_result) << terminalpp::use_normal_screen_buffer();
+    expect_sequence("\x1B[?47l"_tb, result_);
+}
+
+TEST_F(a_terminal, activating_alternate_screen_buffer_sends_use_alternate_screen_buffer_codes)
+{
+    terminal_.write(append_to_result) << terminalpp::use_alternate_screen_buffer();
+    expect_sequence("\x1B[?47h"_tb, result_);
 }

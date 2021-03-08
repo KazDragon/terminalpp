@@ -1,29 +1,29 @@
-#include <terminalpp/ansi/mouse.hpp>
+#include <terminalpp/mouse.hpp>
 #include <gtest/gtest.h>
 #include <tuple>
 
 using testing::ValuesIn;
 
-TEST(a_default_constructed_mouse_report, has_known_values)
+TEST(a_default_constructed_mouse_event, has_known_values)
 {
-    terminalpp::ansi::mouse::report report;
+    terminalpp::mouse::event ev;
 
-    ASSERT_EQ(terminalpp::ansi::mouse::report::NO_BUTTON_CHANGE, report.button_);
-    ASSERT_EQ(0, report.x_position_);
-    ASSERT_EQ(0, report.y_position_);
+    ASSERT_EQ(terminalpp::mouse::event_type::no_button_change, ev.action_);
+    ASSERT_EQ(0, ev.position_.x_);
+    ASSERT_EQ(0, ev.position_.y_);
 }
 
-using mouse_report_test_data = std::tuple<
-    terminalpp::ansi::mouse::report, // input data
-    std::string                      // expected output
+using mouse_event_test_data = std::tuple<
+    terminalpp::mouse::event, // input data
+    std::string               // expected output
 >;
 
-class mouse_reports_with_strings
-  : public testing::TestWithParam<mouse_report_test_data>
+class mouse_events_with_strings
+  : public testing::TestWithParam<mouse_event_test_data>
 {
 };
 
-TEST_P(mouse_reports_with_strings, can_be_streamed_to_an_ostream)
+TEST_P(mouse_events_with_strings, can_be_streamed_to_an_ostream)
 {
     auto const &param = GetParam();
     auto const &rep   = std::get<0>(param);
@@ -36,70 +36,70 @@ TEST_P(mouse_reports_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static mouse_report_test_data const mouse_report_strings[] = {
+static mouse_event_test_data const mouse_event_strings[] = {
     // A default report should print out that no button has changed at (0,0)
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{},
-        "mouse_report[0, 0, no-change]"
+    mouse_event_test_data{
+        terminalpp::mouse::event{},
+        "mouse_event[point(0,0), no-change]"
     },
 
     // A report with different button states should print out those states
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::LEFT_BUTTON_DOWN
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::left_button_down
         },
-        "mouse_report[0, 0, lmb]"
+        "mouse_event[point(0,0), lmb]"
     },
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::MIDDLE_BUTTON_DOWN
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::middle_button_down
         },
-        "mouse_report[0, 0, mmb]"
+        "mouse_event[point(0,0), mmb]"
     },
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::RIGHT_BUTTON_DOWN
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::right_button_down
         },
-        "mouse_report[0, 0, rmb]"
+        "mouse_event[point(0,0), rmb]"
     },
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::BUTTON_UP
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::button_up
         },
-        "mouse_report[0, 0, up]"
+        "mouse_event[point(0,0), up]"
     },
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::NO_BUTTON_CHANGE
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::no_button_change
         },
-        "mouse_report[0, 0, no-change]"
+        "mouse_event[point(0,0), no-change]"
     },
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::SCROLLWHEEL_DOWN
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::scrollwheel_down
         },
-        "mouse_report[0, 0, sdn]"
+        "mouse_event[point(0,0), sdn]"
     },
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::SCROLLWHEEL_UP
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::scrollwheel_up
         },
-        "mouse_report[0, 0, sup]"
+        "mouse_event[point(0,0), sup]"
     },
 
     // Reports with different co-ordinates should output those values
-    mouse_report_test_data{
-        terminalpp::ansi::mouse::report{
-            terminalpp::ansi::mouse::report::LEFT_BUTTON_DOWN,
-            15, 17
+    mouse_event_test_data{
+        terminalpp::mouse::event{
+            terminalpp::mouse::event_type::left_button_down,
+            {15, 17}
         },
-        "mouse_report[15, 17, lmb]"
+        "mouse_event[point(15,17), lmb]"
     },
 };
 
 INSTANTIATE_TEST_SUITE_P(
-    mouse_reports_can_be_streamed_to_an_ostream,
-    mouse_reports_with_strings,
-    ValuesIn(mouse_report_strings)
+    mouse_events_can_be_streamed_to_an_ostream,
+    mouse_events_with_strings,
+    ValuesIn(mouse_event_strings)
 );
 

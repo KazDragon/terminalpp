@@ -11,60 +11,60 @@ namespace terminalpp { namespace ansi {
 namespace control7 {
 
 // Full code for enabling 7-bit control mode.
-static constexpr char const ENABLE[]= { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::SPACE,
-                                        terminalpp::detail::ascii::UPPERCASE_F, 0 };
+static constexpr byte enable[] = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::space,
+                                   terminalpp::detail::ascii::uppercase_f };
 
 // The following codes are all prefixes for command groups.
 
 // Index
-static constexpr char const IND[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_D, 0 };
+static constexpr byte ind[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_d };
 // Next Line
-static constexpr char const NEL[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_E, 0 };
+static constexpr byte nel[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_e };
 // Horizontal Tab Set
-static constexpr char const HTS[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_H, 0 };
+static constexpr byte hts[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_h };
 // Reverse Index
-static constexpr char const RI[]    = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_M, 0 };
+static constexpr byte ri[]     = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_m };
 // Single Shift Select of G2 Charset (next character only)
-static constexpr char const SS2[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_N, 0 };
+static constexpr byte ss2[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_n };
 // Single Shift Select of G3 Charset (next character only)
-static constexpr char const SS3[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_O, 0 };
+static constexpr byte ss3[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_o };
 // Device Control String
-static constexpr char const DCS[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_P, 0 };
+static constexpr byte dcs[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_p };
 // Start of Protected Area
-static constexpr char const SPA[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_V, 0 };
+static constexpr byte spa[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_v };
 // End of Protected Area
-static constexpr char const EPA[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_W, 0 };
+static constexpr byte epa[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_w };
 // Start of String
-static constexpr char const SOS[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_X, 0 };
+static constexpr byte sos[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_x };
 // Return Terminal ID (obsolete)
-static constexpr char const DECID[] = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UPPERCASE_Z, 0 };
+static constexpr byte decid[]  = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::uppercase_z };
 // Control Sequence Introducer
-static constexpr char const CSI[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::OPEN_BRACKET, 0 };
+static constexpr byte csi[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::open_bracket };
 // String Terminator
-static constexpr char const ST[]    = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::BACKSLASH, 0 };
+static constexpr byte st[]     = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::backslash };
 // Operating System Command
-static constexpr char const OSC[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::CLOSE_BRACKET, 0 };
+static constexpr byte osc[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::close_bracket };
 // Privacy Message
-static constexpr char const PM[]    = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::CARET, 0 };
+static constexpr byte pm[]     = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::caret };
 // Application Program Command
-static constexpr char const APC[]   = { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::UNDERSCORE, 0 };
+static constexpr byte apc[]    = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::underscore };
 }
 
 //* =========================================================================
@@ -74,30 +74,30 @@ static constexpr char const APC[]   = { terminalpp::detail::ascii::ESC,
 namespace control8 {
 
 // Full command for enabling 8-bit control mode.
-static constexpr char const ENABLE[]= { terminalpp::detail::ascii::ESC,
-                                        terminalpp::detail::ascii::SPACE,
-                                        terminalpp::detail::ascii::UPPERCASE_G, 0 };
+static constexpr byte enable[] = { terminalpp::detail::ascii::esc,
+                                   terminalpp::detail::ascii::space,
+                                   terminalpp::detail::ascii::uppercase_g };
 
 // As above, the following codes are all prefixes for command groups.
 // They have the same meaning, but a shorter representation.  However, only
 // some terminals support them.
 
-static constexpr char const IND[]   = { char(0x84), 0x00 };
-static constexpr char const NEL[]   = { char(0x85), 0x00 };
-static constexpr char const HTS[]   = { char(0x88), 0x00 };
-static constexpr char const RI[]    = { char(0x8D), 0x00 };
-static constexpr char const SS2[]   = { char(0x8E), 0x00 };
-static constexpr char const SS3[]   = { char(0x8F), 0x00 };
-static constexpr char const DCS[]   = { char(0x90), 0x00 };
-static constexpr char const SPA[]   = { char(0x96), 0x00 };
-static constexpr char const EPA[]   = { char(0x97), 0x00 };
-static constexpr char const SOS[]   = { char(0x98), 0x00 };
-static constexpr char const DECID[] = { char(0x9A), 0x00 };
-static constexpr char const CSI[]   = { char(0x9B), 0x00 };
-static constexpr char const ST[]    = { char(0x9C), 0x00 };
-static constexpr char const OSC[]   = { char(0x9D), 0x00 };
-static constexpr char const PM[]    = { char(0x9E), 0x00 };
-static constexpr char const APC[]   = { char(0x9F), 0x00 };
+static constexpr byte ind   = 0x84;
+static constexpr byte nel   = 0x85;
+static constexpr byte hts   = 0x88;
+static constexpr byte ri    = 0x8D;
+static constexpr byte ss2   = 0x8E;
+static constexpr byte ss3   = 0x8F;
+static constexpr byte dcs   = 0x90;
+static constexpr byte spa   = 0x96;
+static constexpr byte epa   = 0x97;
+static constexpr byte sos   = 0x98;
+static constexpr byte decid = 0x9A;
+static constexpr byte csi   = 0x9B;
+static constexpr byte st    = 0x9C;
+static constexpr byte osc   = 0x9D;
+static constexpr byte pm    = 0x9E;
+static constexpr byte apc   = 0x9F;
 
 }
 

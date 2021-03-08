@@ -1,16 +1,21 @@
 #include "terminalpp/detail/parser.hpp"
+#include "terminalpp/detail/ascii.hpp"
 #include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/ansi/control_characters.hpp"
+#include "terminalpp/ansi/csi.hpp"
+#include "terminalpp/ansi/mouse.hpp"
+#include <boost/range/algorithm/find_if.hpp>
 #include <cctype>
 
 namespace terminalpp { namespace detail {
 
 namespace {
 
-static constexpr bool is_csi_extension_character(char input)
+static constexpr bool is_csi_extension_character(byte input)
 {
-    return input == terminalpp::detail::ascii::QUESTION_MARK
-        || input == terminalpp::detail::ascii::GREATER_THAN
-        || input == terminalpp::detail::ascii::EXCLAMATION_MARK;
+    return input == terminalpp::detail::ascii::question_mark
+        || input == terminalpp::detail::ascii::greater_than
+        || input == terminalpp::detail::ascii::exclamation_mark;
 }
 
 }
@@ -20,7 +25,7 @@ parser::parser()
 {
 }
 
-boost::optional<terminalpp::token> parser::parser::operator()(char input)
+boost::optional<terminalpp::token> parser::parser::operator()(byte input)
 {
     switch (state_)
     {
@@ -39,9 +44,9 @@ boost::optional<terminalpp::token> parser::parser::operator()(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
+boost::optional<terminalpp::token> parser::parser::parse_idle(byte input)
 {
-    if (input == terminalpp::detail::ascii::ESC)
+    if (input == terminalpp::detail::ascii::esc)
     {
         state_ = state::escape;
         meta_ = false;
@@ -50,7 +55,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
         arguments_ = {};
         return {};
     }
-    else if (input == terminalpp::detail::ascii::CR)
+    else if (input == terminalpp::detail::ascii::cr)
     {
         state_ = state::cr;
         return terminalpp::token {
@@ -62,7 +67,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
             }
         };
     }
-    else if (input == terminalpp::detail::ascii::LF)
+    else if (input == terminalpp::detail::ascii::lf)
     {
         state_ = state::lf;
         return terminalpp::token {
@@ -74,11 +79,20 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
             }
         };
     }
-    else if (input == terminalpp::ansi::control8::CSI[0])
+    else if (input == terminalpp::ansi::control8::csi)
     {
         state_ = state::arguments;
         meta_ = false;
-        initialiser_ = terminalpp::ansi::control7::CSI[1];
+        initialiser_ = terminalpp::ansi::control7::csi[1];
+        argument_ = {};
+        arguments_ = {};
+        return {};
+    }
+    else if (input == terminalpp::ansi::control8::ss3)
+    {
+        state_ = state::arguments;
+        meta_ = false;
+        initialiser_ = terminalpp::ansi::control7::ss3[1];
         argument_ = {};
         arguments_ = {};
         return {};
@@ -96,12 +110,12 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(char input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_cr(char input)
+boost::optional<terminalpp::token> parser::parse_cr(byte input)
 {
     state_ = state::idle;
 
-    if (input == terminalpp::detail::ascii::LF
-     || input == terminalpp::detail::ascii::NUL)
+    if (input == terminalpp::detail::ascii::lf
+     || input == terminalpp::detail::ascii::nul)
     {
         return {};
     }
@@ -111,11 +125,11 @@ boost::optional<terminalpp::token> parser::parse_cr(char input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_lf(char input)
+boost::optional<terminalpp::token> parser::parse_lf(byte input)
 {
     state_ = state::idle;
 
-    if (input == terminalpp::detail::ascii::CR)
+    if (input == terminalpp::detail::ascii::cr)
     {
         return {};
     }
@@ -125,9 +139,9 @@ boost::optional<terminalpp::token> parser::parse_lf(char input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_escape(char input)
+boost::optional<terminalpp::token> parser::parse_escape(byte input)
 {
-    if (input == terminalpp::detail::ascii::ESC)
+    if (input == terminalpp::detail::ascii::esc)
     {
         meta_ = true;
     }
@@ -139,19 +153,19 @@ boost::optional<terminalpp::token> parser::parse_escape(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_arguments(char input)
+boost::optional<terminalpp::token> parser::parse_arguments(byte input)
 {
     if (isdigit(input)) // TODO: depends on initiator.
     {
         argument_.push_back(input);
     }
-    else if (input == terminalpp::ansi::PS)
+    else if (input == terminalpp::ansi::ps)
     {
         arguments_.push_back(argument_);
         argument_ = {};
     }
-    else if (input == terminalpp::ansi::csi::MOUSE_TRACKING
-          && initialiser_ == terminalpp::ansi::control7::CSI[1])
+    else if (input == terminalpp::ansi::csi::mouse_tracking
+          && initialiser_ == terminalpp::ansi::control7::csi[1])
     {
         state_ = state::mouse0;
     }
@@ -166,7 +180,7 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
         state_ = state::idle;
 
         return terminalpp::token {
-            terminalpp::ansi::control_sequence {
+            terminalpp::control_sequence {
                 initialiser_,
                 input,
                 meta_,
@@ -179,36 +193,63 @@ boost::optional<terminalpp::token> parser::parse_arguments(char input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse0(char input)
+boost::optional<terminalpp::token> parser::parse_mouse0(byte input)
 {
-    // Mouse values have an offset applied to them to make the
-    // co-ordinates appear over the wire as printable characters.
-    mouse_button_ = byte(input - ansi::mouse::MOUSE_VALUE_OFFSET);
+    static constexpr struct {
+        byte ansi_mouse_event;
+        mouse::event_type mouse_event;
+    } mouse_event_table[] = 
+    {
+        { ansi::mouse::left_button_down,   mouse::event_type::left_button_down   },
+        { ansi::mouse::middle_button_down, mouse::event_type::middle_button_down },
+        { ansi::mouse::right_button_down,  mouse::event_type::right_button_down  },
+        { ansi::mouse::button_up,          mouse::event_type::button_up          },
+        { ansi::mouse::no_button_change,   mouse::event_type::no_button_change   },
+        { ansi::mouse::scrollwheel_up,     mouse::event_type::scrollwheel_up     },
+        { ansi::mouse::scrollwheel_down,   mouse::event_type::scrollwheel_down   },
+    };
+
+    auto result = boost::find_if(
+        mouse_event_table,
+        [value = input - ansi::mouse::mouse_value_offset](auto const &entry)
+        {
+            // Note: all mouse values have an offset applied to them to make
+            // the events and co-ordinates appear over the wire as printable
+            // characters.
+            return value == entry.ansi_mouse_event;
+        });
+
+    mouse_event_type_ = result != std::cend(mouse_event_table)
+                      ? result->mouse_event
+                      : mouse::event_type::no_button_change;
+
     state_ = state::mouse1;
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse1(char input)
+boost::optional<terminalpp::token> parser::parse_mouse1(byte input)
 {
     // In addition to the offset described above, ANSI co-ordinates are
     // 1-based, whereas Terminal++ is 0-based, which means an extra offset
     // is required.
-    mouse_x_ = coordinate_type((input - ansi::mouse::MOUSE_VALUE_OFFSET) - 1);
+    mouse_coordinate_.x_ = coordinate_type(
+        (input - ansi::mouse::mouse_value_offset) - 1);
     state_ = state::mouse2;
+
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse2(char input)
+boost::optional<terminalpp::token> parser::parse_mouse2(byte input)
 {
-    mouse_y_ = coordinate_type((input - ansi::mouse::MOUSE_VALUE_OFFSET) - 1);
+    mouse_coordinate_.y_ = coordinate_type(
+        (input - ansi::mouse::mouse_value_offset) - 1);
     state_ = state::idle;
 
     return {
         terminalpp::token {
-            terminalpp::ansi::mouse::report {
-                mouse_button_,
-                mouse_x_,
-                mouse_y_
+            terminalpp::mouse::event {
+                mouse_event_type_,
+                mouse_coordinate_
             }
         }
     };

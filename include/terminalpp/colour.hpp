@@ -1,10 +1,21 @@
 #pragma once
-#include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/graphics.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
 
+// Implementor note:
+// Colour codes are represented as different classes:
+// low colour (original 16 ANSI colours, 8 with normal intensity and 8 with
+// high intensity), high colour (additional 216 RGB values) and 24 greyscale
+// colours.  Together, this makes exactly 256 colours, and so all of the 
+// colour objects map their values to a single byte.
 namespace terminalpp {
+
+namespace detail {
+    static constexpr byte high_colour_offset      = 16;
+    static constexpr byte greyscale_colour_offset = 232;
+}
 
 //* =========================================================================
 /// \brief Structure representing a normal ANSI 16-colour value
@@ -17,14 +28,14 @@ struct TERMINALPP_EXPORT low_colour
     /// \brief Constructs a low_colour with the "default" colour value.
     //* =====================================================================
     constexpr low_colour()
-        : low_colour(terminalpp::ansi::graphics::colour::default_)
+        : low_colour(terminalpp::graphics::colour::default_)
     {
     }
 
     //* =====================================================================
     /// \brief Constructs a low_colour from the passed-in ANSI colour.
     //* =====================================================================
-    constexpr low_colour(terminalpp::ansi::graphics::colour colour)
+    constexpr low_colour(terminalpp::graphics::colour colour)
         : value_(colour)
     {
     };
@@ -43,7 +54,7 @@ struct TERMINALPP_EXPORT low_colour
         return seed;
     }
 
-    terminalpp::ansi::graphics::colour value_;
+    terminalpp::graphics::colour value_;
 };
 
 //* =========================================================================
@@ -92,11 +103,10 @@ struct TERMINALPP_EXPORT high_colour
     /// \brief Constructs a high_colour from the passed-in RGB values, each
     /// of which should be in the range 0-5.
     //* =====================================================================
-    constexpr high_colour(
-        byte red,
-        byte green,
-        byte blue)
-      : value_(red * 36 + green * 6 + blue + 16)
+    constexpr high_colour(byte red, byte green, byte blue)
+      : value_(
+          detail::high_colour_offset
+        + ansi::graphics::encode_high_components(red, green, blue))
     {
     }
 
@@ -160,7 +170,7 @@ struct TERMINALPP_EXPORT greyscale_colour
     /// should be in the range 0-23.
     //* =====================================================================
     constexpr explicit greyscale_colour(byte shade)
-      : shade_(shade + 232)
+      : shade_(shade + detail::greyscale_colour_offset)
     {
     }
 
@@ -257,7 +267,7 @@ struct TERMINALPP_EXPORT colour
     //* =====================================================================
     /// \brief Copy constructor
     //* =====================================================================
-    constexpr colour(terminalpp::ansi::graphics::colour col)
+    constexpr colour(terminalpp::graphics::colour col)
       : colour(terminalpp::low_colour(col))
     {
     }

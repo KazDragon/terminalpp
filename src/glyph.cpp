@@ -155,19 +155,19 @@ bool is_printable(glyph const &gly)
     {
     default :
         // Fall-through
-    case terminalpp::ansi::charset::dec:
+    case terminalpp::charset::dec:
         lookup = is_printable_dec;
         break;
 
-    case terminalpp::ansi::charset::uk:
+    case terminalpp::charset::uk:
         lookup = is_printable_uk;
         break;
 
-    case terminalpp::ansi::charset::us_ascii:
+    case terminalpp::charset::us_ascii:
         lookup = is_printable_us_ascii;
         break;
 
-    case terminalpp::ansi::charset::sco:
+    case terminalpp::charset::sco:
         lookup = is_printable_sco;
         break;
     }
@@ -201,7 +201,7 @@ static std::ostream &output_charset_and_character(
             {
                 return out << "0x" << std::setw(2) << std::setfill('0')
                            << std::hex << std::uppercase
-                           << int(std::uint8_t(gly.character_));
+                           << int(gly.character_);
             }
     }
 }
@@ -220,15 +220,15 @@ static std::uint32_t utf8_decode(glyph const &gly)
 
     if ((gly.ucharacter_[0] & 0b11100000) == 0b11000000)
     {
-        value  = std::uint8_t(gly.ucharacter_[0] & 0b00011111) << 6;
-        value |= std::uint8_t(gly.ucharacter_[1] & 0b00111111);
+        value  = byte((gly.ucharacter_[0] & 0b00011111) << 6);
+        value |= byte((gly.ucharacter_[1] & 0b00111111) << 0);
     }
 
     if ((gly.ucharacter_[0] & 0b11110000) == 0b11100000)
     {
-        value  = std::uint8_t(gly.ucharacter_[0] & 0b00001111) << 12;
-        value |= std::uint8_t(gly.ucharacter_[1] & 0b00111111) << 6;
-        value |= std::uint8_t(gly.ucharacter_[2] & 0b00111111);
+        value  = byte((gly.ucharacter_[0] & 0b00001111) << 12);
+        value |= byte((gly.ucharacter_[1] & 0b00111111) << 6);
+        value |= byte((gly.ucharacter_[2] & 0b00111111) << 0);
     }
 
     return value;
@@ -239,9 +239,9 @@ static std::uint32_t utf8_decode(glyph const &gly)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, glyph const &gly)
 {
-    if (gly.charset_ == terminalpp::ansi::charset::utf8)
+    if (gly.charset_ == terminalpp::charset::utf8)
     {
-        if (gly.ucharacter_[0] >= 0 && gly.ucharacter_[0] <= 0x7F)
+        if (gly.ucharacter_[0] <= 0x7F)
         {
             return output_charset_and_character(out, gly);
         }

@@ -1,5 +1,5 @@
 #pragma once
-#include "terminalpp/ansi/protocol.hpp"
+#include "terminalpp/graphics.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iostream>
@@ -72,10 +72,10 @@ constexpr bool operator==(effect<Type> const &lhs, effect<Type> const &rhs)
 /// \brief Specialization for intensity default case (normal intensity)
 //* =========================================================================
 template <>
-struct effect_default<terminalpp::ansi::graphics::intensity>
+struct effect_default<terminalpp::graphics::intensity>
   : std::integral_constant<
-        terminalpp::ansi::graphics::intensity,
-        terminalpp::ansi::graphics::intensity::normal
+        terminalpp::graphics::intensity,
+        terminalpp::graphics::intensity::normal
     >
 {
 };
@@ -84,10 +84,10 @@ struct effect_default<terminalpp::ansi::graphics::intensity>
 /// \brief Specialization for underlining default case (not underlined)
 //* =========================================================================
 template <>
-struct effect_default<terminalpp::ansi::graphics::underlining>
+struct effect_default<terminalpp::graphics::underlining>
   : std::integral_constant<
-        terminalpp::ansi::graphics::underlining,
-        terminalpp::ansi::graphics::underlining::not_underlined
+        terminalpp::graphics::underlining,
+        terminalpp::graphics::underlining::not_underlined
     >
 {
 };
@@ -96,10 +96,10 @@ struct effect_default<terminalpp::ansi::graphics::underlining>
 /// \brief Specialization for polarity default case (positive)
 //* =========================================================================
 template <>
-struct effect_default<terminalpp::ansi::graphics::polarity>
+struct effect_default<terminalpp::graphics::polarity>
   : std::integral_constant<
-        terminalpp::ansi::graphics::polarity,
-        terminalpp::ansi::graphics::polarity::positive
+        terminalpp::graphics::polarity,
+        terminalpp::graphics::polarity::positive
     >
 {
 };
@@ -108,18 +108,18 @@ struct effect_default<terminalpp::ansi::graphics::polarity>
 /// \brief Specialization for blinking default case (steady)
 //* =========================================================================
 template <>
-struct effect_default<terminalpp::ansi::graphics::blinking>
+struct effect_default<terminalpp::graphics::blinking>
   : std::integral_constant<
-        terminalpp::ansi::graphics::blinking,
-        terminalpp::ansi::graphics::blinking::steady
+        terminalpp::graphics::blinking,
+        terminalpp::graphics::blinking::steady
     >
 {
 };
 
-using intensity   = effect<terminalpp::ansi::graphics::intensity>;
-using underlining = effect<terminalpp::ansi::graphics::underlining>;
-using polarity    = effect<terminalpp::ansi::graphics::polarity>;
-using blinking    = effect<terminalpp::ansi::graphics::blinking>;
+using intensity   = effect<terminalpp::graphics::intensity>;
+using underlining = effect<terminalpp::graphics::underlining>;
+using polarity    = effect<terminalpp::graphics::polarity>;
+using blinking    = effect<terminalpp::graphics::blinking>;
 
 //* =========================================================================
 /// \brief Streaming output operator for intensities.  Prints the text

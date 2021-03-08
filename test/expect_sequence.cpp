@@ -3,12 +3,16 @@
 #include <fmt/format.h>
 #include <cctype>
 
-static std::string escape(std::string const &str)
+namespace {
+
+std::string escape(terminalpp::bytes const &text)
 {
     std::string result;
 
-    for (auto ch : str)
+    for (auto const by : text)
     {
+        auto const ch = char(by);
+
         if (!isprint(ch))
         {
             using namespace fmt::literals;
@@ -23,7 +27,9 @@ static std::string escape(std::string const &str)
     return result;
 }
 
-void expect_sequence(std::string const &expected, std::string const &result)
+}
+
+void expect_sequence(terminalpp::bytes const &expected, terminalpp::bytes const &result)
 {
     if (expected != result)
     {

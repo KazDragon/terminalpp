@@ -10,9 +10,9 @@ namespace terminalpp {
 std::ostream &operator<<(std::ostream &out, extent const &ext)
 {
     return out << "extent("
-               << std::to_string(ext.width)
+               << std::to_string(ext.width_)
                << ","
-               << std::to_string(ext.height)
+               << std::to_string(ext.height_)
                << ")";
 }
 

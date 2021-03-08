@@ -1,6 +1,7 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+#include <boost/operators.hpp>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -14,6 +15,10 @@ namespace terminalpp {
 /// vertical axis.
 //* =========================================================================
 struct TERMINALPP_EXPORT extent
+  : private boost::less_than_comparable<extent,
+            boost::equality_comparable<extent,
+            boost::addable<extent,
+            boost::subtractable<extent>>>>
 {
     //* =====================================================================
     /// \brief Default Constructor
@@ -21,8 +26,8 @@ struct TERMINALPP_EXPORT extent
     /// Constructs an extent, leaving the width and height zeroed.
     //* =====================================================================
     constexpr extent()
-      : width(0),
-        height(0)
+      : width_(0),
+        height_(0)
     {
     }
 
@@ -33,8 +38,8 @@ struct TERMINALPP_EXPORT extent
     /// arguments.
     //* =====================================================================
     constexpr extent(coordinate_type w, coordinate_type h)
-      : width(w),
-        height(h)
+      : width_(w),
+        height_(h)
     {
     }
 
@@ -43,8 +48,8 @@ struct TERMINALPP_EXPORT extent
     //* =====================================================================
     constexpr extent &operator+=(extent const &rhs)
     {
-        width  += rhs.width;
-        height += rhs.height;
+        width_  += rhs.width_;
+        height_ += rhs.height_;
         return *this;
     }
 
@@ -53,46 +58,31 @@ struct TERMINALPP_EXPORT extent
     //* =====================================================================
     constexpr extent &operator-=(extent const &rhs)
     {
-        width  -= rhs.width;
-        height -= rhs.height;
+        width_  -= rhs.width_;
+        height_ -= rhs.height_;
         return *this;
     }
 
-    coordinate_type width;
-    coordinate_type height;
+    // ======================================================================
+    // OPERATOR<(EXTENT,EXTENT)
+    // ======================================================================
+    constexpr friend bool operator<(extent const &lhs, extent const &rhs)
+    {
+        return lhs.width_ < rhs.width_
+            || (lhs.width_ == rhs.width_ && lhs.height_ < rhs.height_);
+    }
+
+    // ======================================================================
+    // OPERATOR==(EXTENT,EXTENT)
+    // ======================================================================
+    constexpr friend bool operator==(extent const &lhs, extent const &rhs)
+    {
+        return lhs.width_ == rhs.width_ && lhs.height_ == rhs.height_;
+    }
+
+    coordinate_type width_;
+    coordinate_type height_;
 };
-
-// ==========================================================================
-// OPERATOR==(EXTENT,EXTENT)
-// ==========================================================================
-constexpr bool operator==(extent const &lhs, extent const &rhs)
-{
-    return lhs.width == rhs.width && lhs.height == rhs.height;
-}
-
-// ==========================================================================
-// OPERATOR!=(EXTENT,EXTENT)
-// ==========================================================================
-constexpr bool operator!=(extent const &lhs, extent const &rhs)
-{
-    return !(lhs == rhs);
-}
-
-// ==========================================================================
-// OPERATOR+(EXTENT,EXTENT)
-// ==========================================================================
-constexpr extent operator+(extent lhs, extent const &rhs)
-{
-    return lhs += rhs;
-}
-
-// ==========================================================================
-// OPERATOR-(EXTENT,EXTENT)
-// ==========================================================================
-constexpr extent operator-(extent lhs, extent const &rhs)
-{
-    return lhs -= rhs;
-}
 
 //* =====================================================================
 /// \brief Outputs the current state of the extent to a stream.

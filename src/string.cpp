@@ -151,7 +151,7 @@ string::const_reference string::operator[](string::size_type index) const
 // ==========================================================================
 // OPERATOR +=
 // ==========================================================================
-string &string::operator+=(char ch)
+string &string::operator+=(byte ch)
 {
     return operator+=(element(ch));
 }
@@ -253,7 +253,7 @@ std::string to_string(string const &tstr)
 
     for(auto const &elem : tstr)
     {
-        if (elem.glyph_.charset_ == ansi::charset::utf8)
+        if (elem.glyph_.charset_ == charset::utf8)
         {
             for (auto const &ch : elem.glyph_.ucharacter_)
             {
@@ -262,12 +262,12 @@ std::string to_string(string const &tstr)
                     break;
                 }
 
-                result += ch;
+                result += char(ch);
             }
         }
         else
         {
-            result += elem.glyph_.character_;
+            result += char(elem.glyph_.character_);
         }
     }
 

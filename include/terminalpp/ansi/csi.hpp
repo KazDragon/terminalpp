@@ -11,192 +11,192 @@
 namespace terminalpp { namespace ansi { namespace csi {
 
 // Insert N blank characters
-static constexpr char const INSERT_BLANK                     = terminalpp::detail::ascii::AT;
+static constexpr byte insert_blank                     = terminalpp::detail::ascii::at;
 // Move the cursor up N rows.
-static constexpr char const CURSOR_UP                        = terminalpp::detail::ascii::UPPERCASE_A;
+static constexpr byte cursor_up                        = terminalpp::detail::ascii::uppercase_a;
 // Move the cursor down N rows.
-static constexpr char const CURSOR_DOWN                      = terminalpp::detail::ascii::UPPERCASE_B;
+static constexpr byte cursor_down                      = terminalpp::detail::ascii::uppercase_b;
 // Move the cursor right N columns.
-static constexpr char const CURSOR_FORWARD                   = terminalpp::detail::ascii::UPPERCASE_C;
+static constexpr byte cursor_forward                   = terminalpp::detail::ascii::uppercase_c;
 // Move the cursor left N columns.
-static constexpr char const CURSOR_BACKWARD                  = terminalpp::detail::ascii::UPPERCASE_D;
+static constexpr byte cursor_backward                  = terminalpp::detail::ascii::uppercase_d;
 
 // Move the cursor to the beginning of the line that is N lines down.
-static constexpr char const CURSOR_NEXT_LINE                 = terminalpp::detail::ascii::UPPERCASE_E;
+static constexpr byte cursor_next_line                 = terminalpp::detail::ascii::uppercase_e;
 // Move the cursor to the beginning of the line that is N lines up.
-static constexpr char const CURSOR_PREVIOUS_LINE             = terminalpp::detail::ascii::UPPERCASE_F;
+static constexpr byte cursor_previous_line             = terminalpp::detail::ascii::uppercase_f;
 // During input, this can also mean END.
-static constexpr char const CURSOR_END                       = terminalpp::detail::ascii::UPPERCASE_F;
+static constexpr byte cursor_end                       = terminalpp::detail::ascii::uppercase_f;
 // Move to a specific column.
-static constexpr char const CURSOR_HORIZONTAL_ABSOLUTE       = terminalpp::detail::ascii::UPPERCASE_G;
+static constexpr byte cursor_horizontal_absolute       = terminalpp::detail::ascii::uppercase_g;
 // Move to a specific cursor position (row,column).
-static constexpr char const CURSOR_POSITION                  = terminalpp::detail::ascii::UPPERCASE_H;
+static constexpr byte cursor_position                  = terminalpp::detail::ascii::uppercase_h;
 // During input, this can also mean HOME.
-static constexpr char const CURSOR_HOME                      = terminalpp::detail::ascii::UPPERCASE_H;
+static constexpr byte cursor_home                      = terminalpp::detail::ascii::uppercase_h;
 // Move forward N tabs
-static constexpr char const CURSOR_TABULATION                = terminalpp::detail::ascii::UPPERCASE_I;
+static constexpr byte cursor_tabulation                = terminalpp::detail::ascii::uppercase_i;
 
 // Erase data.
 //  0 - (Default) Clear from the cursor to the end of the screen.
 //  1 - Clear from the cursor to the beginning of the screen.
 //  2 - Clear the entire screen (cursor position is indeterminate).
-static constexpr char const ERASE_IN_DISPLAY                 = terminalpp::detail::ascii::UPPERCASE_J;
-    static constexpr char const ERASE_IN_DISPLAY_BELOW       = terminalpp::detail::ascii::ZERO;
-    static constexpr char const ERASE_IN_DISPLAY_ABOVE       = terminalpp::detail::ascii::ONE;
-    static constexpr char const ERASE_IN_DISPLAY_ALL         = terminalpp::detail::ascii::TWO;
+static constexpr byte erase_in_display                 = terminalpp::detail::ascii::uppercase_j;
+    static constexpr byte erase_in_display_below       = terminalpp::detail::ascii::zero;
+    static constexpr byte erase_in_display_above       = terminalpp::detail::ascii::one;
+    static constexpr byte erase_in_display_all         = terminalpp::detail::ascii::two;
 
 // Selective Erase In Display
 //  - Requires ? extender
 //  - Uses same constants as Erase In Display.
-static constexpr char const SELECTIVE_ERASE_IN_DISPLAY       = terminalpp::detail::ascii::UPPERCASE_J;
+static constexpr byte selective_erase_in_display       = terminalpp::detail::ascii::uppercase_j;
 
 // Erase line
 //  0 - (Default) Clear from the cursor to the end of the line.
 //  1 - Clear from the cursor to the beginning of the line.
 //  2 - Clear entire line (cursor position remains the same).
-static constexpr char const ERASE_IN_LINE                    = terminalpp::detail::ascii::UPPERCASE_K;
-    static constexpr char const ERASE_IN_LINE_RIGHT          = terminalpp::detail::ascii::ZERO;
-    static constexpr char const ERASE_IN_LINE_LEFT           = terminalpp::detail::ascii::ONE;
-    static constexpr char const ERASE_IN_LINE_ALL            = terminalpp::detail::ascii::TWO;
+static constexpr byte erase_in_line                    = terminalpp::detail::ascii::uppercase_k;
+    static constexpr byte erase_in_line_right          = terminalpp::detail::ascii::zero;
+    static constexpr byte erase_in_line_left           = terminalpp::detail::ascii::one;
+    static constexpr byte erase_in_line_all            = terminalpp::detail::ascii::two;
 
 // Selective Erase In Line
 //  - Requires ? extender
 //  - Uses same constants as Erase In Line.
-static constexpr char const SELECTIVE_ERASE_IN_LINE          = terminalpp::detail::ascii::UPPERCASE_K;
+static constexpr byte selective_erase_in_line          = terminalpp::detail::ascii::uppercase_k;
 
 // Insert N lines
-static constexpr char const INSERT_LINE                      = terminalpp::detail::ascii::UPPERCASE_L;
+static constexpr byte insert_line                      = terminalpp::detail::ascii::uppercase_l;
 
 // Delete N lines
-static constexpr char const DELETE_LINE                      = terminalpp::detail::ascii::UPPERCASE_M;
+static constexpr byte delete_line                      = terminalpp::detail::ascii::uppercase_m;
 
 // Delete N characters
-static constexpr char const DELETE_CHARACTERS                = terminalpp::detail::ascii::UPPERCASE_P;
+static constexpr byte delete_characters                = terminalpp::detail::ascii::uppercase_p;
 
 // Sixel/ReGIS graphics
 //  - Requires ? extender
-static constexpr char const SIXEL_GRAPHICS                   = terminalpp::detail::ascii::UPPERCASE_S;
+static constexpr byte sixel_graphics                   = terminalpp::detail::ascii::uppercase_s;
 
 // Scroll up by N lines
-static constexpr char const SCROLL_UP                        = terminalpp::detail::ascii::UPPERCASE_S;
+static constexpr byte scroll_up                        = terminalpp::detail::ascii::uppercase_s;
 
 // Scroll down by N lines
-static constexpr char const SCROLL_DOWN                      = terminalpp::detail::ascii::UPPERCASE_T;
+static constexpr byte scroll_down                      = terminalpp::detail::ascii::uppercase_t;
 
 // Initiate Highlight Mouse Tracking
-static constexpr char const HIGHLIGHT_MOUSE_TRACKING         = terminalpp::detail::ascii::UPPERCASE_T;
+static constexpr byte highlight_mouse_tracking         = terminalpp::detail::ascii::uppercase_t;
 
 // Reset Title Mode Feature
 //  - Requires > extender
-static constexpr char const RESET_TITLE_MODE_FEATURE         = terminalpp::detail::ascii::UPPERCASE_T;
+static constexpr byte reset_title_mode_feature         = terminalpp::detail::ascii::uppercase_t;
 
 // Horizontal and Vertical position - as Cursor Position
-static constexpr char const HORIZONTAL_AND_VERTICAL_POSITION = terminalpp::detail::ascii::LOWERCASE_F;
+static constexpr byte horizontal_and_vertical_position = terminalpp::detail::ascii::lowercase_f;
 
 // Select graphics rendition - see graphics namespace
-static constexpr char const SELECT_GRAPHICS_RENDITION        = terminalpp::detail::ascii::LOWERCASE_M;
+static constexpr byte select_graphics_rendition        = terminalpp::detail::ascii::lowercase_m;
 
 // Mouse Tracking - see mouse namespace
-static constexpr char const MOUSE_TRACKING                   = terminalpp::detail::ascii::UPPERCASE_M;
+static constexpr byte mouse_tracking                   = terminalpp::detail::ascii::uppercase_m;
 
 // Device status report - request requires parameter of 6, response
 // requires parameters of row,column.
-static constexpr char const DEVICE_STATUS_REPORT             = terminalpp::detail::ascii::LOWERCASE_N;
-static constexpr char const DEVICE_STATUS_REPORT_REPLY       = terminalpp::detail::ascii::UPPERCASE_R;
+static constexpr byte device_status_report             = terminalpp::detail::ascii::lowercase_n;
+static constexpr byte device_status_report_reply       = terminalpp::detail::ascii::uppercase_r;
 
 // Save cursor position
-static constexpr char const SAVE_CURSOR_POSITION             = terminalpp::detail::ascii::LOWERCASE_S;
+static constexpr byte save_cursor_position             = terminalpp::detail::ascii::lowercase_s;
 
 // Restore (unsave) cursor
-static constexpr char const RESTORE_CURSOR_POSITION          = terminalpp::detail::ascii::LOWERCASE_U;
+static constexpr byte restore_cursor_position          = terminalpp::detail::ascii::lowercase_u;
 
 // Erase Characters
-static constexpr char const ERASE_CHARACTER                  = terminalpp::detail::ascii::UPPERCASE_X;
+static constexpr byte erase_character                  = terminalpp::detail::ascii::uppercase_x;
 
 // Tab backwards
-static constexpr char const CURSOR_BACKWARD_TABULATION       = terminalpp::detail::ascii::UPPERCASE_Z;
+static constexpr byte cursor_backward_tabulation       = terminalpp::detail::ascii::uppercase_z;
 
 // Cursor Position Absolute
-static constexpr char const CURSOR_POSITION_ABSOLUTE         = terminalpp::detail::ascii::GRAVE;
+static constexpr byte cursor_position_absolute         = terminalpp::detail::ascii::grave;
 
 // Cursor Position Relative
-static constexpr char const CURSOR_POSITION_RELATIVE         = terminalpp::detail::ascii::LOWERCASE_A;
+static constexpr byte cursor_position_relative         = terminalpp::detail::ascii::lowercase_a;
 
 // Repeat Preceding Character
-static constexpr char const REPEAT_PRECEDING_CHARACTER       = terminalpp::detail::ascii::LOWERCASE_B;
+static constexpr byte repeat_preceding_character       = terminalpp::detail::ascii::lowercase_b;
 
 // Send Device Attributes
 //  - Primary Attributes has no extender
 //  - Primary Response has ? extender
 //  - Secondary Attributes has > extender
-static constexpr char const SEND_DEVICE_ATTRIBUTES           = terminalpp::detail::ascii::LOWERCASE_C;
+static constexpr byte send_device_attributes           = terminalpp::detail::ascii::lowercase_c;
 
 // Line Position Absolute
-static constexpr char const LINE_POSITION_ABSOLUTE           = terminalpp::detail::ascii::LOWERCASE_D;
+static constexpr byte line_position_absolute           = terminalpp::detail::ascii::lowercase_d;
 
 // Line Position Relative
-static constexpr char const LINE_POSITION_RELATIVE           = terminalpp::detail::ascii::LOWERCASE_E;
+static constexpr byte line_position_relative           = terminalpp::detail::ascii::lowercase_e;
 
 // Line Position
-static constexpr char const LINE_POSITION                    = terminalpp::detail::ascii::LOWERCASE_F;
+static constexpr byte line_position                    = terminalpp::detail::ascii::lowercase_f;
 
 // Tab Clear
-static constexpr char const TAB_CLEAR                        = terminalpp::detail::ascii::LOWERCASE_G;
-    static constexpr char const TAB_CLEAR_CURRENT_COLUMN     = terminalpp::detail::ascii::ZERO;
-    static constexpr char const TAB_CLEAR_ALL                = terminalpp::detail::ascii::THREE;
+static constexpr byte tab_clear                        = terminalpp::detail::ascii::lowercase_g;
+    static constexpr byte tab_clear_current_column     = terminalpp::detail::ascii::zero;
+    static constexpr byte tab_clear_all                = terminalpp::detail::ascii::three;
 
 // Set Mode
-static constexpr char const SET_MODE                         = terminalpp::detail::ascii::LOWERCASE_H;
+static constexpr byte set_mode                         = terminalpp::detail::ascii::lowercase_h;
 
 // Reset Mode
-static constexpr char const RESET_MODE                       = terminalpp::detail::ascii::LOWERCASE_L;
+static constexpr byte reset_mode                       = terminalpp::detail::ascii::lowercase_l;
 
 // Keypad buttons / Function keys
-static constexpr char const KEYPAD_FUNCTION                  = terminalpp::detail::ascii::TILDE;
-    static constexpr std::int8_t const KEYPAD_HOME                  = 1;
-    static constexpr std::int8_t const KEYPAD_INSERT                = 2;
-    static constexpr std::int8_t const KEYPAD_DEL                   = 3;
-    static constexpr std::int8_t const KEYPAD_END                   = 4;
-    static constexpr std::int8_t const KEYPAD_PGUP                  = 5;
-    static constexpr std::int8_t const KEYPAD_PGDN                  = 6;
-    static constexpr std::int8_t const KEYPAD_F1                    = 11;
-    static constexpr std::int8_t const KEYPAD_F2                    = 12;
-    static constexpr std::int8_t const KEYPAD_F3                    = 13;
-    static constexpr std::int8_t const KEYPAD_F4                    = 14;
-    static constexpr std::int8_t const KEYPAD_F5                    = 15;
-    static constexpr std::int8_t const KEYPAD_F6                    = 17; // Skip 16.
-    static constexpr std::int8_t const KEYPAD_F7                    = 18;
-    static constexpr std::int8_t const KEYPAD_F8                    = 19;
-    static constexpr std::int8_t const KEYPAD_F9                    = 20;
-    static constexpr std::int8_t const KEYPAD_F10                   = 21;
-    static constexpr std::int8_t const KEYPAD_F11                   = 23; // Skip 22.
-    static constexpr std::int8_t const KEYPAD_F12                   = 24;
+static constexpr byte keypad_function                  = terminalpp::detail::ascii::tilde;
+    static constexpr byte keypad_home                  = 1;
+    static constexpr byte keypad_insert                = 2;
+    static constexpr byte keypad_del                   = 3;
+    static constexpr byte keypad_end                   = 4;
+    static constexpr byte keypad_pgup                  = 5;
+    static constexpr byte keypad_pgdn                  = 6;
+    static constexpr byte keypad_f1                    = 11;
+    static constexpr byte keypad_f2                    = 12;
+    static constexpr byte keypad_f3                    = 13;
+    static constexpr byte keypad_f4                    = 14;
+    static constexpr byte keypad_f5                    = 15;
+    static constexpr byte keypad_f6                    = 17; // Skip 16.
+    static constexpr byte keypad_f7                    = 18;
+    static constexpr byte keypad_f8                    = 19;
+    static constexpr byte keypad_f9                    = 20;
+    static constexpr byte keypad_f10                   = 21;
+    static constexpr byte keypad_f11                   = 23; // Skip 22.
+    static constexpr byte keypad_f12                   = 24;
 
 // The following modifiers can apply to all keypad/function key controls.
-    static constexpr std::int8_t const MODIFIER_SHIFT               = 2;
-    static constexpr std::int8_t const MODIFIER_ALT                 = 3;
-    static constexpr std::int8_t const MODIFIER_SHIFT_ALT           = 4;
-    static constexpr std::int8_t const MODIFIER_CTRL                = 5;
-    static constexpr std::int8_t const MODIFIER_SHIFT_CTRL          = 6;
-    static constexpr std::int8_t const MODIFIER_ALT_CTRL            = 7;
-    static constexpr std::int8_t const MODIFIER_SHIFT_ALT_CTRL      = 8;
-    static constexpr std::int8_t const MODIFIER_META                = 9;
-    static constexpr std::int8_t const MODIFIER_META_SHIFT          = 10;
-    static constexpr std::int8_t const MODIFIER_META_ALT            = 11;
-    static constexpr std::int8_t const MODIFIER_META_SHIFT_ALT      = 12;
-    static constexpr std::int8_t const MODIFIER_META_CTRL           = 13;
-    static constexpr std::int8_t const MODIFIER_META_SHIFT_CTRL     = 14;
-    static constexpr std::int8_t const MODIFIER_META_ALT_CTRL       = 15;
-    static constexpr std::int8_t const MODIFIER_META_SHIFT_ALT_CTRL = 16;
+    static constexpr byte modifier_shift               = 2;
+    static constexpr byte modifier_alt                 = 3;
+    static constexpr byte modifier_shift_alt           = 4;
+    static constexpr byte modifier_ctrl                = 5;
+    static constexpr byte modifier_shift_ctrl          = 6;
+    static constexpr byte modifier_alt_ctrl            = 7;
+    static constexpr byte modifier_shift_alt_ctrl      = 8;
+    static constexpr byte modifier_meta                = 9;
+    static constexpr byte modifier_meta_shift          = 10;
+    static constexpr byte modifier_meta_alt            = 11;
+    static constexpr byte modifier_meta_shift_alt      = 12;
+    static constexpr byte modifier_meta_ctrl           = 13;
+    static constexpr byte modifier_meta_shift_ctrl     = 14;
+    static constexpr byte modifier_meta_alt_ctrl       = 15;
+    static constexpr byte modifier_meta_shift_alt_ctrl = 16;
 
 // DEC Private Mode
 //  - Require ? extenders
-static constexpr char const DECSET                           = terminalpp::detail::ascii::LOWERCASE_H;
-static constexpr char const DECRST                           = terminalpp::detail::ascii::LOWERCASE_L;
-    static constexpr char const CURSOR_STATE[]               = {terminalpp::detail::ascii::TWO,
-                                                                terminalpp::detail::ascii::FIVE, 0};
+static constexpr byte decset                           = terminalpp::detail::ascii::lowercase_h;
+static constexpr byte decrst                           = terminalpp::detail::ascii::lowercase_l;
+    static constexpr byte cursor_state[]               = {terminalpp::detail::ascii::two,
+                                                          terminalpp::detail::ascii::five, 0};
 
 // Soft Reset
 //  - Requires ! extender
-static constexpr char const SOFT_RESET                       = terminalpp::detail::ascii::EXCLAMATION_MARK;
+static constexpr byte soft_reset                       = terminalpp::detail::ascii::exclamation_mark;
 }}}
