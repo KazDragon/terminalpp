@@ -1,6 +1,5 @@
 #include <terminalpp/terminal.hpp>
 #include <terminalpp/canvas.hpp>
-#include <terminalpp/palette.hpp>
 #include <terminalpp/screen.hpp>
 
 void write_to_console(terminalpp::bytes data)
@@ -31,7 +30,7 @@ int main()
     // screen is now actually shocking pink.
 
     canvas[10][15].glyph_ = 'y';
-    canvas[10][15].attribute_ = terminalpp::palette::bg_blue;
+    canvas[10][15].attribute_.background_colour_ = terminalpp::graphics::colour::blue;
 
     screen.draw(terminal, canvas, write_to_console);
     // screen is still shocking pink, but there is now a letter 'y' with a
