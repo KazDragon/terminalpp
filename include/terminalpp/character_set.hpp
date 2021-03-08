@@ -56,6 +56,26 @@ struct TERMINALPP_EXPORT character_set
     }
 
     //* =====================================================================
+    /// \brief Equality operator for character sets
+    //* =====================================================================
+    constexpr friend bool operator==(
+        character_set const &lhs, 
+        character_set const &rhs)
+    {
+        return lhs.value_ == rhs.value_;
+    }
+
+    //* =====================================================================
+    /// \brief Less-than operator for character sets
+    //* =====================================================================
+    constexpr friend bool operator<(
+        character_set const &lhs, 
+        character_set const &rhs)
+    {
+        return lhs.value_ < rhs.value_;
+    }
+
+    //* =====================================================================
     /// \brief Hash function
     //* =====================================================================
     friend std::size_t hash_value(character_set const &cs) noexcept
@@ -68,22 +88,6 @@ struct TERMINALPP_EXPORT character_set
 
     terminalpp::charset value_;
 };
-
-//* =========================================================================
-/// \brief Equality operator for character sets
-//* =========================================================================
-constexpr bool operator==(character_set const &lhs, character_set const &rhs)
-{
-    return lhs.value_ == rhs.value_;
-}
-
-//* =========================================================================
-/// \brief Less-than operator for character sets
-//* =========================================================================
-constexpr bool operator<(character_set const &lhs, character_set const &rhs)
-{
-    return lhs.value_ < rhs.value_;
-}
 
 //* =========================================================================
 /// \brief Looks up a character set from a set of ANSI bytes.
