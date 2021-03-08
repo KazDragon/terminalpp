@@ -10,6 +10,6 @@ int main()
     using namespace terminalpp::literals;
     terminalpp::string text = "Hello, world!\n"_ts;
 
-    terminalpp::terminal terminal{write_to_console};
+    terminalpp::terminal terminal;
     terminal.write(write_to_console) << text;
 }

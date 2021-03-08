@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        terminalpp::terminal terminal{write_to_console};
+        terminalpp::terminal terminal;
         terminal.write(write_to_console) 
             << terminalpp::encode(argv[1])
             << "\n";

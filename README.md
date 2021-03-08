@@ -89,7 +89,7 @@ int main()
     using namespace terminalpp::literals;
     terminalpp::string text = "Hello, world!\n"_ts;
 
-    terminalpp::terminal terminal{write_to_console};
+    terminalpp::terminal terminal;
     terminal.write(write_to_console) << text;
 }
 
@@ -112,7 +112,7 @@ int main()
     using namespace terminalpp::literals;
     terminalpp::string text = "\\[1Hello, \\[2World! \\x\\U263A\n"_ets;
 
-    terminalpp::terminal terminal{write_to_console};
+    terminalpp::terminal terminal;
     terminal.write(write_to_console) << text;
 }
 ```
@@ -140,7 +140,7 @@ void write_to_console(terminalpp::bytes data)
 int main()
 {
     using namespace terminalpp::literals;
-    terminalpp::terminal terminal{write_to_console};
+    terminalpp::terminal terminal;
 
     terminal.write(write_to_console)
         << terminalpp::save_cursor_position()
@@ -195,7 +195,7 @@ void write_to_console(terminalpp::bytes data)
 
 int main()
 {
-    terminalpp::terminal terminal{write_to_console};
+    terminalpp::terminal terminal;
     terminalpp::screen screen;
     terminalpp::canvas canvas({80, 24});
 

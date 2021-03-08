@@ -8,7 +8,7 @@ void write_to_console(terminalpp::bytes data)
 int main()
 {
     using namespace terminalpp::literals;
-    terminalpp::terminal terminal{write_to_console};
+    terminalpp::terminal terminal;
 
     terminal.write(write_to_console)
         << terminalpp::save_cursor_position()
