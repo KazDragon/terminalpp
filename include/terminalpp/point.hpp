@@ -62,9 +62,9 @@ struct TERMINALPP_EXPORT point
         return *this;
     }
 
-    // ======================================================================
-    // OPERATOR<(POINT,POINT)
-    // ======================================================================
+    //* =====================================================================
+    /// \brief Less-than operator
+    //* =====================================================================
     constexpr friend bool operator<(point const &lhs, point const &rhs)
     {
         // Note: reimplemented due to std::tie not being constexpr everywhere.
@@ -72,9 +72,9 @@ struct TERMINALPP_EXPORT point
             || (lhs.y_ == rhs.y_ && lhs.x_ < rhs.x_);
     }
 
-    // ======================================================================
-    // OPERATOR==(POINT,POINT)
-    // ======================================================================
+    //* =====================================================================
+    /// \brief Equality operator
+    //* =====================================================================
     constexpr friend bool operator==(point const &lhs, point const &rhs)
     {
         return lhs.x_ == rhs.x_ && lhs.y_ == rhs.y_;

@@ -33,18 +33,18 @@ struct TERMINALPP_EXPORT rectangle
     {
     }
 
-    // ======================================================================
-    // OPERATOR<(RECTANGLE,RECTANGLE)
-    // ======================================================================
+    //* =====================================================================
+    /// \brief Less-than operator
+    //* =====================================================================
     constexpr friend bool operator<(rectangle const &lhs, rectangle const &rhs)
     {
         return lhs.origin_ < rhs.origin_
             || (lhs.origin_ == rhs.origin_ && lhs.size_ < rhs.size_);
     }
 
-    // ======================================================================
-    // OPERATOR==(RECTANGLE,RECTANGLE)
-    // ======================================================================
+    //* =====================================================================
+    /// \brief Equality operator
+    //* =====================================================================
     constexpr friend bool operator==(rectangle const &lhs, rectangle const &rhs)
     {
         return lhs.origin_ == rhs.origin_ && lhs.size_ == rhs.size_;

@@ -94,9 +94,10 @@ public:
     /// void read_tokens(terminalpp::tokens);
     /// void raw_write(terminalpp::bytes);
     /// terminal term{raw_write};
-    /// term.read(read_tokens) << "\\x1B[13~"_tb;
+    /// term.read(read_tokens) >> "\\x1B[13~"_tb;
     /// // read_tokens was called with a collection of one token, which
     /// // contained the f3 virtual key.
+    /// \endcode
     //* =====================================================================
     template <class ReadContinuation>
     detail::terminal_reader<ReadContinuation> read(ReadContinuation &&rc)
