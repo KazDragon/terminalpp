@@ -30,29 +30,15 @@ class TERMINALPP_EXPORT terminal
 public:
     //* =====================================================================
     /// \brief Constructor.
-    ///
-    /// \tparam WriteContinuation is a callable that matches the
-    /// signature \code void (bytes) \endcode.
     //* =====================================================================
-    template <class WriteContinuation>
-    explicit terminal(
-        WriteContinuation &&cont,
-        behaviour const &beh = behaviour{})
-      : behaviour_(beh)
-    {
-        write(std::forward<WriteContinuation>(cont))
-            << detail::initialise_terminal();
-    }
+    explicit terminal(behaviour const &beh = behaviour{});
 
     //* =====================================================================
     /// \brief Sets the size of the terminal.
     /// This is used to determine cursor locations when writing text that 
     /// wraps at the end of the line, etc.
     //* =====================================================================
-    void set_size(terminalpp::extent size)
-    {
-        state_.terminal_size_ = size;
-    }
+    void set_size(extent size);
     
     //* =====================================================================
     /// \brief Write to the terminal.

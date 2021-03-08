@@ -9,7 +9,7 @@ void write_to_console(terminalpp::bytes data)
 
 int main()
 {
-    terminalpp::terminal terminal{write_to_console};
+    terminalpp::terminal terminal;
     terminalpp::screen screen;
     terminalpp::canvas canvas({80, 24});
 

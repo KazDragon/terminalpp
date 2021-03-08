@@ -12,8 +12,7 @@ class a_screen : public a_terminal
 public:
     a_screen()
       : size_{5, 5},
-        canvas_(size_),
-        reference_terminal_(discard_result)
+        canvas_(size_)
     {
         terminal_.set_size(size_);
         reference_terminal_.set_size(size_);

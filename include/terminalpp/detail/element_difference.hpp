@@ -22,16 +22,9 @@ namespace terminalpp { namespace detail {
 template <class WriteContinuation>
 void csi(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 {
-    static byte_storage const csi7 = {
-        terminalpp::ansi::control7::csi[0],
-        terminalpp::ansi::control7::csi[1],
-    };
-
-    static byte_storage const csi8 = {
-        terminalpp::ansi::control8::csi
-    };
-
-    wc(terminal_behaviour.can_use_eight_bit_control_codes ? csi8 : csi7);
+    wc({
+        std::cbegin(ansi::control7::csi),
+        std::cend(ansi::control7::csi)});
 }
 
 //* =========================================================================
@@ -40,16 +33,9 @@ void csi(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 template <class WriteContinuation>
 void osc(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 {
-    static byte_storage const osc7 = {
-        terminalpp::ansi::control7::osc[0],
-        terminalpp::ansi::control7::osc[1],
-    };
-
-    static byte_storage const osc8 = {
-        terminalpp::ansi::control8::osc
-    };
-
-    wc(terminal_behaviour.can_use_eight_bit_control_codes ? osc8 : osc7);
+    wc({
+        std::cbegin(ansi::control7::osc),
+        std::cend(ansi::control7::osc)});
 }
 
 //* =========================================================================
@@ -58,16 +44,9 @@ void osc(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 template <class WriteContinuation>
 void st(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 {
-    static byte_storage const st7 = {
-        terminalpp::ansi::control7::st[0],
-        terminalpp::ansi::control7::st[1],
-    };
-
-    static byte_storage const st8 = {
-        terminalpp::ansi::control8::st
-    };
-
-    wc(terminal_behaviour.can_use_eight_bit_control_codes ? st8 : st7);
+    wc({
+        std::cbegin(ansi::control7::st),
+        std::cend(ansi::control7::st)});
 }
 
 //* =========================================================================

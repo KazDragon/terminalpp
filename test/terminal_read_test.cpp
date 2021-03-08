@@ -10,7 +10,7 @@ class terminal_read_test_base
 {
 public:
     terminal_read_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
-      : terminal_([](terminalpp::bytes) {}, behaviour)
+      : terminal_(behaviour)
     {
     }
 

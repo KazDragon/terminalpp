@@ -10,31 +10,6 @@
 namespace terminalpp { namespace detail {
 
 //* =========================================================================
-/// \brief A manipulator that sets up the initial required state of a 
-/// terminal.
-//* =========================================================================
-struct TERMINALPP_EXPORT initialise_terminal
-{
-    //* =====================================================================
-    /// \brief Write the initializer for the 8-bit control mode if necessary.
-    //* =====================================================================
-    template <class WriteContinuation>
-    void operator()(
-        terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state, 
-        WriteContinuation &&cont) const
-    {
-        if (beh.can_use_eight_bit_control_codes
-         && !beh.uses_eight_bit_control_codes_by_default)
-        {
-            cont({
-                std::cbegin(terminalpp::ansi::control8::enable),
-                std::cend(terminalpp::ansi::control8::enable)});
-        }
-    }
-};
-
-//* =========================================================================
 /// \brief A manipulator that initializes the attributes to the default if it
 /// has not yet been done.
 //* =========================================================================

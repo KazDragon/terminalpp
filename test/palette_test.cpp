@@ -107,7 +107,7 @@ TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
             result.append(std::cbegin(data), std::cend(data));
         };
 
-    terminalpp::terminal terminal{discard_result};
+    terminalpp::terminal terminal;
 
     // First write a space in the default attribute.  Thereafter, we write 
     // only what is not default about the palette-based element.
