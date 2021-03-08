@@ -4,7 +4,7 @@ var searchData=
   ['saved_5fcursor_5fposition_5f_87',['saved_cursor_position_',['../structterminalpp_1_1terminal__state.html#ad94e2862a26dfb9dc3f5bfdcc6772f79',1,'terminalpp::terminal_state']]],
   ['screen_88',['screen',['../classterminalpp_1_1screen.html',1,'terminalpp']]],
   ['sequence_89',['sequence',['../structterminalpp_1_1virtual__key.html#aedbc4fe66860b8a3e9d58c6e53286d52',1,'terminalpp::virtual_key']]],
-  ['set_5fsize_90',['set_size',['../classterminalpp_1_1terminal.html#aa4d24a5259d5af8ba25a1ed61ed48fa3',1,'terminalpp::terminal']]],
+  ['set_5fsize_90',['set_size',['../classterminalpp_1_1terminal.html#a827dc191362ed6ec3482b2364315ce77',1,'terminalpp::terminal']]],
   ['set_5fwindow_5ftitle_91',['set_window_title',['../classterminalpp_1_1set__window__title.html',1,'terminalpp']]],
   ['show_5fcursor_92',['show_cursor',['../classterminalpp_1_1show__cursor.html',1,'terminalpp']]],
   ['size_93',['size',['../classterminalpp_1_1canvas.html#ab3d6c64c9cbb2d2be1624a5dc6993eb7',1,'terminalpp::canvas::size()'],['../classterminalpp_1_1string.html#a358d001271afc0f5af894cf3a7b51d4b',1,'terminalpp::string::size()']]],
