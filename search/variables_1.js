@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['key_174',['key',['../structterminalpp_1_1virtual__key.html#a487bd1b68e6bb81d67fdcfc669bf3d86',1,'terminalpp::virtual_key']]]
+  ['cursor_5fposition_5f_226',['cursor_position_',['../structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142',1,'terminalpp::terminal_state']]],
+  ['cursor_5fvisible_5f_227',['cursor_visible_',['../structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89',1,'terminalpp::terminal_state']]]
 ];

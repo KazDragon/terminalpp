@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['modifiers_175',['modifiers',['../structterminalpp_1_1virtual__key.html#ad2a75c1d3a5ce9571b95abe45f8615ca',1,'terminalpp::virtual_key']]]
+  ['input_5fparser_5f_228',['input_parser_',['../structterminalpp_1_1terminal__state.html#aa9689a16349a27998ac940687f96607a',1,'terminalpp::terminal_state']]]
 ];

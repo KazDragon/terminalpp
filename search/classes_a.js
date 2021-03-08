@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['terminal_5fstate_127',['terminal_state',['../structterminalpp_1_1terminal__state.html',1,'terminalpp']]],
-  ['terminalppconan_128',['TerminalppConan',['../classconanfile_1_1TerminalppConan.html',1,'conanfile']]]
+  ['rectangle_162',['rectangle',['../structterminalpp_1_1rectangle.html',1,'terminalpp']]],
+  ['restore_5fcursor_5fposition_163',['restore_cursor_position',['../classterminalpp_1_1restore__cursor__position.html',1,'terminalpp']]]
 ];

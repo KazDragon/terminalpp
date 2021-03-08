@@ -116,10 +116,10 @@ $(function() {
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state, </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">if</span> (!state.last_element_)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">if</span> (!state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>)</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        {</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            detail::default_attribute(beh, cont);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            state.last_element_ = <a class="code" href="structterminalpp_1_1element.html">terminalpp::element</a>{};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a> = <a class="code" href="structterminalpp_1_1element.html">terminalpp::element</a>{};</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
@@ -145,13 +145,13 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">    </span>{</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        change_charset(</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            state.last_element_-&gt;glyph_.charset_, </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>-&gt;glyph_.charset_, </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            element_.glyph_.charset_,</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            beh,</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            cont);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        change_attribute(</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            state.last_element_-&gt;attribute_,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>-&gt;attribute_,</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            element_.attribute_,</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            beh,</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            cont);</div>
@@ -165,7 +165,7 @@ $(function() {
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            write_regular_glyph(cont);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        state.last_element_ = element_;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a> = element_;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        </div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        advance_cursor_position(state);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
@@ -299,11 +299,12 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassterminalpp_1_1string_html"><div class="ttname"><a href="classterminalpp_1_1string.html">terminalpp::string</a></div><div class="ttdoc">A class that represents strings of elements.</div><div class="ttdef"><b>Definition:</b> string.hpp:18</div></div>
 <div class="ttc" id="astructterminalpp_1_1element_html"><div class="ttname"><a href="structterminalpp_1_1element.html">terminalpp::element</a></div><div class="ttdoc">A structure that represents the fundamental printable element of a terminal screen,...</div><div class="ttdef"><b>Definition:</b> element.hpp:17</div></div>
+<div class="ttc" id="astructterminalpp_1_1terminal__state_html_a126d0f637834e56fbb4c6771a91dacde"><div class="ttname"><a href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">terminalpp::terminal_state::last_element_</a></div><div class="ttdeci">boost::optional&lt; element &gt; last_element_</div><div class="ttdoc">The last element that was written to the terminal.</div><div class="ttdef"><b>Definition:</b> terminal_state.hpp:26</div></div>
 <div class="ttc" id="astructterminalpp_1_1behaviour_html"><div class="ttname"><a href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a></div><div class="ttdoc">A set of flags that determine how a terminal should behave over a datastream.</div><div class="ttdef"><b>Definition:</b> behaviour.hpp:11</div></div>
 <div class="ttc" id="astructterminalpp_1_1terminal__state_html"><div class="ttname"><a href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a></div><div class="ttdoc">The state of a terminal, which manipulators are allowed to use and edit.</div><div class="ttdef"><b>Definition:</b> terminal_state.hpp:15</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 8 2021 11:29:25 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 11:39:11 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

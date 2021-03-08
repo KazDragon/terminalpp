@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['value_5ftype_86',['value_type',['../classterminalpp_1_1string.html#ae37b4fa0adab3bb3727a13849eefed74',1,'terminalpp::string']]],
-  ['virtual_5fkey_87',['virtual_key',['../structterminalpp_1_1virtual__key.html',1,'terminalpp']]]
+  ['use_5falternate_5fscreen_5fbuffer_111',['use_alternate_screen_buffer',['../classterminalpp_1_1use__alternate__screen__buffer.html',1,'terminalpp']]],
+  ['use_5fnormal_5fscreen_5fbuffer_112',['use_normal_screen_buffer',['../classterminalpp_1_1use__normal__screen__buffer.html',1,'terminalpp']]]
 ];

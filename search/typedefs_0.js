@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_5ftype_181',['value_type',['../classterminalpp_1_1string.html#ae37b4fa0adab3bb3727a13849eefed74',1,'terminalpp::string']]]
+  ['input_5fsequence_239',['input_sequence',['../structterminalpp_1_1virtual__key.html#aeb2a206310ae35c50497af69c9725e3a',1,'terminalpp::virtual_key']]]
 ];

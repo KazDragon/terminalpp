@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structterminalpp_1_1terminal__state-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -80,25 +81,38 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="terminal__state_8hpp_source.html">terminal_state.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a59829f8ff8719eec446223c84a9c6e89"><td class="memItemLeft" align="right" valign="top"><a id="a59829f8ff8719eec446223c84a9c6e89"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1terminal__state.html#a59829f8ff8719eec446223c84a9c6e89">terminal_state</a> ()</td></tr>
+<tr class="memdesc:a59829f8ff8719eec446223c84a9c6e89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
+<tr class="separator:a59829f8ff8719eec446223c84a9c6e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:afb93969d72c60a4509edeaab00cfc656"><td class="memItemLeft" align="right" valign="top"><a id="afb93969d72c60a4509edeaab00cfc656"></a>
-<a class="el" href="structterminalpp_1_1extent.html">extent</a>&#160;</td><td class="memItemRight" valign="bottom"><b>terminal_size_</b></td></tr>
+<a class="el" href="structterminalpp_1_1extent.html">extent</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1terminal__state.html#afb93969d72c60a4509edeaab00cfc656">terminal_size_</a></td></tr>
+<tr class="memdesc:afb93969d72c60a4509edeaab00cfc656"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sized of the terminal. <br /></td></tr>
 <tr class="separator:afb93969d72c60a4509edeaab00cfc656"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a126d0f637834e56fbb4c6771a91dacde"><td class="memItemLeft" align="right" valign="top"><a id="a126d0f637834e56fbb4c6771a91dacde"></a>
-boost::optional&lt; <a class="el" href="structterminalpp_1_1element.html">element</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>last_element_</b></td></tr>
+boost::optional&lt; <a class="el" href="structterminalpp_1_1element.html">element</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a></td></tr>
+<tr class="memdesc:a126d0f637834e56fbb4c6771a91dacde"><td class="mdescLeft">&#160;</td><td class="mdescRight">The last element that was written to the terminal. <br /></td></tr>
 <tr class="separator:a126d0f637834e56fbb4c6771a91dacde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a603a6a8749b011ee930d270619810142"><td class="memItemLeft" align="right" valign="top"><a id="a603a6a8749b011ee930d270619810142"></a>
-boost::optional&lt; <a class="el" href="structterminalpp_1_1point.html">point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>cursor_position_</b></td></tr>
+boost::optional&lt; <a class="el" href="structterminalpp_1_1point.html">point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a></td></tr>
+<tr class="memdesc:a603a6a8749b011ee930d270619810142"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current cursor position, if known. <br /></td></tr>
 <tr class="separator:a603a6a8749b011ee930d270619810142"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad94e2862a26dfb9dc3f5bfdcc6772f79"><td class="memItemLeft" align="right" valign="top"><a id="ad94e2862a26dfb9dc3f5bfdcc6772f79"></a>
-boost::optional&lt; <a class="el" href="structterminalpp_1_1point.html">point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>saved_cursor_position_</b></td></tr>
+boost::optional&lt; <a class="el" href="structterminalpp_1_1point.html">point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1terminal__state.html#ad94e2862a26dfb9dc3f5bfdcc6772f79">saved_cursor_position_</a></td></tr>
+<tr class="memdesc:ad94e2862a26dfb9dc3f5bfdcc6772f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">The cursor position at which the last "save cursor position" command was executed. <br /></td></tr>
 <tr class="separator:ad94e2862a26dfb9dc3f5bfdcc6772f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbab331cfdaeb1364dc990b173afbf89"><td class="memItemLeft" align="right" valign="top"><a id="abbab331cfdaeb1364dc990b173afbf89"></a>
-boost::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>cursor_visible_</b></td></tr>
+boost::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">cursor_visible_</a></td></tr>
+<tr class="memdesc:abbab331cfdaeb1364dc990b173afbf89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the cursor is visible or not. <br /></td></tr>
 <tr class="separator:abbab331cfdaeb1364dc990b173afbf89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9689a16349a27998ac940687f96607a"><td class="memItemLeft" align="right" valign="top"><a id="aa9689a16349a27998ac940687f96607a"></a>
-detail::parser&#160;</td><td class="memItemRight" valign="bottom"><b>input_parser_</b></td></tr>
+detail::parser&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1terminal__state.html#aa9689a16349a27998ac940687f96607a">input_parser_</a></td></tr>
+<tr class="memdesc:aa9689a16349a27998ac940687f96607a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A parser for reading input. <br /></td></tr>
 <tr class="separator:aa9689a16349a27998ac940687f96607a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -110,7 +124,7 @@ detail::parser&#160;</td><td class="memItemRight" valign="bottom"><b>input_parse
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 8 2021 11:29:25 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 11:39:11 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
