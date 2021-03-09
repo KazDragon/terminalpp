@@ -62,10 +62,10 @@ if (TERMINALPP_USE_CONAN)
     set(TERMINALPP_PUBLIC_LIBRARIES
         CONAN_PKG::boost
         CONAN_PKG::gsl-lite
+        CONAN_PKG::fmt
     )
 
-    set(TERMINALPP_PRIVATE_LIBRARIES
-        CONAN_PKG::fmt)
+    set(TERMINALPP_PRIVATE_LIBRARIES)
 
     if (${TERMINALPP_WITH_TESTS})
         set(TERMINALPP_TEST_LIBRARIES
@@ -91,11 +91,10 @@ else()
 
     set(TERMINALPP_PUBLIC_LIBRARIES
         Boost::boost
-    )
-
-    set(TERMINALPP_PRIVATE_LIBRARIES
         fmt::fmt
     )
+
+    set(TERMINALPP_PRIVATE_LIBRARIES)
 
     if (${TERMINALPP_WITH_TESTS})
         set(TERMINALPP_TEST_LIBRARIES
