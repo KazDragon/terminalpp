@@ -123,6 +123,7 @@ if (TERMINALPP_COVERAGE)
 endif()
 
 add_library(terminalpp)
+add_library(KazDragon::terminalpp ALIAS terminalpp)
 
 target_sources(terminalpp
     PRIVATE
@@ -207,6 +208,7 @@ set_target_properties(terminalpp
         CXX_VISIBILITY_PRESET hidden
         VERSION ${TERMINALPP_VERSION}
         SOVERSION ${TERMINALPP_VERSION}
+        DEBUG_POSTFIX "d"
 )
 
 target_compile_options(terminalpp
@@ -252,6 +254,8 @@ write_basic_package_version_file(
 export(
     TARGETS 
         terminalpp
+    NAMESPACE
+        KazDragon::
     FILE ${PROJECT_BINARY_DIR}/terminalpp-targets.cmake
 )
 
@@ -271,6 +275,8 @@ install(
 install(
     EXPORT
         terminalpp-targets
+    NAMESPACE
+        KazDragon::
     DESTINATION
         ${CMAKE_INSTALL_DATADIR}/terminalpp-${TERMINALPP_VERSION}
 )
