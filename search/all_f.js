@@ -13,5 +13,6 @@ var searchData=
   ['terminal_5fsize_5f_107',['terminal_size_',['../structterminalpp_1_1terminal__state.html#afb93969d72c60a4509edeaab00cfc656',1,'terminalpp::terminal_state']]],
   ['terminal_5fstate_108',['terminal_state',['../structterminalpp_1_1terminal__state.html',1,'terminalpp::terminal_state'],['../structterminalpp_1_1terminal__state.html#a59829f8ff8719eec446223c84a9c6e89',1,'terminalpp::terminal_state::terminal_state()']]],
   ['terminalppconan_109',['TerminalppConan',['../classconanfile_1_1TerminalppConan.html',1,'conanfile']]],
-  ['type_110',['type',['../structterminalpp_1_1colour.html#a7d2c49f16ab0b6ff9e80b12d61a8427b',1,'terminalpp::colour']]]
+  ['terminalpptestconan_110',['TerminalppTestConan',['../classconanfile_1_1TerminalppTestConan.html',1,'conanfile']]],
+  ['type_111',['type',['../structterminalpp_1_1colour.html#a7d2c49f16ab0b6ff9e80b12d61a8427b',1,'terminalpp::colour']]]
 ];
