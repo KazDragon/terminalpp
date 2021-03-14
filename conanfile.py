@@ -38,5 +38,8 @@ class TerminalppConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["terminalpp"]
+        if self.settings.build_type == "Debug":
+            self.cpp_info.libs = ["terminalppd"]
+        else:
+            self.cpp_info.libs = ["terminalpp"]
 
