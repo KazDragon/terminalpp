@@ -364,12 +364,7 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
-        if (state.last_element_)
-        {
-            detail::change_attribute(state.last_element_->attribute_, {}, beh, cont);
-            state.last_element_->attribute_ = {};
-        }
-
+        detail::change_to_default_attribute(state.last_element_, beh, cont);
         detail::csi(beh, cont);
 
         static byte_storage const erase_all_suffix = {  
@@ -397,12 +392,7 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
-        if (state.last_element_)
-        {
-            detail::change_attribute(state.last_element_->attribute_, {}, beh, cont);
-            state.last_element_->attribute_ = {};
-        }
-
+        detail::change_to_default_attribute(state.last_element_, beh, cont);
         detail::csi(beh, cont);
 
         static byte_storage const erase_above_suffix = {  
@@ -430,12 +420,7 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
-        if (state.last_element_)
-        {
-            detail::change_attribute(state.last_element_->attribute_, {}, beh, cont);
-            state.last_element_->attribute_ = {};
-        }
-
+        detail::change_to_default_attribute(state.last_element_, beh, cont);
         detail::csi(beh, cont);
 
         static byte_storage const erase_below_suffix = {  
@@ -462,6 +447,7 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
+        detail::change_to_default_attribute(state.last_element_, beh, cont);
         detail::csi(beh, cont);
 
         static byte_storage const erase_line_suffix = {  
@@ -489,6 +475,7 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
+        detail::change_to_default_attribute(state.last_element_, beh, cont);
         detail::csi(beh, cont);
 
         static byte_storage const erase_line_left_suffix = {  
@@ -516,6 +503,7 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
+        detail::change_to_default_attribute(state.last_element_, beh, cont);
         detail::csi(beh, cont);
 
         static byte_storage const erase_line_right_suffix = {  
