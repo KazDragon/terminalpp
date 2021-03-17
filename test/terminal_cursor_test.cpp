@@ -213,3 +213,18 @@ TEST_F(a_terminal, when_restoring_the_cursor_to_a_known_location_remembers_that_
 
     expect_sequence("x"_tb, result_);      
 }
+
+TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
+{
+    terminal_.set_size({10, 10});
+    terminal_.write(discard_result) 
+        << terminalpp::move_cursor({8, 8})
+        << "a";
+
+    terminal_.set_size({11, 11});
+    terminal_.write(append_to_result)
+        << terminalpp::move_cursor({9, 8})
+        << "b";
+
+    expect_sequence("\x1B[9;10Hb"_tb, result_);
+}
