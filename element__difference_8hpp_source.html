@@ -366,12 +366,27 @@ $(function() {
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    wc(sgr_trailer);</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;}</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160; </div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;}}</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="keywordtype">void</span> change_to_default_attribute(</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    boost::optional&lt;element&gt; &amp;last_element,</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    behaviour <span class="keyword">const</span> &amp;beh,</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    WriteContinuation &amp;&amp;wc)</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;{</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="keywordflow">if</span> (last_element)</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        detail::change_attribute(last_element-&gt;attribute_, {}, beh, wc);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        last_element-&gt;attribute_ = {};</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    }</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;}</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;}}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructterminalpp_1_1attribute_html"><div class="ttname"><a href="structterminalpp_1_1attribute.html">terminalpp::attribute</a></div><div class="ttdoc">A structure that carries around the presentation attributes of an ANSI element.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:15</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 14 2021 19:46:33 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 17 2021 13:10:39 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
