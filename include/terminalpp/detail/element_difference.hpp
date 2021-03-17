@@ -308,4 +308,20 @@ void change_attribute(
     wc(sgr_trailer);
 }
 
+//* =========================================================================
+/// \brief Resets the current attribute if necessary.
+//* =========================================================================
+template <class WriteContinuation>
+void change_to_default_attribute(
+    boost::optional<element> &last_element,
+    behaviour const &beh,
+    WriteContinuation &&wc)
+{
+    if (last_element)
+    {
+        detail::change_attribute(last_element->attribute_, {}, beh, wc);
+        last_element->attribute_ = {};
+    }
+}
+
 }}
