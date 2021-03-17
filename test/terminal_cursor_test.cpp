@@ -228,3 +228,17 @@ TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
 
     expect_sequence("\x1B[9;10Hb"_tb, result_);
 }
+
+TEST_F(a_terminal, has_an_unknown_cursor_location_when_writing_the_last_character_in_a_line)
+{
+    terminal_.set_size({10, 10});
+    terminal_.write(discard_result)
+        << terminalpp::move_cursor({9, 0})
+        << "a";
+
+    terminal_.write(append_to_result)
+        << terminalpp::move_cursor({0, 1})
+        << "b";
+
+    expect_sequence("\x1B[2Hb"_tb, result_);
+}

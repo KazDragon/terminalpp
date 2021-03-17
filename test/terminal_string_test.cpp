@@ -222,16 +222,6 @@ static write_position_data const write_position_data_table[] = {
     write_position_data{ {0, 0}, "x"_ets,               {1, 0} },
     write_position_data{ {0, 0}, "abcde"_ets,           {5, 0} },
     write_position_data{ {2, 3}, "abcde"_ets,           {7, 3} },
-
-    // Writing past the terminal width moves the cursor to the next line
-    write_position_data{ {9, 0}, "x"_ets,               {0, 1} },
-    write_position_data{ {9, 0}, "xyz"_ets,             {2, 1} },
-    write_position_data{ {8, 7}, "abcdefghijlkmno"_ets, {3, 9} },
-
-    // Writing past the last line scrolls the terminal, meaning that the
-    // the cursor wraps to the last line again.
-    write_position_data{ {9, 9}, "x"_ets,               {0, 9} },
-
 };
 
 INSTANTIATE_TEST_SUITE_P(

@@ -133,10 +133,11 @@ private:
         {
             if (++state.cursor_position_->x_ == state.terminal_size_.width_)
             {
-                state.cursor_position_->x_ = 0;
-                state.cursor_position_->y_ = std::min(
-                    ++state.cursor_position_->y_, 
-                    state.terminal_size_.height_ - 1);
+                // Terminals differ in their behaviour when reaching the
+                // end of the line.  Some wrap to the next line, some bounce
+                // against the edge.  To maintain consistency, forget the
+                // current cursor position.
+                state.cursor_position_ = {};
             }
         }
     }
