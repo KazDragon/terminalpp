@@ -397,6 +397,12 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
+        if (state.last_element_)
+        {
+            detail::change_attribute(state.last_element_->attribute_, {}, beh, cont);
+            state.last_element_->attribute_ = {};
+        }
+
         detail::csi(beh, cont);
 
         static byte_storage const erase_above_suffix = {  
@@ -424,6 +430,12 @@ public:
         terminalpp::terminal_state &state,
         WriteContinuation &&cont) const
     {
+        if (state.last_element_)
+        {
+            detail::change_attribute(state.last_element_->attribute_, {}, beh, cont);
+            state.last_element_->attribute_ = {};
+        }
+
         detail::csi(beh, cont);
 
         static byte_storage const erase_below_suffix = {  
