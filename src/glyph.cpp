@@ -213,22 +213,22 @@ static std::uint32_t utf8_decode(glyph const &gly)
 {
     std::uint32_t value = 0;
 
-    if ((gly.ucharacter_[0] & 0b100000000) == 0)
+    if ((gly.ucharacter_[0] & 0b10000000) == 0)
     {
         value = gly.ucharacter_[0];
     }
 
     if ((gly.ucharacter_[0] & 0b11100000) == 0b11000000)
     {
-        value  = byte((gly.ucharacter_[0] & 0b00011111) << 6);
-        value |= byte((gly.ucharacter_[1] & 0b00111111) << 0);
+        value  = std::uint32_t((gly.ucharacter_[0] & 0b00011111) << 6);
+        value |= std::uint32_t((gly.ucharacter_[1] & 0b00111111) << 0);
     }
 
     if ((gly.ucharacter_[0] & 0b11110000) == 0b11100000)
     {
-        value  = byte((gly.ucharacter_[0] & 0b00001111) << 12);
-        value |= byte((gly.ucharacter_[1] & 0b00111111) << 6);
-        value |= byte((gly.ucharacter_[2] & 0b00111111) << 0);
+        value  = std::uint32_t((gly.ucharacter_[0] & 0b00001111) << 12);
+        value |= std::uint32_t((gly.ucharacter_[1] & 0b00111111) << 6);
+        value |= std::uint32_t((gly.ucharacter_[2] & 0b00111111) << 0);
     }
 
     return value;
