@@ -4,8 +4,7 @@ To build: you will need the Conan remotes that are registered with the following
 
 ```
 conan remote add conan-center https://conan.bintray.com
-conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-conan remote add kazdragon-conan https://api.bintray.com/conan/kazdragon/conan-public
+conan remote add kazdragon https://kazdragon.jfrog.io/artifactory/api/conan/conan-public
 ```
 
 Conan packages are then installed as following (assuming you are in the examples/tprint folder):

@@ -6,7 +6,6 @@
 [![Linux Build status](https://github.com/KazDragon/terminalpp/workflows/build/badge.svg)](https://github.com/KazDragon/terminalpp/actions?query=event%3Apush) 
 [![Coverage Status](https://coveralls.io/repos/github/KazDragon/terminalpp/badge.svg?branch=master)](https://coveralls.io/github/KazDragon/terminalpp?branch=master) 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2741e8f7abf49bc8b496fbf8b51b983)](https://www.codacy.com/app/KazDragon/terminalpp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KazDragon/terminalpp&amp;utm_campaign=Badge_Grade)
-[![Download](https://api.bintray.com/packages/kazdragon/conan-public/terminalpp%3Akazdragon/images/download.svg)](https://bintray.com/kazdragon/conan-public/terminalpp%3Akazdragon/_latestVersion)
 
 # Terminal++
 A C++ library for interacting with ANSI/VT100 terminal or terminal emulator displays.
