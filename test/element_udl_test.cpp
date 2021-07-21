@@ -67,6 +67,15 @@ TEST(an_element_udl_with_a_charset_code, returns_the_element_with_that_charset)
 
     ASSERT_EQ(expected_element, elem);
 }
+
+TEST(an_element_udl_with_an_extended_charset_code, returns_the_element_with_that_charset)
+{
+    terminalpp::element expected_element = {'c'};
+    expected_element.glyph_.charset_ = terminalpp::charset::portuguese;
+    terminalpp::element const elem = "\\c%6c"_ete;
+
+    ASSERT_EQ(expected_element, elem);
+}
 /*
 TEST(an_element_udl_with_a_high_intensity_and_a_character, returns_an_element_with_that_character_at_high_intensity)
 {
