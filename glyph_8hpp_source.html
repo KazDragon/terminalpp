@@ -134,7 +134,7 @@ $(function() {
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    {</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> index = 0; index &lt; <span class="keyword">sizeof</span>(ucharacter_); ++index)</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            ucharacter_[index] = ustr[index];</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            ucharacter_[index] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">byte</span><span class="keyword">&gt;</span>(ustr[index]);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (!(ucharacter_[index] &amp; 0x80))</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            {</div>
@@ -288,7 +288,7 @@ $(function() {
 <div class="ttc" id="astructterminalpp_1_1glyph_html_a20ec2cb0f3d1e9fc23f9408dd3b842f4"><div class="ttname"><a href="structterminalpp_1_1glyph.html#a20ec2cb0f3d1e9fc23f9408dd3b842f4">terminalpp::glyph::hash_value</a></div><div class="ttdeci">friend std::size_t hash_value(glyph const &amp;gly) noexcept</div><div class="ttdoc">Hash function.</div><div class="ttdef"><b>Definition:</b> glyph.hpp:171</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 21 2021 13:15:02 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 21 2021 14:03:46 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
