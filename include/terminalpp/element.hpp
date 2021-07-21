@@ -80,7 +80,14 @@ constexpr bool operator==(element const &lhs, element const &rhs)
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, element const &elem);
 
+inline namespace literals {
+
+constexpr element operator ""_elem(char const */*text*/, std::size_t /*len*/)
+{
+    return element{};
 }
+
+}}
 
 namespace std {
 

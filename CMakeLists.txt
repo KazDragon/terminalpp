@@ -313,6 +313,7 @@ target_sources(terminalpp_tester
         test/control_sequence_test.cpp
         test/effect_test.cpp
         test/element_test.cpp
+        test/element_udl_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/extent_test.cpp
