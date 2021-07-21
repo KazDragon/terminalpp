@@ -65,6 +65,29 @@ struct modify_extended_charset
     element &elem_;
 };
 
+struct modify_intensity
+{
+    modify_intensity(element &elem)
+      : elem_(elem)
+    {
+    }
+
+    void operator()(char ch) const
+    {
+        switch(ch)
+        {
+            case '>':
+                elem_.attribute_.intensity_ = graphics::intensity::bold;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    element &elem_;
+};
+
 element parse_element(gsl::cstring_span &text)
 {
     auto first = text.cbegin();
@@ -76,6 +99,7 @@ element parse_element(gsl::cstring_span &text)
     auto const character_code_p = qi::lit('C') >> (uint3_3_p | qi::attr((unsigned char)(' ')));
     auto const extended_character_set_p = qi::lit('c') >> qi::lit('%') >> qi::char_;
     auto const character_set_p = qi::lit('c') >> qi::char_;
+    auto const intensity_p = qi::lit('i') >> qi::char_("<>=x");
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
@@ -84,6 +108,7 @@ element parse_element(gsl::cstring_span &text)
           -( character_code_p[modify_element(elem)]
            | extended_character_set_p[modify_extended_charset(elem)] >> expression
            | character_set_p[modify_charset(elem)] >> expression
+           | intensity_p[modify_intensity(elem)] >> expression
            | (qi::char_[modify_element(elem)])
            )
         )

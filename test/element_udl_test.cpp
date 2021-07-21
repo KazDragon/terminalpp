@@ -76,13 +76,12 @@ TEST(an_element_udl_with_an_extended_charset_code, returns_the_element_with_that
 
     ASSERT_EQ(expected_element, elem);
 }
-/*
+
 TEST(an_element_udl_with_a_high_intensity_and_a_character, returns_an_element_with_that_character_at_high_intensity)
 {
     terminalpp::element expected_element = {'x'};
     expected_element.attribute_.intensity_ = terminalpp::graphics::intensity::bold;
-    terminalpp::element const elem = "\\i+x"_ete;
+    terminalpp::element const elem = "\\i>x"_ete;
 
     ASSERT_EQ(expected_element, elem);
 }
-*/
