@@ -1,87 +1,89 @@
 #include <terminalpp/element.hpp>
 #include <gtest/gtest.h>
+#include <utility>
 
 using namespace terminalpp::literals;
+using testing::ValuesIn;
 
-TEST(an_empty_element_udl, returns_a_default_element)
+using udl_element = std::tuple<
+    terminalpp::element, // Input element as udl
+    terminalpp::element  // Output element
+>;
+
+class element_udl_test
+  : public testing::TestWithParam<udl_element>
 {
-    terminalpp::element const expected_element = {};
-    terminalpp::element const elem = ""_ete;
+};
 
-    ASSERT_EQ(expected_element, elem);
+TEST_P(element_udl_test, parse_udl)
+{
+    using std::get;
+
+    auto const &param = GetParam();
+    auto const &udl_element = get<0>(param);
+    auto const &expected_element = get<1>(param);
+
+    ASSERT_EQ(expected_element, udl_element);
 }
 
-TEST(an_element_udl_with_a_character, returns_the_character)
+namespace {
+terminalpp::element with_charset(terminalpp::element elem, terminalpp::charset charset)
 {
-    terminalpp::element const expected_element = {'x'};
-    terminalpp::element const elem = "x"_ete;
-
-    ASSERT_EQ(expected_element, elem);
+    elem.glyph_.charset_ = charset;
+    return elem;
 }
 
-TEST(an_element_udl_with_multiple_characters, returns_the_first_character)
+terminalpp::element with_intensity(terminalpp::element elem, terminalpp::graphics::intensity intensity)
 {
-    terminalpp::element const expected_element = {'x'};
-    terminalpp::element const elem = "xyz"_ete;
-
-    ASSERT_EQ(expected_element, elem);
+    elem.attribute_.intensity_ = intensity;
+    return elem;
 }
 
-TEST(an_element_udl_with_an_escape_slash, returns_a_default_element)
-{
-    terminalpp::element const expected_element = {};
-    terminalpp::element const elem = "\\"_ete;
-
-    ASSERT_EQ(expected_element, elem);
 }
 
-TEST(an_element_udl_with_a_double_escape_slash, returns_a_backslash_element)
-{
-    terminalpp::element const expected_element = {'\\'};
-    terminalpp::element const elem = "\\\\"_ete;
+static udl_element const udl_elements[] = {
+    // Empty string returns default element.
+    udl_element{""_ete, terminalpp::element{}},
 
-    ASSERT_EQ(expected_element, elem);
-}
+    // Plain characters return those characters as elements.
+    udl_element{"a"_ete, terminalpp::element{'a'}},
+    udl_element{"x"_ete, terminalpp::element{'x'}},
+    udl_element{"Z"_ete, terminalpp::element{'Z'}},
+    udl_element{"?"_ete, terminalpp::element{'?'}},
+    udl_element{"*"_ete, terminalpp::element{'*'}},
 
-TEST(an_element_udl_with_an_unfinished_character_code, returns_a_default_element)
-{
-    terminalpp::element const expected_element = {};
-    terminalpp::element const elem = "\\C09"_ete;
+    // Multiple plain characters return the first character.
+    udl_element{"ab"_ete, terminalpp::element{'a'}},
+    udl_element{"zxcv"_ete, terminalpp::element{'z'}},
 
-    ASSERT_EQ(expected_element, elem);
-}
+    // A solo escape character returns a default element.
+    udl_element{"\\"_ete, terminalpp::element{}},
 
-TEST(an_element_udl_with_a_character_code, returns_an_element_with_that_character)
-{
-    terminalpp::element const expected_element = {'a'};
-    terminalpp::element const elem = "\\C097"_ete;
+    // A double escape character returns a backslash.
+    udl_element{"\\\\"_ete, terminalpp::element{'\\'}},
 
-    ASSERT_EQ(expected_element, elem);
-}
+    // Unfinished character codes return a default character.
+    udl_element{"\\C"_ete, terminalpp::element{}},
+    udl_element{"\\C0"_ete, terminalpp::element{}},
+    udl_element{"\\C09"_ete, terminalpp::element{}},
 
-TEST(an_element_udl_with_a_charset_code, returns_the_element_with_that_charset)
-{
-    terminalpp::element expected_element = {'b'};
-    expected_element.glyph_.charset_ = terminalpp::charset::dec;
-    terminalpp::element const elem = "\\c0b"_ete;
+    // A complete character code returns that character.
+    udl_element{"\\C097"_ete, terminalpp::element{'a'}},
 
-    ASSERT_EQ(expected_element, elem);
-}
+    // Charset codes
+    udl_element{"\\c0a"_ete, with_charset({'a'}, terminalpp::charset::dec)},
+    udl_element{"\\c4i"_ete, with_charset({'i'}, terminalpp::charset::dutch)},
 
-TEST(an_element_udl_with_an_extended_charset_code, returns_the_element_with_that_charset)
-{
-    terminalpp::element expected_element = {'c'};
-    expected_element.glyph_.charset_ = terminalpp::charset::portuguese;
-    terminalpp::element const elem = "\\c%6c"_ete;
+    // Extended charset codes
+    udl_element{"\\c%6x"_ete, with_charset({'x'}, terminalpp::charset::portuguese)},
+    udl_element{"\\c%5j"_ete, with_charset({'j'}, terminalpp::charset::dec_supplementary_graphics)},
 
-    ASSERT_EQ(expected_element, elem);
-}
+    // Intensity
+    udl_element{"\\i>a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::bold)},
+};
 
-TEST(an_element_udl_with_a_high_intensity_and_a_character, returns_an_element_with_that_character_at_high_intensity)
-{
-    terminalpp::element expected_element = {'x'};
-    expected_element.attribute_.intensity_ = terminalpp::graphics::intensity::bold;
-    terminalpp::element const elem = "\\i>x"_ete;
-
-    ASSERT_EQ(expected_element, elem);
-}
+INSTANTIATE_TEST_SUITE_P(
+    elements_can_be_made_from_a_udl,
+    element_udl_test,
+    ValuesIn(udl_elements)
+);
