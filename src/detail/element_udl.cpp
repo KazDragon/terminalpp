@@ -1,67 +1,53 @@
 #include "terminalpp/element.hpp"
+#include <boost/spirit/include/qi.hpp>
 
 namespace terminalpp {
 namespace detail {
 
-enum class parse_state
-{
-    idle,
-    escape,
-    done,
-};
+namespace qi = boost::spirit::qi;
 
-namespace {
-
-parse_state parse_idle(element &elem, char ch)
+struct modify_element
 {
-    switch (ch)
+    modify_element(element& elem)
+      : elem_(elem)
     {
-        case '\\':
-            return parse_state::escape;
-        default:
-            elem.glyph_.character_ = static_cast<byte>(ch);
-            return parse_state::done;
     }
-}
 
-parse_state parse_escape(element &elem, char ch)
-{
-    elem.glyph_.character_ = static_cast<byte>(ch);
-    return parse_state::done;
-}
+    void operator()(char ch) const
+    {
+        printf("assign char %c\n", ch);
+        elem_.glyph_.character_ = static_cast<byte>(ch);
+    }
 
-}
+    void operator()(unsigned char ch) const
+    {
+        printf("assign uchar %ch\n", char(ch));
+        elem_.glyph_.character_ = static_cast<byte>(ch);        
+    }
+
+    element &elem_;
+};
 
 element parse_element(gsl::cstring_span &text)
 {
+    auto first = text.cbegin();
+    auto last = text.cend();
+
     element elem;
-    auto state = parse_state::idle;
 
-    while(!text.empty())
-    {
-        auto const ch = text[0];
+    auto const uint3_3_p = qi::uint_parser<unsigned char, 10, 3, 3>();
+    auto const character_code_p = qi::lit('C') >> (uint3_3_p | qi::attr((unsigned char)(' ')));
 
-        switch(state)
-        {
-            case parse_state::idle:
-                state = parse_idle(elem, ch);
-                break;
-
-            case parse_state::escape:
-                state = parse_escape(elem, ch);
-                break;
-
-            default:
-                break;
-        }
-
-        text = text.subspan(1);
-
-        if (state == parse_state::done)
-        {
-            break;
-        }
-    }
+    qi::parse(
+        first, 
+        last,
+        (qi::lit('\\') >> 
+          -( character_code_p[modify_element(elem)]
+           | (qi::char_[modify_element(elem)])
+           )
+        )
+      | (qi::char_[modify_element(elem)])
+    );
 
     return elem;
 }
