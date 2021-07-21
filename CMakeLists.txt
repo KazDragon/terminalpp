@@ -171,6 +171,7 @@ target_sources(terminalpp
         include/terminalpp/version.hpp
         include/terminalpp/virtual_key.hpp
 
+        src/detail/element_udl.cpp
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
         src/attribute.cpp
