@@ -34,3 +34,11 @@ TEST(an_element_udl_with_an_escape_slash, returns_a_default_element)
 
     ASSERT_EQ(expected_element, elem);
 }
+
+TEST(an_element_udl_with_a_double_escape_slash, returns_a_backslash_element)
+{
+    terminalpp::element const expected_element = {'\\'};
+    terminalpp::element const elem = "\\\\"_ete;
+
+    ASSERT_EQ(expected_element, elem);
+}
