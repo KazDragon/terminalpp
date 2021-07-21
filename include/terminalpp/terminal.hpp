@@ -528,7 +528,7 @@ public:
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state,
+        terminalpp::terminal_state &/*state*/,
         WriteContinuation &&cont) const
     {
         if (beh.supports_basic_mouse_tracking)
@@ -567,7 +567,7 @@ public:
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state,
+        terminalpp::terminal_state &/*state*/,
         WriteContinuation &&cont) const
     {
         if (beh.supports_basic_mouse_tracking)
@@ -611,7 +611,7 @@ public:
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state,
+        terminalpp::terminal_state &/*state*/,
         WriteContinuation &&cont) const
     {
         static byte_storage const set_window_title_prefix = {
@@ -663,7 +663,7 @@ public:
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state,
+        terminalpp::terminal_state &/*state*/,
         WriteContinuation &&cont) const
     {
         detail::dec_pm(beh, cont);
@@ -691,7 +691,7 @@ public:
     template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state,
+        terminalpp::terminal_state &/*state*/,
         WriteContinuation &&cont) const
     {
         detail::dec_pm(beh, cont);

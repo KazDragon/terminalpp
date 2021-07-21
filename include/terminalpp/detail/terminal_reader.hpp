@@ -27,7 +27,7 @@ public:
     //* =====================================================================
     template <class ReadContinuation>
     void operator()(
-        terminalpp::behaviour const &beh,
+        terminalpp::behaviour const &/*beh*/,
         terminalpp::terminal_state &state,
         ReadContinuation &&cont) const
     {

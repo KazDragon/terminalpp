@@ -91,7 +91,7 @@ void canvas::resize(extent const &size)
 
     for_each_in_region(
         *this, {{}, {min_width, min_height}},
-        [this, &size, &new_grid](
+        [&size, &new_grid](
             element const &elem, coordinate_type column, coordinate_type row)
         {
              auto const new_grid_pos = std::vector<element>::size_type(
