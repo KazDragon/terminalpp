@@ -90,7 +90,7 @@ void designate_g0_charset(
     behaviour const &terminal_behaviour,
     WriteContinuation &&wc)
 {
-    static constexpr bytes select_g0_charset = {
+    static bytes const select_g0_charset = {
         std::cbegin(ansi::set_charset_g0),
         std::cend(ansi::set_charset_g0)
     };
@@ -105,7 +105,7 @@ void designate_g0_charset(
 template <class WriteContinuation>
 void select_utf8_charset(WriteContinuation &&wc)
 {
-    static constexpr bytes select_utf8_charset_command = {
+    static bytes const select_utf8_charset_command = {
         std::cbegin(ansi::select_utf8_character_set),
         std::cend(ansi::select_utf8_character_set)
     };
@@ -119,7 +119,7 @@ void select_utf8_charset(WriteContinuation &&wc)
 template <class WriteContinuation>
 void select_default_charset(WriteContinuation &&wc)
 {
-    static constexpr bytes select_default_charset_command = {
+    static bytes const select_default_charset_command = {
         std::cbegin(ansi::select_default_character_set),
         std::cend(ansi::select_default_character_set)
     };
