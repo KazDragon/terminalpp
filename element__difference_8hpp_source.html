@@ -156,7 +156,7 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    behaviour <span class="keyword">const</span> &amp;terminal_behaviour,</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    WriteContinuation &amp;&amp;wc)</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;{</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">static</span> constexpr bytes select_g0_charset = {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">static</span> bytes <span class="keyword">const</span> select_g0_charset = {</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        std::cbegin(ansi::set_charset_g0),</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        std::cend(ansi::set_charset_g0)</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    };</div>
@@ -170,7 +170,7 @@ $(function() {
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keywordtype">void</span> select_utf8_charset(WriteContinuation &amp;&amp;wc)</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;{</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">static</span> constexpr bytes select_utf8_charset_command = {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">static</span> bytes <span class="keyword">const</span> select_utf8_charset_command = {</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        std::cbegin(ansi::select_utf8_character_set),</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        std::cend(ansi::select_utf8_character_set)</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    };</div>
@@ -183,7 +183,7 @@ $(function() {
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keywordtype">void</span> select_default_charset(WriteContinuation &amp;&amp;wc)</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;{</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">static</span> constexpr bytes select_default_charset_command = {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">static</span> bytes <span class="keyword">const</span> select_default_charset_command = {</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        std::cbegin(ansi::select_default_character_set),</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        std::cend(ansi::select_default_character_set)</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    };</div>
@@ -386,7 +386,7 @@ $(function() {
 <div class="ttc" id="astructterminalpp_1_1attribute_html"><div class="ttname"><a href="structterminalpp_1_1attribute.html">terminalpp::attribute</a></div><div class="ttdoc">A structure that carries around the presentation attributes of an ANSI element.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:15</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 25 2021 09:25:21 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 21 2021 13:15:02 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
