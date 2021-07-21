@@ -59,6 +59,14 @@ TEST(an_element_udl_with_a_character_code, returns_an_element_with_that_characte
     ASSERT_EQ(expected_element, elem);
 }
 
+TEST(an_element_udl_with_a_charset_code, returns_the_element_with_that_charset)
+{
+    terminalpp::element expected_element = {'b'};
+    expected_element.glyph_.charset_ = terminalpp::charset::dec;
+    terminalpp::element const elem = "\\c0b"_ete;
+
+    ASSERT_EQ(expected_element, elem);
+}
 /*
 TEST(an_element_udl_with_a_high_intensity_and_a_character, returns_an_element_with_that_character_at_high_intensity)
 {
