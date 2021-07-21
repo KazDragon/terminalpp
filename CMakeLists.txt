@@ -221,7 +221,7 @@ target_compile_options(terminalpp
         $<$<CXX_COMPILER_ID:MSVC>:/WX>
 
         # Add warnings on g++ and Clang
-        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror>
+        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror -Wno-tautological-compare>
 )
 
 generate_export_header(terminalpp

@@ -20,7 +20,7 @@ namespace terminalpp { namespace detail {
 /// \brief Returns the CSI code for the given behaviour
 //* =========================================================================
 template <class WriteContinuation>
-void csi(behaviour const &terminal_behaviour, WriteContinuation &&wc)
+void csi(behaviour const &/*terminal_behaviour*/, WriteContinuation &&wc)
 {
     wc({
         std::cbegin(ansi::control7::csi),
@@ -31,7 +31,7 @@ void csi(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 /// \brief Returns the OSC code for the given behaviour
 //* =========================================================================
 template <class WriteContinuation>
-void osc(behaviour const &terminal_behaviour, WriteContinuation &&wc)
+void osc(behaviour const &/*terminal_behaviour*/, WriteContinuation &&wc)
 {
     wc({
         std::cbegin(ansi::control7::osc),
@@ -42,7 +42,7 @@ void osc(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 /// \brief Returns the ST code for the given behaviour
 //* =========================================================================
 template <class WriteContinuation>
-void st(behaviour const &terminal_behaviour, WriteContinuation &&wc)
+void st(behaviour const &/*terminal_behaviour*/, WriteContinuation &&wc)
 {
     wc({
         std::cbegin(ansi::control7::st),
@@ -87,7 +87,7 @@ void default_attribute(
 template <class WriteContinuation>
 void designate_g0_charset(
     character_set const &set, 
-    behaviour const &terminal_behaviour,
+    behaviour const &/*terminal_behaviour*/,
     WriteContinuation &&wc)
 {
     static bytes const select_g0_charset = {

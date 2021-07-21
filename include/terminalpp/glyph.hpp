@@ -79,7 +79,7 @@ public:
     {
         for (size_t index = 0; index < sizeof(ucharacter_); ++index)
         {
-            ucharacter_[index] = ustr[index];
+            ucharacter_[index] = static_cast<byte>(ustr[index]);
 
             if (!(ucharacter_[index] & 0x80))
             {
