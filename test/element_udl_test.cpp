@@ -144,7 +144,7 @@ static udl_element const udl_elements[] = {
     udl_element{"\\[2a"_ete, with_foreground_colour({'a'}, terminalpp::palette::green)},
     udl_element{"\\[3a"_ete, with_foreground_colour({'a'}, terminalpp::palette::olive)},
 
-    // Extras after low foreground colour take precedence
+    // Extras after low foreground colour take precedence.
     udl_element{"\\[2\\[3a"_ete, with_foreground_colour({'a'}, terminalpp::palette::olive)},
     udl_element{"\\[3\\[2a"_ete, with_foreground_colour({'a'}, terminalpp::palette::green)},
 
@@ -153,10 +153,18 @@ static udl_element const udl_elements[] = {
     udl_element{"\\<850a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{8, 5, 0})},
     udl_element{"\\<085a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{0, 8, 5})},
 
-    // Extras after high foreground colour take precedence
+    // Extras after high foreground colour take precedence.
     udl_element{"\\<850\\<085a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{0, 8, 5})},
     udl_element{"\\<085\\<850a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{8, 5, 0})},
 
+    // Greyscale foreground colour.
+    udl_element{"\\{00a"_ete, with_foreground_colour({'a'}, terminalpp::greyscale_colour{0})},
+    udl_element{"\\{17a"_ete, with_foreground_colour({'a'}, terminalpp::greyscale_colour{17})},
+    udl_element{"\\{22a"_ete, with_foreground_colour({'a'}, terminalpp::greyscale_colour{22})},
+
+    // Extras after greyscale foreground colour take precedence.
+    udl_element{"\\{17\\{22a"_ete, with_foreground_colour({'a'}, terminalpp::greyscale_colour{22})},
+    udl_element{"\\{22\\{17a"_ete, with_foreground_colour({'a'}, terminalpp::greyscale_colour{17})},
 };
 
 INSTANTIATE_TEST_SUITE_P(

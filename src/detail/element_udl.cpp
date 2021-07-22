@@ -157,7 +157,7 @@ struct modify_foreground_low_colour
     {
     }
 
-    void operator()(char col) const
+    void operator()(unsigned char col) const
     {
         elem_.attribute_.foreground_colour_ = low_colour(
             static_cast<terminalpp::graphics::colour>(col));
@@ -185,6 +185,20 @@ struct modify_foreground_high_colour
     element &elem_;
 };
 
+struct modify_foreground_greyscale_colour
+{
+    modify_foreground_greyscale_colour(element &elem)
+      : elem_(elem)
+    {
+    }
+
+    void operator()(unsigned char col) const
+    {
+        elem_.attribute_.foreground_colour_ = greyscale_colour(col);
+    }
+
+    element &elem_;
+};
 
 element parse_element(gsl::cstring_span &text)
 {
@@ -194,6 +208,7 @@ element parse_element(gsl::cstring_span &text)
     element elem;
 
     auto const uint1_1_p = qi::uint_parser<unsigned char, 10, 1, 1>();
+    auto const uint2_2_p = qi::uint_parser<unsigned char, 10, 2, 2>();
     auto const uint3_3_p = qi::uint_parser<unsigned char, 10, 3, 3>();
 
     auto const character_code_p = qi::lit('C') >> (uint3_3_p | qi::attr((unsigned char)(' ')));
@@ -204,6 +219,7 @@ element parse_element(gsl::cstring_span &text)
     auto const underlining_p = qi::lit('u') >> qi::char_;
     auto const foreground_low_colour = qi::lit('[') >> uint1_1_p;
     auto const foreground_high_colour = qi::lit('<') >> uint1_1_p >> uint1_1_p >> uint1_1_p;
+    auto const foreground_greyscale_colour = qi::lit('{') >> uint2_2_p;
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
@@ -217,6 +233,7 @@ element parse_element(gsl::cstring_span &text)
            | underlining_p[modify_underlining(elem)] >> expression
            | foreground_low_colour[modify_foreground_low_colour(elem)] >> expression
            | foreground_high_colour[modify_foreground_high_colour(elem)] >> expression
+           | foreground_greyscale_colour[modify_foreground_greyscale_colour(elem)] >> expression
            | (qi::char_[modify_element(elem)])
            )
         )
