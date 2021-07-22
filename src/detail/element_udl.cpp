@@ -80,7 +80,12 @@ struct modify_intensity
                 elem_.attribute_.intensity_ = graphics::intensity::bold;
                 break;
 
+            case '<':
+                elem_.attribute_.intensity_ = graphics::intensity::faint;
+                break;
+
             default:
+                elem_.attribute_.intensity_ = graphics::intensity::normal;
                 break;
         }
     }

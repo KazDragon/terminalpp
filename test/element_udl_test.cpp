@@ -62,6 +62,10 @@ static udl_element const udl_elements[] = {
     // A double escape character returns a backslash.
     udl_element{"\\\\"_ete, terminalpp::element{'\\'}},
 
+    // Extras after the slash are ignored.
+    udl_element{"\\\\\\"_ete, terminalpp::element{'\\'}},
+    udl_element{"\\\\\\\\"_ete, terminalpp::element{'\\'}},
+
     // Unfinished character codes return a default character.
     udl_element{"\\C"_ete, terminalpp::element{}},
     udl_element{"\\C0"_ete, terminalpp::element{}},
@@ -69,6 +73,13 @@ static udl_element const udl_elements[] = {
 
     // A complete character code returns that character.
     udl_element{"\\C097"_ete, terminalpp::element{'a'}},
+
+    // Extras after the code are ignored.
+    udl_element("\\C098\\"_ete, terminalpp::element{'b'}),
+    udl_element("\\C098\\C"_ete, terminalpp::element{'b'}),
+    udl_element("\\C098\\C0"_ete, terminalpp::element{'b'}),
+    udl_element("\\C098\\C09"_ete, terminalpp::element{'b'}),
+    udl_element("\\C098\\C098"_ete, terminalpp::element{'b'}),
 
     // Charset codes
     udl_element{"\\c0a"_ete, with_charset({'a'}, terminalpp::charset::dec)},
@@ -78,8 +89,19 @@ static udl_element const udl_elements[] = {
     udl_element{"\\c%6x"_ete, with_charset({'x'}, terminalpp::charset::portuguese)},
     udl_element{"\\c%5j"_ete, with_charset({'j'}, terminalpp::charset::dec_supplementary_graphics)},
 
+    // Extras after the code take precedence
+    udl_element{"\\c0\\c%5d"_ete, with_charset({'d'}, terminalpp::charset::dec_supplementary_graphics)},
+
     // Intensity
     udl_element{"\\i>a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::bold)},
+    udl_element{"\\i<a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::faint)},
+    udl_element{"\\i=a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::normal)},
+    udl_element{"\\ixa"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::normal)},
+
+    // Extras after the intensity take precedence.
+    udl_element{"\\i>\\i<a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::faint)},
+    udl_element{"\\i>\\ixa"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::normal)},
+    udl_element{"\\i>\\i=a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::normal)},
 };
 
 INSTANTIATE_TEST_SUITE_P(
