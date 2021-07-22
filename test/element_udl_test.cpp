@@ -147,6 +147,16 @@ static udl_element const udl_elements[] = {
     // Extras after low foreground colour take precedence
     udl_element{"\\[2\\[3a"_ete, with_foreground_colour({'a'}, terminalpp::palette::olive)},
     udl_element{"\\[3\\[2a"_ete, with_foreground_colour({'a'}, terminalpp::palette::green)},
+
+    // High foreground colour.
+    udl_element{"\\<000a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{0, 0, 0})},
+    udl_element{"\\<850a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{8, 5, 0})},
+    udl_element{"\\<085a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{0, 8, 5})},
+
+    // Extras after high foreground colour take precedence
+    udl_element{"\\<850\\<085a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{0, 8, 5})},
+    udl_element{"\\<085\\<850a"_ete, with_foreground_colour({'a'}, terminalpp::high_colour{8, 5, 0})},
+
 };
 
 INSTANTIATE_TEST_SUITE_P(

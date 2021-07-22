@@ -2,6 +2,7 @@
 #include "terminalpp/character_set.hpp"
 #include "terminalpp/ansi/charset.hpp"
 #include <boost/spirit/include/qi.hpp>
+#include <tuple>
 
 namespace terminalpp {
 namespace detail {
@@ -165,6 +166,26 @@ struct modify_foreground_low_colour
     element &elem_;
 };
 
+struct modify_foreground_high_colour
+{
+    modify_foreground_high_colour(element &elem)
+      : elem_(elem)
+    {
+    }
+
+    void operator()(boost::fusion::vector<
+        unsigned char, unsigned char, unsigned char> col) const
+    {
+        elem_.attribute_.foreground_colour_ = high_colour(
+            boost::fusion::at<boost::mpl::int_<0>>(col),
+            boost::fusion::at<boost::mpl::int_<1>>(col),
+            boost::fusion::at<boost::mpl::int_<2>>(col));
+    }
+
+    element &elem_;
+};
+
+
 element parse_element(gsl::cstring_span &text)
 {
     auto first = text.cbegin();
@@ -182,6 +203,7 @@ element parse_element(gsl::cstring_span &text)
     auto const polarity_p = qi::lit('p') >> qi::char_;
     auto const underlining_p = qi::lit('u') >> qi::char_;
     auto const foreground_low_colour = qi::lit('[') >> uint1_1_p;
+    auto const foreground_high_colour = qi::lit('<') >> uint1_1_p >> uint1_1_p >> uint1_1_p;
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
@@ -194,6 +216,7 @@ element parse_element(gsl::cstring_span &text)
            | polarity_p[modify_polarity(elem)] >> expression
            | underlining_p[modify_underlining(elem)] >> expression
            | foreground_low_colour[modify_foreground_low_colour(elem)] >> expression
+           | foreground_high_colour[modify_foreground_high_colour(elem)] >> expression
            | (qi::char_[modify_element(elem)])
            )
         )
