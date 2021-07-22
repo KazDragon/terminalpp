@@ -39,6 +39,12 @@ terminalpp::element with_intensity(terminalpp::element elem, terminalpp::graphic
     return elem;
 }
 
+terminalpp::element with_polarity(terminalpp::element elem, terminalpp::graphics::polarity polarity)
+{
+    elem.attribute_.polarity_ = polarity;
+    return elem;
+}
+
 }
 
 static udl_element const udl_elements[] = {
@@ -102,6 +108,15 @@ static udl_element const udl_elements[] = {
     udl_element{"\\i>\\i<a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::faint)},
     udl_element{"\\i>\\ixa"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::normal)},
     udl_element{"\\i>\\i=a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::normal)},
+
+    // Polarity
+    udl_element{"\\p+a"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::positive)},
+    udl_element{"\\p-a"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::negative)},
+    udl_element{"\\pxa"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::positive)},
+
+    // Extras after the polarity take precedence.
+    udl_element{"\\p+\\pxa"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::positive)},
+    udl_element{"\\p-\\pxa"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::positive)},
 };
 
 INSTANTIATE_TEST_SUITE_P(
