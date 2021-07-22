@@ -1,4 +1,5 @@
 #include <terminalpp/element.hpp>
+#include <terminalpp/palette.hpp>
 #include <gtest/gtest.h>
 #include <utility>
 
@@ -48,6 +49,12 @@ terminalpp::element with_polarity(terminalpp::element elem, terminalpp::graphics
 terminalpp::element with_underlining(terminalpp::element elem, terminalpp::graphics::underlining underlining)
 {
     elem.attribute_.underlining_ = underlining;
+    return elem;
+}
+
+terminalpp::element with_foreground_colour(terminalpp::element elem, terminalpp::colour col)
+{
+    elem.attribute_.foreground_colour_ = col;
     return elem;
 }
 
@@ -132,6 +139,14 @@ static udl_element const udl_elements[] = {
     // Extras after underlining take precedence.
     udl_element{"\\u+\\uxa"_ete, with_underlining({'a'}, terminalpp::graphics::underlining::not_underlined)},
     udl_element{"\\u-\\uxa"_ete, with_underlining({'a'}, terminalpp::graphics::underlining::not_underlined)},
+
+    // Low foreground colour.
+    udl_element{"\\[2a"_ete, with_foreground_colour({'a'}, terminalpp::palette::green)},
+    udl_element{"\\[3a"_ete, with_foreground_colour({'a'}, terminalpp::palette::olive)},
+
+    // Extras after low foreground colour take precedence
+    udl_element{"\\[2\\[3a"_ete, with_foreground_colour({'a'}, terminalpp::palette::olive)},
+    udl_element{"\\[3\\[2a"_ete, with_foreground_colour({'a'}, terminalpp::palette::green)},
 };
 
 INSTANTIATE_TEST_SUITE_P(

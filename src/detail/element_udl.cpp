@@ -149,6 +149,22 @@ struct modify_underlining
     element &elem_;
 };
 
+struct modify_foreground_low_colour
+{
+    modify_foreground_low_colour(element &elem)
+      : elem_(elem)
+    {
+    }
+
+    void operator()(char col) const
+    {
+        elem_.attribute_.foreground_colour_ = low_colour(
+            static_cast<terminalpp::graphics::colour>(col));
+    }
+
+    element &elem_;
+};
+
 element parse_element(gsl::cstring_span &text)
 {
     auto first = text.cbegin();
@@ -156,13 +172,16 @@ element parse_element(gsl::cstring_span &text)
 
     element elem;
 
+    auto const uint1_1_p = qi::uint_parser<unsigned char, 10, 1, 1>();
     auto const uint3_3_p = qi::uint_parser<unsigned char, 10, 3, 3>();
+
     auto const character_code_p = qi::lit('C') >> (uint3_3_p | qi::attr((unsigned char)(' ')));
     auto const extended_character_set_p = qi::lit('c') >> qi::lit('%') >> qi::char_;
     auto const character_set_p = qi::lit('c') >> qi::char_;
     auto const intensity_p = qi::lit('i') >> qi::char_;
     auto const polarity_p = qi::lit('p') >> qi::char_;
     auto const underlining_p = qi::lit('u') >> qi::char_;
+    auto const foreground_low_colour = qi::lit('[') >> uint1_1_p;
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
@@ -174,6 +193,7 @@ element parse_element(gsl::cstring_span &text)
            | intensity_p[modify_intensity(elem)] >> expression
            | polarity_p[modify_polarity(elem)] >> expression
            | underlining_p[modify_underlining(elem)] >> expression
+           | foreground_low_colour[modify_foreground_low_colour(elem)] >> expression
            | (qi::char_[modify_element(elem)])
            )
         )
