@@ -121,6 +121,34 @@ struct modify_polarity
     element &elem_;
 };
 
+struct modify_underlining
+{
+    modify_underlining(element &elem)
+      : elem_(elem)
+    {
+    }
+
+    void operator()(char ch) const
+    {
+        switch(ch)
+        {
+            case '+':
+                elem_.attribute_.underlining_ = graphics::underlining::underlined;
+                break;
+
+            case '-':
+                elem_.attribute_.underlining_ = graphics::underlining::not_underlined;
+                break;
+
+            default:
+                elem_.attribute_.underlining_ = graphics::underlining::not_underlined;
+                break;
+        }
+    }
+
+    element &elem_;
+};
+
 element parse_element(gsl::cstring_span &text)
 {
     auto first = text.cbegin();
@@ -134,6 +162,7 @@ element parse_element(gsl::cstring_span &text)
     auto const character_set_p = qi::lit('c') >> qi::char_;
     auto const intensity_p = qi::lit('i') >> qi::char_;
     auto const polarity_p = qi::lit('p') >> qi::char_;
+    auto const underlining_p = qi::lit('u') >> qi::char_;
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
@@ -144,6 +173,7 @@ element parse_element(gsl::cstring_span &text)
            | character_set_p[modify_charset(elem)] >> expression
            | intensity_p[modify_intensity(elem)] >> expression
            | polarity_p[modify_polarity(elem)] >> expression
+           | underlining_p[modify_underlining(elem)] >> expression
            | (qi::char_[modify_element(elem)])
            )
         )

@@ -45,6 +45,12 @@ terminalpp::element with_polarity(terminalpp::element elem, terminalpp::graphics
     return elem;
 }
 
+terminalpp::element with_underlining(terminalpp::element elem, terminalpp::graphics::underlining underlining)
+{
+    elem.attribute_.underlining_ = underlining;
+    return elem;
+}
+
 }
 
 static udl_element const udl_elements[] = {
@@ -114,9 +120,18 @@ static udl_element const udl_elements[] = {
     udl_element{"\\p-a"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::negative)},
     udl_element{"\\pxa"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::positive)},
 
-    // Extras after the polarity take precedence.
+    // Extras after polarity take precedence.
     udl_element{"\\p+\\pxa"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::positive)},
     udl_element{"\\p-\\pxa"_ete, with_polarity({'a'}, terminalpp::graphics::polarity::positive)},
+
+    // Underlining
+    udl_element{"\\u+a"_ete, with_underlining({'a'}, terminalpp::graphics::underlining::underlined)},
+    udl_element{"\\u-a"_ete, with_underlining({'a'}, terminalpp::graphics::underlining::not_underlined)},
+    udl_element{"\\uxa"_ete, with_underlining({'a'}, terminalpp::graphics::underlining::not_underlined)},
+
+    // Extras after underlining take precedence.
+    udl_element{"\\u+\\uxa"_ete, with_underlining({'a'}, terminalpp::graphics::underlining::not_underlined)},
+    udl_element{"\\u-\\uxa"_ete, with_underlining({'a'}, terminalpp::graphics::underlining::not_underlined)},
 };
 
 INSTANTIATE_TEST_SUITE_P(
