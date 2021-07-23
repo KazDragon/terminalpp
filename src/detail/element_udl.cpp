@@ -251,12 +251,66 @@ struct modify_background_greyscale_colour
     element &elem_;
 };
 
+struct modify_unicode_element
+{
+    modify_unicode_element(element &elem)
+      : elem_(elem)
+    {
+    }
+
+    void operator()(unsigned short value) const
+    {
+        static constexpr long const maxima[] = {
+            0x00007F,
+            0x0007FF,
+            0x00FFFF,
+            0x10FFFF
+        };
+
+        byte text[4] = {0};
+
+        // At the moment, we can only convert up to 0xFFFF hex, since we only have
+        // three spots in ucharacter_ to play with.  As an arbitrary decision,
+        // anything above that will come out as a ? character.  Otherwise,
+        // we will UTF-8 encode the value as appropriate into the ucharacter_
+        // array.
+        if (value <= maxima[0])
+        {
+            text[0] = byte(value & 0x7F);
+            text[1] = 0;
+            text[2] = 0;
+        }
+        else if (value <= maxima[1])
+        {
+            text[0] = byte(0b11000000 | (value >> 6));
+            text[1] = byte(0b10000000 | (value & 0b00111111));
+            text[2] = 0;
+        }
+        else if (value <= maxima[2])
+        {
+            text[0] = byte(0b11100000 | (value >> 12));
+            text[1] = byte(0b10000000 | ((value >> 6) & 0b00111111));
+            text[2] = byte(0b10000000 | (value & 0b00111111));
+        }
+        else
+        {
+            // Too high to encode right now.
+            text[0] = byte('?');
+            text[1] = 0;
+        }
+
+        elem_.glyph_ = terminalpp::glyph(text);
+    }
+
+    element &elem_;
+};
 
 element parse_element(gsl::cstring_span &text)
 {
     auto const uint1_1_p = qi::uint_parser<unsigned char, 10, 1, 1>();
     auto const uint2_2_p = qi::uint_parser<unsigned char, 10, 2, 2>();
     auto const uint3_3_p = qi::uint_parser<unsigned char, 10, 3, 3>();
+    auto const uint4_4_p = qi::uint_parser<unsigned short, 16, 4, 4>();
 
     auto const character_code_p = qi::lit('C') >> (uint3_3_p | qi::attr((unsigned char)(' ')));
     auto const extended_character_set_p = qi::lit('c') >> qi::lit('%') >> qi::char_;
@@ -270,6 +324,7 @@ element parse_element(gsl::cstring_span &text)
     auto const background_low_colour = qi::lit(']') >> uint1_1_p;
     auto const background_high_colour = qi::lit('>') >> uint1_1_p >> uint1_1_p >> uint1_1_p;
     auto const background_greyscale_colour = qi::lit('}') >> uint2_2_p;
+    auto const unicode_p = qi::lit('U') >> (uint4_4_p | qi::attr((unsigned short)(' ')));
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
@@ -289,6 +344,7 @@ element parse_element(gsl::cstring_span &text)
            | background_low_colour[modify_background_low_colour(elem)] >> expression
            | background_high_colour[modify_background_high_colour(elem)] >> expression
            | background_greyscale_colour[modify_background_greyscale_colour(elem)] >> expression
+           | unicode_p[modify_unicode_element(elem)]
            | (qi::char_[modify_element(elem)])
            )
         )

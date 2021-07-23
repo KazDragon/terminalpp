@@ -197,6 +197,17 @@ static udl_element const udl_elements[] = {
     // Extras after greyscale background colour take precedence.
     udl_element{"\\}17\\}22a"_ete, with_background_colour({'a'}, terminalpp::greyscale_colour{22})},
     udl_element{"\\}22\\}17a"_ete, with_background_colour({'a'}, terminalpp::greyscale_colour{17})},
+
+    // Incomplete unicode character codes return a default character.
+    udl_element{"\\U"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
+    udl_element{"\\U0"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
+    udl_element{"\\U01"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
+    udl_element{"\\U010"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
+
+    // Complete unicode character code returns a unicode character.
+    udl_element{"\\U010E"_ete, terminalpp::element{terminalpp::glyph{"\xC4\x8E"}}},
+    udl_element{"\\U0057"_ete, terminalpp::element{terminalpp::glyph{"\x57"}}},
+    udl_element{"\\U16B8"_ete, terminalpp::element{terminalpp::glyph{"\xE1\x9A\xB8"}}},
 };
 
 INSTANTIATE_TEST_SUITE_P(
