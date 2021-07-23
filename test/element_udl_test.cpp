@@ -209,6 +209,11 @@ static udl_element const udl_elements[] = {
     udl_element{"\\U0057"_ete, terminalpp::element{terminalpp::glyph{"\x57"}}},
     udl_element{"\\U16B8"_ete, terminalpp::element{terminalpp::glyph{"\xE1\x9A\xB8"}}},
 
+    // Multiple characters after a unicode character are ignored.
+    udl_element{"\\U010Ex"_ete, terminalpp::element{terminalpp::glyph{"\xC4\x8E"}}},
+    udl_element{"\\U010E\\C097"_ete, terminalpp::element{terminalpp::glyph{"\xC4\x8E"}}},
+    udl_element{"\\U010E\\U16B8"_ete, terminalpp::element{terminalpp::glyph{"\xC4\x8E"}}},
+
     // Default code removes all attributes
     udl_element{"\\>201\\{22\\p-\\u+\\xa"_ete, terminalpp::element{'a'}},
 };
