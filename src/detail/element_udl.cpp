@@ -254,11 +254,6 @@ struct modify_background_greyscale_colour
 
 element parse_element(gsl::cstring_span &text)
 {
-    auto first = text.cbegin();
-    auto last = text.cend();
-
-    element elem;
-
     auto const uint1_1_p = qi::uint_parser<unsigned char, 10, 1, 1>();
     auto const uint2_2_p = qi::uint_parser<unsigned char, 10, 2, 2>();
     auto const uint3_3_p = qi::uint_parser<unsigned char, 10, 3, 3>();
@@ -278,6 +273,8 @@ element parse_element(gsl::cstring_span &text)
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
+    element elem;
+
     expression = 
         (qi::lit('\\') >> 
           -( character_code_p[modify_element(elem)]
@@ -296,6 +293,9 @@ element parse_element(gsl::cstring_span &text)
            )
         )
       | (qi::char_[modify_element(elem)]);
+
+    auto first = text.cbegin();
+    auto last = text.cend();
 
     qi::parse(first, last, expression);
 
