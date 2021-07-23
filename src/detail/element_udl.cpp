@@ -251,6 +251,21 @@ struct modify_background_greyscale_colour
     element &elem_;
 };
 
+struct reset_element_attributes
+{
+    reset_element_attributes(element &elem)
+      : elem_(elem)
+    {
+    }
+
+    void operator()() const
+    {
+        elem_.attribute_ = {};
+    }
+
+    element &elem_;
+};
+
 struct modify_unicode_element
 {
     modify_unicode_element(element &elem)
@@ -325,6 +340,7 @@ element parse_element(gsl::cstring_span &text)
     auto const background_high_colour = qi::lit('>') >> uint1_1_p >> uint1_1_p >> uint1_1_p;
     auto const background_greyscale_colour = qi::lit('}') >> uint2_2_p;
     auto const unicode_p = qi::lit('U') >> (uint4_4_p | qi::attr((unsigned short)(' ')));
+    auto const reset_attributes_p = qi::lit('x');
 
     auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
 
@@ -344,6 +360,7 @@ element parse_element(gsl::cstring_span &text)
            | background_low_colour[modify_background_low_colour(elem)] >> expression
            | background_high_colour[modify_background_high_colour(elem)] >> expression
            | background_greyscale_colour[modify_background_greyscale_colour(elem)] >> expression
+           | reset_attributes_p[reset_element_attributes(elem)] >> expression
            | unicode_p[modify_unicode_element(elem)]
            | (qi::char_[modify_element(elem)])
            )

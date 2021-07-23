@@ -208,6 +208,9 @@ static udl_element const udl_elements[] = {
     udl_element{"\\U010E"_ete, terminalpp::element{terminalpp::glyph{"\xC4\x8E"}}},
     udl_element{"\\U0057"_ete, terminalpp::element{terminalpp::glyph{"\x57"}}},
     udl_element{"\\U16B8"_ete, terminalpp::element{terminalpp::glyph{"\xE1\x9A\xB8"}}},
+
+    // Default code removes all attributes
+    udl_element{"\\>201\\{22\\p-\\u+\\xa"_ete, terminalpp::element{'a'}},
 };
 
 INSTANTIATE_TEST_SUITE_P(
