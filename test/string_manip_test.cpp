@@ -16,7 +16,7 @@ TEST(inserting_a_character_at_the_beginning_of_an_empty_string, gives_a_string_w
 
 TEST(inserting_an_element_at_the_beginning_of_an_empty_string, gives_a_string_with_that_value)
 {
-    auto const inserted_element = "\\[1a"_ets[0];
+    auto const inserted_element = "\\[1a"_ete;
     auto const expected_data = "\\[1a"_ets;
 
     terminalpp::string str;
@@ -48,7 +48,7 @@ TEST(inserting_a_character_at_the_end_of_an_empty_string, gives_a_string_with_th
 
 TEST(inserting_an_element_at_the_end_of_an_empty_string, gives_a_string_with_that_value)
 {
-    auto const inserted_element = "\\}09a"_ets[0];
+    auto const inserted_element = "\\}09a"_ete;
     auto const expected_data = "\\}09a"_ets;
 
     terminalpp::string str;
@@ -82,7 +82,7 @@ TEST(inserting_a_character_at_the_beginning_of_a_string_with_content, prepends_t
 TEST(inserting_an_element_at_the_beginning_of_a_string_with_content, prepends_that_value_to_the_string)
 {
     auto const test_data = "test_data"_ets;
-    auto const prepend_data = "\\i>x"_ets[0];
+    auto const prepend_data = "\\i>x"_ete;
     auto const expected_data = "\\i>x\\xtest_data"_ets;
     
     terminalpp::string str = test_data;
@@ -118,7 +118,7 @@ TEST(inserting_a_character_at_the_end_of_a_string_with_content, appends_that_val
 TEST(inserting_an_element_at_the_end_of_a_string_with_content, appends_that_value_to_the_string)
 {
     auto const test_data = "test_data"_ets;
-    auto const append_data = "\\>234z"_ets[0];
+    auto const append_data = "\\>234z"_ete;
     auto const expected_data = "test_data\\>234z"_ets;
     
     auto str = test_data;
@@ -142,7 +142,7 @@ TEST(inserting_at_the_end_of_a_string_with_content, appends_that_value_to_the_st
 TEST(inserting_an_element_into_the_middle_of_a_string_with_content, inserts_text_at_that_location)
 {
     auto const test_data = "test data"_ets;
-    auto const insert_data = "\\[2\\U2691"_ets[0];
+    auto const insert_data = "\\[2\\U2691"_ete;
     auto const expected_data = "test \\[2\\U2691\\xdata"_ets;
     
     auto str = test_data;

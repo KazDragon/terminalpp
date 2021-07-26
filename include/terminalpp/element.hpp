@@ -83,7 +83,7 @@ std::ostream &operator<<(std::ostream &out, element const &elem);
 
 namespace detail {
 TERMINALPP_EXPORT
-element parse_element(gsl::cstring_span &text);
+element parse_element(gsl::cstring_span &text, element const &elem_base = ' ');
 }
 
 inline namespace literals {

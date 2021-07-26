@@ -397,15 +397,24 @@ void parse_idle(char const ch, parser_info &info, element &elem)
     }
 }
 
+element element_with_base(element const &elem_base)
+{
+    element result = elem_base;
+    result.glyph_.charset_ = 
+        result.glyph_.charset_ == charset::utf8
+      ? charset::us_ascii
+      : result.glyph_.charset_;
+    result.glyph_.character_ = ' ';
+    
+    return result;
 }
 
-element parse_element(gsl::cstring_span &text)
-{
-    auto current = text.cbegin();
-    auto last = text.cend();
+}
 
-    parser_info info;
-    element elem;
+element parse_element(gsl::cstring_span &text, element const &elem_base)
+{
+    auto info = parser_info{};
+    auto elem = element_with_base(elem_base);
 
     using handler = void (*)(char, parser_info &, element &);
     handler const handlers[] = 
@@ -438,10 +447,10 @@ element parse_element(gsl::cstring_span &text)
         parse_utf8_3,
     };
 
-    while (current != last && info.state != parser_state::done)
+    while (!text.empty() && info.state != parser_state::done)
     {
-        handlers[static_cast<int>(info.state)](*current, info, elem);
-        ++current;
+        handlers[static_cast<int>(info.state)](text[0], info, elem);
+        text = text.subspan(1);
     }
 
     return elem;
