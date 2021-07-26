@@ -305,17 +305,7 @@ string operator ""_ts(char const *text, string::size_type len)
 // ==========================================================================
 string operator ""_ets(char const *text, string::size_type len)
 {
-    string out;
-    gsl::cstring_span text_span(text, len);
-
-    while (!text_span.empty())
-    {
-        out += detail::parse_element(
-            text_span, 
-            out.empty() ? element{} : *out.rbegin());
-    }
-
-    return out;
+    return encode(text, len);
 }
 
 }}}
