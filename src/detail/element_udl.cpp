@@ -40,10 +40,11 @@ enum class parser_state {
 struct parser_info
 {
     parser_state state {parser_state::idle};
-    byte charcode;
-    byte red, green;
-    byte greyscale;
-    uint16_t utf8;
+    byte charcode{0};
+    byte red{0};
+    byte green{0};
+    byte greyscale{0};
+    uint16_t utf8{0};
 };
 
 byte digit10_to_byte(char const ch)
