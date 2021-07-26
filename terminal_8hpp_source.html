@@ -150,7 +150,7 @@ $(function() {
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state, </div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">if</span> (!state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a>)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">if</span> (!state.cursor_position_)</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        {</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            write_cursor_position(beh, cont);</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
@@ -159,7 +159,7 @@ $(function() {
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            move_from_known_position(beh, state, cont);</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a> = destination_;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        state.cursor_position_ = destination_;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="keyword">private</span>:</div>
@@ -172,16 +172,16 @@ $(function() {
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keywordflow">if</span> (*state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a> != destination_)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keywordflow">if</span> (*state.cursor_position_ != destination_)</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">if</span> (state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a>-&gt;y_ == destination_.y_)</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">if</span> (state.cursor_position_-&gt;y_ == destination_.y_)</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            {</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                write_cursor_horizontal_absolute(beh, cont);</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            }</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a>-&gt;x_ == destination_.x_)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (state.cursor_position_-&gt;x_ == destination_.x_)</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            {</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <span class="keyword">auto</span> <span class="keyword">const</span> distance = </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                    state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a>-&gt;y_ - destination_.y_;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                    state.cursor_position_-&gt;y_ - destination_.y_;</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                <span class="keywordflow">if</span> (distance &gt; 0)</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                {</div>
@@ -327,7 +327,7 @@ $(function() {
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordflow">if</span> (!state.<a class="code" href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">cursor_visible_</a> || *state.<a class="code" href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">cursor_visible_</a>)</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordflow">if</span> (!state.cursor_visible_ || *state.cursor_visible_)</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        {</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            detail::dec_pm(beh, cont);</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            cont({</div>
@@ -338,7 +338,7 @@ $(function() {
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                std::cend(ansi::dec_pm::reset)});</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        }</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        state.<a class="code" href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">cursor_visible_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        state.cursor_visible_ = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    }</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;};</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
@@ -355,7 +355,7 @@ $(function() {
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordflow">if</span> (!state.<a class="code" href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">cursor_visible_</a> || !*state.<a class="code" href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">cursor_visible_</a>)</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordflow">if</span> (!state.cursor_visible_ || !*state.cursor_visible_)</div>
 <div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        {</div>
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            detail::dec_pm(beh, cont);</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            cont({</div>
@@ -366,7 +366,7 @@ $(function() {
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                std::cend(ansi::dec_pm::set)});</div>
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        }</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        state.<a class="code" href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">cursor_visible_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        state.cursor_visible_ = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    }</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;};</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
@@ -383,7 +383,7 @@ $(function() {
 <div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        detail::change_to_default_attribute(state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>, beh, cont);</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        detail::change_to_default_attribute(state.last_element_, beh, cont);</div>
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        detail::csi(beh, cont);</div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        <span class="keyword">static</span> byte_storage <span class="keyword">const</span> erase_all_suffix = {  </div>
@@ -408,7 +408,7 @@ $(function() {
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        detail::change_to_default_attribute(state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>, beh, cont);</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        detail::change_to_default_attribute(state.last_element_, beh, cont);</div>
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        detail::csi(beh, cont);</div>
 <div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160; </div>
 <div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        <span class="keyword">static</span> byte_storage <span class="keyword">const</span> erase_above_suffix = {  </div>
@@ -433,7 +433,7 @@ $(function() {
 <div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        detail::change_to_default_attribute(state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>, beh, cont);</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        detail::change_to_default_attribute(state.last_element_, beh, cont);</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        detail::csi(beh, cont);</div>
 <div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        <span class="keyword">static</span> byte_storage <span class="keyword">const</span> erase_below_suffix = {  </div>
@@ -458,7 +458,7 @@ $(function() {
 <div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        detail::change_to_default_attribute(state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>, beh, cont);</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        detail::change_to_default_attribute(state.last_element_, beh, cont);</div>
 <div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        detail::csi(beh, cont);</div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        <span class="keyword">static</span> byte_storage <span class="keyword">const</span> erase_line_suffix = {  </div>
@@ -483,7 +483,7 @@ $(function() {
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        detail::change_to_default_attribute(state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>, beh, cont);</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        detail::change_to_default_attribute(state.last_element_, beh, cont);</div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        detail::csi(beh, cont);</div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160; </div>
 <div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        <span class="keyword">static</span> byte_storage <span class="keyword">const</span> erase_line_left_suffix = {  </div>
@@ -508,7 +508,7 @@ $(function() {
 <div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
 <div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        WriteContinuation &amp;&amp;cont)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        detail::change_to_default_attribute(state.<a class="code" href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">last_element_</a>, beh, cont);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        detail::change_to_default_attribute(state.last_element_, beh, cont);</div>
 <div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        detail::csi(beh, cont);</div>
 <div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160; </div>
 <div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        <span class="keyword">static</span> byte_storage <span class="keyword">const</span> erase_line_right_suffix = {  </div>
@@ -718,7 +718,7 @@ $(function() {
 <div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160; </div>
 <div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;        cont(save_cursor_suffix);</div>
 <div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160; </div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;        state.<a class="code" href="structterminalpp_1_1terminal__state.html#ad94e2862a26dfb9dc3f5bfdcc6772f79">saved_cursor_position_</a> = state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a>;</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;        state.saved_cursor_position_ = state.cursor_position_;</div>
 <div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    }</div>
 <div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;};</div>
 <div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160; </div>
@@ -743,7 +743,7 @@ $(function() {
 <div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160; </div>
 <div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;        cont(restore_cursor_suffix);</div>
 <div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160; </div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;        state.<a class="code" href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">cursor_position_</a> = state.<a class="code" href="structterminalpp_1_1terminal__state.html#ad94e2862a26dfb9dc3f5bfdcc6772f79">saved_cursor_position_</a>;</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;        state.cursor_position_ = state.saved_cursor_position_;</div>
 <div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;    }</div>
 <div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;};</div>
 <div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160; </div>
@@ -753,7 +753,6 @@ $(function() {
 <div class="ttc" id="aclassterminalpp_1_1set__window__title_html"><div class="ttname"><a href="classterminalpp_1_1set__window__title.html">terminalpp::set_window_title</a></div><div class="ttdoc">A manipulator that sets the window title according to the terminal behaviour.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:600</div></div>
 <div class="ttc" id="aclassterminalpp_1_1erase__line_html"><div class="ttname"><a href="classterminalpp_1_1erase__line.html">terminalpp::erase_line</a></div><div class="ttdoc">A manipulator that erases the current line of the display.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:438</div></div>
 <div class="ttc" id="aclassterminalpp_1_1move__cursor_html_a1703b7f6698ae4d4dc88f6a825730d1a"><div class="ttname"><a href="classterminalpp_1_1move__cursor.html#a1703b7f6698ae4d4dc88f6a825730d1a">terminalpp::move_cursor::move_cursor</a></div><div class="ttdeci">constexpr move_cursor(point const &amp;destination)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:111</div></div>
-<div class="ttc" id="astructterminalpp_1_1terminal__state_html_abbab331cfdaeb1364dc990b173afbf89"><div class="ttname"><a href="structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89">terminalpp::terminal_state::cursor_visible_</a></div><div class="ttdeci">boost::optional&lt; bool &gt; cursor_visible_</div><div class="ttdoc">Whether the cursor is visible or not.</div><div class="ttdef"><b>Definition:</b> terminal_state.hpp:36</div></div>
 <div class="ttc" id="aclassterminalpp_1_1set__window__title_html_a02dfe0ae88f0e1608eff6c9d368b3e66"><div class="ttname"><a href="classterminalpp_1_1set__window__title.html#a02dfe0ae88f0e1608eff6c9d368b3e66">terminalpp::set_window_title::operator()</a></div><div class="ttdeci">void operator()(terminalpp::behaviour const &amp;beh, terminalpp::terminal_state &amp;, WriteContinuation &amp;&amp;cont) const</div><div class="ttdoc">Writes ANSI codes necessary to disable the mouse.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:612</div></div>
 <div class="ttc" id="aclassterminalpp_1_1erase__line__left_html"><div class="ttname"><a href="classterminalpp_1_1erase__line__left.html">terminalpp::erase_line_left</a></div><div class="ttdoc">A manipulator that erases from the current cursor position to the beginning of the line.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:466</div></div>
 <div class="ttc" id="aclassterminalpp_1_1hide__cursor_html_a7dbfd9ff2d2c1f2d9e79a4dda756c8f9"><div class="ttname"><a href="classterminalpp_1_1hide__cursor.html#a7dbfd9ff2d2c1f2d9e79a4dda756c8f9">terminalpp::hide_cursor::operator()</a></div><div class="ttdeci">void operator()(terminalpp::behaviour const &amp;beh, terminalpp::terminal_state &amp;state, WriteContinuation &amp;&amp;cont) const</div><div class="ttdoc">Writes ANSI codes necessary to hide the cursor to the continuation.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:301</div></div>
@@ -775,8 +774,6 @@ $(function() {
 <div class="ttc" id="aclassterminalpp_1_1erase__display__above_html"><div class="ttname"><a href="classterminalpp_1_1erase__display__above.html">terminalpp::erase_display_above</a></div><div class="ttdoc">A manipulator that erases the display from the line of the cursor to the top.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:383</div></div>
 <div class="ttc" id="aclassterminalpp_1_1disable__mouse_html"><div class="ttname"><a href="classterminalpp_1_1disable__mouse.html">terminalpp::disable_mouse</a></div><div class="ttdoc">A manipulator that disables mouse clicks according to the terminal behaviour.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:561</div></div>
 <div class="ttc" id="aclassterminalpp_1_1use__alternate__screen__buffer_html_af0e8fb6b550f115114f091fcdf7a22ea"><div class="ttname"><a href="classterminalpp_1_1use__alternate__screen__buffer.html#af0e8fb6b550f115114f091fcdf7a22ea">terminalpp::use_alternate_screen_buffer::operator()</a></div><div class="ttdeci">void operator()(terminalpp::behaviour const &amp;beh, terminalpp::terminal_state &amp;, WriteContinuation &amp;&amp;cont) const</div><div class="ttdoc">Writes ANSI codes necessary to use the alternate screen buffer.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:692</div></div>
-<div class="ttc" id="astructterminalpp_1_1terminal__state_html_a603a6a8749b011ee930d270619810142"><div class="ttname"><a href="structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142">terminalpp::terminal_state::cursor_position_</a></div><div class="ttdeci">boost::optional&lt; point &gt; cursor_position_</div><div class="ttdoc">The current cursor position, if known.</div><div class="ttdef"><b>Definition:</b> terminal_state.hpp:29</div></div>
-<div class="ttc" id="astructterminalpp_1_1terminal__state_html_a126d0f637834e56fbb4c6771a91dacde"><div class="ttname"><a href="structterminalpp_1_1terminal__state.html#a126d0f637834e56fbb4c6771a91dacde">terminalpp::terminal_state::last_element_</a></div><div class="ttdeci">boost::optional&lt; element &gt; last_element_</div><div class="ttdoc">The last element that was written to the terminal.</div><div class="ttdef"><b>Definition:</b> terminal_state.hpp:26</div></div>
 <div class="ttc" id="aclassterminalpp_1_1erase__line__right_html"><div class="ttname"><a href="classterminalpp_1_1erase__line__right.html">terminalpp::erase_line_right</a></div><div class="ttdoc">A manipulator that erases from the current cursor position to the beginning of the line.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:494</div></div>
 <div class="ttc" id="aclassterminalpp_1_1hide__cursor_html"><div class="ttname"><a href="classterminalpp_1_1hide__cursor.html">terminalpp::hide_cursor</a></div><div class="ttdoc">A manipulator that hides the cursor.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:293</div></div>
 <div class="ttc" id="astructterminalpp_1_1behaviour_html"><div class="ttname"><a href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a></div><div class="ttdoc">A set of flags that determine how a terminal should behave over a datastream.</div><div class="ttdef"><b>Definition:</b> behaviour.hpp:11</div></div>
@@ -792,10 +789,9 @@ $(function() {
 <div class="ttc" id="aclassterminalpp_1_1save__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1save__cursor__position.html">terminalpp::save_cursor_position</a></div><div class="ttdoc">A manipulator that saves the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:712</div></div>
 <div class="ttc" id="aclassterminalpp_1_1enable__mouse_html_af12c0762659500d6d50ecc7371f2b17b"><div class="ttname"><a href="classterminalpp_1_1enable__mouse.html#af12c0762659500d6d50ecc7371f2b17b">terminalpp::enable_mouse::operator()</a></div><div class="ttdeci">void operator()(terminalpp::behaviour const &amp;beh, terminalpp::terminal_state &amp;, WriteContinuation &amp;&amp;cont) const</div><div class="ttdoc">Writes ANSI codes necessary to enable the mouse.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:529</div></div>
 <div class="ttc" id="aclassterminalpp_1_1restore__cursor__position_html_a0094ba761b82a581780e158d8a97d637"><div class="ttname"><a href="classterminalpp_1_1restore__cursor__position.html#a0094ba761b82a581780e158d8a97d637">terminalpp::restore_cursor_position::operator()</a></div><div class="ttdeci">void operator()(terminalpp::behaviour const &amp;beh, terminalpp::terminal_state &amp;state, WriteContinuation &amp;&amp;cont) const</div><div class="ttdoc">Writes ANSI codes necessary to restore the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:746</div></div>
-<div class="ttc" id="astructterminalpp_1_1terminal__state_html_ad94e2862a26dfb9dc3f5bfdcc6772f79"><div class="ttname"><a href="structterminalpp_1_1terminal__state.html#ad94e2862a26dfb9dc3f5bfdcc6772f79">terminalpp::terminal_state::saved_cursor_position_</a></div><div class="ttdeci">boost::optional&lt; point &gt; saved_cursor_position_</div><div class="ttdoc">The cursor position at which the last &quot;save cursor position&quot; command was executed.</div><div class="ttdef"><b>Definition:</b> terminal_state.hpp:33</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 21 2021 14:03:46 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 26 2021 18:59:22 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
