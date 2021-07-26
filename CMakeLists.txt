@@ -171,6 +171,7 @@ target_sources(terminalpp
         include/terminalpp/version.hpp
         include/terminalpp/virtual_key.hpp
 
+        src/detail/element_udl.cpp
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
         src/attribute.cpp
@@ -221,7 +222,7 @@ target_compile_options(terminalpp
         $<$<CXX_COMPILER_ID:MSVC>:/WX>
 
         # Add warnings on g++ and Clang
-        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror -Wno-tautological-compare>
+        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror -Wno-tautological-compare -Wno-unused-parameter>
 )
 
 generate_export_header(terminalpp
@@ -313,6 +314,7 @@ target_sources(terminalpp_tester
         test/control_sequence_test.cpp
         test/effect_test.cpp
         test/element_test.cpp
+        test/element_udl_test.cpp
         test/encoder_test.cpp
         test/expect_sequence.cpp
         test/extent_test.cpp

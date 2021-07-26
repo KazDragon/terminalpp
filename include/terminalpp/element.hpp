@@ -1,5 +1,6 @@
 #pragma once
 
+#include "terminalpp/core.hpp"
 #include "terminalpp/attribute.hpp"
 #include "terminalpp/glyph.hpp"
 #include <boost/container_hash/hash.hpp>
@@ -80,7 +81,20 @@ constexpr bool operator==(element const &lhs, element const &rhs)
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, element const &elem);
 
+namespace detail {
+TERMINALPP_EXPORT
+element parse_element(gsl::cstring_span &text);
 }
+
+inline namespace literals {
+
+inline element operator ""_ete(char const *text, std::size_t len)
+{
+    gsl::cstring_span data(text, len);
+    return detail::parse_element(data);
+}
+
+}}
 
 namespace std {
 
