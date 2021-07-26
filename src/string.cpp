@@ -87,6 +87,14 @@ string::iterator string::begin()
 // ==========================================================================
 // RBEGIN
 // ==========================================================================
+string::reverse_iterator string::rbegin()
+{
+    return elements_.rbegin();
+}
+
+// ==========================================================================
+// RBEGIN
+// ==========================================================================
 string::const_reverse_iterator string::rbegin() const
 {
     return elements_.rbegin();
@@ -106,6 +114,14 @@ string::const_iterator string::end() const
 string::iterator string::end()
 {
     return elements_.end();
+}
+
+// ==========================================================================
+// REND
+// ==========================================================================
+string::reverse_iterator string::rend()
+{
+    return elements_.rend();
 }
 
 // ==========================================================================
@@ -289,7 +305,17 @@ string operator ""_ts(char const *text, string::size_type len)
 // ==========================================================================
 string operator ""_ets(char const *text, string::size_type len)
 {
-    return encode(text, len);
+    string out;
+    gsl::cstring_span text_span(text, len);
+
+    while (!text_span.empty())
+    {
+        out += detail::parse_element(
+            text_span, 
+            out.empty() ? element{} : *out.rbegin());
+    }
+
+    return out;
 }
 
 }}}
