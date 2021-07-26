@@ -199,10 +199,10 @@ static udl_element const udl_elements[] = {
     udl_element{"\\}22\\}17a"_ete, with_background_colour({'a'}, terminalpp::greyscale_colour{17})},
 
     // Incomplete unicode character codes return a default character.
-    udl_element{"\\U"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
-    udl_element{"\\U0"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
-    udl_element{"\\U01"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
-    udl_element{"\\U010"_ete, terminalpp::element{{' ', terminalpp::charset::utf8}}},
+    udl_element{"\\U"_ete, terminalpp::element{}},
+    udl_element{"\\U0"_ete, terminalpp::element{}},
+    udl_element{"\\U01"_ete, terminalpp::element{}},
+    udl_element{"\\U010"_ete, terminalpp::element{}},
 
     // Complete unicode character code returns a unicode character.
     udl_element{"\\U010E"_ete, terminalpp::element{terminalpp::glyph{"\xC4\x8E"}}},

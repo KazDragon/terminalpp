@@ -1,376 +1,447 @@
 #include "terminalpp/element.hpp"
 #include "terminalpp/character_set.hpp"
 #include "terminalpp/ansi/charset.hpp"
-#include <boost/spirit/include/qi.hpp>
-#include <tuple>
 
 namespace terminalpp {
 namespace detail {
 
-namespace qi = boost::spirit::qi;
+namespace {
 
-struct modify_element
-{
-    modify_element(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()(char ch) const
-    {
-        elem_.glyph_.character_ = static_cast<byte>(ch);
-    }
-
-    element &elem_;
+enum class parser_state {
+    idle,
+    escape,
+    charcode_0,
+    charcode_1,
+    charcode_2,
+    charset,
+    charset_ext,
+    intensity,
+    polarity,
+    underlining,
+    fg_low_colour,
+    fg_high_colour_0,
+    fg_high_colour_1,
+    fg_high_colour_2,
+    fg_greyscale_colour_0,
+    fg_greyscale_colour_1,
+    bg_low_colour,
+    bg_high_colour_0,
+    bg_high_colour_1,
+    bg_high_colour_2,
+    bg_greyscale_colour_0,
+    bg_greyscale_colour_1,
+    utf8_0,
+    utf8_1,
+    utf8_2,
+    utf8_3,
+    done,
 };
 
-struct modify_charset
+struct parser_info
 {
-    modify_charset(element &elem)
-      : elem_(elem)
+    parser_state state {parser_state::idle};
+    byte charcode;
+    byte red, green;
+    byte greyscale;
+    uint16_t utf8;
+};
+
+byte digit10_to_byte(char const ch)
+{
+    return static_cast<byte>(ch - '0');
+}
+
+byte digit16_to_byte(char const ch)
+{
+    return (ch >= '0' && ch <= '9') ? static_cast<byte>(ch - '0')
+         : (ch >= 'a' && ch <= 'f') ? static_cast<byte>((ch - 'a') + 10)
+         : (ch >= 'A' && ch <= 'F') ? static_cast<byte>((ch - 'A') + 10)
+         : static_cast<byte>(0);
+}
+
+void parse_utf8_3(char const ch, parser_info &info, element &elem)
+{
+    static constexpr long const maxima[] = {
+        0x00007F,
+        0x0007FF,
+        0x00FFFF,
+        0x10FFFF
+    };
+
+    byte text[4] = {0};
+    uint16_t const value = (info.utf8 * 16) + digit16_to_byte(ch);
+
+    // At the moment, we can only convert up to 0xFFFF hex, since we only have
+    // three spots in ucharacter_ to play with.  As an arbitrary decision,
+    // anything above that will come out as a ? character.  Otherwise,
+    // we will UTF-8 encode the value as appropriate into the ucharacter_
+    // array.
+    if (value <= maxima[0])
     {
+        text[0] = byte(value & 0x7F);
+        text[1] = 0;
+        text[2] = 0;
+    }
+    else if (value <= maxima[1])
+    {
+        text[0] = byte(0b11000000 | (value >> 6));
+        text[1] = byte(0b10000000 | (value & 0b00111111));
+        text[2] = 0;
+    }
+    else if (value <= maxima[2])
+    {
+        text[0] = byte(0b11100000 | (value >> 12));
+        text[1] = byte(0b10000000 | ((value >> 6) & 0b00111111));
+        text[2] = byte(0b10000000 | (value & 0b00111111));
+    }
+    else
+    {
+        // Too high to encode right now.
+        text[0] = byte('?');
+        text[1] = 0;
     }
 
-    void operator()(char ch) const
-    {
-        byte const charset_code[] = { static_cast<byte>(ch) };
-        auto const charset = lookup_character_set(charset_code);
+    elem.glyph_ = terminalpp::glyph(text);
+    info.state = parser_state::done;
+}
 
-        if (charset)
+void parse_utf8_2(char const ch, parser_info &info, element &elem)
+{
+    info.utf8 *= 16;
+    info.utf8 += digit16_to_byte(ch);
+    info.state = parser_state::utf8_3;
+}
+
+void parse_utf8_1(char const ch, parser_info &info, element &elem)
+{
+    info.utf8 *= 16;
+    info.utf8 += digit16_to_byte(ch);
+    info.state = parser_state::utf8_2;
+}
+
+void parse_utf8_0(char const ch, parser_info &info, element &elem)
+{
+    info.utf8 = digit16_to_byte(ch);
+    info.state = parser_state::utf8_1;
+}
+
+void parse_bg_greyscale_1(char const ch, parser_info &info, element &elem)
+{
+    byte const col = (info.greyscale * 10) + digit10_to_byte(ch);
+    elem.attribute_.background_colour_ = greyscale_colour(col);
+    info.state = parser_state::idle;
+}
+
+void parse_bg_greyscale_0(char const ch, parser_info &info, element &elem)
+{
+    info.greyscale = digit10_to_byte(ch);
+    info.state = parser_state::bg_greyscale_colour_1;
+}
+
+void parse_bg_high_colour_2(char const ch, parser_info &info, element &elem)
+{
+    auto const blue = digit10_to_byte(ch);
+    elem.attribute_.background_colour_ = 
+        high_colour(info.red, info.green, blue);
+    info.state = parser_state::idle;
+}
+
+void parse_bg_high_colour_1(char const ch, parser_info &info, element &elem)
+{
+    info.green = digit10_to_byte(ch);
+    info.state = parser_state::bg_high_colour_2;
+}
+
+void parse_bg_high_colour_0(char const ch, parser_info &info, element &elem)
+{
+    info.red = digit10_to_byte(ch);
+    info.state = parser_state::bg_high_colour_1;
+}
+
+void parse_bg_low_colour(char const ch, parser_info &info, element &elem)
+{
+    auto const col_code = digit10_to_byte(ch);
+    auto const col = static_cast<terminalpp::graphics::colour>(col_code);
+
+    elem.attribute_.background_colour_ = low_colour(col);
+    info.state = parser_state::idle;
+}
+
+void parse_fg_greyscale_1(char const ch, parser_info &info, element &elem)
+{
+    byte const col = (info.greyscale * 10) + digit10_to_byte(ch);
+    elem.attribute_.foreground_colour_ = greyscale_colour(col);
+    info.state = parser_state::idle;
+}
+
+void parse_fg_greyscale_0(char const ch, parser_info &info, element &elem)
+{
+    info.greyscale = digit10_to_byte(ch);
+    info.state = parser_state::fg_greyscale_colour_1;
+}
+
+void parse_fg_high_colour_2(char const ch, parser_info &info, element &elem)
+{
+    auto const blue = digit10_to_byte(ch);
+    elem.attribute_.foreground_colour_ = 
+        high_colour(info.red, info.green, blue);
+    info.state = parser_state::idle;
+}
+
+void parse_fg_high_colour_1(char const ch, parser_info &info, element &elem)
+{
+    info.green = digit10_to_byte(ch);
+    info.state = parser_state::fg_high_colour_2;
+}
+
+void parse_fg_high_colour_0(char const ch, parser_info &info, element &elem)
+{
+    info.red = digit10_to_byte(ch);
+    info.state = parser_state::fg_high_colour_1;
+}
+
+void parse_fg_low_colour(char const ch, parser_info &info, element &elem)
+{
+    auto const col_code = digit10_to_byte(ch);
+    auto const col = static_cast<terminalpp::graphics::colour>(col_code);
+
+    elem.attribute_.foreground_colour_ = low_colour(col);
+    info.state = parser_state::idle;
+}
+
+void parse_underlining(char const ch, parser_info &info, element &elem)
+{
+    switch(ch)
+    {
+        case '+':
+            elem.attribute_.underlining_ = graphics::underlining::underlined;
+            break;
+
+        case '-':
+            elem.attribute_.underlining_ = graphics::underlining::not_underlined;
+            break;
+
+        default:
+            elem.attribute_.underlining_ = graphics::underlining::not_underlined;
+            break;
+    }
+
+    info.state = parser_state::idle;
+}
+
+void parse_polarity(char const ch, parser_info &info, element &elem)
+{
+    switch(ch)
+    {
+        case '+':
+            elem.attribute_.polarity_ = graphics::polarity::positive;
+            break;
+
+        case '-':
+            elem.attribute_.polarity_ = graphics::polarity::negative;
+            break;
+
+        default:
+            elem.attribute_.polarity_ = graphics::polarity::positive;
+            break;
+    }
+
+    info.state = parser_state::idle;
+}
+
+void parse_intensity(char const ch, parser_info &info, element &elem)
+{
+    switch (ch)
+    {
+        case '>':
+            elem.attribute_.intensity_ = graphics::intensity::bold;
+            break;
+
+        case '<':
+            elem.attribute_.intensity_ = graphics::intensity::faint;
+            break;
+
+        default:
+            elem.attribute_.intensity_ = graphics::intensity::normal;
+            break;
+    }
+
+    info.state = parser_state::idle;
+}
+
+void parse_charset_ext(char const ch, parser_info &info, element &elem)
+{
+    byte const charset_code[] = { ansi::charset_extender, static_cast<byte>(ch) };
+    auto const charset = lookup_character_set(charset_code);
+    elem.glyph_.charset_ = charset ? *charset : elem.glyph_.charset_;
+    info.state = parser_state::idle;
+}
+
+void parse_charset(char const ch, parser_info &info, element &elem)
+{
+    switch (ch)
+    {
+        case '%':
+            info.state = parser_state::charset_ext;
+            break;
+
+        default:
         {
-            elem_.glyph_.charset_ = *charset;
+            byte const charset_code[] = { static_cast<byte>(ch) };
+            auto const charset = lookup_character_set(charset_code);
+            elem.glyph_.charset_ = charset ? *charset : elem.glyph_.charset_;
+            info.state = parser_state::idle;
         }
     }
 
-    element &elem_;
-};
+}
 
-struct modify_extended_charset
+void parse_charcode_2(char const ch, parser_info &info, element &elem)
 {
-    modify_extended_charset(element &elem)
-      : elem_(elem)
-    {
-    }
+    info.charcode *= 10;
+    info.charcode += digit10_to_byte(ch);
+    elem.glyph_.character_ = info.charcode;
+    info.state = parser_state::done;
+}
 
-    void operator()(char ch) const
-    {
-        byte const charset_code[] = { ansi::charset_extender, static_cast<byte>(ch) };
-        auto const charset = lookup_character_set(charset_code);
-
-        if (charset)
-        {
-            elem_.glyph_.charset_ = *charset;
-        }
-    }
-
-    element &elem_;
-};
-
-struct modify_intensity
+void parse_charcode_1(char const ch, parser_info &info, element &elem)
 {
-    modify_intensity(element &elem)
-      : elem_(elem)
-    {
-    }
+    info.charcode *= 10;
+    info.charcode += digit10_to_byte(ch);
+    info.state = parser_state::charcode_2;
+}
 
-    void operator()(char ch) const
-    {
-        switch(ch)
-        {
-            case '>':
-                elem_.attribute_.intensity_ = graphics::intensity::bold;
-                break;
-
-            case '<':
-                elem_.attribute_.intensity_ = graphics::intensity::faint;
-                break;
-
-            default:
-                elem_.attribute_.intensity_ = graphics::intensity::normal;
-                break;
-        }
-    }
-
-    element &elem_;
-};
-
-struct modify_polarity
+void parse_charcode_0(char const ch, parser_info &info, element &elem)
 {
-    modify_polarity(element &elem)
-      : elem_(elem)
-    {
-    }
+    info.charcode = digit10_to_byte(ch);
+    info.state = parser_state::charcode_1;
+}
 
-    void operator()(char ch) const
-    {
-        switch(ch)
-        {
-            case '+':
-                elem_.attribute_.polarity_ = graphics::polarity::positive;
-                break;
-
-            case '-':
-                elem_.attribute_.polarity_ = graphics::polarity::negative;
-                break;
-
-            default:
-                elem_.attribute_.polarity_ = graphics::polarity::positive;
-                break;
-        }
-    }
-
-    element &elem_;
-};
-
-struct modify_underlining
+void parse_escape(char const ch, parser_info &info, element &elem)
 {
-    modify_underlining(element &elem)
-      : elem_(elem)
+    switch (ch)
     {
+        case 'C':
+            info.state = parser_state::charcode_0;
+            break;
+
+        case 'c':
+            info.state = parser_state::charset;
+            break;
+
+        case 'i':
+            info.state = parser_state::intensity;
+            break;
+
+        case 'p':
+            info.state = parser_state::polarity;
+            break;
+
+        case 'u':
+            info.state = parser_state::underlining;
+            break;
+
+        case '[':
+            info.state = parser_state::fg_low_colour;
+            break;
+
+        case '<':
+            info.state = parser_state::fg_high_colour_0;
+            break;
+
+        case '{':
+            info.state = parser_state::fg_greyscale_colour_0;
+            break;
+
+        case ']':
+            info.state = parser_state::bg_low_colour;
+            break;
+
+        case '>':
+            info.state = parser_state::bg_high_colour_0;
+            break;
+
+        case '}':
+            info.state = parser_state::bg_greyscale_colour_0;
+            break;
+
+        case 'U':
+            info.state = parser_state::utf8_0;
+            break;
+
+        case 'x':
+            elem.attribute_ = {};
+            info.state = parser_state::idle;
+            break;
+
+        default :
+            elem.glyph_.character_ = static_cast<byte>(ch);
+            info.state = parser_state::done;
+            break;
     }
+}
 
-    void operator()(char ch) const
-    {
-        switch(ch)
-        {
-            case '+':
-                elem_.attribute_.underlining_ = graphics::underlining::underlined;
-                break;
-
-            case '-':
-                elem_.attribute_.underlining_ = graphics::underlining::not_underlined;
-                break;
-
-            default:
-                elem_.attribute_.underlining_ = graphics::underlining::not_underlined;
-                break;
-        }
-    }
-
-    element &elem_;
-};
-
-struct modify_foreground_low_colour
+void parse_idle(char const ch, parser_info &info, element &elem)
 {
-    modify_foreground_low_colour(element &elem)
-      : elem_(elem)
+    switch (ch)
     {
+        case '\\':
+            info.state = parser_state::escape;
+            break;
+
+        default:
+            elem.glyph_.character_ = static_cast<byte>(ch);
+            info.state = parser_state::done;
+            break;
     }
+}
 
-    void operator()(unsigned char col) const
-    {
-        elem_.attribute_.foreground_colour_ = low_colour(
-            static_cast<terminalpp::graphics::colour>(col));
-    }
-
-    element &elem_;
-};
-
-struct modify_foreground_high_colour
-{
-    modify_foreground_high_colour(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()(boost::fusion::vector<
-        unsigned char, unsigned char, unsigned char> col) const
-    {
-        elem_.attribute_.foreground_colour_ = high_colour(
-            boost::fusion::at<boost::mpl::int_<0>>(col),
-            boost::fusion::at<boost::mpl::int_<1>>(col),
-            boost::fusion::at<boost::mpl::int_<2>>(col));
-    }
-
-    element &elem_;
-};
-
-struct modify_foreground_greyscale_colour
-{
-    modify_foreground_greyscale_colour(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()(unsigned char col) const
-    {
-        elem_.attribute_.foreground_colour_ = greyscale_colour(col);
-    }
-
-    element &elem_;
-};
-
-
-struct modify_background_low_colour
-{
-    modify_background_low_colour(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()(unsigned char col) const
-    {
-        elem_.attribute_.background_colour_ = low_colour(
-            static_cast<terminalpp::graphics::colour>(col));
-    }
-
-    element &elem_;
-};
-
-struct modify_background_high_colour
-{
-    modify_background_high_colour(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()(boost::fusion::vector<
-        unsigned char, unsigned char, unsigned char> col) const
-    {
-        elem_.attribute_.background_colour_ = high_colour(
-            boost::fusion::at<boost::mpl::int_<0>>(col),
-            boost::fusion::at<boost::mpl::int_<1>>(col),
-            boost::fusion::at<boost::mpl::int_<2>>(col));
-    }
-
-    element &elem_;
-};
-
-struct modify_background_greyscale_colour
-{
-    modify_background_greyscale_colour(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()(unsigned char col) const
-    {
-        elem_.attribute_.background_colour_ = greyscale_colour(col);
-    }
-
-    element &elem_;
-};
-
-struct reset_element_attributes
-{
-    reset_element_attributes(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()() const
-    {
-        elem_.attribute_ = {};
-    }
-
-    element &elem_;
-};
-
-struct modify_unicode_element
-{
-    modify_unicode_element(element &elem)
-      : elem_(elem)
-    {
-    }
-
-    void operator()(unsigned short value) const
-    {
-        static constexpr long const maxima[] = {
-            0x00007F,
-            0x0007FF,
-            0x00FFFF,
-            0x10FFFF
-        };
-
-        byte text[4] = {0};
-
-        // At the moment, we can only convert up to 0xFFFF hex, since we only have
-        // three spots in ucharacter_ to play with.  As an arbitrary decision,
-        // anything above that will come out as a ? character.  Otherwise,
-        // we will UTF-8 encode the value as appropriate into the ucharacter_
-        // array.
-        if (value <= maxima[0])
-        {
-            text[0] = byte(value & 0x7F);
-            text[1] = 0;
-            text[2] = 0;
-        }
-        else if (value <= maxima[1])
-        {
-            text[0] = byte(0b11000000 | (value >> 6));
-            text[1] = byte(0b10000000 | (value & 0b00111111));
-            text[2] = 0;
-        }
-        else if (value <= maxima[2])
-        {
-            text[0] = byte(0b11100000 | (value >> 12));
-            text[1] = byte(0b10000000 | ((value >> 6) & 0b00111111));
-            text[2] = byte(0b10000000 | (value & 0b00111111));
-        }
-        else
-        {
-            // Too high to encode right now.
-            text[0] = byte('?');
-            text[1] = 0;
-        }
-
-        elem_.glyph_ = terminalpp::glyph(text);
-    }
-
-    element &elem_;
-};
+}
 
 element parse_element(gsl::cstring_span &text)
 {
-    auto const uint1_1_p = qi::uint_parser<unsigned char, 10, 1, 1>();
-    auto const uint2_2_p = qi::uint_parser<unsigned char, 10, 2, 2>();
-    auto const uint3_3_p = qi::uint_parser<unsigned char, 10, 3, 3>();
-    auto const uint4_4_p = qi::uint_parser<unsigned short, 16, 4, 4>();
-
-    auto const character_code_p = qi::lit('C') >> (uint3_3_p | qi::attr((unsigned char)(' ')));
-    auto const extended_character_set_p = qi::lit('c') >> qi::lit('%') >> qi::char_;
-    auto const character_set_p = qi::lit('c') >> qi::char_;
-    auto const intensity_p = qi::lit('i') >> qi::char_;
-    auto const polarity_p = qi::lit('p') >> qi::char_;
-    auto const underlining_p = qi::lit('u') >> qi::char_;
-    auto const foreground_low_colour = qi::lit('[') >> uint1_1_p;
-    auto const foreground_high_colour = qi::lit('<') >> uint1_1_p >> uint1_1_p >> uint1_1_p;
-    auto const foreground_greyscale_colour = qi::lit('{') >> uint2_2_p;
-    auto const background_low_colour = qi::lit(']') >> uint1_1_p;
-    auto const background_high_colour = qi::lit('>') >> uint1_1_p >> uint1_1_p >> uint1_1_p;
-    auto const background_greyscale_colour = qi::lit('}') >> uint2_2_p;
-    auto const unicode_p = qi::lit('U') >> (uint4_4_p | qi::attr((unsigned short)(' ')));
-    auto const reset_attributes_p = qi::lit('x');
-
-    auto expression = qi::rule<gsl::cstring_span::const_iterator, element()>{};
-
-    element elem;
-
-    expression = 
-        (qi::lit('\\') >> 
-          -( character_code_p[modify_element(elem)]
-           | extended_character_set_p[modify_extended_charset(elem)] >> expression
-           | character_set_p[modify_charset(elem)] >> expression
-           | intensity_p[modify_intensity(elem)] >> expression
-           | polarity_p[modify_polarity(elem)] >> expression
-           | underlining_p[modify_underlining(elem)] >> expression
-           | foreground_low_colour[modify_foreground_low_colour(elem)] >> expression
-           | foreground_high_colour[modify_foreground_high_colour(elem)] >> expression
-           | foreground_greyscale_colour[modify_foreground_greyscale_colour(elem)] >> expression
-           | background_low_colour[modify_background_low_colour(elem)] >> expression
-           | background_high_colour[modify_background_high_colour(elem)] >> expression
-           | background_greyscale_colour[modify_background_greyscale_colour(elem)] >> expression
-           | reset_attributes_p[reset_element_attributes(elem)] >> expression
-           | unicode_p[modify_unicode_element(elem)]
-           | (qi::char_[modify_element(elem)])
-           )
-        )
-      | (qi::char_[modify_element(elem)]);
-
-    auto first = text.cbegin();
+    auto current = text.cbegin();
     auto last = text.cend();
 
-    qi::parse(first, last, expression);
+    parser_info info;
+    element elem;
+
+    using handler = void (*)(char, parser_info &, element &);
+    handler const handlers[] = 
+    {
+        parse_idle,
+        parse_escape,
+        parse_charcode_0,
+        parse_charcode_1,
+        parse_charcode_2,
+        parse_charset,
+        parse_charset_ext,
+        parse_intensity,
+        parse_polarity,
+        parse_underlining,
+        parse_fg_low_colour,
+        parse_fg_high_colour_0,
+        parse_fg_high_colour_1,
+        parse_fg_high_colour_2,
+        parse_fg_greyscale_0,
+        parse_fg_greyscale_1,
+        parse_bg_low_colour,
+        parse_bg_high_colour_0,
+        parse_bg_high_colour_1,
+        parse_bg_high_colour_2,
+        parse_bg_greyscale_0,
+        parse_bg_greyscale_1,
+        parse_utf8_0,
+        parse_utf8_1,
+        parse_utf8_2,
+        parse_utf8_3,
+    };
+
+    while (current != last && info.state != parser_state::done)
+    {
+        handlers[static_cast<int>(info.state)](*current, info, elem);
+        ++current;
+    }
 
     return elem;
 }
