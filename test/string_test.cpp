@@ -18,6 +18,14 @@ TEST(string_test, a_default_constructed_string_has_size_0)
     ASSERT_EQ(0u, str.size());
 }
 
+TEST(string_test, a_default_constructed_string_has_a_max_size_of_size_t_max_value)
+{
+    terminalpp::string str;
+    ASSERT_EQ(
+        std::numeric_limits<terminalpp::string::size_type>::max(), 
+        str.max_size());
+}
+
 TEST(string_test, can_construct_from_string_and_attribute)
 {
     terminalpp::attribute attr;
