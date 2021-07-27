@@ -119,13 +119,13 @@ TEST(string_test, constructing_a_string_with_a_size_and_an_element_constructs_a_
 
 TEST(string_test, a_string_with_data_is_not_empty)
 {
-    terminalpp::string const str("abcde");
+    terminalpp::string const str("abcde"_ts);
     ASSERT_FALSE(str.empty());
 }
 
 TEST(string_test, a_string_with_data_has_the_size_of_the_number_of_elements)
 {
-    terminalpp::string const str0("abcde"_ets);
+    terminalpp::string const str0("abcde"_ts);
     ASSERT_EQ(5u, str0.size());
 
     terminalpp::string const str1("aard\\[1vark"_ets);
@@ -134,7 +134,7 @@ TEST(string_test, a_string_with_data_has_the_size_of_the_number_of_elements)
 
 TEST(string_test, can_iterate_over_a_string)
 {
-    terminalpp::string str = "abcde"_ets;
+    terminalpp::string str = "abcde"_ts;
     std::string result;
 
     std::transform(
@@ -152,7 +152,7 @@ TEST(string_test, can_iterate_over_a_string)
 
 TEST(string_test, can_iterate_over_a_const_string)
 {
-    terminalpp::string const str = "abcde"_ets;
+    terminalpp::string const str = "abcde"_ts;
     std::string result;
 
     std::transform(
@@ -170,7 +170,7 @@ TEST(string_test, can_iterate_over_a_const_string)
 
 TEST(string_test, can_iterate_backwards_over_a_string)
 {
-    terminalpp::string str = "abcde"_ets;
+    terminalpp::string str = "abcde"_ts;
     std::string result;
 
     std::transform(
