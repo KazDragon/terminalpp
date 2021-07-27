@@ -117,6 +117,10 @@ static udl_element const udl_elements[] = {
     // Extras after the code take precedence
     udl_element{"\\c0\\c%5d"_ete, with_charset({'d'}, terminalpp::charset::dec_supplementary_graphics)},
 
+    // Unknown character sets are ignored.
+    udl_element{"\\c%6\\c?x"_ete, with_charset({'x'}, terminalpp::charset::portuguese)},
+    udl_element{"\\c%6\\c%?y"_ete, with_charset({'y'}, terminalpp::charset::portuguese)},
+
     // Intensity
     udl_element{"\\i>a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::bold)},
     udl_element{"\\i<a"_ete, with_intensity({'a'}, terminalpp::graphics::intensity::faint)},

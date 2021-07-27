@@ -1,7 +1,7 @@
 #include "terminalpp/canvas.hpp"
 #include <gtest/gtest.h>
 
-TEST(canvas_test, can_perform_loops_over_canvas)
+TEST(canvas_test, can_perform_loops_over_a_canvas)
 {
     terminalpp::canvas canvas({5, 5});
     auto size = canvas.size();
@@ -19,6 +19,31 @@ TEST(canvas_test, can_perform_loops_over_canvas)
         {
             auto expected = terminalpp::element('x');
             auto result   = terminalpp::element(canvas[column][row]);
+            ASSERT_EQ(expected, result);
+        }
+    }
+}
+
+TEST(canvas_test, can_perform_loops_over_a_const_canvas)
+{
+    terminalpp::canvas canvas({5, 5});
+    auto size = canvas.size();
+
+    ASSERT_EQ(terminalpp::extent(5, 5), size);
+
+    for (auto &&elem : canvas)
+    {
+        elem = {'x'};
+    }
+
+    terminalpp::canvas const &ccanvas = canvas;
+
+    for (terminalpp::coordinate_type row = 0; row < size.height_; ++row)
+    {
+        for (terminalpp::coordinate_type column = 0; column < size.width_; column++)
+        {
+            auto expected = terminalpp::element('x');
+            auto result   = terminalpp::element(ccanvas[column][row]);
             ASSERT_EQ(expected, result);
         }
     }

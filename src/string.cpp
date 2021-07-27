@@ -167,14 +167,6 @@ string::const_reference string::operator[](string::size_type index) const
 // ==========================================================================
 // OPERATOR +=
 // ==========================================================================
-string &string::operator+=(byte ch)
-{
-    return operator+=(element(ch));
-}
-
-// ==========================================================================
-// OPERATOR +=
-// ==========================================================================
 string &string::operator+=(element const &elem)
 {
     elements_.insert(elements_.end(), elem);
@@ -305,7 +297,8 @@ string operator ""_ts(char const *text, string::size_type len)
 // ==========================================================================
 string operator ""_ets(char const *text, string::size_type len)
 {
-    return encode(text, len);
+    gsl::cstring_span text_span{text, len};
+    return encode(text_span);
 }
 
 }}}

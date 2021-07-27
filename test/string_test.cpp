@@ -1,9 +1,30 @@
 #include "terminalpp/string.hpp"
+#include <algorithm>
 #include <unordered_set>
 #include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
 using testing::ValuesIn;
+
+TEST(string_test, a_default_constructed_string_is_empty)
+{
+    terminalpp::string str;
+    ASSERT_TRUE(str.empty());
+}
+
+TEST(string_test, a_default_constructed_string_has_size_0)
+{
+    terminalpp::string str;
+    ASSERT_EQ(0u, str.size());
+}
+
+TEST(string_test, a_default_constructed_string_has_a_max_size_of_size_t_max_value)
+{
+    terminalpp::string str;
+    ASSERT_EQ(
+        std::numeric_limits<terminalpp::string::size_type>::max(), 
+        str.max_size());
+}
 
 TEST(string_test, can_construct_from_string_and_attribute)
 {
@@ -96,6 +117,140 @@ TEST(string_test, constructing_a_string_with_a_size_and_an_element_constructs_a_
     ASSERT_EQ(terminalpp::string(size, elem), expected);
 }
 
+TEST(string_test, a_string_with_data_is_not_empty)
+{
+    terminalpp::string const str("abcde"_ts);
+    ASSERT_FALSE(str.empty());
+}
+
+TEST(string_test, a_string_with_data_has_the_size_of_the_number_of_elements)
+{
+    terminalpp::string const str0("abcde"_ts);
+    ASSERT_EQ(5u, str0.size());
+
+    terminalpp::string const str1("aard\\[1vark"_ets);
+    ASSERT_EQ(8u, str1.size());
+}
+
+TEST(string_test, can_iterate_over_a_string)
+{
+    terminalpp::string str = "abcde"_ts;
+    std::string result;
+
+    std::transform(
+        str.begin(),
+        str.end(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "abcde";
+    ASSERT_EQ(expected, result);
+}
+
+TEST(string_test, can_iterate_over_a_const_string)
+{
+    terminalpp::string const str = "abcde"_ts;
+    std::string result;
+
+    std::transform(
+        str.begin(),
+        str.end(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "abcde";
+    ASSERT_EQ(expected, result);
+}
+
+TEST(string_test, can_iterate_backwards_over_a_string)
+{
+    terminalpp::string str = "abcde"_ts;
+    std::string result;
+
+    std::transform(
+        str.rbegin(),
+        str.rend(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "edcba";
+    ASSERT_EQ(expected, result);
+}
+
+TEST(string_test, can_iterate_backwards_over_a_const_string)
+{
+    terminalpp::string const str = "abcde"_ets;
+    std::string result;
+
+    std::transform(
+        str.rbegin(),
+        str.rend(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "edcba";
+    ASSERT_EQ(expected, result);
+}
+
+TEST(string_test, can_append_characters_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += 't';
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_bytes_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += terminalpp::byte('t');
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_c_strings_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += "t";
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_std_strings_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += std::string("t");
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_terminal_strings_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += terminalpp::string("t");
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+
+
 using string_string = std::tuple<
     terminalpp::string,
     std::string
@@ -118,8 +273,6 @@ TEST_P(strings_with_strings, can_be_streamed_to_an_ostream)
     out << element;
     ASSERT_EQ(expected_string, stream.str());
 }
-
-using terminalpp::operator""_ets;
 
 static string_string const string_strings[] = {
     string_string{ {}, {} },
