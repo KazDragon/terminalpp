@@ -6,6 +6,18 @@
 using namespace terminalpp::literals;
 using testing::ValuesIn;
 
+TEST(string_test, a_default_constructed_string_is_empty)
+{
+    terminalpp::string str;
+    ASSERT_TRUE(str.empty());
+}
+
+TEST(string_test, a_default_constructed_string_has_size_0)
+{
+    terminalpp::string str;
+    ASSERT_EQ(0u, str.size());
+}
+
 TEST(string_test, can_construct_from_string_and_attribute)
 {
     terminalpp::attribute attr;
@@ -95,6 +107,21 @@ TEST(string_test, constructing_a_string_with_a_size_and_an_element_constructs_a_
     }();
 
     ASSERT_EQ(terminalpp::string(size, elem), expected);
+}
+
+TEST(string_test, a_string_with_data_is_not_empty)
+{
+    terminalpp::string const str("abcde");
+    ASSERT_FALSE(str.empty());
+}
+
+TEST(string_test, a_string_with_data_has_the_size_of_the_number_of_elements)
+{
+    terminalpp::string const str0("abcde"_ets);
+    ASSERT_EQ(5u, str0.size());
+
+    terminalpp::string const str1("aard\\[1vark"_ets);
+    ASSERT_EQ(8u, str1.size());
 }
 
 TEST(string_test, can_iterate_over_a_string)
