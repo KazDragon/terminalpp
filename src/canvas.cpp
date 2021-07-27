@@ -152,7 +152,7 @@ canvas::const_column_proxy canvas::operator[](coordinate_type column) const
 }
 
 // ==========================================================================
-// SET_ELEMENT
+// GET_ELEMENT
 // ==========================================================================
 element& canvas::get_element(coordinate_type column, coordinate_type row)
 {
@@ -170,15 +170,6 @@ const element& canvas::get_element(
     return grid_[std::vector<element>::size_type(
         row * size_.width_ + column
     )];
-}
-
-// ==========================================================================
-// GET_ELEMENT
-// ==========================================================================
-void canvas::set_element(
-    coordinate_type column, coordinate_type row, const element& value)
-{
-    grid_[std::vector<element>::size_type(row * size_.width_ + column)] = value;
 }
 
 }

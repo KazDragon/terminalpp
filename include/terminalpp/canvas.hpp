@@ -115,12 +115,6 @@ public :
 
 private :
     //* =====================================================================
-    /// \brief Set the value of an element.
-    //* =====================================================================
-    void set_element(
-        coordinate_type column, coordinate_type row, element const &value);
-
-    //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
     element &get_element(coordinate_type column, coordinate_type row);
