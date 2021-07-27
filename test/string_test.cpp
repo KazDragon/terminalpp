@@ -204,6 +204,53 @@ TEST(string_test, can_iterate_backwards_over_a_const_string)
     ASSERT_EQ(expected, result);
 }
 
+TEST(string_test, can_append_characters_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += 't';
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_bytes_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += terminalpp::byte('t');
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_c_strings_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += "t";
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_std_strings_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += std::string("t");
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+TEST(string_test, can_append_terminal_strings_to_a_string)
+{
+    terminalpp::string str = "tes";
+    str += terminalpp::string("t");
+
+    auto const expected = "test"_ets;
+    ASSERT_EQ(expected, str);
+}
+
+
+
 using string_string = std::tuple<
     terminalpp::string,
     std::string

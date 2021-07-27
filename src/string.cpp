@@ -167,14 +167,6 @@ string::const_reference string::operator[](string::size_type index) const
 // ==========================================================================
 // OPERATOR +=
 // ==========================================================================
-string &string::operator+=(byte ch)
-{
-    return operator+=(element(ch));
-}
-
-// ==========================================================================
-// OPERATOR +=
-// ==========================================================================
 string &string::operator+=(element const &elem)
 {
     elements_.insert(elements_.end(), elem);
