@@ -1,4 +1,5 @@
 #include "terminalpp/string.hpp"
+#include <algorithm>
 #include <unordered_set>
 #include <gtest/gtest.h>
 
@@ -96,6 +97,78 @@ TEST(string_test, constructing_a_string_with_a_size_and_an_element_constructs_a_
     ASSERT_EQ(terminalpp::string(size, elem), expected);
 }
 
+TEST(string_test, can_iterate_over_a_string)
+{
+    terminalpp::string str = "abcde"_ets;
+    std::string result;
+
+    std::transform(
+        str.begin(),
+        str.end(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "abcde";
+    ASSERT_EQ(expected, result);
+}
+
+TEST(string_test, can_iterate_over_a_const_string)
+{
+    terminalpp::string const str = "abcde"_ets;
+    std::string result;
+
+    std::transform(
+        str.begin(),
+        str.end(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "abcde";
+    ASSERT_EQ(expected, result);
+}
+
+TEST(string_test, can_iterate_backwards_over_a_string)
+{
+    terminalpp::string str = "abcde"_ets;
+    std::string result;
+
+    std::transform(
+        str.rbegin(),
+        str.rend(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "edcba";
+    ASSERT_EQ(expected, result);
+}
+
+TEST(string_test, can_iterate_backwards_over_a_const_string)
+{
+    terminalpp::string const str = "abcde"_ets;
+    std::string result;
+
+    std::transform(
+        str.rbegin(),
+        str.rend(),
+        std::back_inserter(result),
+        [](terminalpp::element const &elem)
+        {
+            return static_cast<char>(elem.glyph_.character_);
+        });
+
+    std::string const expected = "edcba";
+    ASSERT_EQ(expected, result);
+}
+
 using string_string = std::tuple<
     terminalpp::string,
     std::string
@@ -118,8 +191,6 @@ TEST_P(strings_with_strings, can_be_streamed_to_an_ostream)
     out << element;
     ASSERT_EQ(expected_string, stream.str());
 }
-
-using terminalpp::operator""_ets;
 
 static string_string const string_strings[] = {
     string_string{ {}, {} },
