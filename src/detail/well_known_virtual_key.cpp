@@ -100,9 +100,16 @@ token convert_control_sequence(control_sequence const &seq)
             atoi(reinterpret_cast<char const *>(repeat_count_arg.c_str())), 
             1);
 
-        vk_modifier const modifier = seq.meta
-                                   ? vk_modifier::meta
-                                   : vk_modifier::none;
+        vk_modifier const modifier =
+            ( seq.arguments.size() > 1
+            ? convert_modifier_argument(seq.arguments[1])
+            : vk_modifier::none
+            )
+            | 
+            ( seq.meta
+            ? vk_modifier::meta
+            : vk_modifier::none
+            );
 
         return virtual_key{
             cursor_movement_command->second,
