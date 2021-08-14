@@ -173,6 +173,18 @@ static token_test_data const token_test_data_table[] = {
         1,
         terminalpp::control_sequence{'[', '~', false, { "1"_tb } }
     }}},
+    token_test_data{ "\x1B[1;3H"_tb,         { terminalpp::virtual_key{
+        terminalpp::vk::home,
+        terminalpp::vk_modifier::alt,
+        1,
+        terminalpp::control_sequence{'[', 'H', false, { "1"_tb, "3"_tb } }
+    }}},
+    token_test_data{ "\x1B[1;10H"_tb,         { terminalpp::virtual_key{
+        terminalpp::vk::home,
+        terminalpp::vk_modifier::meta | terminalpp::vk_modifier::shift,
+        1,
+        terminalpp::control_sequence{'[', 'H', false, { "1"_tb, "10"_tb } }
+    }}},
     token_test_data{ "\x1B[2~"_tb,           { terminalpp::virtual_key{
         terminalpp::vk::ins,
         terminalpp::vk_modifier::none,
@@ -230,6 +242,18 @@ static token_test_data const token_test_data_table[] = {
         terminalpp::vk_modifier::none,
         1,
         terminalpp::control_sequence{'[', 'F', false, { ""_tb } }
+    }}},
+    token_test_data{ "\x1B[1;3F"_tb,         { terminalpp::virtual_key{
+        terminalpp::vk::end,
+        terminalpp::vk_modifier::alt,
+        1,
+        terminalpp::control_sequence{'[', 'F', false, { "1"_tb, "3"_tb } }
+    }}},
+    token_test_data{ "\x1B[1;10F"_tb,         { terminalpp::virtual_key{
+        terminalpp::vk::end,
+        terminalpp::vk_modifier::meta | terminalpp::vk_modifier::shift,
+        1,
+        terminalpp::control_sequence{'[', 'F', false, { "1"_tb, "10"_tb } }
     }}},
     token_test_data{ "\x1BOA"_tb,            { terminalpp::virtual_key{
         terminalpp::vk::cursor_up,

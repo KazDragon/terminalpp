@@ -3,3 +3,4 @@ version.hpp
 CMakeSettings.json
 /.vs
 /out
+**/build
