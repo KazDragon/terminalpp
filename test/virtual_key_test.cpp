@@ -392,3 +392,27 @@ INSTANTIATE_TEST_SUITE_P(
     virtual_keys_with_strings,
     ValuesIn(virtual_key_strings)
 );
+
+TEST(keys_that_are_not_alphanumeric_or_punctuation, are_control_keys)
+{
+    for (terminalpp::vk key = terminalpp::vk::nul;
+         key < terminalpp::vk::space;
+         key = static_cast<terminalpp::vk>(static_cast<int>(key) + 1))
+    {
+        ASSERT_TRUE(is_control_key(key)) << "vk = " << key;
+    }
+
+    for (terminalpp::vk key = terminalpp::vk::space;
+         key < terminalpp::vk::del;
+         key = static_cast<terminalpp::vk>(static_cast<int>(key) + 1))
+    {
+        ASSERT_FALSE(is_control_key(key)) << "vk = " << key;
+    }
+
+    for (terminalpp::vk key = terminalpp::vk::del;
+         key <= terminalpp::vk::f12;
+         key = static_cast<terminalpp::vk>(static_cast<int>(key) + 1))
+    {
+        ASSERT_TRUE(is_control_key(key)) << "vk = " << key;
+    }
+}

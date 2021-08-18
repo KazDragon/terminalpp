@@ -22,6 +22,7 @@ enum class vk : byte
     // ...
     esc               = terminalpp::detail::ascii::esc,
     // ...
+    us                = terminalpp::detail::ascii::us,
     space             = terminalpp::detail::ascii::space,
     exclamation_mark  = terminalpp::detail::ascii::exclamation_mark,
     quotes            = terminalpp::detail::ascii::quotes,
@@ -239,6 +240,27 @@ constexpr vk_modifier &operator&=(vk_modifier &lhs, vk_modifier const &rhs)
 {
     lhs = lhs & rhs;
     return lhs;
+}
+
+//* =========================================================================
+/// \brief Streaming output operator
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, vk const &key);
+
+// ==========================================================================
+/// \brief Returns true iff the key is a control key.
+// ==========================================================================
+constexpr bool is_control_key(vk const &key)
+{
+    constexpr vk control_set_begin = vk::nul;
+    constexpr vk control_set_end = vk::us;
+
+    constexpr vk abstract_set_begin = vk::del;
+    constexpr vk abstract_set_end = vk::f12;
+
+    return (key >= control_set_begin && key <= control_set_end)
+        || (key >= abstract_set_begin && key <= abstract_set_end);
 }
 
 }
