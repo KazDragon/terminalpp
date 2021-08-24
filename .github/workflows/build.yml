@@ -22,6 +22,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Install latest Boost
       shell: bash
@@ -33,20 +35,20 @@ jobs:
       run: .ci/fetch_system_dependencies.sh
       
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT
 
     - name: Build
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       run: cmake --build . --config $BUILD_TYPE
 
     - name: Test
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       shell: bash
       run: ctest -C $BUILD_TYPE
 
@@ -58,6 +60,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Extract branch name
       shell: bash
@@ -82,26 +86,26 @@ jobs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
 
     - name: Install dependencies from Conan
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       run: |
         conan config set general.request_timeout=120
         conan install $GITHUB_WORKSPACE -s compiler.libcxx=libstdc++11 -s cppstd=14 -s build_type=$BUILD_TYPE --build=missing
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       shell: bash
       run: cmake --build . --config $BUILD_TYPE
 
     - name: Test
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       shell: bash
       run: ctest -C $BUILD_TYPE
 
@@ -119,6 +123,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Install latest Boost
       shell: bash
@@ -158,31 +164,31 @@ jobs:
       run: .ci/fetch_system_dependencies.sh
       
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT -DTERMINALPP_COVERAGE=True
 
     - name: Build
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       run: cmake --build . --config $BUILD_TYPE
 
     - name: Zero test counters
       shell: bash
-      run: ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --base-directory ${{runner.workspace}}/build --directory ${{runner.workspace}}/build --zerocounters -q
+      run: ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --base-directory ${{runner.workspace}}/terminalpp/build --directory ${{runner.workspace}}/terminalpp/build --zerocounters -q
 
     - name: Test
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       shell: bash
       run: ctest -C $BUILD_TYPE
 
     - name: Calculate coverage
       shell: bash
       run: |
-        ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --base-directory ${{runner.workspace}}/build --directory ${{runner.workspace}}/build  --capture --output-file coverage.info;
+        ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --base-directory ${{runner.workspace}}/terminalpp/build --directory ${{runner.workspace}}/terminalpp/build  --capture --output-file coverage.info;
         ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --remove coverage.info '*/test/*' '/usr/*' '*/3party/*' --output-file coverage.info;
         ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --list coverage.info;
 
@@ -200,25 +206,27 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     
     - name: Install Doxygen
       shell: bash
       run: sudo apt install doxygen
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       run: cmake $GITHUB_WORKSPACE -DTERMINALPP_DOC_ONLY=True
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/terminalpp/build
       shell: bash
       run: cmake --build . --target terminalpp_doc
 
     - uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ${{runner.workspace}}/build/html
+        publish_dir: ${{runner.workspace}}/terminalpp/build/html
