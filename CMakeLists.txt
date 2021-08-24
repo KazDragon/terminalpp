@@ -1,16 +1,5 @@
-if (POLICY CMP0048)
-    cmake_policy(SET CMP0048 NEW)
-    project(TERMINALPP VERSION 2.0.3)
-else()
-    project(TERMINALPP)
-endif()
-
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-cmake_policy(VERSION 3.2)
-
-if (POLICY CMP0063)
-    cmake_policy(SET CMP0063 OLD) # Do not allow hidden visibility for static libs
-endif()
+cmake_policy(VERSION 3.13)
 
 option(TERMINALPP_COVERAGE  "Build with code coverage options")
 option(TERMINALPP_SANITIZE "Build using sanitizers" "")
@@ -22,6 +11,14 @@ message("Building Terminal++ with code coverage: ${TERMINALPP_COVERAGE}")
 message("Building Terminal++ with sanitizers: ${TERMINALPP_SANITIZE}")
 message("Building Terminal++ with tests: ${TERMINALPP_WITH_TESTS}")
 message("Building Terminal++ with only documentation: ${TERMINALPP_DOC_ONLY}")
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+
+include(function-git_version)
+git_version(TERMINALPP)
+message(STATUS "Terminal++ Version: ${TERMINALPP_VERSION}")
+project(TERMINALPP VERSION ${TERMINALPP_VERSION})
 
 # For producing automatically-generated documentation, we use Doxygen.
 find_package(Doxygen)
@@ -52,11 +49,6 @@ if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
 endif()
-
-set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# The required C++ Standard for Terminal++ is C++14.
-set(CMAKE_CXX_STANDARD 14)
 
 if (TERMINALPP_USE_CONAN)
     set(TERMINALPP_PUBLIC_LIBRARIES
@@ -124,6 +116,9 @@ endif()
 
 add_library(terminalpp)
 add_library(KazDragon::terminalpp ALIAS terminalpp)
+
+# The required C++ Standard for Terminal++ is C++14.
+target_compile_features(terminalpp PUBLIC cxx_std_14)
 
 target_sources(terminalpp
     PRIVATE
