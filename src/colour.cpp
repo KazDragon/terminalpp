@@ -42,10 +42,9 @@ std::ostream &operator<<(std::ostream &out, low_colour const &col)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, high_colour const &col)
 {
-    byte const value = col.value_ - detail::high_colour_offset;
-    byte const red   = ansi::graphics::high_red_component(value);
-    byte const green = ansi::graphics::high_green_component(value);
-    byte const blue  = ansi::graphics::high_blue_component(value);
+    byte const red   = ansi::graphics::high_red_component(col.value_);
+    byte const green = ansi::graphics::high_green_component(col.value_);
+    byte const blue  = ansi::graphics::high_blue_component(col.value_);
 
     return out << "#"
                << std::to_string(int(red))
@@ -59,7 +58,7 @@ std::ostream &operator<<(std::ostream &out, high_colour const &col)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
 {
-    byte const shade = col.shade_ - detail::greyscale_colour_offset;
+    byte const shade = ansi::graphics::greyscale_component(col.shade_);
     return out << "#"
                << (shade < 10 ? "0" : "")
                << std::to_string(int(shade));
