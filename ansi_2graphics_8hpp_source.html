@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.1.0.1</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -112,48 +112,72 @@ $(function() {
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> colour_default = 9;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">// &quot;High&quot; colour constants.</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">// High colours are the 216 RGB colours of the 256-colour palette,  where </span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// there are 6 possible values for each of R, G, B, and the colour </span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">// High colours are the middle 216 RGB colours of the 256-colour palette,  </span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// where there are 6 possible values for each of R, G, B, and the colour </span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">// components are stored according to multiples of that number such that</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">// the value of the colour is 36R + 6G + B.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a77cc3d9794779edbab6b2e8763985588">   53</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a77cc3d9794779edbab6b2e8763985588">encode_high_components</a>(<span class="keywordtype">byte</span> red, <span class="keywordtype">byte</span> green, <span class="keywordtype">byte</span> blue)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> red * 36 + green * 6 + blue;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#abccf649ce1f3a7c21580c55f113e100f">   61</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#abccf649ce1f3a7c21580c55f113e100f">high_red_component</a>(<span class="keywordtype">byte</span> value)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> value / 36;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a566afabdcd0f85cce107c469fb9ebf1f">   69</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a566afabdcd0f85cce107c469fb9ebf1f">high_green_component</a>(<span class="keywordtype">byte</span> value)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> (value % 36) / 6;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#adb7383aa4110f384f5305c599ac0a072">   77</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#adb7383aa4110f384f5305c599ac0a072">high_blue_component</a>(<span class="keywordtype">byte</span> value)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> value % 6;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}}}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">// the value of the colour is 36R + 6G + B.  This is then stored offset</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">// 16.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> high_colour_offset = 16;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a77cc3d9794779edbab6b2e8763985588">   55</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a77cc3d9794779edbab6b2e8763985588">encode_high_components</a>(<span class="keywordtype">byte</span> red, <span class="keywordtype">byte</span> green, <span class="keywordtype">byte</span> blue)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> high_colour_offset + red * 36 + green * 6 + blue;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#abccf649ce1f3a7c21580c55f113e100f">   63</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#abccf649ce1f3a7c21580c55f113e100f">high_red_component</a>(<span class="keywordtype">byte</span> value)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">return</span> (value - high_colour_offset) / 36;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a566afabdcd0f85cce107c469fb9ebf1f">   71</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a566afabdcd0f85cce107c469fb9ebf1f">high_green_component</a>(<span class="keywordtype">byte</span> value)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> ((value - high_colour_offset) % 36) / 6;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#adb7383aa4110f384f5305c599ac0a072">   79</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#adb7383aa4110f384f5305c599ac0a072">high_blue_component</a>(<span class="keywordtype">byte</span> value)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;{</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">return</span> (value - high_colour_offset) % 6;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">// &quot;Greyscale&quot; colour constants.</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">// Greyscale colours are last 24 RGB colours of the 256-colour palette,</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">// each of which represents a grey colour from black to white. This value</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">// is then stored offset 232.</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">byte</span> greyscale_colour_offset = 232;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ae7f762174f8d8227fa85150eee14aaa2">   93</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ae7f762174f8d8227fa85150eee14aaa2">encode_greyscale_component</a>(<span class="keywordtype">byte</span> grey)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">return</span> greyscale_colour_offset + grey;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"></span><span class="comment">// ==========================================================================</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a7ba910ec028c829c5622d27721966516">  101</a></span>&#160;constexpr <span class="keywordtype">byte</span> <a class="code" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a7ba910ec028c829c5622d27721966516">greyscale_component</a>(<span class="keywordtype">byte</span> value)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;{</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">return</span> value - greyscale_colour_offset;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}}}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_a77cc3d9794779edbab6b2e8763985588"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#a77cc3d9794779edbab6b2e8763985588">terminalpp::ansi::graphics::encode_high_components</a></div><div class="ttdeci">constexpr byte encode_high_components(byte red, byte green, byte blue)</div><div class="ttdoc">Encode an RGB value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:53</div></div>
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_a566afabdcd0f85cce107c469fb9ebf1f"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#a566afabdcd0f85cce107c469fb9ebf1f">terminalpp::ansi::graphics::high_green_component</a></div><div class="ttdeci">constexpr byte high_green_component(byte value)</div><div class="ttdoc">Extract the green component of a high colour value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:69</div></div>
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_abccf649ce1f3a7c21580c55f113e100f"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#abccf649ce1f3a7c21580c55f113e100f">terminalpp::ansi::graphics::high_red_component</a></div><div class="ttdeci">constexpr byte high_red_component(byte value)</div><div class="ttdoc">Extract the red component of a high colour value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:61</div></div>
-<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_adb7383aa4110f384f5305c599ac0a072"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#adb7383aa4110f384f5305c599ac0a072">terminalpp::ansi::graphics::high_blue_component</a></div><div class="ttdeci">constexpr byte high_blue_component(byte value)</div><div class="ttdoc">Extract the blue component of a high colour value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:77</div></div>
+<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_a77cc3d9794779edbab6b2e8763985588"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#a77cc3d9794779edbab6b2e8763985588">terminalpp::ansi::graphics::encode_high_components</a></div><div class="ttdeci">constexpr byte encode_high_components(byte red, byte green, byte blue)</div><div class="ttdoc">Encode an RGB value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:55</div></div>
+<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_a7ba910ec028c829c5622d27721966516"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#a7ba910ec028c829c5622d27721966516">terminalpp::ansi::graphics::greyscale_component</a></div><div class="ttdeci">constexpr byte greyscale_component(byte value)</div><div class="ttdoc">Extract a greyscale value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:101</div></div>
+<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_a566afabdcd0f85cce107c469fb9ebf1f"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#a566afabdcd0f85cce107c469fb9ebf1f">terminalpp::ansi::graphics::high_green_component</a></div><div class="ttdeci">constexpr byte high_green_component(byte value)</div><div class="ttdoc">Extract the green component of a high colour value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:71</div></div>
+<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_abccf649ce1f3a7c21580c55f113e100f"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#abccf649ce1f3a7c21580c55f113e100f">terminalpp::ansi::graphics::high_red_component</a></div><div class="ttdeci">constexpr byte high_red_component(byte value)</div><div class="ttdoc">Extract the red component of a high colour value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:63</div></div>
+<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_ae7f762174f8d8227fa85150eee14aaa2"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#ae7f762174f8d8227fa85150eee14aaa2">terminalpp::ansi::graphics::encode_greyscale_component</a></div><div class="ttdeci">constexpr byte encode_greyscale_component(byte grey)</div><div class="ttdoc">Encode a greyscale value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:93</div></div>
+<div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_adb7383aa4110f384f5305c599ac0a072"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#adb7383aa4110f384f5305c599ac0a072">terminalpp::ansi::graphics::high_blue_component</a></div><div class="ttdeci">constexpr byte high_blue_component(byte value)</div><div class="ttdoc">Extract the blue component of a high colour value.</div><div class="ttdef"><b>Definition:</b> graphics.hpp:79</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 24 2021 19:16:44 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 21 2021 16:16:29 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
