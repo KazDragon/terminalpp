@@ -42,17 +42,19 @@ static constexpr byte colour_white   = 7;
 static constexpr byte colour_default = 9;
 
 // "High" colour constants.
-// High colours are the 216 RGB colours of the 256-colour palette,  where 
-// there are 6 possible values for each of R, G, B, and the colour 
+// High colours are the middle 216 RGB colours of the 256-colour palette,  
+// where there are 6 possible values for each of R, G, B, and the colour 
 // components are stored according to multiples of that number such that
-// the value of the colour is 36R + 6G + B.
+// the value of the colour is 36R + 6G + B.  This is then stored offset
+// 16.
+static constexpr byte high_colour_offset = 16;
 
 // ==========================================================================
 /// \brief Encode an RGB value.
 // ==========================================================================
 constexpr byte encode_high_components(byte red, byte green, byte blue)
 {
-    return red * 36 + green * 6 + blue;
+    return high_colour_offset + red * 36 + green * 6 + blue;
 }
 
 // ==========================================================================
@@ -60,7 +62,7 @@ constexpr byte encode_high_components(byte red, byte green, byte blue)
 // ==========================================================================
 constexpr byte high_red_component(byte value)
 {
-    return value / 36;
+    return (value - high_colour_offset) / 36;
 }
 
 // ==========================================================================
@@ -68,7 +70,7 @@ constexpr byte high_red_component(byte value)
 // ==========================================================================
 constexpr byte high_green_component(byte value)
 {
-    return (value % 36) / 6;
+    return ((value - high_colour_offset) % 36) / 6;
 }
 
 // ==========================================================================
@@ -76,7 +78,29 @@ constexpr byte high_green_component(byte value)
 // ==========================================================================
 constexpr byte high_blue_component(byte value)
 {
-    return value % 6;
+    return (value - high_colour_offset) % 6;
+}
+
+// "Greyscale" colour constants.
+// Greyscale colours are last 24 RGB colours of the 256-colour palette,
+// each of which represents a grey colour from black to white. This value
+// is then stored offset 232.
+static constexpr byte greyscale_colour_offset = 232;
+
+// ==========================================================================
+/// \brief Encode a greyscale value.
+// ==========================================================================
+constexpr byte encode_greyscale_component(byte grey)
+{
+    return greyscale_colour_offset + grey;
+}
+
+// ==========================================================================
+/// \brief Extract a greyscale value.
+// ==========================================================================
+constexpr byte greyscale_component(byte value)
+{
+    return value - greyscale_colour_offset;
 }
 
 }}}

@@ -4,18 +4,7 @@
 #include <boost/operators.hpp>
 #include <iosfwd>
 
-// Implementor note:
-// Colour codes are represented as different classes:
-// low colour (original 16 ANSI colours, 8 with normal intensity and 8 with
-// high intensity), high colour (additional 216 RGB values) and 24 greyscale
-// colours.  Together, this makes exactly 256 colours, and so all of the 
-// colour objects map their values to a single byte.
 namespace terminalpp {
-
-namespace detail {
-    static constexpr byte high_colour_offset      = 16;
-    static constexpr byte greyscale_colour_offset = 232;
-}
 
 //* =========================================================================
 /// \brief Structure representing a normal ANSI 16-colour value
@@ -105,8 +94,7 @@ struct TERMINALPP_EXPORT high_colour
     //* =====================================================================
     constexpr high_colour(byte red, byte green, byte blue)
       : value_(
-          detail::high_colour_offset
-        + ansi::graphics::encode_high_components(red, green, blue))
+          ansi::graphics::encode_high_components(red, green, blue))
     {
     }
 
@@ -170,7 +158,7 @@ struct TERMINALPP_EXPORT greyscale_colour
     /// should be in the range 0-23.
     //* =====================================================================
     constexpr explicit greyscale_colour(byte shade)
-      : shade_(shade + detail::greyscale_colour_offset)
+      : shade_(ansi::graphics::encode_greyscale_component(shade))
     {
     }
 

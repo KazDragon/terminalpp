@@ -87,7 +87,8 @@ static high_colour_string const high_colour_strings[] = {
     high_colour_string{ 3, 0, 0, "#300" },
     high_colour_string{ 0, 4, 0, "#040" },
     high_colour_string{ 0, 0, 5, "#005" },
-    high_colour_string{ 5, 3, 1, "#531" }
+    high_colour_string{ 5, 3, 1, "#531" },
+    high_colour_string{ 5, 5, 5, "#555" }
 };
 
 INSTANTIATE_TEST_SUITE_P(
