@@ -250,6 +250,21 @@ TEST(string_encoder_test, greyscale_foreground_colour_code_encodes_colour)
         "\\{22abc");
 }
 
+TEST(string_encoder_test, true_foreground_colour_code_encodes_colour)
+{
+    terminalpp::attribute true_foreground_colour_attribute;
+    true_foreground_colour_attribute.foreground_colour_ =
+        terminalpp::true_colour(0xA7, 0xE9, 0x1C);
+
+    expect_encoding(
+        {
+            { 'a', true_foreground_colour_attribute },
+            { 'b', true_foreground_colour_attribute },
+            { 'c', true_foreground_colour_attribute },
+        },
+        "\\(A7E91Cabc");
+}
+
 TEST(string_encoder_test, low_background_colour_code_encodes_colour)
 {
     terminalpp::attribute low_background_colour_attribute;
@@ -293,6 +308,21 @@ TEST(string_encoder_test, greyscale_background_colour_code_encodes_colour)
             { 'c', greyscale_background_colour_attribute },
         },
         "\\}22abc");
+}
+
+TEST(string_encoder_test, true_background_colour_code_encodes_colour)
+{
+    terminalpp::attribute true_background_colour_attribute;
+    true_background_colour_attribute.background_colour_ =
+        terminalpp::true_colour(0xA7, 0xE9, 0x1C);
+
+    expect_encoding(
+        {
+            { 'a', true_background_colour_attribute },
+            { 'b', true_background_colour_attribute },
+            { 'c', true_background_colour_attribute },
+        },
+        "\\)A7E91Cabc");
 }
 
 TEST(string_encoder_test, unicode_codes_encode_unicode_text)
