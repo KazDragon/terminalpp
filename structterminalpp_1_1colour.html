@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.1.0.1</span>
+   &#160;<span id="projectnumber">2.1.0.2</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -93,7 +93,8 @@ Inheritance diagram for terminalpp::colour:</div>
 Public Types</h2></td></tr>
 <tr class="memitem:a7d2c49f16ab0b6ff9e80b12d61a8427b"><td class="memItemLeft" align="right" valign="top"><a id="a7d2c49f16ab0b6ff9e80b12d61a8427b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1colour.html#a7d2c49f16ab0b6ff9e80b12d61a8427b">type</a> : byte { <b>low</b>, 
 <b>high</b>, 
-<b>greyscale</b>
+<b>greyscale</b>, 
+<b>true_</b>
  }</td></tr>
 <tr class="memdesc:a7d2c49f16ab0b6ff9e80b12d61a8427b"><td class="mdescLeft">&#160;</td><td class="mdescRight">An enumeration of the possible colour types. <br /></td></tr>
 <tr class="separator:a7d2c49f16ab0b6ff9e80b12d61a8427b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,6 +109,10 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1colour.html#a65baaa8ec85d5d3f4918c38881e7349a">colour</a> (<a class="el" href="structterminalpp_1_1low__colour.html">terminalpp::low_colour</a> col)</td></tr>
 <tr class="memdesc:a65baaa8ec85d5d3f4918c38881e7349a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a colour with the passed <a class="el" href="structterminalpp_1_1low__colour.html" title="Structure representing a normal ANSI 16-colour value.">low_colour</a> value. <br /></td></tr>
 <tr class="separator:a65baaa8ec85d5d3f4918c38881e7349a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3b20e8832cc3b4dd3cb223b6b3307df"><td class="memItemLeft" align="right" valign="top"><a id="af3b20e8832cc3b4dd3cb223b6b3307df"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1colour.html#af3b20e8832cc3b4dd3cb223b6b3307df">colour</a> (terminalpp::graphics::colour col)</td></tr>
+<tr class="memdesc:af3b20e8832cc3b4dd3cb223b6b3307df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a colour from an ANSI graphics low colour. <br /></td></tr>
+<tr class="separator:af3b20e8832cc3b4dd3cb223b6b3307df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add7c3e252bea8d562aade4ced6fee149"><td class="memItemLeft" align="right" valign="top"><a id="add7c3e252bea8d562aade4ced6fee149"></a>
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1colour.html#add7c3e252bea8d562aade4ced6fee149">colour</a> (<a class="el" href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a> col)</td></tr>
 <tr class="memdesc:add7c3e252bea8d562aade4ced6fee149"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a colour with the passed <a class="el" href="structterminalpp_1_1high__colour.html" title="Structure representing the central 216 colours of a 256-colour palette, where each colour channel is ...">high_colour</a> value. <br /></td></tr>
@@ -116,10 +121,10 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1colour.html#a9099a37c234d2bbc88106af4a8bbdd49">colour</a> (<a class="el" href="structterminalpp_1_1greyscale__colour.html">terminalpp::greyscale_colour</a> col)</td></tr>
 <tr class="memdesc:a9099a37c234d2bbc88106af4a8bbdd49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a colour with the passed <a class="el" href="structterminalpp_1_1greyscale__colour.html" title="Structure representing the 24 greyscale tones of a 256-colour palette.">greyscale_colour</a> value. <br /></td></tr>
 <tr class="separator:a9099a37c234d2bbc88106af4a8bbdd49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3b20e8832cc3b4dd3cb223b6b3307df"><td class="memItemLeft" align="right" valign="top"><a id="af3b20e8832cc3b4dd3cb223b6b3307df"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1colour.html#af3b20e8832cc3b4dd3cb223b6b3307df">colour</a> (terminalpp::graphics::colour col)</td></tr>
-<tr class="memdesc:af3b20e8832cc3b4dd3cb223b6b3307df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. <br /></td></tr>
-<tr class="separator:af3b20e8832cc3b4dd3cb223b6b3307df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e14db46f04847c9c7426f98538d559b"><td class="memItemLeft" align="right" valign="top"><a id="a4e14db46f04847c9c7426f98538d559b"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structterminalpp_1_1colour.html#a4e14db46f04847c9c7426f98538d559b">colour</a> (<a class="el" href="structterminalpp_1_1true__colour.html">terminalpp::true_colour</a> col)</td></tr>
+<tr class="memdesc:a4e14db46f04847c9c7426f98538d559b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a colour with the passed <a class="el" href="structterminalpp_1_1true__colour.html" title="Structure representing the ~16 million colours codes of the true colour palette.">true_colour</a> value. <br /></td></tr>
+<tr class="separator:a4e14db46f04847c9c7426f98538d559b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -134,6 +139,9 @@ union {</td></tr>
 <tr class="memitem:acc60b13a3e096433bee7bc2d22c1a612"><td class="memItemLeft" >
 &#160;&#160;&#160;<a class="el" href="structterminalpp_1_1greyscale__colour.html">terminalpp::greyscale_colour</a>&#160;&#160;&#160;<b>greyscale_colour_</b></td></tr>
 <tr class="separator:acc60b13a3e096433bee7bc2d22c1a612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f2f465cd6315be6df842780526dc494"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structterminalpp_1_1true__colour.html">terminalpp::true_colour</a>&#160;&#160;&#160;<b>true_colour_</b></td></tr>
+<tr class="separator:a5f2f465cd6315be6df842780526dc494"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f444fdaba0a9047cacbc5057c6f2dfd"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:a7f444fdaba0a9047cacbc5057c6f2dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76d7f8f8ed1e5b140978ae970724fe19"><td class="memItemLeft" align="right" valign="top"><a id="a76d7f8f8ed1e5b140978ae970724fe19"></a>
@@ -155,7 +163,7 @@ std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 21 2021 16:16:29 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 27 2021 12:32:26 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
