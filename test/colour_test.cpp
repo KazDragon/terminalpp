@@ -224,12 +224,18 @@ TEST(greyscale_colours, can_be_inserted_into_an_unordered_set)
     std::unordered_set<terminalpp::greyscale_colour> c { {} };
 }
 
+TEST(true_colours, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::true_colour> c { {} };
+}
+
 TEST(a_colour, can_be_inserted_into_an_unordered_set)
 {
     std::unordered_set<terminalpp::colour> c { 
         terminalpp::low_colour{},
         terminalpp::high_colour{},
-        terminalpp::greyscale_colour{} 
+        terminalpp::greyscale_colour{},
+        terminalpp::true_colour{}
     };
 }
 
