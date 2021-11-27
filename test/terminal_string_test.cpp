@@ -86,11 +86,15 @@ static streaming_text_data const streaming_text_data_table[] = {
     streaming_text_data{ "\\u+abc"_ets, "\\u=de"_ets,    "\x1B[0mde"_tb },
 
     // Test foreground colour
-    streaming_text_data{ ""_ets,        "\\[2abc"_ets,   "\x1B[32mabc"_tb },
-    streaming_text_data{ ""_ets,        "\\[3abc"_ets,   "\x1B[33mabc"_tb },
-    streaming_text_data{ ""_ets,        "\\<510abc"_ets, "\x1B[38;5;202mabc"_tb },
-    streaming_text_data{ ""_ets,        "\\{12abc"_ets,  "\x1B[38;5;244mabc"_tb },
-    streaming_text_data{ ""_ets,        "\\[9abc"_ets,   "abc"_tb },
+    streaming_text_data{ ""_ets,        "\\[2abc"_ets,      "\x1B[32mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\[3abc"_ets,      "\x1B[33mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\<510abc"_ets,    "\x1B[38;5;202mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\{12abc"_ets,     "\x1B[38;5;244mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\[9abc"_ets,      "abc"_tb },
+    streaming_text_data{ ""_ets,        "\\(000000abc"_ets, "\x1B[38;2;0;0;0mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\(FF0000abc"_ets, "\x1B[38;2;255;0;0mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\(00FF00abc"_ets, "\x1B[38;2;0;255;0mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\(0000FFabc"_ets, "\x1B[38;2;0;0;255mabc"_tb },
 
     streaming_text_data{ 
         ""_ets,        
@@ -101,6 +105,10 @@ static streaming_text_data const streaming_text_data_table[] = {
     streaming_text_data{ ""_ets,        "\\]2abc"_ets,   "\x1B[42mabc"_tb },
     streaming_text_data{ ""_ets,        "\\>510abc"_ets, "\x1B[48;5;202mabc"_tb },
     streaming_text_data{ ""_ets,        "\\}12abc"_ets,  "\x1B[48;5;244mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\)000000abc"_ets, "\x1B[48;2;0;0;0mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\)FF0000abc"_ets, "\x1B[48;2;255;0;0mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\)00FF00abc"_ets, "\x1B[48;2;0;255;0mabc"_tb },
+    streaming_text_data{ ""_ets,        "\\)0000FFabc"_ets, "\x1B[48;2;0;0;255mabc"_tb },
 
     streaming_text_data{ 
         ""_ets,        
