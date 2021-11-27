@@ -24,6 +24,12 @@ enum class parser_state {
     fg_high_colour_2,
     fg_greyscale_colour_0,
     fg_greyscale_colour_1,
+    fg_true_colour_0,
+    fg_true_colour_1,
+    fg_true_colour_2,
+    fg_true_colour_3,
+    fg_true_colour_4,
+    fg_true_colour_5,
     bg_low_colour,
     bg_high_colour_0,
     bg_high_colour_1,
@@ -43,6 +49,7 @@ struct parser_info
     byte charcode{0};
     byte red{0};
     byte green{0};
+    byte blue{0};
     byte greyscale{0};
     uint16_t utf8{0};
 };
@@ -179,6 +186,47 @@ void parse_fg_greyscale_0(char const ch, parser_info &info, element &elem)
 {
     info.greyscale = digit10_to_byte(ch);
     info.state = parser_state::fg_greyscale_colour_1;
+}
+
+void parse_gf_true_colour_5(char const ch, parser_info &info, element &elem)
+{
+    info.blue |= digit16_to_byte(ch);
+    
+    elem.attribute_.foreground_colour_ = true_colour{
+        info.red, info.green, info.blue
+    };
+
+    info.state = parser_state::idle;
+}
+
+void parse_gf_true_colour_4(char const ch, parser_info &info, element &elem)
+{
+    info.blue = digit16_to_byte(ch) << 4;
+    info.state = parser_state::fg_true_colour_5;
+}
+
+void parse_gf_true_colour_3(char const ch, parser_info &info, element &elem)
+{
+    info.green |= digit16_to_byte(ch);
+    info.state = parser_state::fg_true_colour_4;
+}
+
+void parse_gf_true_colour_2(char const ch, parser_info &info, element &elem)
+{
+    info.green = digit16_to_byte(ch) << 4;
+    info.state = parser_state::fg_true_colour_3;
+}
+
+void parse_gf_true_colour_1(char const ch, parser_info &info, element &elem)
+{
+    info.red |= digit16_to_byte(ch);
+    info.state = parser_state::fg_true_colour_2;
+}
+
+void parse_gf_true_colour_0(char const ch, parser_info &info, element &elem)
+{
+    info.red = digit16_to_byte(ch) << 4;
+    info.state = parser_state::fg_true_colour_1;
 }
 
 void parse_fg_high_colour_2(char const ch, parser_info &info, element &elem)
@@ -350,6 +398,10 @@ void parse_escape(char const ch, parser_info &info, element &elem)
             info.state = parser_state::fg_high_colour_0;
             break;
 
+        case '(':
+            info.state = parser_state::fg_true_colour_0;
+            break;
+
         case '{':
             info.state = parser_state::fg_greyscale_colour_0;
             break;
@@ -435,6 +487,12 @@ element parse_element(gsl::cstring_span &text, element const &elem_base)
         parse_fg_high_colour_2,
         parse_fg_greyscale_0,
         parse_fg_greyscale_1,
+        parse_gf_true_colour_0,
+        parse_gf_true_colour_1,
+        parse_gf_true_colour_2,
+        parse_gf_true_colour_3,
+        parse_gf_true_colour_4,
+        parse_gf_true_colour_5,
         parse_bg_low_colour,
         parse_bg_high_colour_0,
         parse_bg_high_colour_1,
