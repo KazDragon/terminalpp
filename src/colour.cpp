@@ -93,14 +93,17 @@ std::ostream &operator<<(std::ostream &out, colour const &col)
     {
         default :
             // Fall-through
-        case colour::type::low :
+        case colour::type::low:
             return out << col.low_colour_;
 
-        case colour::type::high :
+        case colour::type::high:
             return out << col.high_colour_;
 
-        case colour::type::greyscale :
+        case colour::type::greyscale:
             return out << col.greyscale_colour_;
+
+        case colour::type::true_:
+            return out << col.true_colour_;
     }
 }
 

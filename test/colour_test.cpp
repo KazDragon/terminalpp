@@ -200,12 +200,13 @@ TEST_P(colours_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static colour_string const colour_strings[] = {
-    colour_string{ terminalpp::graphics::colour::red,     "red"   },
-    colour_string{ terminalpp::graphics::colour::green,   "green" },
-    colour_string{ terminalpp::high_colour(1, 2, 3),      "#123"  },
-    colour_string{ terminalpp::high_colour(5, 5, 4),      "#554"  },
-    colour_string{ terminalpp::greyscale_colour(0),       "#00"   },
-    colour_string{ terminalpp::greyscale_colour(21),      "#21"   },
+    colour_string{ terminalpp::graphics::colour::red,         "red"    },
+    colour_string{ terminalpp::graphics::colour::green,       "green"  },
+    colour_string{ terminalpp::high_colour(1, 2, 3),          "#123"   },
+    colour_string{ terminalpp::high_colour(5, 5, 4),          "#554"   },
+    colour_string{ terminalpp::greyscale_colour(0),           "#00"    },
+    colour_string{ terminalpp::greyscale_colour(21),          "#21"    },
+    colour_string{ terminalpp::true_colour(0xCD, 0x3B, 0x7A), "#CD3B7A"},
 };
 
 TEST(low_colours, can_be_inserted_into_an_unordered_set)

@@ -242,7 +242,7 @@ struct TERMINALPP_EXPORT colour
     //* =====================================================================
     enum class type : byte
     {
-        low, high, greyscale
+        low, high, greyscale, true_
     };
 
     //* =====================================================================
@@ -281,6 +281,15 @@ struct TERMINALPP_EXPORT colour
     }
 
     //* =====================================================================
+    /// \brief Constructs a colour with the passed true_colour value.
+    //* =====================================================================
+    constexpr colour(terminalpp::true_colour col)
+      : true_colour_(std::move(col)),
+        type_(type::true_)
+    {
+    }
+
+    //* =====================================================================
     /// \brief Copy constructor
     //* =====================================================================
     constexpr colour(terminalpp::graphics::colour col)
@@ -307,7 +316,7 @@ struct TERMINALPP_EXPORT colour
         terminalpp::low_colour low_colour_;
         terminalpp::high_colour high_colour_;
         terminalpp::greyscale_colour greyscale_colour_;
-        //terminalpp::true_colour true_colour_;
+        terminalpp::true_colour true_colour_;
     };
 
     type type_;
