@@ -357,6 +357,18 @@ INSTANTIATE_TEST_SUITE_P(
         string_relops_data{"\\{01a"_ets, "\\{01a"_ets, false, true,  true,  true,  false },
         string_relops_data{"\\{01a"_ets, "\\{02a"_ets, true,  true,  false, false, false },
 
+        //   o True colour
+        string_relops_data{"a"_ets,          "\\(010101a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\(010101a"_ets, "a"_ets,          false, false, false, true,  true  },
+        string_relops_data{"\\(010101a"_ets, "\\(010101a"_ets, false, true,  true,  true,  false },
+
+        string_relops_data{"\\(010101a"_ets, "\\(010102a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\(010101a"_ets, "\\(010201a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\(010101a"_ets, "\\(000101a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\(010101a"_ets, "\\(010001a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\(010101a"_ets, "\\(010100a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\(010001a"_ets, "\\(010100a"_ets, true,  true,  false, false, false },
+
         // o Background colour
         //   o Low colour
         string_relops_data{"a",         "\\]1a"_ets, false, false, false, true,  true  },
@@ -375,6 +387,18 @@ INSTANTIATE_TEST_SUITE_P(
         string_relops_data{"\\}01a"_ets, "a",          false, false, false, true,  true  },
         string_relops_data{"\\}01a"_ets, "\\}01a"_ets, false, true,  true,  true,  false },
         string_relops_data{"\\}01a"_ets, "\\}02a"_ets, true,  true,  false, false, false },
+
+        //   o True colour
+        string_relops_data{"a"_ets,          "\\)010101a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\)010101a"_ets, "a"_ets,          false, false, false, true,  true  },
+        string_relops_data{"\\)010101a"_ets, "\\)010101a"_ets, false, true,  true,  true,  false },
+
+        string_relops_data{"\\)010101a"_ets, "\\)010102a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\)010101a"_ets, "\\)010201a"_ets, true,  true,  false, false, false },
+        string_relops_data{"\\)010101a"_ets, "\\)000101a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\)010101a"_ets, "\\)010001a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\)010101a"_ets, "\\)010100a"_ets, false, false, false, true,  true  },
+        string_relops_data{"\\)010001a"_ets, "\\)010100a"_ets, true,  true,  false, false, false },
 
         // o Intensity
         string_relops_data{"a",         "\\i>a"_ets, false, false, false, true,  true  },
