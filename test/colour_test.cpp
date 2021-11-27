@@ -134,6 +134,48 @@ INSTANTIATE_TEST_SUITE_P(
     ValuesIn(greyscale_strings)
 );
 
+using true_colour_string = std::tuple<
+    terminalpp::byte,    // red
+    terminalpp::byte,    // green
+    terminalpp::byte,    // blue
+    std::string          // expected output
+>;
+
+class true_colours_with_strings
+  : public testing::TestWithParam<true_colour_string>
+{
+};
+
+TEST_P(true_colours_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &red   = std::get<0>(param);
+    auto const &green = std::get<1>(param);
+    auto const &blue  = std::get<2>(param);
+    auto const &expected_string = std::get<3>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << terminalpp::true_colour(red, green, blue);
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static true_colour_string const true_colour_strings[] = {
+    true_colour_string{ 0,   0,   0,   "#000000" },
+    true_colour_string{ 80,  0,   0,   "#500000" },
+    true_colour_string{ 0,   90,  0,   "#005A00" },
+    true_colour_string{ 0,   0,   100, "#000064" },
+    true_colour_string{ 40,  50,  60,  "#28323C" },
+    true_colour_string{ 255, 255, 255, "#FFFFFF" },
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    true_colours_can_be_streamed_to_an_ostream,
+    true_colours_with_strings,
+    ValuesIn(true_colour_strings)
+);
+
 using colour_string = std::tuple<
     terminalpp::colour,
     std::string
@@ -158,12 +200,13 @@ TEST_P(colours_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static colour_string const colour_strings[] = {
-    colour_string{ terminalpp::graphics::colour::red,     "red"   },
-    colour_string{ terminalpp::graphics::colour::green,   "green" },
-    colour_string{ terminalpp::high_colour(1, 2, 3),      "#123"  },
-    colour_string{ terminalpp::high_colour(5, 5, 4),      "#554"  },
-    colour_string{ terminalpp::greyscale_colour(0),       "#00"   },
-    colour_string{ terminalpp::greyscale_colour(21),      "#21"   },
+    colour_string{ terminalpp::graphics::colour::red,         "red"    },
+    colour_string{ terminalpp::graphics::colour::green,       "green"  },
+    colour_string{ terminalpp::high_colour(1, 2, 3),          "#123"   },
+    colour_string{ terminalpp::high_colour(5, 5, 4),          "#554"   },
+    colour_string{ terminalpp::greyscale_colour(0),           "#00"    },
+    colour_string{ terminalpp::greyscale_colour(21),          "#21"    },
+    colour_string{ terminalpp::true_colour(0xCD, 0x3B, 0x7A), "#CD3B7A"},
 };
 
 TEST(low_colours, can_be_inserted_into_an_unordered_set)
@@ -181,12 +224,18 @@ TEST(greyscale_colours, can_be_inserted_into_an_unordered_set)
     std::unordered_set<terminalpp::greyscale_colour> c { {} };
 }
 
+TEST(true_colours, can_be_inserted_into_an_unordered_set)
+{
+    std::unordered_set<terminalpp::true_colour> c { {} };
+}
+
 TEST(a_colour, can_be_inserted_into_an_unordered_set)
 {
     std::unordered_set<terminalpp::colour> c { 
         terminalpp::low_colour{},
         terminalpp::high_colour{},
-        terminalpp::greyscale_colour{} 
+        terminalpp::greyscale_colour{},
+        terminalpp::true_colour{}
     };
 }
 

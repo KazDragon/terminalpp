@@ -6,7 +6,7 @@ using testing::ValuesIn;
 
 TEST(element_test, elements_are_small)
 {
-    ASSERT_EQ(12, sizeof(terminalpp::element));
+    ASSERT_EQ(16, sizeof(terminalpp::element));
 }
 
 TEST(element_test, can_implicitly_construct_element_from_glyph)

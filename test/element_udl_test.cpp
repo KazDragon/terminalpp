@@ -175,6 +175,15 @@ static udl_element const udl_elements[] = {
     // Extras after greyscale foreground colour take precedence.
     udl_element{"\\{17\\{22a"_ete, with_foreground_colour({'a'}, terminalpp::greyscale_colour{22})},
     udl_element{"\\{22\\{17a"_ete, with_foreground_colour({'a'}, terminalpp::greyscale_colour{17})},
+
+    // True foreground colour.
+    udl_element{"\\(000000a"_ete, with_foreground_colour({'a'}, terminalpp::true_colour{0, 0, 0})},
+    udl_element{"\\(A917BEa"_ete, with_foreground_colour({'a'}, terminalpp::true_colour{0xA9, 0x17, 0xBE})},
+
+    // Extras after true foreground colour take precedence.
+    udl_element{"\\(A917BE\\(B37EA2a"_ete, with_foreground_colour({'a'}, terminalpp::true_colour{0xB3, 0x7E, 0xA2})},
+    udl_element{"\\(B37EA2\\(A917BEa"_ete, with_foreground_colour({'a'}, terminalpp::true_colour{0xA9, 0x17, 0xBE})},
+
 //
     // Low background colour.
     udl_element{"\\]2a"_ete, with_background_colour({'a'}, terminalpp::palette::green)},
@@ -201,6 +210,14 @@ static udl_element const udl_elements[] = {
     // Extras after greyscale background colour take precedence.
     udl_element{"\\}17\\}22a"_ete, with_background_colour({'a'}, terminalpp::greyscale_colour{22})},
     udl_element{"\\}22\\}17a"_ete, with_background_colour({'a'}, terminalpp::greyscale_colour{17})},
+
+    // True foreground colour.
+    udl_element{"\\)000000a"_ete, with_background_colour({'a'}, terminalpp::true_colour{0, 0, 0})},
+    udl_element{"\\)A917BEa"_ete, with_background_colour({'a'}, terminalpp::true_colour{0xA9, 0x17, 0xBE})},
+
+    // Extras after true background colour take precedence.
+    udl_element{"\\)A917BE\\)B37EA2a"_ete, with_background_colour({'a'}, terminalpp::true_colour{0xB3, 0x7E, 0xA2})},
+    udl_element{"\\)B37EA2\\)A917BEa"_ete, with_background_colour({'a'}, terminalpp::true_colour{0xA9, 0x17, 0xBE})},
 
     // Incomplete unicode character codes return a default character.
     udl_element{"\\U"_ete, terminalpp::element{}},

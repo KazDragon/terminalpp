@@ -203,6 +203,81 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, greyscale_colour const &col);
 
 //* =========================================================================
+/// \brief Structure representing the ~16 million colours codes of the
+/// true colour palette.
+//* =========================================================================
+struct TERMINALPP_EXPORT true_colour
+  : private boost::less_than_comparable<true_colour,
+            boost::equality_comparable<true_colour>>
+{
+    //* =====================================================================
+    /// \brief Default constructor constructs a true colour value that
+    /// represents black.
+    //* =====================================================================
+    constexpr true_colour()
+      : true_colour(0, 0, 0)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    constexpr true_colour(byte const red, byte const green, byte const blue)
+      : red_(red),
+        green_(green),
+        blue_(blue)
+    {
+    }
+    
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(true_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, col.red_);
+        boost::hash_combine(seed, col.green_);
+        boost::hash_combine(seed, col.blue_);
+        return seed;
+    }
+
+    byte red_; 
+    byte green_; 
+    byte blue_;
+};
+
+//* =========================================================================
+/// \brief Equality operator for true_colours.
+//* =========================================================================
+TERMINALPP_EXPORT 
+constexpr bool operator==(true_colour const &lhs, true_colour const &rhs)
+{
+    return lhs.red_ == rhs.red_
+        && lhs.green_ == rhs.green_
+        && lhs.blue_ == rhs.blue_;
+}
+
+//* =========================================================================
+/// \brief Less-than operator for true_colours.
+//* =========================================================================
+TERMINALPP_EXPORT 
+constexpr bool operator<(true_colour const &lhs, true_colour const &rhs)
+{
+    return lhs.red_ < rhs.red_
+        || (lhs.red_ == rhs.red_
+         && (lhs.green_ < rhs.green_
+          || (lhs.green_ == rhs.green_ 
+           && lhs.blue_ < rhs.blue_)));
+}
+
+//* =========================================================================
+/// \brief Streaming output operator for true_colours.  Prints the hex
+/// code of the colour (e.g. #AA00AA, etc.)
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, true_colour const &col);
+
+//* =========================================================================
 /// \brief Structure representing a sum type of the available colour styles.
 //* =========================================================================
 struct TERMINALPP_EXPORT colour
@@ -214,7 +289,7 @@ struct TERMINALPP_EXPORT colour
     //* =====================================================================
     enum class type : byte
     {
-        low, high, greyscale
+        low, high, greyscale, true_
     };
 
     //* =====================================================================
@@ -231,6 +306,14 @@ struct TERMINALPP_EXPORT colour
     constexpr colour(terminalpp::low_colour col)
       : low_colour_(std::move(col)),
         type_(type::low)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Constructs a colour from an ANSI graphics low colour.
+    //* =====================================================================
+    constexpr colour(terminalpp::graphics::colour col)
+      : colour(terminalpp::low_colour(col))
     {
     }
 
@@ -253,10 +336,11 @@ struct TERMINALPP_EXPORT colour
     }
 
     //* =====================================================================
-    /// \brief Copy constructor
+    /// \brief Constructs a colour with the passed true_colour value.
     //* =====================================================================
-    constexpr colour(terminalpp::graphics::colour col)
-      : colour(terminalpp::low_colour(col))
+    constexpr colour(terminalpp::true_colour col)
+      : true_colour_(std::move(col)),
+        type_(type::true_)
     {
     }
 
@@ -265,13 +349,28 @@ struct TERMINALPP_EXPORT colour
     //* =====================================================================
     friend std::size_t hash_value(colour const &col) noexcept
     {
+        std::size_t seed = 0;
+
         switch (col.type_)
         {
-            case type::low : return hash_value(col.low_colour_);
-            case type::high : return hash_value(col.high_colour_);
-            case type::greyscale : return hash_value(col.greyscale_colour_);
-            default : return 0;
+            case type::low: 
+                boost::hash_combine(seed, hash_value(col.low_colour_));
+                break;
+
+            case type::high: 
+                boost::hash_combine(seed, hash_value(col.high_colour_));
+                break;
+
+            case type::greyscale:
+                boost::hash_combine(seed, hash_value(col.greyscale_colour_));
+                break;
+
+            case type::true_:
+                boost::hash_combine(seed, hash_value(col.true_colour_));
+                break;
         }
+
+        return seed;
     }
 
     union
@@ -279,6 +378,7 @@ struct TERMINALPP_EXPORT colour
         terminalpp::low_colour low_colour_;
         terminalpp::high_colour high_colour_;
         terminalpp::greyscale_colour greyscale_colour_;
+        terminalpp::true_colour true_colour_;
     };
 
     type type_;
@@ -290,14 +390,16 @@ struct TERMINALPP_EXPORT colour
 TERMINALPP_EXPORT 
 constexpr bool operator==(colour const &lhs, colour const &rhs)
 {
-    return lhs.type_             == rhs.type_
-        && lhs.type_             == colour::type::low
-         ? lhs.low_colour_       == rhs.low_colour_
-         : lhs.type_             == colour::type::high
-         ? lhs.high_colour_      == rhs.high_colour_
-         : lhs.type_             == colour::type::greyscale
-         ? lhs.greyscale_colour_ == rhs.greyscale_colour_
-         : false;
+    return lhs.type_ == rhs.type_
+        && (lhs.type_             == colour::type::low
+          ? lhs.low_colour_       == rhs.low_colour_
+          : lhs.type_             == colour::type::high
+          ? lhs.high_colour_      == rhs.high_colour_
+          : lhs.type_             == colour::type::greyscale
+          ? lhs.greyscale_colour_ == rhs.greyscale_colour_
+          : lhs.type_             == colour::type::true_
+          ? lhs.true_colour_      == rhs.true_colour_
+          : false);
 }
 
 //* =========================================================================
@@ -319,6 +421,8 @@ constexpr bool operator<(colour const &lhs, colour const &rhs)
              ? lhs.high_colour_ < rhs.high_colour_
              : lhs.type_ == colour::type::greyscale
              ? lhs.greyscale_colour_ < rhs.greyscale_colour_
+             : lhs.type_ == colour::type::true_
+             ? lhs.true_colour_ < rhs.true_colour_
              : false;
     }
     
@@ -364,6 +468,18 @@ template <>
 struct hash<terminalpp::greyscale_colour>
 {
     using argument_type = terminalpp::greyscale_colour;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
+};
+
+template <>
+struct hash<terminalpp::true_colour>
+{
+    using argument_type = terminalpp::true_colour;
     using result_type = std::size_t;
 
     result_type operator()(argument_type const &col) const noexcept

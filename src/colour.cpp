@@ -1,5 +1,7 @@
 #include "terminalpp/colour.hpp"
 #include <boost/range/algorithm/find_if.hpp>
+#include <boost/io/ios_state.hpp>
+#include <iomanip>
 #include <iostream>
 
 namespace terminalpp {
@@ -65,6 +67,24 @@ std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
 }
 
 // ==========================================================================
+// OPERATOR<<(STREAM, TRUE_COLOUR)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, true_colour const &col)
+{
+    boost::io::ios_all_saver ias(out);
+    return out << "#"
+               << std::uppercase << std::hex << std::uppercase
+               << std::setw(2) << std::setfill('0')
+               << int(col.red_)
+               << std::uppercase << std::hex << std::uppercase
+               << std::setw(2) << std::setfill('0')
+               << int(col.green_)
+               << std::uppercase << std::hex << std::uppercase
+               << std::setw(2) << std::setfill('0')
+               << int(col.blue_);
+}
+
+// ==========================================================================
 // OPERATOR<<(STREAM, COLOUR)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, colour const &col)
@@ -73,14 +93,17 @@ std::ostream &operator<<(std::ostream &out, colour const &col)
     {
         default :
             // Fall-through
-        case colour::type::low :
+        case colour::type::low:
             return out << col.low_colour_;
 
-        case colour::type::high :
+        case colour::type::high:
             return out << col.high_colour_;
 
-        case colour::type::greyscale :
+        case colour::type::greyscale:
             return out << col.greyscale_colour_;
+
+        case colour::type::true_:
+            return out << col.true_colour_;
     }
 }
 

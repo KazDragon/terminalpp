@@ -224,6 +224,15 @@ void change_foreground_colour(
                 wc(to_bytes("38;5;{}"_format(
                     int(dest.greyscale_colour_.shade_)
                 )));
+                break;
+
+            case colour::type::true_:
+                wc(to_bytes("38;2;{};{};{}"_format(
+                    int(dest.true_colour_.red_),
+                    int(dest.true_colour_.green_),
+                    int(dest.true_colour_.blue_)
+                )));
+                break;
         }
     }
 }
@@ -267,6 +276,15 @@ void change_background_colour(
                 wc(to_bytes("48;5;{}"_format(
                     int(dest.greyscale_colour_.shade_)
                 )));
+                break;
+
+            case colour::type::true_:
+                wc(to_bytes("48;2;{};{};{}"_format(
+                    int(dest.true_colour_.red_),
+                    int(dest.true_colour_.green_),
+                    int(dest.true_colour_.blue_)
+                )));
+                break;
         }
     }
 }
