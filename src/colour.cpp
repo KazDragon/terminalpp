@@ -1,5 +1,7 @@
 #include "terminalpp/colour.hpp"
 #include <boost/range/algorithm/find_if.hpp>
+#include <boost/io/ios_state.hpp>
+#include <iomanip>
 #include <iostream>
 
 namespace terminalpp {
@@ -62,6 +64,24 @@ std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
     return out << "#"
                << (shade < 10 ? "0" : "")
                << std::to_string(int(shade));
+}
+
+// ==========================================================================
+// OPERATOR<<(STREAM, TRUE_COLOUR)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, true_colour const &col)
+{
+    boost::io::ios_all_saver ias(out);
+    return out << "#"
+               << std::uppercase << std::hex << std::uppercase
+               << std::setw(2) << std::setfill('0')
+               << int(col.red_)
+               << std::uppercase << std::hex << std::uppercase
+               << std::setw(2) << std::setfill('0')
+               << int(col.green_)
+               << std::uppercase << std::hex << std::uppercase
+               << std::setw(2) << std::setfill('0')
+               << int(col.blue_);
 }
 
 // ==========================================================================

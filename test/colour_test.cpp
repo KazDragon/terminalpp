@@ -134,6 +134,48 @@ INSTANTIATE_TEST_SUITE_P(
     ValuesIn(greyscale_strings)
 );
 
+using true_colour_string = std::tuple<
+    terminalpp::byte,    // red
+    terminalpp::byte,    // green
+    terminalpp::byte,    // blue
+    std::string          // expected output
+>;
+
+class true_colours_with_strings
+  : public testing::TestWithParam<true_colour_string>
+{
+};
+
+TEST_P(true_colours_with_strings, can_be_streamed_to_an_ostream)
+{
+    auto const &param = GetParam();
+    auto const &red   = std::get<0>(param);
+    auto const &green = std::get<1>(param);
+    auto const &blue  = std::get<2>(param);
+    auto const &expected_string = std::get<3>(param);
+
+    std::stringstream stream;
+    std::ostream &out = stream;
+
+    out << terminalpp::true_colour(red, green, blue);
+    ASSERT_EQ(expected_string, stream.str());
+}
+
+static true_colour_string const true_colour_strings[] = {
+    true_colour_string{ 0,   0,   0,   "#000000" },
+    true_colour_string{ 80,  0,   0,   "#500000" },
+    true_colour_string{ 0,   90,  0,   "#005A00" },
+    true_colour_string{ 0,   0,   100, "#000064" },
+    true_colour_string{ 40,  50,  60,  "#28323C" },
+    true_colour_string{ 255, 255, 255, "#FFFFFF" },
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    true_colours_can_be_streamed_to_an_ostream,
+    true_colours_with_strings,
+    ValuesIn(true_colour_strings)
+);
+
 using colour_string = std::tuple<
     terminalpp::colour,
     std::string

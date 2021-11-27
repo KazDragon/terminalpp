@@ -203,6 +203,34 @@ TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, greyscale_colour const &col);
 
 //* =========================================================================
+/// \brief Structure representing the ~16 million colours codes of the
+/// true colour palette.
+//* =========================================================================
+struct TERMINALPP_EXPORT true_colour
+{
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    constexpr true_colour(byte const red, byte const green, byte const blue)
+      : red_(red),
+        green_(green),
+        blue_(blue)
+    {
+    }
+    
+    byte red_; 
+    byte green_; 
+    byte blue_;
+};
+
+//* =========================================================================
+/// \brief Streaming output operator for true_colours.  Prints the hex
+/// code of the colour (e.g. #AA00AA, etc.)
+//* =========================================================================
+TERMINALPP_EXPORT
+std::ostream &operator<<(std::ostream &out, true_colour const &col);
+
+//* =========================================================================
 /// \brief Structure representing a sum type of the available colour styles.
 //* =========================================================================
 struct TERMINALPP_EXPORT colour
@@ -279,6 +307,7 @@ struct TERMINALPP_EXPORT colour
         terminalpp::low_colour low_colour_;
         terminalpp::high_colour high_colour_;
         terminalpp::greyscale_colour greyscale_colour_;
+        //terminalpp::true_colour true_colour_;
     };
 
     type type_;
