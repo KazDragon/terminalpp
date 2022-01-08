@@ -15,8 +15,7 @@ std::string escape(terminalpp::bytes const &text)
 
         if (!isprint(ch))
         {
-            using namespace fmt::literals;
-            result += "0x{:02X}"_format(int(ch));
+            result += fmt::format("0x{:02X}", int(ch));
         }
         else
         {

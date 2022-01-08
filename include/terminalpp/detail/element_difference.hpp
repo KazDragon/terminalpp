@@ -171,8 +171,6 @@ void change_effect(
     bool &change_appended,
     WriteContinuation &&wc)
 {
-    using namespace fmt::literals;
-
     if (source != dest)
     {
         if (std::exchange(change_appended, true))
@@ -181,7 +179,7 @@ void change_effect(
             wc(separator);
         }
 
-        wc(to_bytes("{}"_format(int(dest.value_))));
+        wc(to_bytes(fmt::format("{}", int(dest.value_))));
     }
 }
 
@@ -195,8 +193,6 @@ void change_foreground_colour(
     bool &change_appended,
     WriteContinuation &&wc)
 {
-    using namespace fmt::literals;
-
     if (source != dest)
     {
         if (std::exchange(change_appended, true))
@@ -208,26 +204,26 @@ void change_foreground_colour(
         switch (dest.type_)
         {
             case colour::type::low:
-                wc(to_bytes("{}"_format(
+                wc(to_bytes(fmt::format("{}",
                     int(dest.low_colour_.value_)
                   + ansi::graphics::foreground_colour_base
                 )));
                 break;
 
             case colour::type::high:
-                wc(to_bytes("38;5;{}"_format(
+                wc(to_bytes(fmt::format("38;5;{}",
                     int(dest.high_colour_.value_)
                 )));
                 break;
 
             case colour::type::greyscale:
-                wc(to_bytes("38;5;{}"_format(
+                wc(to_bytes(fmt::format("38;5;{}",
                     int(dest.greyscale_colour_.shade_)
                 )));
                 break;
 
             case colour::type::true_:
-                wc(to_bytes("38;2;{};{};{}"_format(
+                wc(to_bytes(fmt::format("38;2;{};{};{}",
                     int(dest.true_colour_.red_),
                     int(dest.true_colour_.green_),
                     int(dest.true_colour_.blue_)
@@ -247,8 +243,6 @@ void change_background_colour(
     bool &change_appended,
     WriteContinuation &&wc)
 {
-    using namespace fmt::literals;
-
     if (source != dest)
     {
         if (std::exchange(change_appended, true))
@@ -260,26 +254,26 @@ void change_background_colour(
         switch (dest.type_)
         {
             case colour::type::low:
-                wc(to_bytes("{}"_format(
+                wc(to_bytes(fmt::format("{}",
                     int(dest.low_colour_.value_)
                   + ansi::graphics::background_colour_base
                 )));
                 break;
 
             case colour::type::high:
-                wc(to_bytes("48;5;{}"_format(
+                wc(to_bytes(fmt::format("48;5;{}",
                     int(dest.high_colour_.value_)
                 )));
                 break;
 
             case colour::type::greyscale:
-                wc(to_bytes("48;5;{}"_format(
+                wc(to_bytes(fmt::format("48;5;{}",
                     int(dest.greyscale_colour_.shade_)
                 )));
                 break;
 
             case colour::type::true_:
-                wc(to_bytes("48;2;{};{};{}"_format(
+                wc(to_bytes(fmt::format("48;2;{};{};{}",
                     int(dest.true_colour_.red_),
                     int(dest.true_colour_.green_),
                     int(dest.true_colour_.blue_)

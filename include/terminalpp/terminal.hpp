@@ -180,20 +180,17 @@ private:
         behaviour const &beh,
         WriteContinuation &&cont) const
     {
-        using namespace terminalpp::literals;
-        using namespace fmt::literals;
-
         detail::csi(beh, cont);
 
         if (destination_.x_ != 0 || destination_.y_ != 0)
         {
             if (destination_.x_ == 0)
             {
-                cont(to_bytes("{}"_format(destination_.y_ + 1)));
+                cont(to_bytes(fmt::format("{}", destination_.y_ + 1)));
             }
             else
             {
-                cont(to_bytes("{};{}"_format(
+                cont(to_bytes(fmt::format("{};{}",
                     destination_.y_ + 1,
                     destination_.x_ + 1
                 )));
@@ -215,14 +212,11 @@ private:
         behaviour const &beh,
         WriteContinuation &&cont) const
     {
-        using namespace terminalpp::literals;
-        using namespace fmt::literals;
-
         detail::csi(beh, cont);
 
         if (destination_.x_ != 0)
         {
-            cont(to_bytes("{}"_format(destination_.x_ + 1)));
+            cont(to_bytes(fmt::format("{}", destination_.x_ + 1)));
         }
 
         static byte_storage const cursor_horizontal_absolute_suffix = {
@@ -241,14 +235,11 @@ private:
         coordinate_type const distance,
         WriteContinuation &&cont) const
     {
-        using namespace terminalpp::literals;
-        using namespace fmt::literals;
-
         detail::csi(beh, cont);
 
         if (distance != 1)
         {
-            cont(to_bytes("{}"_format(distance)));
+            cont(to_bytes(fmt::format("{}", distance)));
         }
 
         static byte_storage const cursor_up_suffix = {
@@ -267,14 +258,11 @@ private:
         coordinate_type const distance,
         WriteContinuation &&cont) const
     {
-        using namespace terminalpp::literals;
-        using namespace fmt::literals;
-
         detail::csi(beh, cont);
 
         if (distance != 1)
         {
-            cont(to_bytes("{}"_format(distance)));
+            cont(to_bytes(fmt::format("{}", distance)));
         }
 
         static byte_storage const cursor_down_suffix = {
