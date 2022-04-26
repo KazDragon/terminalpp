@@ -28,37 +28,37 @@ TEST_P(element_udl_test, parse_udl)
 }
 
 namespace {
-terminalpp::element with_charset(terminalpp::element elem, terminalpp::charset charset)
+constexpr terminalpp::element with_charset(terminalpp::element elem, terminalpp::charset charset)
 {
     elem.glyph_.charset_ = charset;
     return elem;
 }
 
-terminalpp::element with_intensity(terminalpp::element elem, terminalpp::graphics::intensity intensity)
+constexpr terminalpp::element with_intensity(terminalpp::element elem, terminalpp::graphics::intensity intensity)
 {
     elem.attribute_.intensity_ = intensity;
     return elem;
 }
 
-terminalpp::element with_polarity(terminalpp::element elem, terminalpp::graphics::polarity polarity)
+constexpr terminalpp::element with_polarity(terminalpp::element elem, terminalpp::graphics::polarity polarity)
 {
     elem.attribute_.polarity_ = polarity;
     return elem;
 }
 
-terminalpp::element with_underlining(terminalpp::element elem, terminalpp::graphics::underlining underlining)
+constexpr terminalpp::element with_underlining(terminalpp::element elem, terminalpp::graphics::underlining underlining)
 {
     elem.attribute_.underlining_ = underlining;
     return elem;
 }
 
-terminalpp::element with_foreground_colour(terminalpp::element elem, terminalpp::colour col)
+constexpr terminalpp::element with_foreground_colour(terminalpp::element elem, terminalpp::colour col)
 {
     elem.attribute_.foreground_colour_ = col;
     return elem;
 }
 
-terminalpp::element with_background_colour(terminalpp::element elem, terminalpp::colour col)
+constexpr terminalpp::element with_background_colour(terminalpp::element elem, terminalpp::colour col)
 {
     elem.attribute_.background_colour_ = col;
     return elem;
@@ -66,7 +66,7 @@ terminalpp::element with_background_colour(terminalpp::element elem, terminalpp:
 
 }
 
-static udl_element const udl_elements[] = {
+static constexpr udl_element const udl_elements[] = {
     // Empty string returns default element.
     udl_element{""_ete, terminalpp::element{}},
 
