@@ -134,6 +134,7 @@ target_sources(terminalpp
         include/terminalpp/ansi/ss3.hpp
         include/terminalpp/detail/ascii.hpp
         include/terminalpp/detail/element_difference.hpp
+        include/terminalpp/detail/element_udl.hpp
         include/terminalpp/detail/export.hpp
         include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
@@ -166,7 +167,6 @@ target_sources(terminalpp
         include/terminalpp/version.hpp
         include/terminalpp/virtual_key.hpp
 
-        src/detail/element_udl.cpp
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
         src/attribute.cpp

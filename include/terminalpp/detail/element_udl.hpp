@@ -1,4 +1,3 @@
-#include "terminalpp/element.hpp"
 #include "terminalpp/character_set.hpp"
 #include "terminalpp/ansi/charset.hpp"
 
@@ -60,12 +59,12 @@ struct parser_info
     uint16_t utf8{0};
 };
 
-byte digit10_to_byte(char const ch)
+constexpr byte digit10_to_byte(char const ch)
 {
     return static_cast<byte>(ch - '0');
 }
 
-byte digit16_to_byte(char const ch)
+constexpr byte digit16_to_byte(char const ch)
 {
     return (ch >= '0' && ch <= '9') ? static_cast<byte>(ch - '0')
          : (ch >= 'a' && ch <= 'f') ? static_cast<byte>((ch - 'a') + 10)
@@ -73,9 +72,9 @@ byte digit16_to_byte(char const ch)
          : static_cast<byte>(0);
 }
 
-void parse_utf8_3(char const ch, parser_info &info, element &elem)
+constexpr void parse_utf8_3(char const ch, parser_info &info, element &elem)
 {
-    static constexpr long const maxima[] = {
+    constexpr long const maxima[] = {
         0x00007F,
         0x0007FF,
         0x00FFFF,
@@ -119,27 +118,27 @@ void parse_utf8_3(char const ch, parser_info &info, element &elem)
     info.state = parser_state::done;
 }
 
-void parse_utf8_2(char const ch, parser_info &info, element &elem)
+constexpr void parse_utf8_2(char const ch, parser_info &info, element &elem)
 {
     info.utf8 *= 16;
     info.utf8 += digit16_to_byte(ch);
     info.state = parser_state::utf8_3;
 }
 
-void parse_utf8_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_utf8_1(char const ch, parser_info &info, element &elem)
 {
     info.utf8 *= 16;
     info.utf8 += digit16_to_byte(ch);
     info.state = parser_state::utf8_2;
 }
 
-void parse_utf8_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_utf8_0(char const ch, parser_info &info, element &elem)
 {
     info.utf8 = digit16_to_byte(ch);
     info.state = parser_state::utf8_1;
 }
 
-void parse_bg_true_colour_5(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_true_colour_5(char const ch, parser_info &info, element &elem)
 {
     info.blue |= digit16_to_byte(ch);
 
@@ -150,50 +149,50 @@ void parse_bg_true_colour_5(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_bg_true_colour_4(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_true_colour_4(char const ch, parser_info &info, element &elem)
 {
     info.blue = digit16_to_byte(ch) << 4;
     info.state = parser_state::bg_true_colour_5;
 }
 
-void parse_bg_true_colour_3(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_true_colour_3(char const ch, parser_info &info, element &elem)
 {
     info.green |= digit16_to_byte(ch);
     info.state = parser_state::bg_true_colour_4;
 }
 
-void parse_bg_true_colour_2(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_true_colour_2(char const ch, parser_info &info, element &elem)
 {
     info.green = digit16_to_byte(ch) << 4;
     info.state = parser_state::bg_true_colour_3;
 }
 
-void parse_bg_true_colour_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_true_colour_1(char const ch, parser_info &info, element &elem)
 {
     info.red |= digit16_to_byte(ch);
     info.state = parser_state::bg_true_colour_2;
 }
 
-void parse_bg_true_colour_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_true_colour_0(char const ch, parser_info &info, element &elem)
 {
     info.red = digit16_to_byte(ch) << 4;
     info.state = parser_state::bg_true_colour_1;
 }
 
-void parse_bg_greyscale_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_greyscale_1(char const ch, parser_info &info, element &elem)
 {
     byte const col = (info.greyscale * 10) + digit10_to_byte(ch);
     elem.attribute_.background_colour_ = greyscale_colour(col);
     info.state = parser_state::idle;
 }
 
-void parse_bg_greyscale_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_greyscale_0(char const ch, parser_info &info, element &elem)
 {
     info.greyscale = digit10_to_byte(ch);
     info.state = parser_state::bg_greyscale_colour_1;
 }
 
-void parse_bg_high_colour_2(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_high_colour_2(char const ch, parser_info &info, element &elem)
 {
     auto const blue = digit10_to_byte(ch);
     elem.attribute_.background_colour_ = 
@@ -201,19 +200,19 @@ void parse_bg_high_colour_2(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_bg_high_colour_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_high_colour_1(char const ch, parser_info &info, element &elem)
 {
     info.green = digit10_to_byte(ch);
     info.state = parser_state::bg_high_colour_2;
 }
 
-void parse_bg_high_colour_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_high_colour_0(char const ch, parser_info &info, element &elem)
 {
     info.red = digit10_to_byte(ch);
     info.state = parser_state::bg_high_colour_1;
 }
 
-void parse_bg_low_colour(char const ch, parser_info &info, element &elem)
+constexpr void parse_bg_low_colour(char const ch, parser_info &info, element &elem)
 {
     auto const col_code = digit10_to_byte(ch);
     auto const col = static_cast<terminalpp::graphics::colour>(col_code);
@@ -222,20 +221,20 @@ void parse_bg_low_colour(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_fg_greyscale_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_greyscale_1(char const ch, parser_info &info, element &elem)
 {
     byte const col = (info.greyscale * 10) + digit10_to_byte(ch);
     elem.attribute_.foreground_colour_ = greyscale_colour(col);
     info.state = parser_state::idle;
 }
 
-void parse_fg_greyscale_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_greyscale_0(char const ch, parser_info &info, element &elem)
 {
     info.greyscale = digit10_to_byte(ch);
     info.state = parser_state::fg_greyscale_colour_1;
 }
 
-void parse_fg_true_colour_5(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_true_colour_5(char const ch, parser_info &info, element &elem)
 {
     info.blue |= digit16_to_byte(ch);
 
@@ -246,37 +245,37 @@ void parse_fg_true_colour_5(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_fg_true_colour_4(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_true_colour_4(char const ch, parser_info &info, element &elem)
 {
     info.blue = digit16_to_byte(ch) << 4;
     info.state = parser_state::fg_true_colour_5;
 }
 
-void parse_fg_true_colour_3(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_true_colour_3(char const ch, parser_info &info, element &elem)
 {
     info.green |= digit16_to_byte(ch);
     info.state = parser_state::fg_true_colour_4;
 }
 
-void parse_fg_true_colour_2(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_true_colour_2(char const ch, parser_info &info, element &elem)
 {
     info.green = digit16_to_byte(ch) << 4;
     info.state = parser_state::fg_true_colour_3;
 }
 
-void parse_fg_true_colour_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_true_colour_1(char const ch, parser_info &info, element &elem)
 {
     info.red |= digit16_to_byte(ch);
     info.state = parser_state::fg_true_colour_2;
 }
 
-void parse_fg_true_colour_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_true_colour_0(char const ch, parser_info &info, element &elem)
 {
     info.red = digit16_to_byte(ch) << 4;
     info.state = parser_state::fg_true_colour_1;
 }
 
-void parse_fg_high_colour_2(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_high_colour_2(char const ch, parser_info &info, element &elem)
 {
     auto const blue = digit10_to_byte(ch);
     elem.attribute_.foreground_colour_ = 
@@ -284,19 +283,19 @@ void parse_fg_high_colour_2(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_fg_high_colour_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_high_colour_1(char const ch, parser_info &info, element &elem)
 {
     info.green = digit10_to_byte(ch);
     info.state = parser_state::fg_high_colour_2;
 }
 
-void parse_fg_high_colour_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_high_colour_0(char const ch, parser_info &info, element &elem)
 {
     info.red = digit10_to_byte(ch);
     info.state = parser_state::fg_high_colour_1;
 }
 
-void parse_fg_low_colour(char const ch, parser_info &info, element &elem)
+constexpr void parse_fg_low_colour(char const ch, parser_info &info, element &elem)
 {
     auto const col_code = digit10_to_byte(ch);
     auto const col = static_cast<terminalpp::graphics::colour>(col_code);
@@ -305,7 +304,7 @@ void parse_fg_low_colour(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_underlining(char const ch, parser_info &info, element &elem)
+constexpr void parse_underlining(char const ch, parser_info &info, element &elem)
 {
     switch(ch)
     {
@@ -325,7 +324,7 @@ void parse_underlining(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_polarity(char const ch, parser_info &info, element &elem)
+constexpr void parse_polarity(char const ch, parser_info &info, element &elem)
 {
     switch(ch)
     {
@@ -345,7 +344,7 @@ void parse_polarity(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_intensity(char const ch, parser_info &info, element &elem)
+constexpr void parse_intensity(char const ch, parser_info &info, element &elem)
 {
     switch (ch)
     {
@@ -365,7 +364,7 @@ void parse_intensity(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_charset_ext(char const ch, parser_info &info, element &elem)
+constexpr void parse_charset_ext(char const ch, parser_info &info, element &elem)
 {
     byte const charset_code[] = { ansi::charset_extender, static_cast<byte>(ch) };
     auto const charset = lookup_character_set(charset_code);
@@ -373,7 +372,7 @@ void parse_charset_ext(char const ch, parser_info &info, element &elem)
     info.state = parser_state::idle;
 }
 
-void parse_charset(char const ch, parser_info &info, element &elem)
+constexpr void parse_charset(char const ch, parser_info &info, element &elem)
 {
     switch (ch)
     {
@@ -392,7 +391,7 @@ void parse_charset(char const ch, parser_info &info, element &elem)
 
 }
 
-void parse_charcode_2(char const ch, parser_info &info, element &elem)
+constexpr void parse_charcode_2(char const ch, parser_info &info, element &elem)
 {
     info.charcode *= 10;
     info.charcode += digit10_to_byte(ch);
@@ -400,20 +399,20 @@ void parse_charcode_2(char const ch, parser_info &info, element &elem)
     info.state = parser_state::done;
 }
 
-void parse_charcode_1(char const ch, parser_info &info, element &elem)
+constexpr void parse_charcode_1(char const ch, parser_info &info, element &elem)
 {
     info.charcode *= 10;
     info.charcode += digit10_to_byte(ch);
     info.state = parser_state::charcode_2;
 }
 
-void parse_charcode_0(char const ch, parser_info &info, element &elem)
+constexpr void parse_charcode_0(char const ch, parser_info &info, element &elem)
 {
     info.charcode = digit10_to_byte(ch);
     info.state = parser_state::charcode_1;
 }
 
-void parse_escape(char const ch, parser_info &info, element &elem)
+constexpr void parse_escape(char const ch, parser_info &info, element &elem)
 {
     switch (ch)
     {
@@ -485,7 +484,7 @@ void parse_escape(char const ch, parser_info &info, element &elem)
     }
 }
 
-void parse_idle(char const ch, parser_info &info, element &elem)
+constexpr void parse_idle(char const ch, parser_info &info, element &elem)
 {
     switch (ch)
     {
@@ -500,7 +499,7 @@ void parse_idle(char const ch, parser_info &info, element &elem)
     }
 }
 
-element element_with_base(element const &elem_base)
+constexpr element element_with_base(element const &elem_base)
 {
     element result = elem_base;
     result.glyph_.charset_ = 
@@ -514,7 +513,7 @@ element element_with_base(element const &elem_base)
 
 }
 
-element parse_element(gsl::cstring_span &text, element const &elem_base)
+constexpr element parse_element(gsl::cstring_span &text, element const &elem_base)
 {
     auto info = parser_info{};
     auto elem = element_with_base(elem_base);
