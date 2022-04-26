@@ -1,9 +1,12 @@
 #pragma once
 #include "terminalpp/core.hpp"
+#include "terminalpp/ansi/charset.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <boost/optional.hpp>
+#include <boost/utility/string_view.hpp>
 #include <iosfwd>
+
 
 namespace terminalpp {
 
@@ -89,17 +92,129 @@ struct TERMINALPP_EXPORT character_set
     terminalpp::charset value_;
 };
 
+namespace detail {
+
+static constexpr std::pair<character_set, byte const (&)[1]> const charset_map[] =
+{
+    { charset::us_ascii,          ansi::charset_us_ascii            },
+    { charset::sco,               ansi::charset_sco                 },
+    { charset::dec,               ansi::charset_dec                 },
+    { charset::dec_supplementary, ansi::charset_dec_supplementary   },
+    { charset::dec_technical,     ansi::charset_dec_technical       },
+    { charset::uk,                ansi::charset_uk                  },
+    { charset::dutch,             ansi::charset_dutch               },
+    { charset::finnish,           ansi::charset_finnish             },
+    { charset::finnish,           ansi::charset_finnish_alt         },
+    { charset::french,            ansi::charset_french              },
+    { charset::french,            ansi::charset_french_alt          },
+    { charset::french_canadian,   ansi::charset_french_canadian     },
+    { charset::french_canadian,   ansi::charset_french_canadian_alt },
+    { charset::german,            ansi::charset_german              },
+    { charset::italian,           ansi::charset_italian             },
+    { charset::danish,            ansi::charset_danish              },
+    { charset::danish,            ansi::charset_danish_alt_1        },
+    { charset::danish,            ansi::charset_danish_alt_2        },
+    { charset::spanish,           ansi::charset_spanish             },
+    { charset::swedish,           ansi::charset_swedish             },
+    { charset::swedish,           ansi::charset_swedish_alt         },
+    { charset::swiss,             ansi::charset_swiss               },
+};
+
+static constexpr std::pair<character_set, byte const (&)[2]> const extended_charset_map[] =
+{
+    { charset::dec_supplementary_graphics, ansi::charset_dec_supplementary_gr },
+    { charset::portuguese,                 ansi::charset_portuguese           },
+};
+
+}
+
 //* =========================================================================
-/// \brief Looks up a character set from a set of ANSI bytes.
+/// \brief Looks up a character set from a set of ANSI bytes.  Returns
+/// nullptr if there is no matching set.
 //* =========================================================================
 TERMINALPP_EXPORT
-boost::optional<character_set> lookup_character_set(bytes code);
+constexpr character_set const* lookup_character_set(bytes code)
+{
+    const auto len = code.size();
+
+    if (len == 0)
+    {
+        return {};
+    }
+
+    if (code[0] == ansi::charset_extender)
+    {
+        if (len > 1)
+        {
+            for (auto &&mapping : detail::extended_charset_map)
+            {
+                if (code[1] == mapping.second[1])
+                {
+                    return &mapping.first;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (auto &&mapping : detail::charset_map)
+        {
+            if (code[0] == mapping.second[0])
+            {
+                return &mapping.first;
+            }
+        }
+    }
+
+    return nullptr;
+}
 
 //* =========================================================================
 /// \brief Encodes a character set into a set of ANSI bytes.
 //* =========================================================================
 TERMINALPP_EXPORT
-byte_storage encode_character_set(character_set const &set);
+constexpr boost::basic_string_view<byte> encode_character_set(character_set const &set)
+{
+    // std::find_if is not constexpr in C++14.
+    auto charset_entry = std::cbegin(detail::charset_map);
+    while (charset_entry != std::cend(detail::charset_map))
+    {
+        if (charset_entry->first == set)
+        {
+            break;
+        }
+
+        ++charset_entry;
+    }
+
+    if (charset_entry != std::cend(detail::charset_map))
+    {
+        return {charset_entry->second, 1};
+    }
+    else
+    {
+        auto extended_charset_entry = std::cbegin(detail::extended_charset_map);
+        while (extended_charset_entry != std::cend(detail::extended_charset_map))
+        {
+            if (extended_charset_entry->first == set)
+            {
+                break;
+            }
+
+            ++extended_charset_entry;
+        }
+
+        if (extended_charset_entry != std::cend(detail::extended_charset_map))
+        {
+            return {extended_charset_entry->second, 2};
+        }
+        else
+        {
+            // If the character set is an unknown, fall back to US ASCII.
+            return encode_character_set(character_set(charset::us_ascii));
+        }
+    }
+}
 
 //* =========================================================================
 /// \brief Streaming output operator for character sets.  Outputs the name
