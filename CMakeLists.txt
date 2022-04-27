@@ -15,8 +15,12 @@ message("Building Terminal++ with only documentation: ${TERMINALPP_DOC_ONLY}")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
-include(function-git_version)
-git_version(TERMINALPP)
+# If the version is not passed in, then determine it from git history.
+if (NOT TERMINALPP_VERSION)
+    include(function-git_version)
+    git_version(TERMINALPP)
+endif()
+
 message(STATUS "Terminal++ Version: ${TERMINALPP_VERSION}")
 project(TERMINALPP VERSION ${TERMINALPP_VERSION})
 
