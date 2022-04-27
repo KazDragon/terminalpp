@@ -5,6 +5,7 @@
 #include "terminalpp/terminal_state.hpp"
 #include <boost/range/algorithm/for_each.hpp>
 
+#if 0
 namespace terminalpp { namespace detail {
 
 //* =========================================================================
@@ -104,4 +105,7 @@ private:
     ReadContinuation read_continuation_;
 };
 
+
 }}
+
+#endif

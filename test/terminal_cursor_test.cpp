@@ -34,8 +34,7 @@ TEST_P(a_terminal_with_an_unknown_location, sends_bytes_when_moving_the_cursor)
     auto const &destination     = get<0>(param);
     auto const &expected_result = get<1>(param);
 
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << terminalpp::move_cursor(destination);
+    terminal_ << terminalpp::move_cursor(destination);
 
     expect_sequence(expected_result, result_);
 }
@@ -53,6 +52,7 @@ INSTANTIATE_TEST_SUITE_P(
     ValuesIn(unknown_location_move_data_table)
 );
 
+#if 0
 namespace {
 
 using known_location_move_data = std::tuple<
@@ -125,13 +125,13 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST_F(a_terminal, when_hiding_the_cursor_sends_ansi_codes)
 {
-    terminal_.write(append_to_result) << terminalpp::hide_cursor();
+    terminal_ << terminalpp::hide_cursor();
     expect_sequence("\x1B[?25l"_tb, result_);
 }
 
 TEST_F(a_terminal, when_showing_the_cursor_sends_ansi_codes)
 {
-    terminal_.write(append_to_result) << terminalpp::show_cursor();
+    terminal_ << terminalpp::show_cursor();
     expect_sequence("\x1B[?25h"_tb, result_);
 }
 
@@ -142,7 +142,7 @@ class a_terminal_with_a_shown_cursor : public a_terminal
 public:
     a_terminal_with_a_shown_cursor()
     {
-        terminal_.write(discard_result) << terminalpp::show_cursor();
+        terminal_ << terminalpp::show_cursor();
     }
 };
 
@@ -150,13 +150,13 @@ public:
 
 TEST_F(a_terminal_with_a_shown_cursor, when_hiding_the_cursor_sends_ansi_codes)
 {
-    terminal_.write(append_to_result) << terminalpp::hide_cursor();
+    terminal_ << terminalpp::hide_cursor();
     expect_sequence("\x1B[?25l"_tb, result_);
 }
 
 TEST_F(a_terminal_with_a_shown_cursor, when_showing_the_cursor_sends_nothing)
 {
-    terminal_.write(append_to_result) << terminalpp::show_cursor();
+    terminal_ << terminalpp::show_cursor();
     expect_sequence(""_tb, result_);
 }
 
@@ -167,7 +167,7 @@ class a_terminal_with_a_hidden_cursor : public a_terminal
 public:
     a_terminal_with_a_hidden_cursor()
     {
-        terminal_.write(discard_result) << terminalpp::hide_cursor();
+        terminal_ << terminalpp::hide_cursor();
     }
 };
 
@@ -175,25 +175,25 @@ public:
 
 TEST_F(a_terminal_with_a_hidden_cursor, when_hiding_the_cursor_sends_nothing)
 {
-    terminal_.write(append_to_result) << terminalpp::hide_cursor();
+    terminal_ << terminalpp::hide_cursor();
     expect_sequence(""_tb, result_);
 }
 
 TEST_F(a_terminal_with_a_hidden_cursor, when_showing_the_cursor_sends_ansi_codes)
 {
-    terminal_.write(append_to_result) << terminalpp::show_cursor();
+    terminal_ << terminalpp::show_cursor();
     expect_sequence("\x1B[?25h"_tb, result_);
 }
 
 TEST_F(a_terminal, when_saving_the_cursor_sends_ansi_codes)
 {
-    terminal_.write(append_to_result) << terminalpp::save_cursor_position();
+    terminal_ << terminalpp::save_cursor_position();
     expect_sequence("\x1B[s"_tb, result_);
 }
 
 TEST_F(a_terminal, when_restoring_the_cursor_sends_ansi_codes)
 {
-    terminal_.write(append_to_result) << terminalpp::restore_cursor_position();
+    terminal_ << terminalpp::restore_cursor_position();
     expect_sequence("\x1B[u"_tb, result_);
 }
 
@@ -242,3 +242,4 @@ TEST_F(a_terminal, has_an_unknown_cursor_location_when_writing_the_last_characte
 
     expect_sequence("\x1B[2Hb"_tb, result_);
 }
+#endif

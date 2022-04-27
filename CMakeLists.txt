@@ -169,6 +169,9 @@ target_sources(terminalpp
 
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
+        src/manip/move_cursor.cpp
+        src/manip/write_element.cpp
+        src/manip/write_optional_default_attribute.cpp
         src/attribute.cpp
         src/canvas.cpp
         src/character_set.cpp
@@ -182,8 +185,10 @@ target_sources(terminalpp
         src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
+#        src/screen.cpp
         src/string.cpp
         src/terminal.cpp
+        src/terminal_state.cpp
         src/virtual_key.cpp
 )
 
@@ -315,17 +320,17 @@ target_sources(terminalpp_tester
         test/extent_test.cpp
         test/glyph_test.cpp
         test/mouse_test.cpp
-        test/palette_test.cpp
+#        test/palette_test.cpp
         test/point_test.cpp
         test/rectangle_test.cpp
-        test/screen_test.cpp
+#        test/screen_test.cpp
         test/string_test.cpp
         test/string_manip_test.cpp
         test/terminal_cursor_test.cpp
-        test/terminal_erase_test.cpp
-        test/terminal_read_test.cpp
-        test/terminal_settings_test.cpp
-        test/terminal_string_test.cpp
+#        test/terminal_erase_test.cpp
+#        test/terminal_read_test.cpp
+#        test/terminal_settings_test.cpp
+#        test/terminal_string_test.cpp
         test/virtual_key_test.cpp
 )
 

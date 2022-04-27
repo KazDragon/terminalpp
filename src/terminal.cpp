@@ -2,13 +2,16 @@
 
 namespace terminalpp {
 
-terminal_state::terminal_state() = default;
-
 // ==========================================================================
 // CONSTRUCTOR
 // ==========================================================================
-terminal::terminal(behaviour const &beh)
-  : behaviour_(beh)
+terminal::terminal(
+    read_function read_fn,
+    write_function write_fn,
+    behaviour beh)
+  : read_(std::move(read_fn)),
+    write_(std::move(write_fn)),
+    behaviour_(std::move(beh))
 {
 }
 

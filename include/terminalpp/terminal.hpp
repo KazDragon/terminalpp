@@ -1,37 +1,79 @@
 #pragma once
 
-#include "terminalpp/detail/terminal_reader.hpp"
-#include "terminalpp/detail/terminal_writer.hpp"
 #include "terminalpp/core.hpp"
 #include "terminalpp/behaviour.hpp"
-#include "terminalpp/extent.hpp"
-#include "terminalpp/point.hpp"
 #include "terminalpp/terminal_state.hpp"
 #include "terminalpp/token.hpp"
-#include "terminalpp/ansi/control_characters.hpp"
-#include "terminalpp/ansi/csi.hpp"
-#include "terminalpp/ansi/dec_private_mode.hpp"
-#include "terminalpp/ansi/osc.hpp"
-#include <fmt/format.h>
-#include <string>
+#include "terminalpp/string.hpp"
+#include <boost/range/algorithm/for_each.hpp>
+#include <functional>
 
 namespace terminalpp {
+
+using read_function = std::function<void (terminalpp::tokens)>;
+using write_function = std::function<void (terminalpp::bytes)>;
+
+//* =========================================================================
+/// \brief A manipulator that converts encoded attribute strings into ANSI 
+/// protocol bytes.
+//* =========================================================================
+class TERMINALPP_EXPORT write_element
+{
+public:
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    constexpr explicit write_element(terminalpp::element const &elem)
+      : element_(elem)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Convert the text and write the result to the continuation
+    //* =====================================================================
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
+
+private:        
+    terminalpp::element element_;
+};
+
+//* =========================================================================
+/// \brief A manipulator that outputs ANSI protocol bytes for the default
+/// attribute, if necessary.
+///
+/// This occurs if the current attribute is unknown, e.g. at the start of 
+/// output, or at a line break with certain terminals.
+//* =========================================================================
+struct TERMINALPP_EXPORT write_optional_default_attribute
+{
+    //* =====================================================================
+    /// \brief Writes the default attribute to the terminal if necessary.
+    //* =====================================================================
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
+};
 
 //* =========================================================================
 /// \brief A class that encapsulates a terminal.
 ///
-/// The class, together with the set of manipulators provide a way of
-/// writing to a terminal.  It is agnostic to the actual write method
-/// used.  The writing method is passed as a WriteContinuation, which is
-/// called for the required output.
+/// A class that is used to stream data in and out of a terminal.
 //* =========================================================================
 class TERMINALPP_EXPORT terminal
 {
 public:
+
     //* =====================================================================
     /// \brief Constructor.
     //* =====================================================================
-    explicit terminal(behaviour const &beh = behaviour{});
+    explicit terminal(
+        read_function read_fn,
+        write_function write_fn,
+        behaviour beh = behaviour{});
 
     //* =====================================================================
     /// \brief Sets the size of the terminal.
@@ -47,26 +89,59 @@ public:
     /// Stream in text, or use manipulators to modify the state of the 
     /// terminal.
     /// \code
+    /// void raw_read(terminalpp::tokens);
     /// void raw_write(terminalpp::bytes);
-    /// terminal term{raw_write};
-    /// term.write(raw_write) << "Hello, world!"
-    ///                       << move_cursor({17, 29});
+    /// terminal term{raw_read, raw_write};
+    /// term << "Hello, world!"
+    ///      << move_cursor({17, 29});
     /// \endcode
     /// \par Writing your own manipulators.
     /// A manipulator is streamable to a writer if is has a member function
     /// with the following signature:
     /// \code
-    /// template <class WriteContinuation>
-    /// void operator()(terminalpp::terminal_state &, WriteContinuation &&);
+    /// void operator()(
+    ///     terminalpp::behaviour const &beh,
+    ///     terminalpp::terminal_state &state,
+    ///     terminalpp::write_function const &write_fn) const;
     /// \endcode
     //* =====================================================================
-    template <class WriteContinuation>
-    detail::terminal_writer<WriteContinuation> write(WriteContinuation &&wc)
+    template <
+        typename Manip,
+        typename = typename std::enable_if<
+            !std::is_convertible<typename std::remove_cv<Manip>::type, terminalpp::element>::value
+         && !std::is_convertible<typename std::remove_cv<Manip>::type, terminalpp::string>::value
+        >::type
+    >
+    terminal &operator<<(Manip &&manip)
     {
-        return detail::terminal_writer<WriteContinuation>(
-            behaviour_,
-            state_,
-            std::forward<WriteContinuation>(wc));
+        manip(behaviour_, state_, write_);
+        return *this;
+    }
+
+    //* =====================================================================
+    /// \brief Write a single element to the terminal
+    //* =====================================================================
+    terminal const &operator<<(terminalpp::element const &elem)
+    {
+        *this << write_optional_default_attribute();
+        return *this << write_element(elem);
+    }
+
+    //* =====================================================================
+    /// \brief Write an attributed string to the terminal.
+    //* =====================================================================
+    terminal const &operator<<(terminalpp::string const &text)
+    {
+        *this << write_optional_default_attribute();
+        
+        boost::for_each(
+            text,
+            [this](terminalpp::element const &elem)
+            {
+                *this << write_element(elem);
+            });
+
+        return *this;
     }
 
     //* =====================================================================
@@ -85,6 +160,7 @@ public:
     /// // contained the f3 virtual key.
     /// \endcode
     //* =====================================================================
+    /*
     template <class ReadContinuation>
     detail::terminal_reader<ReadContinuation> read(ReadContinuation &&rc)
     {
@@ -93,14 +169,19 @@ public:
             state_,
             std::forward<ReadContinuation>(rc));
     }
+    */
 
 private:
+    read_function read_;
+    write_function write_;
+    
     behaviour behaviour_;
     terminal_state state_;
 };
 
 //* =========================================================================
-/// \brief A manipulator that moves the cursor to a new location.
+/// \brief A manipulator that outputs ANSI protocol bytes to move the cursor
+/// to the specified location.
 //* =========================================================================
 class TERMINALPP_EXPORT move_cursor
 {
@@ -115,21 +196,38 @@ public:
 
     //* =====================================================================
     /// \brief Writes the ANSI protocol codes necessary to move the cursor to
+    /// the initialized location to write_fn.
+    //* =====================================================================
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
+
+private:
+    point destination_;
+};
+
+#if 0
+//* =========================================================================
+/// \brief A manipulator that moves the cursor to a new location.
+//* =========================================================================
+
+    //* =====================================================================
+    /// \brief Writes the ANSI protocol codes necessary to move the cursor to
     /// the initialized location to the continuation.
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state, 
-        WriteContinuation &&cont) const
+        write_function const &write_fn) const
     {
         if (!state.cursor_position_)
         {
-            write_cursor_position(beh, cont);
+            write_cursor_position(beh, write_fn);
         }
         else
         {
-            move_from_known_position(beh, state, cont);
+            move_from_known_position(beh, state, write_fn);
         }
 
         state.cursor_position_ = destination_;
@@ -139,17 +237,16 @@ private:
     // ======================================================================
     // MOVE_FROM_KNOWN_POSITION
     // ======================================================================
-    template <class WriteContinuation>
     void move_from_known_position(
         behaviour const &beh,
         terminal_state &state,
-        WriteContinuation &&cont) const
+        write_function const &write_fn) const
     {
         if (*state.cursor_position_ != destination_)
         {
             if (state.cursor_position_->y_ == destination_.y_)
             {
-                write_cursor_horizontal_absolute(beh, cont);
+                write_cursor_horizontal_absolute(beh, write_fn);
             }
             else if (state.cursor_position_->x_ == destination_.x_)
             {
@@ -158,122 +255,91 @@ private:
 
                 if (distance > 0)
                 {
-                    write_cursor_up(beh, distance, cont);
+                    write_cursor_up(beh, distance, write_fn);
                 }
                 else
                 {
-                    write_cursor_down(beh, -distance, cont);
+                    write_cursor_down(beh, -distance, write_fn);
                 }
             }
             else
             {
-                write_cursor_position(beh, cont);
+                write_cursor_position(beh, write_fn);
             }
         }
     }
 
-    // ======================================================================
-    // WRITE_CURSOR_POSITION
-    // ======================================================================
-    template <class WriteContinuation>
-    void write_cursor_position(
-        behaviour const &beh,
-        WriteContinuation &&cont) const
-    {
-        detail::csi(beh, cont);
-
-        if (destination_.x_ != 0 || destination_.y_ != 0)
-        {
-            if (destination_.x_ == 0)
-            {
-                cont(to_bytes(fmt::format("{}", destination_.y_ + 1)));
-            }
-            else
-            {
-                cont(to_bytes(fmt::format("{};{}",
-                    destination_.y_ + 1,
-                    destination_.x_ + 1
-                )));
-            }
-        }
-
-        static byte_storage const cursor_position_suffix = {
-            ansi::csi::cursor_position
-        };
-
-        cont(cursor_position_suffix);
-    }
 
     // ======================================================================
     // WRITE_CURSOR_HORIZONTAL_ABSOLUTE
     // ======================================================================
-    template <class WriteContinuation>
     void write_cursor_horizontal_absolute(
         behaviour const &beh,
-        WriteContinuation &&cont) const
+        terminal::write_function const &write_fn) const
     {
-        detail::csi(beh, cont);
+        detail::csi(beh, write_fn);
 
         if (destination_.x_ != 0)
         {
-            cont(to_bytes(fmt::format("{}", destination_.x_ + 1)));
+            write_fn(to_bytes(fmt::format("{}", destination_.x_ + 1)));
         }
 
         static byte_storage const cursor_horizontal_absolute_suffix = {
             ansi::csi::cursor_horizontal_absolute
         };
 
-        cont(cursor_horizontal_absolute_suffix);
+        write_fn(cursor_horizontal_absolute_suffix);
     }
 
     // ======================================================================
     // WRITE_CURSOR_UP
     // ======================================================================
-    template <class WriteContinuation>
     void write_cursor_up(
         behaviour const &beh,
         coordinate_type const distance,
-        WriteContinuation &&cont) const
+        terminal::write_function const &write_fn) const
     {
-        detail::csi(beh, cont);
+        detail::csi(beh, write_fn);
 
         if (distance != 1)
         {
-            cont(to_bytes(fmt::format("{}", distance)));
+            write_fn(to_bytes(fmt::format("{}", distance)));
         }
 
         static byte_storage const cursor_up_suffix = {
             ansi::csi::cursor_up
         };
 
-        cont(cursor_up_suffix);
+        write_fn(cursor_up_suffix);
     }
 
     // ======================================================================
     // WRITE_CURSOR_DOWN
     // ======================================================================
-    template <class WriteContinuation>
     void write_cursor_down(
         behaviour const &beh,
         coordinate_type const distance,
-        WriteContinuation &&cont) const
+        terminal::write_function const &write_fn) const
     {
-        detail::csi(beh, cont);
+        detail::csi(beh, write_fn);
 
         if (distance != 1)
         {
-            cont(to_bytes(fmt::format("{}", distance)));
+            write_fn(to_bytes(fmt::format("{}", distance)));
         }
 
         static byte_storage const cursor_down_suffix = {
             ansi::csi::cursor_down
         };
 
-        cont(cursor_down_suffix);
+        write_fn(cursor_down_suffix);
     }
 
     point destination_;
 };
+
+#endif
+#if 0
 
 //* =========================================================================
 /// \brief A manipulator that hides the cursor.
@@ -747,5 +813,7 @@ public:
         state.cursor_position_ = state.saved_cursor_position_;
     }
 };
+
+#endif
 
 }

@@ -7,6 +7,8 @@
 #include <boost/range/algorithm/for_each.hpp>
 #include <type_traits>
 
+#if 0
+
 namespace terminalpp { namespace detail {
 
 //* =========================================================================
@@ -220,3 +222,5 @@ private:
 };
 
 }}
+
+#endif
