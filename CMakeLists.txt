@@ -171,6 +171,7 @@ target_sources(terminalpp
         src/manip/cursor.cpp
         src/manip/erase.cpp
         src/manip/mouse.cpp
+        src/manip/window.cpp
         src/manip/write_element.cpp
         src/manip/write_optional_default_attribute.cpp
         src/attribute.cpp

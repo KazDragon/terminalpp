@@ -395,86 +395,6 @@ public:
         write_function const &write_fn) const;
 };
 
-#if 0
-
-//* =========================================================================
-/// \brief A manipulator that enables mouse clicks according to the terminal
-/// behaviour.
-//* =========================================================================
-class TERMINALPP_EXPORT enable_mouse
-{
-public:
-    //* =====================================================================
-    /// \brief Writes ANSI codes necessary to enable the mouse
-    //* =====================================================================
-    template <class WriteContinuation>
-    void operator()(
-        terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &/*state*/,
-        WriteContinuation &&cont) const
-    {
-        if (beh.supports_basic_mouse_tracking)
-        {
-            detail::dec_pm(beh, cont);
-            cont({
-                std::cbegin(ansi::dec_pm::basic_mouse_tracking),
-                std::cend(ansi::dec_pm::basic_mouse_tracking)});
-            cont({
-                std::cbegin(ansi::dec_pm::set),
-                std::cend(ansi::dec_pm::set)});
-        }
-        else if (beh.supports_all_mouse_motion_tracking)
-        {
-            detail::dec_pm(beh, cont);
-            cont({
-                std::cbegin(ansi::dec_pm::all_motion_mouse_tracking),
-                std::cend(ansi::dec_pm::all_motion_mouse_tracking)});
-            cont({
-                std::cbegin(ansi::dec_pm::set),
-                std::cend(ansi::dec_pm::set)});
-        }
-    }
-};
-
-//* =========================================================================
-/// \brief A manipulator that disables mouse clicks according to the terminal
-/// behaviour.
-//* =========================================================================
-class TERMINALPP_EXPORT disable_mouse
-{
-public:
-    //* =====================================================================
-    /// \brief Writes ANSI codes necessary to disable the mouse
-    //* =====================================================================
-    template <class WriteContinuation>
-    void operator()(
-        terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &/*state*/,
-        WriteContinuation &&cont) const
-    {
-        if (beh.supports_basic_mouse_tracking)
-        {
-            detail::dec_pm(beh, cont);
-            cont({
-                std::cbegin(ansi::dec_pm::basic_mouse_tracking),
-                std::cend(ansi::dec_pm::basic_mouse_tracking)});
-            cont({
-                std::cbegin(ansi::dec_pm::reset),
-                std::cend(ansi::dec_pm::reset)});
-        }
-        else if (beh.supports_all_mouse_motion_tracking)
-        {
-            detail::dec_pm(beh, cont);
-            cont({
-                std::cbegin(ansi::dec_pm::all_motion_mouse_tracking),
-                std::cend(ansi::dec_pm::all_motion_mouse_tracking)});
-            cont({
-                std::cbegin(ansi::dec_pm::reset),
-                std::cend(ansi::dec_pm::reset)});
-        }
-    }
-};
-
 //* =========================================================================
 /// \brief A manipulator that sets the window title according to the terminal
 /// behaviour.
@@ -490,44 +410,10 @@ public:
     //* =====================================================================
     /// \brief Writes ANSI codes necessary to disable the mouse
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &/*state*/,
-        WriteContinuation &&cont) const
-    {
-        static byte_storage const set_window_title_prefix = {
-            ansi::osc::set_window_title,
-            ansi::ps,
-        };
-
-        if (beh.supports_window_title_bel)
-        {
-            detail::osc(beh, cont);
-
-            cont(set_window_title_prefix);
-            cont({
-                reinterpret_cast<byte const *>(title_.data()),
-                title_.size()});
-
-            static byte_storage const set_window_title_bel_suffix = {
-                detail::ascii::bel
-            };
-
-            cont(set_window_title_bel_suffix);
-        }
-        else if (beh.supports_window_title_st)
-        {
-            detail::osc(beh, cont);
-
-            cont(set_window_title_prefix);
-            cont({
-                reinterpret_cast<byte const *>(title_.data()),
-                title_.size()});
-
-            detail::st(beh, cont);
-        }
-    }
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
 
 private:
     std::string title_;
@@ -542,22 +428,10 @@ public:
     //* =====================================================================
     /// \brief Writes ANSI codes necessary to use the normal screen buffer.
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &/*state*/,
-        WriteContinuation &&cont) const
-    {
-        detail::dec_pm(beh, cont);
-
-        cont({
-            std::cbegin(ansi::dec_pm::use_alternate_screen_buffer),
-            std::cend(ansi::dec_pm::use_alternate_screen_buffer)});
-
-        cont({
-            std::cbegin(ansi::dec_pm::reset),
-            std::cend(ansi::dec_pm::reset) });
-    }
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -567,27 +441,12 @@ class TERMINALPP_EXPORT use_alternate_screen_buffer
 {
 public:
     //* =====================================================================
-    /// \brief Writes ANSI codes necessary to use the alternate screen 
-    /// buffer.
+    /// \brief Writes ANSI codes necessary to use the alternate screen buffer.
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &/*state*/,
-        WriteContinuation &&cont) const
-    {
-        detail::dec_pm(beh, cont);
-
-        cont({
-            std::cbegin(ansi::dec_pm::use_alternate_screen_buffer),
-            std::cend(ansi::dec_pm::use_alternate_screen_buffer) });
-
-        cont({
-            std::cbegin(ansi::dec_pm::set),
-            std::cend(ansi::dec_pm::set) });
-    }
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
 };
-
-#endif
 
 }
