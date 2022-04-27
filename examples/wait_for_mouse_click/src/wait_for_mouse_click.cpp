@@ -29,6 +29,12 @@ terminalpp::terminal terminal{
     }()
 };
 
+static void wait_for_mouse_click()
+{
+    schedule_async_read();
+    io_context.run();
+}
+
 int main()
 {
     terminal << terminalpp::save_cursor_position()
@@ -38,8 +44,7 @@ int main()
              << terminalpp::move_cursor({0, 0})
              << "Click with a mouse button to exit!\n";
         
-    schedule_async_read();
-    io_context.run();
+    wait_for_mouse_click();
 
     terminal << terminalpp::disable_mouse()
              << terminalpp::use_normal_screen_buffer()
