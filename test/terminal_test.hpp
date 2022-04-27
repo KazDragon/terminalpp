@@ -17,22 +17,22 @@ public:
             behaviour
         }
     {
-        using namespace terminalpp::literals;
-        terminal_ << ""_ets;
-        result_.clear();
-    }
-
-    void expect_when_streaming(
-        terminalpp::bytes  const &expected_result,
-        terminalpp::string const &encoded_text)
-    {
-        terminal_ << encoded_text;
-        expect_sequence(expected_result, result_);
     }
 
 protected:
     terminalpp::terminal terminal_;
     terminalpp::byte_storage result_;
+};
+
+class a_new_terminal :
+    public testing::Test,
+    public terminal_test_base
+{
+public:
+    a_new_terminal(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
+      : terminal_test_base(behaviour)
+    {
+    }
 };
 
 class a_terminal : 
@@ -43,5 +43,10 @@ public:
     a_terminal(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
       : terminal_test_base(behaviour)
     {
+        // Skip over the (tested) terminal init sequence to set the attribute
+        // to default.
+        using namespace terminalpp::literals;
+        terminal_ << ""_ets;
+        result_.clear();
     }
 };
