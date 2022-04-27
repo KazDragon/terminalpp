@@ -170,8 +170,7 @@ target_sources(terminalpp
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
         src/manip/cursor.cpp
-        src/manip/erase_display.cpp
-        src/manip/erase_line.cpp
+        src/manip/erase.cpp
         src/manip/mouse.cpp
         src/manip/write_element.cpp
         src/manip/write_optional_default_attribute.cpp
