@@ -191,7 +191,7 @@ target_sources(terminalpp
         src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
-#        src/screen.cpp
+        src/screen.cpp
         src/string.cpp
         src/terminal.cpp
         src/terminal_state.cpp
@@ -329,7 +329,7 @@ target_sources(terminalpp_tester
         test/palette_test.cpp
         test/point_test.cpp
         test/rectangle_test.cpp
-#        test/screen_test.cpp
+        test/screen_test.cpp
         test/string_test.cpp
         test/string_manip_test.cpp
         test/terminal_cursor_test.cpp

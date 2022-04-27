@@ -13,7 +13,7 @@ void screen::draw(terminal &term, canvas const &cvs)
 
     for_each_in_region(
         cvs, {{}, cvs.size()},
-        [this, &term, &wc](
+        [this, &term](
             element const &elem, coordinate_type x, coordinate_type y)
         {
             if (last_frame_[x][y] != elem)
