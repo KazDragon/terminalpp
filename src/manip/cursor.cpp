@@ -159,5 +159,87 @@ void move_cursor::operator()(
 
     state.cursor_position_ = destination_;
 }
-    
+
+// ==========================================================================
+// HIDE_CURSOR::OPERATOR()
+// ==========================================================================
+void hide_cursor::operator()(
+    terminalpp::behaviour const &beh,
+    terminalpp::terminal_state &state,
+    write_function const &write_fn) const
+{
+    if (!state.cursor_visible_ || *state.cursor_visible_)
+    {
+        detail::dec_pm(beh, write_fn);
+        write_fn({
+            std::cbegin(ansi::dec_pm::cursor), 
+            std::cend(ansi::dec_pm::cursor)});
+        write_fn({
+            std::cbegin(ansi::dec_pm::reset),
+            std::cend(ansi::dec_pm::reset)});
+    }
+
+    state.cursor_visible_ = false;
+}
+
+// ==========================================================================
+// SHOW_CURSOR::OPERATOR()
+// ==========================================================================
+void show_cursor::operator()(
+    terminalpp::behaviour const &beh,
+    terminalpp::terminal_state &state,
+    write_function const &write_fn) const
+{
+    if (!state.cursor_visible_ || !*state.cursor_visible_)
+    {
+        detail::dec_pm(beh, write_fn);
+        write_fn({
+            std::cbegin(ansi::dec_pm::cursor), 
+            std::cend(ansi::dec_pm::cursor)});
+        write_fn({
+            std::cbegin(ansi::dec_pm::set),
+            std::cend(ansi::dec_pm::set)});
+    }
+
+    state.cursor_visible_ = true;
+}
+
+// ==========================================================================
+// SAVE_CURSOR_POSITION::OPERATOR()
+// ==========================================================================
+void save_cursor_position::operator()(
+    terminalpp::behaviour const &beh,
+    terminalpp::terminal_state &state,
+    write_function const &write_fn) const
+{
+    detail::csi(beh, write_fn);
+
+    static byte_storage const save_cursor_suffix = {
+        ansi::csi::save_cursor_position
+    };
+
+    write_fn(save_cursor_suffix);
+
+    state.saved_cursor_position_ = state.cursor_position_;
+}
+
+// ==========================================================================
+// RESTORE_CURSOR_POSITION::OPERATOR()
+// ==========================================================================
+void restore_cursor_position::operator()(
+    terminalpp::behaviour const &beh,
+    terminalpp::terminal_state &state,
+    write_function const &write_fn) const
+{
+    detail::csi(beh, write_fn);
+
+    static byte_storage const restore_cursor_suffix = {
+        ansi::csi::restore_cursor_position
+    };
+
+    write_fn(restore_cursor_suffix);
+
+    state.cursor_position_ = state.saved_cursor_position_;
+}
+
 }
