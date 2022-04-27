@@ -5,13 +5,14 @@
 
 int main()
 {
-    using namespace terminalpp::literals;
-    terminalpp::terminal terminal;
-
-    terminal.write(
-        [](terminalpp::bytes data) 
-        { 
+    terminalpp::terminal terminal{
+        [](terminalpp::tokens) {
+        },
+        [](terminalpp::bytes data) {
             std::cout << std::string(std::cbegin(data), std::cend(data));
-        })
-        << "\\[1SUCCESS!\\x\n"_ets;
+        }
+    }
+
+    using namespace terminalpp::literals;
+    terminal << "\\[1SUCCESS!\\x\n"_ets;
 }
