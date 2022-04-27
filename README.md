@@ -242,3 +242,52 @@ int main()
     // blue background at position (10, 15).
 }
 ```
+
+All of these examples so far have ignored the read function for terminals since they only output to the screen.  It is also possible to read from a terminal.  This operation converts a sequence of ANSI protocol bytes into a series of tokens that can be inspected for regular text, control sequences (including function keys, arrow keys, etc.) and even mouse operations.  The example project for this uses the [Console++ library](https://github.com/KazDragon/consolepp) to provide asynchronous key-by-key input from a console window.
+
+[wait_for_mouse_click project](examples/wait_for_mouse_click)
+```cpp
+// ...
+
+static void handle_token(terminalpp::token const &token);
+static void schedule_async_read();
+
+static consolepp::console console{io_context};
+
+// ...
+
+terminalpp::terminal terminal{
+    [](terminalpp::tokens tokens) {
+        boost::for_each(tokens, handle_token);
+    },
+    [](terminalpp::bytes data) {
+        console.write(data);
+    },
+    [] {
+        terminalpp::behaviour behaviour;
+        behaviour.supports_basic_mouse_tracking = true;
+        return behaviour;
+    }()
+};
+
+int main()
+{
+    terminal << terminalpp::save_cursor_position()
+             << terminalpp::use_alternate_screen_buffer()
+             << terminalpp::enable_mouse()
+             << terminalpp::erase_display()
+             << terminalpp::move_cursor({0, 0})
+             << "Click with a mouse button to exit!\n";
+        
+    schedule_async_read();
+    io_context.run();
+
+    terminal << terminalpp::disable_mouse()
+             << terminalpp::use_normal_screen_buffer()
+             << terminalpp::restore_cursor_position()
+             << fmt::format("mouse clicked at ({},{})\n", mouse_position.x_, mouse_position.y_);
+}
+
+// ...
+
+```
