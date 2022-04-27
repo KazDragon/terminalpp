@@ -10,54 +10,6 @@
 
 namespace terminalpp {
 
-using read_function = std::function<void (terminalpp::tokens)>;
-using write_function = std::function<void (terminalpp::bytes)>;
-
-//* =========================================================================
-/// \brief A manipulator that converts encoded attribute strings into ANSI 
-/// protocol bytes.
-//* =========================================================================
-class TERMINALPP_EXPORT write_element
-{
-public:
-    //* =====================================================================
-    /// \brief Constructor
-    //* =====================================================================
-    constexpr explicit write_element(terminalpp::element const &elem)
-      : element_(elem)
-    {
-    }
-
-    //* =====================================================================
-    /// \brief Convert the text and write the result to the write function
-    //* =====================================================================
-    void operator()(
-        terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
-
-private:        
-    terminalpp::element element_;
-};
-
-//* =========================================================================
-/// \brief A manipulator that outputs ANSI protocol bytes for the default
-/// attribute, if necessary.
-///
-/// This occurs if the current attribute is unknown, e.g. at the start of 
-/// output, or at a line break with certain terminals.
-//* =========================================================================
-struct TERMINALPP_EXPORT write_optional_default_attribute
-{
-    //* =====================================================================
-    /// \brief Writes the default attribute to the terminal if necessary.
-    //* =====================================================================
-    void operator()(
-        terminalpp::behaviour const &beh,
-        terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
-};
-
 //* =========================================================================
 /// \brief A class that encapsulates a terminal.
 ///
@@ -66,6 +18,8 @@ struct TERMINALPP_EXPORT write_optional_default_attribute
 class TERMINALPP_EXPORT terminal
 {
 public:
+    using read_function = std::function<void (terminalpp::tokens)>;
+    using write_function = std::function<void (terminalpp::bytes)>;
 
     //* =====================================================================
     /// \brief Constructor.
@@ -102,7 +56,7 @@ public:
     /// void operator()(
     ///     terminalpp::behaviour const &beh,
     ///     terminalpp::terminal_state &state,
-    ///     terminalpp::write_function const &write_fn) const;
+    ///     terminalpp::terminal::write_function const &write_fn) const;
     /// \endcode
     //* =====================================================================
     template <
@@ -121,28 +75,12 @@ public:
     //* =====================================================================
     /// \brief Write a single element to the terminal
     //* =====================================================================
-    terminal &operator<<(terminalpp::element const &elem)
-    {
-        *this << write_optional_default_attribute();
-        return *this << write_element(elem);
-    }
+    terminal &operator<<(terminalpp::element const &elem);
 
     //* =====================================================================
     /// \brief Write an attributed string to the terminal.
     //* =====================================================================
-    terminal &operator<<(terminalpp::string const &text)
-    {
-        *this << write_optional_default_attribute();
-        
-        boost::for_each(
-            text,
-            [this](terminalpp::element const &elem)
-            {
-                *this << write_element(elem);
-            });
-
-        return *this;
-    }
+    terminal &operator<<(terminalpp::string const &text);
 
     //* =====================================================================
     /// \brief Read from the terminal.
@@ -171,6 +109,51 @@ private:
 };
 
 //* =========================================================================
+/// \brief A manipulator that converts encoded attribute strings into ANSI 
+/// protocol bytes.
+//* =========================================================================
+class TERMINALPP_EXPORT write_element
+{
+public:
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    constexpr explicit write_element(terminalpp::element const &elem)
+      : element_(elem)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Convert the text and write the result to the write function
+    //* =====================================================================
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        terminal::write_function const &write_fn) const;
+
+private:        
+    terminalpp::element element_;
+};
+
+//* =========================================================================
+/// \brief A manipulator that outputs ANSI protocol bytes for the default
+/// attribute, if necessary.
+///
+/// This occurs if the current attribute is unknown, e.g. at the start of 
+/// output, or at a line break with certain terminals.
+//* =========================================================================
+struct TERMINALPP_EXPORT write_optional_default_attribute
+{
+    //* =====================================================================
+    /// \brief Writes the default attribute to the terminal if necessary.
+    //* =====================================================================
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        terminal::write_function const &write_fn) const;
+};
+
+//* =========================================================================
 /// \brief A manipulator that outputs ANSI protocol bytes to move the cursor
 /// to the specified location.
 //* =========================================================================
@@ -192,7 +175,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 
 private:
     point destination_;
@@ -211,7 +194,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -227,7 +210,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -242,7 +225,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -257,7 +240,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -272,7 +255,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -288,7 +271,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -304,7 +287,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -319,7 +302,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -335,7 +318,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -351,7 +334,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -367,7 +350,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -383,7 +366,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -404,7 +387,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 
 private:
     std::string title_;
@@ -422,7 +405,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -437,7 +420,7 @@ public:
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        write_function const &write_fn) const;
+        terminal::write_function const &write_fn) const;
 };
 
 }

@@ -9,7 +9,7 @@ namespace terminalpp {
 void write_optional_default_attribute::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     if (!state.last_element_)
     {

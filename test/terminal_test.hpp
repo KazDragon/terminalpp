@@ -10,7 +10,7 @@ class terminal_test_base
 public:
     terminal_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
       : terminal_{
-            [](terminalpp::tokens) { /* unused */ },
+            [](terminalpp::tokens) { FAIL(); },
             [this](terminalpp::bytes data) { 
                 this->result_.append(std::cbegin(data), std::cend(data)); 
             },

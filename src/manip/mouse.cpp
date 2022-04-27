@@ -9,7 +9,7 @@ namespace terminalpp {
 void enable_mouse::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     if (beh.supports_basic_mouse_tracking)
     {
@@ -39,7 +39,7 @@ void enable_mouse::operator()(
 void disable_mouse::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     if (beh.supports_basic_mouse_tracking)
     {

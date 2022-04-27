@@ -31,6 +31,32 @@ void terminal::set_size(extent size)
 }
 
 // ==========================================================================
+// OPERATOR<<(element)
+// ==========================================================================
+terminal &terminal::operator<<(terminalpp::element const &elem)
+{
+    *this << write_optional_default_attribute();
+    return *this << write_element(elem);
+}
+
+// ==========================================================================
+// OPERATOR<<(string)
+// ==========================================================================
+terminal &terminal::operator<<(terminalpp::string const &text)
+{
+    *this << write_optional_default_attribute();
+    
+    boost::for_each(
+        text,
+        [this](terminalpp::element const &elem)
+        {
+            *this << write_element(elem);
+        });
+
+    return *this;
+}
+
+// ==========================================================================
 // OPERATOR>>(bytes)
 // ==========================================================================
 terminal &terminal::operator>>(terminalpp::bytes data)

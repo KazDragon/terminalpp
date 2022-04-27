@@ -6,7 +6,7 @@ namespace terminalpp { namespace {
 // ==========================================================================
 // WRITE_UTF8_GLYPH
 // ==========================================================================
-void write_utf8_glyph(element const &elem, write_function const &write_fn)
+void write_utf8_glyph(element const &elem, terminal::write_function const &write_fn)
 {
     std::size_t const last_utf8_index = 
         [&elem]()
@@ -36,7 +36,7 @@ void write_utf8_glyph(element const &elem, write_function const &write_fn)
 // ==========================================================================
 // WRITE_REGULAR_GLYPH
 // ==========================================================================
-void write_regular_glyph(element const &elem, write_function const &write_fn)
+void write_regular_glyph(element const &elem, terminal::write_function const &write_fn)
 {
     terminalpp::bytes data{&elem.glyph_.character_, 1};
     write_fn(data);
@@ -45,7 +45,7 @@ void write_regular_glyph(element const &elem, write_function const &write_fn)
 // ==========================================================================
 // WRITE_SINGLE_ELEMENT
 // ==========================================================================
-void write_single_element(element const &elem, write_function const &write_fn)
+void write_single_element(element const &elem, terminal::write_function const &write_fn)
 {
     if (elem.glyph_.charset_ == charset::utf8)
     {
@@ -83,7 +83,7 @@ void advance_cursor_position(terminal_state &state)
 void write_element::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::change_charset(
         state.last_element_->glyph_.charset_, 

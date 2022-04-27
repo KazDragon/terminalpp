@@ -13,7 +13,16 @@ public:
     a_screen()
       : size_{5, 5},
         canvas_(size_),
-        reference_terminal_{[](terminalpp::tokens) { FAIL(); }, append_to_reference}
+        reference_terminal_{
+            [](terminalpp::tokens) { 
+                FAIL(); 
+            },
+            [this](terminalpp::bytes data)
+            {
+                reference_result_.append(data.begin(), data.end());
+            }
+        }
+
     {
         terminal_.set_size(size_);
         reference_terminal_.set_size(size_);
@@ -37,12 +46,6 @@ protected:
             }
         }
     }
-
-    std::function<void (terminalpp::bytes)> append_to_reference =
-        [this](terminalpp::bytes data)
-        {
-            reference_result_.append(data.begin(), data.end());
-        };
 
     terminalpp::extent size_;
     terminalpp::canvas canvas_;

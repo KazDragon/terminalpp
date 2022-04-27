@@ -10,7 +10,7 @@ namespace terminalpp { namespace {
 void write_cursor_position(
     point const destination,
     behaviour const &beh,
-    write_function const &write_fn)
+    terminal::write_function const &write_fn)
 {
     detail::csi(beh, write_fn);
 
@@ -42,7 +42,7 @@ void write_cursor_position(
 void write_cursor_horizontal_absolute(
     coordinate_type const x,
     behaviour const &beh,
-    write_function const &write_fn)
+    terminal::write_function const &write_fn)
 {
     detail::csi(beh, write_fn);
 
@@ -64,7 +64,7 @@ void write_cursor_horizontal_absolute(
 void write_cursor_up(
     coordinate_type const distance,
     behaviour const &beh,
-    write_function const &write_fn)
+    terminal::write_function const &write_fn)
 {
     detail::csi(beh, write_fn);
 
@@ -86,7 +86,7 @@ void write_cursor_up(
 void write_cursor_down(
     coordinate_type const distance,
     behaviour const &beh,
-    write_function const &write_fn)
+    terminal::write_function const &write_fn)
 {
     detail::csi(beh, write_fn);
 
@@ -109,7 +109,7 @@ void move_from_known_position(
     point const destination,
     behaviour const &beh,
     terminal_state &state,
-    write_function const &write_fn)
+    terminal::write_function const &write_fn)
 {
     if (*state.cursor_position_ != destination)
     {
@@ -146,7 +146,7 @@ void move_from_known_position(
 void move_cursor::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     if (!state.cursor_position_)
     {
@@ -166,7 +166,7 @@ void move_cursor::operator()(
 void hide_cursor::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     if (!state.cursor_visible_ || *state.cursor_visible_)
     {
@@ -188,7 +188,7 @@ void hide_cursor::operator()(
 void show_cursor::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     if (!state.cursor_visible_ || !*state.cursor_visible_)
     {
@@ -210,7 +210,7 @@ void show_cursor::operator()(
 void save_cursor_position::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::csi(beh, write_fn);
 
@@ -229,7 +229,7 @@ void save_cursor_position::operator()(
 void restore_cursor_position::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::csi(beh, write_fn);
 

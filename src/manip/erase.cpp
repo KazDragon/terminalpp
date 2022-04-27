@@ -9,7 +9,7 @@ namespace terminalpp {
 void erase_display::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::change_to_default_attribute(state.last_element_, beh, write_fn);
     detail::csi(beh, write_fn);
@@ -28,7 +28,7 @@ void erase_display::operator()(
 void erase_display_above::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::change_to_default_attribute(state.last_element_, beh, write_fn);
     detail::csi(beh, write_fn);
@@ -47,7 +47,7 @@ void erase_display_above::operator()(
 void erase_display_below::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::change_to_default_attribute(state.last_element_, beh, write_fn);
     detail::csi(beh, write_fn);
@@ -66,7 +66,7 @@ void erase_display_below::operator()(
 void erase_line::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::change_to_default_attribute(state.last_element_, beh, write_fn);
     detail::csi(beh, write_fn);
@@ -85,7 +85,7 @@ void erase_line::operator()(
 void erase_line_left::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::change_to_default_attribute(state.last_element_, beh, write_fn);
     detail::csi(beh, write_fn);
@@ -104,7 +104,7 @@ void erase_line_left::operator()(
 void erase_line_right::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::change_to_default_attribute(state.last_element_, beh, write_fn);
     detail::csi(beh, write_fn);

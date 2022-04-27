@@ -11,7 +11,7 @@ namespace terminalpp {
 void set_window_title::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     static byte_storage const set_window_title_prefix = {
         ansi::osc::set_window_title,
@@ -52,7 +52,7 @@ void set_window_title::operator()(
 void use_normal_screen_buffer::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::dec_pm(beh, write_fn);
 
@@ -71,7 +71,7 @@ void use_normal_screen_buffer::operator()(
 void use_alternate_screen_buffer::operator()(
     terminalpp::behaviour const &beh,
     terminalpp::terminal_state &state,
-    write_function const &write_fn) const
+    terminal::write_function const &write_fn) const
 {
     detail::dec_pm(beh, write_fn);
 
