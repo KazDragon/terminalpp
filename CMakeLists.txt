@@ -139,7 +139,6 @@ target_sources(terminalpp
         include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
         include/terminalpp/detail/terminal_reader.hpp
-        include/terminalpp/detail/terminal_writer.hpp
         include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/attribute.hpp
         include/terminalpp/behaviour.hpp
