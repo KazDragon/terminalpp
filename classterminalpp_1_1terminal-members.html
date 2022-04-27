@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.1.0.5</span>
+   &#160;<span id="projectnumber">2.1.0.6</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -74,14 +74,18 @@ $(function() {
 
 <p>This is the complete list of members for <a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#a7f905155941a13b58b4a048a5fcf6166">read</a>(ReadContinuation &amp;&amp;rc)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#aca816d5c8c7d0b671ede038270ef2de0">operator&lt;&lt;</a>(Manip &amp;&amp;manip)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#a3091e35615e0ee720a286d445f14b325">operator&lt;&lt;</a>(terminalpp::element const &amp;elem)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#aeb6e13c6eafa570a9b032c81fb9b35ce">operator&lt;&lt;</a>(terminalpp::string const &amp;text)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#a52c16b3f069eeb92a71185073c7dad46">operator&gt;&gt;</a>(terminalpp::bytes data)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>read_function</b> typedef (defined in <a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a>)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#a827dc191362ed6ec3482b2364315ce77">set_size</a>(extent size)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#ad1b4a3854218db3a4cd01cb8432a6b6e">terminal</a>(behaviour const &amp;beh=behaviour{})</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#af00e696c4b61caab4409cd140ee79a0e">write</a>(WriteContinuation &amp;&amp;wc)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html#aea60b50a96d4edd988b6946f610936f5">terminal</a>(read_function read_fn, write_function write_fn, behaviour beh=behaviour{})</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>write_function</b> typedef (defined in <a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a>)</td><td class="entry"><a class="el" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 26 2022 13:41:57 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 27 2022 16:29:24 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

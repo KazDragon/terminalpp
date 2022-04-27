@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.1.0.5</span>
+   &#160;<span id="projectnumber">2.1.0.6</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -75,7 +75,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A manipulator that moves the cursor to a new location.  
+<p>A manipulator that outputs ANSI protocol bytes to move the cursor to the specified location.  
  <a href="classterminalpp_1_1move__cursor.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="terminal_8hpp_source.html">terminal.hpp</a>&gt;</code></p>
@@ -86,21 +86,21 @@ Public Member Functions</h2></td></tr>
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1move__cursor.html#a1703b7f6698ae4d4dc88f6a825730d1a">move_cursor</a> (<a class="el" href="structterminalpp_1_1point.html">point</a> const &amp;destination)</td></tr>
 <tr class="memdesc:a1703b7f6698ae4d4dc88f6a825730d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
 <tr class="separator:a1703b7f6698ae4d4dc88f6a825730d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd5379786d83924d0d606f276e018f7e"><td class="memTemplParams" colspan="2"><a id="acd5379786d83924d0d606f276e018f7e"></a>
-template&lt;class WriteContinuation &gt; </td></tr>
-<tr class="memitem:acd5379786d83924d0d606f276e018f7e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1move__cursor.html#acd5379786d83924d0d606f276e018f7e">operator()</a> (<a class="el" href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a> const &amp;beh, <a class="el" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state, WriteContinuation &amp;&amp;cont) const</td></tr>
-<tr class="memdesc:acd5379786d83924d0d606f276e018f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the ANSI protocol codes necessary to move the cursor to the initialized location to the continuation. <br /></td></tr>
-<tr class="separator:acd5379786d83924d0d606f276e018f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac69fce3d961fd8b30612a1915edc5d02"><td class="memItemLeft" align="right" valign="top"><a id="ac69fce3d961fd8b30612a1915edc5d02"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1move__cursor.html#ac69fce3d961fd8b30612a1915edc5d02">operator()</a> (<a class="el" href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a> const &amp;beh, <a class="el" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state, terminal::write_function const &amp;write_fn) const</td></tr>
+<tr class="memdesc:ac69fce3d961fd8b30612a1915edc5d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the ANSI protocol codes necessary to move the cursor to the initialized location to write_fn. <br /></td></tr>
+<tr class="separator:ac69fce3d961fd8b30612a1915edc5d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A manipulator that moves the cursor to a new location. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<div class="textblock"><p>A manipulator that outputs ANSI protocol bytes to move the cursor to the specified location. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/runner/work/terminalpp/terminalpp/include/terminalpp/<a class="el" href="terminal_8hpp_source.html">terminal.hpp</a></li>
+<li>/home/runner/work/terminalpp/terminalpp/src/manip/cursor.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 26 2022 13:41:57 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 27 2022 16:29:24 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

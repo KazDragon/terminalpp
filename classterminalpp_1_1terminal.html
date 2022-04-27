@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.1.0.5</span>
+   &#160;<span id="projectnumber">2.1.0.6</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classterminalpp_1_1terminal-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -80,83 +81,61 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="terminal_8hpp_source.html">terminal.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a67bec91072b4c4b52e4879675aa7053d"><td class="memItemLeft" align="right" valign="top"><a id="a67bec91072b4c4b52e4879675aa7053d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>read_function</b> = std::function&lt; void(terminalpp::tokens)&gt;</td></tr>
+<tr class="separator:a67bec91072b4c4b52e4879675aa7053d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a71266dd9bc22d4ba2d8db16c79ce8a"><td class="memItemLeft" align="right" valign="top"><a id="a8a71266dd9bc22d4ba2d8db16c79ce8a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>write_function</b> = std::function&lt; void(terminalpp::bytes)&gt;</td></tr>
+<tr class="separator:a8a71266dd9bc22d4ba2d8db16c79ce8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad1b4a3854218db3a4cd01cb8432a6b6e"><td class="memItemLeft" align="right" valign="top"><a id="ad1b4a3854218db3a4cd01cb8432a6b6e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#ad1b4a3854218db3a4cd01cb8432a6b6e">terminal</a> (<a class="el" href="structterminalpp_1_1behaviour.html">behaviour</a> const &amp;beh=<a class="el" href="structterminalpp_1_1behaviour.html">behaviour</a>{})</td></tr>
-<tr class="memdesc:ad1b4a3854218db3a4cd01cb8432a6b6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
-<tr class="separator:ad1b4a3854218db3a4cd01cb8432a6b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea60b50a96d4edd988b6946f610936f5"><td class="memItemLeft" align="right" valign="top"><a id="aea60b50a96d4edd988b6946f610936f5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#aea60b50a96d4edd988b6946f610936f5">terminal</a> (read_function read_fn, write_function write_fn, <a class="el" href="structterminalpp_1_1behaviour.html">behaviour</a> beh=<a class="el" href="structterminalpp_1_1behaviour.html">behaviour</a>{})</td></tr>
+<tr class="memdesc:aea60b50a96d4edd988b6946f610936f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
+<tr class="separator:aea60b50a96d4edd988b6946f610936f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a827dc191362ed6ec3482b2364315ce77"><td class="memItemLeft" align="right" valign="top"><a id="a827dc191362ed6ec3482b2364315ce77"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#a827dc191362ed6ec3482b2364315ce77">set_size</a> (<a class="el" href="structterminalpp_1_1extent.html">extent</a> size)</td></tr>
 <tr class="memdesc:a827dc191362ed6ec3482b2364315ce77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the size of the terminal. This is used to determine cursor locations when writing text that wraps at the end of the line, etc. <br /></td></tr>
 <tr class="separator:a827dc191362ed6ec3482b2364315ce77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af00e696c4b61caab4409cd140ee79a0e"><td class="memTemplParams" colspan="2">template&lt;class WriteContinuation &gt; </td></tr>
-<tr class="memitem:af00e696c4b61caab4409cd140ee79a0e"><td class="memTemplItemLeft" align="right" valign="top">detail::terminal_writer&lt; WriteContinuation &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#af00e696c4b61caab4409cd140ee79a0e">write</a> (WriteContinuation &amp;&amp;wc)</td></tr>
-<tr class="memdesc:af00e696c4b61caab4409cd140ee79a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write to the terminal.  <a href="classterminalpp_1_1terminal.html#af00e696c4b61caab4409cd140ee79a0e">More...</a><br /></td></tr>
-<tr class="separator:af00e696c4b61caab4409cd140ee79a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f905155941a13b58b4a048a5fcf6166"><td class="memTemplParams" colspan="2">template&lt;class ReadContinuation &gt; </td></tr>
-<tr class="memitem:a7f905155941a13b58b4a048a5fcf6166"><td class="memTemplItemLeft" align="right" valign="top">detail::terminal_reader&lt; ReadContinuation &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#a7f905155941a13b58b4a048a5fcf6166">read</a> (ReadContinuation &amp;&amp;rc)</td></tr>
-<tr class="memdesc:a7f905155941a13b58b4a048a5fcf6166"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from the terminal.  <a href="classterminalpp_1_1terminal.html#a7f905155941a13b58b4a048a5fcf6166">More...</a><br /></td></tr>
-<tr class="separator:a7f905155941a13b58b4a048a5fcf6166"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca816d5c8c7d0b671ede038270ef2de0"><td class="memTemplParams" colspan="2">template&lt;typename Manip , typename  = typename std::enable_if&lt;            !std::is_convertible&lt;typename std::remove_cv&lt;Manip&gt;::type, terminalpp::element&gt;::value         &amp;&amp; !std::is_convertible&lt;typename std::remove_cv&lt;Manip&gt;::type, terminalpp::string&gt;::value        &gt;::type&gt; </td></tr>
+<tr class="memitem:aca816d5c8c7d0b671ede038270ef2de0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classterminalpp_1_1terminal.html">terminal</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#aca816d5c8c7d0b671ede038270ef2de0">operator&lt;&lt;</a> (Manip &amp;&amp;manip)</td></tr>
+<tr class="memdesc:aca816d5c8c7d0b671ede038270ef2de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write to the terminal.  <a href="classterminalpp_1_1terminal.html#aca816d5c8c7d0b671ede038270ef2de0">More...</a><br /></td></tr>
+<tr class="separator:aca816d5c8c7d0b671ede038270ef2de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3091e35615e0ee720a286d445f14b325"><td class="memItemLeft" align="right" valign="top"><a id="a3091e35615e0ee720a286d445f14b325"></a>
+<a class="el" href="classterminalpp_1_1terminal.html">terminal</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#a3091e35615e0ee720a286d445f14b325">operator&lt;&lt;</a> (<a class="el" href="structterminalpp_1_1element.html">terminalpp::element</a> const &amp;elem)</td></tr>
+<tr class="memdesc:a3091e35615e0ee720a286d445f14b325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a single element to the terminal. <br /></td></tr>
+<tr class="separator:a3091e35615e0ee720a286d445f14b325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb6e13c6eafa570a9b032c81fb9b35ce"><td class="memItemLeft" align="right" valign="top"><a id="aeb6e13c6eafa570a9b032c81fb9b35ce"></a>
+<a class="el" href="classterminalpp_1_1terminal.html">terminal</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#aeb6e13c6eafa570a9b032c81fb9b35ce">operator&lt;&lt;</a> (<a class="el" href="classterminalpp_1_1string.html">terminalpp::string</a> const &amp;text)</td></tr>
+<tr class="memdesc:aeb6e13c6eafa570a9b032c81fb9b35ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write an attributed string to the terminal. <br /></td></tr>
+<tr class="separator:aeb6e13c6eafa570a9b032c81fb9b35ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52c16b3f069eeb92a71185073c7dad46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminalpp_1_1terminal.html">terminal</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminalpp_1_1terminal.html#a52c16b3f069eeb92a71185073c7dad46">operator&gt;&gt;</a> (terminalpp::bytes data)</td></tr>
+<tr class="memdesc:a52c16b3f069eeb92a71185073c7dad46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from the terminal.  <a href="classterminalpp_1_1terminal.html#a52c16b3f069eeb92a71185073c7dad46">More...</a><br /></td></tr>
+<tr class="separator:a52c16b3f069eeb92a71185073c7dad46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class that encapsulates a terminal. </p>
-<p>The class, together with the set of manipulators provide a way of writing to a terminal. It is agnostic to the actual write method used. The writing method is passed as a WriteContinuation, which is called for the required output. </p>
+<p>A class that is used to stream data in and out of a terminal. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a7f905155941a13b58b4a048a5fcf6166"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f905155941a13b58b4a048a5fcf6166">&#9670;&nbsp;</a></span>read()</h2>
+<a id="aca816d5c8c7d0b671ede038270ef2de0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca816d5c8c7d0b671ede038270ef2de0">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ReadContinuation &gt; </div>
+template&lt;typename Manip , typename  = typename std::enable_if&lt;            !std::is_convertible&lt;typename std::remove_cv&lt;Manip&gt;::type, terminalpp::element&gt;::value         &amp;&amp; !std::is_convertible&lt;typename std::remove_cv&lt;Manip&gt;::type, terminalpp::string&gt;::value        &gt;::type&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">detail::terminal_reader&lt;ReadContinuation&gt; terminalpp::terminal::read </td>
+          <td class="memname"><a class="el" href="classterminalpp_1_1terminal.html">terminal</a>&amp; terminalpp::terminal::operator&lt;&lt; </td>
           <td>(</td>
-          <td class="paramtype">ReadContinuation &amp;&amp;&#160;</td>
-          <td class="paramname"><em>rc</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Read from the terminal. </p>
-<dl class="section user"><dt>Usage</dt><dd>Stream in bytes, and the resultant tokens parsed from the stream will be sent to the continuation passed in. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>terminalpp::literals;</div>
-<div class="line"><span class="keywordtype">void</span> read_tokens(terminalpp::tokens);</div>
-<div class="line"><span class="keywordtype">void</span> raw_write(terminalpp::bytes);</div>
-<div class="line"><a class="code" href="classterminalpp_1_1terminal.html#ad1b4a3854218db3a4cd01cb8432a6b6e">terminal</a> term{raw_write};</div>
-<div class="line">term.read(read_tokens) &gt;&gt; <span class="stringliteral">&quot;\\x1B[13~&quot;</span>_tb;</div>
-<div class="line"><span class="comment">// read_tokens was called with a collection of one token, which</span></div>
-<div class="line"><span class="comment">// contained the f3 virtual key.</span></div>
-</div><!-- fragment --> </dd></dl>
-
-</div>
-</div>
-<a id="af00e696c4b61caab4409cd140ee79a0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af00e696c4b61caab4409cd140ee79a0e">&#9670;&nbsp;</a></span>write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class WriteContinuation &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">detail::terminal_writer&lt;WriteContinuation&gt; terminalpp::terminal::write </td>
-          <td>(</td>
-          <td class="paramtype">WriteContinuation &amp;&amp;&#160;</td>
-          <td class="paramname"><em>wc</em></td><td>)</td>
+          <td class="paramtype">Manip &amp;&amp;&#160;</td>
+          <td class="paramname"><em>manip</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -168,13 +147,44 @@ template&lt;class WriteContinuation &gt; </div>
 </div><div class="memdoc">
 
 <p>Write to the terminal. </p>
-<dl class="section user"><dt>Usage</dt><dd>Stream in text, or use manipulators to modify the state of the terminal. <div class="fragment"><div class="line"><span class="keywordtype">void</span> raw_write(terminalpp::bytes);</div>
-<div class="line"><a class="code" href="classterminalpp_1_1terminal.html#ad1b4a3854218db3a4cd01cb8432a6b6e">terminal</a> term{raw_write};</div>
-<div class="line">term.write(raw_write) &lt;&lt; <span class="stringliteral">&quot;Hello, world!&quot;</span></div>
-<div class="line">                      &lt;&lt; move_cursor({17, 29});</div>
+<dl class="section user"><dt>Usage</dt><dd>Stream in text, or use manipulators to modify the state of the terminal. <div class="fragment"><div class="line"><span class="keywordtype">void</span> raw_read(terminalpp::tokens);</div>
+<div class="line"><span class="keywordtype">void</span> raw_write(terminalpp::bytes);</div>
+<div class="line"><a class="code" href="classterminalpp_1_1terminal.html#aea60b50a96d4edd988b6946f610936f5">terminal</a> term{raw_read, raw_write};</div>
+<div class="line">term &lt;&lt; <span class="stringliteral">&quot;Hello, world!&quot;</span></div>
+<div class="line">     &lt;&lt; move_cursor({17, 29});</div>
 </div><!-- fragment --> </dd></dl>
-<dl class="section user"><dt>Writing your own manipulators.</dt><dd>A manipulator is streamable to a writer if is has a member function with the following signature: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
-<div class="line"><span class="keywordtype">void</span> operator()(<a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;, WriteContinuation &amp;&amp;);</div>
+<dl class="section user"><dt>Writing your own manipulators.</dt><dd>A manipulator is streamable to a writer if is has a member function with the following signature: <div class="fragment"><div class="line"><span class="keywordtype">void</span> operator()(</div>
+<div class="line">    <a class="code" href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a> <span class="keyword">const</span> &amp;beh,</div>
+<div class="line">    <a class="code" href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a> &amp;state,</div>
+<div class="line">    terminalpp::terminal::write_function <span class="keyword">const</span> &amp;write_fn) <span class="keyword">const</span>;</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a52c16b3f069eeb92a71185073c7dad46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52c16b3f069eeb92a71185073c7dad46">&#9670;&nbsp;</a></span>operator&gt;&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classterminalpp_1_1terminal.html">terminal</a> &amp; terminalpp::terminal::operator&gt;&gt; </td>
+          <td>(</td>
+          <td class="paramtype">terminalpp::bytes&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read from the terminal. </p>
+<dl class="section user"><dt>Usage</dt><dd>Stream in bytes, and the resultant tokens parsed from the stream will be sent to the write function. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>terminalpp::literals;</div>
+<div class="line"><span class="keywordtype">void</span> raw_read(terminalpp::tokens);</div>
+<div class="line"><span class="keywordtype">void</span> raw_write(terminalpp::bytes);</div>
+<div class="line"><a class="code" href="classterminalpp_1_1terminal.html#aea60b50a96d4edd988b6946f610936f5">terminal</a> term{raw_read, raw_write};</div>
+<div class="line">term &gt;&gt; <span class="stringliteral">&quot;\\x1B[13~&quot;</span>_tb;</div>
+<div class="line"><span class="comment">// read_tokens was called with a collection of one token, which</span></div>
+<div class="line"><span class="comment">// contained the f3 virtual key.</span></div>
 </div><!-- fragment --> </dd></dl>
 
 </div>
@@ -184,11 +194,12 @@ template&lt;class WriteContinuation &gt; </div>
 <li>/home/runner/work/terminalpp/terminalpp/src/terminal.cpp</li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="aclassterminalpp_1_1terminal_html_ad1b4a3854218db3a4cd01cb8432a6b6e"><div class="ttname"><a href="classterminalpp_1_1terminal.html#ad1b4a3854218db3a4cd01cb8432a6b6e">terminalpp::terminal::terminal</a></div><div class="ttdeci">terminal(behaviour const &amp;beh=behaviour{})</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> terminal.cpp:10</div></div>
+<div class="ttc" id="astructterminalpp_1_1behaviour_html"><div class="ttname"><a href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a></div><div class="ttdoc">A set of flags that determine how a terminal should behave over a datastream.</div><div class="ttdef"><b>Definition:</b> behaviour.hpp:11</div></div>
 <div class="ttc" id="astructterminalpp_1_1terminal__state_html"><div class="ttname"><a href="structterminalpp_1_1terminal__state.html">terminalpp::terminal_state</a></div><div class="ttdoc">The state of a terminal, which manipulators are allowed to use and edit.</div><div class="ttdef"><b>Definition:</b> terminal_state.hpp:15</div></div>
+<div class="ttc" id="aclassterminalpp_1_1terminal_html_aea60b50a96d4edd988b6946f610936f5"><div class="ttname"><a href="classterminalpp_1_1terminal.html#aea60b50a96d4edd988b6946f610936f5">terminalpp::terminal::terminal</a></div><div class="ttdeci">terminal(read_function read_fn, write_function write_fn, behaviour beh=behaviour{})</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> terminal.cpp:9</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 26 2022 13:41:57 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 27 2022 16:29:24 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
