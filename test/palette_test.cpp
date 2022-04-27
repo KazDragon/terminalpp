@@ -100,19 +100,21 @@ TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
     terminalpp::element const elem = {'x', attr};
 
     terminalpp::byte_storage result;
-    auto const discard_result = [](terminalpp::bytes){};
-    auto const append_to_result =
+    terminalpp::terminal terminal{
+        [](terminalpp::tokens) {
+            FAIL();
+        },
         [&result](terminalpp::bytes data)
         {
             result.append(std::cbegin(data), std::cend(data));
-        };
-
-    terminalpp::terminal terminal;
+        }};
 
     // First write a space in the default attribute.  Thereafter, we write 
     // only what is not default about the palette-based element.
-    terminal.write(discard_result) << ""_ets;
-    terminal.write(append_to_result) << elem;
+    terminal << ""_ets;
+    result.clear();
+
+    terminal << elem;
     expect_sequence(expected, result);
 }
 

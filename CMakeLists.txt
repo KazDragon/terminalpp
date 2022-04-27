@@ -138,8 +138,6 @@ target_sources(terminalpp
         include/terminalpp/detail/export.hpp
         include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
-        include/terminalpp/detail/terminal_reader.hpp
-        include/terminalpp/detail/terminal_writer.hpp
         include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/attribute.hpp
         include/terminalpp/behaviour.hpp
@@ -169,6 +167,12 @@ target_sources(terminalpp
 
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
+        src/manip/cursor.cpp
+        src/manip/erase.cpp
+        src/manip/mouse.cpp
+        src/manip/window.cpp
+        src/manip/write_element.cpp
+        src/manip/write_optional_default_attribute.cpp
         src/attribute.cpp
         src/canvas.cpp
         src/character_set.cpp
@@ -182,8 +186,10 @@ target_sources(terminalpp
         src/mouse.cpp
         src/point.cpp
         src/rectangle.cpp
+        src/screen.cpp
         src/string.cpp
         src/terminal.cpp
+        src/terminal_state.cpp
         src/virtual_key.cpp
 )
 

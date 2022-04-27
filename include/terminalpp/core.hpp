@@ -3,6 +3,7 @@
 #include "terminalpp/detail/export.hpp"
 #include <gsl/gsl-lite.hpp>
 #include <cstdint>
+#include <functional>
 
 namespace terminalpp {
 

@@ -6,22 +6,25 @@
 using namespace terminalpp::literals;
 using testing::ValuesIn;
 
-TEST_F(a_terminal, empty_string_outputs_default_attributes)
+TEST_F(a_new_terminal, empty_string_outputs_default_attributes)
 {
-    terminal_.write(append_to_result) << ""_ets;
-
+    terminal_ << ""_ets;
     expect_sequence("\x1B[0m"_tb, result_);
 }
 
-TEST_F(a_terminal, basic_string_outputs_default_attributes_and_basic_string)
+TEST_F(a_new_terminal, basic_string_outputs_default_attributes_and_basic_string)
 {
-    terminal_.write(append_to_result) << "abcde"_ets;
+    terminal_ << "abcde"_ets;
     expect_sequence("\x1B[0mabcde"_tb, result_);
 }
 
-TEST_F(a_terminal, outputting_another_basic_string_does_not_output_default_attributes)
+TEST_F(a_new_terminal, outputting_another_basic_string_does_not_output_default_attributes)
 {
-    expect_when_streaming("abcde"_tb, "abcde"_ets);
+    terminal_ << "abc"_ets;
+    result_.clear();
+
+    terminal_ << "abcde"_ets;
+    expect_sequence("abcde"_tb, result_);
 }
 
 namespace {
@@ -49,12 +52,13 @@ TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
     auto const &text_to_stream = get<1>(params);
     auto const &expected_output = get<2>(params);
 
-    terminal_.write(discard_result) << init_string;
-    terminal_.write(append_to_result) << text_to_stream;
+    terminal_ << init_string;
+    result_.clear();
+
+    terminal_ << text_to_stream;
 
     expect_sequence(expected_output, result_);
 }
-
 
 static streaming_text_data const streaming_text_data_table[] = {
     streaming_text_data{ ""_ets, ""_ets, ""_tb },
@@ -149,35 +153,33 @@ INSTANTIATE_TEST_SUITE_P(
 TEST_F(a_terminal, can_stream_a_single_element)
 {
     terminalpp::element const elem{'X', {terminalpp::graphics::colour::red}};
-
-    terminal_.write(discard_result) << ""_ets;
-    terminal_.write(append_to_result) << elem;
+    terminal_ << elem;
 
     expect_sequence("\x1B[31mX"_tb, result_);
 }
 
-TEST(a_terminal_that_supports_unicode_in_all_charsets, skips_charset_switch_before_selecting_utf8_charset)
+namespace {
+
+class a_terminal_that_supports_unicode_in_all_charsets
+  : public a_terminal
 {
-    terminalpp::behaviour const behaviour = 
-        []()
-        {
+public:
+    a_terminal_that_supports_unicode_in_all_charsets()
+      : a_terminal{[]{
             terminalpp::behaviour behaviour;
             behaviour.unicode_in_all_charsets = true;
             return behaviour;
-        }();
+        }()}
+    {
+    }
+};
 
-    terminalpp::byte_storage result;
-    auto const discard_result = [](terminalpp::bytes){};
-    auto const append_result =
-        [&result](terminalpp::bytes data)
-        {
-            result.append(data.begin(), data.end());
-        };
+}
 
-    terminalpp::terminal terminal{behaviour};
-    terminal.write(append_result) << "\\cU\\C205\\U0057"_ets;
-
-    expect_sequence("\x1B[0m\x1B(U\xCD\x1B%GW"_tb, result);
+TEST_F(a_terminal_that_supports_unicode_in_all_charsets, skips_charset_switch_before_selecting_utf8_charset)
+{
+    terminal_ << "\\cU\\C205\\U0057"_ets;
+    expect_sequence("\x1B(U\xCD\x1B%GW"_tb, result_);
 }
 
 namespace {
@@ -211,12 +213,13 @@ TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
     auto const &text_to_stream = get<1>(params);
     auto const &expected_position = get<2>(params);
 
-    terminal_.write(discard_result) 
+    terminal_
         << ""_ets
         << terminalpp::move_cursor(init_position)
         << text_to_stream;
+    result_.clear();
 
-    terminal_.write(append_to_result)
+    terminal_
         << terminalpp::move_cursor(expected_position);
 
     // Moving to the position we are already at should yield no required
@@ -225,7 +228,7 @@ TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
 }
 
 static write_position_data const write_position_data_table[] = {
-    // Writing within the same row moves the cursor to the write
+    // Writing within the same row moves the cursor to the right
     write_position_data{ {0, 0}, ""_ets,                {0, 0} },
     write_position_data{ {0, 0}, "x"_ets,               {1, 0} },
     write_position_data{ {0, 0}, "abcde"_ets,           {5, 0} },
