@@ -269,8 +269,6 @@ public:
         write_function const &write_fn) const;
 };
 
-#if 0
-
 //* =========================================================================
 /// \brief A manipulator that erases the entire display.
 //* =========================================================================
@@ -278,24 +276,12 @@ class TERMINALPP_EXPORT erase_display
 {
 public:
     //* =====================================================================
-    /// \brief Writes ANSI codes necessary to erase the display
+    /// \brief Writes ANSI codes necessary to erase the display.
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        WriteContinuation &&cont) const
-    {
-        detail::change_to_default_attribute(state.last_element_, beh, cont);
-        detail::csi(beh, cont);
-
-        static byte_storage const erase_all_suffix = {  
-            ansi::csi::erase_in_display_all,
-            ansi::csi::erase_in_display,
-        };
-
-        cont(erase_all_suffix);
-    }
+        write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -308,22 +294,10 @@ public:
     //* =====================================================================
     /// \brief Writes ANSI codes necessary to erase the display
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        WriteContinuation &&cont) const
-    {
-        detail::change_to_default_attribute(state.last_element_, beh, cont);
-        detail::csi(beh, cont);
-
-        static byte_storage const erase_above_suffix = {  
-            ansi::csi::erase_in_display_above,
-            ansi::csi::erase_in_display,
-        };
-
-        cont(erase_above_suffix);
-    }
+        write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -336,22 +310,10 @@ public:
     //* =====================================================================
     /// \brief Writes ANSI codes necessary to erase the display
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        WriteContinuation &&cont) const
-    {
-        detail::change_to_default_attribute(state.last_element_, beh, cont);
-        detail::csi(beh, cont);
-
-        static byte_storage const erase_below_suffix = {  
-            // The constant for erase below is 0, which can be elided
-            ansi::csi::erase_in_display,
-        };
-
-        cont(erase_below_suffix);
-    }
+        write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -363,22 +325,10 @@ public:
     //* =====================================================================
     /// \brief Writes ANSI codes necessary to erase the display
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        WriteContinuation &&cont) const
-    {
-        detail::change_to_default_attribute(state.last_element_, beh, cont);
-        detail::csi(beh, cont);
-
-        static byte_storage const erase_line_suffix = {  
-            ansi::csi::erase_in_line_all,
-            ansi::csi::erase_in_line,
-        };
-
-        cont(erase_line_suffix);
-    }
+        write_function const &write_fn) const;
 };
 
 //* =========================================================================
@@ -391,27 +341,15 @@ public:
     //* =====================================================================
     /// \brief Writes ANSI codes necessary to erase the display
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        WriteContinuation &&cont) const
-    {
-        detail::change_to_default_attribute(state.last_element_, beh, cont);
-        detail::csi(beh, cont);
-
-        static byte_storage const erase_line_left_suffix = {  
-            ansi::csi::erase_in_line_left,
-            ansi::csi::erase_in_line,
-        };
-
-        cont(erase_line_left_suffix);
-    }
+        write_function const &write_fn) const;
 };
 
 //* =========================================================================
 /// \brief A manipulator that erases from the current cursor position to the
-/// beginning of the line.
+/// end of the line.
 //* =========================================================================
 class TERMINALPP_EXPORT erase_line_right
 {
@@ -419,23 +357,13 @@ public:
     //* =====================================================================
     /// \brief Writes ANSI codes necessary to erase the display
     //* =====================================================================
-    template <class WriteContinuation>
     void operator()(
         terminalpp::behaviour const &beh,
         terminalpp::terminal_state &state,
-        WriteContinuation &&cont) const
-    {
-        detail::change_to_default_attribute(state.last_element_, beh, cont);
-        detail::csi(beh, cont);
-
-        static byte_storage const erase_line_right_suffix = {  
-            // The code for erase right is 0, which can be elided.
-            ansi::csi::erase_in_line,
-        };
-
-        cont(erase_line_right_suffix);
-    }
+        write_function const &write_fn) const;
 };
+
+#if 0
 
 //* =========================================================================
 /// \brief A manipulator that enables mouse clicks according to the terminal
