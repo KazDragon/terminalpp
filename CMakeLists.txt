@@ -138,7 +138,6 @@ target_sources(terminalpp
         include/terminalpp/detail/export.hpp
         include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
-        include/terminalpp/detail/terminal_reader.hpp
         include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/attribute.hpp
         include/terminalpp/behaviour.hpp
@@ -330,7 +329,7 @@ target_sources(terminalpp_tester
         test/string_manip_test.cpp
         test/terminal_cursor_test.cpp
         test/terminal_erase_test.cpp
-#        test/terminal_read_test.cpp
+        test/terminal_read_test.cpp
         test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
         test/virtual_key_test.cpp

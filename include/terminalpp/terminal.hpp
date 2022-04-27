@@ -152,24 +152,15 @@ public:
     /// be sent to the write function.
     /// \code
     /// using namespace terminalpp::literals;
-    /// void read_tokens(terminalpp::tokens);
+    /// void raw_read(terminalpp::tokens);
     /// void raw_write(terminalpp::bytes);
-    /// terminal term{raw_write};
-    /// term.read(read_tokens) >> "\\x1B[13~"_tb;
+    /// terminal term{raw_read, raw_write};
+    /// term >> "\\x1B[13~"_tb;
     /// // read_tokens was called with a collection of one token, which
     /// // contained the f3 virtual key.
     /// \endcode
     //* =====================================================================
-    /*
-    template <class ReadContinuation>
-    detail::terminal_reader<ReadContinuation> read(ReadContinuation &&rc)
-    {
-        return detail::terminal_reader<ReadContinuation>(
-            behaviour_,
-            state_,
-            std::forward<ReadContinuation>(rc));
-    }
-    */
+    terminal &operator>>(terminalpp::bytes data);
 
 private:
     read_function read_;

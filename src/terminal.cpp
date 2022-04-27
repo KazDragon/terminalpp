@@ -1,4 +1,5 @@
 #include "terminalpp/terminal.hpp"
+#include "terminalpp/detail/well_known_virtual_key.hpp"
 
 namespace terminalpp {
 
@@ -27,6 +28,30 @@ void terminal::set_size(extent size)
     // to an unknown one, it ensures that a precise move occurs the next
     // time the cursor is moved to a position.
     state_.cursor_position_ = {};
+}
+
+// ==========================================================================
+// OPERATOR>>(bytes)
+// ==========================================================================
+terminal &terminal::operator>>(terminalpp::bytes data)
+{
+    boost::for_each(
+        data, 
+        [this](terminalpp::byte datum)
+        {
+            auto const result = state_.input_parser_(datum);
+
+            if (result)
+            {
+                terminalpp::token const well_known_results[] = {
+                    detail::get_well_known_virtual_key(*result)
+                };
+
+                read_(well_known_results);
+            }
+        });
+    
+    return *this;
 }
 
 }

@@ -10,24 +10,20 @@ class terminal_read_test_base
 {
 public:
     terminal_read_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
-      : terminal_(behaviour)
+      : terminal_{
+            [this](terminalpp::tokens tokens) {
+                result_.insert(result_.end(), tokens.cbegin(), tokens.cend());    
+            },
+            [](terminalpp::bytes) { 
+                FAIL(); 
+            }, 
+            behaviour
+        }
     {
     }
 
 protected:
     std::vector<terminalpp::token> result_;
-
-    std::function<void (terminalpp::tokens)> discard_result =
-        [](terminalpp::tokens)
-        {
-        };
-
-    std::function<void (terminalpp::tokens)> append_to_result =
-        [this](terminalpp::tokens tokens)
-        {
-            result_.insert(result_.end(), tokens.cbegin(), tokens.cend());
-        };
-
     terminalpp::terminal terminal_;
 };
 
@@ -52,7 +48,7 @@ TEST_P(a_terminal_reading_input_tokens, tokenizes_the_results)
     auto const &input_sequence = get<0>(param);
     auto const &expected_result = get<1>(param);
 
-    terminal_.read(append_to_result) >> input_sequence;
+    terminal_ >> input_sequence;
 
     ASSERT_EQ(expected_result, result_);
 
@@ -619,7 +615,7 @@ TEST_P(a_terminal_reading_partial_input_tokens, tokenizes_the_results)
     auto const &second_input_sequence = get<1>(param);
     auto const &expected_result = get<2>(param);
 
-    terminal_.read(append_to_result) 
+    terminal_
         >> first_input_sequence
         >> second_input_sequence;
 
