@@ -1,5 +1,10 @@
 #include <terminalpp/terminal.hpp>
 
+void read_from_console(terminalpp::tokens)
+{
+    // Unused
+}
+
 void write_to_console(terminalpp::bytes data)
 {
     std::cout << std::string{data.begin(), data.end()};
@@ -7,11 +12,11 @@ void write_to_console(terminalpp::bytes data)
 
 int main()
 {
-    terminalpp::terminal terminal;
+    terminalpp::terminal terminal{read_from_console, write_to_console};
 
     using namespace terminalpp::literals;
     terminalpp::string text = "Low colours:\n"_ts;
-    terminal.write(write_to_console) << text;
+    terminal << text;
 
     for (auto col = terminalpp::graphics::colour::black; 
          col <= terminalpp::graphics::colour::default_; 
@@ -20,7 +25,7 @@ int main()
         terminalpp::element elem = ' ';
         elem.attribute_.intensity_ = terminalpp::graphics::intensity::faint;
         elem.attribute_.background_colour_ = terminalpp::low_colour(col);
-        terminal.write(write_to_console) << elem;
+        terminal << elem;
     }
 
     for (auto col = terminalpp::graphics::colour::black; 
@@ -29,7 +34,7 @@ int main()
     {
         terminalpp::element elem = ' ';
         elem.attribute_.background_colour_ = terminalpp::low_colour(col);
-        terminal.write(write_to_console) << elem;
+        terminal << elem;
     }
 
     for (auto col = terminalpp::graphics::colour::black; 
@@ -39,10 +44,10 @@ int main()
         terminalpp::element elem = ' ';
         elem.attribute_.intensity_ = terminalpp::graphics::intensity::bold;
         elem.attribute_.background_colour_ = terminalpp::low_colour(col);
-        terminal.write(write_to_console) << elem;
+        terminal << elem;
     }
 
-    terminal.write(write_to_console) << "\nHigh colours:\n";
+    terminal << "\nHigh colours:\n";
 
     for (auto r = 0; r < 6; ++r)
     {
@@ -52,21 +57,21 @@ int main()
             {
                 terminalpp::element elem = ' ';
                 elem.attribute_.background_colour_ = terminalpp::high_colour(r, g, b);
-                terminal.write(write_to_console) << elem;
+                terminal << elem;
             }
         }
 
-        terminal.write(write_to_console) << "\n";
+        terminal << "\n";
     }
 
-    terminal.write(write_to_console) << "Greyscale colours:\n";
+    terminal << "Greyscale colours:\n";
 
     for (auto shade = 0; shade <= 23; ++shade)
     {
         terminalpp::element elem = ' ';
         elem.attribute_.background_colour_ = terminalpp::greyscale_colour(shade);
-        terminal.write(write_to_console) << elem;
+        terminal << elem;
     }
 
-    terminal.write(write_to_console) << "\n";
+    terminal << "\n";
 }

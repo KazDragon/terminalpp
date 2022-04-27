@@ -78,6 +78,11 @@ terminalpp::elements can be collected together using the terminalpp::string clas
 ```cpp
 #include <terminalpp/terminal.hpp>
 
+void read_from_console(terminalpp::tokens)
+{
+    // See later.
+}
+
 void write_to_console(terminalpp::bytes data)
 {
     std::cout << std::string{data.begin(), data.end()};
@@ -88,8 +93,8 @@ int main()
     using namespace terminalpp::literals;
     terminalpp::string text = "Hello, world!\n"_ts;
 
-    terminalpp::terminal terminal;
-    terminal.write(write_to_console) << text;
+    terminalpp::terminal terminal{read_from_console, write_to_console};
+    terminal << text;
 }
 
 // Constructs a terminalpp::string, and then prints it to the terminal as, "Hello, world!"
@@ -101,6 +106,11 @@ By using _ets, you can also encode attributes within the text.  For example:
 ```cpp
 #include <terminalpp/terminal.hpp>
 
+void read_from_console(terminalpp::tokens)
+{
+    // See later.
+}
+
 void write_to_console(terminalpp::bytes data)
 {
     std::cout << std::string(data.begin(), data.end());
@@ -111,8 +121,8 @@ int main()
     using namespace terminalpp::literals;
     terminalpp::string text = "\\[1Hello, \\[2World! \\x\\U263A\n"_ets;
 
-    terminalpp::terminal terminal;
-    terminal.write(write_to_console) << text;
+    terminalpp::terminal terminal{read_from_console, write_to_console};
+    terminal << text;
 }
 ```
 
@@ -131,6 +141,11 @@ At this point, you have everything you need for a standard command-line applicat
 ```cpp
 #include <terminalpp/terminal.hpp>
 
+void read_from_console(terminalpp::tokens)
+{
+    // See later.
+}
+
 void write_to_console(terminalpp::bytes data)
 {
     std::cout << std::string{data.begin(), data.end()};
@@ -139,9 +154,9 @@ void write_to_console(terminalpp::bytes data)
 int main()
 {
     using namespace terminalpp::literals;
-    terminalpp::terminal terminal;
+    terminalpp::terminal terminal{read_from_console, write_to_console};
 
-    terminal.write(write_to_console)
+    terminal
         << terminalpp::save_cursor_position()
         << terminalpp::move_cursor({0, 0})
         << "\\U263A"_ets
@@ -187,6 +202,11 @@ To control this, we present the terminalpp::screen class, which represents a dou
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/screen.hpp>
 
+void read_from_console(terminalpp::tokens)
+{
+    // See later.
+}
+
 void write_to_console(terminalpp::bytes data)
 {
     std::cout << std::string{data.begin(), data.end()};
@@ -194,7 +214,7 @@ void write_to_console(terminalpp::bytes data)
 
 int main()
 {
-    terminalpp::terminal terminal;
+    terminalpp::terminal terminal{read_from_console, write_to_console};
     terminalpp::screen screen;
     terminalpp::canvas canvas({80, 24});
 
@@ -211,13 +231,13 @@ int main()
         }
     }
 
-    screen.draw(terminal, canvas, write_to_console);
+    screen.draw(terminal, canvas);
     // screen is now actually shocking pink.
 
     canvas[10][15].glyph_ = 'y';
     canvas[10][15].attribute_.background_colour_ = terminalpp::graphics::colour::blue;
 
-    screen.draw(terminal, canvas, write_to_console);
+    screen.draw(terminal, canvas);
     // screen is still shocking pink, but there is now a letter 'y' with a
     // blue background at position (10, 15).
 }
