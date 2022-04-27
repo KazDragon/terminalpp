@@ -172,6 +172,7 @@ target_sources(terminalpp
         src/manip/erase_display.cpp
         src/manip/erase_line.cpp
         src/manip/hide_cursor.cpp
+        src/manip/mouse.cpp
         src/manip/move_cursor.cpp
         src/manip/restore_cursor_position.cpp
         src/manip/save_cursor_position.cpp
@@ -335,7 +336,7 @@ target_sources(terminalpp_tester
         test/terminal_cursor_test.cpp
         test/terminal_erase_test.cpp
 #        test/terminal_read_test.cpp
-#        test/terminal_settings_test.cpp
+        test/terminal_settings_test.cpp
 #        test/terminal_string_test.cpp
         test/virtual_key_test.cpp
 )

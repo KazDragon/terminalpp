@@ -363,6 +363,38 @@ public:
         write_function const &write_fn) const;
 };
 
+//* =========================================================================
+/// \brief A manipulator that enables mouse clicks according to the terminal
+/// behaviour.
+//* =========================================================================
+class TERMINALPP_EXPORT enable_mouse
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to enable the mouse
+    //* =====================================================================
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
+};
+
+//* =========================================================================
+/// \brief A manipulator that disables mouse clicks according to the terminal
+/// behaviour.
+//* =========================================================================
+class TERMINALPP_EXPORT disable_mouse
+{
+public:
+    //* =====================================================================
+    /// \brief Writes ANSI codes necessary to disable the mouse
+    //* =====================================================================
+    void operator()(
+        terminalpp::behaviour const &beh,
+        terminalpp::terminal_state &state,
+        write_function const &write_fn) const;
+};
+
 #if 0
 
 //* =========================================================================

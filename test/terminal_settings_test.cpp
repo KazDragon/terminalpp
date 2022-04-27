@@ -6,13 +6,14 @@ using namespace terminalpp::literals;
 
 TEST_F(a_terminal, enabling_mouse_mode_sends_nothing)
 {
-    terminal_.write(append_to_result) << terminalpp::enable_mouse();
+    terminal_ << terminalpp::enable_mouse();
     expect_sequence(""_tb, result_);
 }
 
+
 TEST_F(a_terminal, disabling_mouse_mode_sends_nothing)
 {
-    terminal_.write(append_to_result) << terminalpp::disable_mouse();
+    terminal_ << terminalpp::disable_mouse();
     expect_sequence(""_tb, result_);
 }
 
@@ -37,13 +38,13 @@ public:
 
 TEST_F(a_terminal_with_basic_mouse_support, sends_enable_basic_mouse_tracking_when_enabling_mouse)
 {
-    terminal_.write(append_to_result) << terminalpp::enable_mouse();
+    terminal_ << terminalpp::enable_mouse();
     expect_sequence("\x1B[?1000h"_tb, result_);
 }
 
 TEST_F(a_terminal_with_basic_mouse_support, sends_disable_basic_mouse_tracking_when_disabling_mouse)
 {
-    terminal_.write(append_to_result) << terminalpp::disable_mouse();
+    terminal_ << terminalpp::disable_mouse();
     expect_sequence("\x1B[?1000l"_tb, result_);
 }
 
@@ -68,19 +69,20 @@ public:
 
 TEST_F(a_terminal_with_all_mouse_motion_support, sends_enable_all_mouse_motion_when_enabling_mouse)
 {
-    terminal_.write(append_to_result) << terminalpp::enable_mouse();
+    terminal_ << terminalpp::enable_mouse();
     expect_sequence("\x1B[?1003h"_tb, result_);
 }
 
 TEST_F(a_terminal_with_all_mouse_motion_support, sends_disable_basic_mouse_motion_when_disabling_mouse)
 {
-    terminal_.write(append_to_result) << terminalpp::disable_mouse();
+    terminal_ << terminalpp::disable_mouse();
     expect_sequence("\x1B[?1003l"_tb, result_);
 }
 
+#if 0
 TEST_F(a_terminal, setting_window_title_sends_nothing)
 {
-    terminal_.write(append_to_result) << terminalpp::set_window_title("title");
+    terminal_ << terminalpp::set_window_title("title");
     expect_sequence(""_tb, result_);
 }
 
@@ -145,3 +147,5 @@ TEST_F(a_terminal, activating_alternate_screen_buffer_sends_use_alternate_screen
     terminal_.write(append_to_result) << terminalpp::use_alternate_screen_buffer();
     expect_sequence("\x1B[?47h"_tb, result_);
 }
+
+#endif
