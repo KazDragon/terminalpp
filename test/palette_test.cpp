@@ -106,13 +106,15 @@ TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
         {
             result.append(std::cbegin(data), std::cend(data));
         };
-
-    terminalpp::terminal terminal;
+    auto const unused_read = [](terminalpp::tokens) { FAIL(); };
+    terminalpp::terminal terminal{unused_read, append_to_result};
 
     // First write a space in the default attribute.  Thereafter, we write 
     // only what is not default about the palette-based element.
-    terminal.write(discard_result) << ""_ets;
-    terminal.write(append_to_result) << elem;
+    terminal << ""_ets;
+    result.clear();
+
+    terminal << elem;
     expect_sequence(expected, result);
 }
 
