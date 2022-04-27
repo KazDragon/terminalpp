@@ -169,7 +169,11 @@ target_sources(terminalpp
 
         src/detail/parser.cpp
         src/detail/well_known_virtual_key.cpp
+        src/manip/hide_cursor.cpp
         src/manip/move_cursor.cpp
+        src/manip/restore_cursor_position.cpp
+        src/manip/save_cursor_position.cpp
+        src/manip/show_cursor.cpp
         src/manip/write_element.cpp
         src/manip/write_optional_default_attribute.cpp
         src/attribute.cpp

@@ -52,7 +52,6 @@ INSTANTIATE_TEST_SUITE_P(
     ValuesIn(unknown_location_move_data_table)
 );
 
-#if 0
 namespace {
 
 using known_location_move_data = std::tuple<
@@ -83,11 +82,10 @@ TEST_P(a_terminal_with_a_known_location, sends_bytes_when_moving_the_cursor)
     auto const &destination     = get<1>(param);
     auto const &expected_result = get<2>(param);
 
-    terminal_.write(discard_result) 
-        << ""_ets
-        << terminalpp::move_cursor(source);
-    terminal_.write(append_to_result) 
-        << terminalpp::move_cursor(destination);
+    terminal_ << terminalpp::move_cursor(source);
+    result_.clear();
+
+    terminal_ << terminalpp::move_cursor(destination);
 
     expect_sequence(expected_result, result_);
 }
@@ -143,6 +141,7 @@ public:
     a_terminal_with_a_shown_cursor()
     {
         terminal_ << terminalpp::show_cursor();
+        result_.clear();
     }
 };
 
@@ -168,6 +167,7 @@ public:
     a_terminal_with_a_hidden_cursor()
     {
         terminal_ << terminalpp::hide_cursor();
+        result_.clear();
     }
 };
 
@@ -200,14 +200,15 @@ TEST_F(a_terminal, when_restoring_the_cursor_sends_ansi_codes)
 TEST_F(a_terminal, when_restoring_the_cursor_to_a_known_location_remembers_that_location)
 {
     terminal_.set_size({30, 30});
-    terminal_.write(discard_result)
+    terminal_
         << terminalpp::move_cursor({10, 10})
         << terminalpp::save_cursor_position()
         << terminalpp::move_cursor({0, 0})
         << "?"
         << terminalpp::restore_cursor_position();
+    result_.clear();
 
-    terminal_.write(append_to_result)
+    terminal_
         << terminalpp::move_cursor({10, 10})
         << "x";
 
@@ -217,12 +218,13 @@ TEST_F(a_terminal, when_restoring_the_cursor_to_a_known_location_remembers_that_
 TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
 {
     terminal_.set_size({10, 10});
-    terminal_.write(discard_result) 
+    terminal_
         << terminalpp::move_cursor({8, 8})
         << "a";
+    result_.clear();
 
     terminal_.set_size({11, 11});
-    terminal_.write(append_to_result)
+    terminal_
         << terminalpp::move_cursor({9, 8})
         << "b";
 
@@ -232,14 +234,14 @@ TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
 TEST_F(a_terminal, has_an_unknown_cursor_location_when_writing_the_last_character_in_a_line)
 {
     terminal_.set_size({10, 10});
-    terminal_.write(discard_result)
+    terminal_
         << terminalpp::move_cursor({9, 0})
         << "a";
+    result_.clear();
 
-    terminal_.write(append_to_result)
+    terminal_
         << terminalpp::move_cursor({0, 1})
         << "b";
 
     expect_sequence("\x1B[2Hb"_tb, result_);
 }
-#endif
