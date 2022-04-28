@@ -9,7 +9,7 @@ class TerminalppConan(ConanFile):
     description = "A C++ library for interacting with ANSI terminal windows"
     topics = ("terminal-emulators", "ansi-escape-codes")
     settings = "os", "compiler", "build_type", "arch"
-    exports = "*.hpp", "*.in", "*.cpp", "CMakeLists.txt", "*.md", "LICENSE"
+    exports = "*.hpp", "*.in", "*.cpp", "CMakeLists.txt", "*.md", "LICENSE", "*.cmake"
     options = {"shared": [True, False], "coverage": [True, False], "sanitize" : ["off", "address"]}
     default_options = {"shared": False, "coverage": False, "sanitize": "off"}
     requires = ("fmt/[>=5.3]",
@@ -26,6 +26,7 @@ class TerminalppConan(ConanFile):
         cmake.definitions["BUILD_SHARED_LIBS"] = self.options.shared
         cmake.definitions["TERMINALPP_COVERAGE"] = self.options.coverage
         cmake.definitions["TERMINALPP_SANITIZE"] = self.options.sanitize
+        cmake.definitions["TERMINALPP_VERSION"] = self.version
         cmake.configure()
         cmake.build()
 

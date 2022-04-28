@@ -11,7 +11,7 @@ int main()
         [](terminalpp::bytes data) {
             std::cout << std::string(std::cbegin(data), std::cend(data));
         }
-    }
+    };
 
     using namespace terminalpp::literals;
     terminal << "\\[1SUCCESS!\\x\n"_ets;
