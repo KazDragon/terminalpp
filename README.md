@@ -215,7 +215,7 @@ void write_to_console(terminalpp::bytes data)
 int main()
 {
     terminalpp::terminal terminal{read_from_console, write_to_console};
-    terminalpp::screen screen;
+    terminalpp::screen screen{terminal};
     terminalpp::canvas canvas({80, 24});
 
     // Set the entire canvas to be the letter 'x' on a shocking pink
@@ -231,13 +231,13 @@ int main()
         }
     }
 
-    screen.draw(terminal, canvas);
+    screen.draw(canvas);
     // screen is now actually shocking pink.
 
     canvas[10][15].glyph_ = 'y';
     canvas[10][15].attribute_.background_colour_ = terminalpp::graphics::colour::blue;
 
-    screen.draw(terminal, canvas);
+    screen.draw(canvas);
     // screen is still shocking pink, but there is now a letter 'y' with a
     // blue background at position (10, 15).
 }
