@@ -3,23 +3,34 @@
 
 namespace terminalpp { 
 
-void screen::draw(terminal &term, canvas const &cvs)
+// ==========================================================================
+// CONSTRUCTOR
+// ==========================================================================
+screen::screen(terminal& term)
+  : terminal_(term)
+{
+}
+
+// ==========================================================================
+// DRAW
+// ==========================================================================
+void screen::draw(canvas const &cvs)
 {
     if (cvs.size() != last_frame_.size())
     {
         last_frame_ = canvas(cvs.size());
-        term << erase_display();
+        terminal_ << erase_display();
     }
 
     for_each_in_region(
         cvs, {{}, cvs.size()},
-        [this, &term](
+        [this](
             element const &elem, coordinate_type x, coordinate_type y)
         {
             if (last_frame_[x][y] != elem)
             {
-                term << move_cursor({x, y})
-                     << elem;
+                terminal_ << move_cursor({x, y})
+                          << elem;
             }
         });
 

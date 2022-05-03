@@ -17,11 +17,17 @@ class TERMINALPP_EXPORT screen
 {
 public :
     //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    explicit screen(terminal& term);
+
+    //* =====================================================================
     /// \brief Draws the canvas to the terminal.
     //* =====================================================================
-    void draw(terminal &term, canvas const &cvs);
+    void draw(canvas const &cvs);
 
 private :
+    terminal& terminal_;
     canvas last_frame_{{}};
 };
 
