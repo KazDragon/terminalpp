@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.2.2.1</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -242,7 +242,7 @@ Canvas and Screen</h1>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{read_from_console, write_to_console};</div>
-<div class="line">    <a class="code" href="classterminalpp_1_1screen.html">terminalpp::screen</a> screen;</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1screen.html">terminalpp::screen</a> screen{terminal};</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1canvas.html">terminalpp::canvas</a> canvas({80, 24});</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Set the entire canvas to be the letter &#39;x&#39; on a shocking pink</span></div>
@@ -258,13 +258,13 @@ Canvas and Screen</h1>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">    screen.<a class="code" href="classterminalpp_1_1screen.html#a567bd062de198e7bba0f00d8d198f0d8">draw</a>(terminal, canvas);</div>
+<div class="line">    screen.draw(canvas);</div>
 <div class="line">    <span class="comment">// screen is now actually shocking pink.</span></div>
 <div class="line"> </div>
 <div class="line">    canvas[10][15].glyph_ = <span class="charliteral">&#39;y&#39;</span>;</div>
 <div class="line">    canvas[10][15].attribute_.background_colour_ = terminalpp::graphics::colour::blue;</div>
 <div class="line"> </div>
-<div class="line">    screen.<a class="code" href="classterminalpp_1_1screen.html#a567bd062de198e7bba0f00d8d198f0d8">draw</a>(terminal, canvas);</div>
+<div class="line">    screen.draw(canvas);</div>
 <div class="line">    <span class="comment">// screen is still shocking pink, but there is now a letter &#39;y&#39; with a</span></div>
 <div class="line">    <span class="comment">// blue background at position (10, 15).</span></div>
 <div class="line">}</div>
@@ -326,12 +326,11 @@ Canvas and Screen</h1>
 <div class="ttc" id="aclassterminalpp_1_1screen_html"><div class="ttname"><a href="classterminalpp_1_1screen.html">terminalpp::screen</a></div><div class="ttdoc">A class that represents a screen for a terminal.</div><div class="ttdef"><b>Definition:</b> screen.hpp:16</div></div>
 <div class="ttc" id="astructterminalpp_1_1high__colour_html"><div class="ttname"><a href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a></div><div class="ttdoc">Structure representing the central 216 colours of a 256-colour palette, where each colour channel is ...</div><div class="ttdef"><b>Definition:</b> colour.hpp:79</div></div>
 <div class="ttc" id="aclassterminalpp_1_1restore__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1restore__cursor__position.html">terminalpp::restore_cursor_position</a></div><div class="ttdoc">A manipulator that restores the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:234</div></div>
-<div class="ttc" id="aclassterminalpp_1_1screen_html_a567bd062de198e7bba0f00d8d198f0d8"><div class="ttname"><a href="classterminalpp_1_1screen.html#a567bd062de198e7bba0f00d8d198f0d8">terminalpp::screen::draw</a></div><div class="ttdeci">void draw(terminal &amp;term, canvas const &amp;cvs)</div><div class="ttdoc">Draws the canvas to the terminal.</div><div class="ttdef"><b>Definition:</b> screen.cpp:6</div></div>
 <div class="ttc" id="aclassterminalpp_1_1save__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1save__cursor__position.html">terminalpp::save_cursor_position</a></div><div class="ttdoc">A manipulator that saves the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:219</div></div>
 <div class="ttc" id="aclassterminalpp_1_1canvas_html"><div class="ttname"><a href="classterminalpp_1_1canvas.html">terminalpp::canvas</a></div><div class="ttdoc">A class representing a grid onto which elements can be painted.</div><div class="ttdef"><b>Definition:</b> canvas.hpp:17</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 2 2022 04:59:43 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 3 2022 09:14:31 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
