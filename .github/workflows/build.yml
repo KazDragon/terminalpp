@@ -52,6 +52,28 @@ jobs:
       shell: bash
       run: ctest -C $BUILD_TYPE
 
+  build-windows:
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        build_type: ['Debug', 'Release']
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Conan
+        id: conan
+        uses: turtlebrowser/get-conan@v1.0
+
+      - name: Print Conan version
+        run: echo "Using Conan ${{steps.conan.outputs.version}}"
+
+      - name: Create default conan profile
+        run: conan profile new default --detect
+
+      - name: Build project in ${{matrix.build_type}} mode
+        run: conan create . -s build_type=${{matrix.build_type}}
+
   build-conan:
     runs-on: ubuntu-latest
 
