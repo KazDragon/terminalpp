@@ -72,7 +72,7 @@ jobs:
         run: conan profile new default --detect
 
       - name: Build project in ${{matrix.build_type}} mode
-        run: conan create . terminalpp/9.9.9@_/_ -s build_type=${{matrix.build_type}}
+        run: conan create . terminalpp/9.9.9@_/_ -s build_type=${{matrix.build_type}} --build=missing
 
   build-conan:
     runs-on: ubuntu-latest
