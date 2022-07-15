@@ -8,8 +8,9 @@ namespace terminalpp {
 terminalpp::string encode(gsl::cstring_span text)
 {
     string result;
+    element prev_element;
 
-    while (element prev_element; !text.empty())
+    while (!text.empty())
     {
         result += detail::parse_element(text, prev_element);
         prev_element = *result.rbegin();
