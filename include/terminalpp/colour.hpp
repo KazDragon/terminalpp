@@ -3,6 +3,7 @@
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iosfwd>
+#include <variant>
 
 namespace terminalpp {
 
@@ -285,18 +286,10 @@ struct TERMINALPP_EXPORT colour
             boost::equality_comparable<colour>>
 {
     //* =====================================================================
-    /// \brief An enumeration of the possible colour types.
-    //* =====================================================================
-    enum class type : byte
-    {
-        low, high, greyscale, true_
-    };
-
-    //* =====================================================================
     /// \brief Default constructs the colour with the "default" ANSI colour.
     //* =====================================================================
     constexpr colour()
-      : colour(terminalpp::low_colour())
+      : colour{terminalpp::low_colour()}
     {
     }
 
@@ -304,8 +297,7 @@ struct TERMINALPP_EXPORT colour
     /// \brief Constructs a colour with the passed low_colour value.
     //* =====================================================================
     constexpr colour(terminalpp::low_colour col)
-      : low_colour_(std::move(col)),
-        type_(type::low)
+      : value_{std::move(col)}
     {
     }
 
@@ -313,7 +305,7 @@ struct TERMINALPP_EXPORT colour
     /// \brief Constructs a colour from an ANSI graphics low colour.
     //* =====================================================================
     constexpr colour(terminalpp::graphics::colour col)
-      : colour(terminalpp::low_colour(col))
+      : colour{terminalpp::low_colour(col)}
     {
     }
 
@@ -321,8 +313,7 @@ struct TERMINALPP_EXPORT colour
     /// \brief Constructs a colour with the passed high_colour value.
     //* =====================================================================
     constexpr colour(terminalpp::high_colour col)
-      : high_colour_(std::move(col)),
-        type_(type::high)
+      : value_{high_colour{std::move(col)}}
     {
     }
 
@@ -330,8 +321,7 @@ struct TERMINALPP_EXPORT colour
     /// \brief Constructs a colour with the passed greyscale_colour value.
     //* =====================================================================
     constexpr colour(terminalpp::greyscale_colour col)
-      : greyscale_colour_(std::move(col)),
-        type_(type::greyscale)
+      : value_{greyscale_colour{std::move(col)}}
     {
     }
 
@@ -339,8 +329,7 @@ struct TERMINALPP_EXPORT colour
     /// \brief Constructs a colour with the passed true_colour value.
     //* =====================================================================
     constexpr colour(terminalpp::true_colour col)
-      : true_colour_(std::move(col)),
-        type_(type::true_)
+      : value_{true_colour{std::move(col)}}
     {
     }
 
@@ -349,39 +338,14 @@ struct TERMINALPP_EXPORT colour
     //* =====================================================================
     friend std::size_t hash_value(colour const &col) noexcept
     {
-        std::size_t seed = 0;
-
-        switch (col.type_)
-        {
-            case type::low: 
-                boost::hash_combine(seed, hash_value(col.low_colour_));
-                break;
-
-            case type::high: 
-                boost::hash_combine(seed, hash_value(col.high_colour_));
-                break;
-
-            case type::greyscale:
-                boost::hash_combine(seed, hash_value(col.greyscale_colour_));
-                break;
-
-            case type::true_:
-                boost::hash_combine(seed, hash_value(col.true_colour_));
-                break;
-        }
-
-        return seed;
+        return std::visit(
+            [](auto const &val) { 
+                return hash_value(val); 
+            }, 
+            col.value_);
     }
 
-    union
-    {
-        terminalpp::low_colour low_colour_;
-        terminalpp::high_colour high_colour_;
-        terminalpp::greyscale_colour greyscale_colour_;
-        terminalpp::true_colour true_colour_;
-    };
-
-    type type_;
+    std::variant<low_colour, high_colour, greyscale_colour, true_colour> value_;
 };
 
 //* =========================================================================
@@ -390,16 +354,7 @@ struct TERMINALPP_EXPORT colour
 TERMINALPP_EXPORT 
 constexpr bool operator==(colour const &lhs, colour const &rhs)
 {
-    return lhs.type_ == rhs.type_
-        && (lhs.type_             == colour::type::low
-          ? lhs.low_colour_       == rhs.low_colour_
-          : lhs.type_             == colour::type::high
-          ? lhs.high_colour_      == rhs.high_colour_
-          : lhs.type_             == colour::type::greyscale
-          ? lhs.greyscale_colour_ == rhs.greyscale_colour_
-          : lhs.type_             == colour::type::true_
-          ? lhs.true_colour_      == rhs.true_colour_
-          : false);
+    return lhs.value_ == rhs.value_;
 }
 
 //* =========================================================================
@@ -408,25 +363,7 @@ constexpr bool operator==(colour const &lhs, colour const &rhs)
 TERMINALPP_EXPORT 
 constexpr bool operator<(colour const &lhs, colour const &rhs)
 {
-    if (lhs.type_ < rhs.type_)
-    {
-        return true;
-    }
-    
-    if (lhs.type_ == rhs.type_)
-    {
-        return lhs.type_ == colour::type::low
-             ? lhs.low_colour_ < rhs.low_colour_
-             : lhs.type_ == colour::type::high
-             ? lhs.high_colour_ < rhs.high_colour_
-             : lhs.type_ == colour::type::greyscale
-             ? lhs.greyscale_colour_ < rhs.greyscale_colour_
-             : lhs.type_ == colour::type::true_
-             ? lhs.true_colour_ < rhs.true_colour_
-             : false;
-    }
-    
-    return false;
+    return lhs.value_ < rhs.value_;
 }
 
 //* =========================================================================

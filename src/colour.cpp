@@ -89,22 +89,8 @@ std::ostream &operator<<(std::ostream &out, true_colour const &col)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, colour const &col)
 {
-    switch (col.type_)
-    {
-        default :
-            // Fall-through
-        case colour::type::low:
-            return out << col.low_colour_;
-
-        case colour::type::high:
-            return out << col.high_colour_;
-
-        case colour::type::greyscale:
-            return out << col.greyscale_colour_;
-
-        case colour::type::true_:
-            return out << col.true_colour_;
-    }
+    std::visit([&out](auto const &value) { out << value; }, col.value_);
+    return out;
 }
 
 }

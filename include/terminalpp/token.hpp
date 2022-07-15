@@ -4,12 +4,12 @@
 #include "terminalpp/control_sequence.hpp"
 #include "terminalpp/mouse.hpp"
 #include "terminalpp/virtual_key.hpp"
-#include <boost/variant.hpp>
 #include <vector>
+#include <variant>
 
 namespace terminalpp {
 
-using token = boost::variant<
+using token = std::variant<
     terminalpp::virtual_key,
     terminalpp::mouse::event,
     terminalpp::control_sequence

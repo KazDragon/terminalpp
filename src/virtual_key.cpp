@@ -2,6 +2,7 @@
 #include <boost/io/ios_state.hpp>
 #include <iomanip>
 #include <iostream>
+#include <tuple>
 
 namespace terminalpp {
 
@@ -12,10 +13,17 @@ static virtual_key const default_vk = {};
 // ==========================================================================
 bool operator==(virtual_key const &lhs, virtual_key const &rhs)
 {
-    return lhs.key == rhs.key
-        && lhs.modifiers == rhs.modifiers
-        && lhs.repeat_count == rhs.repeat_count
-        && lhs.sequence == rhs.sequence;
+    return 
+        std::tie(
+            lhs.key,
+            lhs.modifiers,
+            lhs.repeat_count,
+            lhs.sequence)
+     == std::tie(
+            rhs.key,
+            rhs.modifiers,
+            rhs.repeat_count,
+            rhs.sequence);
 }
 
 namespace {
@@ -25,12 +33,19 @@ namespace {
 // ==========================================================================
 void output_pipe(std::ostream &out, bool &pipe)
 {
-    if (pipe)
+    if (std::exchange(pipe, true))
     {
         out << "|";
     }
+}
 
-    pipe = true;
+// ==========================================================================
+// OPERATOR<<(INPUT_SEQUENCE)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, virtual_key::input_sequence const &is)
+{
+    std::visit([&out](auto const &seq) { out << seq; }, is);
+    return out;
 }
 
 // ==========================================================================
@@ -72,12 +87,10 @@ std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
 // ==========================================================================
 void output_comma(std::ostream &out, bool &comma)
 {
-    if (comma)
+    if (std::exchange(comma, true))
     {
         out << ", ";
     }
-
-    comma = true;
 }
 
 // ==========================================================================

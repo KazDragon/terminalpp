@@ -1,10 +1,10 @@
 #include <consolepp/console.hpp>
 #include <terminalpp/terminal.hpp>
 #include <terminalpp/mouse.hpp>
-#include <terminalpp/detail/lambda_visitor.hpp>
 #include <boost/asio.hpp>
 #include <boost/range/algorithm/for_each.hpp>
 #include <fmt/format.h>
+#include <variant>
 
 static void handle_token(terminalpp::token const &token);
 static void schedule_async_read();
@@ -52,9 +52,12 @@ int main()
              << fmt::format("mouse clicked at ({},{})\n", mouse_position.x_, mouse_position.y_);
 }
 
+template <typename... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template <typename... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
 static void handle_token(terminalpp::token const &token)
 {
-    boost::apply_visitor(terminalpp::detail::make_lambda_visitor(
+    std::visit(overloaded{
         [](terminalpp::mouse::event const &mouse)
         {
             if (mouse.action_ == terminalpp::mouse::event_type::left_button_down)
@@ -65,7 +68,7 @@ static void handle_token(terminalpp::token const &token)
         },
         [](auto &&)
         {
-        }),
+        }},
         token);
 }
 

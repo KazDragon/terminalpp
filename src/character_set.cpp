@@ -35,13 +35,12 @@ static constexpr struct {
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, character_set const &set)
 {
-    auto it = boost::find_if(character_set_strings,
+    if (auto it = boost::find_if(character_set_strings,
         [set](auto const &character_set_string)
         {
             return set.value_ == character_set_string.set;
         });
-
-    if (it != std::cend(character_set_strings))
+        it != std::cend(character_set_strings))
     {
         return out << it->name;
     }
