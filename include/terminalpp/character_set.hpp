@@ -3,8 +3,8 @@
 #include "terminalpp/ansi/charset.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
-#include <boost/utility/string_view.hpp>
 #include <iosfwd>
+#include <string_view>
 
 
 namespace terminalpp {
@@ -172,9 +172,9 @@ constexpr std::optional<character_set> lookup_character_set(bytes code)
 /// \brief Encodes a character set into a set of ANSI bytes.
 //* =========================================================================
 TERMINALPP_EXPORT
-constexpr boost::basic_string_view<byte> encode_character_set(character_set const &set)
+constexpr std::basic_string_view<byte> encode_character_set(character_set const &set)
 {
-    // std::find_if is not constexpr in C++14.
+    // std::find_if is not constexpr in C++17.
     auto charset_entry = std::cbegin(detail::charset_map);
     while (charset_entry != std::cend(detail::charset_map))
     {
