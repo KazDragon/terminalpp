@@ -137,7 +137,6 @@ target_sources(terminalpp
         include/terminalpp/detail/element_difference.hpp
         include/terminalpp/detail/element_udl.hpp
         include/terminalpp/detail/export.hpp
-        include/terminalpp/detail/lambda_visitor.hpp
         include/terminalpp/detail/parser.hpp
         include/terminalpp/detail/well_known_virtual_key.hpp
         include/terminalpp/attribute.hpp

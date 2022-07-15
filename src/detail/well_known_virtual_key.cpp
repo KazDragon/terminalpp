@@ -3,7 +3,6 @@
 #include "terminalpp/ansi/csi.hpp"
 #include "terminalpp/ansi/dec_private_mode.hpp"
 #include "terminalpp/ansi/ss3.hpp"
-#include "terminalpp/detail/lambda_visitor.hpp"
 #include <boost/range/algorithm/find_if.hpp>
 #include <utility>
 
@@ -250,6 +249,9 @@ token convert_common_control_sequence(control_sequence const &seq)
     return seq;
 }
 
+template <typename... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template <typename... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
 }
 
 // ==========================================================================
@@ -257,15 +259,15 @@ token convert_common_control_sequence(control_sequence const &seq)
 // ==========================================================================
 token get_well_known_virtual_key(token const &tok)
 {
-    return boost::apply_visitor(make_lambda_visitor<token>(
+    return std::visit(overloaded{
         [](control_sequence const &seq)
         {
             return convert_common_control_sequence(seq);
         },
-        [](auto &&t)
+        [](auto &&t) -> token
         {
             return t;
-        }),
+        }},
         tok);
 }
 

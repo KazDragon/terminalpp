@@ -13,9 +13,8 @@ TEST(a_default_constructed_vk, has_default_members)
     ASSERT_EQ(terminalpp::vk_modifier::none, vk.modifiers);
     ASSERT_EQ(0, vk.repeat_count);
 
-    auto *psequence = boost::get<terminalpp::byte>(&vk.sequence);
-    ASSERT_NE(nullptr, psequence);
-    ASSERT_EQ(0, *psequence);
+    auto const &psequence = std::get<terminalpp::byte>(vk.sequence);
+    ASSERT_EQ(0, psequence);
 }
 
 TEST(anding_a_default_vk_modifer, matches_none)

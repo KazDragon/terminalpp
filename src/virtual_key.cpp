@@ -34,6 +34,15 @@ void output_pipe(std::ostream &out, bool &pipe)
 }
 
 // ==========================================================================
+// OPERATOR<<(INPUT_SEQUENCE)
+// ==========================================================================
+std::ostream &operator<<(std::ostream &out, virtual_key::input_sequence const &is)
+{
+    std::visit([&out](auto const &seq) { out << seq; }, is);
+    return out;
+}
+
+// ==========================================================================
 // OPERATOR<<(VK_MODIFIER)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, vk_modifier const &vkm)
