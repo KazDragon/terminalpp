@@ -12,6 +12,7 @@
 #include "terminalpp/character_set.hpp"
 #include "terminalpp/colour.hpp"
 #include "terminalpp/effect.hpp"
+#include "terminalpp/detail/overloaded.hpp"
 #include <fmt/format.h>
 #include <optional>
 
@@ -202,35 +203,31 @@ void change_foreground_colour(
             wc(separator);
         }
 
-        switch (dest.type_)
-        {
-            case colour::type::low:
+        std::visit(overloaded{  
+            [&wc](low_colour const &col) {
                 wc(to_bytes(fmt::format("{}",
-                    int(dest.low_colour_.value_)
+                    int(col.value_)
                   + ansi::graphics::foreground_colour_base
                 )));
-                break;
-
-            case colour::type::high:
+            },
+            [&wc](high_colour const &col) {
                 wc(to_bytes(fmt::format("38;5;{}",
-                    int(dest.high_colour_.value_)
+                    int(col.value_)
                 )));
-                break;
-
-            case colour::type::greyscale:
+            },
+            [&wc](greyscale_colour const &col) {
                 wc(to_bytes(fmt::format("38;5;{}",
-                    int(dest.greyscale_colour_.shade_)
+                    int(col.shade_)
                 )));
-                break;
-
-            case colour::type::true_:
+            },
+            [&wc](true_colour const &col) {
                 wc(to_bytes(fmt::format("38;2;{};{};{}",
-                    int(dest.true_colour_.red_),
-                    int(dest.true_colour_.green_),
-                    int(dest.true_colour_.blue_)
+                    int(col.red_),
+                    int(col.green_),
+                    int(col.blue_)
                 )));
-                break;
-        }
+            }}, 
+            dest.value_);
     }
 }
 
@@ -252,35 +249,31 @@ void change_background_colour(
             wc(separator);
         }
 
-        switch (dest.type_)
-        {
-            case colour::type::low:
+        std::visit(overloaded{  
+            [&wc](low_colour const &col) {
                 wc(to_bytes(fmt::format("{}",
-                    int(dest.low_colour_.value_)
+                    int(col.value_)
                   + ansi::graphics::background_colour_base
                 )));
-                break;
-
-            case colour::type::high:
+            },
+            [&wc](high_colour const &col) {
                 wc(to_bytes(fmt::format("48;5;{}",
-                    int(dest.high_colour_.value_)
+                    int(col.value_)
                 )));
-                break;
-
-            case colour::type::greyscale:
+            },
+            [&wc](greyscale_colour const &col) {
                 wc(to_bytes(fmt::format("48;5;{}",
-                    int(dest.greyscale_colour_.shade_)
+                    int(col.shade_)
                 )));
-                break;
-
-            case colour::type::true_:
+            },
+            [&wc](true_colour const &col) {
                 wc(to_bytes(fmt::format("48;2;{};{};{}",
-                    int(dest.true_colour_.red_),
-                    int(dest.true_colour_.green_),
-                    int(dest.true_colour_.blue_)
+                    int(col.red_),
+                    int(col.green_),
+                    int(col.blue_)
                 )));
-                break;
-        }
+            }}, 
+            dest.value_);
     }
 }
 

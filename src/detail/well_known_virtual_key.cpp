@@ -3,6 +3,7 @@
 #include "terminalpp/ansi/csi.hpp"
 #include "terminalpp/ansi/dec_private_mode.hpp"
 #include "terminalpp/ansi/ss3.hpp"
+#include "terminalpp/detail/overloaded.hpp"
 #include <boost/range/algorithm/find_if.hpp>
 #include <utility>
 
@@ -248,9 +249,6 @@ token convert_common_control_sequence(control_sequence const &seq)
 
     return seq;
 }
-
-template <typename... Ts> struct overloaded : Ts... { using Ts::operator()...; };
-template <typename... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
 }
 
