@@ -121,9 +121,6 @@ endif()
 add_library(terminalpp)
 add_library(KazDragon::terminalpp ALIAS terminalpp)
 
-# The required C++ Standard for Terminal++ is C++14.
-target_compile_features(terminalpp PUBLIC cxx_std_14)
-
 target_sources(terminalpp
     PRIVATE
         include/terminalpp/algorithm/for_each_in_region.hpp
@@ -229,6 +226,9 @@ target_compile_options(terminalpp
         # Add warnings on g++ and Clang
         $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror -Wno-tautological-compare -Wno-unused-parameter>
 )
+
+# The required C++ Standard for Terminal++ is C++17.
+target_compile_features(terminalpp PUBLIC cxx_std_17)
 
 generate_export_header(terminalpp
     EXPORT_FILE_NAME
