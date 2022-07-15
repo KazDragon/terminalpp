@@ -8,8 +8,8 @@ var searchData=
   ['column_5fproxy_9',['column_proxy',['../classterminalpp_1_1canvas_1_1column__proxy.html',1,'terminalpp::canvas']]],
   ['const_5fcolumn_5fproxy_10',['const_column_proxy',['../classterminalpp_1_1canvas_1_1const__column__proxy.html',1,'terminalpp::canvas']]],
   ['control_5fsequence_11',['control_sequence',['../structterminalpp_1_1control__sequence.html',1,'terminalpp']]],
-  ['cursor_5fposition_5f_12',['cursor_position_',['../structterminalpp_1_1terminal__state.html#a603a6a8749b011ee930d270619810142',1,'terminalpp::terminal_state']]],
-  ['cursor_5fvisible_5f_13',['cursor_visible_',['../structterminalpp_1_1terminal__state.html#abbab331cfdaeb1364dc990b173afbf89',1,'terminalpp::terminal_state']]],
+  ['cursor_5fposition_5f_12',['cursor_position_',['../structterminalpp_1_1terminal__state.html#a4a3223ec50719e6637bd291744037540',1,'terminalpp::terminal_state']]],
+  ['cursor_5fvisible_5f_13',['cursor_visible_',['../structterminalpp_1_1terminal__state.html#aedcca3b13a14b83b3ae0d44594d91edf',1,'terminalpp::terminal_state']]],
   ['changelog_14',['Changelog',['../md__home_runner_work_terminalpp_terminalpp_CHANGELOG.html',1,'']]],
   ['contributor_20code_20of_20conduct_15',['Contributor Code of Conduct',['../md__home_runner_work_terminalpp_terminalpp_CODE_OF_CONDUCT.html',1,'']]]
 ];

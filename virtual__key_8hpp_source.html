@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -75,8 +75,8 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;terminalpp/control_sequence.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;terminalpp/detail/ascii.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;boost/variant.hpp&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;iosfwd&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;iosfwd&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;variant&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>terminalpp {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
@@ -248,7 +248,7 @@ $(function() {
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
 <div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="structterminalpp_1_1virtual__key.html">  178</a></span>&#160;<span class="keyword">struct </span>TERMINALPP_EXPORT <a class="code" href="structterminalpp_1_1virtual__key.html">virtual_key</a></div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;{</div>
-<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="structterminalpp_1_1virtual__key.html#aeb2a206310ae35c50497af69c9725e3a">  182</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="structterminalpp_1_1virtual__key.html#aeb2a206310ae35c50497af69c9725e3a">input_sequence</a> = boost::variant&lt;byte, control_sequence&gt;;</div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="structterminalpp_1_1virtual__key.html#aa2dd4fad34297613c87cae47174de308">  182</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="structterminalpp_1_1virtual__key.html#aa2dd4fad34297613c87cae47174de308">input_sequence</a> = std::variant&lt;byte, control_sequence&gt;;</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
 <div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="structterminalpp_1_1virtual__key.html#a487bd1b68e6bb81d67fdcfc669bf3d86">  186</a></span>&#160;    vk key = vk::nul;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
@@ -256,7 +256,7 @@ $(function() {
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
 <div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="structterminalpp_1_1virtual__key.html#a52c9aff040c0211b9846582af4e37d1c">  193</a></span>&#160;    <span class="keywordtype">int</span> repeat_count = 0;</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno"><a class="line" href="structterminalpp_1_1virtual__key.html#aedbc4fe66860b8a3e9d58c6e53286d52">  196</a></span>&#160;    <a class="code" href="structterminalpp_1_1virtual__key.html#aeb2a206310ae35c50497af69c9725e3a">input_sequence</a> <a class="code" href="structterminalpp_1_1virtual__key.html#aedbc4fe66860b8a3e9d58c6e53286d52">sequence</a>;</div>
+<div class="line"><a name="l00196"></a><span class="lineno"><a class="line" href="structterminalpp_1_1virtual__key.html#aedbc4fe66860b8a3e9d58c6e53286d52">  196</a></span>&#160;    <a class="code" href="structterminalpp_1_1virtual__key.html#aa2dd4fad34297613c87cae47174de308">input_sequence</a> <a class="code" href="structterminalpp_1_1virtual__key.html#aedbc4fe66860b8a3e9d58c6e53286d52">sequence</a>;</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;};</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment">//* =========================================================================</span></div>
@@ -321,11 +321,11 @@ $(function() {
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructterminalpp_1_1virtual__key_html"><div class="ttname"><a href="structterminalpp_1_1virtual__key.html">terminalpp::virtual_key</a></div><div class="ttdoc">A class that represents a keypress, possibly combined with modifiers such as shift,...</div><div class="ttdef"><b>Definition:</b> virtual_key.hpp:178</div></div>
+<div class="ttc" id="astructterminalpp_1_1virtual__key_html_aa2dd4fad34297613c87cae47174de308"><div class="ttname"><a href="structterminalpp_1_1virtual__key.html#aa2dd4fad34297613c87cae47174de308">terminalpp::virtual_key::input_sequence</a></div><div class="ttdeci">std::variant&lt; byte, control_sequence &gt; input_sequence</div><div class="ttdoc">A virtual key is generated from either a single character or some control sequence that represents th...</div><div class="ttdef"><b>Definition:</b> virtual_key.hpp:182</div></div>
 <div class="ttc" id="astructterminalpp_1_1virtual__key_html_aedbc4fe66860b8a3e9d58c6e53286d52"><div class="ttname"><a href="structterminalpp_1_1virtual__key.html#aedbc4fe66860b8a3e9d58c6e53286d52">terminalpp::virtual_key::sequence</a></div><div class="ttdeci">input_sequence sequence</div><div class="ttdoc">The actual received data for the key.</div><div class="ttdef"><b>Definition:</b> virtual_key.hpp:196</div></div>
-<div class="ttc" id="astructterminalpp_1_1virtual__key_html_aeb2a206310ae35c50497af69c9725e3a"><div class="ttname"><a href="structterminalpp_1_1virtual__key.html#aeb2a206310ae35c50497af69c9725e3a">terminalpp::virtual_key::input_sequence</a></div><div class="ttdeci">boost::variant&lt; byte, control_sequence &gt; input_sequence</div><div class="ttdoc">A virtual key is generated from either a single character or some control sequence that represents th...</div><div class="ttdef"><b>Definition:</b> virtual_key.hpp:182</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 15 2022 11:09:05 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 15 2022 13:58:17 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

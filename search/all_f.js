@@ -14,6 +14,5 @@ var searchData=
   ['terminal_5fstate_112',['terminal_state',['../structterminalpp_1_1terminal__state.html',1,'terminalpp::terminal_state'],['../structterminalpp_1_1terminal__state.html#a59829f8ff8719eec446223c84a9c6e89',1,'terminalpp::terminal_state::terminal_state()']]],
   ['terminalppconan_113',['TerminalppConan',['../classconanfile_1_1TerminalppConan.html',1,'conanfile']]],
   ['terminalpptestconan_114',['TerminalppTestConan',['../classconanfile_1_1TerminalppTestConan.html',1,'conanfile']]],
-  ['true_5fcolour_115',['true_colour',['../structterminalpp_1_1true__colour.html',1,'terminalpp::true_colour'],['../structterminalpp_1_1true__colour.html#a7740d464d4b74efcfded7abcf44107ff',1,'terminalpp::true_colour::true_colour()'],['../structterminalpp_1_1true__colour.html#acffc0c08f0943b3d22001c7979655b3f',1,'terminalpp::true_colour::true_colour(byte const red, byte const green, byte const blue)']]],
-  ['type_116',['type',['../structterminalpp_1_1colour.html#a7d2c49f16ab0b6ff9e80b12d61a8427b',1,'terminalpp::colour']]]
+  ['true_5fcolour_115',['true_colour',['../structterminalpp_1_1true__colour.html',1,'terminalpp::true_colour'],['../structterminalpp_1_1true__colour.html#a7740d464d4b74efcfded7abcf44107ff',1,'terminalpp::true_colour::true_colour()'],['../structterminalpp_1_1true__colour.html#acffc0c08f0943b3d22001c7979655b3f',1,'terminalpp::true_colour::true_colour(byte const red, byte const green, byte const blue)']]]
 ];

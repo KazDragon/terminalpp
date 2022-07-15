@@ -1,7 +1,7 @@
 var searchData=
 [
   ['save_5fcursor_5fposition_90',['save_cursor_position',['../classterminalpp_1_1save__cursor__position.html',1,'terminalpp']]],
-  ['saved_5fcursor_5fposition_5f_91',['saved_cursor_position_',['../structterminalpp_1_1terminal__state.html#ad94e2862a26dfb9dc3f5bfdcc6772f79',1,'terminalpp::terminal_state']]],
+  ['saved_5fcursor_5fposition_5f_91',['saved_cursor_position_',['../structterminalpp_1_1terminal__state.html#a2499bc1f76441167a70dd6dfbd8fbd6f',1,'terminalpp::terminal_state']]],
   ['screen_92',['screen',['../classterminalpp_1_1screen.html',1,'terminalpp::screen'],['../classterminalpp_1_1screen.html#a634421876b5d7098710e3e5453ba43de',1,'terminalpp::screen::screen()']]],
   ['sequence_93',['sequence',['../structterminalpp_1_1virtual__key.html#aedbc4fe66860b8a3e9d58c6e53286d52',1,'terminalpp::virtual_key']]],
   ['set_5fsize_94',['set_size',['../classterminalpp_1_1terminal.html#a827dc191362ed6ec3482b2364315ce77',1,'terminalpp::terminal']]],
