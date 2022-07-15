@@ -25,7 +25,7 @@ parser::parser()
 {
 }
 
-boost::optional<terminalpp::token> parser::parser::operator()(byte input)
+std::optional<terminalpp::token> parser::parser::operator()(byte input)
 {
     switch (state_)
     {
@@ -44,7 +44,7 @@ boost::optional<terminalpp::token> parser::parser::operator()(byte input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parser::parse_idle(byte input)
+std::optional<terminalpp::token> parser::parser::parse_idle(byte input)
 {
     if (input == terminalpp::detail::ascii::esc)
     {
@@ -110,7 +110,7 @@ boost::optional<terminalpp::token> parser::parser::parse_idle(byte input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_cr(byte input)
+std::optional<terminalpp::token> parser::parse_cr(byte input)
 {
     state_ = state::idle;
 
@@ -125,7 +125,7 @@ boost::optional<terminalpp::token> parser::parse_cr(byte input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_lf(byte input)
+std::optional<terminalpp::token> parser::parse_lf(byte input)
 {
     state_ = state::idle;
 
@@ -139,7 +139,7 @@ boost::optional<terminalpp::token> parser::parse_lf(byte input)
     }
 }
 
-boost::optional<terminalpp::token> parser::parse_escape(byte input)
+std::optional<terminalpp::token> parser::parse_escape(byte input)
 {
     if (input == terminalpp::detail::ascii::esc)
     {
@@ -153,7 +153,7 @@ boost::optional<terminalpp::token> parser::parse_escape(byte input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_arguments(byte input)
+std::optional<terminalpp::token> parser::parse_arguments(byte input)
 {
     if (isdigit(input)) // TODO: depends on initiator.
     {
@@ -193,7 +193,7 @@ boost::optional<terminalpp::token> parser::parse_arguments(byte input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse0(byte input)
+std::optional<terminalpp::token> parser::parse_mouse0(byte input)
 {
     static constexpr struct {
         byte ansi_mouse_event;
@@ -227,7 +227,7 @@ boost::optional<terminalpp::token> parser::parse_mouse0(byte input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse1(byte input)
+std::optional<terminalpp::token> parser::parse_mouse1(byte input)
 {
     // In addition to the offset described above, ANSI co-ordinates are
     // 1-based, whereas Terminal++ is 0-based, which means an extra offset
@@ -239,7 +239,7 @@ boost::optional<terminalpp::token> parser::parse_mouse1(byte input)
     return {};
 }
 
-boost::optional<terminalpp::token> parser::parse_mouse2(byte input)
+std::optional<terminalpp::token> parser::parse_mouse2(byte input)
 {
     mouse_coordinate_.y_ = coordinate_type(
         (input - ansi::mouse::mouse_value_offset) - 1);

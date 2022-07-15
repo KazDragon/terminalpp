@@ -13,6 +13,7 @@
 #include "terminalpp/colour.hpp"
 #include "terminalpp/effect.hpp"
 #include <fmt/format.h>
+#include <optional>
 
 namespace terminalpp { namespace detail {
 
@@ -325,7 +326,7 @@ void change_attribute(
 //* =========================================================================
 template <class WriteContinuation>
 void change_to_default_attribute(
-    boost::optional<element> &last_element,
+    std::optional<element> &last_element,
     behaviour const &beh,
     WriteContinuation &&wc)
 {

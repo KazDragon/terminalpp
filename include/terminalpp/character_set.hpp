@@ -3,7 +3,6 @@
 #include "terminalpp/ansi/charset.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
-#include <boost/optional.hpp>
 #include <boost/utility/string_view.hpp>
 #include <iosfwd>
 
@@ -133,7 +132,7 @@ static constexpr std::pair<character_set, byte const (&)[2]> const extended_char
 /// nullptr if there is no matching set.
 //* =========================================================================
 TERMINALPP_EXPORT
-constexpr character_set const* lookup_character_set(bytes code)
+constexpr std::optional<character_set> lookup_character_set(bytes code)
 {
     const auto len = code.size();
 
@@ -150,7 +149,7 @@ constexpr character_set const* lookup_character_set(bytes code)
             {
                 if (code[1] == mapping.second[1])
                 {
-                    return &mapping.first;
+                    return mapping.first;
                 }
             }
         }
@@ -161,12 +160,12 @@ constexpr character_set const* lookup_character_set(bytes code)
         {
             if (code[0] == mapping.second[0])
             {
-                return &mapping.first;
+                return mapping.first;
             }
         }
     }
 
-    return nullptr;
+    return std::nullopt;
 }
 
 //* =========================================================================

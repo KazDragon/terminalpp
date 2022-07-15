@@ -2,7 +2,7 @@
 
 #include "terminalpp/core.hpp"
 #include "terminalpp/token.hpp"
-#include <boost/optional.hpp>
+#include <optional>
 #include <vector>
 
 namespace terminalpp { namespace detail {
@@ -12,7 +12,7 @@ class TERMINALPP_EXPORT parser
 public :
     parser();
 
-    boost::optional<terminalpp::token> operator()(byte input);
+    std::optional<terminalpp::token> operator()(byte input);
 
 private :
     enum class state
@@ -27,14 +27,14 @@ private :
         mouse2,
     };
 
-    boost::optional<terminalpp::token> parse_idle(byte input);
-    boost::optional<terminalpp::token> parse_cr(byte input);
-    boost::optional<terminalpp::token> parse_lf(byte input);
-    boost::optional<terminalpp::token> parse_escape(byte input);
-    boost::optional<terminalpp::token> parse_arguments(byte input);
-    boost::optional<terminalpp::token> parse_mouse0(byte input);
-    boost::optional<terminalpp::token> parse_mouse1(byte input);
-    boost::optional<terminalpp::token> parse_mouse2(byte input);
+    std::optional<terminalpp::token> parse_idle(byte input);
+    std::optional<terminalpp::token> parse_cr(byte input);
+    std::optional<terminalpp::token> parse_lf(byte input);
+    std::optional<terminalpp::token> parse_escape(byte input);
+    std::optional<terminalpp::token> parse_arguments(byte input);
+    std::optional<terminalpp::token> parse_mouse0(byte input);
+    std::optional<terminalpp::token> parse_mouse1(byte input);
+    std::optional<terminalpp::token> parse_mouse2(byte input);
 
     state                     state_;
     byte                      initialiser_;
