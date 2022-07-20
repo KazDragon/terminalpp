@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.4.0.2</span>
+   &#160;<span id="projectnumber">2.4.0.3</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -327,72 +327,70 @@ $(function() {
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            },</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            [&amp;wc](true_colour <span class="keyword">const</span> &amp;col) {</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                wc(to_bytes(fmt::format(<span class="stringliteral">&quot;48;2;{};{};{}&quot;</span>,</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                    <span class="keywordtype">int</span>(col.red_),</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                    <span class="keywordtype">int</span>(col.green_),</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    <span class="keywordtype">int</span>(col.blue_)</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                )));</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            }}, </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            dest.value_);</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    }</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;}</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="keywordtype">void</span> change_attribute(</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    attribute <span class="keyword">const</span> &amp;source,</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    attribute <span class="keyword">const</span> &amp;dest,</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    behaviour <span class="keyword">const</span> &amp;terminal_behaviour,</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    WriteContinuation &amp;&amp;wc)</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;{</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordflow">if</span> (source == dest)</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    {</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    }</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordflow">if</span> (dest == <a class="code" href="structterminalpp_1_1attribute.html">terminalpp::attribute</a>{})</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    {</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        default_attribute(terminal_behaviour, wc);</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    }</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160; </div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    csi(terminal_behaviour, wc);</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    </div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordtype">bool</span> change_appended = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    change_effect(source.intensity_,   dest.intensity_,   change_appended, wc);</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    change_effect(source.polarity_,    dest.polarity_,    change_appended, wc);</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    change_effect(source.underlining_, dest.underlining_, change_appended, wc);</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    change_foreground_colour(source.foreground_colour_, dest.foreground_colour_, change_appended, wc);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    change_background_colour(source.background_colour_, dest.background_colour_, change_appended, wc);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="keyword">static</span> byte_storage <span class="keyword">const</span> sgr_trailer = {</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        ansi::csi::select_graphics_rendition</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    };</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    wc(sgr_trailer);</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;}</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="keywordtype">void</span> change_to_default_attribute(</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    std::optional&lt;element&gt; &amp;last_element,</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    behaviour <span class="keyword">const</span> &amp;beh,</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    WriteContinuation &amp;&amp;wc)</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;{</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="keywordflow">if</span> (last_element)</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    {</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        detail::change_attribute(last_element-&gt;attribute_, {}, beh, wc);</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        last_element-&gt;attribute_ = {};</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    }</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;}</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;}}</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                    <span class="keywordtype">int</span>(col.red_), <span class="keywordtype">int</span>(col.green_), <span class="keywordtype">int</span>(col.blue_)</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                )));</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            }}, </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            dest.value_);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    }</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;}</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keywordtype">void</span> change_attribute(</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    attribute <span class="keyword">const</span> &amp;source,</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    attribute <span class="keyword">const</span> &amp;dest,</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    behaviour <span class="keyword">const</span> &amp;terminal_behaviour,</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    WriteContinuation &amp;&amp;wc)</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;{</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keywordflow">if</span> (source == dest)</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    }</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">if</span> (dest == <a class="code" href="structterminalpp_1_1attribute.html">terminalpp::attribute</a>{})</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    {</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        default_attribute(terminal_behaviour, wc);</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    }</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    csi(terminal_behaviour, wc);</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    </div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="keywordtype">bool</span> change_appended = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    change_effect(source.intensity_,   dest.intensity_,   change_appended, wc);</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    change_effect(source.polarity_,    dest.polarity_,    change_appended, wc);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    change_effect(source.underlining_, dest.underlining_, change_appended, wc);</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    change_foreground_colour(source.foreground_colour_, dest.foreground_colour_, change_appended, wc);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    change_background_colour(source.background_colour_, dest.background_colour_, change_appended, wc);</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keyword">static</span> byte_storage <span class="keyword">const</span> sgr_trailer = {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        ansi::csi::select_graphics_rendition</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    };</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160; </div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    wc(sgr_trailer);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;}</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> WriteContinuation&gt;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="keywordtype">void</span> change_to_default_attribute(</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    std::optional&lt;element&gt; &amp;last_element,</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    behaviour <span class="keyword">const</span> &amp;beh,</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    WriteContinuation &amp;&amp;wc)</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;{</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">if</span> (last_element)</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    {</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        detail::change_attribute(last_element-&gt;attribute_, {}, beh, wc);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        last_element-&gt;attribute_ = {};</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    }</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;}</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;}}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructterminalpp_1_1attribute_html"><div class="ttname"><a href="structterminalpp_1_1attribute.html">terminalpp::attribute</a></div><div class="ttdoc">A structure that carries around the presentation attributes of an ANSI element.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:16</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 20 2022 07:15:17 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 20 2022 08:45:58 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

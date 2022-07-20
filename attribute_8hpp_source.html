@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.4.0.2</span>
+   &#160;<span id="projectnumber">2.4.0.3</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -130,71 +130,58 @@ $(function() {
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="structterminalpp_1_1effect.html">blinking</a>    blinking_;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;constexpr <span class="keywordtype">bool</span> operator&lt;(attribute <span class="keyword">const</span> &amp;lhs, attribute <span class="keyword">const</span> &amp;rhs)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        std::tie(</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            lhs.foreground_colour_, </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            lhs.background_colour_, </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            lhs.intensity_, </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            lhs.underlining_, </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            lhs.polarity_, </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            lhs.blinking_)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      &lt; std::tie(</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            rhs.foreground_colour_, </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            rhs.background_colour_, </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            rhs.intensity_, </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            rhs.underlining_, </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            rhs.polarity_, </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            rhs.blinking_);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;constexpr <span class="keywordtype">bool</span> operator==(attribute <span class="keyword">const</span> &amp;lhs, attribute <span class="keyword">const</span> &amp;rhs)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;{</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        std::tie(</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            lhs.foreground_colour_, </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            lhs.background_colour_, </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            lhs.intensity_, </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            lhs.underlining_, </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            lhs.polarity_, </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            lhs.blinking_)</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;     == std::tie(</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            rhs.foreground_colour_, </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            rhs.background_colour_, </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            rhs.intensity_, </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            rhs.underlining_, </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            rhs.polarity_, </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            rhs.blinking_);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;TERMINALPP_EXPORT</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, attribute <span class="keyword">const</span> &amp;attr);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keyword">namespace </span>std {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01terminalpp_1_1attribute_01_4.html">  121</a></span>&#160;<span class="keyword">struct </span>hash&lt;terminalpp::attribute&gt;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">using</span> <a class="code" href="structterminalpp_1_1attribute.html">argument_type</a> = <a class="code" href="structterminalpp_1_1attribute.html">terminalpp::attribute</a>;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">using</span> result_type = std::size_t;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    result_type operator()(<a class="code" href="structterminalpp_1_1attribute.html">argument_type</a> <span class="keyword">const</span> &amp;attr) <span class="keyword">const</span> noexcept</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">return</span> hash_value(attr);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">namespace </span>detail {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;constexpr <span class="keyword">auto</span> tied(attribute <span class="keyword">const</span> &amp;attr)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> std::tie(</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        attr.foreground_colour_, </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        attr.background_colour_, </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        attr.intensity_, </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        attr.underlining_, </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        attr.polarity_, </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        attr.blinking_);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;constexpr <span class="keywordtype">bool</span> operator&lt;(attribute <span class="keyword">const</span> &amp;lhs, attribute <span class="keyword">const</span> &amp;rhs)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;{</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> detail::tied(lhs) &lt; detail::tied(rhs);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;constexpr <span class="keywordtype">bool</span> operator==(attribute <span class="keyword">const</span> &amp;lhs, attribute <span class="keyword">const</span> &amp;rhs)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;{</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">return</span> detail::tied(lhs) == detail::tied(rhs);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span><span class="comment">//* =========================================================================</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;TERMINALPP_EXPORT</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, attribute <span class="keyword">const</span> &amp;attr);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">namespace </span>std {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01terminalpp_1_1attribute_01_4.html">  108</a></span>&#160;<span class="keyword">struct </span>hash&lt;terminalpp::attribute&gt;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;{</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">using</span> <a class="code" href="structterminalpp_1_1attribute.html">argument_type</a> = <a class="code" href="structterminalpp_1_1attribute.html">terminalpp::attribute</a>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">using</span> result_type = std::size_t;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    result_type operator()(<a class="code" href="structterminalpp_1_1attribute.html">argument_type</a> <span class="keyword">const</span> &amp;attr) <span class="keyword">const</span> noexcept</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">return</span> hash_value(attr);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;};</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructterminalpp_1_1effect_html"><div class="ttname"><a href="structterminalpp_1_1effect.html">terminalpp::effect&lt; terminalpp::graphics::intensity &gt;</a></div></div>
 <div class="ttc" id="astructterminalpp_1_1colour_html"><div class="ttname"><a href="structterminalpp_1_1colour.html">terminalpp::colour</a></div><div class="ttdoc">Structure representing a sum type of the available colour styles.</div><div class="ttdef"><b>Definition:</b> colour.hpp:284</div></div>
@@ -203,7 +190,7 @@ $(function() {
 <div class="ttc" id="astructterminalpp_1_1attribute_html"><div class="ttname"><a href="structterminalpp_1_1attribute.html">terminalpp::attribute</a></div><div class="ttdoc">A structure that carries around the presentation attributes of an ANSI element.</div><div class="ttdef"><b>Definition:</b> attribute.hpp:16</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 20 2022 07:15:17 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 20 2022 08:45:58 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
