@@ -8,22 +8,25 @@ namespace terminalpp {
 
 static virtual_key const default_vk = {};
 
+namespace {
+
+auto tied(virtual_key const &vk)
+{
+    return std::tie(
+        vk.key,
+        vk.modifiers,
+        vk.repeat_count,
+        vk.sequence);
+}
+
+}
+
 // ==========================================================================
 // OPERATOR==
 // ==========================================================================
 bool operator==(virtual_key const &lhs, virtual_key const &rhs)
 {
-    return 
-        std::tie(
-            lhs.key,
-            lhs.modifiers,
-            lhs.repeat_count,
-            lhs.sequence)
-     == std::tie(
-            rhs.key,
-            rhs.modifiers,
-            rhs.repeat_count,
-            rhs.sequence);
+    return tied(lhs) == tied(rhs);
 }
 
 namespace {

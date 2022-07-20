@@ -3,6 +3,7 @@
 #include "terminalpp/core.hpp"
 #include <boost/operators.hpp>
 #include <iosfwd>
+#include <tuple>
 
 namespace terminalpp {
 
@@ -67,9 +68,7 @@ struct TERMINALPP_EXPORT point
     //* =====================================================================
     constexpr friend bool operator<(point const &lhs, point const &rhs)
     {
-        // Note: reimplemented due to std::tie not being constexpr everywhere.
-        return lhs.y_ < rhs.y_
-            || (lhs.y_ == rhs.y_ && lhs.x_ < rhs.x_);
+        return std::tie(lhs.y_, lhs.x_) < std::tie(rhs.y_, rhs.x_);
     }
 
     //* =====================================================================
@@ -77,7 +76,7 @@ struct TERMINALPP_EXPORT point
     //* =====================================================================
     constexpr friend bool operator==(point const &lhs, point const &rhs)
     {
-        return lhs.x_ == rhs.x_ && lhs.y_ == rhs.y_;
+        return std::tie(lhs.y_, lhs.x_) == std::tie(rhs.y_, rhs.x_);
     }
 
     coordinate_type x_;
