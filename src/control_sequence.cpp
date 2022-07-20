@@ -77,11 +77,11 @@ static void output_arguments(
     if (!arguments.empty())
     {
         output_comma(out, comma);
+        auto const generator = 
+            "args:\"" << boost::spirit::karma::string % ';' << "\"";
 
         boost::spirit::karma::generate(
-            std::ostream_iterator<char>(out),
-            "args:\"" << boost::spirit::karma::string % ';' << "\"",
-            arguments);
+            std::ostream_iterator<char>(out), generator, arguments);
     }
 }
 
