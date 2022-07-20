@@ -149,7 +149,7 @@ jobs:
     - name: Install LCOV
       shell: bash
       run: |
-        if [ ! -f "$HOME/.lcov/local/bin/lcov" ]; then
+        if [ ! -f "$HOME/.lcov/usr/local/bin/lcov" ]; then
           mkdir $HOME/.lcov-build || true;
           cd $HOME/.lcov-build;
           wget https://github.com/linux-test-project/lcov/releases/download/v1.16/lcov-1.16.tar.gz
