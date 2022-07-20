@@ -268,9 +268,7 @@ void change_background_colour(
             },
             [&wc](true_colour const &col) {
                 wc(to_bytes(fmt::format("48;2;{};{};{}",
-                    int(col.red_),
-                    int(col.green_),
-                    int(col.blue_)
+                    int(col.red_), int(col.green_), int(col.blue_)
                 )));
             }}, 
             dest.value_);
