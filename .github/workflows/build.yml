@@ -115,7 +115,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - build_type: Release
+          - build_type: Debug
 
     env:
       EXTERNAL_ROOT: /home/runner/3party
@@ -152,10 +152,10 @@ jobs:
         if [ ! -f "$HOME/.lcov/local/bin/lcov" ]; then
           mkdir $HOME/.lcov-build || true;
           cd $HOME/.lcov-build;
-          wget https://github.com/linux-test-project/lcov/releases/download/v1.15/lcov-1.15.tar.gz
-          tar -xzf lcov-1.15.tar.gz;
+          wget https://github.com/linux-test-project/lcov/releases/download/v1.16/lcov-1.16.tar.gz
+          tar -xzf lcov-1.16.tar.gz;
           mkdir -p $HOME/.lcov || true;
-          DESTDIR=$HOME/.lcov make -C lcov-1.15/ install;
+          DESTDIR=$HOME/.lcov make -C lcov-1.16/ install;
         fi
         echo "##[set-output name=bin;]$(echo $HOME/.lcov/usr/local/bin/lcov)"
       id: lcov
@@ -192,11 +192,17 @@ jobs:
         ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --remove coverage.info '*/test/*' '/usr/*' '*/3party/*' --output-file coverage.info;
         ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-9 --list coverage.info;
 
-    - name: Post coverage
+    - name: Post coverage to Coveralls
       uses: coverallsapp/github-action@master
       with:
         path-to-lcov: coverage.info
         github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Post coverage to Codacy
+      uses: codacy/codacy-coverage-reporter-action@v1
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        coverage-reports: coverage.info
 
   conan-create:
     runs-on: ubuntu-latest
