@@ -115,7 +115,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - build_type: Release
+          - build_type: Debug
 
     env:
       EXTERNAL_ROOT: /home/runner/3party
