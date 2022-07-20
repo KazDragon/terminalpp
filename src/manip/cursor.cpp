@@ -23,8 +23,7 @@ void write_cursor_position(
         else
         {
             write_fn(to_bytes(fmt::format("{};{}",
-                destination.y_ + 1,
-                destination.x_ + 1
+                destination.y_ + 1, destination.x_ + 1
             )));
         }
     }
