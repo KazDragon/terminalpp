@@ -152,10 +152,10 @@ jobs:
         if [ ! -f "$HOME/.lcov/local/bin/lcov" ]; then
           mkdir $HOME/.lcov-build || true;
           cd $HOME/.lcov-build;
-          wget https://github.com/linux-test-project/lcov/releases/download/v1.15/lcov-1.15.tar.gz
-          tar -xzf lcov-1.15.tar.gz;
+          wget https://github.com/linux-test-project/lcov/releases/download/v1.16/lcov-1.16.tar.gz
+          tar -xzf lcov-1.16.tar.gz;
           mkdir -p $HOME/.lcov || true;
-          DESTDIR=$HOME/.lcov make -C lcov-1.15/ install;
+          DESTDIR=$HOME/.lcov make -C lcov-1.16/ install;
         fi
         echo "##[set-output name=bin;]$(echo $HOME/.lcov/usr/local/bin/lcov)"
       id: lcov
