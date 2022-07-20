@@ -62,26 +62,27 @@ struct TERMINALPP_EXPORT attribute
     blinking    blinking_;
 };
 
+namespace detail {
+
+constexpr auto tied(attribute const &attr)
+{
+    return std::tie(
+        attr.foreground_colour_, 
+        attr.background_colour_, 
+        attr.intensity_, 
+        attr.underlining_, 
+        attr.polarity_, 
+        attr.blinking_);
+}
+
+}
+
 //* =========================================================================
 /// \brief Less-than operator for attributes.
 //* =========================================================================
 constexpr bool operator<(attribute const &lhs, attribute const &rhs)
 {
-    return 
-        std::tie(
-            lhs.foreground_colour_, 
-            lhs.background_colour_, 
-            lhs.intensity_, 
-            lhs.underlining_, 
-            lhs.polarity_, 
-            lhs.blinking_)
-      < std::tie(
-            rhs.foreground_colour_, 
-            rhs.background_colour_, 
-            rhs.intensity_, 
-            rhs.underlining_, 
-            rhs.polarity_, 
-            rhs.blinking_);
+    return detail::tied(lhs) < detail::tied(rhs);
 }
 
 //* =========================================================================
@@ -89,21 +90,7 @@ constexpr bool operator<(attribute const &lhs, attribute const &rhs)
 //* =========================================================================
 constexpr bool operator==(attribute const &lhs, attribute const &rhs)
 {
-    return 
-        std::tie(
-            lhs.foreground_colour_, 
-            lhs.background_colour_, 
-            lhs.intensity_, 
-            lhs.underlining_, 
-            lhs.polarity_, 
-            lhs.blinking_)
-     == std::tie(
-            rhs.foreground_colour_, 
-            rhs.background_colour_, 
-            rhs.intensity_, 
-            rhs.underlining_, 
-            rhs.polarity_, 
-            rhs.blinking_);
+    return detail::tied(lhs) == detail::tied(rhs);
 }
 
 //* =========================================================================
