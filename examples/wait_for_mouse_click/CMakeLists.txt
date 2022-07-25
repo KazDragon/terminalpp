@@ -12,7 +12,7 @@ if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
         CONAN_PKG::fmt
     )
 else()
-    find_package(terminalpp REQUIRED)
+    find_package(terminalpp 3.0.0 REQUIRED)
     find_package(consolepp REQUIRED)
     find_package(gsl-lite REQUIRED)
     find_package(fmt REQUIRED)
@@ -26,7 +26,7 @@ else()
     )
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(wait_for_mouse_click src/wait_for_mouse_click.cpp)

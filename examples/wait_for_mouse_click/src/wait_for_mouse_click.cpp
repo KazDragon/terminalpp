@@ -6,28 +6,45 @@
 #include <fmt/format.h>
 #include <variant>
 
-static void handle_token(terminalpp::token const &token);
+struct console_channel
+{
+    console_channel(consolepp::console &console)
+      : console_{console}
+    {
+    }
+
+    void async_read(std::function<void (terminalpp::bytes)> const &callback) {
+        console_.async_read(callback);
+    }
+
+    void write(terminalpp::bytes data) 
+    {
+        console_.write(data);
+    }
+    void close(){}
+    bool is_alive() const { return true; }
+
+    consolepp::console &console_;
+};
+
 static void schedule_async_read();
 
 static boost::asio::io_context io_context;
 static auto work_guard = boost::asio::make_work_guard(io_context);
 
 static consolepp::console console{io_context};
-static terminalpp::point mouse_position;
+static console_channel channel{console};
 
-terminalpp::terminal terminal{
-    [](terminalpp::tokens tokens) {
-        boost::for_each(tokens, handle_token);
-    },
-    [](terminalpp::bytes data) {
-        console.write(data);
-    },
+static terminalpp::terminal terminal{
+    channel,
     [] {
         terminalpp::behaviour behaviour;
         behaviour.supports_basic_mouse_tracking = true;
         return behaviour;
     }()
 };
+
+static terminalpp::point mouse_position;
 
 static void wait_for_mouse_click()
 {
@@ -55,29 +72,26 @@ int main()
 template <typename... Ts> struct overloaded : Ts... { using Ts::operator()...; };
 template <typename... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
-static void handle_token(terminalpp::token const &token)
-{
-    std::visit(overloaded{
-        [](terminalpp::mouse::event const &mouse)
-        {
-            if (mouse.action_ == terminalpp::mouse::event_type::left_button_down)
-            {
-                mouse_position = mouse.position_;
-                io_context.stop();
-            }
-        },
-        [](auto &&)
-        {
-        }},
-        token);
-}
-
 static void schedule_async_read()
 {
-    console.async_read(
-        [](consolepp::bytes data)
-        {
-            terminal >> data;
+    terminal.async_read(
+        [](terminalpp::tokens tokens) {
+            for (auto const &token : tokens) {
+                std::visit(overloaded{
+                    [](terminalpp::mouse::event const &mouse)
+                    {
+                        if (mouse.action_ == terminalpp::mouse::event_type::left_button_down)
+                        {
+                            mouse_position = mouse.position_;
+                            io_context.stop();
+                        }
+                    },
+                    [](auto &&)
+                    {
+                    }},
+                    token);
+            }
+            
             schedule_async_read();
         });
 }

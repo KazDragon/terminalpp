@@ -11,7 +11,7 @@ if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
         CONAN_PKG::terminalpp
     )
 else()
-    find_package(terminalpp REQUIRED)
+    find_package(terminalpp 3.0.0 REQUIRED)
     find_package(gsl-lite REQUIRED)
     find_package(fmt REQUIRED)
     find_package(Boost REQUIRED)

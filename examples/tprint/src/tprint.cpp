@@ -2,15 +2,16 @@
 #include <terminalpp/encoder.hpp>
 #include <cstdlib>
 
-void read_from_console(terminalpp::tokens)
+struct console_channel
 {
-    // Unused
-}
-
-void write_to_console(terminalpp::bytes data)
-{
-    std::cout << std::string{data.begin(), data.end()};
-}
+    void async_read(std::function<void (terminalpp::bytes)>) {}
+    void write(terminalpp::bytes data) 
+    {
+        std::cout << std::string{data.begin(), data.end()};
+    }
+    void close(){}
+    bool is_alive() const { return true; }
+};
 
 int main(int argc, char **argv)
 {
@@ -20,7 +21,8 @@ int main(int argc, char **argv)
     }
     else
     {
-        terminalpp::terminal terminal{read_from_console, write_to_console};
+        console_channel channel;
+        terminalpp::terminal terminal{channel};
         terminal
             << terminalpp::encode(argv[1])
             << "\n";
