@@ -9,22 +9,22 @@ using testing::ValuesIn;
 TEST_F(a_new_terminal, empty_string_outputs_default_attributes)
 {
     terminal_ << ""_ets;
-    expect_sequence("\x1B[0m"_tb, result_);
+    expect_sequence("\x1B[0m"_tb, channel_.written_);
 }
 
 TEST_F(a_new_terminal, basic_string_outputs_default_attributes_and_basic_string)
 {
     terminal_ << "abcde"_ets;
-    expect_sequence("\x1B[0mabcde"_tb, result_);
+    expect_sequence("\x1B[0mabcde"_tb, channel_.written_);
 }
 
 TEST_F(a_new_terminal, outputting_another_basic_string_does_not_output_default_attributes)
 {
     terminal_ << "abc"_ets;
-    result_.clear();
+    channel_.written_.clear();
 
     terminal_ << "abcde"_ets;
-    expect_sequence("abcde"_tb, result_);
+    expect_sequence("abcde"_tb, channel_.written_);
 }
 
 namespace {
@@ -53,11 +53,11 @@ TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
     auto const &expected_output = get<2>(params);
 
     terminal_ << init_string;
-    result_.clear();
+    channel_.written_.clear();
 
     terminal_ << text_to_stream;
 
-    expect_sequence(expected_output, result_);
+    expect_sequence(expected_output, channel_.written_);
 }
 
 static streaming_text_data const streaming_text_data_table[] = {
@@ -155,7 +155,7 @@ TEST_F(a_terminal, can_stream_a_single_element)
     terminalpp::element const elem{'X', {terminalpp::graphics::colour::red}};
     terminal_ << elem;
 
-    expect_sequence("\x1B[31mX"_tb, result_);
+    expect_sequence("\x1B[31mX"_tb, channel_.written_);
 }
 
 namespace {
@@ -179,7 +179,7 @@ public:
 TEST_F(a_terminal_that_supports_unicode_in_all_charsets, skips_charset_switch_before_selecting_utf8_charset)
 {
     terminal_ << "\\cU\\C205\\U0057"_ets;
-    expect_sequence("\x1B(U\xCD\x1B%GW"_tb, result_);
+    expect_sequence("\x1B(U\xCD\x1B%GW"_tb, channel_.written_);
 }
 
 namespace {
@@ -217,14 +217,14 @@ TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
         << ""_ets
         << terminalpp::move_cursor(init_position)
         << text_to_stream;
-    result_.clear();
+    channel_.written_.clear();
 
     terminal_
         << terminalpp::move_cursor(expected_position);
 
     // Moving to the position we are already at should yield no required
     // output.
-    expect_sequence(""_tb, result_);
+    expect_sequence(""_tb, channel_.written_);
 }
 
 static write_position_data const write_position_data_table[] = {

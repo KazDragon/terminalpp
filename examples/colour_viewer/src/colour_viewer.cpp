@@ -1,18 +1,10 @@
 #include <terminalpp/terminal.hpp>
-
-void read_from_console(terminalpp::tokens)
-{
-    // Unused
-}
-
-void write_to_console(terminalpp::bytes data)
-{
-    std::cout << std::string{data.begin(), data.end()};
-}
+#include <terminalpp/stdout_channel.hpp>
 
 int main()
 {
-    terminalpp::terminal terminal{read_from_console, write_to_console};
+    terminalpp::stdout_channel channel;
+    terminalpp::terminal terminal{channel};
 
     using namespace terminalpp::literals;
     terminalpp::string text = "Low colours:\n"_ts;

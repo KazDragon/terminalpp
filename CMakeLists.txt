@@ -158,6 +158,7 @@ target_sources(terminalpp
         include/terminalpp/point.hpp
         include/terminalpp/rectangle.hpp
         include/terminalpp/screen.hpp
+        include/terminalpp/stdout_channel.hpp
         include/terminalpp/string.hpp
         include/terminalpp/terminal.hpp
         include/terminalpp/terminal_state.hpp
@@ -188,6 +189,7 @@ target_sources(terminalpp
         src/point.cpp
         src/rectangle.cpp
         src/screen.cpp
+        src/stdout_channel.cpp
         src/string.cpp
         src/terminal.cpp
         src/terminal_state.cpp
@@ -309,6 +311,7 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
+        test/fakes/fake_channel.hpp
         test/expect_sequence.hpp
         test/terminal_test.hpp
 
@@ -336,6 +339,7 @@ target_sources(terminalpp_tester
         test/terminal_read_test.cpp
         test/terminal_settings_test.cpp
         test/terminal_string_test.cpp
+        test/terminal_test.cpp
         test/virtual_key_test.cpp
 )
 

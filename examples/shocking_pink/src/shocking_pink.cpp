@@ -1,20 +1,12 @@
 #include <terminalpp/terminal.hpp>
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/screen.hpp>
-
-void read_from_console(terminalpp::tokens)
-{
-    // See later.
-}
-
-void write_to_console(terminalpp::bytes data)
-{
-    std::cout << std::string{data.begin(), data.end()};
-}
+#include <terminalpp/stdout_channel.hpp>
 
 int main()
 {
-    terminalpp::terminal terminal{read_from_console, write_to_console};
+    terminalpp::stdout_channel channel;
+    terminalpp::terminal terminal{channel};
     terminalpp::screen screen{terminal};
     terminalpp::canvas canvas({80, 24});
 

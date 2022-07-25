@@ -4,16 +4,58 @@
 namespace terminalpp {
 
 // ==========================================================================
-// CONSTRUCTOR
+// DESTRUCTOR
 // ==========================================================================
-terminal::terminal(
-    read_function read_fn,
-    write_function write_fn,
-    behaviour beh)
-  : read_(std::move(read_fn)),
-    write_(std::move(write_fn)),
-    behaviour_(std::move(beh))
+terminal::~terminal() = default;
+
+// ==========================================================================
+// ASYNC_READ
+// ==========================================================================
+void terminal::async_read(std::function<void (tokens)> const &callback)
 {
+    channel_->async_read(
+        [=](terminalpp::bytes data)
+        {
+            std::vector<token> results;
+
+            boost::for_each(
+                data,
+                [this, &results](terminalpp::byte datum)
+                {
+                    if (auto const result = state_.input_parser_(datum);
+                        result.has_value())
+                    {
+                        results.push_back(
+                            detail::get_well_known_virtual_key(*result));
+                    }
+                });
+
+            callback(results);
+        });
+}
+
+// ==========================================================================
+// WRITE
+// ==========================================================================
+void terminal::write(bytes data)
+{
+    channel_->write(data);
+}
+
+// ==========================================================================
+// IS_ALIVE
+// ==========================================================================
+bool terminal::is_alive() const
+{
+    return channel_->is_alive();
+}
+
+// ==========================================================================
+// CLOSE
+// ==========================================================================
+void terminal::close()
+{
+    channel_->close();
 }
 
 // ==========================================================================
@@ -53,30 +95,6 @@ terminal &terminal::operator<<(terminalpp::string const &text)
             *this << write_element(elem);
         });
 
-    return *this;
-}
-
-// ==========================================================================
-// OPERATOR>>(bytes)
-// ==========================================================================
-terminal &terminal::operator>>(terminalpp::bytes data)
-{
-    boost::for_each(
-        data, 
-        [this](terminalpp::byte datum)
-        {
-            auto const result = state_.input_parser_(datum);
-
-            if (result)
-            {
-                terminalpp::token const well_known_results[] = {
-                    detail::get_well_known_virtual_key(*result)
-                };
-
-                read_(well_known_results);
-            }
-        });
-    
     return *this;
 }
 

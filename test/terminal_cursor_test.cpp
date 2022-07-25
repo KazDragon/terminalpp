@@ -36,7 +36,7 @@ TEST_P(a_terminal_with_an_unknown_location, sends_bytes_when_moving_the_cursor)
 
     terminal_ << terminalpp::move_cursor(destination);
 
-    expect_sequence(expected_result, result_);
+    expect_sequence(expected_result, channel_.written_);
 }
 
 static unknown_location_move_data const unknown_location_move_data_table[] = {
@@ -83,11 +83,11 @@ TEST_P(a_terminal_with_a_known_location, sends_bytes_when_moving_the_cursor)
     auto const &expected_result = get<2>(param);
 
     terminal_ << terminalpp::move_cursor(source);
-    result_.clear();
+    channel_.written_.clear();
 
     terminal_ << terminalpp::move_cursor(destination);
 
-    expect_sequence(expected_result, result_);
+    expect_sequence(expected_result, channel_.written_);
 }
 
 static known_location_move_data const known_location_move_data_table[] = {
@@ -124,13 +124,13 @@ INSTANTIATE_TEST_SUITE_P(
 TEST_F(a_terminal, when_hiding_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::hide_cursor();
-    expect_sequence("\x1B[?25l"_tb, result_);
+    expect_sequence("\x1B[?25l"_tb, channel_.written_);
 }
 
 TEST_F(a_terminal, when_showing_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::show_cursor();
-    expect_sequence("\x1B[?25h"_tb, result_);
+    expect_sequence("\x1B[?25h"_tb, channel_.written_);
 }
 
 namespace {
@@ -141,7 +141,7 @@ public:
     a_terminal_with_a_shown_cursor()
     {
         terminal_ << terminalpp::show_cursor();
-        result_.clear();
+        channel_.written_.clear();
     }
 };
 
@@ -150,13 +150,13 @@ public:
 TEST_F(a_terminal_with_a_shown_cursor, when_hiding_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::hide_cursor();
-    expect_sequence("\x1B[?25l"_tb, result_);
+    expect_sequence("\x1B[?25l"_tb, channel_.written_);
 }
 
 TEST_F(a_terminal_with_a_shown_cursor, when_showing_the_cursor_sends_nothing)
 {
     terminal_ << terminalpp::show_cursor();
-    expect_sequence(""_tb, result_);
+    expect_sequence(""_tb, channel_.written_);
 }
 
 namespace {
@@ -167,7 +167,7 @@ public:
     a_terminal_with_a_hidden_cursor()
     {
         terminal_ << terminalpp::hide_cursor();
-        result_.clear();
+        channel_.written_.clear();
     }
 };
 
@@ -176,25 +176,25 @@ public:
 TEST_F(a_terminal_with_a_hidden_cursor, when_hiding_the_cursor_sends_nothing)
 {
     terminal_ << terminalpp::hide_cursor();
-    expect_sequence(""_tb, result_);
+    expect_sequence(""_tb, channel_.written_);
 }
 
 TEST_F(a_terminal_with_a_hidden_cursor, when_showing_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::show_cursor();
-    expect_sequence("\x1B[?25h"_tb, result_);
+    expect_sequence("\x1B[?25h"_tb, channel_.written_);
 }
 
 TEST_F(a_terminal, when_saving_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::save_cursor_position();
-    expect_sequence("\x1B[s"_tb, result_);
+    expect_sequence("\x1B[s"_tb, channel_.written_);
 }
 
 TEST_F(a_terminal, when_restoring_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::restore_cursor_position();
-    expect_sequence("\x1B[u"_tb, result_);
+    expect_sequence("\x1B[u"_tb, channel_.written_);
 }
 
 TEST_F(a_terminal, when_restoring_the_cursor_to_a_known_location_remembers_that_location)
@@ -206,13 +206,13 @@ TEST_F(a_terminal, when_restoring_the_cursor_to_a_known_location_remembers_that_
         << terminalpp::move_cursor({0, 0})
         << "?"
         << terminalpp::restore_cursor_position();
-    result_.clear();
+    channel_.written_.clear();
 
     terminal_
         << terminalpp::move_cursor({10, 10})
         << "x";
 
-    expect_sequence("x"_tb, result_);      
+    expect_sequence("x"_tb, channel_.written_);      
 }
 
 TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
@@ -221,14 +221,14 @@ TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
     terminal_
         << terminalpp::move_cursor({8, 8})
         << "a";
-    result_.clear();
+    channel_.written_.clear();
 
     terminal_.set_size({11, 11});
     terminal_
         << terminalpp::move_cursor({9, 8})
         << "b";
 
-    expect_sequence("\x1B[9;10Hb"_tb, result_);
+    expect_sequence("\x1B[9;10Hb"_tb, channel_.written_);
 }
 
 TEST_F(a_terminal, has_an_unknown_cursor_location_when_writing_the_last_character_in_a_line)
@@ -237,11 +237,11 @@ TEST_F(a_terminal, has_an_unknown_cursor_location_when_writing_the_last_characte
     terminal_
         << terminalpp::move_cursor({9, 0})
         << "a";
-    result_.clear();
+    channel_.written_.clear();
 
     terminal_
         << terminalpp::move_cursor({0, 1})
         << "b";
 
-    expect_sequence("\x1B[2Hb"_tb, result_);
+    expect_sequence("\x1B[2Hb"_tb, channel_.written_);
 }

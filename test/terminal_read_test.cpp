@@ -1,4 +1,5 @@
 #include "terminalpp/terminal.hpp"
+#include "fakes/fake_channel.hpp"
 #include <gtest/gtest.h>
 
 using namespace terminalpp::literals;
@@ -10,20 +11,12 @@ class terminal_read_test_base
 {
 public:
     terminal_read_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
-      : terminal_{
-            [this](terminalpp::tokens tokens) {
-                result_.insert(result_.end(), tokens.cbegin(), tokens.cend());    
-            },
-            [](terminalpp::bytes) { 
-                FAIL(); 
-            }, 
-            behaviour
-        }
+      : terminal_{channel_, behaviour}
     {
     }
 
 protected:
-    std::vector<terminalpp::token> result_;
+    fake_channel channel_;
     terminalpp::terminal terminal_;
 };
 
@@ -48,9 +41,16 @@ TEST_P(a_terminal_reading_input_tokens, tokenizes_the_results)
     auto const &input_sequence = get<0>(param);
     auto const &expected_result = get<1>(param);
 
-    terminal_ >> input_sequence;
+    std::vector<terminalpp::token> result;
+    terminal_.async_read([&result](terminalpp::tokens tokens) {
+        result.insert(
+            result.end(),
+            tokens.begin(),
+            tokens.end());
+    });
 
-    ASSERT_EQ(expected_result, result_);
+    channel_.receive(input_sequence);
+    ASSERT_EQ(expected_result, result);
 
 }
 
@@ -615,11 +615,21 @@ TEST_P(a_terminal_reading_partial_input_tokens, tokenizes_the_results)
     auto const &second_input_sequence = get<1>(param);
     auto const &expected_result = get<2>(param);
 
-    terminal_
-        >> first_input_sequence
-        >> second_input_sequence;
+    std::vector<terminalpp::token> result;
+    auto const append_to_result = [&result](terminalpp::tokens tokens) {
+        result.insert(
+            result.end(),
+            tokens.begin(),
+            tokens.end());
+        };
 
-    ASSERT_EQ(expected_result, result_);
+    terminal_.async_read(append_to_result);
+    channel_.receive(first_input_sequence);
+
+    terminal_.async_read(append_to_result);
+    channel_.receive(second_input_sequence);
+
+    ASSERT_EQ(expected_result, result);
 }
 
 static partial_token_test_data const partial_token_test_data_table[] = {

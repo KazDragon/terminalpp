@@ -6,28 +6,22 @@
 #include <fmt/format.h>
 #include <variant>
 
-static void handle_token(terminalpp::token const &token);
 static void schedule_async_read();
 
 static boost::asio::io_context io_context;
 static auto work_guard = boost::asio::make_work_guard(io_context);
 
 static consolepp::console console{io_context};
-static terminalpp::point mouse_position;
-
-terminalpp::terminal terminal{
-    [](terminalpp::tokens tokens) {
-        boost::for_each(tokens, handle_token);
-    },
-    [](terminalpp::bytes data) {
-        console.write(data);
-    },
+static terminalpp::terminal terminal{
+    console,
     [] {
         terminalpp::behaviour behaviour;
         behaviour.supports_basic_mouse_tracking = true;
         return behaviour;
     }()
 };
+
+static terminalpp::point mouse_position;
 
 static void wait_for_mouse_click()
 {
@@ -74,10 +68,12 @@ static void handle_token(terminalpp::token const &token)
 
 static void schedule_async_read()
 {
-    console.async_read(
-        [](consolepp::bytes data)
-        {
-            terminal >> data;
+    terminal.async_read(
+        [](terminalpp::tokens tokens) {
+            for (auto const &token : tokens) {
+                handle_token(token);
+            }
+
             schedule_async_read();
         });
 }
