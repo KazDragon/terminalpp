@@ -72,26 +72,31 @@ int main()
 template <typename... Ts> struct overloaded : Ts... { using Ts::operator()...; };
 template <typename... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
+static void handle_token(terminalpp::token const &token)
+{
+    std::visit(overloaded{
+        [](terminalpp::mouse::event const &mouse)
+        {
+            if (mouse.action_ == terminalpp::mouse::event_type::left_button_down)
+            {
+                mouse_position = mouse.position_;
+                io_context.stop();
+            }
+        },
+        [](auto &&)
+        {
+        }},
+        token);
+}
+
 static void schedule_async_read()
 {
     terminal.async_read(
         [](terminalpp::tokens tokens) {
             for (auto const &token : tokens) {
-                std::visit(overloaded{
-                    [](terminalpp::mouse::event const &mouse)
-                    {
-                        if (mouse.action_ == terminalpp::mouse::event_type::left_button_down)
-                        {
-                            mouse_position = mouse.position_;
-                            io_context.stop();
-                        }
-                    },
-                    [](auto &&)
-                    {
-                    }},
-                    token);
+                handle_token(token);
             }
-            
+
             schedule_async_read();
         });
 }

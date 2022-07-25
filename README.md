@@ -54,7 +54,7 @@ A set of classes that implement a windowing user interface are currently being i
 
 # Status
 
-Terminal++ is currently automatically tested using MSVC 2019 and GCC 7.5.  For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the [Issues page](https://github.com/KazDragon/terminalpp/issues).  Feel free to discuss using Github Discussions!
+Terminal++ is currently automatically tested using MSVC 2019 and GCC 9.4.  For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the [Issues page](https://github.com/KazDragon/terminalpp/issues).  Feel free to discuss using Github Discussions!
 
 # The Basics
 
@@ -67,8 +67,7 @@ At its most fundamental level, Terminal++ is in the business of manipulating cha
 
 These are combined into Terminal++'s fundamental type, terminalpp::element.
 
-The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it.  Because the terminal is unaware whether you are sending data to the console or over a network connection, each writing operation takes a function parameter that states the destination.  You see this as the write_to_console function in the examples below.  This also allows for other use cases where, for example, the continuation collects data from several operations in memory before transmitting the entire chunk in one go.
-
+The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it.  Because the terminal is unaware whether you are sending data to the console or over a network connection, it uses a type-erased "channel" concept onto which these operations are mapped.  This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries for easy integration. You can see this in the "console_channel" structure of the examples below.
 
 # Strings
 
@@ -78,22 +77,24 @@ terminalpp::elements can be collected together using the terminalpp::string clas
 ```cpp
 #include <terminalpp/terminal.hpp>
 
-void read_from_console(terminalpp::tokens)
+struct console_channel
 {
-    // See later.
-}
-
-void write_to_console(terminalpp::bytes data)
-{
-    std::cout << std::string{data.begin(), data.end()};
-}
+    void async_read(std::function<void (terminalpp::bytes)>) {}
+    void write(terminalpp::bytes data) 
+    {
+        std::cout << std::string{data.begin(), data.end()};
+    }
+    void close(){}
+    bool is_alive() const { return true; }
+};
 
 int main()
 {
     using namespace terminalpp::literals;
     terminalpp::string text = "Hello, world!\n"_ts;
 
-    terminalpp::terminal terminal{read_from_console, write_to_console};
+    console_channel channel;
+    terminalpp::terminal terminal{channel};
     terminal << text;
 }
 
@@ -106,22 +107,24 @@ By using _ets, you can also encode attributes within the text.  For example:
 ```cpp
 #include <terminalpp/terminal.hpp>
 
-void read_from_console(terminalpp::tokens)
+struct console_channel
 {
-    // See later.
-}
-
-void write_to_console(terminalpp::bytes data)
-{
-    std::cout << std::string(data.begin(), data.end());
-}
+    void async_read(std::function<void (terminalpp::bytes)>) {}
+    void write(terminalpp::bytes data) 
+    {
+        std::cout << std::string{data.begin(), data.end()};
+    }
+    void close(){}
+    bool is_alive() const { return true; }
+};
 
 int main()
 {
     using namespace terminalpp::literals;
     terminalpp::string text = "\\[1Hello, \\[2World! \\x\\U263A\n"_ets;
 
-    terminalpp::terminal terminal{read_from_console, write_to_console};
+    console_channel channel;
+    terminalpp::terminal terminal{channel};
     terminal << text;
 }
 ```
@@ -141,20 +144,22 @@ At this point, you have everything you need for a standard command-line applicat
 ```cpp
 #include <terminalpp/terminal.hpp>
 
-void read_from_console(terminalpp::tokens)
+struct console_channel
 {
-    // See later.
-}
-
-void write_to_console(terminalpp::bytes data)
-{
-    std::cout << std::string{data.begin(), data.end()};
-}
+    void async_read(std::function<void (terminalpp::bytes)>) {}
+    void write(terminalpp::bytes data) 
+    {
+        std::cout << std::string{data.begin(), data.end()};
+    }
+    void close(){}
+    bool is_alive() const { return true; }
+};
 
 int main()
 {
     using namespace terminalpp::literals;
-    terminalpp::terminal terminal{read_from_console, write_to_console};
+    console_channel channel;
+    terminalpp::terminal terminal{channel};
 
     terminal
         << terminalpp::save_cursor_position()
@@ -202,19 +207,21 @@ To control this, we present the terminalpp::screen class, which represents a dou
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/screen.hpp>
 
-void read_from_console(terminalpp::tokens)
+struct console_channel
 {
-    // See later.
-}
-
-void write_to_console(terminalpp::bytes data)
-{
-    std::cout << std::string{data.begin(), data.end()};
-}
+    void async_read(std::function<void (terminalpp::bytes)>) {}
+    void write(terminalpp::bytes data) 
+    {
+        std::cout << std::string{data.begin(), data.end()};
+    }
+    void close(){}
+    bool is_alive() const { return true; }
+};
 
 int main()
 {
-    terminalpp::terminal terminal{read_from_console, write_to_console};
+    console_channel channel;
+    terminalpp::terminal terminal{channel};
     terminalpp::screen screen{terminal};
     terminalpp::canvas canvas({80, 24});
 
@@ -249,20 +256,15 @@ All of these examples so far have ignored the read function for terminals since 
 ```cpp
 // ...
 
-static void handle_token(terminalpp::token const &token);
 static void schedule_async_read();
 
 static consolepp::console console{io_context};
+static console_channel channel{console};
 
 // ...
 
 terminalpp::terminal terminal{
-    [](terminalpp::tokens tokens) {
-        boost::for_each(tokens, handle_token);
-    },
-    [](terminalpp::bytes data) {
-        console.write(data);
-    },
+    channel,
     [] {
         terminalpp::behaviour behaviour;
         behaviour.supports_basic_mouse_tracking = true;
@@ -286,6 +288,19 @@ int main()
              << terminalpp::use_normal_screen_buffer()
              << terminalpp::restore_cursor_position()
              << fmt::format("mouse clicked at ({},{})\n", mouse_position.x_, mouse_position.y_);
+}
+
+static void handle_token(terminalpp::token const &token);
+static void schedule_async_read()
+{
+    terminal.async_read(
+        [](terminalpp::tokens tokens) {
+            for (auto const &token : tokens) {
+                handle_token(token);
+            }
+
+            schedule_async_read();
+        });
 }
 
 // ...
