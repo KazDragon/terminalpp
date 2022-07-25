@@ -67,7 +67,7 @@ At its most fundamental level, Terminal++ is in the business of manipulating cha
 
 These are combined into Terminal++'s fundamental type, terminalpp::element.
 
-The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it.  Because the terminal is unaware whether you are sending data to the console or over a network connection, it uses a type-erased "channel" concept onto which these operations are mapped.  This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries for easy integration. You can see this in the "console_channel" structure of the examples below.
+The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it.  Because the terminal is unaware whether you are sending data to the console or over a network connection, it uses a type-erased "channel" concept onto which these operations are mapped.  This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries for easy integration. Terminal++ also provides stdout_channel, which can serve for programs who do not require asynchronous input.  This is used in the examples below.
 
 # Strings
 
@@ -76,24 +76,14 @@ terminalpp::elements can be collected together using the terminalpp::string clas
 [Hello, World! project](examples/hello_world)
 ```cpp
 #include <terminalpp/terminal.hpp>
-
-struct console_channel
-{
-    void async_read(std::function<void (terminalpp::bytes)>) {}
-    void write(terminalpp::bytes data) 
-    {
-        std::cout << std::string{data.begin(), data.end()};
-    }
-    void close(){}
-    bool is_alive() const { return true; }
-};
+#include <terminalpp/stdout_channel.hpp>
 
 int main()
 {
     using namespace terminalpp::literals;
     terminalpp::string text = "Hello, world!\n"_ts;
 
-    console_channel channel;
+    terminalpp::stdout_channel channel;
     terminalpp::terminal terminal{channel};
     terminal << text;
 }
@@ -106,24 +96,14 @@ By using _ets, you can also encode attributes within the text.  For example:
 [Encoded Hello, World! project](examples/encoded_hello_world)
 ```cpp
 #include <terminalpp/terminal.hpp>
-
-struct console_channel
-{
-    void async_read(std::function<void (terminalpp::bytes)>) {}
-    void write(terminalpp::bytes data) 
-    {
-        std::cout << std::string{data.begin(), data.end()};
-    }
-    void close(){}
-    bool is_alive() const { return true; }
-};
+#include <terminalpp/stdout_channel.hpp>
 
 int main()
 {
     using namespace terminalpp::literals;
     terminalpp::string text = "\\[1Hello, \\[2World! \\x\\U263A\n"_ets;
 
-    console_channel channel;
+    terminalpp::stdout_channel channel;
     terminalpp::terminal terminal{channel};
     terminal << text;
 }
@@ -143,22 +123,12 @@ At this point, you have everything you need for a standard command-line applicat
 [Positioned smiley project](examples/positioned_smiley)
 ```cpp
 #include <terminalpp/terminal.hpp>
-
-struct console_channel
-{
-    void async_read(std::function<void (terminalpp::bytes)>) {}
-    void write(terminalpp::bytes data) 
-    {
-        std::cout << std::string{data.begin(), data.end()};
-    }
-    void close(){}
-    bool is_alive() const { return true; }
-};
+#include <terminalpp/stdout_channel.hpp>
 
 int main()
 {
     using namespace terminalpp::literals;
-    console_channel channel;
+    terminalpp::stdout_channel channel;
     terminalpp::terminal terminal{channel};
 
     terminal
@@ -206,21 +176,11 @@ To control this, we present the terminalpp::screen class, which represents a dou
 #include <terminalpp/terminal.hpp>
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/screen.hpp>
-
-struct console_channel
-{
-    void async_read(std::function<void (terminalpp::bytes)>) {}
-    void write(terminalpp::bytes data) 
-    {
-        std::cout << std::string{data.begin(), data.end()};
-    }
-    void close(){}
-    bool is_alive() const { return true; }
-};
+#include <terminalpp/stdout_channel.hpp>
 
 int main()
 {
-    console_channel channel;
+    terminalpp::stdout_channel channel;
     terminalpp::terminal terminal{channel};
     terminalpp::screen screen{terminal};
     terminalpp::canvas canvas({80, 24});

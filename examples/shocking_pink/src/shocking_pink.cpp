@@ -1,21 +1,11 @@
 #include <terminalpp/terminal.hpp>
 #include <terminalpp/canvas.hpp>
 #include <terminalpp/screen.hpp>
-
-struct console_channel
-{
-    void async_read(std::function<void (terminalpp::bytes)>) {}
-    void write(terminalpp::bytes data) 
-    {
-        std::cout << std::string{data.begin(), data.end()};
-    }
-    void close(){}
-    bool is_alive() const { return true; }
-};
+#include <terminalpp/stdout_channel.hpp>
 
 int main()
 {
-    console_channel channel;
+    terminalpp::stdout_channel channel;
     terminalpp::terminal terminal{channel};
     terminalpp::screen screen{terminal};
     terminalpp::canvas canvas({80, 24});

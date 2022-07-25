@@ -1,17 +1,7 @@
 #include <terminalpp/terminal.hpp>
 #include <terminalpp/encoder.hpp>
+#include <terminalpp/stdout_channel.hpp>
 #include <cstdlib>
-
-struct console_channel
-{
-    void async_read(std::function<void (terminalpp::bytes)>) {}
-    void write(terminalpp::bytes data) 
-    {
-        std::cout << std::string{data.begin(), data.end()};
-    }
-    void close(){}
-    bool is_alive() const { return true; }
-};
 
 int main(int argc, char **argv)
 {
@@ -21,7 +11,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        console_channel channel;
+        terminalpp::stdout_channel channel;
         terminalpp::terminal terminal{channel};
         terminal
             << terminalpp::encode(argv[1])
