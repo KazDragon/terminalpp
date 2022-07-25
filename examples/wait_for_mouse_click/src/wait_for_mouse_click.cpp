@@ -6,37 +6,14 @@
 #include <fmt/format.h>
 #include <variant>
 
-struct console_channel
-{
-    console_channel(consolepp::console &console)
-      : console_{console}
-    {
-    }
-
-    void async_read(std::function<void (terminalpp::bytes)> const &callback) {
-        console_.async_read(callback);
-    }
-
-    void write(terminalpp::bytes data) 
-    {
-        console_.write(data);
-    }
-    void close(){}
-    bool is_alive() const { return true; }
-
-    consolepp::console &console_;
-};
-
 static void schedule_async_read();
 
 static boost::asio::io_context io_context;
 static auto work_guard = boost::asio::make_work_guard(io_context);
 
 static consolepp::console console{io_context};
-static console_channel channel{console};
-
 static terminalpp::terminal terminal{
-    channel,
+    console,
     [] {
         terminalpp::behaviour behaviour;
         behaviour.supports_basic_mouse_tracking = true;

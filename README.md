@@ -216,21 +216,18 @@ All of these examples so far have ignored the read function for terminals since 
 ```cpp
 // ...
 
-static void schedule_async_read();
-
+static boost::asio::io_context io_context;
 static consolepp::console console{io_context};
-static console_channel channel{console};
-
-// ...
-
-terminalpp::terminal terminal{
-    channel,
+static terminalpp::terminal terminal{
+    console,
     [] {
         terminalpp::behaviour behaviour;
         behaviour.supports_basic_mouse_tracking = true;
         return behaviour;
     }()
 };
+
+// ...
 
 int main()
 {
