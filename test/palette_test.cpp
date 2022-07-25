@@ -1,4 +1,5 @@
 #include "expect_sequence.hpp"
+#include "fakes/fake_channel.hpp"
 #include <terminalpp/palette.hpp>
 #include <terminalpp/terminal.hpp>
 #include <gtest/gtest.h>
@@ -99,23 +100,16 @@ TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
 
     terminalpp::element const elem = {'x', attr};
 
-    terminalpp::byte_storage result;
-    terminalpp::terminal terminal{
-        [](terminalpp::tokens) {
-            FAIL();
-        },
-        [&result](terminalpp::bytes data)
-        {
-            result.append(std::cbegin(data), std::cend(data));
-        }};
+    fake_channel channel;
+    terminalpp::terminal terminal{channel};
 
     // First write a space in the default attribute.  Thereafter, we write 
     // only what is not default about the palette-based element.
     terminal << ""_ets;
-    result.clear();
+    channel.written_.clear();
 
     terminal << elem;
-    expect_sequence(expected, result);
+    expect_sequence(expected, channel.written_);
 }
 
 INSTANTIATE_TEST_SUITE_P(

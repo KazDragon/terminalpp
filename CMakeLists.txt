@@ -309,6 +309,7 @@ add_executable(terminalpp_tester)
 
 target_sources(terminalpp_tester
     PRIVATE
+        test/fakes/fake_channel.hpp
         test/expect_sequence.hpp
         test/terminal_test.hpp
 

@@ -15,7 +15,7 @@ namespace terminalpp {
 ///
 /// A class that is used to stream data in and out of a terminal.
 //* =========================================================================
-class TERMINALPP_EXPORT terminal
+class TERMINALPP_EXPORT terminal final
 {
 public:
     using read_function = std::function<void (terminalpp::tokens)>;
@@ -24,10 +24,40 @@ public:
     //* =====================================================================
     /// \brief Constructor.
     //* =====================================================================
+    template <typename Channel>
     explicit terminal(
-        read_function read_fn,
-        write_function write_fn,
-        behaviour beh = behaviour{});
+        Channel &channel,
+        behaviour beh = behaviour{})
+      : channel_{std::unique_ptr<channel_concept>{
+            std::make_unique<channel_model<Channel>>(channel)}},
+        behaviour_(std::move(beh))
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Destructor.
+    //* =====================================================================
+    ~terminal();
+
+    //* =====================================================================
+    /// \brief Request that data be read from the terminal.
+    //* =====================================================================
+    void async_read(std::function<void (tokens)> const &callback);
+
+    //* =====================================================================
+    /// \brief Write data to the terminal.
+    //* =====================================================================
+    void write(bytes data);
+
+    //* =====================================================================
+    /// \brief Returns whether the terminal is alive or not.
+    //* =====================================================================
+    bool is_alive() const;
+
+    //* =====================================================================
+    /// Closes the terminal.
+    //* =====================================================================
+    void close();
 
     //* =====================================================================
     /// \brief Sets the size of the terminal.
@@ -68,7 +98,7 @@ public:
     >
     terminal &operator<<(Manip &&manip)
     {
-        manip(behaviour_, state_, write_);
+        manip(behaviour_, state_, [this](bytes data) { write(data); });
         return *this;
     }
 
@@ -98,12 +128,97 @@ public:
     /// // contained the f3 virtual key.
     /// \endcode
     //* =====================================================================
-    terminal &operator>>(terminalpp::bytes data);
+    //terminal &operator>>(terminalpp::bytes data);
 
 private:
-    read_function read_;
-    write_function write_;
-    
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    explicit terminal(behaviour beh);
+
+    //* =====================================================================
+    /// \brief An interface for a channel model.
+    //* =====================================================================
+    struct channel_concept
+    {
+        //* =================================================================
+        /// \brief Destructor
+        //* =================================================================
+        virtual ~channel_concept() = default;
+
+        //* =================================================================
+        /// \brief Asynchronously read from the channel and call the function
+        /// back when it's available.
+        //* =================================================================
+        virtual void async_read(std::function<void (bytes)> const &) = 0;
+
+        //* =================================================================
+        /// \brief Write the given data to the channel.
+        //* =================================================================
+        virtual void write(bytes data) = 0;
+
+        //* =================================================================
+        /// \brief Returns whether the channel is alive.
+        //* =================================================================
+        virtual bool is_alive() const = 0;
+
+        //* =================================================================
+        /// \brief Closes the channel.
+        //* =================================================================
+        virtual void close() = 0;
+    };
+
+    //* =====================================================================
+    /// \brief An implementation of the channel model.
+    //* =====================================================================
+    template <typename Channel>
+    struct channel_model final : channel_concept
+    {
+        //* =================================================================
+        /// \brief Constructor
+        //* =================================================================
+        channel_model(Channel &channel)
+          : channel_(channel)
+        {
+        }
+
+        //* =================================================================
+        /// \brief Asynchronously read from the channel and call the function
+        /// back when it's available.
+        //* =================================================================
+        void async_read(std::function<void (bytes)> const &callback) override
+        {
+            channel_.async_read(callback);
+        }
+
+        //* =================================================================
+        /// \brief Write the given data to the channel.
+        //* =================================================================
+        void write(bytes data) override
+        {
+            channel_.write(data);
+        }
+
+        //* =================================================================
+        /// \brief Returns whether the channel is alive.
+        //* =================================================================
+        bool is_alive() const
+        {
+            return channel_.is_alive();
+        }
+
+        //* =================================================================
+        /// \brief Closes the channel.
+        //* =================================================================
+        void close()
+        {
+            channel_.close();
+        }
+
+        Channel &channel_;
+    };
+
+    std::unique_ptr<channel_concept> channel_;
     behaviour behaviour_;
     terminal_state state_;
 };

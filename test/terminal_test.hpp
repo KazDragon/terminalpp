@@ -1,6 +1,7 @@
 #pragma once
 
 #include "expect_sequence.hpp"
+#include "fakes/fake_channel.hpp"
 #include <terminalpp/terminal.hpp>
 #include <functional>
 #include <gtest/gtest.h>
@@ -9,19 +10,13 @@ class terminal_test_base
 {
 public:
     terminal_test_base(terminalpp::behaviour const &behaviour = terminalpp::behaviour{})
-      : terminal_{
-            [](terminalpp::tokens) { FAIL(); },
-            [this](terminalpp::bytes data) { 
-                this->result_.append(std::cbegin(data), std::cend(data)); 
-            },
-            behaviour
-        }
+      : terminal_{channel_, behaviour}
     {
     }
 
 protected:
+    fake_channel channel_;
     terminalpp::terminal terminal_;
-    terminalpp::byte_storage result_;
 };
 
 class a_new_terminal :
@@ -47,6 +42,6 @@ public:
         // to default.
         using namespace terminalpp::literals;
         terminal_ << ""_ets;
-        result_.clear();
+        channel_.written_.clear();
     }
 };
