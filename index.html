@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.4.0.3</span>
+   &#160;<span id="projectnumber">2.4.0.4</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -115,7 +115,7 @@ Features / Roadmap</h1>
 <p>A set of classes that implement a windowing user interface are currently being implemented in the <a href="https://github.com/KazDragon/munin">Munin project</a>.</p>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Status</h1>
-<p>Terminal++ is currently automatically tested using MSVC 2019 and GCC 7.5. For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the <a href="https://github.com/KazDragon/terminalpp/issues">Issues page</a>. Feel free to discuss using Github Discussions!</p>
+<p>Terminal++ is currently automatically tested using MSVC 2019 and GCC 9.4. For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the <a href="https://github.com/KazDragon/terminalpp/issues">Issues page</a>. Feel free to discuss using Github Discussions!</p>
 <h1><a class="anchor" id="autotoc_md19"></a>
 The Basics</h1>
 <p>The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential in order to create fully-featured text-based applications. The use cases for such software include interactive forms of command-line software, and even GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).</p>
@@ -125,51 +125,35 @@ The Basics</h1>
 <li><a class="el" href="structterminalpp_1_1attribute.html" title="A structure that carries around the presentation attributes of an ANSI element.">terminalpp::attribute</a> - a collection of variables that describe the non-character graphical part of the output, such as the foreground and background colours, whether it is bold, underlined, and so on.</li>
 </ul>
 <p>These are combined into Terminal++'s fundamental type, <a class="el" href="structterminalpp_1_1element.html" title="A structure that represents the fundamental printable element of a terminal screen,...">terminalpp::element</a>.</p>
-<p>The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it. Because the terminal is unaware whether you are sending data to the console or over a network connection, each writing operation takes a function parameter that states the destination. You see this as the write_to_console function in the examples below. This also allows for other use cases where, for example, the continuation collects data from several operations in memory before transmitting the entire chunk in one go.</p>
+<p>The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it. Because the terminal is unaware whether you are sending data to the console or over a network connection, it uses a type-erased "channel" concept onto which these operations are mapped. This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries for easy integration. Terminal++ also provides stdout_channel, which can serve for programs who do not require asynchronous input. This is used in the examples below.</p>
 <h1><a class="anchor" id="autotoc_md20"></a>
 Strings</h1>
 <p>terminalpp::elements can be collected together using the <a class="el" href="classterminalpp_1_1string.html" title="A class that represents strings of elements.">terminalpp::string</a> class. It has several constructors for different uses. For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message. In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complicated strings</p>
 <p><a href="examples/hello_world">Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> read_from_console(terminalpp::tokens)</div>
-<div class="line">{</div>
-<div class="line">    <span class="comment">// See later.</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
-<div class="line">{</div>
-<div class="line">    std::cout &lt;&lt; std::string{data.begin(), data.end()};</div>
-<div class="line">}</div>
+<div class="line"><span class="preprocessor">#include &lt;terminalpp/stdout_channel.hpp&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>terminalpp::literals;</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1string.html">terminalpp::string</a> text = <span class="stringliteral">&quot;Hello, world!\n&quot;</span>_ts;</div>
 <div class="line"> </div>
-<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{read_from_console, write_to_console};</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a> channel;</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{channel};</div>
 <div class="line">    terminal &lt;&lt; text;</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Constructs a terminalpp::string, and then prints it to the terminal as, &quot;Hello, world!&quot;</span></div>
 </div><!-- fragment --><p>By using _ets, you can also encode attributes within the text. For example:</p>
 <p><a href="examples/encoded_hello_world">Encoded Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> read_from_console(terminalpp::tokens)</div>
-<div class="line">{</div>
-<div class="line">    <span class="comment">// See later.</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
-<div class="line">{</div>
-<div class="line">    std::cout &lt;&lt; std::string(data.begin(), data.end());</div>
-<div class="line">}</div>
+<div class="line"><span class="preprocessor">#include &lt;terminalpp/stdout_channel.hpp&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>terminalpp::literals;</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1string.html">terminalpp::string</a> text = <span class="stringliteral">&quot;\\[1Hello, \\[2World! \\x\\U263A\n&quot;</span>_ets;</div>
 <div class="line"> </div>
-<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{read_from_console, write_to_console};</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a> channel;</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{channel};</div>
 <div class="line">    terminal &lt;&lt; text;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>This prints out "Hello, " in red text, then "World!" in green text, and then a smiley face in the default colour. See the Wiki for more information about the attribute encoding used and its possibilities. It is also possible to change the attributes for each element programatically.</p>
@@ -179,21 +163,13 @@ Strings</h1>
 Terminals</h1>
 <p>At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a CMake script or Google Test results, or even standard unix functions such as ls. But the terminal class allows for complete control over the terminal's appearance.</p>
 <p><a href="examples/positioned_smiley">Positioned smiley project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> read_from_console(terminalpp::tokens)</div>
-<div class="line">{</div>
-<div class="line">    <span class="comment">// See later.</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
-<div class="line">{</div>
-<div class="line">    std::cout &lt;&lt; std::string{data.begin(), data.end()};</div>
-<div class="line">}</div>
+<div class="line"><span class="preprocessor">#include &lt;terminalpp/stdout_channel.hpp&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>terminalpp::literals;</div>
-<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{read_from_console, write_to_console};</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a> channel;</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{channel};</div>
 <div class="line"> </div>
 <div class="line">    terminal</div>
 <div class="line">        &lt;&lt; <a class="code" href="classterminalpp_1_1save__cursor__position.html">terminalpp::save_cursor_position</a>()</div>
@@ -228,20 +204,12 @@ Canvas and Screen</h1>
 <p><a href="examples/shocking_pink">Shocking pink project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;terminalpp/canvas.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;terminalpp/screen.hpp&gt;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> read_from_console(terminalpp::tokens)</div>
-<div class="line">{</div>
-<div class="line">    <span class="comment">// See later.</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> write_to_console(terminalpp::bytes data)</div>
-<div class="line">{</div>
-<div class="line">    std::cout &lt;&lt; std::string{data.begin(), data.end()};</div>
-<div class="line">}</div>
+<div class="line"><span class="preprocessor">#include &lt;terminalpp/stdout_channel.hpp&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
-<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{read_from_console, write_to_console};</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a> channel;</div>
+<div class="line">    <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{channel};</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1screen.html">terminalpp::screen</a> screen{terminal};</div>
 <div class="line">    <a class="code" href="classterminalpp_1_1canvas.html">terminalpp::canvas</a> canvas({80, 24});</div>
 <div class="line"> </div>
@@ -271,26 +239,18 @@ Canvas and Screen</h1>
 </div><!-- fragment --><p>All of these examples so far have ignored the read function for terminals since they only output to the screen. It is also possible to read from a terminal. This operation converts a sequence of ANSI protocol bytes into a series of tokens that can be inspected for regular text, control sequences (including function keys, arrow keys, etc.) and even mouse operations. The example project for this uses the <a href="https://github.com/KazDragon/consolepp">Console++ library</a> to provide asynchronous key-by-key input from a console window.</p>
 <p><a href="examples/wait_for_mouse_click">wait_for_mouse_click project</a> </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> handle_token(terminalpp::token <span class="keyword">const</span> &amp;token);</div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> schedule_async_read();</div>
-<div class="line"> </div>
+<div class="line"><span class="keyword">static</span> boost::asio::io_context io_context;</div>
 <div class="line"><span class="keyword">static</span> consolepp::console console{io_context};</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// ...</span></div>
-<div class="line"> </div>
-<div class="line"><a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{</div>
-<div class="line">    [](terminalpp::tokens tokens) {</div>
-<div class="line">        boost::for_each(tokens, handle_token);</div>
-<div class="line">    },</div>
-<div class="line">    [](terminalpp::bytes data) {</div>
-<div class="line">        console.write(data);</div>
-<div class="line">    },</div>
+<div class="line"><span class="keyword">static</span> <a class="code" href="classterminalpp_1_1terminal.html">terminalpp::terminal</a> terminal{</div>
+<div class="line">    console,</div>
 <div class="line">    [] {</div>
 <div class="line">        <a class="code" href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a> behaviour;</div>
 <div class="line">        behaviour.supports_basic_mouse_tracking = <span class="keyword">true</span>;</div>
 <div class="line">        <span class="keywordflow">return</span> behaviour;</div>
 <div class="line">    }()</div>
 <div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ...</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
@@ -310,27 +270,41 @@ Canvas and Screen</h1>
 <div class="line">             &lt;&lt; fmt::format(<span class="stringliteral">&quot;mouse clicked at ({},{})\n&quot;</span>, mouse_position.x_, mouse_position.y_);</div>
 <div class="line">}</div>
 <div class="line"> </div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> handle_token(terminalpp::token <span class="keyword">const</span> &amp;token);</div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> schedule_async_read()</div>
+<div class="line">{</div>
+<div class="line">    terminal.async_read(</div>
+<div class="line">        [](terminalpp::tokens tokens) {</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span> &amp;token : tokens) {</div>
+<div class="line">                handle_token(token);</div>
+<div class="line">            }</div>
+<div class="line"> </div>
+<div class="line">            schedule_async_read();</div>
+<div class="line">        });</div>
+<div class="line">}</div>
+<div class="line"> </div>
 <div class="line"><span class="comment">// ...</span></div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <div class="ttc" id="aclassterminalpp_1_1string_html"><div class="ttname"><a href="classterminalpp_1_1string.html">terminalpp::string</a></div><div class="ttdoc">A class that represents strings of elements.</div><div class="ttdef"><b>Definition:</b> string.hpp:18</div></div>
-<div class="ttc" id="aclassterminalpp_1_1erase__display_html"><div class="ttname"><a href="classterminalpp_1_1erase__display.html">terminalpp::erase_display</a></div><div class="ttdoc">A manipulator that erases the entire display.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:249</div></div>
-<div class="ttc" id="aclassterminalpp_1_1use__alternate__screen__buffer_html"><div class="ttname"><a href="classterminalpp_1_1use__alternate__screen__buffer.html">terminalpp::use_alternate_screen_buffer</a></div><div class="ttdoc">A manipulator that enables the use of the alternate screen buffer.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:414</div></div>
+<div class="ttc" id="aclassterminalpp_1_1stdout__channel_html"><div class="ttname"><a href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a></div><div class="ttdoc">A class that models the terminal's channel concept, providing output to stdout.</div><div class="ttdef"><b>Definition:</b> stdout_channel.hpp:12</div></div>
+<div class="ttc" id="aclassterminalpp_1_1erase__display_html"><div class="ttname"><a href="classterminalpp_1_1erase__display.html">terminalpp::erase_display</a></div><div class="ttdoc">A manipulator that erases the entire display.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:364</div></div>
+<div class="ttc" id="aclassterminalpp_1_1use__alternate__screen__buffer_html"><div class="ttname"><a href="classterminalpp_1_1use__alternate__screen__buffer.html">terminalpp::use_alternate_screen_buffer</a></div><div class="ttdoc">A manipulator that enables the use of the alternate screen buffer.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:529</div></div>
 <div class="ttc" id="astructterminalpp_1_1element_html"><div class="ttname"><a href="structterminalpp_1_1element.html">terminalpp::element</a></div><div class="ttdoc">A structure that represents the fundamental printable element of a terminal screen,...</div><div class="ttdef"><b>Definition:</b> element.hpp:18</div></div>
-<div class="ttc" id="aclassterminalpp_1_1move__cursor_html"><div class="ttname"><a href="classterminalpp_1_1move__cursor.html">terminalpp::move_cursor</a></div><div class="ttdoc">A manipulator that outputs ANSI protocol bytes to move the cursor to the specified location.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:160</div></div>
+<div class="ttc" id="aclassterminalpp_1_1move__cursor_html"><div class="ttname"><a href="classterminalpp_1_1move__cursor.html">terminalpp::move_cursor</a></div><div class="ttdoc">A manipulator that outputs ANSI protocol bytes to move the cursor to the specified location.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:275</div></div>
 <div class="ttc" id="aclassterminalpp_1_1terminal_html"><div class="ttname"><a href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></div><div class="ttdoc">A class that encapsulates a terminal.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:18</div></div>
-<div class="ttc" id="aclassterminalpp_1_1use__normal__screen__buffer_html"><div class="ttname"><a href="classterminalpp_1_1use__normal__screen__buffer.html">terminalpp::use_normal_screen_buffer</a></div><div class="ttdoc">A manipulator that enables the use of the normal screen buffer.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:399</div></div>
-<div class="ttc" id="aclassterminalpp_1_1disable__mouse_html"><div class="ttname"><a href="classterminalpp_1_1disable__mouse.html">terminalpp::disable_mouse</a></div><div class="ttdoc">A manipulator that disables mouse clicks according to the terminal behaviour.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:360</div></div>
+<div class="ttc" id="aclassterminalpp_1_1use__normal__screen__buffer_html"><div class="ttname"><a href="classterminalpp_1_1use__normal__screen__buffer.html">terminalpp::use_normal_screen_buffer</a></div><div class="ttdoc">A manipulator that enables the use of the normal screen buffer.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:514</div></div>
+<div class="ttc" id="aclassterminalpp_1_1disable__mouse_html"><div class="ttname"><a href="classterminalpp_1_1disable__mouse.html">terminalpp::disable_mouse</a></div><div class="ttdoc">A manipulator that disables mouse clicks according to the terminal behaviour.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:475</div></div>
 <div class="ttc" id="astructterminalpp_1_1behaviour_html"><div class="ttname"><a href="structterminalpp_1_1behaviour.html">terminalpp::behaviour</a></div><div class="ttdoc">A set of flags that determine how a terminal should behave over a datastream.</div><div class="ttdef"><b>Definition:</b> behaviour.hpp:11</div></div>
-<div class="ttc" id="aclassterminalpp_1_1enable__mouse_html"><div class="ttname"><a href="classterminalpp_1_1enable__mouse.html">terminalpp::enable_mouse</a></div><div class="ttdoc">A manipulator that enables mouse clicks according to the terminal behaviour.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:344</div></div>
+<div class="ttc" id="aclassterminalpp_1_1enable__mouse_html"><div class="ttname"><a href="classterminalpp_1_1enable__mouse.html">terminalpp::enable_mouse</a></div><div class="ttdoc">A manipulator that enables mouse clicks according to the terminal behaviour.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:459</div></div>
 <div class="ttc" id="aclassterminalpp_1_1screen_html"><div class="ttname"><a href="classterminalpp_1_1screen.html">terminalpp::screen</a></div><div class="ttdoc">A class that represents a screen for a terminal.</div><div class="ttdef"><b>Definition:</b> screen.hpp:16</div></div>
 <div class="ttc" id="astructterminalpp_1_1high__colour_html"><div class="ttname"><a href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a></div><div class="ttdoc">Structure representing the central 216 colours of a 256-colour palette, where each colour channel is ...</div><div class="ttdef"><b>Definition:</b> colour.hpp:80</div></div>
-<div class="ttc" id="aclassterminalpp_1_1restore__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1restore__cursor__position.html">terminalpp::restore_cursor_position</a></div><div class="ttdoc">A manipulator that restores the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:234</div></div>
-<div class="ttc" id="aclassterminalpp_1_1save__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1save__cursor__position.html">terminalpp::save_cursor_position</a></div><div class="ttdoc">A manipulator that saves the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:219</div></div>
+<div class="ttc" id="aclassterminalpp_1_1restore__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1restore__cursor__position.html">terminalpp::restore_cursor_position</a></div><div class="ttdoc">A manipulator that restores the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:349</div></div>
+<div class="ttc" id="aclassterminalpp_1_1save__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1save__cursor__position.html">terminalpp::save_cursor_position</a></div><div class="ttdoc">A manipulator that saves the cursor position.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:334</div></div>
 <div class="ttc" id="aclassterminalpp_1_1canvas_html"><div class="ttname"><a href="classterminalpp_1_1canvas.html">terminalpp::canvas</a></div><div class="ttdoc">A class representing a grid onto which elements can be painted.</div><div class="ttdef"><b>Definition:</b> canvas.hpp:17</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 20 2022 08:45:59 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 25 2022 17:47:27 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
