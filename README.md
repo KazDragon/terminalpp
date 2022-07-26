@@ -58,7 +58,7 @@ Terminal++ is currently automatically tested using MSVC 2019 and GCC 9.4.  For f
 
 # The Basics
 
-The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential in order to create fully-featured text-based applications.  The use cases for such software include interactive forms of command-line software, and even GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).
+The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential in order to create fully-featured text-based applications.  The use cases for such software range from interactive forms of command-line software up to GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).
 
 At its most fundamental level, Terminal++ is in the business of manipulating character elements on the screen, where each element is encoded as a glyph, which describes the character that is presented to the user, and a series of non-character graphical attributes. These are encapsulated in the following classes:
 
@@ -67,11 +67,11 @@ At its most fundamental level, Terminal++ is in the business of manipulating cha
 
 These are combined into Terminal++'s fundamental type, terminalpp::element.
 
-The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it.  Because the terminal is unaware whether you are sending data to the console or over a network connection, it uses a type-erased "channel" concept onto which these operations are mapped.  This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries for easy integration. Terminal++ also provides stdout_channel, which can serve for programs who do not require asynchronous input.  This is used in the examples below.
+The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it.  Because the terminal does not know whether you are sending data to the console, over a network connection or into a file, it uses a type-erased "channel" concept onto which these operations are mapped.  This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries, respectively, for easier integration. Terminal++ also provides stdout_channel, which can serve for programs who do not require asynchronous input.  This use of this is demonstrated in the examples below.
 
 # Strings
 
-terminalpp::elements can be collected together using the terminalpp::string class.  It has several constructors for different uses.  For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message.  In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complicated strings
+terminalpp::elements can be collected together using the terminalpp::string class.  It has several constructors for different uses.  For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message.  In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complex strings.
 
 [Hello, World! project](examples/hello_world)
 ```cpp
@@ -141,8 +141,6 @@ int main()
 
 This writes a smiley face in the (0, 0) position on the terminal -- the top-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.
 
-Note that it is necessary to output the results of the terminal operations.  This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is.  It could be standard out, it could be some named pipe, or it could be a network socket.  This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions.
-
 # Canvas and Screen
 
 For even finer control of the terminal, the terminalpp::canvas class presents a grid of elements upon which you can "paint" the desired appearance of the terminal on a frame-by-frame by simply assigning to the appropriate co-ordinates:
@@ -210,7 +208,7 @@ int main()
 }
 ```
 
-All of these examples so far have ignored the read function for terminals since they only output to the screen.  It is also possible to read from a terminal.  This operation converts a sequence of ANSI protocol bytes into a series of tokens that can be inspected for regular text, control sequences (including function keys, arrow keys, etc.) and even mouse operations.  The example project for this uses the [Console++ library](https://github.com/KazDragon/consolepp) to provide asynchronous key-by-key input from a console window.
+It is also possible to read from a terminal.  Standard C++ does not provide a way of reading from standard input asynchronously, so this requires operating system support.  The [Console++ library](https://github.com/KazDragon/consolepp) library implements this for certain platforms.  Its consolepp::console class models the channel concept, so it fits right into a terminal.  Using the terminal to read bytes from the console will convert the input into a sequence of ANSI protocol bytes into a series of tokens that can be inspected for regular text, control sequences (including function keys, arrow keys, etc.) and even mouse operations if that is set in the terminal's behaviour.
 
 [wait_for_mouse_click project](examples/wait_for_mouse_click)
 ```cpp
