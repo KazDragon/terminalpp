@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">2.4.0.4</span>
+   &#160;<span id="projectnumber">3.0.0.1</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -118,17 +118,17 @@ Status</h1>
 <p>Terminal++ is currently automatically tested using MSVC 2019 and GCC 9.4. For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the <a href="https://github.com/KazDragon/terminalpp/issues">Issues page</a>. Feel free to discuss using Github Discussions!</p>
 <h1><a class="anchor" id="autotoc_md19"></a>
 The Basics</h1>
-<p>The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential in order to create fully-featured text-based applications. The use cases for such software include interactive forms of command-line software, and even GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).</p>
+<p>The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential in order to create fully-featured text-based applications. The use cases for such software range from interactive forms of command-line software up to GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).</p>
 <p>At its most fundamental level, Terminal++ is in the business of manipulating character elements on the screen, where each element is encoded as a glyph, which describes the character that is presented to the user, and a series of non-character graphical attributes. These are encapsulated in the following classes:</p>
 <ul>
 <li><a class="el" href="structterminalpp_1_1glyph.html" title="A structure that carries around the character attributes of an ANSI element.">terminalpp::glyph</a> - represents a character (which may be ASCII or any UTF-8 value up to U+FFFF) and its character set (by default, this is the US_ASCII character set).</li>
 <li><a class="el" href="structterminalpp_1_1attribute.html" title="A structure that carries around the presentation attributes of an ANSI element.">terminalpp::attribute</a> - a collection of variables that describe the non-character graphical part of the output, such as the foreground and background colours, whether it is bold, underlined, and so on.</li>
 </ul>
 <p>These are combined into Terminal++'s fundamental type, <a class="el" href="structterminalpp_1_1element.html" title="A structure that represents the fundamental printable element of a terminal screen,...">terminalpp::element</a>.</p>
-<p>The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it. Because the terminal is unaware whether you are sending data to the console or over a network connection, it uses a type-erased "channel" concept onto which these operations are mapped. This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries for easy integration. Terminal++ also provides stdout_channel, which can serve for programs who do not require asynchronous input. This is used in the examples below.</p>
+<p>The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it. Because the terminal does not know whether you are sending data to the console, over a network connection or into a file, it uses a type-erased "channel" concept onto which these operations are mapped. This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries, respectively, for easier integration. Terminal++ also provides stdout_channel, which can serve for programs who do not require asynchronous input. This use of this is demonstrated in the examples below.</p>
 <h1><a class="anchor" id="autotoc_md20"></a>
 Strings</h1>
-<p>terminalpp::elements can be collected together using the <a class="el" href="classterminalpp_1_1string.html" title="A class that represents strings of elements.">terminalpp::string</a> class. It has several constructors for different uses. For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message. In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complicated strings</p>
+<p>terminalpp::elements can be collected together using the <a class="el" href="classterminalpp_1_1string.html" title="A class that represents strings of elements.">terminalpp::string</a> class. It has several constructors for different uses. For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message. In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complex strings.</p>
 <p><a href="examples/hello_world">Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;terminalpp/stdout_channel.hpp&gt;</span></div>
 <div class="line"> </div>
@@ -178,7 +178,6 @@ Terminals</h1>
 <div class="line">        &lt;&lt; <a class="code" href="classterminalpp_1_1restore__cursor__position.html">terminalpp::restore_cursor_position</a>();</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>This writes a smiley face in the (0, 0) position on the terminal &ndash; the top-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.</p>
-<p>Note that it is necessary to output the results of the terminal operations. This is because terminalpp is datastream-agnostic: it doesn't know where the terminal you're writing to actually is. It could be standard out, it could be some named pipe, or it could be a network socket. This gives you the flexibility to use Terminal++ in any situation where there is some kind of terminal emulator on the other side of a stream, without imposing any kind of restrictions.</p>
 <h1><a class="anchor" id="autotoc_md22"></a>
 Canvas and Screen</h1>
 <p>For even finer control of the terminal, the <a class="el" href="classterminalpp_1_1canvas.html" title="A class representing a grid onto which elements can be painted.">terminalpp::canvas</a> class presents a grid of elements upon which you can "paint" the desired appearance of the terminal on a frame-by-frame by simply assigning to the appropriate co-ordinates:</p>
@@ -236,7 +235,7 @@ Canvas and Screen</h1>
 <div class="line">    <span class="comment">// screen is still shocking pink, but there is now a letter &#39;y&#39; with a</span></div>
 <div class="line">    <span class="comment">// blue background at position (10, 15).</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><p>All of these examples so far have ignored the read function for terminals since they only output to the screen. It is also possible to read from a terminal. This operation converts a sequence of ANSI protocol bytes into a series of tokens that can be inspected for regular text, control sequences (including function keys, arrow keys, etc.) and even mouse operations. The example project for this uses the <a href="https://github.com/KazDragon/consolepp">Console++ library</a> to provide asynchronous key-by-key input from a console window.</p>
+</div><!-- fragment --><p>It is also possible to read from a terminal. Standard C++ does not provide a way of reading from standard input asynchronously, so this requires operating system support. The <a href="https://github.com/KazDragon/consolepp">Console++ library</a> library implements this for certain platforms. Its consolepp::console class models the channel concept, so it fits right into a terminal. Using the terminal to read bytes from the console will convert the input into a sequence of ANSI protocol bytes into a series of tokens that can be inspected for regular text, control sequences (including function keys, arrow keys, etc.) and even mouse operations if that is set in the terminal's behaviour.</p>
 <p><a href="examples/wait_for_mouse_click">wait_for_mouse_click project</a> </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">static</span> boost::asio::io_context io_context;</div>
@@ -304,7 +303,7 @@ Canvas and Screen</h1>
 <div class="ttc" id="aclassterminalpp_1_1canvas_html"><div class="ttname"><a href="classterminalpp_1_1canvas.html">terminalpp::canvas</a></div><div class="ttdoc">A class representing a grid onto which elements can be painted.</div><div class="ttdef"><b>Definition:</b> canvas.hpp:17</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 25 2022 17:47:27 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 26 2022 06:05:46 for Terminal++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
