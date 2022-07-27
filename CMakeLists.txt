@@ -74,8 +74,8 @@ else()
     # Terminal++ requires at least Boost 1.69
     find_package(Boost 1.69.0 REQUIRED)
 
-    # Terminal++ requires exactly version 0.34 of gsl-lite
-    find_package(gsl-lite 0.34.0 REQUIRED)
+    # Terminal++ requires at least version 0.38 of gsl-lite
+    find_package(gsl-lite 0.38.0 REQUIRED)
 
     # Terminal++ requires libfmt
     find_package(fmt 5.3 REQUIRED)
