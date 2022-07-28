@@ -137,6 +137,11 @@ jobs:
         sudo apt-add-repository ppa:mhier/libboost-latest
         sudo apt install libboost1.74-dev
 
+    - name: Install libfmt
+      shell: bash
+      run: |
+        sudo apt install libfmt-dev
+
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
