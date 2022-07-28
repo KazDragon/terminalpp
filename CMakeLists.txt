@@ -88,6 +88,7 @@ else()
     set(TERMINALPP_PUBLIC_LIBRARIES
         Boost::boost
         fmt::fmt
+        gsl::gsl-lite
     )
 
     set(TERMINALPP_PRIVATE_LIBRARIES)

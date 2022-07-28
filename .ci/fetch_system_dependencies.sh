@@ -5,15 +5,7 @@ export EXTERNAL_BUILD_ROOT=$HOME/external_build
 
 mkdir "$EXTERNAL_BUILD_ROOT" || true
 
-# Install fmt dependency
-if [ ! -f "$EXTERNAL_ROOT/include/fmt/format.hpp" ]; then
-    cd "$EXTERNAL_BUILD_ROOT";
-    wget https://github.com/fmtlib/fmt/archive/7.1.2.tar.gz;
-    tar -xzf 7.1.2.tar.gz;
-    cd fmt-7.1.2;
-    cmake -DCMAKE_INSTALL_PREFIX="$EXTERNAL_ROOT" -DFMT_TEST=Off .;
-    make -j2 && make install;
-fi
+# libfmt and Boost dependencies installed via apt in build.yml
 
 # Install gsl-lite dependency
 if [ ! -f "$EXTERNAL_ROOT/include/gsl/gsl-lite.hpp" ]; then
