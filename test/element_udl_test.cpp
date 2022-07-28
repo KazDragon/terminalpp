@@ -66,7 +66,7 @@ constexpr terminalpp::element with_background_colour(terminalpp::element elem, t
 
 }
 
-static constexpr udl_element const udl_elements[] = {
+static udl_element const udl_elements[] = {
     // Empty string returns default element.
     udl_element{""_ete, terminalpp::element{}},
 
