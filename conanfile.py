@@ -14,7 +14,7 @@ class TerminalppConan(ConanFile):
     default_options = {"shared": False, "coverage": False, "sanitize": "off"}
     requires = ("fmt/[>=5.3]",
                 "boost/[>=1.69]",
-                "gsl-lite/[=0.34]")
+                "gsl-lite/[=0.38]")
     build_requires = ("gtest/[>=1.8.1]")
     generators = "cmake"
 
