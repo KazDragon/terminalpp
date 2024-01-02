@@ -78,6 +78,12 @@ static streaming_text_data const streaming_text_data_table[] = {
     streaming_text_data{ "\\i>abc"_ets, "\\i=de"_ets,    "\x1B[0mde"_tb },
     streaming_text_data{ "\\i>abc"_ets, "\\ixde"_ets,    "\x1B[0mde"_tb },
 
+    // Bold-faint transitions must go through an intermediate normal state
+    // because certain terminals have a "bold-and-faint" combination that is
+    // not useful.
+    streaming_text_data{ "\\i<a"_ets,   "\\i>b"_ets,     "\x1B[22;1mb"_tb },
+    streaming_text_data{ "\\i>a"_ets,   "\\i<b"_ets,     "\x1B[22;2mb"_tb },
+    
     // Test polarity changes
     streaming_text_data{ ""_ets,        "\\p+abcde"_ets, "abcde"_tb },
     streaming_text_data{ ""_ets,        "\\p-abcde"_ets, "\x1B[7mabcde"_tb },
