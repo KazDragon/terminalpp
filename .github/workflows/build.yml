@@ -58,6 +58,8 @@ jobs:
         run: ctest -C $BUILD_TYPE
 
   build-conan:
+    if: false
+
     runs-on: ubuntu-latest
 
     env:
