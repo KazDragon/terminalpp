@@ -4,6 +4,7 @@
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
 #include <iostream>
+#include <type_traits>
 
 namespace terminalpp {
 
@@ -116,6 +117,15 @@ using intensity = effect<terminalpp::graphics::intensity>;
 using underlining = effect<terminalpp::graphics::underlining>;
 using polarity = effect<terminalpp::graphics::polarity>;
 using blinking = effect<terminalpp::graphics::blinking>;
+
+template <typename EffectType>
+struct effect_has_normal : std::bool_constant<false>
+{};
+
+template <>
+struct effect_has_normal<terminalpp::graphics::intensity>
+    : std::bool_constant<true>
+{};
 
 //* =========================================================================
 /// \brief Streaming output operator for intensities.  Prints the text

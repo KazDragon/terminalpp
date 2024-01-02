@@ -160,11 +160,26 @@ void change_effect(
     bool &change_appended,
     WriteContinuation &&wc)
 {
+  static byte_storage const separator = {ansi::ps};
+
   if (source != dest)
   {
+    if constexpr (effect_has_normal<EffectType>::value)
+    {
+      if (source.value_ != EffectType::normal
+          && dest.value_ != EffectType::normal)
+      {
+        if (std::exchange(change_appended, true))
+        {
+          wc(separator);
+        }
+
+        wc(to_bytes(fmt::format("{}", int(EffectType::normal))));
+      }
+    }
+
     if (std::exchange(change_appended, true))
     {
-      static byte_storage const separator = {ansi::ps};
       wc(separator);
     }
 
