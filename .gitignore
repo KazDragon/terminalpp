@@ -1,7 +1,9 @@
 export.hpp
 version.hpp
 CMakeSettings.json
+.cache
 /.vs
 /.vscode
 /out
 **/build
+compile_commands.json

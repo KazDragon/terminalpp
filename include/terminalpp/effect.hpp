@@ -1,4 +1,5 @@
 #pragma once
+
 #include "terminalpp/graphics.hpp"
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
@@ -17,37 +18,36 @@ struct effect_default;
 /// intensity, underlining)
 //* =========================================================================
 template <class Type>
-struct effect
-  : private boost::less_than_comparable<effect<Type>,
-            boost::equality_comparable<effect<Type>>>
+struct effect : private boost::less_than_comparable<
+                    effect<Type>,
+                    boost::equality_comparable<effect<Type>>>
 {
-    //* =====================================================================
-    /// \brief Initialises the intensity to the default (normal) value
-    //* =====================================================================
-    constexpr effect()
-      : effect(effect_default<Type>::value)
-    {
-    }
+  //* =====================================================================
+  /// \brief Initialises the intensity to the default (normal) value
+  //* =====================================================================
+  constexpr effect() : effect(effect_default<Type>::value)
+  {
+  }
 
-    //* =====================================================================
-    /// \brief Initialises the effect to the given value
-    //* =====================================================================
-    constexpr effect(Type value)
-      : value_(value)
-    {
-    }
+  //* =====================================================================
+  /// \brief Initialises the effect to the given value
+  //* =====================================================================
+  constexpr effect(Type value)  // NOLINT
+    : value_(value)
+  {
+  }
 
-    //* =====================================================================
-    /// \brief Hash function
-    //* =====================================================================
-    friend std::size_t hash_value(effect const &eff) noexcept
-    {
-        std::size_t seed = 0;
-        boost::hash_combine(seed, eff.value_);
-        return seed;
-    }
+  //* =====================================================================
+  /// \brief Hash function
+  //* =====================================================================
+  friend std::size_t hash_value(effect const &eff) noexcept
+  {
+    std::size_t seed = 0;
+    boost::hash_combine(seed, eff.value_);
+    return seed;
+  }
 
-    Type value_;
+  Type value_;
 };
 
 //* =========================================================================
@@ -65,7 +65,7 @@ constexpr bool operator<(effect<Type> const &lhs, effect<Type> const &rhs)
 template <class Type>
 constexpr bool operator==(effect<Type> const &lhs, effect<Type> const &rhs)
 {
-    return lhs.value_ == rhs.value_;
+  return lhs.value_ == rhs.value_;
 }
 
 //* =========================================================================
@@ -75,8 +75,7 @@ template <>
 struct effect_default<terminalpp::graphics::intensity>
   : std::integral_constant<
         terminalpp::graphics::intensity,
-        terminalpp::graphics::intensity::normal
-    >
+        terminalpp::graphics::intensity::normal>
 {
 };
 
@@ -87,8 +86,7 @@ template <>
 struct effect_default<terminalpp::graphics::underlining>
   : std::integral_constant<
         terminalpp::graphics::underlining,
-        terminalpp::graphics::underlining::not_underlined
-    >
+        terminalpp::graphics::underlining::not_underlined>
 {
 };
 
@@ -99,8 +97,7 @@ template <>
 struct effect_default<terminalpp::graphics::polarity>
   : std::integral_constant<
         terminalpp::graphics::polarity,
-        terminalpp::graphics::polarity::positive
-    >
+        terminalpp::graphics::polarity::positive>
 {
 };
 
@@ -111,15 +108,14 @@ template <>
 struct effect_default<terminalpp::graphics::blinking>
   : std::integral_constant<
         terminalpp::graphics::blinking,
-        terminalpp::graphics::blinking::steady
-    >
+        terminalpp::graphics::blinking::steady>
 {
 };
 
-using intensity   = effect<terminalpp::graphics::intensity>;
+using intensity = effect<terminalpp::graphics::intensity>;
 using underlining = effect<terminalpp::graphics::underlining>;
-using polarity    = effect<terminalpp::graphics::polarity>;
-using blinking    = effect<terminalpp::graphics::blinking>;
+using polarity = effect<terminalpp::graphics::polarity>;
+using blinking = effect<terminalpp::graphics::blinking>;
 
 //* =========================================================================
 /// \brief Streaming output operator for intensities.  Prints the text
@@ -149,20 +145,20 @@ std::ostream &operator<<(std::ostream &out, polarity const &eff);
 TERMINALPP_EXPORT
 std::ostream &operator<<(std::ostream &out, blinking const &eff);
 
-}
+}  // namespace terminalpp
 
 namespace std {
 
 template <class Effect>
 struct hash<terminalpp::effect<Effect>>
 {
-    using argument_type = terminalpp::effect<Effect>;
-    using result_type = std::size_t;
+  using argument_type = terminalpp::effect<Effect>;
+  using result_type = std::size_t;
 
-    result_type operator()(argument_type const &effect) const noexcept
-    {
-        return hash_value(effect);
-    }
+  result_type operator()(argument_type const &effect) const noexcept
+  {
+    return hash_value(effect);
+  }
 };
 
-}
+}  // namespace std

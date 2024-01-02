@@ -3,7 +3,7 @@
 #include "terminalpp/core.hpp"
 #include "terminalpp/token.hpp"
 
-namespace terminalpp { namespace detail {
+namespace terminalpp::detail {
 
 //* =========================================================================
 /// \brief If the token represents a well-known virtual key (e.g. this
@@ -11,6 +11,7 @@ namespace terminalpp { namespace detail {
 /// virtual key.  Otherwise, return the original token.
 //* =========================================================================
 TERMINALPP_EXPORT
-terminalpp::token get_well_known_virtual_key(terminalpp::token const &orig);
+[[nodiscard]] terminalpp::token get_well_known_virtual_key(
+    terminalpp::token const &orig);
 
-}}
+}  // namespace terminalpp::detail

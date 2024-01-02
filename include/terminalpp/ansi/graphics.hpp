@@ -6,8 +6,9 @@
 /// \brief Contains constants for the Select Graphics Rendition
 /// command parameters.
 //* =========================================================================
-namespace terminalpp { namespace ansi { namespace graphics {
+namespace terminalpp::ansi::graphics {
 
+// clang-format off
 static constexpr byte no_attributes = 0;
 
 // Intensity Constants
@@ -40,21 +41,28 @@ static constexpr byte colour_magenta = 5;
 static constexpr byte colour_cyan    = 6;
 static constexpr byte colour_white   = 7;
 static constexpr byte colour_default = 9;
+// clang-format on
 
 // "High" colour constants.
-// High colours are the middle 216 RGB colours of the 256-colour palette,  
-// where there are 6 possible values for each of R, G, B, and the colour 
+// High colours are the middle 216 RGB colours of the 256-colour palette,
+// where there are 6 possible values for each of R, G, B, and the colour
 // components are stored according to multiples of that number such that
 // the value of the colour is 36R + 6G + B.  This is then stored offset
 // 16.
 static constexpr byte high_colour_offset = 16;
+
+// High colours (16-231) are sorted according to their respective hues.
+static constexpr auto red_coefficient = 36;
+static constexpr auto green_coefficient = 6;
+static constexpr auto blue_coefficient = 1;
 
 // ==========================================================================
 /// \brief Encode an RGB value.
 // ==========================================================================
 constexpr byte encode_high_components(byte red, byte green, byte blue)
 {
-    return high_colour_offset + red * 36 + green * 6 + blue;
+  return high_colour_offset + (red * red_coefficient)
+         + (green * green_coefficient) + (blue * blue_coefficient);
 }
 
 // ==========================================================================
@@ -62,7 +70,7 @@ constexpr byte encode_high_components(byte red, byte green, byte blue)
 // ==========================================================================
 constexpr byte high_red_component(byte value)
 {
-    return (value - high_colour_offset) / 36;
+  return (value - high_colour_offset) / red_coefficient;
 }
 
 // ==========================================================================
@@ -70,7 +78,7 @@ constexpr byte high_red_component(byte value)
 // ==========================================================================
 constexpr byte high_green_component(byte value)
 {
-    return ((value - high_colour_offset) % 36) / 6;
+  return ((value - high_colour_offset) % red_coefficient) / green_coefficient;
 }
 
 // ==========================================================================
@@ -78,7 +86,7 @@ constexpr byte high_green_component(byte value)
 // ==========================================================================
 constexpr byte high_blue_component(byte value)
 {
-    return (value - high_colour_offset) % 6;
+  return (value - high_colour_offset) % green_coefficient;
 }
 
 // "Greyscale" colour constants.
@@ -92,7 +100,7 @@ static constexpr byte greyscale_colour_offset = 232;
 // ==========================================================================
 constexpr byte encode_greyscale_component(byte grey)
 {
-    return greyscale_colour_offset + grey;
+  return greyscale_colour_offset + grey;
 }
 
 // ==========================================================================
@@ -100,7 +108,7 @@ constexpr byte encode_greyscale_component(byte grey)
 // ==========================================================================
 constexpr byte greyscale_component(byte value)
 {
-    return value - greyscale_colour_offset;
+  return value - greyscale_colour_offset;
 }
 
-}}}
+}  // namespace terminalpp::ansi::graphics

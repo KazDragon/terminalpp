@@ -2,6 +2,7 @@
 
 #include "terminalpp/canvas.hpp"
 #include "terminalpp/terminal.hpp"
+
 #include <string>
 
 namespace terminalpp {
@@ -15,20 +16,20 @@ namespace terminalpp {
 //* =========================================================================
 class TERMINALPP_EXPORT screen
 {
-public :
-    //* =====================================================================
-    /// \brief Constructor
-    //* =====================================================================
-    explicit screen(terminal& term);
+ public:
+  //* =====================================================================
+  /// \brief Constructor
+  //* =====================================================================
+  explicit screen(terminal &term);
 
-    //* =====================================================================
-    /// \brief Draws the canvas to the terminal.
-    //* =====================================================================
-    void draw(canvas const &cvs);
+  //* =====================================================================
+  /// \brief Draws the canvas to the terminal.
+  //* =====================================================================
+  void draw(canvas const &cvs);
 
-private :
-    terminal& terminal_;
-    canvas last_frame_{{}};
+ private:
+  terminal &terminal_;
+  canvas last_frame_{{}};
 };
 
-}
+}  // namespace terminalpp

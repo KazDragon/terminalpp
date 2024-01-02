@@ -7,8 +7,8 @@
 /// \brief Constants for commands that begin with the Operating System
 /// Control sequence.
 //* =========================================================================
-namespace terminalpp { namespace ansi { namespace osc {
+namespace terminalpp::ansi::osc {
 
 static constexpr byte set_window_title = terminalpp::detail::ascii::two;
 
-}}}
+}

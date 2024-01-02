@@ -1,10 +1,10 @@
 #pragma once
 
 #include "terminalpp/string.hpp"
+#include <gsl/gsl-lite.hpp>
 #include <string>
 
-namespace terminalpp
-{
+namespace terminalpp {
 
 //* =========================================================================
 /// \brief A function that converts a std::string into a terminalpp::string,
@@ -13,4 +13,4 @@ namespace terminalpp
 TERMINALPP_EXPORT
 terminalpp::string encode(gsl::cstring_span text);
 
-}
+}  // namespace terminalpp

@@ -11,27 +11,26 @@ terminal::~terminal() = default;
 // ==========================================================================
 // ASYNC_READ
 // ==========================================================================
-void terminal::async_read(std::function<void (tokens)> const &callback)
+void terminal::async_read(std::function<void(tokens)> const &callback)
 {
-    channel_->async_read(
-        [=](terminalpp::bytes data)
-        {
-            std::vector<token> results;
+  channel_->async_read(
+      [=](terminalpp::bytes data)
+      {
+        std::vector<token> results;
 
-            boost::for_each(
-                data,
-                [this, &results](terminalpp::byte datum)
-                {
-                    if (auto const result = state_.input_parser_(datum);
-                        result.has_value())
-                    {
-                        results.push_back(
-                            detail::get_well_known_virtual_key(*result));
-                    }
-                });
+        boost::for_each(
+            data,
+            [this, &results](terminalpp::byte datum)
+            {
+              if (auto const result = state_.input_parser_(datum);
+                  result.has_value())
+              {
+                results.push_back(detail::get_well_known_virtual_key(*result));
+              }
+            });
 
-            callback(results);
-        });
+        callback(results);
+      });
 }
 
 // ==========================================================================
@@ -39,7 +38,7 @@ void terminal::async_read(std::function<void (tokens)> const &callback)
 // ==========================================================================
 void terminal::write(bytes data)
 {
-    channel_->write(data);
+  channel_->write(data);
 }
 
 // ==========================================================================
@@ -47,7 +46,7 @@ void terminal::write(bytes data)
 // ==========================================================================
 bool terminal::is_alive() const
 {
-    return channel_->is_alive();
+  return channel_->is_alive();
 }
 
 // ==========================================================================
@@ -55,7 +54,7 @@ bool terminal::is_alive() const
 // ==========================================================================
 void terminal::close()
 {
-    channel_->close();
+  channel_->close();
 }
 
 // ==========================================================================
@@ -63,13 +62,13 @@ void terminal::close()
 // ==========================================================================
 void terminal::set_size(extent size)
 {
-    state_.terminal_size_ = size;
+  state_.terminal_size_ = size;
 
-    // The cursor positions that terminals have after a size change is
-    // inconsistent across implementations.  By resetting our own position
-    // to an unknown one, it ensures that a precise move occurs the next
-    // time the cursor is moved to a position.
-    state_.cursor_position_ = {};
+  // The cursor positions that terminals have after a size change is
+  // inconsistent across implementations.  By resetting our own position
+  // to an unknown one, it ensures that a precise move occurs the next
+  // time the cursor is moved to a position.
+  state_.cursor_position_ = {};
 }
 
 // ==========================================================================
@@ -77,8 +76,8 @@ void terminal::set_size(extent size)
 // ==========================================================================
 terminal &terminal::operator<<(terminalpp::element const &elem)
 {
-    *this << write_optional_default_attribute();
-    return *this << write_element(elem);
+  *this << write_optional_default_attribute();
+  return *this << write_element(elem);
 }
 
 // ==========================================================================
@@ -86,16 +85,14 @@ terminal &terminal::operator<<(terminalpp::element const &elem)
 // ==========================================================================
 terminal &terminal::operator<<(terminalpp::string const &text)
 {
-    *this << write_optional_default_attribute();
-    
-    boost::for_each(
-        text,
-        [this](terminalpp::element const &elem)
-        {
-            *this << write_element(elem);
-        });
+  *this << write_optional_default_attribute();
 
-    return *this;
+  boost::for_each(
+      text,
+      [this](terminalpp::element const &elem)
+      { *this << write_element(elem); });
+
+  return *this;
 }
 
-}
+}  // namespace terminalpp

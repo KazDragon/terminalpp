@@ -5,30 +5,28 @@
 
 using testing::ValuesIn;
 
-using character_set_string = std::tuple<
-    terminalpp::character_set,
-    std::string
->;
+using character_set_string = std::tuple<terminalpp::character_set, std::string>;
 
 class character_sets_with_strings
-    : public testing::TestWithParam<character_set_string>
+  : public testing::TestWithParam<character_set_string>
 {
 };
 
 TEST_P(character_sets_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &set = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+  auto const &param = GetParam();
+  auto const &set = std::get<0>(param);
+  auto const &expected_string = std::get<1>(param);
 
-    std::stringstream stream;
-    std::ostream &out = stream;
+  std::stringstream stream;
+  std::ostream &out = stream;
 
-    out << terminalpp::character_set(set);
-    ASSERT_EQ(expected_string, stream.str());
+  out << terminalpp::character_set(set);
+  ASSERT_EQ(expected_string, stream.str());
 }
 
 static character_set_string const character_set_strings[] = {
+    // clang-format off
   character_set_string{ terminalpp::charset::dec,                        "dec",   },
   character_set_string{ terminalpp::charset::dec_supplementary,          "dec+"   },
   character_set_string{ terminalpp::charset::dec_supplementary_graphics, "dec+gr" },
@@ -48,15 +46,15 @@ static character_set_string const character_set_strings[] = {
   character_set_string{ terminalpp::charset::swiss,                      "de_ch"  },
   character_set_string{ terminalpp::charset::sco,                        "sco"    },
   character_set_string{ terminalpp::charset::utf8,                       "u"      },
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
     character_sets_can_be_streamed_to_an_ostream,
     character_sets_with_strings,
-    ValuesIn(character_set_strings)
-);
+    ValuesIn(character_set_strings));
 
 TEST(a_character_set, can_be_inserted_into_an_unordered_set)
 {
-    std::unordered_set<terminalpp::character_set> c { {} };
+  std::unordered_set<terminalpp::character_set> c{{}};
 }

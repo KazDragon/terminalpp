@@ -1,5 +1,5 @@
-#include "terminalpp/terminal.hpp"
 #include "terminalpp/detail/element_difference.hpp"
+#include "terminalpp/terminal.hpp"
 
 namespace terminalpp {
 
@@ -11,15 +11,15 @@ void erase_display::operator()(
     terminalpp::terminal_state &state,
     terminal::write_function const &write_fn) const
 {
-    detail::change_to_default_attribute(state.last_element_, beh, write_fn);
-    detail::csi(beh, write_fn);
+  detail::change_to_default_attribute(state.last_element_, beh, write_fn);
+  detail::csi(beh, write_fn);
 
-    static byte_storage const erase_all_suffix = {  
-        ansi::csi::erase_in_display_all,
-        ansi::csi::erase_in_display,
-    };
+  static byte_storage const erase_all_suffix = {
+      ansi::csi::erase_in_display_all,
+      ansi::csi::erase_in_display,
+  };
 
-    write_fn(erase_all_suffix);
+  write_fn(erase_all_suffix);
 }
 
 // ==========================================================================
@@ -30,15 +30,15 @@ void erase_display_above::operator()(
     terminalpp::terminal_state &state,
     terminal::write_function const &write_fn) const
 {
-    detail::change_to_default_attribute(state.last_element_, beh, write_fn);
-    detail::csi(beh, write_fn);
+  detail::change_to_default_attribute(state.last_element_, beh, write_fn);
+  detail::csi(beh, write_fn);
 
-    static byte_storage const erase_above_suffix = {  
-        ansi::csi::erase_in_display_above,
-        ansi::csi::erase_in_display,
-    };
+  static byte_storage const erase_above_suffix = {
+      ansi::csi::erase_in_display_above,
+      ansi::csi::erase_in_display,
+  };
 
-    write_fn(erase_above_suffix);
+  write_fn(erase_above_suffix);
 }
 
 // ==========================================================================
@@ -49,15 +49,15 @@ void erase_display_below::operator()(
     terminalpp::terminal_state &state,
     terminal::write_function const &write_fn) const
 {
-    detail::change_to_default_attribute(state.last_element_, beh, write_fn);
-    detail::csi(beh, write_fn);
+  detail::change_to_default_attribute(state.last_element_, beh, write_fn);
+  detail::csi(beh, write_fn);
 
-    static byte_storage const erase_below_suffix = {  
-        // The constant for erase below is 0, which can be elided
-        ansi::csi::erase_in_display,
-    };
+  static byte_storage const erase_below_suffix = {
+      // The constant for erase below is 0, which can be elided
+      ansi::csi::erase_in_display,
+  };
 
-    write_fn(erase_below_suffix);
+  write_fn(erase_below_suffix);
 }
 
 // ==========================================================================
@@ -68,15 +68,15 @@ void erase_line::operator()(
     terminalpp::terminal_state &state,
     terminal::write_function const &write_fn) const
 {
-    detail::change_to_default_attribute(state.last_element_, beh, write_fn);
-    detail::csi(beh, write_fn);
+  detail::change_to_default_attribute(state.last_element_, beh, write_fn);
+  detail::csi(beh, write_fn);
 
-    static byte_storage const erase_line_suffix = {  
-        ansi::csi::erase_in_line_all,
-        ansi::csi::erase_in_line,
-    };
+  static byte_storage const erase_line_suffix = {
+      ansi::csi::erase_in_line_all,
+      ansi::csi::erase_in_line,
+  };
 
-    write_fn(erase_line_suffix);
+  write_fn(erase_line_suffix);
 }
 
 // ==========================================================================
@@ -87,15 +87,15 @@ void erase_line_left::operator()(
     terminalpp::terminal_state &state,
     terminal::write_function const &write_fn) const
 {
-    detail::change_to_default_attribute(state.last_element_, beh, write_fn);
-    detail::csi(beh, write_fn);
+  detail::change_to_default_attribute(state.last_element_, beh, write_fn);
+  detail::csi(beh, write_fn);
 
-    static byte_storage const erase_line_left_suffix = {  
-        ansi::csi::erase_in_line_left,
-        ansi::csi::erase_in_line,
-    };
+  static byte_storage const erase_line_left_suffix = {
+      ansi::csi::erase_in_line_left,
+      ansi::csi::erase_in_line,
+  };
 
-    write_fn(erase_line_left_suffix);
+  write_fn(erase_line_left_suffix);
 }
 
 // ==========================================================================
@@ -106,15 +106,15 @@ void erase_line_right::operator()(
     terminalpp::terminal_state &state,
     terminal::write_function const &write_fn) const
 {
-    detail::change_to_default_attribute(state.last_element_, beh, write_fn);
-    detail::csi(beh, write_fn);
+  detail::change_to_default_attribute(state.last_element_, beh, write_fn);
+  detail::csi(beh, write_fn);
 
-    static byte_storage const erase_line_right_suffix = {  
-        // The code for erase right is 0, which can be elided.
-        ansi::csi::erase_in_line,
-    };
+  static byte_storage const erase_line_right_suffix = {
+      // The code for erase right is 0, which can be elided.
+      ansi::csi::erase_in_line,
+  };
 
-    write_fn(erase_line_right_suffix);
+  write_fn(erase_line_right_suffix);
 }
 
-}
+}  // namespace terminalpp

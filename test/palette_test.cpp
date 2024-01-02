@@ -1,16 +1,16 @@
 #include "expect_sequence.hpp"
 #include "fakes/fake_channel.hpp"
+#include <gtest/gtest.h>
 #include <terminalpp/palette.hpp>
 #include <terminalpp/terminal.hpp>
-#include <gtest/gtest.h>
 
-using namespace terminalpp::literals;
+using namespace terminalpp::literals;  // NOLINT
 using testing::ValuesIn;
 
 using colour_attribute_data = std::tuple<
-    terminalpp::attribute,   // palette attribute
-    terminalpp::byte_storage // expected output for "x"
->;
+    terminalpp::attribute,    // palette attribute
+    terminalpp::byte_storage  // expected output for "x"
+    >;
 
 namespace {
 
@@ -19,9 +19,10 @@ class colour_attribute_strings
 {
 };
 
-}
+}  // namespace
 
 colour_attribute_data const colour_attributes[] = {
+    // clang-format off
     colour_attribute_data{ terminalpp::palette::black,   "\x1B[30mx"_tb },
     colour_attribute_data{ terminalpp::palette::maroon,  "\x1B[31mx"_tb },
     colour_attribute_data{ terminalpp::palette::green,   "\x1B[32mx"_tb },
@@ -88,32 +89,32 @@ colour_attribute_data const colour_attributes[] = {
     colour_attribute_data{ terminalpp::palette::grey89,   "\x1B[38;5;254mx"_tb },
     colour_attribute_data{ terminalpp::palette::grey93,   "\x1B[38;5;255mx"_tb },
     colour_attribute_data{ terminalpp::palette::grey100,  "\x1B[38;5;231mx"_tb },
+    // clang-format on
 };
 
 TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
 {
-    using std::get;
+  using std::get;
 
-    auto const &param    = GetParam();
-    auto const &attr     = get<0>(param);
-    auto const &expected = get<1>(param);
+  auto const &param = GetParam();
+  auto const &attr = get<0>(param);
+  auto const &expected = get<1>(param);
 
-    terminalpp::element const elem = {'x', attr};
+  terminalpp::element const elem = {'x', attr};
 
-    fake_channel channel;
-    terminalpp::terminal terminal{channel};
+  fake_channel channel;
+  terminalpp::terminal terminal{channel};
 
-    // First write a space in the default attribute.  Thereafter, we write 
-    // only what is not default about the palette-based element.
-    terminal << ""_ets;
-    channel.written_.clear();
+  // First write a space in the default attribute.  Thereafter, we write
+  // only what is not default about the palette-based element.
+  terminal << ""_ets;
+  channel.written_.clear();
 
-    terminal << elem;
-    expect_sequence(expected, channel.written_);
+  terminal << elem;
+  expect_sequence(expected, channel.written_);
 }
 
 INSTANTIATE_TEST_SUITE_P(
     palette_colours_stream_to_terminals,
     colour_attribute_strings,
-    ValuesIn(colour_attributes)
-);
+    ValuesIn(colour_attributes));
