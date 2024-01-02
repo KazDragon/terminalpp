@@ -20,9 +20,9 @@ fi
 # Install googletest dependency
 if [ ! -f "$EXTERNAL_ROOT/include/gtest/gtest.h" ]; then
     cd "$EXTERNAL_BUILD_ROOT";
-    wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz;
-    tar -xzf release-1.10.0.tar.gz;
-    cd googletest-release-1.10.0;
+    wget https://github.com/google/googletest/archive/release-1.11.0.tar.gz;
+    tar -xzf release-1.11.0.tar.gz;
+    cd googletest-release-1.11.0;
     cmake -DCMAKE_INSTALL_PREFIX="$EXTERNAL_ROOT" .;
     make -j2 && make install;
 fi
