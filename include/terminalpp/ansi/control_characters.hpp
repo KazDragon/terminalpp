@@ -2,7 +2,7 @@
 
 #include "terminalpp/detail/ascii.hpp"
 
-namespace terminalpp { namespace ansi {
+namespace terminalpp::ansi {
 
 //* =========================================================================
 /// \namespace terminalpp::ansi::control7
@@ -10,6 +10,7 @@ namespace terminalpp { namespace ansi {
 //* =========================================================================
 namespace control7 {
 
+// clang-format off
 // Full code for enabling 7-bit control mode.
 static constexpr byte enable[] = { terminalpp::detail::ascii::esc,
                                    terminalpp::detail::ascii::space,
@@ -65,7 +66,7 @@ static constexpr byte pm[]     = { terminalpp::detail::ascii::esc,
 // Application Program Command
 static constexpr byte apc[]    = { terminalpp::detail::ascii::esc,
                                    terminalpp::detail::ascii::underscore };
-}
+}  // namespace control7
 
 //* =========================================================================
 /// \namespace terminalpp::ansi::control8
@@ -98,7 +99,7 @@ static constexpr byte st    = 0x9C;
 static constexpr byte osc   = 0x9D;
 static constexpr byte pm    = 0x9E;
 static constexpr byte apc   = 0x9F;
+// clang-format off
 
-}
-
-}}
+}  // namespace control8
+}  // namespace terminalpp::ansi

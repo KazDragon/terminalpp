@@ -1,0 +1,63 @@
+# Configure clang-tidy for this project.
+Checks: >
+  -*,
+  bugprone-*,
+  google-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  cppcoreguidelines-special-member-functions,
+  -google-readability-todo,
+  -misc-no-recursion,
+  -misc-unused-parameters,
+  -modernize-avoid-c-arrays,
+  -modernize-use-trailing-return-type,
+  -readability-convert-member-functions-to-static,
+  -readability-else-after-return,
+  -readability-identifier-length,
+  -readability-magic-numbers,
+  -readability-named-parameter,
+  -google-readability-avoid-underscore-in-googletest-name,
+  -performance-move-const-arg
+# Turn all the warnings from the checks above into errors.
+WarningsAsErrors: "*"
+
+CheckOptions:
+  - key: misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
+    value: true
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: true
+  - key: cppcoreguidelines-special-member-functions.AllowMissingMoveFunctions
+    value: true
+  - key: cppcoreguidelines-special-member-functions.AllowMissingMoveFunctionsWhenCopyIsDeleted
+    value: true
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+  - key: readability-identifier-naming.ClassCase
+    value: lower_case
+  - key: readability-identifier-naming.StructCase
+    value: lower_case
+  - key: readability-identifier-naming.TemplateParameterCase
+    value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.PublicMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.ProtectedMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.ProtectedMemberSuffix
+    value: _
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: _
+  - key: readability-identifier-naming.MacroDefinitionCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.EnumConstantCase
+    value: lower_case
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: lower_case

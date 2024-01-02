@@ -2,11 +2,12 @@
 
 #include "terminalpp/detail/ascii.hpp"
 
-namespace terminalpp { namespace ansi {
+namespace terminalpp::ansi {
 
-// Sequence for introducing DEC Private Mode (extension to CSI, so the 
+// Sequence for introducing DEC Private Mode (extension to CSI, so the
 // usual sequence comes first.)
-static constexpr byte dec_private_mode[] = { terminalpp::detail::ascii::question_mark };
+static constexpr byte dec_private_mode[] = {
+    terminalpp::detail::ascii::question_mark};
 
 //* =========================================================================
 /// \namespace terminalpp::ansi::dec_pm
@@ -15,6 +16,7 @@ static constexpr byte dec_private_mode[] = { terminalpp::detail::ascii::question
 //* =========================================================================
 namespace dec_pm {
 
+// clang-format off
 static constexpr byte set[]    = { terminalpp::detail::ascii::lowercase_h };
 static constexpr byte reset[]  = { terminalpp::detail::ascii::lowercase_l };
 
@@ -50,5 +52,7 @@ static constexpr byte all_motion_mouse_tracking[] =
 static constexpr byte use_alternate_screen_buffer[] =
                                   { terminalpp::detail::ascii::four,
                                     terminalpp::detail::ascii::seven };
+// clang-format on
 
-}}}
+}  // namespace dec_pm
+}  // namespace terminalpp::ansi

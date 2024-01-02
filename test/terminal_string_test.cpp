@@ -1,30 +1,32 @@
-#include "terminal_test.hpp"
 #include "expect_sequence.hpp"
-#include <terminalpp/graphics.hpp>
+#include "terminal_test.hpp"
 #include <gtest/gtest.h>
+#include <terminalpp/graphics.hpp>
 
-using namespace terminalpp::literals;
+using namespace terminalpp::literals;  // NOLINT
 using testing::ValuesIn;
 
 TEST_F(a_new_terminal, empty_string_outputs_default_attributes)
 {
-    terminal_ << ""_ets;
-    expect_sequence("\x1B[0m"_tb, channel_.written_);
+  terminal_ << ""_ets;
+  expect_sequence("\x1B[0m"_tb, channel_.written_);
 }
 
 TEST_F(a_new_terminal, basic_string_outputs_default_attributes_and_basic_string)
 {
-    terminal_ << "abcde"_ets;
-    expect_sequence("\x1B[0mabcde"_tb, channel_.written_);
+  terminal_ << "abcde"_ets;
+  expect_sequence("\x1B[0mabcde"_tb, channel_.written_);
 }
 
-TEST_F(a_new_terminal, outputting_another_basic_string_does_not_output_default_attributes)
+TEST_F(
+    a_new_terminal,
+    outputting_another_basic_string_does_not_output_default_attributes)
 {
-    terminal_ << "abc"_ets;
-    channel_.written_.clear();
+  terminal_ << "abc"_ets;
+  channel_.written_.clear();
 
-    terminal_ << "abcde"_ets;
-    expect_sequence("abcde"_tb, channel_.written_);
+  terminal_ << "abcde"_ets;
+  expect_sequence("abcde"_tb, channel_.written_);
 }
 
 namespace {
@@ -33,34 +35,34 @@ using streaming_text_data = std::tuple<
     terminalpp::string,       // initial string to discard
     terminalpp::string,       // text streamed to terminal
     terminalpp::byte_storage  // expected output
->;
+    >;
 
-class streaming_text 
-  : public testing::TestWithParam<streaming_text_data>,
-    public terminal_test_base
+class streaming_text : public testing::TestWithParam<streaming_text_data>,
+                       public terminal_test_base
 {
 };
 
-}
+}  // namespace
 
 TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
 {
-    using std::get;
+  using std::get;
 
-    auto const &params = GetParam();
-    auto const &init_string = get<0>(params);
-    auto const &text_to_stream = get<1>(params);
-    auto const &expected_output = get<2>(params);
+  auto const &params = GetParam();
+  auto const &init_string = get<0>(params);
+  auto const &text_to_stream = get<1>(params);
+  auto const &expected_output = get<2>(params);
 
-    terminal_ << init_string;
-    channel_.written_.clear();
+  terminal_ << init_string;
+  channel_.written_.clear();
 
-    terminal_ << text_to_stream;
+  terminal_ << text_to_stream;
 
-    expect_sequence(expected_output, channel_.written_);
+  expect_sequence(expected_output, channel_.written_);
 }
 
 static streaming_text_data const streaming_text_data_table[] = {
+    // clang-format off
     streaming_text_data{ ""_ets, ""_ets, ""_tb },
 
     // Test character set changes.
@@ -142,101 +144,102 @@ static streaming_text_data const streaming_text_data_table[] = {
 
     streaming_text_data{ "\\cU\\C205"_ets, "\\U0057"_ets,    "\x1B(B\x1B%GW"_tb },
     streaming_text_data{ "\\U0057"_ets,    "\\cA\\C156"_ets, "\x1B%@\x1B(A\x9C"_tb },
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
     text_can_be_streamed_to_a_terminal,
     streaming_text,
-    ValuesIn(streaming_text_data_table)
-);
+    ValuesIn(streaming_text_data_table));
 
 TEST_F(a_terminal, can_stream_a_single_element)
 {
-    terminalpp::element const elem{'X', {terminalpp::graphics::colour::red}};
-    terminal_ << elem;
+  terminalpp::element const elem{'X', {terminalpp::graphics::colour::red}};
+  terminal_ << elem;
 
-    expect_sequence("\x1B[31mX"_tb, channel_.written_);
+  expect_sequence("\x1B[31mX"_tb, channel_.written_);
 }
 
 namespace {
 
-class a_terminal_that_supports_unicode_in_all_charsets
-  : public a_terminal
+class a_terminal_that_supports_unicode_in_all_charsets : public a_terminal
 {
-public:
-    a_terminal_that_supports_unicode_in_all_charsets()
-      : a_terminal{[]{
-            terminalpp::behaviour behaviour;
-            behaviour.unicode_in_all_charsets = true;
-            return behaviour;
-        }()}
-    {
-    }
+ public:
+  a_terminal_that_supports_unicode_in_all_charsets()
+    : a_terminal{[]
+                 {
+                   terminalpp::behaviour behaviour;
+                   behaviour.unicode_in_all_charsets = true;
+                   return behaviour;
+                 }()}
+  {
+  }
 };
 
-}
+}  // namespace
 
-TEST_F(a_terminal_that_supports_unicode_in_all_charsets, skips_charset_switch_before_selecting_utf8_charset)
+TEST_F(
+    a_terminal_that_supports_unicode_in_all_charsets,
+    skips_charset_switch_before_selecting_utf8_charset)
 {
-    terminal_ << "\\cU\\C205\\U0057"_ets;
-    expect_sequence("\x1B(U\xCD\x1B%GW"_tb, channel_.written_);
+  terminal_ << "\\cU\\C205\\U0057"_ets;
+  expect_sequence("\x1B(U\xCD\x1B%GW"_tb, channel_.written_);
 }
 
 namespace {
 
 using write_position_data = std::tuple<
-    terminalpp::point,  // Initial cursor position
-    terminalpp::string, // String to write
-    terminalpp::point   // Expected terminal position
->;
+    terminalpp::point,   // Initial cursor position
+    terminalpp::string,  // String to write
+    terminalpp::point    // Expected terminal position
+    >;
 
 class writing_at_a_position
   : public testing::TestWithParam<write_position_data>,
     public terminal_test_base
 {
-public:
-    writing_at_a_position()
-    {
-        // All tests run in a 10x10 screen
-        terminal_.set_size({10, 10});
-    }
+ public:
+  writing_at_a_position()
+  {
+    // All tests run in a 10x10 screen
+    terminal_.set_size({10, 10});
+  }
 };
 
-}
+}  // namespace
 
 TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
 {
-    using std::get;
+  using std::get;
 
-    auto const &params = GetParam();
-    auto const &init_position = get<0>(params);
-    auto const &text_to_stream = get<1>(params);
-    auto const &expected_position = get<2>(params);
+  auto const &params = GetParam();
+  auto const &init_position = get<0>(params);
+  auto const &text_to_stream = get<1>(params);
+  auto const &expected_position = get<2>(params);
 
-    terminal_
-        << ""_ets
-        << terminalpp::move_cursor(init_position)
-        << text_to_stream;
-    channel_.written_.clear();
+  terminal_ << ""_ets << terminalpp::move_cursor(init_position)
+            << text_to_stream;
+  channel_.written_.clear();
 
-    terminal_
-        << terminalpp::move_cursor(expected_position);
+  terminal_ << terminalpp::move_cursor(expected_position);
 
-    // Moving to the position we are already at should yield no required
-    // output.
-    expect_sequence(""_tb, channel_.written_);
+  // Moving to the position we are already at should yield no required
+  // output.
+  expect_sequence(""_tb, channel_.written_);
 }
 
 static write_position_data const write_position_data_table[] = {
     // Writing within the same row moves the cursor to the right
+    // clang-format off
     write_position_data{ {0, 0}, ""_ets,                {0, 0} },
     write_position_data{ {0, 0}, "x"_ets,               {1, 0} },
     write_position_data{ {0, 0}, "abcde"_ets,           {5, 0} },
     write_position_data{ {2, 3}, "abcde"_ets,           {7, 3} },
+    // clang-format on
+
 };
 
 INSTANTIATE_TEST_SUITE_P(
     streaming_text_moves_the_cursor,
     writing_at_a_position,
-    ValuesIn(write_position_data_table)
-);
+    ValuesIn(write_position_data_table));

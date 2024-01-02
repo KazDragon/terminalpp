@@ -1,13 +1,13 @@
 #pragma once
 
-#include "terminalpp/detail/export.hpp"
+#include "terminalpp/detail/export.hpp"  // IWYU pragma: export
 #include <gsl/gsl-lite.hpp>
 #include <cstdint>
 #include <functional>
 
 namespace terminalpp {
 
-// A byte in Terminal++ is represented consistently as an unsigned 
+// A byte in Terminal++ is represented consistently as an unsigned
 // 8-bit integer.
 using byte = std::uint8_t;
 
@@ -22,46 +22,46 @@ using bytes = gsl::span<byte const>;
 // optimization, meaning that most cases will not cause an allocation.
 using byte_storage = std::basic_string<byte>;
 
-// A co-ordinate in a terminal is represented consistently as a signed 
+// A co-ordinate in a terminal is represented consistently as a signed
 // 32-bit integer.
 using coordinate_type = std::int32_t;
 
 inline namespace literals {
 
 // A helper function to convert from a character literal to a byte.
-inline byte operator ""_tb(char const text)
+inline byte operator""_tb(char const text)
 {
-    return static_cast<byte>(text);
+  return static_cast<byte>(text);
 }
 
 // A helper function to convert from string literals to stored bytes.
-inline byte_storage operator ""_tb(char const *text, size_t length)
+inline byte_storage operator""_tb(char const *text, size_t length)
 {
-    byte_storage result;
-    result.reserve(length);
+  byte_storage result;
+  result.reserve(length);
 
-    for (auto ch : gsl::span<char const>{text, length})
-    {
-        result.push_back(byte(ch));
-    }
+  for (auto ch : gsl::span<char const>{text, length})
+  {
+    result.push_back(static_cast<byte>(ch));
+  }
 
-    return result;
+  return result;
 }
 
-}
+}  // namespace literals
 
 // A helper function to convert from strings to stored bytes.
 inline byte_storage to_bytes(std::string const &str)
 {
-    byte_storage result;
-    result.reserve(str.size());
+  byte_storage result;
+  result.reserve(str.size());
 
-    for (auto const ch : str)
-    {
-        result.push_back(byte(ch));
-    }
+  for (auto const ch : str)
+  {
+    result.push_back(static_cast<byte>(ch));
+  }
 
-    return result;
+  return result;
 }
 
-}
+}  // namespace terminalpp

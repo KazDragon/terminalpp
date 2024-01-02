@@ -7,11 +7,11 @@
 // token types (virtual keys, control sequences, mouse reports),
 // manipulation of elements to form strings, and basic cursor and size
 // manipulation.
-#include "terminalpp/terminal.hpp"
+#include "terminalpp/terminal.hpp"  // IWYU pragma: export
 
 // More advanced knowledge of the terminal comes in the form of the screen,
 // which embeds canvases to be drawn on.
-#include "terminalpp/screen.hpp"
+#include "terminalpp/screen.hpp"  // IWYU pragma: export
 
 // In order to write encoded strings, it is necessary to include the encoder.
-#include "terminalpp/encoder.hpp"
+#include "terminalpp/encoder.hpp"  // IWYU pragma: export

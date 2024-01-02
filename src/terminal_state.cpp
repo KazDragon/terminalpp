@@ -7,4 +7,4 @@ namespace terminalpp {
 // ==========================================================================
 terminal_state::terminal_state() = default;
 
-}
+}  // namespace terminalpp

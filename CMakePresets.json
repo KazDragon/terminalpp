@@ -1,0 +1,39 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 16,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "hidden": true,
+            "description": "default build configuration",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/../ext",
+                "CMAKE_PREFIX_PATH": "${sourceDir}../ext",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "name": "Release",
+            "inherits": "default"
+        },
+        {
+            "name": "Debug",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ],
+    "buildPresets": [],
+    "testPresets": []
+}

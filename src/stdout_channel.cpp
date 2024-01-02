@@ -6,8 +6,7 @@ namespace terminalpp {
 // ==========================================================================
 // ASYNC_READ
 // ==========================================================================
-void stdout_channel::async_read(
-    std::function<void (terminalpp::bytes)> const &)
+void stdout_channel::async_read(std::function<void(terminalpp::bytes)> const &)
 {
 }
 
@@ -16,9 +15,7 @@ void stdout_channel::async_read(
 // ==========================================================================
 void stdout_channel::write(terminalpp::bytes data)
 {
-    std::cout.write(
-        reinterpret_cast<char const *>(data.begin()),
-        data.ssize());
+  std::cout.write(reinterpret_cast<char const *>(data.begin()), data.ssize());
 }
 
 // ==========================================================================
@@ -26,7 +23,7 @@ void stdout_channel::write(terminalpp::bytes data)
 // ==========================================================================
 bool stdout_channel::is_alive() const
 {
-    return true;
+  return true;
 }
 
 // ==========================================================================
@@ -36,4 +33,4 @@ void stdout_channel::close()
 {
 }
 
-}
+}  // namespace terminalpp

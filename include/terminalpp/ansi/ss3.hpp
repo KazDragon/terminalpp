@@ -12,8 +12,9 @@
 /// characters in that set perform actions (e.g. cursor movement), it is
 /// frequently used as shortcut sequences for those commands.
 //* =========================================================================
-namespace terminalpp { namespace ansi { namespace ss3 {
+namespace terminalpp::ansi::ss3 {
 
+// clang-format off
 // Move the cursor up one character.
 static constexpr byte cursor_up    = terminalpp::detail::ascii::uppercase_a;
 // Move the cursor down one character.
@@ -38,5 +39,6 @@ static constexpr byte f2           = terminalpp::detail::ascii::uppercase_q;
 static constexpr byte f3           = terminalpp::detail::ascii::uppercase_r;
 // F4 Key
 static constexpr byte f4           = terminalpp::detail::ascii::uppercase_s;
+// clang-format on
 
-}}}
+}  // namespace terminalpp::ansi::ss3

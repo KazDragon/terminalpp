@@ -1,15 +1,16 @@
 #pragma once
 
-#include "terminalpp/detail/ascii.hpp"
 #include "terminalpp/core.hpp"
+#include "terminalpp/detail/ascii.hpp"
 
 //* =========================================================================
 /// \namespace terminalpp::ansi::csi
 /// \brief Contains all of the constants for the commands that begin with the
 /// Control Sequence Introducer sequence.
 //* =========================================================================
-namespace terminalpp { namespace ansi { namespace csi {
+namespace terminalpp::ansi::csi {
 
+// clang-format off
 // Insert N blank characters
 static constexpr byte insert_blank                     = terminalpp::detail::ascii::at;
 // Move the cursor up N rows.
@@ -199,4 +200,6 @@ static constexpr byte decrst                           = terminalpp::detail::asc
 // Soft Reset
 //  - Requires ! extender
 static constexpr byte soft_reset                       = terminalpp::detail::ascii::exclamation_mark;
-}}}
+// clang-format on
+
+}  // namespace terminalpp::ansi::csi

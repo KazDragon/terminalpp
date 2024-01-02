@@ -1,44 +1,43 @@
-#include <terminalpp/glyph.hpp>
 #include <gtest/gtest.h>
+#include <terminalpp/glyph.hpp>
 #include <unordered_set>
 
 using testing::ValuesIn;
-using namespace terminalpp::literals;
+using namespace terminalpp::literals;  // NOLINT
 
 TEST(glyph_test, comparing_alike_unicode_glyphs_returns_true)
 {
-    ASSERT_EQ(terminalpp::glyph(u8"\U00002501"), terminalpp::glyph(u8"\U00002501"));
+  ASSERT_EQ(
+      terminalpp::glyph(u8"\U00002501"), terminalpp::glyph(u8"\U00002501"));
 }
 
-TEST(glyph_test, comparing_dissimmilar_unicode_glyphs_returns_false)
+TEST(glyph_test, comparing_dissimilar_unicode_glyphs_returns_false)
 {
-    ASSERT_NE(terminalpp::glyph(u8"\U00002501"), terminalpp::glyph(u8"\U00002502"));
+  ASSERT_NE(
+      terminalpp::glyph(u8"\U00002501"), terminalpp::glyph(u8"\U00002502"));
 }
 
-using glyph_string = std::tuple<
-    terminalpp::glyph,
-    std::string
->;
+using glyph_string = std::tuple<terminalpp::glyph, std::string>;
 
-class glyphs_with_strings
-  : public testing::TestWithParam<glyph_string>
+class glyphs_with_strings : public testing::TestWithParam<glyph_string>
 {
 };
 
 TEST_P(glyphs_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &glyph = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+  auto const &param = GetParam();
+  auto const &glyph = std::get<0>(param);
+  auto const &expected_string = std::get<1>(param);
 
-    std::stringstream stream;
-    std::ostream &out = stream;
+  std::stringstream stream;
+  std::ostream &out = stream;
 
-    out << glyph;
-    ASSERT_EQ(expected_string, stream.str());
+  out << glyph;
+  ASSERT_EQ(expected_string, stream.str());
 }
 
 static glyph_string const glyph_strings[] = {
+    // clang-format off
     glyph_string { 'c'_tb, "c" },
     glyph_string { 'Z'_tb, "Z" },
     glyph_string { ' '_tb, " " },
@@ -69,18 +68,16 @@ static glyph_string const glyph_strings[] = {
     glyph_string { terminalpp::glyph{u8"\U00000800"}, "U+0800" },
     glyph_string { terminalpp::glyph{u8"\U00002501"}, "U+2501" },
     glyph_string { terminalpp::glyph{u8"\U00001701"}, "U+1701" },
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
     glyphs_can_be_streamed_to_an_ostream,
     glyphs_with_strings,
-    ValuesIn(glyph_strings)
-);
+    ValuesIn(glyph_strings));
 
 TEST(a_glyph, can_be_inserted_into_an_unordered_set)
 {
-    std::unordered_set<terminalpp::glyph> g { 
-        {},
-        { terminalpp::glyph{u8"\U000007FF"} }
-    };
+  std::unordered_set<terminalpp::glyph> g{
+      {}, {terminalpp::glyph{u8"\U000007FF"}}};
 }

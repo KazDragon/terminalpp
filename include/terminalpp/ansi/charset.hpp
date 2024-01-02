@@ -3,9 +3,10 @@
 #include "terminalpp/core.hpp"
 #include "terminalpp/detail/ascii.hpp"
 
-namespace terminalpp { namespace ansi {
+namespace terminalpp::ansi {
 
 // Note: For extended ASCII, both PuTTY and TeraTerm support SCO.
+// clang-format off
 static constexpr byte charset_dec[]                  = {terminalpp::detail::ascii::zero};
 static constexpr byte charset_dec_supplementary[]    = {terminalpp::detail::ascii::less_than};
 static constexpr byte charset_dec_supplementary_gr[] = {terminalpp::detail::ascii::percent,
@@ -61,4 +62,6 @@ static constexpr byte set_charset_g2_alt[]           = {terminalpp::detail::asci
                                                         terminalpp::detail::ascii::full_stop};
 static constexpr byte set_charset_g3_alt[]           = {terminalpp::detail::ascii::esc,
                                                         terminalpp::detail::ascii::slash};
-}}
+// clang-format on
+
+}  // namespace terminalpp::ansi

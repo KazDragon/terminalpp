@@ -5,10 +5,11 @@
 /// \namespace terminalpp::detail::ascii
 /// \brief A namespace for constants representing the ASCII character set.
 //* =========================================================================
-namespace terminalpp { namespace detail { namespace ascii {
+namespace terminalpp::detail::ascii {
 
 // Source: http://ascii-table.com/ascii.php
 
+// clang-format off
 // Control Code Block
 static constexpr byte nul = 0;   // NULL
 static constexpr byte soh = 1;   // Start Of Header
@@ -140,5 +141,6 @@ static constexpr byte pipe                  = 124; // |
 static constexpr byte close_brace           = 125; // }
 static constexpr byte tilde                 = 126; // ~
 static constexpr byte del                   = 127; // [DELETE]
+// clang-format on
 
-}}}
+}  // namespace terminalpp::detail::ascii
