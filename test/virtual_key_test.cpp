@@ -202,7 +202,10 @@ static virtual_key_test_data const virtual_key_strings[] = {
     // If the received data is a character, that should be printed out
     virtual_key_test_data{
         terminalpp::virtual_key{
-            default_vk.key, default_vk.modifiers, default_vk.repeat_count, 'Z'},
+            default_vk.key,
+            default_vk.modifiers,
+            default_vk.repeat_count,
+            'Z'_tb},
         "virtual_key[seq:Z]"},
 
     // If the received data is a sequence, that should be printed out
@@ -221,7 +224,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
             terminalpp::vk::uppercase_a,
             terminalpp::vk_modifier::shift,
             17,
-            'A'},
+            'A'_tb},
         "virtual_key[vk:'A', shift, repeat:17, seq:A]"},
 };
 

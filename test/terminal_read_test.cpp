@@ -350,7 +350,7 @@ static token_test_data const token_test_data_table[] = {
     token_test_data{
         "\t"_tb,
         {terminalpp::virtual_key{
-            terminalpp::vk::ht, terminalpp::vk_modifier::none, 1, '\t'}}},
+            terminalpp::vk::ht, terminalpp::vk_modifier::none, 1, '\t'_tb}}},
     token_test_data{
         "\x1B[I"_tb,
         {terminalpp::virtual_key{
@@ -400,31 +400,43 @@ static token_test_data const token_test_data_table[] = {
     token_test_data{
         "\r\n"_tb,
         {terminalpp::virtual_key{
-            terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'}}},
+            terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'_tb}}},
     // Including this common but incorrect form.
     token_test_data{
         "\n\r"_tb,
         {terminalpp::virtual_key{
-            terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'}}},
+            terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'_tb}}},
     token_test_data{
         "\r\0"_tb,
         {terminalpp::virtual_key{
-            terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'}}},
+            terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'_tb}}},
     token_test_data{
         "\r\0\r\0"_tb,
         {
             terminalpp::virtual_key{
-                terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'},
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'_tb},
             terminalpp::virtual_key{
-                terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'},
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'_tb},
         }},
     token_test_data{
         "\n\n"_tb,
         {
             terminalpp::virtual_key{
-                terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'},
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'_tb},
             terminalpp::virtual_key{
-                terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'},
+                terminalpp::vk::enter,
+                terminalpp::vk_modifier::none,
+                1,
+                '\n'_tb},
         }},
     token_test_data{
         "\x1BOM"_tb,

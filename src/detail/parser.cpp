@@ -66,13 +66,13 @@ std::optional<terminalpp::token> parser::parser::parse_idle(byte input)
   {
     state_ = state::cr;
     return terminalpp::token{terminalpp::virtual_key{
-        terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'}};
+        terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'_tb}};
   }
   else if (input == terminalpp::detail::ascii::lf)
   {
     state_ = state::lf;
     return terminalpp::token{terminalpp::virtual_key{
-        terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'}};
+        terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'_tb}};
   }
   else if (input == terminalpp::ansi::control8::csi)
   {
