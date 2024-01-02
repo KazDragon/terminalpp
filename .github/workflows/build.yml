@@ -58,8 +58,6 @@ jobs:
         run: ctest -C $BUILD_TYPE
 
   build-conan:
-    if: false
-
     runs-on: ubuntu-latest
 
     env:
@@ -92,29 +90,16 @@ jobs:
           pip3 install --user conan
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Create Build Environment
-        run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
-
       - name: Install dependencies from Conan
-        working-directory: ${{runner.workspace}}/terminalpp/build
+        working-directory: ${{runner.workspace}}/terminalpp
         run: |
-          conan config set general.request_timeout=120
-          conan install $GITHUB_WORKSPACE -s compiler.libcxx=libstdc++11 -s cppstd=14 -s build_type=$BUILD_TYPE --build=missing
-
-      - name: Configure CMake
-        shell: bash
-        working-directory: ${{runner.workspace}}/terminalpp/build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+          conan profile detect
+          conan install $GITHUB_WORKSPACE -s compiler.libcxx=libstdc++11 -s compiler.cppstd=gnu17 -s build_type=$BUILD_TYPE --build=missing --output-folder=conan-build
 
       - name: Build
-        working-directory: ${{runner.workspace}}/terminalpp/build
+        working-directory: ${{runner.workspace}}/terminalpp
         shell: bash
-        run: cmake --build . --config $BUILD_TYPE
-
-      - name: Test
-        working-directory: ${{runner.workspace}}/terminalpp/build
-        shell: bash
-        run: ctest -C $BUILD_TYPE
+        run: conan build . -s compiler.libcxx=libstdc++11 -s compiler.cppstd=gnu17 -s build_type=$BUILD_TYPE --build=missing --output-folder=conan-build --version=9.9.99
 
   build-coverage:
     runs-on: ubuntu-latest
@@ -250,7 +235,7 @@ jobs:
       - name: Create Conan Package
         working-directory: ${{runner.workspace}}/terminalpp
         run: |
-          conan create . terminalpp/9.9.9@_/_ --build=missing
+          conan create . --name=terminalpp --version=9.9.9 --build=missing
 
   build-docs:
     runs-on: ubuntu-latest

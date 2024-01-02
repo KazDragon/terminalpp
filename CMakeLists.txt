@@ -47,60 +47,35 @@ if (TERMINALPP_DOC_ONLY)
     return()
 endif()
 
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    message("Using Conan due to conanbuildinfo.cmake")
-    set(TERMINALPP_USE_CONAN ON)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
+# Terminal++ requires at least Boost 1.69
+find_package(Boost 1.69.0 REQUIRED)
+
+# Terminal++ requires at least version 0.38 of gsl-lite
+find_package(gsl-lite 0.38.0 REQUIRED)
+
+# Terminal++ requires libfmt
+find_package(fmt REQUIRED)
+
+# If we are building with tests, then we require the GTest library
+if (${TERMINALPP_WITH_TESTS})
+    find_package(GTest REQUIRED)
 endif()
 
-if (TERMINALPP_USE_CONAN)
-    set(TERMINALPP_PUBLIC_LIBRARIES
-        CONAN_PKG::boost
-        CONAN_PKG::gsl-lite
-        CONAN_PKG::fmt
-    )
+set(TERMINALPP_PUBLIC_LIBRARIES
+    Boost::boost
+    fmt::fmt
+    gsl::gsl-lite
+)
 
-    set(TERMINALPP_PRIVATE_LIBRARIES)
+set(TERMINALPP_PRIVATE_LIBRARIES)
 
-    if (${TERMINALPP_WITH_TESTS})
-        set(TERMINALPP_TEST_LIBRARIES
-            terminalpp
-            CONAN_PKG::fmt
-            CONAN_PKG::gtest
-        )
-    endif()
-else()
-    # Terminal++ requires at least Boost 1.69
-    find_package(Boost 1.69.0 REQUIRED)
-
-    # Terminal++ requires at least version 0.38 of gsl-lite
-    find_package(gsl-lite 0.38.0 REQUIRED)
-
-    # Terminal++ requires libfmt
-    find_package(fmt 5.3 REQUIRED)
-
-    # If we are building with tests, then we require the GTest library
-    if (${TERMINALPP_WITH_TESTS})
-        find_package(GTest REQUIRED)
-    endif()
-
-    set(TERMINALPP_PUBLIC_LIBRARIES
-        Boost::boost
+if (${TERMINALPP_WITH_TESTS})
+    set(TERMINALPP_TEST_LIBRARIES
+        terminalpp
         fmt::fmt
-        gsl::gsl-lite
+        GTest::GTest
+        GTest::Main
     )
-
-    set(TERMINALPP_PRIVATE_LIBRARIES)
-
-    if (${TERMINALPP_WITH_TESTS})
-        set(TERMINALPP_TEST_LIBRARIES
-            terminalpp
-            fmt::fmt
-            GTest::GTest
-            GTest::Main
-        )
-    endif()    
 endif()
 
 # When building shared objects, etc., we only want to export certain

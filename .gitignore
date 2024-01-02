@@ -5,5 +5,8 @@ CMakeSettings.json
 /.vs
 /.vscode
 /out
+/CMakeFiles
 **/build
 compile_commands.json
+conan-build
+CMakeUserPresets.json
