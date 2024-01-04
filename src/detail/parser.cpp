@@ -79,6 +79,7 @@ std::optional<terminalpp::token> parser::parser::parse_idle(byte input)
     state_ = state::arguments;
     meta_ = false;
     initializer_ = terminalpp::ansi::control7::csi[1];
+    extender_ = '\0';
     argument_ = {};
     arguments_ = {};
     return {};
@@ -88,6 +89,7 @@ std::optional<terminalpp::token> parser::parser::parse_idle(byte input)
     state_ = state::arguments;
     meta_ = false;
     initializer_ = terminalpp::ansi::control7::ss3[1];
+    extender_ = '\0';
     argument_ = {};
     arguments_ = {};
     return {};
