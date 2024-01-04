@@ -57,65 +57,6 @@ jobs:
         shell: bash
         run: ctest -C $BUILD_TYPE
 
-  build-conan:
-    if: false
-
-    runs-on: ubuntu-latest
-
-    env:
-      BUILD_TYPE: Release
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
-      # Build a cache for conan packages.  A new branch will create a copy of
-      # the master cache, but the master cache isn't updated until something is
-      # merged to the master branch.
-      - name: Cache conan packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.conan
-          key: conan-package-cache-${{ steps.extract_branch.outputs.branch }}
-          restore-keys: |
-            conan-package-cache-master
-
-      - name: Install Conan
-        run: |
-          pip3 install --upgrade --user wheel setuptools
-          pip3 install --user conan
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Create Build Environment
-        run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
-
-      - name: Install dependencies from Conan
-        working-directory: ${{runner.workspace}}/terminalpp/build
-        run: |
-          conan config set general.request_timeout=120
-          conan install $GITHUB_WORKSPACE -s compiler.libcxx=libstdc++11 -s cppstd=14 -s build_type=$BUILD_TYPE --build=missing
-
-      - name: Configure CMake
-        shell: bash
-        working-directory: ${{runner.workspace}}/terminalpp/build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-
-      - name: Build
-        working-directory: ${{runner.workspace}}/terminalpp/build
-        shell: bash
-        run: cmake --build . --config $BUILD_TYPE
-
-      - name: Test
-        working-directory: ${{runner.workspace}}/terminalpp/build
-        shell: bash
-        run: ctest -C $BUILD_TYPE
-
   build-coverage:
     runs-on: ubuntu-latest
 
@@ -216,46 +157,10 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage.info
 
-  conan-create:
-    runs-on: ubuntu-latest
-    needs: [build-conan]
-
-    env:
-      BUILD_TYPE: Release
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
-      - name: Cache conan packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.conan
-          key: conan-package-cache-${{ steps.extract_branch.outputs.branch }}
-          restore-keys: |
-            conan-package-cache-master
-
-      - name: Install Conan
-        run: |
-          pip3 install --upgrade --user wheel setuptools
-          pip3 install --user conan
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Create Conan Package
-        working-directory: ${{runner.workspace}}/terminalpp
-        run: |
-          conan create . terminalpp/9.9.9@_/_ --build=missing
-
   build-docs:
     runs-on: ubuntu-latest
     #   Only build documentation for valid builds on master.
-    needs: [build, build-conan]
+    needs: [build]
     if: github.ref == 'refs/heads/master'
 
     steps:
