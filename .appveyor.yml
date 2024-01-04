@@ -52,4 +52,4 @@ build_script:
   - cmake --build . --config %configuration%
 
 test_script:
-  - ctest . -C %configuration%
+  - ctest . --output-on-failure -C %configuration%
