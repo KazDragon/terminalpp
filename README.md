@@ -27,12 +27,6 @@ Terminal++ can be installed from source using CMake.  This requires Boost, libfm
     cmake --build .
     sudo cmake --install .
 
-# Installation - Conan
-
-You can also use [the Conan Package Manager](https://conan.io/) to install Terminal++ and its dependencies.
-
-See [the tprint example](examples/tprint) for a minimalistic project that describes this setup.
-
 # Features / Roadmap
 
 1. [x] A utility for creating strings with embedded ANSI attributes

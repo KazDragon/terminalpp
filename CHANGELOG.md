@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.0 - C++17 and onward
+1. The library has been updated to use C++17
+2. Support for Conan has been dropped
+
 ## Version 2.0 - Continuations API
 1. [x] The terminal class has been re-worked to use a continuation-based approach consistent with Console++, Server++ and Telnet++.
 
