@@ -75,7 +75,7 @@ static control_sequence_test_data const control_sequence_strings[] = {
             default_sequence.command,
             default_sequence.meta,
             {"arg0"_tb}},
-        "control_sequence[args:\"arg0\"]"},
+        R"(control_sequence[args:"arg0"])"},
 
     // A control sequence with multiple arguments outputs the arguments
     // separated by ;
@@ -85,14 +85,14 @@ static control_sequence_test_data const control_sequence_strings[] = {
             default_sequence.command,
             default_sequence.meta,
             {"arg0"_tb, "arg1"_tb}},
-        "control_sequence[args:\"arg0;arg1\"]"},
+        R"(control_sequence[args:"arg0;arg1"])"},
     control_sequence_test_data{
         terminalpp::control_sequence{
             default_sequence.initiator,
             default_sequence.command,
             default_sequence.meta,
             {"arg0"_tb, "arg1"_tb, "arg2"_tb}},
-        "control_sequence[args:\"arg0;arg1;arg2\"]"},
+        R"(control_sequence[args:"arg0;arg1;arg2"])"},
 
     // control sequences with only an extender output only the extender
     control_sequence_test_data{
@@ -115,14 +115,12 @@ static control_sequence_test_data const control_sequence_strings[] = {
     // Control sequences with multiple active fields separate them with commas
     control_sequence_test_data{
         terminalpp::control_sequence{'[', 'H', true, {"29"_tb}, '?'},
-        "control_sequence[initiator:'[', command:'H', meta, args:\"29\", "
-        "extender:'?']"},
+        R"(control_sequence[initiator:'[', command:'H', meta, args:"29", extender:'?'])"},
 
     control_sequence_test_data{
         terminalpp::control_sequence{
             '[', 'H', default_sequence.meta, {"29"_tb}, '?'},
-        "control_sequence[initiator:'[', command:'H', args:\"29\", "
-        "extender:'?']"},
+        R"(control_sequence[initiator:'[', command:'H', args:"29", extender:'?'])"},
 
 };
 

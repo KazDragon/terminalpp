@@ -1,5 +1,7 @@
 #include "terminalpp/control_sequence.hpp"
-#include <boost/spirit/home/karma.hpp>
+#include <boost/range/adaptor/indexed.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <algorithm>
 #include <iostream>
 #include <numeric>
 
@@ -75,10 +77,19 @@ static void output_arguments(
   {
     output_comma(out, comma);
 
-    boost::spirit::karma::generate(
-        std::ostream_iterator<char>(out),
-        "args:\"" << boost::spirit::karma::string % ';' << "\"",
-        arguments);
+    out << R"(args:")";
+
+    for (auto const &[index, value] : arguments | boost::adaptors::indexed())
+    {
+      if (index != 0)
+      {
+        out << ";";
+      }
+
+      boost::range::copy(value, std::ostream_iterator<char>(out));
+    }
+
+    out << R"(")";
   }
 }
 
