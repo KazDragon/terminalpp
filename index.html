@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Terminal++
-   &#160;<span id="projectnumber">3.1.0.1</span>
+   &#160;<span id="projectnumber">3.1.0.3</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -139,9 +139,9 @@ Strings</h1>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Constructs a terminalpp::string, and then prints it to the terminal as, &quot;Hello, world!&quot;</span></div>
-<div class="ttc" id="aclassterminalpp_1_1stdout__channel_html"><div class="ttname"><a href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a></div><div class="ttdoc">A class that models the terminal's channel concept, providing output to stdout.</div><div class="ttdef"><b>Definition:</b> stdout_channel.hpp:13</div></div>
-<div class="ttc" id="aclassterminalpp_1_1string_html"><div class="ttname"><a href="classterminalpp_1_1string.html">terminalpp::string</a></div><div class="ttdoc">A class that represents strings of elements.</div><div class="ttdef"><b>Definition:</b> string.hpp:30</div></div>
-<div class="ttc" id="aclassterminalpp_1_1terminal_html"><div class="ttname"><a href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></div><div class="ttdoc">A class that encapsulates a terminal.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:20</div></div>
+<div class="ttc" id="aclassterminalpp_1_1stdout__channel_html"><div class="ttname"><a href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a></div><div class="ttdoc">A class that models the terminal's channel concept, providing output to stdout.</div><div class="ttdef"><b>Definition:</b> stdout_channel.hpp:14</div></div>
+<div class="ttc" id="aclassterminalpp_1_1string_html"><div class="ttname"><a href="classterminalpp_1_1string.html">terminalpp::string</a></div><div class="ttdoc">A class that represents strings of elements.</div><div class="ttdef"><b>Definition:</b> string.hpp:32</div></div>
+<div class="ttc" id="aclassterminalpp_1_1terminal_html"><div class="ttname"><a href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></div><div class="ttdoc">A class that encapsulates a terminal.</div><div class="ttdef"><b>Definition:</b> terminal.hpp:22</div></div>
 </div><!-- fragment --><p>By using _ets, you can also encode attributes within the text. For example:</p>
 <p><a href="examples/encoded_hello_world">Encoded Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;terminalpp/stdout_channel.hpp&gt;</span></div>
@@ -200,9 +200,9 @@ Canvas and Screen</h1>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassterminalpp_1_1canvas_html"><div class="ttname"><a href="classterminalpp_1_1canvas.html">terminalpp::canvas</a></div><div class="ttdoc">A class representing a grid onto which elements can be painted.</div><div class="ttdef"><b>Definition:</b> canvas.hpp:18</div></div>
-<div class="ttc" id="astructterminalpp_1_1element_html"><div class="ttname"><a href="structterminalpp_1_1element.html">terminalpp::element</a></div><div class="ttdoc">A structure that represents the fundamental printable element of a terminal screen,...</div><div class="ttdef"><b>Definition:</b> element.hpp:21</div></div>
-<div class="ttc" id="astructterminalpp_1_1high__colour_html"><div class="ttname"><a href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a></div><div class="ttdoc">Structure representing the central 216 colours of a 256-colour palette, where each colour channel is ...</div><div class="ttdef"><b>Definition:</b> colour.hpp:81</div></div>
+<div class="ttc" id="aclassterminalpp_1_1canvas_html"><div class="ttname"><a href="classterminalpp_1_1canvas.html">terminalpp::canvas</a></div><div class="ttdoc">A class representing a grid onto which elements can be painted.</div><div class="ttdef"><b>Definition:</b> canvas.hpp:19</div></div>
+<div class="ttc" id="astructterminalpp_1_1element_html"><div class="ttname"><a href="structterminalpp_1_1element.html">terminalpp::element</a></div><div class="ttdoc">A structure that represents the fundamental printable element of a terminal screen,...</div><div class="ttdef"><b>Definition:</b> element.hpp:23</div></div>
+<div class="ttc" id="astructterminalpp_1_1high__colour_html"><div class="ttname"><a href="structterminalpp_1_1high__colour.html">terminalpp::high_colour</a></div><div class="ttdoc">Structure representing the central 216 colours of a 256-colour palette, where each colour channel is ...</div><div class="ttdef"><b>Definition:</b> colour.hpp:83</div></div>
 </div><!-- fragment --><p>Now, assigning elements to the canvas wont actually cause any immediate effect. For that, you would need to index over the entire canvas and output it, element-by-element, to a terminal. But it's very wasteful to output the entire screen each time that a small part of it changes.</p>
 <p>To control this, we present the <a class="el" href="classterminalpp_1_1screen.html" title="A class that represents a screen for a terminal.">terminalpp::screen</a> class, which represents a double-buffered approach to drawing the contents of a canvas. Its draw() member function will cause only the differences between the previously drawn canvas and the current canvas to be output, with efforts made to keep the output as small as possible. Note: it is assumed for the first canvas drawn, and for any canvas drawn after a change in output size, that everything has changed.</p>
 <p><a href="examples/shocking_pink">Shocking pink project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
@@ -240,7 +240,7 @@ Canvas and Screen</h1>
 <div class="line">    <span class="comment">// screen is still shocking pink, but there is now a letter &#39;y&#39; with a</span></div>
 <div class="line">    <span class="comment">// blue background at position (10, 15).</span></div>
 <div class="line">}</div>
-<div class="ttc" id="aclassterminalpp_1_1screen_html"><div class="ttname"><a href="classterminalpp_1_1screen.html">terminalpp::screen</a></div><div class="ttdoc">A class that represents a screen for a terminal.</div><div class="ttdef"><b>Definition:</b> screen.hpp:18</div></div>
+<div class="ttc" id="aclassterminalpp_1_1screen_html"><div class="ttname"><a href="classterminalpp_1_1screen.html">terminalpp::screen</a></div><div class="ttdoc">A class that represents a screen for a terminal.</div><div class="ttdef"><b>Definition:</b> screen.hpp:16</div></div>
 </div><!-- fragment --><p>It is also possible to read from a terminal. Standard C++ does not provide a way of reading from standard input asynchronously, so this requires operating system support. The <a href="https://github.com/KazDragon/consolepp">Console++ library</a> library implements this for certain platforms. Its consolepp::console class models the channel concept, so it fits right into a terminal. Using the terminal to read bytes from the console will convert the input into a sequence of ANSI protocol bytes into a series of tokens that can be inspected for regular text, control sequences (including function keys, arrow keys, etc.) and even mouse operations if that is set in the terminal's behaviour.</p>
 <p><a href="examples/wait_for_mouse_click">wait_for_mouse_click project</a> </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
 <div class="line"> </div>
@@ -299,7 +299,7 @@ Canvas and Screen</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 7 2024 15:48:44 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sat Mar 30 2024 10:52:04 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
