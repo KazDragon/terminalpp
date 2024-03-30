@@ -1,8 +1,8 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+
 #include <iosfwd>
-#include <string>
 #include <vector>
 
 namespace terminalpp {
@@ -18,11 +18,11 @@ namespace terminalpp {
 //* =========================================================================
 struct control_sequence
 {
-  byte initiator = 0;
-  byte command = 0;
-  bool meta = false;
-  std::vector<byte_storage> arguments;
-  byte extender = 0;
+    byte initiator = 0;
+    byte command = 0;
+    bool meta = false;
+    std::vector<byte_storage> arguments;
+    byte extender = 0;
 };
 
 //* =========================================================================

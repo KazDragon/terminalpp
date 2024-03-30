@@ -1,9 +1,9 @@
 #pragma once
 
 #include "terminalpp/control_sequence.hpp"
-#include "terminalpp/core.hpp"
 #include "terminalpp/mouse.hpp"
 #include "terminalpp/virtual_key.hpp"
+
 #include <variant>
 #include <vector>
 

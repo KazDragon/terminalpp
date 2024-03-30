@@ -1,4 +1,5 @@
 #include "terminalpp/element.hpp"
+
 #include <iostream>
 
 namespace terminalpp {
@@ -8,14 +9,14 @@ namespace terminalpp {
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, element const &elem)
 {
-  out << "glyph[" << elem.glyph_ << "]";
+    out << "glyph[" << elem.glyph_ << "]";
 
-  if (elem.attribute_ != attribute())
-  {
-    out << ",attribute[" << elem.attribute_ << "]";
-  }
+    if (elem.attribute_ != attribute())
+    {
+        out << ",attribute[" << elem.attribute_ << "]";
+    }
 
-  return out;
+    return out;
 }
 
 }  // namespace terminalpp

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <terminalpp/extent.hpp>
+
 #include <sstream>
 #include <tuple>
 
@@ -13,25 +14,25 @@ class extents_with_strings : public testing::TestWithParam<extent_string>
 
 TEST_P(extents_with_strings, can_be_streamed_to_an_ostream)
 {
-  auto const &param = GetParam();
-  auto const &pt = std::get<0>(param);
-  auto const &expected = std::get<1>(param);
+    auto const &param = GetParam();
+    auto const &pt = std::get<0>(param);
+    auto const &expected = std::get<1>(param);
 
-  std::stringstream stream;
-  std::ostream &out = stream;
+    std::stringstream stream;
+    std::ostream &out = stream;
 
-  out << pt;
-  ASSERT_EQ(expected, stream.str());
+    out << pt;
+    ASSERT_EQ(expected, stream.str());
 }
 
 INSTANTIATE_TEST_SUITE_P(
     extents_can_be_streamed_to_an_ostream,
     extents_with_strings,
     ValuesIn(std::vector<extent_string>{
-        // clang-format off
+  // clang-format off
         extent_string{ {0, 0},           "extent(0,0)"   },
         extent_string{ {76, 94},         "extent(76,94)" },
         extent_string{ {-4, 63},         "extent(-4,63)" },
         extent_string{ {96583, 1231234}, "extent(96583,1231234)" }
-        // clang-format on
-    }));
+  // clang-format on
+}));

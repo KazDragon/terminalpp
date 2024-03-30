@@ -1,8 +1,8 @@
 #pragma once
 
 #include "terminalpp/string.hpp"
+
 #include <gsl/gsl-lite.hpp>
-#include <string>
 
 namespace terminalpp {
 

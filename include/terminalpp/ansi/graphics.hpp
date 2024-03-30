@@ -61,7 +61,7 @@ static constexpr auto blue_coefficient = 1;
 // ==========================================================================
 constexpr byte encode_high_components(byte red, byte green, byte blue)
 {
-  return high_colour_offset + (red * red_coefficient)
+    return high_colour_offset + (red * red_coefficient)
          + (green * green_coefficient) + (blue * blue_coefficient);
 }
 
@@ -70,7 +70,7 @@ constexpr byte encode_high_components(byte red, byte green, byte blue)
 // ==========================================================================
 constexpr byte high_red_component(byte value)
 {
-  return (value - high_colour_offset) / red_coefficient;
+    return (value - high_colour_offset) / red_coefficient;
 }
 
 // ==========================================================================
@@ -78,7 +78,7 @@ constexpr byte high_red_component(byte value)
 // ==========================================================================
 constexpr byte high_green_component(byte value)
 {
-  return ((value - high_colour_offset) % red_coefficient) / green_coefficient;
+    return ((value - high_colour_offset) % red_coefficient) / green_coefficient;
 }
 
 // ==========================================================================
@@ -86,7 +86,7 @@ constexpr byte high_green_component(byte value)
 // ==========================================================================
 constexpr byte high_blue_component(byte value)
 {
-  return (value - high_colour_offset) % green_coefficient;
+    return (value - high_colour_offset) % green_coefficient;
 }
 
 // "Greyscale" colour constants.
@@ -100,7 +100,7 @@ static constexpr byte greyscale_colour_offset = 232;
 // ==========================================================================
 constexpr byte encode_greyscale_component(byte grey)
 {
-  return greyscale_colour_offset + grey;
+    return greyscale_colour_offset + grey;
 }
 
 // ==========================================================================
@@ -108,7 +108,7 @@ constexpr byte encode_greyscale_component(byte grey)
 // ==========================================================================
 constexpr byte greyscale_component(byte value)
 {
-  return value - greyscale_colour_offset;
+    return value - greyscale_colour_offset;
 }
 
 }  // namespace terminalpp::ansi::graphics

@@ -1,5 +1,7 @@
 #include "terminalpp/glyph.hpp"
+
 #include <fmt/format.h>
+
 #include <iostream>
 
 namespace terminalpp {
@@ -157,111 +159,120 @@ static bool const is_printable_sco[] = {
 // ==========================================================================
 bool is_printable(glyph const &gly)
 {
-  bool const *lookup = is_printable_dec;
+    bool const *lookup = is_printable_dec;
 
-  switch (gly.charset_.value_)
-  {
-    default:
-      // Fall-through
-    case terminalpp::charset::dec:
-      lookup = is_printable_dec;
-      break;
+    switch (gly.charset_.value_)
+    {
+        default:
+            // Fall-through
+        case terminalpp::charset::dec:
+            lookup = is_printable_dec;
+            break;
 
-    case terminalpp::charset::uk:
-      lookup = is_printable_uk;
-      break;
+        case terminalpp::charset::uk:
+            lookup = is_printable_uk;
+            break;
 
-    case terminalpp::charset::us_ascii:
-      lookup = is_printable_us_ascii;
-      break;
+        case terminalpp::charset::us_ascii:
+            lookup = is_printable_us_ascii;
+            break;
 
-    case terminalpp::charset::sco:
-      lookup = is_printable_sco;
-      break;
-  }
+        case terminalpp::charset::sco:
+            lookup = is_printable_sco;
+            break;
+    }
 
-  return lookup[gly.character_];
+    return lookup[gly.character_];
 }
+
+namespace {
 
 // ==========================================================================
 // OUTPUT_CHARSET_AND_CHARACTER
 // ==========================================================================
-static std::ostream &output_charset_and_character(
-    std::ostream &out, glyph const &gly)
+std::ostream &output_charset_and_character(std::ostream &out, glyph const &gly)
 {
-  if (gly.charset_ != character_set())
-  {
-    out << gly.charset_ << ":";
-  }
+    if (gly.charset_ != character_set())
+    {
+        out << gly.charset_ << ":";
+    }
 
-  switch (gly.character_)
-  {
-    case '\r':
-      return out << "\\r";
-    case '\n':
-      return out << "\\n";
-    case '\t':
-      return out << "\\t";
-    default:
-      if (is_printable(gly))
-      {
-        return out << gly.character_;
-      }
-      else
-      {
-        return out << fmt::format("0x{:02X}", static_cast<int>(gly.character_));
-      }
-  }
+    switch (gly.character_)
+    {
+        case '\r':
+            return out << "\\r";
+        case '\n':
+            return out << "\\n";
+        case '\t':
+            return out << "\\t";
+        default:
+            if (is_printable(gly))
+            {
+                return out << gly.character_;
+            }
+            else
+            {
+                return out << fmt::format(
+                           "0x{:02X}", static_cast<int>(gly.character_));
+            }
+    }
 }
 
 // ==========================================================================
 // UTF8_DECODE
 // ==========================================================================
-static std::uint32_t utf8_decode(glyph const &gly)
+std::uint32_t utf8_decode(glyph const &gly)
 {
-  std::uint32_t value = 0;
+    std::uint32_t value = 0;
 
-  if ((gly.ucharacter_[0] & 0b10000000) == 0)
-  {
-    value = gly.ucharacter_[0];
-  }
+    if ((gly.ucharacter_[0] & 0b10000000) == 0)
+    {
+        value = gly.ucharacter_[0];
+    }
 
-  if ((gly.ucharacter_[0] & 0b11100000) == 0b11000000)
-  {
-    value = std::uint32_t((gly.ucharacter_[0] & 0b00011111) << 6);
-    value |= std::uint32_t((gly.ucharacter_[1] & 0b00111111) << 0);
-  }
+    if ((gly.ucharacter_[0] & 0b11100000) == 0b11000000)
+    {
+        value =
+            std::uint32_t((gly.ucharacter_[0] & 0b00011111) << 6);  // NOLINT
+        value |=
+            std::uint32_t((gly.ucharacter_[1] & 0b00111111) << 0);  // NOLINT
+    }
 
-  if ((gly.ucharacter_[0] & 0b11110000) == 0b11100000)
-  {
-    value = std::uint32_t((gly.ucharacter_[0] & 0b00001111) << 12);
-    value |= std::uint32_t((gly.ucharacter_[1] & 0b00111111) << 6);
-    value |= std::uint32_t((gly.ucharacter_[2] & 0b00111111) << 0);
-  }
+    if ((gly.ucharacter_[0] & 0b11110000) == 0b11100000)
+    {
+        value =
+            std::uint32_t((gly.ucharacter_[0] & 0b00001111) << 12);  // NOLINT
+        value |=
+            std::uint32_t((gly.ucharacter_[1] & 0b00111111) << 6);  // NOLINT
+        value |=
+            std::uint32_t((gly.ucharacter_[2] & 0b00111111) << 0);  // NOLINT
+    }
 
-  return value;
+    return value;
 }
+
+}  // namespace
 
 // ==========================================================================
 // OPERATOR<<(STREAM, GLYPH)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, glyph const &gly)
 {
-  if (gly.charset_ == terminalpp::charset::utf8)
-  {
-    if (gly.ucharacter_[0] <= 0x7F)
+    if (gly.charset_ == terminalpp::charset::utf8)
     {
-      return output_charset_and_character(out, gly);
+        if (gly.ucharacter_[0] <= 0x7F)
+        {
+            return output_charset_and_character(out, gly);
+        }
+        else
+        {
+            return out << fmt::format("U+{:04X}", utf8_decode(gly));
+        }
     }
     else
     {
-      return out << fmt::format("U+{:04X}", utf8_decode(gly));
+        return output_charset_and_character(out, gly);
     }
-  }
-  else
-  {
-    return output_charset_and_character(out, gly);
-  }
 }
 
 }  // namespace terminalpp

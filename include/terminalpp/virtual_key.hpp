@@ -2,6 +2,7 @@
 
 #include "terminalpp/control_sequence.hpp"
 #include "terminalpp/detail/ascii.hpp"
+
 #include <iosfwd>
 #include <variant>
 
@@ -9,7 +10,7 @@ namespace terminalpp {
 
 enum class vk : byte
 {
-  // clang-format off
+    // clang-format off
   nul               = terminalpp::detail::ascii::nul,
   soh               = terminalpp::detail::ascii::soh,
   stx               = terminalpp::detail::ascii::stx,
@@ -57,14 +58,15 @@ enum class vk : byte
   greater_than      = terminalpp::detail::ascii::greater_than,
   question_mark     = terminalpp::detail::ascii::question_mark,
   at                = terminalpp::detail::ascii::at,
-  // clang-format on
-  // Uppercase letters are considered to be entirely separate keypresses to
-  // lowercase letters. An alternative design might have been to consider a and
-  // A the same keypress with a shift modifier, but then it brings other things
-  // into question, such as what to do with '{'.  Is it always a shift-[?.  With
-  // that in mind, modifiers are reserved for keys that don't vary when pressing
-  // shift, e.g. Home, End, Arrow keys, F-keys and the like.
-  // clang-format off
+    // clang-format on
+    // Uppercase letters are considered to be entirely separate keypresses to
+    // lowercase letters. An alternative design might have been to consider a
+    // and A the same keypress with a shift modifier, but then it brings other
+    // things into question, such as what to do with '{'.  Is it always a
+    // shift-[?.  With that in mind, modifiers are reserved for keys that don't
+    // vary when pressing shift, e.g. Home, End, Arrow keys, F-keys and the
+    // like.
+    // clang-format off
   uppercase_a       = terminalpp::detail::ascii::uppercase_a,
   uppercase_b       = terminalpp::detail::ascii::uppercase_b,
   uppercase_c       = terminalpp::detail::ascii::uppercase_c,
@@ -131,12 +133,12 @@ enum class vk : byte
   close_brace       = terminalpp::detail::ascii::close_brace,
   tilde             = terminalpp::detail::ascii::tilde,
   del               = terminalpp::detail::ascii::del,
-  // clang-format on
-  // At this point, we have gone from values 0x00-0x7F.  That is, the 7-byte
-  // ASCII set.  Anything between these values is deliberately convertible to
-  // the char value.  Beyond this point, these are all abstract keys, and NOT
-  // actual character values.
-  // clang-format off
+    // clang-format on
+    // At this point, we have gone from values 0x00-0x7F.  That is, the 7-byte
+    // ASCII set.  Anything between these values is deliberately convertible to
+    // the char value.  Beyond this point, these are all abstract keys, and NOT
+    // actual character values.
+    // clang-format off
   cursor_up,
   cursor_down,
   cursor_left,
@@ -163,18 +165,18 @@ enum class vk : byte
   f10,
   f11,
   f12,
-  // clang-format on
+    // clang-format on
 };
 
 enum class vk_modifier : byte
 {
-  // clang-format off
+    // clang-format off
   none  = 0,
   shift = (1 << 0),
   ctrl  = (1 << 1),
   alt   = (1 << 2),
   meta  = (1 << 3),
-  // clang-format on
+    // clang-format on
 };
 
 //* =========================================================================
@@ -183,23 +185,23 @@ enum class vk_modifier : byte
 //* =========================================================================
 struct TERMINALPP_EXPORT virtual_key
 {
-  /// \brief A virtual key is generated from either a single character or
-  /// some control sequence that represents the key.
-  using input_sequence = std::variant<byte, control_sequence>;
+    /// \brief A virtual key is generated from either a single character or
+    /// some control sequence that represents the key.
+    using input_sequence = std::variant<byte, control_sequence>;
 
-  /// \brief The actual key we believe was pressed, selected from the
-  /// list of VK constants.
-  vk key = vk::nul;
+    /// \brief The actual key we believe was pressed, selected from the
+    /// list of VK constants.
+    vk key = vk::nul;
 
-  /// \brief Any modifiers for the key, such as shift, ctrl, alt, meta,
-  /// etc.
-  vk_modifier modifiers = vk_modifier::none;
+    /// \brief Any modifiers for the key, such as shift, ctrl, alt, meta,
+    /// etc.
+    vk_modifier modifiers = vk_modifier::none;
 
-  /// \brief The repeat count of the character.
-  int repeat_count = 0;
+    /// \brief The repeat count of the character.
+    int repeat_count = 0;
 
-  /// \brief The actual received data for the key.
-  input_sequence sequence;
+    /// \brief The actual received data for the key.
+    input_sequence sequence;
 };
 
 //* =========================================================================
@@ -219,7 +221,7 @@ std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 //* =========================================================================
 constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
 {
-  return vk_modifier(byte(lhs) | byte(rhs));
+    return vk_modifier(byte(lhs) | byte(rhs));  // NOLINT
 }
 
 //* =========================================================================
@@ -227,8 +229,8 @@ constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
 //* =========================================================================
 constexpr vk_modifier &operator|=(vk_modifier &lhs, vk_modifier const &rhs)
 {
-  lhs = lhs | rhs;
-  return lhs;
+    lhs = lhs | rhs;
+    return lhs;
 }
 
 //* =========================================================================
@@ -236,7 +238,7 @@ constexpr vk_modifier &operator|=(vk_modifier &lhs, vk_modifier const &rhs)
 //* =========================================================================
 constexpr vk_modifier operator&(vk_modifier const &lhs, vk_modifier const &rhs)
 {
-  return vk_modifier(byte(lhs) & byte(rhs));
+    return vk_modifier(byte(lhs) & byte(rhs));  // NOLINT
 }
 
 //* =========================================================================
@@ -244,8 +246,8 @@ constexpr vk_modifier operator&(vk_modifier const &lhs, vk_modifier const &rhs)
 //* =========================================================================
 constexpr vk_modifier &operator&=(vk_modifier &lhs, vk_modifier const &rhs)
 {
-  lhs = lhs & rhs;
-  return lhs;
+    lhs = lhs & rhs;
+    return lhs;
 }
 
 //* =========================================================================
@@ -259,14 +261,14 @@ std::ostream &operator<<(std::ostream &out, vk const &key);
 // ==========================================================================
 constexpr bool is_control_key(vk const &key)
 {
-  constexpr vk control_set_begin = vk::nul;
-  constexpr vk control_set_end = vk::us;
+    constexpr vk control_set_begin = vk::nul;
+    constexpr vk control_set_end = vk::us;
 
-  constexpr vk abstract_set_begin = vk::del;
-  constexpr vk abstract_set_end = vk::f12;
+    constexpr vk abstract_set_begin = vk::del;
+    constexpr vk abstract_set_end = vk::f12;
 
-  return (key >= control_set_begin && key <= control_set_end)
-         || (key >= abstract_set_begin && key <= abstract_set_end);
+    return (key >= control_set_begin && key <= control_set_end)
+        || (key >= abstract_set_begin && key <= abstract_set_end);
 }
 
 }  // namespace terminalpp

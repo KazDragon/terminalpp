@@ -2,6 +2,7 @@
 
 #include "terminalpp/element.hpp"
 #include "terminalpp/extent.hpp"
+
 #include <vector>
 
 namespace terminalpp {
@@ -16,117 +17,117 @@ namespace terminalpp {
 //* =========================================================================
 class TERMINALPP_EXPORT canvas
 {
- public:
-  using size_type = coordinate_type;
-  using iterator = element *;
-  using const_iterator = element const *;
-
-  //* =====================================================================
-  /// \brief A proxy into a column of elements on the canvas
-  //* =====================================================================
-  class TERMINALPP_EXPORT column_proxy
-  {
-   public:
+public:
     using size_type = coordinate_type;
+    using iterator = element *;
+    using const_iterator = element const *;
 
-    // ==================================================================
-    // CONSTRUCTOR
-    // ==================================================================
-    column_proxy(canvas &cvs, size_type column);
+    //* =====================================================================
+    /// \brief A proxy into a column of elements on the canvas
+    //* =====================================================================
+    class TERMINALPP_EXPORT column_proxy
+    {
+    public:
+        using size_type = coordinate_type;
 
-    // ==================================================================
-    // OPERATOR[]
-    // ==================================================================
-    element &operator[](size_type row);
+        // ==================================================================
+        // CONSTRUCTOR
+        // ==================================================================
+        column_proxy(canvas &cvs, size_type column);
 
-   private:
-    canvas &canvas_;
-    size_type column_;
-  };
+        // ==================================================================
+        // OPERATOR[]
+        // ==================================================================
+        element &operator[](size_type row);
 
-  //* =====================================================================
-  /// \brief A constant proxy into a column of elements on the canvas
-  //* =====================================================================
-  class TERMINALPP_EXPORT const_column_proxy
-  {
-   public:
-    using size_type = coordinate_type;
+    private:
+        canvas &canvas_;
+        size_type column_;
+    };
 
-    // ==================================================================
-    // CONSTRUCTOR
-    // ==================================================================
-    const_column_proxy(canvas const &cvs, size_type column);
+    //* =====================================================================
+    /// \brief A constant proxy into a column of elements on the canvas
+    //* =====================================================================
+    class TERMINALPP_EXPORT const_column_proxy
+    {
+    public:
+        using size_type = coordinate_type;
 
-    // ==================================================================
-    // OPERATOR[]
-    // ==================================================================
-    element const &operator[](coordinate_type row) const;
+        // ==================================================================
+        // CONSTRUCTOR
+        // ==================================================================
+        const_column_proxy(canvas const &cvs, size_type column);
 
-   private:
-    canvas const &canvas_;
-    size_type column_;
-  };
+        // ==================================================================
+        // OPERATOR[]
+        // ==================================================================
+        element const &operator[](coordinate_type row) const;
 
-  //* =====================================================================
-  /// \brief Constructor
-  //* =====================================================================
-  explicit canvas(extent size);
+    private:
+        canvas const &canvas_;
+        size_type column_;
+    };
 
-  //* =====================================================================
-  /// \brief Returns the size of the canvas.
-  //* =====================================================================
-  [[nodiscard]] extent size() const;
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    explicit canvas(extent size);
 
-  //* =====================================================================
-  /// \brief Resizes the canvas to the specified extent.  Content that would
-  /// fit in the new size remains as it was, otherwise it is truncated.
-  //* =====================================================================
-  void resize(extent const &size);
+    //* =====================================================================
+    /// \brief Returns the size of the canvas.
+    //* =====================================================================
+    [[nodiscard]] extent size() const;
 
-  //* =====================================================================
-  /// \brief Returns pointer to the top-left element.
-  //* =====================================================================
-  iterator begin();
+    //* =====================================================================
+    /// \brief Resizes the canvas to the specified extent.  Content that would
+    /// fit in the new size remains as it was, otherwise it is truncated.
+    //* =====================================================================
+    void resize(extent const &size);
 
-  //* =====================================================================
-  /// \brief Returns pointer to the top-left element.
-  //* =====================================================================
-  [[nodiscard]] const_iterator begin() const;
+    //* =====================================================================
+    /// \brief Returns pointer to the top-left element.
+    //* =====================================================================
+    iterator begin();
 
-  //* =====================================================================
-  /// \brief Returns one-past-the-end of the canvas.
-  //* =====================================================================
-  iterator end();
+    //* =====================================================================
+    /// \brief Returns pointer to the top-left element.
+    //* =====================================================================
+    [[nodiscard]] const_iterator begin() const;
 
-  //* =====================================================================
-  /// \brief Returns one-past-the-end of the canvas.
-  //* =====================================================================
-  [[nodiscard]] const_iterator end() const;
+    //* =====================================================================
+    /// \brief Returns one-past-the-end of the canvas.
+    //* =====================================================================
+    iterator end();
 
-  //* =====================================================================
-  /// \brief A subscript operator into a column
-  //* =====================================================================
-  column_proxy operator[](coordinate_type column);
+    //* =====================================================================
+    /// \brief Returns one-past-the-end of the canvas.
+    //* =====================================================================
+    [[nodiscard]] const_iterator end() const;
 
-  //* =====================================================================
-  /// \brief A subscript operator into a column
-  //* =====================================================================
-  const_column_proxy operator[](coordinate_type) const;
+    //* =====================================================================
+    /// \brief A subscript operator into a column
+    //* =====================================================================
+    column_proxy operator[](coordinate_type column);
 
- private:
-  //* =====================================================================
-  /// \brief Get the value of an element.
-  //* =====================================================================
-  element &get_element(coordinate_type column, coordinate_type row);
+    //* =====================================================================
+    /// \brief A subscript operator into a column
+    //* =====================================================================
+    const_column_proxy operator[](coordinate_type) const;
 
-  //* =====================================================================
-  /// \brief Get the value of an element.
-  //* =====================================================================
-  [[nodiscard]] element const &get_element(
-      coordinate_type column, coordinate_type row) const;
+private:
+    //* =====================================================================
+    /// \brief Get the value of an element.
+    //* =====================================================================
+    element &get_element(coordinate_type column, coordinate_type row);
 
-  std::vector<element> grid_;
-  extent size_;
+    //* =====================================================================
+    /// \brief Get the value of an element.
+    //* =====================================================================
+    [[nodiscard]] element const &get_element(
+        coordinate_type column, coordinate_type row) const;
+
+    std::vector<element> grid_;
+    extent size_;
 };
 
 }  // namespace terminalpp
