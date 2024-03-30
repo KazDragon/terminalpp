@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "source_location": "cpp",
+        "string_view": "cpp",
+        "chrono": "cpp",
+        "variant": "cpp"
+    },
+    "cmake.configureOnOpen": true,
+    "cmake.options.advanced": {
+        "ctest": {
+            "statusBarVisibility": "hidden"
+        },
+        "testPreset": {
+            "statusBarVisibility": "hidden"
+        },
+        "cpack": {
+            "statusBarVisibility": "hidden"
+        },
+        "packagePreset": {
+            "statusBarVisibility": "hidden"
+        },
+        "workflow": {
+            "statusBarVisibility": "hidden"
+        },
+        "workflowPreset": {
+            "statusBarVisibility": "hidden"
+        }
+    },
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json"
+}
