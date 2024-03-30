@@ -3,8 +3,10 @@
 #include "terminalpp/attribute.hpp"
 #include "terminalpp/core.hpp"
 #include "terminalpp/glyph.hpp"
+
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
+
 #include <iosfwd>
 #include <utility>
 
@@ -19,40 +21,40 @@ struct TERMINALPP_EXPORT element
   : private boost::
         less_than_comparable<element, boost::equality_comparable<element>>
 {
-  //* =====================================================================
-  /// \brief Value Constructor
-  //* =====================================================================
-  constexpr element(  // NOLINT
-      terminalpp::glyph gly = {},
-      terminalpp::attribute attr = {})
-    : glyph_(std::move(gly)), attribute_(std::move(attr))
-  {
-  }
+    //* =====================================================================
+    /// \brief Value Constructor
+    //* =====================================================================
+    constexpr element(  // NOLINT
+        terminalpp::glyph gly = {},
+        terminalpp::attribute attr = {})
+      : glyph_(std::move(gly)), attribute_(std::move(attr))
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Char Constructor
-  //* =====================================================================
-  constexpr element(  // NOLINT
-      byte ch,
-      terminalpp::attribute attr = {})
-    : element(terminalpp::glyph(ch), attr)
-  {
-  }
+    //* =====================================================================
+    /// \brief Char Constructor
+    //* =====================================================================
+    constexpr element(  // NOLINT
+        byte ch,
+        terminalpp::attribute attr = {})
+      : element(terminalpp::glyph(ch), attr)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Hash function
-  //* =====================================================================
-  friend std::size_t hash_value(element const &elem) noexcept
-  {
-    std::size_t seed = 0;
-    boost::hash_combine(seed, elem.glyph_);
-    boost::hash_combine(seed, elem.attribute_);
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(element const &elem) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, elem.glyph_);
+        boost::hash_combine(seed, elem.attribute_);
 
-    return seed;
-  }
+        return seed;
+    }
 
-  terminalpp::glyph glyph_;
-  terminalpp::attribute attribute_;
+    terminalpp::glyph glyph_;
+    terminalpp::attribute attribute_;
 };
 
 //* =========================================================================
@@ -60,8 +62,8 @@ struct TERMINALPP_EXPORT element
 //* =========================================================================
 constexpr bool operator<(element const &lhs, element const &rhs)
 {
-  return lhs.glyph_ < rhs.glyph_
-         || (lhs.glyph_ == rhs.glyph_ && lhs.attribute_ < rhs.attribute_);
+    return lhs.glyph_ < rhs.glyph_
+        || (lhs.glyph_ == rhs.glyph_ && lhs.attribute_ < rhs.attribute_);
 }
 
 //* =========================================================================
@@ -69,7 +71,7 @@ constexpr bool operator<(element const &lhs, element const &rhs)
 //* =========================================================================
 constexpr bool operator==(element const &lhs, element const &rhs)
 {
-  return lhs.glyph_ == rhs.glyph_ && lhs.attribute_ == rhs.attribute_;
+    return lhs.glyph_ == rhs.glyph_ && lhs.attribute_ == rhs.attribute_;
 }
 
 //* =========================================================================
@@ -88,9 +90,9 @@ inline namespace literals {
 
 inline constexpr element operator""_ete(char const *text, std::size_t len)
 {
-  gsl::cstring_span data(text, len);
-  element elem;
-  return detail::parse_element(data, elem);
+    gsl::cstring_span data(text, len);
+    element elem;
+    return detail::parse_element(data, elem);
 }
 
 }  // namespace literals
@@ -101,13 +103,13 @@ namespace std {
 template <>
 struct hash<terminalpp::element>
 {
-  using argument_type = terminalpp::element;
-  using result_type = std::size_t;
+    using argument_type = terminalpp::element;
+    using result_type = std::size_t;
 
-  result_type operator()(argument_type const &elem) const noexcept
-  {
-    return hash_value(elem);
-  }
+    result_type operator()(argument_type const &elem) const noexcept
+    {
+        return hash_value(elem);
+    }
 };
 
 }  // namespace std

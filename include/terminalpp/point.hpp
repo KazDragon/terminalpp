@@ -1,7 +1,9 @@
 #pragma once
 
 #include "terminalpp/core.hpp"
+
 #include <boost/operators.hpp>
+
 #include <iosfwd>
 #include <tuple>
 
@@ -21,63 +23,63 @@ struct TERMINALPP_EXPORT point
             point,
             boost::addable<point, boost::subtractable<point>>>>
 {
-  //* =====================================================================
-  /// \brief Default Constructor
-  /// \par
-  /// Constructs a point, leaving the values uninitialized.
-  //* =====================================================================
-  constexpr point() : x_(0), y_(0)
-  {
-  }
+    //* =====================================================================
+    /// \brief Default Constructor
+    /// \par
+    /// Constructs a point, leaving the values uninitialized.
+    //* =====================================================================
+    constexpr point() : x_(0), y_(0)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructor
-  /// \par
-  /// Constructs a point from a passed in x co-ordinate and a passed in
-  /// y co-ordinate.
-  //* =====================================================================
-  constexpr point(coordinate_type x, coordinate_type y) : x_(x), y_(y)
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructor
+    /// \par
+    /// Constructs a point from a passed in x co-ordinate and a passed in
+    /// y co-ordinate.
+    //* =====================================================================
+    constexpr point(coordinate_type x, coordinate_type y) : x_(x), y_(y)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Addition
-  //* =====================================================================
-  constexpr point &operator+=(point const &rhs)
-  {
-    x_ += rhs.x_;
-    y_ += rhs.y_;
-    return *this;
-  }
+    //* =====================================================================
+    /// \brief Addition
+    //* =====================================================================
+    constexpr point &operator+=(point const &rhs)
+    {
+        x_ += rhs.x_;
+        y_ += rhs.y_;
+        return *this;
+    }
 
-  //* =====================================================================
-  /// \brief Subtraction
-  //* =====================================================================
-  constexpr point &operator-=(point const &rhs)
-  {
-    x_ -= rhs.x_;
-    y_ -= rhs.y_;
-    return *this;
-  }
+    //* =====================================================================
+    /// \brief Subtraction
+    //* =====================================================================
+    constexpr point &operator-=(point const &rhs)
+    {
+        x_ -= rhs.x_;
+        y_ -= rhs.y_;
+        return *this;
+    }
 
-  //* =====================================================================
-  /// \brief Less-than operator
-  //* =====================================================================
-  constexpr friend bool operator<(point const &lhs, point const &rhs)
-  {
-    return std::tie(lhs.y_, lhs.x_) < std::tie(rhs.y_, rhs.x_);
-  }
+    //* =====================================================================
+    /// \brief Less-than operator
+    //* =====================================================================
+    constexpr friend bool operator<(point const &lhs, point const &rhs)
+    {
+        return std::tie(lhs.y_, lhs.x_) < std::tie(rhs.y_, rhs.x_);
+    }
 
-  //* =====================================================================
-  /// \brief Equality operator
-  //* =====================================================================
-  constexpr friend bool operator==(point const &lhs, point const &rhs)
-  {
-    return std::tie(lhs.y_, lhs.x_) == std::tie(rhs.y_, rhs.x_);
-  }
+    //* =====================================================================
+    /// \brief Equality operator
+    //* =====================================================================
+    constexpr friend bool operator==(point const &lhs, point const &rhs)
+    {
+        return std::tie(lhs.y_, lhs.x_) == std::tie(rhs.y_, rhs.x_);
+    }
 
-  coordinate_type x_;
-  coordinate_type y_;
+    coordinate_type x_;
+    coordinate_type y_;
 };
 
 //* =====================================================================

@@ -1,15 +1,17 @@
 #include "terminalpp/character_set.hpp"
+
 #include <boost/range/algorithm/find_if.hpp>
+
 #include <iostream>
 
 namespace terminalpp {
 
 static constexpr struct
 {
-  terminalpp::charset set;
-  char const *name;
+    terminalpp::charset set;
+    char const *name;
 } const character_set_strings[] = {
-    // clang-format off
+  // clang-format off
     { terminalpp::charset::dec,                        "dec"    },
     { terminalpp::charset::dec,                        "dec",   },
     { terminalpp::charset::dec_supplementary,          "dec+"   },
@@ -30,7 +32,7 @@ static constexpr struct
     { terminalpp::charset::swiss,                      "de_ch"  },
     { terminalpp::charset::sco,                        "sco"    },
     { terminalpp::charset::utf8,                       "u"      },
-    // clang-format on
+  // clang-format on
 };
 
 // ==========================================================================
@@ -38,18 +40,19 @@ static constexpr struct
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, character_set const &set)
 {
-  if (auto const *it = boost::find_if(
-          character_set_strings,
-          [set](auto const &character_set_string)
-          { return set.value_ == character_set_string.set; });
-      it != std::cend(character_set_strings))
-  {
-    return out << it->name;
-  }
-  else
-  {
-    return out;
-  }
+    if (auto const *it = boost::find_if(
+            character_set_strings,
+            [set](auto const &character_set_string) {
+                return set.value_ == character_set_string.set;
+            });
+        it != std::cend(character_set_strings))
+    {
+        return out << it->name;
+    }
+    else
+    {
+        return out;
+    }
 }
 
 }  // namespace terminalpp

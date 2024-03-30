@@ -1,6 +1,12 @@
 BasedOnStyle: Google
+AccessModifierOffset: -4
 AlignAfterOpenBracket: AlwaysBreak
+AlignArrayOfStructures: Left
+AlignOperands: AlignAfterOperator
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortFunctionsOnASingleLine: None
+AllowShortLambdasOnASingleLine: All
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBraces: Custom
@@ -18,29 +24,38 @@ BraceWrapping:
   AfterExternBlock: false
   BeforeCatch: true
   BeforeElse: true
-  BeforeLambdaBody: true
+  BeforeLambdaBody: false
   BeforeWhile: false
   IndentBraces: false
   SplitEmptyFunction: true
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
 ColumnLimit: "80"
+Cpp11BracedListStyle: true
 DerivePointerAlignment: "false"
-IncludeBlocks: Preserve
-IncludeCategories:
-  - Regex: ^<.*\.h.*>
-    Priority: 2
-    SortPriority: 0
-    CaseSensitive: false
-  - Regex: ^<.*
-    Priority: 3
-    SortPriority: 0
-    CaseSensitive: false
-  - Regex: .*
-    Priority: 1
-    SortPriority: 0
-    CaseSensitive: false
+IndentWidth: 4
+IndentAccessModifiers: false
 PointerAlignment: Right
 ConstructorInitializerIndentWidth: 2
 SortIncludes: "true"
 QualifierAlignment: Right
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: ^"[^/]+"
+    Priority: 2
+    CaseSensitive: false
+  - Regex: ^".*"
+    Priority: 2
+    SortPriority: 3
+    CaseSensitive: false
+  - Regex: ^<.*\.h.*>
+    Priority: 3
+    CaseSensitive: false
+  - Regex: ^<(cassert|cctype|cerrno|cfenv|cfloat|cinttypes|climits|clocale|cmath|csetjmp|csignal|cstdarg|cstddef|cstdint|cstdio|cstdlib|cstring|ctime|cuchar|cwchar|cwctype)>$
+    Priority: 4
+    SortPriority: 5
+    CaseSensitive: false
+  - Regex: ^<.*
+    Priority: 4
+    SortPriority: 4
+    CaseSensitive: false

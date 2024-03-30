@@ -1,8 +1,10 @@
 #pragma once
 
 #include "terminalpp/graphics.hpp"
+
 #include <boost/container_hash/hash.hpp>
 #include <boost/operators.hpp>
+
 #include <iosfwd>
 #include <variant>
 
@@ -15,33 +17,33 @@ struct TERMINALPP_EXPORT low_colour
   : private boost::
         less_than_comparable<low_colour, boost::equality_comparable<low_colour>>
 {
-  //* =====================================================================
-  /// \brief Constructs a low_colour with the "default" colour value.
-  //* =====================================================================
-  constexpr low_colour() : low_colour(terminalpp::graphics::colour::default_)
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a low_colour with the "default" colour value.
+    //* =====================================================================
+    constexpr low_colour() : low_colour(terminalpp::graphics::colour::default_)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a low_colour from the passed-in ANSI colour.
-  //* =====================================================================
-  constexpr low_colour(terminalpp::graphics::colour colour)  // NOLINT
-    : value_(colour){};
+    //* =====================================================================
+    /// \brief Constructs a low_colour from the passed-in ANSI colour.
+    //* =====================================================================
+    constexpr low_colour(terminalpp::graphics::colour colour)  // NOLINT
+      : value_(colour){};
 
-  //* =====================================================================
-  /// \brief Hash function
-  //* =====================================================================
-  friend std::size_t hash_value(low_colour const &col) noexcept
-  {
-    std::size_t seed = 0;
-    boost::hash_combine(
-        seed,
-        static_cast<std::underlying_type<decltype(col.value_)>::type>(
-            col.value_));
-    return seed;
-  }
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(low_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(
+            seed,
+            static_cast<std::underlying_type_t<decltype(col.value_)>>(
+                col.value_));
+        return seed;
+    }
 
-  terminalpp::graphics::colour value_;
+    terminalpp::graphics::colour value_;
 };
 
 //* =========================================================================
@@ -50,7 +52,7 @@ struct TERMINALPP_EXPORT low_colour
 TERMINALPP_EXPORT
 constexpr bool operator==(low_colour const &lhs, low_colour const &rhs)
 {
-  return lhs.value_ == rhs.value_;
+    return lhs.value_ == rhs.value_;
 }
 
 //* =========================================================================
@@ -59,7 +61,7 @@ constexpr bool operator==(low_colour const &lhs, low_colour const &rhs)
 TERMINALPP_EXPORT
 constexpr bool operator<(low_colour const &lhs, low_colour const &rhs)
 {
-  return lhs.value_ < rhs.value_;
+    return lhs.value_ < rhs.value_;
 }
 
 //* =========================================================================
@@ -79,33 +81,33 @@ struct TERMINALPP_EXPORT high_colour
         high_colour,
         boost::equality_comparable<high_colour>>
 {
-  //* =====================================================================
-  /// \brief Default constructs a high-colour with the value of pure black.
-  //* =====================================================================
-  constexpr high_colour() : high_colour(0, 0, 0)
-  {
-  }
+    //* =====================================================================
+    /// \brief Default constructs a high-colour with the value of pure black.
+    //* =====================================================================
+    constexpr high_colour() : high_colour(0, 0, 0)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a high_colour from the passed-in RGB values, each
-  /// of which should be in the range 0-5.
-  //* =====================================================================
-  constexpr high_colour(byte red, byte green, byte blue)
-    : value_(ansi::graphics::encode_high_components(red, green, blue))
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a high_colour from the passed-in RGB values, each
+    /// of which should be in the range 0-5.
+    //* =====================================================================
+    constexpr high_colour(byte red, byte green, byte blue)
+      : value_(ansi::graphics::encode_high_components(red, green, blue))
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Hash function
-  //* =====================================================================
-  friend std::size_t hash_value(high_colour const &col) noexcept
-  {
-    std::size_t seed = 0;
-    boost::hash_combine(seed, col.value_);
-    return seed;
-  }
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(high_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, col.value_);
+        return seed;
+    }
 
-  byte value_;
+    byte value_;
 };
 
 //* =========================================================================
@@ -114,7 +116,7 @@ struct TERMINALPP_EXPORT high_colour
 TERMINALPP_EXPORT
 constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
 {
-  return lhs.value_ == rhs.value_;
+    return lhs.value_ == rhs.value_;
 }
 
 //* =========================================================================
@@ -123,7 +125,7 @@ constexpr bool operator==(high_colour const &lhs, high_colour const &rhs)
 TERMINALPP_EXPORT
 constexpr bool operator<(high_colour const &lhs, high_colour const &rhs)
 {
-  return lhs.value_ < rhs.value_;
+    return lhs.value_ < rhs.value_;
 }
 
 //* =========================================================================
@@ -142,34 +144,34 @@ struct TERMINALPP_EXPORT greyscale_colour
         greyscale_colour,
         boost::equality_comparable<greyscale_colour>>
 {
-  //* =====================================================================
-  /// \brief Default constructs a greyscale value with the darkest
-  /// available grey.
-  //* =====================================================================
-  constexpr greyscale_colour() : shade_(0)
-  {
-  }
+    //* =====================================================================
+    /// \brief Default constructs a greyscale value with the darkest
+    /// available grey.
+    //* =====================================================================
+    constexpr greyscale_colour() : shade_(0)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a greyscale value from the given shade, which
-  /// should be in the range 0-23.
-  //* =====================================================================
-  constexpr explicit greyscale_colour(byte shade)
-    : shade_(ansi::graphics::encode_greyscale_component(shade))
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a greyscale value from the given shade, which
+    /// should be in the range 0-23.
+    //* =====================================================================
+    constexpr explicit greyscale_colour(byte shade)
+      : shade_(ansi::graphics::encode_greyscale_component(shade))
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Hash function
-  //* =====================================================================
-  friend std::size_t hash_value(greyscale_colour const &col) noexcept
-  {
-    std::size_t seed = 0;
-    boost::hash_combine(seed, col.shade_);
-    return seed;
-  }
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(greyscale_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, col.shade_);
+        return seed;
+    }
 
-  byte shade_;
+    byte shade_;
 };
 
 //* =========================================================================
@@ -179,7 +181,7 @@ TERMINALPP_EXPORT
 constexpr bool operator==(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
-  return lhs.shade_ == rhs.shade_;
+    return lhs.shade_ == rhs.shade_;
 }
 
 //* =========================================================================
@@ -189,7 +191,7 @@ TERMINALPP_EXPORT
 constexpr bool operator<(
     greyscale_colour const &lhs, greyscale_colour const &rhs)
 {
-  return lhs.shade_ < rhs.shade_;
+    return lhs.shade_ < rhs.shade_;
 }
 
 //* =========================================================================
@@ -208,37 +210,37 @@ struct TERMINALPP_EXPORT true_colour
         true_colour,
         boost::equality_comparable<true_colour>>
 {
-  //* =====================================================================
-  /// \brief Default constructor constructs a true colour value that
-  /// represents black.
-  //* =====================================================================
-  constexpr true_colour() : true_colour(0, 0, 0)
-  {
-  }
+    //* =====================================================================
+    /// \brief Default constructor constructs a true colour value that
+    /// represents black.
+    //* =====================================================================
+    constexpr true_colour() : true_colour(0, 0, 0)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructor
-  //* =====================================================================
-  constexpr true_colour(byte const red, byte const green, byte const blue)
-    : red_(red), green_(green), blue_(blue)
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructor
+    //* =====================================================================
+    constexpr true_colour(byte const red, byte const green, byte const blue)
+      : red_(red), green_(green), blue_(blue)
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Hash function
-  //* =====================================================================
-  friend std::size_t hash_value(true_colour const &col) noexcept
-  {
-    std::size_t seed = 0;
-    boost::hash_combine(seed, col.red_);
-    boost::hash_combine(seed, col.green_);
-    boost::hash_combine(seed, col.blue_);
-    return seed;
-  }
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(true_colour const &col) noexcept
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, col.red_);
+        boost::hash_combine(seed, col.green_);
+        boost::hash_combine(seed, col.blue_);
+        return seed;
+    }
 
-  byte red_;
-  byte green_;
-  byte blue_;
+    byte red_;
+    byte green_;
+    byte blue_;
 };
 
 //* =========================================================================
@@ -247,8 +249,8 @@ struct TERMINALPP_EXPORT true_colour
 TERMINALPP_EXPORT
 constexpr bool operator==(true_colour const &lhs, true_colour const &rhs)
 {
-  return lhs.red_ == rhs.red_ && lhs.green_ == rhs.green_
-         && lhs.blue_ == rhs.blue_;
+    return lhs.red_ == rhs.red_ && lhs.green_ == rhs.green_
+        && lhs.blue_ == rhs.blue_;
 }
 
 //* =========================================================================
@@ -257,10 +259,10 @@ constexpr bool operator==(true_colour const &lhs, true_colour const &rhs)
 TERMINALPP_EXPORT
 constexpr bool operator<(true_colour const &lhs, true_colour const &rhs)
 {
-  return lhs.red_ < rhs.red_
-         || (lhs.red_ == rhs.red_
-             && (lhs.green_ < rhs.green_
-                 || (lhs.green_ == rhs.green_ && lhs.blue_ < rhs.blue_)));
+    return lhs.red_ < rhs.red_
+        || (lhs.red_ == rhs.red_
+            && (lhs.green_ < rhs.green_
+                || (lhs.green_ == rhs.green_ && lhs.blue_ < rhs.blue_)));
 }
 
 //* =========================================================================
@@ -277,63 +279,63 @@ struct TERMINALPP_EXPORT colour
   : private boost::
         less_than_comparable<colour, boost::equality_comparable<colour>>
 {
-  //* =====================================================================
-  /// \brief Default constructs the colour with the "default" ANSI colour.
-  //* =====================================================================
-  constexpr colour() : colour{terminalpp::low_colour()}
-  {
-  }
+    //* =====================================================================
+    /// \brief Default constructs the colour with the "default" ANSI colour.
+    //* =====================================================================
+    constexpr colour() : colour{terminalpp::low_colour()}
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a colour with the passed low_colour value.
-  //* =====================================================================
-  constexpr colour(terminalpp::low_colour col)  // NOLINT
-    : value_{std::move(col)}
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a colour with the passed low_colour value.
+    //* =====================================================================
+    constexpr colour(terminalpp::low_colour col)  // NOLINT
+      : value_{std::move(col)}
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a colour from an ANSI graphics low colour.
-  //* =====================================================================
-  constexpr colour(terminalpp::graphics::colour col)  // NOLINT
-    : colour{terminalpp::low_colour(col)}
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a colour from an ANSI graphics low colour.
+    //* =====================================================================
+    constexpr colour(terminalpp::graphics::colour col)  // NOLINT
+      : colour{terminalpp::low_colour(col)}
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a colour with the passed high_colour value.
-  //* =====================================================================
-  constexpr colour(terminalpp::high_colour col)  // NOLINT
-    : value_{high_colour{std::move(col)}}
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a colour with the passed high_colour value.
+    //* =====================================================================
+    constexpr colour(terminalpp::high_colour col)  // NOLINT
+      : value_{high_colour{std::move(col)}}
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a colour with the passed greyscale_colour value.
-  //* =====================================================================
-  constexpr colour(terminalpp::greyscale_colour col)  // NOLINT
-    : value_{greyscale_colour{std::move(col)}}
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a colour with the passed greyscale_colour value.
+    //* =====================================================================
+    constexpr colour(terminalpp::greyscale_colour col)  // NOLINT
+      : value_{greyscale_colour{std::move(col)}}
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Constructs a colour with the passed true_colour value.
-  //* =====================================================================
-  constexpr colour(terminalpp::true_colour col)  // NOLINT
-    : value_{true_colour{std::move(col)}}
-  {
-  }
+    //* =====================================================================
+    /// \brief Constructs a colour with the passed true_colour value.
+    //* =====================================================================
+    constexpr colour(terminalpp::true_colour col)  // NOLINT
+      : value_{true_colour{std::move(col)}}
+    {
+    }
 
-  //* =====================================================================
-  /// \brief Hash function
-  //* =====================================================================
-  friend std::size_t hash_value(colour const &col) noexcept
-  {
-    return std::visit(
-        [](auto const &val) { return hash_value(val); }, col.value_);
-  }
+    //* =====================================================================
+    /// \brief Hash function
+    //* =====================================================================
+    friend std::size_t hash_value(colour const &col) noexcept
+    {
+        return std::visit(
+            [](auto const &val) { return hash_value(val); }, col.value_);
+    }
 
-  std::variant<low_colour, high_colour, greyscale_colour, true_colour> value_;
+    std::variant<low_colour, high_colour, greyscale_colour, true_colour> value_;
 };
 
 //* =========================================================================
@@ -342,7 +344,7 @@ struct TERMINALPP_EXPORT colour
 TERMINALPP_EXPORT
 constexpr bool operator==(colour const &lhs, colour const &rhs)
 {
-  return lhs.value_ == rhs.value_;
+    return lhs.value_ == rhs.value_;
 }
 
 //* =========================================================================
@@ -351,7 +353,7 @@ constexpr bool operator==(colour const &lhs, colour const &rhs)
 TERMINALPP_EXPORT
 constexpr bool operator<(colour const &lhs, colour const &rhs)
 {
-  return lhs.value_ < rhs.value_;
+    return lhs.value_ < rhs.value_;
 }
 
 //* =========================================================================
@@ -368,61 +370,61 @@ namespace std {
 template <>
 struct hash<terminalpp::low_colour>
 {
-  using argument_type = terminalpp::low_colour;
-  using result_type = std::size_t;
+    using argument_type = terminalpp::low_colour;
+    using result_type = std::size_t;
 
-  result_type operator()(argument_type const &col) const noexcept
-  {
-    return hash_value(col);
-  }
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
 };
 
 template <>
 struct hash<terminalpp::high_colour>
 {
-  using argument_type = terminalpp::high_colour;
-  using result_type = std::size_t;
+    using argument_type = terminalpp::high_colour;
+    using result_type = std::size_t;
 
-  result_type operator()(argument_type const &col) const noexcept
-  {
-    return hash_value(col);
-  }
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
 };
 
 template <>
 struct hash<terminalpp::greyscale_colour>
 {
-  using argument_type = terminalpp::greyscale_colour;
-  using result_type = std::size_t;
+    using argument_type = terminalpp::greyscale_colour;
+    using result_type = std::size_t;
 
-  result_type operator()(argument_type const &col) const noexcept
-  {
-    return hash_value(col);
-  }
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
 };
 
 template <>
 struct hash<terminalpp::true_colour>
 {
-  using argument_type = terminalpp::true_colour;
-  using result_type = std::size_t;
+    using argument_type = terminalpp::true_colour;
+    using result_type = std::size_t;
 
-  result_type operator()(argument_type const &col) const noexcept
-  {
-    return hash_value(col);
-  }
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
 };
 
 template <>
 struct hash<terminalpp::colour>
 {
-  using argument_type = terminalpp::colour;
-  using result_type = std::size_t;
+    using argument_type = terminalpp::colour;
+    using result_type = std::size_t;
 
-  result_type operator()(argument_type const &col) const noexcept
-  {
-    return hash_value(col);
-  }
+    result_type operator()(argument_type const &col) const noexcept
+    {
+        return hash_value(col);
+    }
 };
 
 }  // namespace std

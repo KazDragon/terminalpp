@@ -1,4 +1,5 @@
 #include "terminalpp/canvas.hpp"
+
 #include "terminalpp/algorithm/for_each_in_region.hpp"
 
 namespace terminalpp {
@@ -11,7 +12,7 @@ namespace {
 template <class Container>
 auto begin_pointer(Container &&container)
 {
-  return container.empty() ? nullptr : &*container.begin();
+    return container.empty() ? nullptr : &*container.begin();
 }
 
 // ==========================================================================
@@ -20,7 +21,7 @@ auto begin_pointer(Container &&container)
 template <class Container>
 auto end_pointer(Container &&container)
 {
-  return container.empty() ? nullptr : &*container.begin() + container.size();
+    return container.empty() ? nullptr : &*container.begin() + container.size();
 }
 
 }  // namespace
@@ -38,7 +39,7 @@ canvas::column_proxy::column_proxy(canvas &cvs, coordinate_type column)
 // ==========================================================================
 element &canvas::column_proxy::operator[](coordinate_type row)
 {
-  return canvas_.get_element(column_, row);
+    return canvas_.get_element(column_, row);
 }
 
 // ==========================================================================
@@ -55,7 +56,7 @@ canvas::const_column_proxy::const_column_proxy(
 // ==========================================================================
 element const &canvas::const_column_proxy::operator[](coordinate_type row) const
 {
-  return canvas_.get_element(column_, row);
+    return canvas_.get_element(column_, row);
 }
 
 // ==========================================================================
@@ -63,8 +64,9 @@ element const &canvas::const_column_proxy::operator[](coordinate_type row) const
 // ==========================================================================
 canvas::canvas(extent size) : size_(size)
 {
-  grid_.resize(
-      static_cast<std::vector<element>::size_type>(size.width_ * size.height_));
+    grid_.resize(
+        static_cast<std::vector<element>::size_type>(size.width_)
+        * static_cast<std::vector<element>::size_type>(size.height_));
 }
 
 // ==========================================================================
@@ -72,7 +74,7 @@ canvas::canvas(extent size) : size_(size)
 // ==========================================================================
 extent canvas::size() const
 {
-  return size_;
+    return size_;
 }
 
 // ==========================================================================
@@ -80,25 +82,28 @@ extent canvas::size() const
 // ==========================================================================
 void canvas::resize(extent const &size)
 {
-  std::vector<element> new_grid(
-      static_cast<std::vector<element>::size_type>(size.width_ * size.height_));
+    std::vector<element> new_grid(static_cast<std::vector<element>::size_type>(
+        size.width_ * size.height_));
 
-  auto min_width = (std::min)(size.width_, size_.width_);
-  auto min_height = (std::min)(size.height_, size_.height_);
+    auto min_width = (std::min)(size.width_, size_.width_);
+    auto min_height = (std::min)(size.height_, size_.height_);
 
-  for_each_in_region(
-      *this,
-      {{}, {min_width, min_height}},
-      [&size, &new_grid](
-          element const &elem, coordinate_type column, coordinate_type row)
-      {
-        auto const new_grid_pos = static_cast<std::vector<element>::size_type>(
-            row * size.width_ + column);
-        new_grid[new_grid_pos] = elem;
-      });
+    for_each_in_region(
+        *this,
+        {
+            {},
+            {min_width, min_height}
+    },
+        [&size, &new_grid](
+            element const &elem, coordinate_type column, coordinate_type row) {
+            auto const new_grid_pos =
+                static_cast<std::vector<element>::size_type>(
+                    row * size.width_ + column);
+            new_grid[new_grid_pos] = elem;
+        });
 
-  size_ = size;
-  grid_.swap(new_grid);
+    size_ = size;
+    grid_.swap(new_grid);
 }
 
 // ==========================================================================
@@ -106,7 +111,7 @@ void canvas::resize(extent const &size)
 // ==========================================================================
 canvas::iterator canvas::begin()
 {
-  return begin_pointer(grid_);
+    return begin_pointer(grid_);
 }
 
 // ==========================================================================
@@ -114,7 +119,7 @@ canvas::iterator canvas::begin()
 // ==========================================================================
 canvas::const_iterator canvas::begin() const
 {
-  return begin_pointer(grid_);
+    return begin_pointer(grid_);
 }
 
 // ==========================================================================
@@ -122,7 +127,7 @@ canvas::const_iterator canvas::begin() const
 // ==========================================================================
 canvas::iterator canvas::end()
 {
-  return end_pointer(grid_);
+    return end_pointer(grid_);
 }
 
 // ==========================================================================
@@ -130,7 +135,7 @@ canvas::iterator canvas::end()
 // ==========================================================================
 canvas::const_iterator canvas::end() const
 {
-  return end_pointer(grid_);
+    return end_pointer(grid_);
 }
 
 // ==========================================================================
@@ -138,7 +143,7 @@ canvas::const_iterator canvas::end() const
 // ==========================================================================
 canvas::column_proxy canvas::operator[](coordinate_type column)
 {
-  return {*this, column};
+    return {*this, column};
 }
 
 // ==========================================================================
@@ -146,7 +151,7 @@ canvas::column_proxy canvas::operator[](coordinate_type column)
 // ==========================================================================
 canvas::const_column_proxy canvas::operator[](coordinate_type column) const
 {
-  return {*this, column};
+    return {*this, column};
 }
 
 // ==========================================================================
@@ -154,8 +159,8 @@ canvas::const_column_proxy canvas::operator[](coordinate_type column) const
 // ==========================================================================
 element &canvas::get_element(coordinate_type column, coordinate_type row)
 {
-  return grid_[static_cast<std::vector<element>::size_type>(
-      row * size_.width_ + column)];
+    return grid_[static_cast<std::vector<element>::size_type>(
+        row * size_.width_ + column)];
 }
 
 // ==========================================================================
@@ -164,8 +169,8 @@ element &canvas::get_element(coordinate_type column, coordinate_type row)
 element const &canvas::get_element(
     coordinate_type column, coordinate_type row) const
 {
-  return grid_[static_cast<std::vector<element>::size_type>(
-      row * size_.width_ + column)];
+    return grid_[static_cast<std::vector<element>::size_type>(
+        row * size_.width_ + column)];
 }
 
 }  // namespace terminalpp

@@ -1,4 +1,5 @@
 #include "terminalpp/effect.hpp"
+
 #include <iostream>
 
 namespace terminalpp {
@@ -8,19 +9,19 @@ namespace terminalpp {
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, intensity const &effect)
 {
-  switch (effect.value_)
-  {
-    default:
-      // Fall-through
-    case terminalpp::graphics::intensity::normal:
-      return out << "normal";
+    switch (effect.value_)
+    {
+        default:
+            // Fall-through
+        case terminalpp::graphics::intensity::normal:
+            return out << "normal";
 
-    case terminalpp::graphics::intensity::bold:
-      return out << "bold";
+        case terminalpp::graphics::intensity::bold:
+            return out << "bold";
 
-    case terminalpp::graphics::intensity::faint:
-      return out << "faint";
-  }
+        case terminalpp::graphics::intensity::faint:
+            return out << "faint";
+    }
 }
 
 // ==========================================================================
@@ -28,10 +29,10 @@ std::ostream &operator<<(std::ostream &out, intensity const &effect)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, underlining const &effect)
 {
-  return out
-         << (effect.value_ == terminalpp::graphics::underlining::underlined
-                 ? "underlined"
-                 : "not underlined");
+    return out
+        << (effect.value_ == terminalpp::graphics::underlining::underlined
+                ? "underlined"
+                : "not underlined");
 }
 
 // ==========================================================================
@@ -39,10 +40,10 @@ std::ostream &operator<<(std::ostream &out, underlining const &effect)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, polarity const &effect)
 {
-  return out
-         << (effect.value_ == terminalpp::graphics::polarity::positive
-                 ? "positive"
-                 : "negative");
+    return out
+        << (effect.value_ == terminalpp::graphics::polarity::positive
+                ? "positive"
+                : "negative");
 }
 
 // ==========================================================================
@@ -50,9 +51,9 @@ std::ostream &operator<<(std::ostream &out, polarity const &effect)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, blinking const &effect)
 {
-  return out
-         << (effect.value_ == terminalpp::graphics::blinking::blink ? "blinking"
-                                                                    : "steady");
+    return out
+        << (effect.value_ == terminalpp::graphics::blinking::blink ? "blinking"
+                                                                   : "steady");
 }
 
 }  // namespace terminalpp

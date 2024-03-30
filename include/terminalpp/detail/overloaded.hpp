@@ -5,7 +5,7 @@ namespace terminalpp::detail {
 template <typename... Ts>
 struct overloaded : Ts...
 {
-  using Ts::operator()...;
+    using Ts::operator()...;
 };
 
 template <typename... Ts>

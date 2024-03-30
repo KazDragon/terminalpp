@@ -1,5 +1,7 @@
 #include "terminalpp/colour.hpp"
+
 #include <gtest/gtest.h>
+
 #include <tuple>
 #include <unordered_set>
 
@@ -7,11 +9,11 @@ using testing::ValuesIn;
 
 TEST(colour_test, can_construct_from_low_colour_enum)
 {
-  terminalpp::graphics::colour const col{terminalpp::graphics::colour::red};
-  terminalpp::colour const expected_colour = terminalpp::low_colour(col);
-  terminalpp::colour const result_colour{col};
+    terminalpp::graphics::colour const col{terminalpp::graphics::colour::red};
+    terminalpp::colour const expected_colour = terminalpp::low_colour(col);
+    terminalpp::colour const result_colour{col};
 
-  ASSERT_EQ(expected_colour, result_colour);
+    ASSERT_EQ(expected_colour, result_colour);
 }
 
 using low_colour_string = std::tuple<terminalpp::low_colour, std::string>;
@@ -23,19 +25,19 @@ class low_colours_with_strings
 
 TEST_P(low_colours_with_strings, can_be_streamed_to_an_ostream)
 {
-  auto const &param = GetParam();
-  auto const &low_colour = std::get<0>(param);
-  auto const &expected_string = std::get<1>(param);
+    auto const &param = GetParam();
+    auto const &low_colour = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
 
-  std::stringstream stream;
-  std::ostream &out = stream;
+    std::stringstream stream;
+    std::ostream &out = stream;
 
-  out << terminalpp::low_colour(low_colour);
-  ASSERT_EQ(expected_string, stream.str());
+    out << terminalpp::low_colour(low_colour);
+    ASSERT_EQ(expected_string, stream.str());
 }
 
 static low_colour_string const low_colour_strings[] = {
-    // clang-format off
+  // clang-format off
   low_colour_string{ terminalpp::graphics::colour::black,    "black"   },
   low_colour_string{ terminalpp::graphics::colour::red,      "red"     },
   low_colour_string{ terminalpp::graphics::colour::green,    "green"   },
@@ -45,7 +47,7 @@ static low_colour_string const low_colour_strings[] = {
   low_colour_string{ terminalpp::graphics::colour::cyan,     "cyan"    },
   low_colour_string{ terminalpp::graphics::colour::white,    "white"   },
   low_colour_string{ terminalpp::graphics::colour::default_, "default" }
-    // clang-format on
+  // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -67,17 +69,17 @@ class high_colours_with_strings
 
 TEST_P(high_colours_with_strings, can_be_streamed_to_an_ostream)
 {
-  auto const &param = GetParam();
-  auto const &red = std::get<0>(param);
-  auto const &green = std::get<1>(param);
-  auto const &blue = std::get<2>(param);
-  auto const &expected_string = std::get<3>(param);
+    auto const &param = GetParam();
+    auto const &red = std::get<0>(param);
+    auto const &green = std::get<1>(param);
+    auto const &blue = std::get<2>(param);
+    auto const &expected_string = std::get<3>(param);
 
-  std::stringstream stream;
-  std::ostream &out = stream;
+    std::stringstream stream;
+    std::ostream &out = stream;
 
-  out << terminalpp::high_colour(red, green, blue);
-  ASSERT_EQ(expected_string, stream.str());
+    out << terminalpp::high_colour(red, green, blue);
+    ASSERT_EQ(expected_string, stream.str());
 }
 
 static high_colour_string const high_colour_strings[] = {
@@ -86,7 +88,8 @@ static high_colour_string const high_colour_strings[] = {
     high_colour_string{0, 4, 0, "#040"},
     high_colour_string{0, 0, 5, "#005"},
     high_colour_string{5, 3, 1, "#531"},
-    high_colour_string{5, 5, 5, "#555"}};
+    high_colour_string{5, 5, 5, "#555"}
+};
 
 INSTANTIATE_TEST_SUITE_P(
     high_colours_can_be_streamed_to_an_ostream,
@@ -105,25 +108,25 @@ class greyscale_colours_with_strings
 
 TEST_P(greyscale_colours_with_strings, can_be_streamed_to_an_ostream)
 {
-  auto const &param = GetParam();
-  auto const &shade = std::get<0>(param);
-  auto const &expected_string = std::get<1>(param);
+    auto const &param = GetParam();
+    auto const &shade = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
 
-  std::stringstream stream;
-  std::ostream &out = stream;
+    std::stringstream stream;
+    std::ostream &out = stream;
 
-  out << terminalpp::greyscale_colour(shade);
-  ASSERT_EQ(expected_string, stream.str());
+    out << terminalpp::greyscale_colour(shade);
+    ASSERT_EQ(expected_string, stream.str());
 }
 
 static greyscale_string const greyscale_strings[] = {
-    // clang-format off
+  // clang-format off
     greyscale_string{ 0,  "#00" },
     greyscale_string{ 9,  "#09" },
     greyscale_string{ 10, "#10" },
     greyscale_string{ 17, "#17" },
     greyscale_string{ 22, "#22" },
-    // clang-format on
+  // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -145,28 +148,28 @@ class true_colours_with_strings
 
 TEST_P(true_colours_with_strings, can_be_streamed_to_an_ostream)
 {
-  auto const &param = GetParam();
-  auto const &red = std::get<0>(param);
-  auto const &green = std::get<1>(param);
-  auto const &blue = std::get<2>(param);
-  auto const &expected_string = std::get<3>(param);
+    auto const &param = GetParam();
+    auto const &red = std::get<0>(param);
+    auto const &green = std::get<1>(param);
+    auto const &blue = std::get<2>(param);
+    auto const &expected_string = std::get<3>(param);
 
-  std::stringstream stream;
-  std::ostream &out = stream;
+    std::stringstream stream;
+    std::ostream &out = stream;
 
-  out << terminalpp::true_colour(red, green, blue);
-  ASSERT_EQ(expected_string, stream.str());
+    out << terminalpp::true_colour(red, green, blue);
+    ASSERT_EQ(expected_string, stream.str());
 }
 
 static true_colour_string const true_colour_strings[] = {
-    // clang-format off
+  // clang-format off
     true_colour_string{ 0,   0,   0,   "#000000" },
     true_colour_string{ 80,  0,   0,   "#500000" },
     true_colour_string{ 0,   90,  0,   "#005A00" },
     true_colour_string{ 0,   0,   100, "#000064" },
     true_colour_string{ 40,  50,  60,  "#28323C" },
     true_colour_string{ 255, 255, 255, "#FFFFFF" },
-    // clang-format on
+  // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -182,15 +185,15 @@ class colours_with_strings : public testing::TestWithParam<colour_string>
 
 TEST_P(colours_with_strings, can_be_streamed_to_an_ostream)
 {
-  auto const &param = GetParam();
-  auto const &colour = std::get<0>(param);
-  auto const &expected_string = std::get<1>(param);
+    auto const &param = GetParam();
+    auto const &colour = std::get<0>(param);
+    auto const &expected_string = std::get<1>(param);
 
-  std::stringstream stream;
-  std::ostream &out = stream;
+    std::stringstream stream;
+    std::ostream &out = stream;
 
-  out << colour;
-  ASSERT_EQ(expected_string, stream.str());
+    out << colour;
+    ASSERT_EQ(expected_string, stream.str());
 }
 
 static colour_string const colour_strings[] = {
@@ -205,31 +208,31 @@ static colour_string const colour_strings[] = {
 
 TEST(low_colours, can_be_inserted_into_an_unordered_set)
 {
-  std::unordered_set<terminalpp::low_colour> c{{}};
+    std::unordered_set<terminalpp::low_colour> c{{}};
 }
 
 TEST(high_colours, can_be_inserted_into_an_unordered_set)
 {
-  std::unordered_set<terminalpp::high_colour> c{{}};
+    std::unordered_set<terminalpp::high_colour> c{{}};
 }
 
 TEST(greyscale_colours, can_be_inserted_into_an_unordered_set)
 {
-  std::unordered_set<terminalpp::greyscale_colour> c{{}};
+    std::unordered_set<terminalpp::greyscale_colour> c{{}};
 }
 
 TEST(true_colours, can_be_inserted_into_an_unordered_set)
 {
-  std::unordered_set<terminalpp::true_colour> c{{}};
+    std::unordered_set<terminalpp::true_colour> c{{}};
 }
 
 TEST(a_colour, can_be_inserted_into_an_unordered_set)
 {
-  std::unordered_set<terminalpp::colour> c{
-      terminalpp::low_colour{},
-      terminalpp::high_colour{},
-      terminalpp::greyscale_colour{},
-      terminalpp::true_colour{}};
+    std::unordered_set<terminalpp::colour> c{
+        terminalpp::low_colour{},
+        terminalpp::high_colour{},
+        terminalpp::greyscale_colour{},
+        terminalpp::true_colour{}};
 }
 
 INSTANTIATE_TEST_SUITE_P(

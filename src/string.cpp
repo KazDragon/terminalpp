@@ -1,9 +1,11 @@
 #include "terminalpp/string.hpp"
+
 #include "terminalpp/element.hpp"
 #include "terminalpp/encoder.hpp"
+
 #include <algorithm>
-#include <cstring>
 #include <limits>
+#include <cstring>
 
 namespace terminalpp {
 
@@ -41,10 +43,9 @@ string::string(std::string const &text) : string(text.c_str(), text.size())
 // ==========================================================================
 string::string(std::string const &text, attribute const &attr) : string(text)
 {
-  std::for_each(
-      elements_.begin(),
-      elements_.end(),
-      [&attr](auto &elem) { elem.attribute_ = attr; });
+    std::for_each(elements_.begin(), elements_.end(), [&attr](auto &elem) {
+        elem.attribute_ = attr;
+    });
 }
 
 // ==========================================================================
@@ -59,7 +60,7 @@ string::string(size_type size, element const &elem) : elements_(size, elem)
 // ==========================================================================
 string::size_type string::size() const
 {
-  return elements_.size();
+    return elements_.size();
 }
 
 // ==========================================================================
@@ -67,7 +68,7 @@ string::size_type string::size() const
 // ==========================================================================
 string::const_iterator string::begin() const
 {
-  return elements_.begin();
+    return elements_.begin();
 }
 
 // ==========================================================================
@@ -75,7 +76,7 @@ string::const_iterator string::begin() const
 // ==========================================================================
 string::iterator string::begin()
 {
-  return elements_.begin();
+    return elements_.begin();
 }
 
 // ==========================================================================
@@ -83,7 +84,7 @@ string::iterator string::begin()
 // ==========================================================================
 string::reverse_iterator string::rbegin()
 {
-  return elements_.rbegin();
+    return elements_.rbegin();
 }
 
 // ==========================================================================
@@ -91,7 +92,7 @@ string::reverse_iterator string::rbegin()
 // ==========================================================================
 string::const_reverse_iterator string::rbegin() const
 {
-  return elements_.rbegin();
+    return elements_.rbegin();
 }
 
 // ==========================================================================
@@ -99,7 +100,7 @@ string::const_reverse_iterator string::rbegin() const
 // ==========================================================================
 string::const_iterator string::end() const
 {
-  return elements_.end();
+    return elements_.end();
 }
 
 // ==========================================================================
@@ -107,7 +108,7 @@ string::const_iterator string::end() const
 // ==========================================================================
 string::iterator string::end()
 {
-  return elements_.end();
+    return elements_.end();
 }
 
 // ==========================================================================
@@ -115,7 +116,7 @@ string::iterator string::end()
 // ==========================================================================
 string::reverse_iterator string::rend()
 {
-  return elements_.rend();
+    return elements_.rend();
 }
 
 // ==========================================================================
@@ -123,7 +124,7 @@ string::reverse_iterator string::rend()
 // ==========================================================================
 string::const_reverse_iterator string::rend() const
 {
-  return elements_.rend();
+    return elements_.rend();
 }
 
 // ==========================================================================
@@ -131,7 +132,7 @@ string::const_reverse_iterator string::rend() const
 // ==========================================================================
 string::size_type string::max_size() const
 {
-  return std::numeric_limits<size_type>::max();
+    return std::numeric_limits<size_type>::max();
 }
 
 // ==========================================================================
@@ -139,7 +140,7 @@ string::size_type string::max_size() const
 // ==========================================================================
 bool string::empty() const
 {
-  return elements_.empty();
+    return elements_.empty();
 }
 
 // ==========================================================================
@@ -147,7 +148,7 @@ bool string::empty() const
 // ==========================================================================
 string::reference string::operator[](string::size_type index)
 {
-  return elements_[index];
+    return elements_[index];
 }
 
 // ==========================================================================
@@ -155,7 +156,7 @@ string::reference string::operator[](string::size_type index)
 // ==========================================================================
 string::const_reference string::operator[](string::size_type index) const
 {
-  return elements_[index];
+    return elements_[index];
 }
 
 // ==========================================================================
@@ -163,8 +164,8 @@ string::const_reference string::operator[](string::size_type index) const
 // ==========================================================================
 string &string::operator+=(element const &elem)
 {
-  elements_.insert(elements_.end(), elem);
-  return *this;
+    elements_.insert(elements_.end(), elem);
+    return *this;
 }
 
 // ==========================================================================
@@ -172,8 +173,8 @@ string &string::operator+=(element const &elem)
 // ==========================================================================
 string &string::operator+=(string const &rhs)
 {
-  elements_.insert(elements_.end(), rhs.begin(), rhs.end());
-  return *this;
+    elements_.insert(elements_.end(), rhs.begin(), rhs.end());
+    return *this;
 }
 
 // ==========================================================================
@@ -181,7 +182,7 @@ string &string::operator+=(string const &rhs)
 // ==========================================================================
 void string::insert(string::iterator pos, element const &elem)
 {
-  elements_.insert(pos, elem);
+    elements_.insert(pos, elem);
 }
 
 // ==========================================================================
@@ -189,7 +190,7 @@ void string::insert(string::iterator pos, element const &elem)
 // ==========================================================================
 void string::erase()
 {
-  elements_.clear();
+    elements_.clear();
 }
 
 // ==========================================================================
@@ -197,7 +198,7 @@ void string::erase()
 // ==========================================================================
 void string::erase(string::iterator range_begin)
 {
-  elements_.erase(range_begin, elements_.end());
+    elements_.erase(range_begin, elements_.end());
 }
 
 // ==========================================================================
@@ -205,7 +206,7 @@ void string::erase(string::iterator range_begin)
 // ==========================================================================
 void string::erase(string::iterator range_begin, string::iterator range_end)
 {
-  elements_.erase(range_begin, range_end);
+    elements_.erase(range_begin, range_end);
 }
 
 // ==========================================================================
@@ -213,7 +214,7 @@ void string::erase(string::iterator range_begin, string::iterator range_end)
 // ==========================================================================
 bool operator<(string const &lhs, string const &rhs)
 {
-  return lhs.elements_ < rhs.elements_;
+    return lhs.elements_ < rhs.elements_;
 }
 
 // ==========================================================================
@@ -221,7 +222,7 @@ bool operator<(string const &lhs, string const &rhs)
 // ==========================================================================
 bool operator==(string const &lhs, string const &rhs)
 {
-  return lhs.elements_ == rhs.elements_;
+    return lhs.elements_ == rhs.elements_;
 }
 
 // ==========================================================================
@@ -229,21 +230,21 @@ bool operator==(string const &lhs, string const &rhs)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, string const &text)
 {
-  bool add_comma = false;
+    bool add_comma = false;
 
-  for (auto const &elem : text)
-  {
-    if (add_comma)
+    for (auto const &elem : text)
     {
-      out << ",";
+        if (add_comma)
+        {
+            out << ",";
+        }
+
+        out << "element[" << elem << "]";
+
+        add_comma = true;
     }
 
-    out << "element[" << elem << "]";
-
-    add_comma = true;
-  }
-
-  return out;
+    return out;
 }
 
 // ==========================================================================
@@ -251,29 +252,29 @@ std::ostream &operator<<(std::ostream &out, string const &text)
 // ==========================================================================
 std::string to_string(string const &tstr)
 {
-  std::string result;
+    std::string result;
 
-  for (auto const &elem : tstr)
-  {
-    if (elem.glyph_.charset_ == charset::utf8)
+    for (auto const &elem : tstr)
     {
-      for (auto const &ch : elem.glyph_.ucharacter_)
-      {
-        if (ch == 0)
+        if (elem.glyph_.charset_ == charset::utf8)
         {
-          break;
+            for (auto const &ch : elem.glyph_.ucharacter_)
+            {
+                if (ch == 0)
+                {
+                    break;
+                }
+
+                result += static_cast<char>(ch);
+            }
         }
-
-        result += static_cast<char>(ch);
-      }
+        else
+        {
+            result += static_cast<char>(elem.glyph_.character_);
+        }
     }
-    else
-    {
-      result += static_cast<char>(elem.glyph_.character_);
-    }
-  }
 
-  return result;
+    return result;
 }
 
 inline namespace literals {
@@ -284,7 +285,7 @@ inline namespace string_literals {
 // ==========================================================================
 string operator""_ts(char const *text, string::size_type len)
 {
-  return {text, len};
+    return {text, len};
 }
 
 // ==========================================================================
@@ -292,8 +293,8 @@ string operator""_ts(char const *text, string::size_type len)
 // ==========================================================================
 string operator""_ets(char const *text, string::size_type len)
 {
-  gsl::cstring_span text_span{text, len};
-  return encode(text_span);
+    gsl::cstring_span text_span{text, len};
+    return encode(text_span);
 }
 
 }  // namespace string_literals

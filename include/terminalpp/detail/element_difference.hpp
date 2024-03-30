@@ -14,7 +14,9 @@
 #include "terminalpp/detail/overloaded.hpp"
 #include "terminalpp/effect.hpp"
 #include "terminalpp/element.hpp"
+
 #include <fmt/format.h>
+
 #include <optional>
 
 namespace terminalpp::detail {
@@ -25,7 +27,7 @@ namespace terminalpp::detail {
 template <class WriteContinuation>
 void csi(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 {
-  wc({std::cbegin(ansi::control7::csi), std::cend(ansi::control7::csi)});
+    wc({std::cbegin(ansi::control7::csi), std::cend(ansi::control7::csi)});
 }
 
 //* =========================================================================
@@ -34,7 +36,7 @@ void csi(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 template <class WriteContinuation>
 void osc(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 {
-  wc({std::cbegin(ansi::control7::osc), std::cend(ansi::control7::osc)});
+    wc({std::cbegin(ansi::control7::osc), std::cend(ansi::control7::osc)});
 }
 
 //* =========================================================================
@@ -43,7 +45,7 @@ void osc(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 template <class WriteContinuation>
 void st(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 {
-  wc({std::cbegin(ansi::control7::st), std::cend(ansi::control7::st)});
+    wc({std::cbegin(ansi::control7::st), std::cend(ansi::control7::st)});
 }
 
 //* =========================================================================
@@ -52,11 +54,11 @@ void st(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 template <class WriteContinuation>
 void dec_pm(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 {
-  csi(terminal_behaviour, wc);
+    csi(terminal_behaviour, wc);
 
-  static byte_storage const dec_pm = {terminalpp::ansi::dec_private_mode[0]};
+    static byte_storage const dec_pm = {terminalpp::ansi::dec_private_mode[0]};
 
-  wc(dec_pm);
+    wc(dec_pm);
 }
 
 //* =========================================================================
@@ -67,11 +69,11 @@ template <class WriteContinuation>
 void default_attribute(
     behaviour const &terminal_behaviour, WriteContinuation &&wc)
 {
-  static byte_storage const default_attribute_string = {
-      '0'_tb, terminalpp::ansi::csi::select_graphics_rendition};
+    static byte_storage const default_attribute_string = {
+        '0'_tb, terminalpp::ansi::csi::select_graphics_rendition};
 
-  csi(terminal_behaviour, wc);
-  wc(default_attribute_string);
+    csi(terminal_behaviour, wc);
+    wc(default_attribute_string);
 }
 
 //* =========================================================================
@@ -83,11 +85,11 @@ void designate_g0_charset(
     behaviour const & /*terminal_behaviour*/,
     WriteContinuation &&wc)
 {
-  static bytes const select_g0_charset = {
-      std::cbegin(ansi::set_charset_g0), std::cend(ansi::set_charset_g0)};
+    static bytes const select_g0_charset = {
+        std::cbegin(ansi::set_charset_g0), std::cend(ansi::set_charset_g0)};
 
-  wc(select_g0_charset);
-  wc(encode_character_set(set));
+    wc(select_g0_charset);
+    wc(encode_character_set(set));
 }
 
 //* =========================================================================
@@ -96,11 +98,11 @@ void designate_g0_charset(
 template <class WriteContinuation>
 void select_utf8_charset(WriteContinuation &&wc)
 {
-  static bytes const select_utf8_charset_command = {
-      std::cbegin(ansi::select_utf8_character_set),
-      std::cend(ansi::select_utf8_character_set)};
+    static bytes const select_utf8_charset_command = {
+        std::cbegin(ansi::select_utf8_character_set),
+        std::cend(ansi::select_utf8_character_set)};
 
-  wc(select_utf8_charset_command);
+    wc(select_utf8_charset_command);
 }
 
 //* =========================================================================
@@ -109,11 +111,11 @@ void select_utf8_charset(WriteContinuation &&wc)
 template <class WriteContinuation>
 void select_default_charset(WriteContinuation &&wc)
 {
-  static bytes const select_default_charset_command = {
-      std::cbegin(ansi::select_default_character_set),
-      std::cend(ansi::select_default_character_set)};
+    static bytes const select_default_charset_command = {
+        std::cbegin(ansi::select_default_character_set),
+        std::cend(ansi::select_default_character_set)};
 
-  wc(select_default_charset_command);
+    wc(select_default_charset_command);
 }
 
 //* =========================================================================
@@ -127,27 +129,28 @@ void change_charset(
     behaviour const &terminal_behaviour,
     WriteContinuation &&wc)
 {
-  if (source != dest)
-  {
-    if (dest == charset::utf8)
+    if (source != dest)
     {
-      if (!terminal_behaviour.unicode_in_all_charsets)
-      {
-        change_charset(source, charset::us_ascii, terminal_behaviour, wc);
-      }
+        if (dest == charset::utf8)
+        {
+            if (!terminal_behaviour.unicode_in_all_charsets)
+            {
+                change_charset(
+                    source, charset::us_ascii, terminal_behaviour, wc);
+            }
 
-      select_utf8_charset(wc);
-    }
-    else
-    {
-      if (source == charset::utf8)
-      {
-        select_default_charset(wc);
-      }
+            select_utf8_charset(wc);
+        }
+        else
+        {
+            if (source == charset::utf8)
+            {
+                select_default_charset(wc);
+            }
 
-      designate_g0_charset(dest, terminal_behaviour, wc);
+            designate_g0_charset(dest, terminal_behaviour, wc);
+        }
     }
-  }
 }
 
 //* =========================================================================
@@ -160,31 +163,31 @@ void change_effect(
     bool &change_appended,
     WriteContinuation &&wc)
 {
-  static byte_storage const separator = {ansi::ps};
+    static byte_storage const separator = {ansi::ps};
 
-  if (source != dest)
-  {
-    if constexpr (effect_has_normal<EffectType>::value)
+    if (source != dest)
     {
-      if (source.value_ != EffectType::normal
-          && dest.value_ != EffectType::normal)
-      {
-        if (std::exchange(change_appended, true))
+        if constexpr (effect_has_normal<EffectType>::value)
         {
-          wc(separator);
+            if (source.value_ != EffectType::normal
+                && dest.value_ != EffectType::normal)
+            {
+                if (std::exchange(change_appended, true))
+                {
+                    wc(separator);
+                }
+
+                wc(to_bytes(fmt::format("{}", int(EffectType::normal))));
+            }
         }
 
-        wc(to_bytes(fmt::format("{}", int(EffectType::normal))));
-      }
-    }
+        if (std::exchange(change_appended, true))
+        {
+            wc(separator);
+        }
 
-    if (std::exchange(change_appended, true))
-    {
-      wc(separator);
+        wc(to_bytes(fmt::format("{}", int(dest.value_))));
     }
-
-    wc(to_bytes(fmt::format("{}", int(dest.value_))));
-  }
 }
 
 //* =========================================================================
@@ -197,41 +200,39 @@ void change_foreground_colour(
     bool &change_appended,
     WriteContinuation &&wc)
 {
-  if (source != dest)
-  {
-    if (std::exchange(change_appended, true))
+    if (source != dest)
     {
-      static byte_storage const separator = {ansi::ps};
-      wc(separator);
-    }
+        if (std::exchange(change_appended, true))
+        {
+            static byte_storage const separator = {ansi::ps};
+            wc(separator);
+        }
 
-    std::visit(
-        overloaded{
-            [&wc](low_colour const &col)
-            {
-              wc(to_bytes(fmt::format(
-                  "{}",
-                  static_cast<int>(col.value_)
-                      + ansi::graphics::foreground_colour_base)));
-            },
-            [&wc](high_colour const &col) {
-              wc(to_bytes(
-                  fmt::format("38;5;{}", static_cast<int>(col.value_))));
-            },
-            [&wc](greyscale_colour const &col) {
-              wc(to_bytes(
-                  fmt::format("38;5;{}", static_cast<int>(col.shade_))));
-            },
-            [&wc](true_colour const &col)
-            {
-              wc(to_bytes(fmt::format(
-                  "38;2;{};{};{}",
-                  static_cast<int>(col.red_),
-                  static_cast<int>(col.green_),
-                  static_cast<int>(col.blue_))));
-            }},
-        dest.value_);
-  }
+        std::visit(
+            overloaded{
+                [&wc](low_colour const &col) {
+                    wc(to_bytes(fmt::format(
+                        "{}",
+                        static_cast<int>(col.value_)
+                            + ansi::graphics::foreground_colour_base)));
+                },
+                [&wc](high_colour const &col) {
+                    wc(to_bytes(
+                        fmt::format("38;5;{}", static_cast<int>(col.value_))));
+                },
+                [&wc](greyscale_colour const &col) {
+                    wc(to_bytes(
+                        fmt::format("38;5;{}", static_cast<int>(col.shade_))));
+                },
+                [&wc](true_colour const &col) {
+                    wc(to_bytes(fmt::format(
+                        "38;2;{};{};{}",
+                        static_cast<int>(col.red_),
+                        static_cast<int>(col.green_),
+                        static_cast<int>(col.blue_))));
+                }},
+            dest.value_);
+    }
 }
 
 //* =========================================================================
@@ -244,41 +245,39 @@ void change_background_colour(
     bool &change_appended,
     WriteContinuation &&wc)
 {
-  if (source != dest)
-  {
-    if (std::exchange(change_appended, true))
+    if (source != dest)
     {
-      static byte_storage const separator = {ansi::ps};
-      wc(separator);
-    }
+        if (std::exchange(change_appended, true))
+        {
+            static byte_storage const separator = {ansi::ps};
+            wc(separator);
+        }
 
-    std::visit(
-        overloaded{
-            [&wc](low_colour const &col)
-            {
-              wc(to_bytes(fmt::format(
-                  "{}",
-                  static_cast<int>(col.value_)
-                      + ansi::graphics::background_colour_base)));
-            },
-            [&wc](high_colour const &col) {
-              wc(to_bytes(
-                  fmt::format("48;5;{}", static_cast<int>(col.value_))));
-            },
-            [&wc](greyscale_colour const &col) {
-              wc(to_bytes(
-                  fmt::format("48;5;{}", static_cast<int>(col.shade_))));
-            },
-            [&wc](true_colour const &col)
-            {
-              wc(to_bytes(fmt::format(
-                  "48;2;{};{};{}",
-                  static_cast<int>(col.red_),
-                  static_cast<int>(col.green_),
-                  static_cast<int>(col.blue_))));
-            }},
-        dest.value_);
-  }
+        std::visit(
+            overloaded{
+                [&wc](low_colour const &col) {
+                    wc(to_bytes(fmt::format(
+                        "{}",
+                        static_cast<int>(col.value_)
+                            + ansi::graphics::background_colour_base)));
+                },
+                [&wc](high_colour const &col) {
+                    wc(to_bytes(
+                        fmt::format("48;5;{}", static_cast<int>(col.value_))));
+                },
+                [&wc](greyscale_colour const &col) {
+                    wc(to_bytes(
+                        fmt::format("48;5;{}", static_cast<int>(col.shade_))));
+                },
+                [&wc](true_colour const &col) {
+                    wc(to_bytes(fmt::format(
+                        "48;2;{};{};{}",
+                        static_cast<int>(col.red_),
+                        static_cast<int>(col.green_),
+                        static_cast<int>(col.blue_))));
+                }},
+            dest.value_);
+    }
 }
 
 //* =========================================================================
@@ -291,32 +290,38 @@ void change_attribute(
     behaviour const &terminal_behaviour,
     WriteContinuation &&wc)
 {
-  if (source == dest)
-  {
-    return;
-  }
+    if (source == dest)
+    {
+        return;
+    }
 
-  if (dest == terminalpp::attribute{})
-  {
-    default_attribute(terminal_behaviour, wc);
-    return;
-  }
+    if (dest == terminalpp::attribute{})
+    {
+        default_attribute(terminal_behaviour, wc);
+        return;
+    }
 
-  csi(terminal_behaviour, wc);
+    csi(terminal_behaviour, wc);
 
-  bool change_appended = false;
-  change_effect(source.intensity_, dest.intensity_, change_appended, wc);
-  change_effect(source.polarity_, dest.polarity_, change_appended, wc);
-  change_effect(source.underlining_, dest.underlining_, change_appended, wc);
-  change_foreground_colour(
-      source.foreground_colour_, dest.foreground_colour_, change_appended, wc);
-  change_background_colour(
-      source.background_colour_, dest.background_colour_, change_appended, wc);
+    bool change_appended = false;
+    change_effect(source.intensity_, dest.intensity_, change_appended, wc);
+    change_effect(source.polarity_, dest.polarity_, change_appended, wc);
+    change_effect(source.underlining_, dest.underlining_, change_appended, wc);
+    change_foreground_colour(
+        source.foreground_colour_,
+        dest.foreground_colour_,
+        change_appended,
+        wc);
+    change_background_colour(
+        source.background_colour_,
+        dest.background_colour_,
+        change_appended,
+        wc);
 
-  static byte_storage const sgr_trailer = {
-      ansi::csi::select_graphics_rendition};
+    static byte_storage const sgr_trailer = {
+        ansi::csi::select_graphics_rendition};
 
-  wc(sgr_trailer);
+    wc(sgr_trailer);
 }
 
 //* =========================================================================
@@ -328,11 +333,11 @@ void change_to_default_attribute(
     behaviour const &beh,
     WriteContinuation &&wc)
 {
-  if (last_element)
-  {
-    detail::change_attribute(last_element->attribute_, {}, beh, wc);
-    last_element->attribute_ = {};
-  }
+    if (last_element)
+    {
+        detail::change_attribute(last_element->attribute_, {}, beh, wc);
+        last_element->attribute_ = {};
+    }
 }
 
 }  // namespace terminalpp::detail
