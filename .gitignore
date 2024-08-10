@@ -6,3 +6,4 @@ CMakeSettings.json
 /out
 **/build
 compile_commands.json
+/ext
