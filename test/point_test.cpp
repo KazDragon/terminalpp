@@ -33,7 +33,9 @@ INSTANTIATE_TEST_SUITE_P(
         point_string{ {0, 0},           "point(0,0)"   },
         point_string{ {76, 94},         "point(76,94)" },
         point_string{ {-4, 63},         "point(-4,63)" },
-        point_string{ {96583, 1231234}, "point(96583,1231234)" }
+        point_string{ {96583, 1231234}, "point(96583,1231234)" },
+        point_string{ terminalpp::point{1, 2} + terminalpp::point{4, 7}, "point(5,9)"},
+        point_string{ terminalpp::point{1, 2} - terminalpp::point{4, 7}, "point(-3,-5)"},
   // clang-format on
 }));
 
