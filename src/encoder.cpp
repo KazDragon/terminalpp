@@ -5,7 +5,7 @@ namespace terminalpp {
 // ==========================================================================
 // ENCODE
 // ==========================================================================
-terminalpp::string encode(gsl::cstring_span text)
+terminalpp::string encode(std::span<char const> text)
 {
     string result;
     element prev_element;

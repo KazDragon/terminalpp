@@ -2,8 +2,6 @@
 
 #include "terminalpp/string.hpp"
 
-#include <gsl/gsl-lite.hpp>
-
 namespace terminalpp {
 
 //* =========================================================================
@@ -11,6 +9,6 @@ namespace terminalpp {
 /// parsing its contents according to the String To Elements protocol.
 //* =========================================================================
 TERMINALPP_EXPORT
-terminalpp::string encode(gsl::cstring_span text);
+terminalpp::string encode(std::span<char const> text);
 
 }  // namespace terminalpp

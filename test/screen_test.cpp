@@ -1,11 +1,11 @@
 #include "terminalpp/screen.hpp"
 
-#include "expect_sequence.hpp"
 #include "terminal_test.hpp"
 
-#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 using namespace terminalpp::literals;  // NOLINT
+using testing::ContainerEq;
 
 namespace {
 
@@ -56,7 +56,7 @@ TEST_F(a_screen, first_draw_of_blank_screen_draws_clear_screen_only)
 
     screen_.draw(canvas_);
 
-    expect_sequence(reference_channel_.written_, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(reference_channel_.written_));
 }
 
 TEST_F(
@@ -82,7 +82,7 @@ TEST_F(
 
     screen_.draw(canvas_);
 
-    expect_sequence(reference_channel_.written_, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(reference_channel_.written_));
 }
 
 TEST_F(a_screen, drawing_after_drawing_draws_nothing)
@@ -95,7 +95,7 @@ TEST_F(a_screen, drawing_after_drawing_draws_nothing)
     // Since we have just drawn this screen, we expect that drawing it again
     // will yield no changes.
     screen_.draw(canvas_);
-    expect_sequence(reference_channel_.written_, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(reference_channel_.written_));
 }
 
 TEST_F(a_screen, drawing_after_modifying_one_element_writes_one_element)
@@ -110,7 +110,7 @@ TEST_F(a_screen, drawing_after_modifying_one_element_writes_one_element)
                         << terminalpp::element{'x'};
 
     screen_.draw(canvas_);
-    expect_sequence(reference_channel_.written_, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(reference_channel_.written_));
 }
 
 TEST_F(a_screen, drawing_after_modifying_two_elements_writes_two_elements)
@@ -128,7 +128,7 @@ TEST_F(a_screen, drawing_after_modifying_two_elements_writes_two_elements)
                         << terminalpp::element{'y'};
 
     screen_.draw(canvas_);
-    expect_sequence(reference_channel_.written_, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(reference_channel_.written_));
 }
 
 TEST_F(a_screen, drawing_consecutive_elements_does_not_write_cursor_moves)
@@ -144,5 +144,5 @@ TEST_F(a_screen, drawing_consecutive_elements_does_not_write_cursor_moves)
                         << terminalpp::element{'x'} << terminalpp::element{'y'};
 
     screen_.draw(canvas_);
-    expect_sequence(reference_channel_.written_, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(reference_channel_.written_));
 }

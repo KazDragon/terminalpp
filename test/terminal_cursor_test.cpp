@@ -1,10 +1,11 @@
-#include "expect_sequence.hpp"
 #include "terminal_test.hpp"
 
-#include <gtest/gtest.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock.h>
 #include <terminalpp/terminal.hpp>
 
 using namespace terminalpp::literals;  // NOLINT
+using testing::ContainerEq;
 using testing::ValuesIn;
 
 namespace {
@@ -37,7 +38,7 @@ TEST_P(a_terminal_with_an_unknown_location, sends_bytes_when_moving_the_cursor)
 
     terminal_ << terminalpp::move_cursor(destination);
 
-    expect_sequence(expected_result, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(expected_result));
 }
 
 static unknown_location_move_data const unknown_location_move_data_table[] = {
@@ -87,7 +88,7 @@ TEST_P(a_terminal_with_a_known_location, sends_bytes_when_moving_the_cursor)
 
     terminal_ << terminalpp::move_cursor(destination);
 
-    expect_sequence(expected_result, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(expected_result));
 }
 
 static known_location_move_data const known_location_move_data_table[] = {
@@ -123,13 +124,13 @@ INSTANTIATE_TEST_SUITE_P(
 TEST_F(a_terminal, when_hiding_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::hide_cursor();
-    expect_sequence("\x1B[?25l"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[?25l"_tb));
 }
 
 TEST_F(a_terminal, when_showing_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::show_cursor();
-    expect_sequence("\x1B[?25h"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[?25h"_tb));
 }
 
 namespace {
@@ -149,13 +150,13 @@ public:
 TEST_F(a_terminal_with_a_shown_cursor, when_hiding_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::hide_cursor();
-    expect_sequence("\x1B[?25l"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[?25l"_tb));
 }
 
 TEST_F(a_terminal_with_a_shown_cursor, when_showing_the_cursor_sends_nothing)
 {
     terminal_ << terminalpp::show_cursor();
-    expect_sequence(""_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(""_tb));
 }
 
 namespace {
@@ -175,26 +176,26 @@ public:
 TEST_F(a_terminal_with_a_hidden_cursor, when_hiding_the_cursor_sends_nothing)
 {
     terminal_ << terminalpp::hide_cursor();
-    expect_sequence(""_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(""_tb));
 }
 
 TEST_F(
     a_terminal_with_a_hidden_cursor, when_showing_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::show_cursor();
-    expect_sequence("\x1B[?25h"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[?25h"_tb));
 }
 
 TEST_F(a_terminal, when_saving_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::save_cursor_position();
-    expect_sequence("\x1B[s"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[s"_tb));
 }
 
 TEST_F(a_terminal, when_restoring_the_cursor_sends_ansi_codes)
 {
     terminal_ << terminalpp::restore_cursor_position();
-    expect_sequence("\x1B[u"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[u"_tb));
 }
 
 TEST_F(
@@ -210,7 +211,7 @@ TEST_F(
 
     terminal_ << terminalpp::move_cursor({10, 10}) << "x";
 
-    expect_sequence("x"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("x"_tb));
 }
 
 TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
@@ -222,7 +223,7 @@ TEST_F(a_terminal, has_an_unknown_cursor_location_when_the_size_is_changed)
     terminal_.set_size({11, 11});
     terminal_ << terminalpp::move_cursor({9, 8}) << "b";
 
-    expect_sequence("\x1B[9;10Hb"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[9;10Hb"_tb));
 }
 
 TEST_F(
@@ -235,5 +236,5 @@ TEST_F(
 
     terminal_ << terminalpp::move_cursor({0, 1}) << "b";
 
-    expect_sequence("\x1B[2Hb"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[2Hb"_tb));
 }

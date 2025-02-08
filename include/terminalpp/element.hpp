@@ -76,8 +76,8 @@ inline namespace literals {
 
 inline constexpr element operator""_ete(char const *text, std::size_t len)
 {
-    gsl::cstring_span data(text, len);
     element elem;
+    std::span data{text, len};
     return detail::parse_element(data, elem);
 }
 
