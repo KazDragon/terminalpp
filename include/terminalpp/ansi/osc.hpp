@@ -9,6 +9,6 @@
 //* =========================================================================
 namespace terminalpp::ansi::osc {
 
-static constexpr byte set_window_title = terminalpp::detail::ascii::two;
+inline constexpr byte set_window_title = terminalpp::detail::ascii::two;
 
 }

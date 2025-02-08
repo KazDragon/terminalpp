@@ -94,7 +94,7 @@ struct TERMINALPP_EXPORT character_set
 
 namespace detail {
 
-static constexpr std::pair<character_set, byte const (&)[1]> const
+inline constexpr std::pair<character_set, byte const (&)[1]> const
     charset_map[] = {
         {charset::us_ascii,          ansi::charset_us_ascii           },
         {charset::sco,               ansi::charset_sco                },
@@ -120,7 +120,7 @@ static constexpr std::pair<character_set, byte const (&)[1]> const
         {charset::swiss,             ansi::charset_swiss              },
 };
 
-static constexpr std::pair<character_set, byte const (&)[2]> const
+inline constexpr std::pair<character_set, byte const (&)[2]> const
     extended_charset_map[] = {
         {charset::dec_supplementary_graphics,
          ansi::charset_dec_supplementary_gr                           },

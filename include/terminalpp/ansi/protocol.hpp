@@ -10,6 +10,6 @@
 namespace terminalpp::ansi {
 
 // Parameter Separator
-static constexpr byte ps = terminalpp::detail::ascii::semi_colon;
+inline constexpr byte ps = terminalpp::detail::ascii::semi_colon;
 
 }  // namespace terminalpp::ansi

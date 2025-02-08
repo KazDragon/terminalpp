@@ -6,7 +6,7 @@ namespace terminalpp::ansi {
 
 // Sequence for introducing DEC Private Mode (extension to CSI, so the
 // usual sequence comes first.)
-static constexpr byte dec_private_mode[] = {
+inline constexpr byte dec_private_mode[] = {
     terminalpp::detail::ascii::question_mark};
 
 //* =========================================================================
@@ -17,39 +17,39 @@ static constexpr byte dec_private_mode[] = {
 namespace dec_pm {
 
 // clang-format off
-static constexpr byte set[]    = { terminalpp::detail::ascii::lowercase_h };
-static constexpr byte reset[]  = { terminalpp::detail::ascii::lowercase_l };
+inline constexpr byte set[]    = { terminalpp::detail::ascii::lowercase_h };
+inline constexpr byte reset[]  = { terminalpp::detail::ascii::lowercase_l };
 
 // Set = cursor visible; Reset = cursor hidden
-static constexpr byte cursor[] = { terminalpp::detail::ascii::two,
+inline constexpr byte cursor[] = { terminalpp::detail::ascii::two,
                                    terminalpp::detail::ascii::five };
 
 // Set = use basic mouse tracking.  Reset =  stop using basic mouse tracking.
-static constexpr byte basic_mouse_tracking[] =
+inline constexpr byte basic_mouse_tracking[] =
                                   { terminalpp::detail::ascii::one,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::zero };
 
-static constexpr byte hilite_mouse_tracking[] =
+inline constexpr byte hilite_mouse_tracking[] =
                                   { terminalpp::detail::ascii::one,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::one };
 
-static constexpr byte cell_motion_mouse_tracking[] =
+inline constexpr byte cell_motion_mouse_tracking[] =
                                   { terminalpp::detail::ascii::one,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::two };
 
-static constexpr byte all_motion_mouse_tracking[] =
+inline constexpr byte all_motion_mouse_tracking[] =
                                   { terminalpp::detail::ascii::one,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::zero,
                                     terminalpp::detail::ascii::three };
 
-static constexpr byte use_alternate_screen_buffer[] =
+inline constexpr byte use_alternate_screen_buffer[] =
                                   { terminalpp::detail::ascii::four,
                                     terminalpp::detail::ascii::seven };
 // clang-format on
