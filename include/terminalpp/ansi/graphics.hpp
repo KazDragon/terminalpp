@@ -59,7 +59,7 @@ inline constexpr auto blue_coefficient = 1;
 // ==========================================================================
 /// \brief Encode an RGB value.
 // ==========================================================================
-constexpr byte encode_high_components(byte red, byte green, byte blue)
+constexpr byte encode_high_components(byte red, byte green, byte blue) noexcept
 {
     return high_colour_offset + (red * red_coefficient)
          + (green * green_coefficient) + (blue * blue_coefficient);
@@ -68,7 +68,7 @@ constexpr byte encode_high_components(byte red, byte green, byte blue)
 // ==========================================================================
 /// \brief Extract the red component of a high colour value.
 // ==========================================================================
-constexpr byte high_red_component(byte value)
+constexpr byte high_red_component(byte value) noexcept
 {
     return (value - high_colour_offset) / red_coefficient;
 }
@@ -76,7 +76,7 @@ constexpr byte high_red_component(byte value)
 // ==========================================================================
 /// \brief Extract the green component of a high colour value.
 // ==========================================================================
-constexpr byte high_green_component(byte value)
+constexpr byte high_green_component(byte value) noexcept
 {
     return ((value - high_colour_offset) % red_coefficient) / green_coefficient;
 }
@@ -84,7 +84,7 @@ constexpr byte high_green_component(byte value)
 // ==========================================================================
 /// \brief Extract the blue component of a high colour value.
 // ==========================================================================
-constexpr byte high_blue_component(byte value)
+constexpr byte high_blue_component(byte value) noexcept
 {
     return (value - high_colour_offset) % green_coefficient;
 }
@@ -98,7 +98,7 @@ inline constexpr byte greyscale_colour_offset = 232;
 // ==========================================================================
 /// \brief Encode a greyscale value.
 // ==========================================================================
-constexpr byte encode_greyscale_component(byte grey)
+constexpr byte encode_greyscale_component(byte grey) noexcept
 {
     return greyscale_colour_offset + grey;
 }
@@ -106,7 +106,7 @@ constexpr byte encode_greyscale_component(byte grey)
 // ==========================================================================
 /// \brief Extract a greyscale value.
 // ==========================================================================
-constexpr byte greyscale_component(byte value)
+constexpr byte greyscale_component(byte value) noexcept
 {
     return value - greyscale_colour_offset;
 }
