@@ -210,14 +210,6 @@ void string::erase(string::iterator range_begin, string::iterator range_end)
 }
 
 // ==========================================================================
-// OPERATOR <
-// ==========================================================================
-bool operator<(string const &lhs, string const &rhs)
-{
-    return lhs.elements_ < rhs.elements_;
-}
-
-// ==========================================================================
 // OPERATOR ==
 // ==========================================================================
 bool operator==(string const &lhs, string const &rhs)
