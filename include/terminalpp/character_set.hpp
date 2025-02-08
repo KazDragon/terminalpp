@@ -4,7 +4,6 @@
 #include "terminalpp/core.hpp"
 
 #include <boost/container_hash/hash.hpp>
-#include <boost/operators.hpp>
 
 #include <iosfwd>
 #include <string_view>
@@ -41,47 +40,33 @@ enum class charset : char
 /// \brief A structure that represents a character set.
 //* =========================================================================
 struct TERMINALPP_EXPORT character_set
-  : private boost::less_than_comparable<
-        character_set,
-        boost::equality_comparable<character_set>>
 {
     //* =====================================================================
     /// \brief Initialises the character set to its default value.
     //* =====================================================================
-    constexpr character_set() : character_set(charset::us_ascii)
+    constexpr character_set() noexcept : character_set(charset::us_ascii)
     {
     }
 
     //* =====================================================================
     /// \brief Initialises the character set the given value.
     //* =====================================================================
-    constexpr character_set(charset const &set)  // NOLINT
+    constexpr character_set(charset const &set) noexcept  // NOLINT
       : value_(set)
     {
     }
 
     //* =====================================================================
-    /// \brief Equality operator for character sets
+    /// \brief Relational operators for character sets
     //* =====================================================================
-    constexpr friend bool operator==(
-        character_set const &lhs, character_set const &rhs)
-    {
-        return lhs.value_ == rhs.value_;
-    }
-
-    //* =====================================================================
-    /// \brief Less-than operator for character sets
-    //* =====================================================================
-    constexpr friend bool operator<(
-        character_set const &lhs, character_set const &rhs)
-    {
-        return lhs.value_ < rhs.value_;
-    }
+    [[nodiscard]] constexpr friend auto operator<=>(
+        character_set const &lhs, character_set const &rhs) noexcept = default;
 
     //* =====================================================================
     /// \brief Hash function
     //* =====================================================================
-    friend std::size_t hash_value(character_set const &cs) noexcept
+    [[nodiscard]] friend std::size_t hash_value(
+        character_set const &cs) noexcept
     {
         std::size_t seed = 0;
         boost::hash_combine(seed, cs.value_);
@@ -134,7 +119,8 @@ inline constexpr std::pair<character_set, byte const (&)[2]> const
 /// nullptr if there is no matching set.
 //* =========================================================================
 TERMINALPP_EXPORT
-constexpr std::optional<character_set> lookup_character_set(bytes code)
+[[nodiscard]] constexpr std::optional<character_set> lookup_character_set(
+    bytes code) noexcept
 {
     auto const len = code.size();
 
@@ -174,8 +160,8 @@ constexpr std::optional<character_set> lookup_character_set(bytes code)
 /// \brief Encodes a character set into a set of ANSI bytes.
 //* =========================================================================
 TERMINALPP_EXPORT
-constexpr std::basic_string_view<byte> encode_character_set(
-    character_set const &set)
+[[nodiscard]] constexpr std::basic_string_view<byte> encode_character_set(
+    character_set const &set) noexcept
 {
     // std::find_if is not constexpr in C++17.
     auto const *charset_entry = std::cbegin(detail::charset_map);
@@ -230,7 +216,7 @@ struct hash<terminalpp::character_set>
     using argument_type = terminalpp::character_set;
     using result_type = std::size_t;
 
-    result_type operator()(argument_type const &cs) const noexcept
+    [[nodiscard]] result_type operator()(argument_type const &cs) const noexcept
     {
         return hash_value(cs);
     }
