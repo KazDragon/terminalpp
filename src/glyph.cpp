@@ -157,7 +157,7 @@ static bool const is_printable_sco[] = {
 // ==========================================================================
 // IS_PRINTABLE
 // ==========================================================================
-bool is_printable(glyph const &gly)
+bool is_printable(glyph const &gly) noexcept
 {
     bool const *lookup = is_printable_dec;
 
@@ -221,7 +221,7 @@ std::ostream &output_charset_and_character(std::ostream &out, glyph const &gly)
 // ==========================================================================
 // UTF8_DECODE
 // ==========================================================================
-std::uint32_t utf8_decode(glyph const &gly)
+std::uint32_t utf8_decode(glyph const &gly) noexcept
 {
     std::uint32_t value = 0;
 
