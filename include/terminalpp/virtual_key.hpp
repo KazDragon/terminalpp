@@ -202,13 +202,13 @@ struct TERMINALPP_EXPORT virtual_key
 
     /// \brief The actual received data for the key.
     input_sequence sequence;
-};
 
-//* =========================================================================
-/// \brief Equality operator for virtual_keys.
-//* =========================================================================
-TERMINALPP_EXPORT
-bool operator==(virtual_key const &lhs, virtual_key const &rhs);
+    //* =====================================================================
+    /// \brief Relational operators for virtual keys
+    //* =====================================================================
+    [[nodiscard]] constexpr friend auto operator<=>(
+        virtual_key const &lhs, virtual_key const &rhs) noexcept = default;
+};
 
 //* =========================================================================
 /// \brief Streaming output operator
@@ -219,7 +219,8 @@ std::ostream &operator<<(std::ostream &out, virtual_key const &vk);
 //* =========================================================================
 /// \brief Allow the or-ing of virtual key modifiers.
 //* =========================================================================
-constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
+constexpr vk_modifier operator|(
+    vk_modifier const &lhs, vk_modifier const &rhs) noexcept
 {
     return vk_modifier(byte(lhs) | byte(rhs));  // NOLINT
 }
@@ -227,7 +228,8 @@ constexpr vk_modifier operator|(vk_modifier const &lhs, vk_modifier const &rhs)
 //* =========================================================================
 /// \brief Or-assignment of virtual key modifiers.
 //* =========================================================================
-constexpr vk_modifier &operator|=(vk_modifier &lhs, vk_modifier const &rhs)
+constexpr vk_modifier &operator|=(
+    vk_modifier &lhs, vk_modifier const &rhs) noexcept
 {
     lhs = lhs | rhs;
     return lhs;
@@ -236,7 +238,8 @@ constexpr vk_modifier &operator|=(vk_modifier &lhs, vk_modifier const &rhs)
 //* =========================================================================
 /// \brief Allow the and-ing of virtual key modifiers.
 //* =========================================================================
-constexpr vk_modifier operator&(vk_modifier const &lhs, vk_modifier const &rhs)
+constexpr vk_modifier operator&(
+    vk_modifier const &lhs, vk_modifier const &rhs) noexcept
 {
     return vk_modifier(byte(lhs) & byte(rhs));  // NOLINT
 }
@@ -244,7 +247,8 @@ constexpr vk_modifier operator&(vk_modifier const &lhs, vk_modifier const &rhs)
 //* =========================================================================
 /// \brief And-assignment of virtual key modifiers.
 //* =========================================================================
-constexpr vk_modifier &operator&=(vk_modifier &lhs, vk_modifier const &rhs)
+constexpr vk_modifier &operator&=(
+    vk_modifier &lhs, vk_modifier const &rhs) noexcept
 {
     lhs = lhs & rhs;
     return lhs;
@@ -259,7 +263,7 @@ std::ostream &operator<<(std::ostream &out, vk const &key);
 // ==========================================================================
 /// \brief Returns true iff the key is a control key.
 // ==========================================================================
-constexpr bool is_control_key(vk const &key)
+constexpr bool is_control_key(vk const &key) noexcept
 {
     constexpr vk control_set_begin = vk::nul;
     constexpr vk control_set_end = vk::us;

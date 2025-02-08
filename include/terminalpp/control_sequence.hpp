@@ -23,13 +23,21 @@ struct control_sequence
     bool meta = false;
     std::vector<byte_storage> arguments;
     byte extender = 0;
-};
 
-//* =========================================================================
-/// \brief Equality operator.
-//* =========================================================================
-TERMINALPP_EXPORT
-bool operator==(control_sequence const &lhs, control_sequence const &rhs);
+    //* =====================================================================
+    /// \brief Relational operators for control sequences
+    //* =====================================================================
+    [[nodiscard]] friend auto operator<=>(
+        control_sequence const &lhs,
+        control_sequence const &rhs) noexcept = default;
+
+    //* =====================================================================
+    /// \brief Equality operator for control sequences
+    //* =====================================================================
+    [[nodiscard]] friend bool operator==(
+        control_sequence const &lhs,
+        control_sequence const &rhs) noexcept = default;
+};
 
 //* =========================================================================
 /// \brief Streaming output operator.

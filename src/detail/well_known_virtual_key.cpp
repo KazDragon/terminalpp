@@ -5,9 +5,9 @@
 #include "terminalpp/ansi/ss3.hpp"
 #include "terminalpp/detail/overloaded.hpp"
 
-#include <boost/range/algorithm/find_if.hpp>
-
+#include <algorithm>
 #include <utility>
+#include <cassert>
 
 using namespace terminalpp::literals;  // NOLINT
 
@@ -58,11 +58,10 @@ vk_modifier convert_modifier_argument(byte_storage const &modifier)
     };
 
     auto const value = atoi(reinterpret_cast<char const *>(modifier.c_str()));
-    if (auto const *mapping = boost::find_if(
+    if (auto const *mapping = std::ranges::find(
             modifier_mappings,
-            [value](auto const &inner_mapping) {
-                return inner_mapping.first == value;
-            });
+            value,
+            [](auto const &inner_mapping) { return inner_mapping.first; });
         mapping != end(modifier_mappings))
     {
         return mapping->second;
@@ -92,9 +91,10 @@ token convert_control_sequence(control_sequence const &seq)
 
     assert(seq.initiator == ansi::control7::csi[1]);
 
-    auto const &cursor_movement_command = boost::find_if(
-        cursor_movement_commands,
-        [&seq](auto const &elem) { return elem.first == seq.command; });
+    auto const &cursor_movement_command = std::ranges::find(
+        cursor_movement_commands, seq.command, [](auto const &elem) {
+            return elem.first;
+        });
 
     if (cursor_movement_command != end(cursor_movement_commands))
     {
@@ -140,11 +140,11 @@ token convert_ss3_sequence(control_sequence const &seq)
 
     assert(seq.initiator == ansi::control7::ss3[1]);
 
-    auto const &ss3_command = boost::find_if(
-        ss3_commands,
-        [&seq](auto const &elem) { return elem.first == seq.command; });
-
-    if (ss3_command != end(ss3_commands))
+    if (auto const *ss3_command = std::ranges::find(
+            ss3_commands,
+            seq.command,
+            [](auto const &elem) { return elem.first; });
+        ss3_command != std::cend(ss3_commands))
     {
         vk_modifier const modifier =
             seq.meta ? vk_modifier::meta : vk_modifier::none;
@@ -193,11 +193,11 @@ token convert_keypad_sequence(control_sequence const &seq)
     auto const argument =
         atoi(reinterpret_cast<char const *>(seq.arguments[0].c_str()));
 
-    auto const &keypad_command = boost::find_if(
-        keypad_commands,
-        [argument](auto const &elem) { return argument == elem.first; });
-
-    if (keypad_command != end(keypad_commands))
+    if (auto const *keypad_command = std::ranges::find(
+            keypad_commands,
+            argument,
+            [](auto const &elem) { return elem.first; });
+        keypad_command != std::cend(keypad_commands))
     {
         vk_modifier const modifier =
             (seq.arguments.size() > 1

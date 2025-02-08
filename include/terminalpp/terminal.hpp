@@ -6,12 +6,20 @@
 #include "terminalpp/terminal_state.hpp"
 #include "terminalpp/token.hpp"
 
-#include <boost/range/algorithm/for_each.hpp>
-
+#include <concepts>  // IWYU pragma: keep
 #include <functional>
 #include <utility>
 
 namespace terminalpp {
+
+template <typename Manipulator>
+concept terminal_manipulator =
+    requires(Manipulator manipulator, terminal_state state) {
+        {
+            manipulator(
+                terminalpp::behaviour{}, state, std::function<void(bytes)>{})
+        } -> std::same_as<void>;
+    };
 
 //* =========================================================================
 /// \brief A class that encapsulates a terminal.
@@ -100,14 +108,7 @@ public:
     ///     terminalpp::terminal::write_function const &write_fn) const;
     /// \endcode
     //* =====================================================================
-    template <
-        typename Manip,
-        typename = std::enable_if_t<
-            !std::is_convertible_v<std::remove_cv_t<Manip>, terminalpp::element>
-            && !std::is_convertible_v<
-                std::remove_cv_t<Manip>,
-                terminalpp::string>>>
-    terminal &operator<<(Manip &&manip)
+    terminal &operator<<(terminal_manipulator auto &&manip)
     {
         manip(behaviour_, state_, [this](bytes data) { write(data); });
         return *this;

@@ -41,7 +41,7 @@ inline byte_storage operator""_tb(char const *text, size_t length)
     byte_storage result;
     result.reserve(length);
 
-    for (auto ch : std::span{text, length})
+    for (auto const ch : std::span{text, length})
     {
         result.push_back(static_cast<byte>(ch));
     }

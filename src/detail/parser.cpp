@@ -6,8 +6,8 @@
 #include "terminalpp/ansi/protocol.hpp"
 #include "terminalpp/detail/ascii.hpp"
 
-#include <boost/range/algorithm/find_if.hpp>
-
+#include <algorithm>
+#include <cassert>
 #include <cctype>
 
 namespace terminalpp::detail {
@@ -212,15 +212,10 @@ std::optional<terminalpp::token> parser::parse_mouse0(byte input)
         {ansi::mouse::scrollwheel_down,   mouse::event_type::scrollwheel_down },
     };
 
-    if (auto const *const result = boost::find_if(
+    if (auto const *result = std::ranges::find(
             mouse_event_table,
-            [value =
-                 input - ansi::mouse::mouse_value_offset](auto const &entry) {
-                // Note: all mouse values have an offset applied to them to make
-                // the events and co-ordinates appear over the wire as printable
-                // characters.
-                return value == entry.ansi_mouse_event;
-            });
+            input - ansi::mouse::mouse_value_offset,
+            [](auto const &entry) { return entry.ansi_mouse_event; });
         result != std::cend(mouse_event_table))
     {
         mouse_event_type_ = result->mouse_event;

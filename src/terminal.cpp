@@ -2,6 +2,8 @@
 
 #include "terminalpp/detail/well_known_virtual_key.hpp"
 
+#include <algorithm>
+
 namespace terminalpp {
 
 // ==========================================================================
@@ -84,7 +86,7 @@ terminal &terminal::operator<<(terminalpp::string const &text)
 {
     *this << write_optional_default_attribute();
 
-    boost::for_each(text, [this](terminalpp::element const &elem) {
+    std::ranges::for_each(text, [this](terminalpp::element const &elem) {
         *this << write_element(elem);
     });
 

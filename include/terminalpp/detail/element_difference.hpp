@@ -25,7 +25,8 @@ namespace terminalpp::detail {
 /// \brief Returns the CSI code for the given behaviour
 //* =========================================================================
 template <class WriteContinuation>
-void csi(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
+constexpr void csi(
+    behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 {
     wc({std::cbegin(ansi::control7::csi), std::cend(ansi::control7::csi)});
 }
@@ -34,7 +35,8 @@ void csi(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 /// \brief Returns the OSC code for the given behaviour
 //* =========================================================================
 template <class WriteContinuation>
-void osc(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
+constexpr void osc(
+    behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 {
     wc({std::cbegin(ansi::control7::osc), std::cend(ansi::control7::osc)});
 }
@@ -43,7 +45,8 @@ void osc(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 /// \brief Returns the ST code for the given behaviour
 //* =========================================================================
 template <class WriteContinuation>
-void st(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
+constexpr void st(
+    behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 {
     wc({std::cbegin(ansi::control7::st), std::cend(ansi::control7::st)});
 }
@@ -52,11 +55,13 @@ void st(behaviour const & /*terminal_behaviour*/, WriteContinuation &&wc)
 /// \brief Returns the DEC_PM code
 //* =========================================================================
 template <class WriteContinuation>
-void dec_pm(behaviour const &terminal_behaviour, WriteContinuation &&wc)
+constexpr void dec_pm(
+    behaviour const &terminal_behaviour, WriteContinuation &&wc)
 {
     csi(terminal_behaviour, wc);
 
-    static byte_storage const dec_pm = {terminalpp::ansi::dec_private_mode[0]};
+    std::initializer_list<byte> const dec_pm{
+        terminalpp::ansi::dec_private_mode[0]};
 
     wc(dec_pm);
 }
@@ -66,10 +71,10 @@ void dec_pm(behaviour const &terminal_behaviour, WriteContinuation &&wc)
 /// default.
 //* =========================================================================
 template <class WriteContinuation>
-void default_attribute(
+constexpr void default_attribute(
     behaviour const &terminal_behaviour, WriteContinuation &&wc)
 {
-    static byte_storage const default_attribute_string = {
+    std::initializer_list<byte> const default_attribute_string = {
         '0'_tb, terminalpp::ansi::csi::select_graphics_rendition};
 
     csi(terminal_behaviour, wc);
@@ -80,12 +85,12 @@ void default_attribute(
 /// \brief Designates the G0 charset as the given character set.
 //* =========================================================================
 template <class WriteContinuation>
-void designate_g0_charset(
+constexpr void designate_g0_charset(
     character_set const &set,
     behaviour const & /*terminal_behaviour*/,
     WriteContinuation &&wc)
 {
-    static bytes const select_g0_charset = {
+    bytes const select_g0_charset = {
         std::cbegin(ansi::set_charset_g0), std::cend(ansi::set_charset_g0)};
 
     wc(select_g0_charset);
@@ -96,9 +101,9 @@ void designate_g0_charset(
 /// \brief Enables the utf8 charset
 //* =========================================================================
 template <class WriteContinuation>
-void select_utf8_charset(WriteContinuation &&wc)
+constexpr void select_utf8_charset(WriteContinuation &&wc)
 {
-    static bytes const select_utf8_charset_command = {
+    bytes const select_utf8_charset_command = {
         std::cbegin(ansi::select_utf8_character_set),
         std::cend(ansi::select_utf8_character_set)};
 
@@ -109,9 +114,9 @@ void select_utf8_charset(WriteContinuation &&wc)
 /// \brief Disables the utf8 charset
 //* =========================================================================
 template <class WriteContinuation>
-void select_default_charset(WriteContinuation &&wc)
+constexpr void select_default_charset(WriteContinuation &&wc)
 {
-    static bytes const select_default_charset_command = {
+    bytes const select_default_charset_command = {
         std::cbegin(ansi::select_default_character_set),
         std::cend(ansi::select_default_character_set)};
 
@@ -123,7 +128,7 @@ void select_default_charset(WriteContinuation &&wc)
 /// operation if they are already compatible.
 //* =========================================================================
 template <class WriteContinuation>
-void change_charset(
+constexpr void change_charset(
     character_set const &source,
     character_set const &dest,
     behaviour const &terminal_behaviour,
@@ -157,13 +162,13 @@ void change_charset(
 /// \brief Changes an effect from the source to destination.
 //* =========================================================================
 template <class EffectType, class WriteContinuation>
-void change_effect(
+constexpr void change_effect(
     effect<EffectType> const &source,
     effect<EffectType> const &dest,
     bool &change_appended,
     WriteContinuation &&wc)
 {
-    static byte_storage const separator = {ansi::ps};
+    std::initializer_list<byte> const separator = {ansi::ps};
 
     if (source != dest)
     {
@@ -194,7 +199,7 @@ void change_effect(
 /// \brief Changes the foreground colour from source to destination.
 //* =========================================================================
 template <class WriteContinuation>
-void change_foreground_colour(
+constexpr void change_foreground_colour(
     colour const &source,
     colour const &dest,
     bool &change_appended,
@@ -204,7 +209,7 @@ void change_foreground_colour(
     {
         if (std::exchange(change_appended, true))
         {
-            static byte_storage const separator = {ansi::ps};
+            std::initializer_list<byte> const separator = {ansi::ps};
             wc(separator);
         }
 
@@ -239,7 +244,7 @@ void change_foreground_colour(
 /// \brief Changes the foreground colour from source to destination.
 //* =========================================================================
 template <class WriteContinuation>
-void change_background_colour(
+constexpr void change_background_colour(
     colour const &source,
     colour const &dest,
     bool &change_appended,
@@ -249,7 +254,7 @@ void change_background_colour(
     {
         if (std::exchange(change_appended, true))
         {
-            static byte_storage const separator = {ansi::ps};
+            std::initializer_list<byte> const separator = {ansi::ps};
             wc(separator);
         }
 
@@ -284,7 +289,7 @@ void change_background_colour(
 /// \brief Changes attribute from the source to destination.
 //* =========================================================================
 template <class WriteContinuation>
-void change_attribute(
+constexpr void change_attribute(
     attribute const &source,
     attribute const &dest,
     behaviour const &terminal_behaviour,
@@ -318,7 +323,7 @@ void change_attribute(
         change_appended,
         wc);
 
-    static byte_storage const sgr_trailer = {
+    std::initializer_list<byte> const sgr_trailer = {
         ansi::csi::select_graphics_rendition};
 
     wc(sgr_trailer);
@@ -328,7 +333,7 @@ void change_attribute(
 /// \brief Resets the current attribute if necessary.
 //* =========================================================================
 template <class WriteContinuation>
-void change_to_default_attribute(
+constexpr void change_to_default_attribute(
     std::optional<element> &last_element,
     behaviour const &beh,
     WriteContinuation &&wc)
