@@ -14,7 +14,7 @@ terminal::~terminal() = default;
 // ==========================================================================
 void terminal::async_read(std::function<void(tokens)> const &callback)
 {
-    channel_->async_read([=](terminalpp::bytes data) {
+    channel_->async_read([this, callback](terminalpp::bytes data) {
         std::vector<token> results;
 
         boost::for_each(data, [this, &results](terminalpp::byte datum) {

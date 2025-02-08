@@ -189,7 +189,7 @@ target_compile_options(terminalpp
 )
 
 # The required C++ Standard for Terminal++ is C++17.
-target_compile_features(terminalpp PUBLIC cxx_std_17)
+target_compile_features(terminalpp PUBLIC cxx_std_20)
 
 generate_export_header(terminalpp
     EXPORT_FILE_NAME

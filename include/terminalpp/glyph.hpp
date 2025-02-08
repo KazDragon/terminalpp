@@ -59,6 +59,31 @@ public:
     }
 
     //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char8_t const (&text)[2])
+      : ucharacter_{text[0]}, charset_(terminalpp::charset::utf8)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char8_t const (&text)[3])
+      : ucharacter_{text[0], text[1]}, charset_(terminalpp::charset::utf8)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char8_t const (&text)[4])
+      : ucharacter_{text[0], text[1], text[2]},
+        charset_(terminalpp::charset::utf8)
+    {
+    }
+
+    //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence.
     /// \par
     /// This constructor is specifically for unicode characters stored as
