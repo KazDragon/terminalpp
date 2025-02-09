@@ -16,7 +16,7 @@
                 "strategy": "external"
             },
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/../ext",
                 "CMAKE_PREFIX_PATH": "${sourceDir}../ext",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"

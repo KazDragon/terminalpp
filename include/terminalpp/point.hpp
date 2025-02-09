@@ -2,10 +2,7 @@
 
 #include "terminalpp/core.hpp"
 
-#include <boost/operators.hpp>
-
 #include <iosfwd>
-#include <tuple>
 
 namespace terminalpp {
 
@@ -17,18 +14,13 @@ namespace terminalpp {
 /// axis.
 //* =========================================================================
 struct TERMINALPP_EXPORT point
-  : private boost::less_than_comparable<
-        point,
-        boost::equality_comparable<
-            point,
-            boost::addable<point, boost::subtractable<point>>>>
 {
     //* =====================================================================
     /// \brief Default Constructor
     /// \par
     /// Constructs a point, leaving the values uninitialized.
     //* =====================================================================
-    constexpr point() : x_(0), y_(0)
+    constexpr point() : y_(0), x_(0)
     {
     }
 
@@ -38,14 +30,15 @@ struct TERMINALPP_EXPORT point
     /// Constructs a point from a passed in x co-ordinate and a passed in
     /// y co-ordinate.
     //* =====================================================================
-    constexpr point(coordinate_type x, coordinate_type y) : x_(x), y_(y)
+    constexpr point(coordinate_type x, coordinate_type y) noexcept  // NOLINT
+      : y_(y), x_(x)
     {
     }
 
     //* =====================================================================
     /// \brief Addition
     //* =====================================================================
-    constexpr point &operator+=(point const &rhs)
+    constexpr point &operator+=(point const &rhs) noexcept
     {
         x_ += rhs.x_;
         y_ += rhs.y_;
@@ -53,9 +46,18 @@ struct TERMINALPP_EXPORT point
     }
 
     //* =====================================================================
+    /// \brief Addition
+    //* =====================================================================
+    [[nodiscard]] constexpr friend auto operator+(
+        point lhs, point const &rhs) noexcept
+    {
+        return lhs += rhs;
+    }
+
+    //* =====================================================================
     /// \brief Subtraction
     //* =====================================================================
-    constexpr point &operator-=(point const &rhs)
+    constexpr point &operator-=(point const &rhs) noexcept
     {
         x_ -= rhs.x_;
         y_ -= rhs.y_;
@@ -63,23 +65,22 @@ struct TERMINALPP_EXPORT point
     }
 
     //* =====================================================================
-    /// \brief Less-than operator
+    /// \brief Subtraction
     //* =====================================================================
-    constexpr friend bool operator<(point const &lhs, point const &rhs)
+    [[nodiscard]] constexpr friend auto operator-(
+        point lhs, point const &rhs) noexcept
     {
-        return std::tie(lhs.y_, lhs.x_) < std::tie(rhs.y_, rhs.x_);
+        return lhs -= rhs;
     }
 
     //* =====================================================================
-    /// \brief Equality operator
+    /// \brief Relational operators for points
     //* =====================================================================
-    constexpr friend bool operator==(point const &lhs, point const &rhs)
-    {
-        return std::tie(lhs.y_, lhs.x_) == std::tie(rhs.y_, rhs.x_);
-    }
+    [[nodiscard]] constexpr friend auto operator<=>(
+        point const &lhs, point const &rhs) noexcept = default;
 
-    coordinate_type x_;
     coordinate_type y_;
+    coordinate_type x_;
 };
 
 //* =====================================================================

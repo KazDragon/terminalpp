@@ -4,6 +4,7 @@
 #include "terminalpp/mouse.hpp"
 #include "terminalpp/virtual_key.hpp"
 
+#include <span>
 #include <variant>
 #include <vector>
 
@@ -14,7 +15,7 @@ using token = std::variant<
     terminalpp::mouse::event,
     terminalpp::control_sequence>;
 
-using tokens = gsl::span<token const>;
+using tokens = std::span<token const>;
 using token_storage = std::vector<token>;
 
 }  // namespace terminalpp

@@ -3,8 +3,8 @@
 #include "terminalpp/element.hpp"
 
 #include <boost/container_hash/hash.hpp>
-#include <boost/operators.hpp>
 
+#include <concepts>  // IWYU pragma: keep
 #include <initializer_list>
 #include <string>
 #include <vector>
@@ -18,17 +18,6 @@ namespace terminalpp {
 /// Note: models an STL container.
 //* =========================================================================
 class TERMINALPP_EXPORT string
-  : private boost::addable<
-        string,
-        boost::addable<
-            string,
-            byte,
-            boost::addable<
-                string,
-                element,
-                boost::less_than_comparable<
-                    string,
-                    boost::equality_comparable<string>>>>>
 {
     using elements_storage = std::vector<element>;
 
@@ -56,7 +45,7 @@ public:
     //* =====================================================================
     /// \brief Range Constructor
     //* =====================================================================
-    template <class ForwardIterator>
+    template <std::forward_iterator ForwardIterator>
     string(ForwardIterator &&begin, ForwardIterator &&end)
       : elements_(begin, end)
     {
@@ -181,12 +170,12 @@ public:
     //* =====================================================================
     /// \brief Array access operator
     //* =====================================================================
-    reference operator[](size_type index);
+    [[nodiscard]] reference operator[](size_type index);
 
     //* =====================================================================
     /// \brief Array access operator
     //* =====================================================================
-    const_reference operator[](size_type index) const;
+    [[nodiscard]] const_reference operator[](size_type index) const;
 
     //* =====================================================================
     /// \brief Append operator
@@ -196,7 +185,23 @@ public:
     //* =====================================================================
     /// \brief Append operator
     //* =====================================================================
+    [[nodiscard]] friend string operator+(string lhs, element const &rhs)
+    {
+        return lhs += rhs;
+    }
+
+    //* =====================================================================
+    /// \brief Append operator
+    //* =====================================================================
     string &operator+=(string const &rhs);
+
+    //* =====================================================================
+    /// \brief Append operator
+    //* =====================================================================
+    [[nodiscard]] friend string operator+(string lhs, string const &rhs)
+    {
+        return lhs += rhs;
+    }
 
     //* =====================================================================
     /// \brief Inserts an element at the iterator position.
@@ -229,10 +234,10 @@ public:
     void erase(iterator range_begin, iterator range_end);
 
     //* =====================================================================
-    /// \brief Less-than operator
+    /// \brief Relational operators for strings
     //* =====================================================================
-    TERMINALPP_EXPORT
-    friend bool operator<(string const &lhs, string const &rhs);
+    [[nodiscard]] friend auto operator<=>(
+        string const &lhs, string const &rhs) noexcept = default;
 
     //* =====================================================================
     /// \brief Equality operator
@@ -243,7 +248,7 @@ public:
     //* =====================================================================
     /// \brief Hash function
     //* =====================================================================
-    friend std::size_t hash_value(string const &str) noexcept
+    [[nodiscard]] friend std::size_t hash_value(string const &str) noexcept
     {
         return boost::hash_range(str.elements_.begin(), str.elements_.end());
     }
@@ -265,7 +270,7 @@ std::ostream &operator<<(std::ostream &out, string const &text);
 /// attributes and charset information.
 //* =========================================================================
 TERMINALPP_EXPORT
-::std::string to_string(terminalpp::string const &tstr);
+[[nodiscard]] ::std::string to_string(terminalpp::string const &tstr);
 
 inline namespace literals {
 inline namespace string_literals {
@@ -274,14 +279,14 @@ inline namespace string_literals {
 /// \brief Construct an string from literals using "foo"_ts;
 //* =========================================================================
 TERMINALPP_EXPORT
-::terminalpp::string operator""_ts(
+[[nodiscard]] ::terminalpp::string operator""_ts(
     char const *text, ::terminalpp::string::size_type length);
 
 //* =========================================================================
 /// \brief Construct an encoded string from literals using "foo"_ets;
 //* =========================================================================
 TERMINALPP_EXPORT
-::terminalpp::string operator""_ets(
+[[nodiscard]] ::terminalpp::string operator""_ets(
     char const *text, ::terminalpp::string::size_type length);
 
 }  // namespace string_literals
@@ -296,7 +301,8 @@ struct hash<terminalpp::string>
     using argument_type = terminalpp::string;
     using result_type = std::size_t;
 
-    result_type operator()(argument_type const &str) const noexcept
+    [[nodiscard]] result_type operator()(
+        argument_type const &str) const noexcept
     {
         return hash_value(str);
     }

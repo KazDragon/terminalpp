@@ -38,7 +38,7 @@ public:
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        element &operator[](size_type row);
+        [[nodiscard]] element &operator[](size_type row);
 
     private:
         canvas &canvas_;
@@ -61,7 +61,7 @@ public:
         // ==================================================================
         // OPERATOR[]
         // ==================================================================
-        element const &operator[](coordinate_type row) const;
+        [[nodiscard]] element const &operator[](coordinate_type row) const;
 
     private:
         canvas const &canvas_;
@@ -87,7 +87,7 @@ public:
     //* =====================================================================
     /// \brief Returns pointer to the top-left element.
     //* =====================================================================
-    iterator begin();
+    [[nodiscard]] iterator begin();
 
     //* =====================================================================
     /// \brief Returns pointer to the top-left element.
@@ -97,7 +97,7 @@ public:
     //* =====================================================================
     /// \brief Returns one-past-the-end of the canvas.
     //* =====================================================================
-    iterator end();
+    [[nodiscard]] iterator end();
 
     //* =====================================================================
     /// \brief Returns one-past-the-end of the canvas.
@@ -107,18 +107,19 @@ public:
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
-    column_proxy operator[](coordinate_type column);
+    [[nodiscard]] column_proxy operator[](coordinate_type column);
 
     //* =====================================================================
     /// \brief A subscript operator into a column
     //* =====================================================================
-    const_column_proxy operator[](coordinate_type) const;
+    [[nodiscard]] const_column_proxy operator[](coordinate_type) const;
 
 private:
     //* =====================================================================
     /// \brief Get the value of an element.
     //* =====================================================================
-    element &get_element(coordinate_type column, coordinate_type row);
+    [[nodiscard]] element &get_element(
+        coordinate_type column, coordinate_type row);
 
     //* =====================================================================
     /// \brief Get the value of an element.

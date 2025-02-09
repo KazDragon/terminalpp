@@ -532,7 +532,7 @@ constexpr element element_with_base(element const &elem_base)
 }
 
 constexpr element parse_element(
-    gsl::cstring_span &text, element const &elem_base)
+    std::span<char const> &text, element const &elem_base)
 {
     auto info = parser_info{};
     auto elem = element_with_base(elem_base);

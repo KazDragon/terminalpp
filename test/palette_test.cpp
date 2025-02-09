@@ -1,11 +1,11 @@
-#include "expect_sequence.hpp"
 #include "fakes/fake_channel.hpp"
 
-#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <terminalpp/palette.hpp>
 #include <terminalpp/terminal.hpp>
 
 using namespace terminalpp::literals;  // NOLINT
+using testing::ContainerEq;
 using testing::ValuesIn;
 
 using colour_attribute_data = std::tuple<
@@ -112,7 +112,7 @@ TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
     channel.written_.clear();
 
     terminal << elem;
-    expect_sequence(expected, channel.written_);
+    EXPECT_THAT(channel.written_, ContainerEq(expected));
 }
 
 INSTANTIATE_TEST_SUITE_P(

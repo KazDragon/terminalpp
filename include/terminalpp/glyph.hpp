@@ -5,8 +5,8 @@
 #include "terminalpp/detail/ascii.hpp"
 
 #include <boost/container_hash/hash.hpp>
-#include <boost/operators.hpp>
 
+#include <compare>
 #include <iosfwd>
 
 namespace terminalpp {
@@ -16,8 +16,6 @@ namespace terminalpp {
 /// ANSI element.
 //* =========================================================================
 struct TERMINALPP_EXPORT glyph
-  : private boost::
-        less_than_comparable<glyph, boost::equality_comparable<glyph>>
 {
 public:
     //* =====================================================================
@@ -28,7 +26,7 @@ public:
     //* =====================================================================
     constexpr glyph(  // NOLINT
         byte const character = detail::ascii::space,
-        character_set const charset = character_set())
+        character_set const charset = character_set()) noexcept
       : character_(character), charset_(charset)
     {
     }
@@ -36,7 +34,7 @@ public:
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
-    explicit constexpr glyph(byte const (&text)[2])
+    explicit constexpr glyph(byte const (&text)[2]) noexcept
       : ucharacter_{text[0]}, charset_(terminalpp::charset::utf8)
     {
     }
@@ -44,7 +42,7 @@ public:
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
-    explicit constexpr glyph(byte const (&text)[3])
+    explicit constexpr glyph(byte const (&text)[3]) noexcept
       : ucharacter_{text[0], text[1]}, charset_(terminalpp::charset::utf8)
     {
     }
@@ -52,7 +50,32 @@ public:
     //* =====================================================================
     /// \brief Constructs a UTF-8 glyph from a char sequence
     //* =====================================================================
-    explicit constexpr glyph(byte const (&text)[4])
+    explicit constexpr glyph(byte const (&text)[4]) noexcept
+      : ucharacter_{text[0], text[1], text[2]},
+        charset_(terminalpp::charset::utf8)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char8_t const (&text)[2]) noexcept
+      : ucharacter_{text[0]}, charset_(terminalpp::charset::utf8)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char8_t const (&text)[3]) noexcept
+      : ucharacter_{text[0], text[1]}, charset_(terminalpp::charset::utf8)
+    {
+    }
+
+    //* =====================================================================
+    /// \brief Constructs a UTF-8 glyph from a char sequence
+    //* =====================================================================
+    explicit constexpr glyph(char8_t const (&text)[4]) noexcept
       : ucharacter_{text[0], text[1], text[2]},
         charset_(terminalpp::charset::utf8)
     {
@@ -72,7 +95,7 @@ public:
     template <class T = void>  // This makes matching these parameters "worse"
                                // than any of the array matches above, and so
                                // avoids ambiguity.
-    explicit constexpr glyph(char const *ustr)
+    explicit constexpr glyph(char const *ustr) noexcept
       : ucharacter_{0}, charset_(terminalpp::charset::utf8)
     {
         for (size_t index = 0; index < sizeof(ucharacter_); ++index)
@@ -87,10 +110,23 @@ public:
     }
 
     //* =====================================================================
+    /// \brief Relational operators for glyphs
+    //* =====================================================================
+    TERMINALPP_EXPORT
+    [[nodiscard]] constexpr friend auto operator<=>(
+        glyph const &lhs, glyph const &rhs) noexcept
+    {
+        if (lhs < rhs) return std::strong_ordering::less;     // NOLINT
+        if (rhs < lhs) return std::strong_ordering::greater;  // NOLINT
+        return std::strong_ordering::equal;
+    }
+
+    //* =====================================================================
     /// \brief Equality operator
     //* =====================================================================
     TERMINALPP_EXPORT
-    constexpr friend bool operator==(glyph const &lhs, glyph const &rhs)
+    [[nodiscard]] constexpr friend bool operator==(
+        glyph const &lhs, glyph const &rhs) noexcept
     {
         if (lhs.charset_ == rhs.charset_)
         {
@@ -125,7 +161,8 @@ public:
     //* =====================================================================
     /// \brief Less-than operator
     //* =====================================================================
-    constexpr friend bool operator<(glyph const &lhs, glyph const &rhs)
+    [[nodiscard]] constexpr friend bool operator<(
+        glyph const &lhs, glyph const &rhs) noexcept
     {
         if (lhs.charset_ < rhs.charset_)
         {
@@ -166,7 +203,7 @@ public:
     //* =====================================================================
     /// \brief Hash function
     //* =====================================================================
-    friend std::size_t hash_value(glyph const &gly) noexcept
+    [[nodiscard]] friend std::size_t hash_value(glyph const &gly) noexcept
     {
         std::size_t seed = 0;
         boost::hash_combine(seed, gly.charset_);
@@ -199,7 +236,7 @@ public:
 /// \brief Returns whether a particular glyph is printable.
 //* =========================================================================
 TERMINALPP_EXPORT
-bool is_printable(glyph const &gly);
+bool is_printable(glyph const &gly) noexcept;
 
 //* =========================================================================
 /// \brief Streaming output operator for glyph.  Prints the text
@@ -218,7 +255,8 @@ struct hash<terminalpp::glyph>
     using argument_type = terminalpp::glyph;
     using result_type = std::size_t;
 
-    result_type operator()(argument_type const &elem) const noexcept
+    [[nodiscard]] result_type operator()(
+        argument_type const &elem) const noexcept
     {
         return hash_value(elem);
     }

@@ -50,9 +50,6 @@ endif()
 # Terminal++ requires at least Boost 1.69
 find_package(Boost 1.69.0 REQUIRED)
 
-# Terminal++ requires at least version 0.38 of gsl-lite
-find_package(gsl-lite 0.38.0 REQUIRED)
-
 # Terminal++ requires libfmt
 find_package(fmt 5.3 REQUIRED)
 
@@ -159,7 +156,6 @@ target_link_libraries(terminalpp
     PUBLIC
         Boost::boost
         fmt::fmt
-        gsl::gsl-lite
 )
 
 target_include_directories(terminalpp
@@ -188,8 +184,8 @@ target_compile_options(terminalpp
         $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic -Wsign-conversion -Werror -Wno-tautological-compare -Wno-unused-parameter>
 )
 
-# The required C++ Standard for Terminal++ is C++17.
-target_compile_features(terminalpp PUBLIC cxx_std_17)
+# The required C++ Standard for Terminal++ is C++20.
+target_compile_features(terminalpp PUBLIC cxx_std_20)
 
 generate_export_header(terminalpp
     EXPORT_FILE_NAME
@@ -271,7 +267,6 @@ add_executable(terminalpp_tester)
 target_sources(terminalpp_tester
     PRIVATE
         test/fakes/fake_channel.hpp
-        test/expect_sequence.hpp
         test/terminal_test.hpp
 
         test/attribute_test.cpp
@@ -283,7 +278,6 @@ target_sources(terminalpp_tester
         test/element_test.cpp
         test/element_udl_test.cpp
         test/encoder_test.cpp
-        test/expect_sequence.cpp
         test/extent_test.cpp
         test/glyph_test.cpp
         test/mouse_test.cpp

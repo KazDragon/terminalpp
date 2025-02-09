@@ -1,7 +1,6 @@
 #include "terminalpp/character_set.hpp"
 
-#include <boost/range/algorithm/find_if.hpp>
-
+#include <algorithm>
 #include <iostream>
 
 namespace terminalpp {
@@ -40,10 +39,11 @@ static constexpr struct
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, character_set const &set)
 {
-    if (auto const *it = boost::find_if(
+    if (auto const *it = std::ranges::find(
             character_set_strings,
-            [set](auto const &character_set_string) {
-                return set.value_ == character_set_string.set;
+            set.value_,
+            [](auto const &character_set_string) {
+                return character_set_string.set;
             });
         it != std::cend(character_set_strings))
     {

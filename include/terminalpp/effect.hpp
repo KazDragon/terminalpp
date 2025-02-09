@@ -3,7 +3,6 @@
 #include "terminalpp/graphics.hpp"
 
 #include <boost/container_hash/hash.hpp>
-#include <boost/operators.hpp>
 
 #include <iostream>
 #include <type_traits>
@@ -16,26 +15,27 @@ namespace terminalpp {
 template <class Type>
 struct effect_default;
 
+template <class Type>
+constexpr Type effect_default_v = effect_default<Type>::value;
+
 //* =========================================================================
 /// \brief A structure representing an ANSI graphics effect (e.g.
 /// intensity, underlining)
 //* =========================================================================
 template <class Type>
-struct effect : private boost::less_than_comparable<
-                    effect<Type>,
-                    boost::equality_comparable<effect<Type>>>
+struct effect
 {
     //* =====================================================================
     /// \brief Initialises the intensity to the default (normal) value
     //* =====================================================================
-    constexpr effect() : effect(effect_default<Type>::value)
+    constexpr effect() noexcept : effect(effect_default_v<Type>)
     {
     }
 
     //* =====================================================================
     /// \brief Initialises the effect to the given value
     //* =====================================================================
-    constexpr effect(Type value)  // NOLINT
+    constexpr effect(Type value) noexcept  // NOLINT
       : value_(value)
     {
     }
@@ -43,33 +43,21 @@ struct effect : private boost::less_than_comparable<
     //* =====================================================================
     /// \brief Hash function
     //* =====================================================================
-    friend std::size_t hash_value(effect const &eff) noexcept
+    [[nodiscard]] friend std::size_t hash_value(effect const &eff) noexcept
     {
         std::size_t seed = 0;
         boost::hash_combine(seed, eff.value_);
         return seed;
     }
 
+    //* =====================================================================
+    /// \brief Relational operators for effects
+    //* =====================================================================
+    [[nodiscard]] constexpr friend auto operator<=>(
+        effect const &lhs, effect const &rhs) noexcept = default;
+
     Type value_;
 };
-
-//* =========================================================================
-/// \brief Less than for effects.
-//* =========================================================================
-template <class Type>
-constexpr bool operator<(effect<Type> const &lhs, effect<Type> const &rhs)
-{
-    return lhs.value_ < rhs.value_;
-}
-
-//* =========================================================================
-/// \brief Equality for effects.
-//* =========================================================================
-template <class Type>
-constexpr bool operator==(effect<Type> const &lhs, effect<Type> const &rhs)
-{
-    return lhs.value_ == rhs.value_;
-}
 
 //* =========================================================================
 /// \brief Specialization for intensity default case (normal intensity)
@@ -169,7 +157,8 @@ struct hash<terminalpp::effect<Effect>>
     using argument_type = terminalpp::effect<Effect>;
     using result_type = std::size_t;
 
-    result_type operator()(argument_type const &effect) const noexcept
+    [[nodiscard]] result_type operator()(
+        argument_type const &effect) const noexcept
     {
         return hash_value(effect);
     }

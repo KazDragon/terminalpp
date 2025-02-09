@@ -33,12 +33,10 @@ struct TERMINALPP_EXPORT event
     point position_;
 
     //* =====================================================================
-    /// \brief Equality operator
+    /// \brief Relational operators for events
     //* =====================================================================
-    constexpr friend bool operator==(event const &lhs, event const &rhs)
-    {
-        return lhs.action_ == rhs.action_ && lhs.position_ == rhs.position_;
-    }
+    [[nodiscard]] constexpr friend auto operator<=>(
+        event const &lhs, event const &rhs) noexcept = default;
 };
 
 //* =========================================================================

@@ -5,7 +5,6 @@
 #include "terminalpp/glyph.hpp"
 
 #include <boost/container_hash/hash.hpp>
-#include <boost/operators.hpp>
 
 #include <iosfwd>
 #include <utility>
@@ -18,15 +17,13 @@ namespace terminalpp {
 /// attribute (such as colour, intensity, etc.)
 //* =========================================================================
 struct TERMINALPP_EXPORT element
-  : private boost::
-        less_than_comparable<element, boost::equality_comparable<element>>
 {
     //* =====================================================================
     /// \brief Value Constructor
     //* =====================================================================
     constexpr element(  // NOLINT
         terminalpp::glyph gly = {},
-        terminalpp::attribute attr = {})
+        terminalpp::attribute attr = {}) noexcept
       : glyph_(std::move(gly)), attribute_(std::move(attr))
     {
     }
@@ -36,7 +33,7 @@ struct TERMINALPP_EXPORT element
     //* =====================================================================
     constexpr element(  // NOLINT
         byte ch,
-        terminalpp::attribute attr = {})
+        terminalpp::attribute attr = {}) noexcept
       : element(terminalpp::glyph(ch), attr)
     {
     }
@@ -44,7 +41,7 @@ struct TERMINALPP_EXPORT element
     //* =====================================================================
     /// \brief Hash function
     //* =====================================================================
-    friend std::size_t hash_value(element const &elem) noexcept
+    [[nodiscard]] friend std::size_t hash_value(element const &elem) noexcept
     {
         std::size_t seed = 0;
         boost::hash_combine(seed, elem.glyph_);
@@ -53,26 +50,15 @@ struct TERMINALPP_EXPORT element
         return seed;
     }
 
+    //* =====================================================================
+    /// \brief Relational operators for elements
+    //* =====================================================================
+    [[nodiscard]] constexpr friend auto operator<=>(
+        element const &lhs, element const &rhs) noexcept = default;
+
     terminalpp::glyph glyph_;
     terminalpp::attribute attribute_;
 };
-
-//* =========================================================================
-/// \brief Less-than Operator
-//* =========================================================================
-constexpr bool operator<(element const &lhs, element const &rhs)
-{
-    return lhs.glyph_ < rhs.glyph_
-        || (lhs.glyph_ == rhs.glyph_ && lhs.attribute_ < rhs.attribute_);
-}
-
-//* =========================================================================
-/// \brief Equality Operator
-//* =========================================================================
-constexpr bool operator==(element const &lhs, element const &rhs)
-{
-    return lhs.glyph_ == rhs.glyph_ && lhs.attribute_ == rhs.attribute_;
-}
 
 //* =========================================================================
 /// \brief Streaming output operator for element.  Prints the text
@@ -85,13 +71,13 @@ std::ostream &operator<<(std::ostream &out, element const &elem);
 
 #include "terminalpp/detail/element_udl.hpp"
 
-namespace terminalpp {
+namespace terminalpp {  // NOLINT
 inline namespace literals {
 
 inline constexpr element operator""_ete(char const *text, std::size_t len)
 {
-    gsl::cstring_span data(text, len);
     element elem;
+    std::span data{text, len};
     return detail::parse_element(data, elem);
 }
 

@@ -2,8 +2,8 @@
 
 #include "terminalpp/detail/export.hpp"  // IWYU pragma: export
 
-#include <gsl/gsl-lite.hpp>
-
+#include <span>
+#include <string>
 #include <cstdint>
 
 namespace terminalpp {
@@ -17,7 +17,7 @@ using byte = std::uint8_t;
 // it is found.  For that reason, these spans should never be stored directly.
 // If storage is necessary, it must be converted into a longer-term data
 // structure.
-using bytes = gsl::span<byte const>;
+using bytes = std::span<byte const>;
 
 // Where necessary, bytes are stored in this type, which has the small string
 // optimization, meaning that most cases will not cause an allocation.
@@ -41,7 +41,7 @@ inline byte_storage operator""_tb(char const *text, size_t length)
     byte_storage result;
     result.reserve(length);
 
-    for (auto ch : gsl::span<char const>{text, length})
+    for (auto const ch : std::span{text, length})
     {
         result.push_back(static_cast<byte>(ch));
     }

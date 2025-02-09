@@ -210,14 +210,6 @@ void string::erase(string::iterator range_begin, string::iterator range_end)
 }
 
 // ==========================================================================
-// OPERATOR <
-// ==========================================================================
-bool operator<(string const &lhs, string const &rhs)
-{
-    return lhs.elements_ < rhs.elements_;
-}
-
-// ==========================================================================
 // OPERATOR ==
 // ==========================================================================
 bool operator==(string const &lhs, string const &rhs)
@@ -293,8 +285,7 @@ string operator""_ts(char const *text, string::size_type len)
 // ==========================================================================
 string operator""_ets(char const *text, string::size_type len)
 {
-    gsl::cstring_span text_span{text, len};
-    return encode(text_span);
+    return encode(std::span{text, len});
 }
 
 }  // namespace string_literals

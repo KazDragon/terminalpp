@@ -1,22 +1,22 @@
-#include "expect_sequence.hpp"
 #include "terminal_test.hpp"
 
-#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <terminalpp/graphics.hpp>
 
 using namespace terminalpp::literals;  // NOLINT
+using testing::ContainerEq;
 using testing::ValuesIn;
 
 TEST_F(a_new_terminal, empty_string_outputs_default_attributes)
 {
     terminal_ << ""_ets;
-    expect_sequence("\x1B[0m"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[0m"_tb));
 }
 
 TEST_F(a_new_terminal, basic_string_outputs_default_attributes_and_basic_string)
 {
     terminal_ << "abcde"_ets;
-    expect_sequence("\x1B[0mabcde"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[0mabcde"_tb));
 }
 
 TEST_F(
@@ -27,7 +27,7 @@ TEST_F(
     channel_.written_.clear();
 
     terminal_ << "abcde"_ets;
-    expect_sequence("abcde"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("abcde"_tb));
 }
 
 namespace {
@@ -59,7 +59,7 @@ TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
 
     terminal_ << text_to_stream;
 
-    expect_sequence(expected_output, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(expected_output));
 }
 
 static streaming_text_data const streaming_text_data_table[] = {
@@ -164,7 +164,7 @@ TEST_F(a_terminal, can_stream_a_single_element)
     terminalpp::element const elem{'X', {terminalpp::graphics::colour::red}};
     terminal_ << elem;
 
-    expect_sequence("\x1B[31mX"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B[31mX"_tb));
 }
 
 namespace {
@@ -189,7 +189,7 @@ TEST_F(
     skips_charset_switch_before_selecting_utf8_charset)
 {
     terminal_ << R"(\cU\C205\U0057)"_ets;
-    expect_sequence("\x1B(U\xCD\x1B%GW"_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq("\x1B(U\xCD\x1B%GW"_tb));
 }
 
 namespace {
@@ -231,7 +231,7 @@ TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
 
     // Moving to the position we are already at should yield no required
     // output.
-    expect_sequence(""_tb, channel_.written_);
+    EXPECT_THAT(channel_.written_, ContainerEq(""_tb));
 }
 
 static write_position_data const write_position_data_table[] = {

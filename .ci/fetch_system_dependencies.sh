@@ -7,22 +7,12 @@ mkdir "$EXTERNAL_BUILD_ROOT" || true
 
 # libfmt and Boost dependencies installed via apt in build.yml
 
-# Install gsl-lite dependency
-if [ ! -f "$EXTERNAL_ROOT/include/gsl/gsl-lite.hpp" ]; then
-    cd "$EXTERNAL_BUILD_ROOT";
-    wget https://github.com/gsl-lite/gsl-lite/archive/v0.38.0.tar.gz;
-    tar -xzf v0.38.0.tar.gz;
-    cd gsl-lite-0.38.0;
-    cmake -DCMAKE_INSTALL_PREFIX="$EXTERNAL_ROOT" -DGSL_LITE_OPT_BUILD_TESTS=Off .;
-    make -j2 && make install;
-fi
-
 # Install googletest dependency
 if [ ! -f "$EXTERNAL_ROOT/include/gtest/gtest.h" ]; then
     cd "$EXTERNAL_BUILD_ROOT";
-    wget https://github.com/google/googletest/archive/release-1.11.0.tar.gz;
-    tar -xzf release-1.11.0.tar.gz;
-    cd googletest-release-1.11.0;
+    wget https://github.com/google/googletest/releases/download/v1.16.0/googletest-1.16.0.tar.gz;
+    tar -xzf googletest-1.16.0.tar.gz;
+    cd googletest-1.16.0;
     cmake -DCMAKE_INSTALL_PREFIX="$EXTERNAL_ROOT" .;
     make -j2 && make install;
 fi

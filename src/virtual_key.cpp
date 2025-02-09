@@ -3,30 +3,13 @@
 #include <fmt/format.h>
 
 #include <iostream>
-#include <tuple>
+#include <utility>
 
 namespace terminalpp {
 
-static virtual_key const default_vk = {};
-
 namespace {
 
-auto tied(virtual_key const &vk)
-{
-    return std::tie(vk.key, vk.modifiers, vk.repeat_count, vk.sequence);
-}
-
-}  // namespace
-
-// ==========================================================================
-// OPERATOR==
-// ==========================================================================
-bool operator==(virtual_key const &lhs, virtual_key const &rhs)
-{
-    return tied(lhs) == tied(rhs);
-}
-
-namespace {
+virtual_key const default_vk = {};
 
 // ==========================================================================
 // OUTPUT_PIPE

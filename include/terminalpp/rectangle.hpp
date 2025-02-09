@@ -4,8 +4,6 @@
 #include "terminalpp/extent.hpp"
 #include "terminalpp/point.hpp"
 
-#include <boost/operators.hpp>
-
 #include <iosfwd>
 
 namespace terminalpp {
@@ -14,42 +12,30 @@ namespace terminalpp {
 /// \brief A class that represents a rectangle in space.
 //* =========================================================================
 struct TERMINALPP_EXPORT rectangle
-  : private boost::
-        less_than_comparable<rectangle, boost::equality_comparable<rectangle>>
 {
     //* =====================================================================
     /// \brief Default Constructor
     /// \par
     /// Constructs the rectangle, leaving the origin and size uninitialized.
     //* =====================================================================
-    constexpr rectangle() = default;
+    constexpr rectangle() noexcept = default;
 
     //* =====================================================================
     /// \brief Constructor
     /// \par
     /// Constructs the rectangle, using the specified origin and size.
     //* =====================================================================
-    constexpr rectangle(terminalpp::point origin, terminalpp::extent size)
+    constexpr rectangle(
+        terminalpp::point origin, terminalpp::extent size) noexcept
       : origin_(origin), size_(size)
     {
     }
 
     //* =====================================================================
-    /// \brief Less-than operator
+    /// \brief Relational operators for rectangles
     //* =====================================================================
-    constexpr friend bool operator<(rectangle const &lhs, rectangle const &rhs)
-    {
-        return lhs.origin_ < rhs.origin_
-            || (lhs.origin_ == rhs.origin_ && lhs.size_ < rhs.size_);
-    }
-
-    //* =====================================================================
-    /// \brief Equality operator
-    //* =====================================================================
-    constexpr friend bool operator==(rectangle const &lhs, rectangle const &rhs)
-    {
-        return lhs.origin_ == rhs.origin_ && lhs.size_ == rhs.size_;
-    }
+    [[nodiscard]] constexpr friend auto operator<=>(
+        rectangle const &lhs, rectangle const &rhs) noexcept = default;
 
     /// \brief The origin (top-left point) of the rectangle.
     terminalpp::point origin_;

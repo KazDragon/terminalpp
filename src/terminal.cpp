@@ -2,6 +2,8 @@
 
 #include "terminalpp/detail/well_known_virtual_key.hpp"
 
+#include <algorithm>
+
 namespace terminalpp {
 
 // ==========================================================================
@@ -14,16 +16,17 @@ terminal::~terminal() = default;
 // ==========================================================================
 void terminal::async_read(std::function<void(tokens)> const &callback)
 {
-    channel_->async_read([=](terminalpp::bytes data) {
+    channel_->async_read([this, callback](terminalpp::bytes data) {
         std::vector<token> results;
 
-        boost::for_each(data, [this, &results](terminalpp::byte datum) {
+        for (const auto datum : data)
+        {
             if (auto const result = state_.input_parser_(datum);
                 result.has_value())
             {
                 results.push_back(detail::get_well_known_virtual_key(*result));
             }
-        });
+        };
 
         callback(results);
     });
@@ -83,7 +86,7 @@ terminal &terminal::operator<<(terminalpp::string const &text)
 {
     *this << write_optional_default_attribute();
 
-    boost::for_each(text, [this](terminalpp::element const &elem) {
+    std::ranges::for_each(text, [this](terminalpp::element const &elem) {
         *this << write_element(elem);
     });
 

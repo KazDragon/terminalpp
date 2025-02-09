@@ -1,33 +1,13 @@
 #include "terminalpp/control_sequence.hpp"
 
-#include <boost/range/adaptor/indexed.hpp>
-#include <boost/range/algorithm/copy.hpp>
-
+#include <algorithm>
 #include <iostream>
-#include <tuple>
+#include <ranges>
+#include <utility>
 
 namespace terminalpp {
 
 static control_sequence const default_sequence = {};
-
-// ==========================================================================
-// OPERATOR==
-// ==========================================================================
-bool operator==(control_sequence const &lhs, control_sequence const &rhs)
-{
-    return std::tie(
-               lhs.initiator,
-               lhs.command,
-               lhs.meta,
-               lhs.arguments,
-               lhs.extender)
-        == std::tie(
-               rhs.initiator,
-               rhs.command,
-               rhs.meta,
-               rhs.arguments,
-               rhs.extender);
-}
 
 namespace {
 
@@ -90,15 +70,15 @@ void output_arguments(
 
         out << R"(args:")";
 
-        for (auto const &[index, value] :
-             arguments | boost::adaptors::indexed())
+        for (auto const &value : arguments | std::views::take(1))
         {
-            if (index != 0)
-            {
-                out << ";";
-            }
+            std::ranges::copy(value, std::ostream_iterator<char>(out));
+        }
 
-            boost::range::copy(value, std::ostream_iterator<char>(out));
+        for (auto const &value : arguments | std::views::drop(1))
+        {
+            out << ";";
+            std::ranges::copy(value, std::ostream_iterator<char>(out));
         }
 
         out << R"(")";
