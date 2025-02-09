@@ -85,8 +85,10 @@ void write_element::operator()(
     terminalpp::terminal_state &state,
     terminal::write_function const &write_fn) const
 {
-    auto const &last_element =
-        state.last_element_.has_value() ? *state.last_element_ : element();
+    static auto const default_element = element{};
+    auto const &last_element = state.last_element_.has_value()
+                                 ? *state.last_element_
+                                 : default_element;
 
     detail::change_charset(
         last_element.glyph_.charset_, element_.glyph_.charset_, beh, write_fn);
