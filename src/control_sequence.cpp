@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <ranges>
+#include <utility>
 
 namespace terminalpp {
 

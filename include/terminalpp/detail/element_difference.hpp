@@ -18,6 +18,7 @@
 #include <fmt/format.h>
 
 #include <optional>
+#include <utility>
 
 namespace terminalpp::detail {
 
