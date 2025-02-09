@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['write_124',['write',['../classterminalpp_1_1stdout__channel.html#a8bed26080c0f23673088aca1012adc15',1,'terminalpp::stdout_channel::write()'],['../classterminalpp_1_1terminal.html#a798e052621b55e9b3d1682ad573bdc4f',1,'terminalpp::terminal::write()']]],
-  ['write_5felement_125',['write_element',['../classterminalpp_1_1write__element.html',1,'terminalpp::write_element'],['../classterminalpp_1_1write__element.html#a821d220e4512af8a51c2d519f9c23547',1,'terminalpp::write_element::write_element()']]],
-  ['write_5foptional_5fdefault_5fattribute_126',['write_optional_default_attribute',['../structterminalpp_1_1write__optional__default__attribute.html',1,'terminalpp']]]
+  ['point_0',['point',['../structterminalpp_1_1point.html',1,'terminalpp::point'],['../structterminalpp_1_1point.html#aa2956e40102ae9a863da9aaacb4c24ed',1,'terminalpp::point::point()'],['../structterminalpp_1_1point.html#a311d02fe491482be471d2c94853a694d',1,'terminalpp::point::point(coordinate_type x, coordinate_type y) noexcept']]],
+  ['position_5f_1',['position_',['../structterminalpp_1_1mouse_1_1event.html#a39a75ce58a27f1ab49277d8cdccc7486',1,'terminalpp::mouse::event']]]
 ];

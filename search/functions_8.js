@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['low_5fcolour_228',['low_colour',['../structterminalpp_1_1low__colour.html#ae5786b23c9986b7e6d01a82aa64a4ccc',1,'terminalpp::low_colour::low_colour()'],['../structterminalpp_1_1low__colour.html#a44cb12d25103f815f322de447993fbc8',1,'terminalpp::low_colour::low_colour(terminalpp::graphics::colour colour)']]]
+  ['low_5fcolour_0',['low_colour',['../structterminalpp_1_1low__colour.html#a76124cad2181ba487d9fa56fb0da48c8',1,'terminalpp::low_colour::low_colour() noexcept'],['../structterminalpp_1_1low__colour.html#abfd747dccca414143a906ff18a81a12c',1,'terminalpp::low_colour::low_colour(terminalpp::graphics::colour colour) noexcept']]]
 ];

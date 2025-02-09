@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['key_72',['key',['../structterminalpp_1_1virtual__key.html#a487bd1b68e6bb81d67fdcfc669bf3d86',1,'terminalpp::virtual_key']]]
+  ['disable_5fmouse_0',['disable_mouse',['../classterminalpp_1_1disable__mouse.html',1,'terminalpp']]],
+  ['draw_1',['draw',['../classterminalpp_1_1screen.html#a8c2686854c95301ca8fca8a6705cf096',1,'terminalpp::screen']]]
 ];

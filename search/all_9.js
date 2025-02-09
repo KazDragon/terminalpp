@@ -1,5 +1,30 @@
 var searchData=
 [
-  ['last_5felement_5f_73',['last_element_',['../structterminalpp_1_1terminal__state.html#add8f3434ee9309804e4df845d6352c9a',1,'terminalpp::terminal_state']]],
-  ['low_5fcolour_74',['low_colour',['../structterminalpp_1_1low__colour.html#ae5786b23c9986b7e6d01a82aa64a4ccc',1,'terminalpp::low_colour::low_colour()'],['../structterminalpp_1_1low__colour.html#a44cb12d25103f815f322de447993fbc8',1,'terminalpp::low_colour::low_colour(terminalpp::graphics::colour colour)'],['../structterminalpp_1_1low__colour.html',1,'terminalpp::low_colour']]]
+  ['effect_0',['effect',['../structterminalpp_1_1effect.html#a5bb632ef8f16ee99257a087f3c16592d',1,'terminalpp::effect::effect() noexcept'],['../structterminalpp_1_1effect.html#acf6b018b1ea53ed05f4eab4177ac3e33',1,'terminalpp::effect::effect(Type value) noexcept'],['../structterminalpp_1_1effect.html',1,'terminalpp::effect&lt; Type &gt;']]],
+  ['effect_3c_20terminalpp_3a_3agraphics_3a_3ablinking_20_3e_1',['effect&lt; terminalpp::graphics::blinking &gt;',['../structterminalpp_1_1effect.html',1,'terminalpp']]],
+  ['effect_3c_20terminalpp_3a_3agraphics_3a_3aintensity_20_3e_2',['effect&lt; terminalpp::graphics::intensity &gt;',['../structterminalpp_1_1effect.html',1,'terminalpp']]],
+  ['effect_3c_20terminalpp_3a_3agraphics_3a_3apolarity_20_3e_3',['effect&lt; terminalpp::graphics::polarity &gt;',['../structterminalpp_1_1effect.html',1,'terminalpp']]],
+  ['effect_3c_20terminalpp_3a_3agraphics_3a_3aunderlining_20_3e_4',['effect&lt; terminalpp::graphics::underlining &gt;',['../structterminalpp_1_1effect.html',1,'terminalpp']]],
+  ['effect_5fdefault_5',['effect_default',['../structterminalpp_1_1effect__default.html',1,'terminalpp']]],
+  ['effect_5fdefault_3c_20terminalpp_3a_3agraphics_3a_3ablinking_20_3e_6',['effect_default&lt; terminalpp::graphics::blinking &gt;',['../structterminalpp_1_1effect__default_3_01terminalpp_1_1graphics_1_1blinking_01_4.html',1,'terminalpp']]],
+  ['effect_5fdefault_3c_20terminalpp_3a_3agraphics_3a_3aintensity_20_3e_7',['effect_default&lt; terminalpp::graphics::intensity &gt;',['../structterminalpp_1_1effect__default_3_01terminalpp_1_1graphics_1_1intensity_01_4.html',1,'terminalpp']]],
+  ['effect_5fdefault_3c_20terminalpp_3a_3agraphics_3a_3apolarity_20_3e_8',['effect_default&lt; terminalpp::graphics::polarity &gt;',['../structterminalpp_1_1effect__default_3_01terminalpp_1_1graphics_1_1polarity_01_4.html',1,'terminalpp']]],
+  ['effect_5fdefault_3c_20terminalpp_3a_3agraphics_3a_3aunderlining_20_3e_9',['effect_default&lt; terminalpp::graphics::underlining &gt;',['../structterminalpp_1_1effect__default_3_01terminalpp_1_1graphics_1_1underlining_01_4.html',1,'terminalpp']]],
+  ['effect_5fhas_5fnormal_10',['effect_has_normal',['../structterminalpp_1_1effect__has__normal.html',1,'terminalpp']]],
+  ['effect_5fhas_5fnormal_3c_20terminalpp_3a_3agraphics_3a_3aintensity_20_3e_11',['effect_has_normal&lt; terminalpp::graphics::intensity &gt;',['../structterminalpp_1_1effect__has__normal_3_01terminalpp_1_1graphics_1_1intensity_01_4.html',1,'terminalpp']]],
+  ['element_12',['element',['../structterminalpp_1_1element.html',1,'terminalpp::element'],['../structterminalpp_1_1element.html#a4646669239118d1941953c9ae146c67c',1,'terminalpp::element::element(terminalpp::glyph gly={}, terminalpp::attribute attr={}) noexcept'],['../structterminalpp_1_1element.html#a800d22094ea761d740ff898303f37cc7',1,'terminalpp::element::element(byte ch, terminalpp::attribute attr={}) noexcept']]],
+  ['empty_13',['empty',['../classterminalpp_1_1string.html#a0de979bea084002340d4738403525977',1,'terminalpp::string']]],
+  ['enable_5fmouse_14',['enable_mouse',['../classterminalpp_1_1enable__mouse.html',1,'terminalpp']]],
+  ['encode_5fgreyscale_5fcomponent_15',['encode_greyscale_component',['../namespaceterminalpp_1_1ansi_1_1graphics.html#a4347d8e80f88676386dc2389e2e3c861',1,'terminalpp::ansi::graphics']]],
+  ['encode_5fhigh_5fcomponents_16',['encode_high_components',['../namespaceterminalpp_1_1ansi_1_1graphics.html#ab791affcf607b2b13f8d312dac5a5db3',1,'terminalpp::ansi::graphics']]],
+  ['end_17',['end',['../classterminalpp_1_1string.html#a59a4b3a3def07a0f658ad1685eb5a0ac',1,'terminalpp::string::end() const'],['../classterminalpp_1_1string.html#a9e14555e695014d5f66009139b18f2a9',1,'terminalpp::string::end()'],['../classterminalpp_1_1canvas.html#a0875929f9bf8664f59e8fea6406269e1',1,'terminalpp::canvas::end()'],['../classterminalpp_1_1canvas.html#a1b8871c6eb2ccab8f3d6b750ef9428b8',1,'terminalpp::canvas::end() const']]],
+  ['erase_18',['erase',['../classterminalpp_1_1string.html#af64582a19e2ed4f1257d64b0111dc14d',1,'terminalpp::string::erase(iterator range_begin, iterator range_end)'],['../classterminalpp_1_1string.html#a896e3477debe566c48ae94d7df55a012',1,'terminalpp::string::erase(iterator range_begin)'],['../classterminalpp_1_1string.html#a839a3eb3daa132bf2dee2cde0e7f33c0',1,'terminalpp::string::erase()']]],
+  ['erase_5fdisplay_19',['erase_display',['../classterminalpp_1_1erase__display.html',1,'terminalpp']]],
+  ['erase_5fdisplay_5fabove_20',['erase_display_above',['../classterminalpp_1_1erase__display__above.html',1,'terminalpp']]],
+  ['erase_5fdisplay_5fbelow_21',['erase_display_below',['../classterminalpp_1_1erase__display__below.html',1,'terminalpp']]],
+  ['erase_5fline_22',['erase_line',['../classterminalpp_1_1erase__line.html',1,'terminalpp']]],
+  ['erase_5fline_5fleft_23',['erase_line_left',['../classterminalpp_1_1erase__line__left.html',1,'terminalpp']]],
+  ['erase_5fline_5fright_24',['erase_line_right',['../classterminalpp_1_1erase__line__right.html',1,'terminalpp']]],
+  ['event_25',['event',['../structterminalpp_1_1mouse_1_1event.html',1,'terminalpp::mouse']]],
+  ['extent_26',['extent',['../structterminalpp_1_1extent.html#a78fd9b3ad2405cdda5eb71c77d210481',1,'terminalpp::extent::extent() noexcept'],['../structterminalpp_1_1extent.html#a6e5ee16e6004de2a75e1b08d6722a204',1,'terminalpp::extent::extent(coordinate_type w, coordinate_type h) noexcept'],['../structterminalpp_1_1extent.html',1,'terminalpp::extent']]]
 ];

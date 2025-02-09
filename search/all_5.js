@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['glyph_47',['glyph',['../structterminalpp_1_1glyph.html#a46e4cfccfab8cfc06627f8ed53b9a40f',1,'terminalpp::glyph::glyph(byte const character=detail::ascii::space, character_set const charset=character_set())'],['../structterminalpp_1_1glyph.html#aa093f63ccfafb9cc6700f39d78114104',1,'terminalpp::glyph::glyph(byte const (&amp;text)[2])'],['../structterminalpp_1_1glyph.html#aeaf68a2b6c4b0009803e940fb0f0f259',1,'terminalpp::glyph::glyph(byte const (&amp;text)[3])'],['../structterminalpp_1_1glyph.html#ac0c75f01f9e72b581da2939028d7f143',1,'terminalpp::glyph::glyph(byte const (&amp;text)[4])'],['../structterminalpp_1_1glyph.html#abf5078c03187defb033c300701658c12',1,'terminalpp::glyph::glyph(char const *ustr)'],['../structterminalpp_1_1glyph.html',1,'terminalpp::glyph']]],
-  ['greyscale_5fcolour_48',['greyscale_colour',['../structterminalpp_1_1greyscale__colour.html#a6e13af633979dc6ea3709e527ecdb5b6',1,'terminalpp::greyscale_colour::greyscale_colour()'],['../structterminalpp_1_1greyscale__colour.html#a573630b769db082297e8315c9c8d647e',1,'terminalpp::greyscale_colour::greyscale_colour(byte shade)'],['../structterminalpp_1_1greyscale__colour.html',1,'terminalpp::greyscale_colour']]],
-  ['greyscale_5fcomponent_49',['greyscale_component',['../namespaceterminalpp_1_1ansi_1_1graphics.html#a7ba910ec028c829c5622d27721966516',1,'terminalpp::ansi::graphics']]]
+  ['action_5f_0',['action_',['../structterminalpp_1_1mouse_1_1event.html#ada8227a758d5935b8fe812cdc7bc67ea',1,'terminalpp::mouse::event']]],
+  ['and_20onward_1',['Version 3.0 - C++17 and onward',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md1',1,'']]],
+  ['and_20screen_2',['Canvas and Screen',['../index.html#autotoc_md22',1,'']]],
+  ['api_3',['Version 2.0 - Continuations API',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md2',1,'']]],
+  ['async_5fread_4',['async_read',['../classterminalpp_1_1stdout__channel.html#abdb24d8285dc148f0bdb1c26bb988d8c',1,'terminalpp::stdout_channel::async_read()'],['../classterminalpp_1_1terminal.html#ad3c0562e57a7f19a28d3bee5dba7fdb7',1,'terminalpp::terminal::async_read()']]],
+  ['attribute_5',['attribute',['../structterminalpp_1_1attribute.html',1,'terminalpp::attribute'],['../structterminalpp_1_1attribute.html#a54269a2fab8c5b26398e50fc22112068',1,'terminalpp::attribute::attribute()']]],
+  ['away_20from_20conan_6',['Version 1.4 - Migrated away from Conan',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md3',1,'']]]
 ];

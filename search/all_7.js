@@ -1,7 +1,25 @@
 var searchData=
 [
-  ['input_5fparser_5f_68',['input_parser_',['../structterminalpp_1_1terminal__state.html#aa9689a16349a27998ac940687f96607a',1,'terminalpp::terminal_state']]],
-  ['input_5fsequence_69',['input_sequence',['../structterminalpp_1_1virtual__key.html#aa2dd4fad34297613c87cae47174de308',1,'terminalpp::virtual_key']]],
-  ['insert_70',['insert',['../classterminalpp_1_1string.html#ad399602009785eb33d3ad458cb51cc5b',1,'terminalpp::string::insert(iterator pos, element const &amp;elem)'],['../classterminalpp_1_1string.html#a045cd28b4ed9a7983c3b060d2ef12ea6',1,'terminalpp::string::insert(iterator pos, InputIterator range_begin, InputIterator range_end)']]],
-  ['is_5falive_71',['is_alive',['../classterminalpp_1_1stdout__channel.html#a81b1502a49c22fc627941b77f52c5379',1,'terminalpp::stdout_channel::is_alive()'],['../classterminalpp_1_1terminal.html#acca4f719c04e544f912e0458d10aac3a',1,'terminalpp::terminal::is_alive()']]]
+  ['c_2017_20and_20onward_0',['Version 3.0 - C++17 and onward',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md1',1,'']]],
+  ['canvas_1',['canvas',['../classterminalpp_1_1canvas.html',1,'terminalpp::canvas'],['../classterminalpp_1_1canvas.html#aad8f9a81e19093effd2b755f06c0d2ad',1,'terminalpp::canvas::canvas()']]],
+  ['canvas_20and_20screen_2',['Canvas and Screen',['../index.html#autotoc_md22',1,'']]],
+  ['cbegin_3',['cbegin',['../classterminalpp_1_1string.html#a1bd6bf85ec1705b9978c52501a6541cb',1,'terminalpp::string']]],
+  ['cend_4',['cend',['../classterminalpp_1_1string.html#a7cf9122a74291cf0c5dfc6e150158fe2',1,'terminalpp::string']]],
+  ['changelog_5',['Changelog',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html',1,'']]],
+  ['character_5fset_6',['character_set',['../structterminalpp_1_1character__set.html',1,'terminalpp::character_set'],['../structterminalpp_1_1character__set.html#a5f5f567544789ed0f4b04f9a3aea67ef',1,'terminalpp::character_set::character_set(charset const &amp;set) noexcept'],['../structterminalpp_1_1character__set.html#ab616658ce7941cef287cdd104ea24a2c',1,'terminalpp::character_set::character_set() noexcept']]],
+  ['close_7',['close',['../classterminalpp_1_1stdout__channel.html#a882ddebfa4270a7d1865527174accb7d',1,'terminalpp::stdout_channel::close()'],['../classterminalpp_1_1terminal.html#a2f6fa7ff33efd81ea46f63ab14440973',1,'terminalpp::terminal::close()']]],
+  ['cmake_8',['Installation - CMake',['../index.html#autotoc_md16',1,'']]],
+  ['code_20of_20conduct_9',['Contributor Code of Conduct',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CODE__OF__CONDUCT.html',1,'']]],
+  ['colour_10',['colour',['../structterminalpp_1_1colour.html',1,'terminalpp::colour'],['../structterminalpp_1_1colour.html#af3014f234b399420af6a614e361f7b0b',1,'terminalpp::colour::colour(terminalpp::true_colour col) noexcept'],['../structterminalpp_1_1colour.html#a8945096ca3bba5a8049f9063a2c94afb',1,'terminalpp::colour::colour(terminalpp::greyscale_colour col) noexcept'],['../structterminalpp_1_1colour.html#a8d59fc1ed0f454377a990d6dc9139af9',1,'terminalpp::colour::colour(terminalpp::high_colour col) noexcept'],['../structterminalpp_1_1colour.html#a590880927f501e4480658413841ddb50',1,'terminalpp::colour::colour(terminalpp::graphics::colour col) noexcept'],['../structterminalpp_1_1colour.html#a13228a913c9f9eaf50aa7a95a4d2282b',1,'terminalpp::colour::colour(terminalpp::low_colour col) noexcept'],['../structterminalpp_1_1colour.html#a8b6fbbccf493167679a1b67bdc2784d1',1,'terminalpp::colour::colour() noexcept']]],
+  ['column_5fproxy_11',['column_proxy',['../classterminalpp_1_1canvas_1_1column__proxy.html',1,'terminalpp::canvas']]],
+  ['conan_12',['conan',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md4',1,'Version 1.3 - Migrated to Conan'],['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md3',1,'Version 1.4 - Migrated away from Conan']]],
+  ['conduct_13',['Contributor Code of Conduct',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CODE__OF__CONDUCT.html',1,'']]],
+  ['const_5fcolumn_5fproxy_14',['const_column_proxy',['../classterminalpp_1_1canvas_1_1const__column__proxy.html',1,'terminalpp::canvas']]],
+  ['continuations_20api_15',['Version 2.0 - Continuations API',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md2',1,'']]],
+  ['contribute_20to_20terminal_16',['How to Contribute to Terminal++',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CONTRIBUTING.html',1,'']]],
+  ['contributing_17',['Contributing',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CONTRIBUTING.html#autotoc_md11',1,'']]],
+  ['contributor_20code_20of_20conduct_18',['Contributor Code of Conduct',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CODE__OF__CONDUCT.html',1,'']]],
+  ['control_5fsequence_19',['control_sequence',['../structterminalpp_1_1control__sequence.html',1,'terminalpp']]],
+  ['cursor_5fposition_5f_20',['cursor_position_',['../structterminalpp_1_1terminal__state.html#a4a3223ec50719e6637bd291744037540',1,'terminalpp::terminal_state']]],
+  ['cursor_5fvisible_5f_21',['cursor_visible_',['../structterminalpp_1_1terminal__state.html#aedcca3b13a14b83b3ae0d44594d91edf',1,'terminalpp::terminal_state']]]
 ];

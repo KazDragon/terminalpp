@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['begin_3',['begin',['../classterminalpp_1_1canvas.html#afa8efbbab3c5ecdcab6b78fa0760a112',1,'terminalpp::canvas::begin()'],['../classterminalpp_1_1canvas.html#ab968a0e7cf80a3238d88bf3bf754223e',1,'terminalpp::canvas::begin() const'],['../classterminalpp_1_1string.html#aa295c302868e745a3367b8a898713f52',1,'terminalpp::string::begin()'],['../classterminalpp_1_1string.html#a5cca9867e850e58a7874eed7e951e5f0',1,'terminalpp::string::begin() const']]],
-  ['behaviour_4',['behaviour',['../structterminalpp_1_1behaviour.html',1,'terminalpp']]]
+  ['1_200_20terminal_20management_0',['Version 1.0 - Terminal Management',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md6',1,'']]],
+  ['1_202_20untitled_20feature_20release_1',['Version 1.2 - Untitled Feature Release',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md5',1,'']]],
+  ['1_203_20migrated_20to_20conan_2',['Version 1.3 - Migrated to Conan',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md4',1,'']]],
+  ['1_204_20migrated_20away_20from_20conan_3',['Version 1.4 - Migrated away from Conan',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md3',1,'']]],
+  ['17_20and_20onward_4',['Version 3.0 - C++17 and onward',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md1',1,'']]]
 ];
