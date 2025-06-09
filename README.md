@@ -14,12 +14,11 @@ A C++ library for interacting with ANSI/VT100 terminal or terminal emulator disp
 
 Terminal++ requires a C++17 compiler and the following libraries:
   * Boost (At least version 1.69.0)
-  * libfmt (At least version 5.3)
   * (For testing only) Google Test
 
 # Installation - CMake
 
-Terminal++ can be installed from source using CMake.  This requires Boost, libfmt and any other dependencies to have been installed beforehand, using their own instructions, or for the call to `cmake --configure` to be adjusted appropriately (e.g. `-DBOOST_ROOT=...` or `-Dfmt_DIR=...`).  If you do not wish to install into a system directory, and thus avoid the use of sudo, you can also pass `-DCMAKE_INSTALL_PREFIX=...` into the `cmake --configure` call.
+Terminal++ can be installed from source using CMake.  This requires Boost and any other dependencies to have been installed beforehand, using their own instructions, or for the call to `cmake --configure` to be adjusted appropriately (e.g. `-DBOOST_ROOT=...`).  If you do not wish to install into a system directory, and thus avoid the use of sudo, you can also pass `-DCMAKE_INSTALL_PREFIX=...` into the `cmake --configure` call.
 
     git clone https://github.com/KazDragon/terminalpp.git && cd terminalpp
     mkdir build && cd build
@@ -236,7 +235,7 @@ int main()
     terminal << terminalpp::disable_mouse()
              << terminalpp::use_normal_screen_buffer()
              << terminalpp::restore_cursor_position()
-             << fmt::format("mouse clicked at ({},{})\n", mouse_position.x_, mouse_position.y_);
+             << std::format("mouse clicked at ({},{})\n", mouse_position.x_, mouse_position.y_);
 }
 
 static void handle_token(terminalpp::token const &token);

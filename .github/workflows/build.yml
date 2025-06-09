@@ -31,11 +31,6 @@ jobs:
           sudo apt-add-repository ppa:mhier/libboost-latest
           sudo apt install libboost1.74-dev
 
-      - name: Install libfmt
-        shell: bash
-        run: |
-          sudo apt install libfmt-dev
-
       - name: Install dependencies from source
         run: .ci/fetch_system_dependencies.sh
 
@@ -79,11 +74,6 @@ jobs:
         run: |
           sudo apt-add-repository ppa:mhier/libboost-latest
           sudo apt install libboost1.74-dev
-
-      - name: Install libfmt
-        shell: bash
-        run: |
-          sudo apt install libfmt-dev
 
       - name: Extract branch name
         shell: bash

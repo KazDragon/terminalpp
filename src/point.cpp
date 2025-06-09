@@ -1,6 +1,6 @@
 #include "terminalpp/point.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 #include <ostream>
 
@@ -11,7 +11,7 @@ namespace terminalpp {
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, point const &pt)
 {
-    return out << fmt::format("point({},{})", pt.x_, pt.y_);
+    return out << std::format("point({},{})", pt.x_, pt.y_);
 }
 
 }  // namespace terminalpp

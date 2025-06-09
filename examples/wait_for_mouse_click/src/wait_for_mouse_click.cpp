@@ -3,7 +3,7 @@
 #include <terminalpp/mouse.hpp>
 #include <boost/asio.hpp>
 #include <boost/range/algorithm/for_each.hpp>
-#include <fmt/format.h>
+#include <format>
 #include <variant>
 
 static void schedule_async_read();
@@ -43,7 +43,7 @@ int main()
     terminal << terminalpp::disable_mouse()
              << terminalpp::use_normal_screen_buffer()
              << terminalpp::restore_cursor_position()
-             << fmt::format("mouse clicked at ({},{})\n", mouse_position.x_, mouse_position.y_);
+             << std::format("mouse clicked at ({},{})\n", mouse_position.x_, mouse_position.y_);
 }
 
 template <typename... Ts> struct overloaded : Ts... { using Ts::operator()...; };

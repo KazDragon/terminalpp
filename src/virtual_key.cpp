@@ -1,6 +1,6 @@
 #include "terminalpp/virtual_key.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 #include <iostream>
 #include <utility>
@@ -235,7 +235,7 @@ std::ostream &operator<<(std::ostream &out, vk const &key)
                 out << "f12";
                 break;
             default:
-                out << fmt::format(
+                out << std::format(
                     "'\\x{:02X}'",
                     static_cast<int>(static_cast<unsigned char>(key)));
         }

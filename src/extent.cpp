@@ -1,6 +1,6 @@
 #include "terminalpp/extent.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 #include <ostream>
 
@@ -11,7 +11,7 @@ namespace terminalpp {
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, extent const &ext)
 {
-    return out << fmt::format("extent({},{})", ext.width_, ext.height_);
+    return out << std::format("extent({},{})", ext.width_, ext.height_);
 }
 
 }  // namespace terminalpp

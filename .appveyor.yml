@@ -40,7 +40,6 @@ install:
   - vcpkg install boost-container-hash:%platform%-windows
   - vcpkg install boost-core:%platform%-windows
   - vcpkg install boost-range:%platform%-windows
-  - vcpkg install fmt:%platform%-windows
   - vcpkg install gtest:%platform%-windows
 
 build_script:

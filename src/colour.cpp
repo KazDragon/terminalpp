@@ -1,6 +1,6 @@
 #include "terminalpp/colour.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 #include <algorithm>
 #include <iostream>
@@ -44,7 +44,7 @@ std::ostream &operator<<(std::ostream &out, high_colour const &col)
     byte const green = ansi::graphics::high_green_component(col.value_);
     byte const blue = ansi::graphics::high_blue_component(col.value_);
 
-    return out << fmt::format(
+    return out << std::format(
                "#{}{}{}",
                static_cast<int>(red),
                static_cast<int>(green),
@@ -57,7 +57,7 @@ std::ostream &operator<<(std::ostream &out, high_colour const &col)
 std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
 {
     byte const shade = ansi::graphics::greyscale_component(col.shade_);
-    return out << fmt::format("#{:02}", static_cast<int>(shade));
+    return out << std::format("#{:02}", static_cast<int>(shade));
 }
 
 // ==========================================================================
@@ -65,7 +65,7 @@ std::ostream &operator<<(std::ostream &out, greyscale_colour const &col)
 // ==========================================================================
 std::ostream &operator<<(std::ostream &out, true_colour const &col)
 {
-    return out << fmt::format(
+    return out << std::format(
                "#{:02X}{:02X}{:02X}",
                static_cast<int>(col.red_),
                static_cast<int>(col.green_),
