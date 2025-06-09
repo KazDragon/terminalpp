@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 4.0 - C++20 and onward
+1. The library has been updated to use C++20
+
 ## Version 3.0 - C++17 and onward
 1. The library has been updated to use C++17
 2. Support for Conan has been dropped
