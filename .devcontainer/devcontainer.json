@@ -14,7 +14,6 @@
                 "ms-vscode.cpptools-extension-pack",
                 "ms-vscode.cpptools",
                 "ms-vscode.cpptools-themes",
-                "twxs.cmake",
                 "ms-vscode.cmake-tools",
                 "ms-azuretools.vscode-docker",
                 "redhat.vscode-yaml",
