@@ -32,6 +32,14 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
+        },
+        {
+            "name": "Debug with sanitizers",
+            "displayName": "Debug (sanitizers)",
+            "inherits": "Debug",
+            "cacheVariables": {
+                "TERMINALPP_SANITIZE": "address,undefined"
+            }
         }
     ],
     "buildPresets": [],
