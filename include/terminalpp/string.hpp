@@ -4,6 +4,7 @@
 
 #include <boost/container_hash/hash.hpp>
 
+#include <algorithm>
 #include <concepts>  // IWYU pragma: keep
 #include <initializer_list>
 #include <string>
@@ -40,21 +41,24 @@ public:
     //* =====================================================================
     /// \brief Constructor
     //* =====================================================================
-    string() = default;
+    constexpr string() = default;
 
     //* =====================================================================
     /// \brief Range Constructor
     //* =====================================================================
     template <std::forward_iterator ForwardIterator>
-    string(ForwardIterator &&begin, ForwardIterator &&end)
-      : elements_(begin, end)
+    constexpr string(ForwardIterator &&begin, ForwardIterator &&end)
+      : elements_{begin, end}
     {
     }
 
     //* =====================================================================
     /// \brief Initializer List Constructor
     //* =====================================================================
-    string(std::initializer_list<element> const &ilist);
+    constexpr string(std::initializer_list<element> const &ilist)
+      : string{ilist.begin(), ilist.end()}
+    {
+    }
 
     //* =====================================================================
     /// \brief Constructor
@@ -62,7 +66,10 @@ public:
     /// Results in a string with the passed text, with all attributes
     /// their default values.
     //* =====================================================================
-    string(char const *text);  // NOLINT
+    constexpr string(char const *text)  // NOLINT
+      : string{text, std::char_traits<char>::length(text)}
+    {
+    }
 
     //* =====================================================================
     /// \brief Constructor
@@ -71,7 +78,10 @@ public:
     /// Results in a string of length len with the passed text, with all
     /// attributes their default values.
     //* =====================================================================
-    string(char const *text, size_type len);
+    constexpr string(char const *text, size_type len)
+      : elements_{text, text + len}
+    {
+    }
 
     //* =====================================================================
     /// \brief Constructor
@@ -79,108 +89,172 @@ public:
     /// Results in a string with the passed text, with all attributes
     /// their default values.
     //* =====================================================================
-    string(std::string const &text);  // NOLINT
+    constexpr string(std::string const &text)  // NOLINT
+      : string{text.data(), text.size()}
+    {
+    }
 
     //* =====================================================================
     /// \brief Constructor
     /// \param text the text to build this string around.
     /// \param attr the attribute to apply to each new element of the string.
     //* =====================================================================
-    string(std::string const &text, terminalpp::attribute const &attr);
+    constexpr string(std::string const &text, terminalpp::attribute const &attr)
+      : string{text}
+    {
+        std::ranges::for_each(
+            elements_, [&attr](auto &elem) { elem.attribute_ = attr; });
+    }
 
     //* =====================================================================
     /// \brief Construct a string of a number of identical elements.
     /// \param size the size of the string to construct.
     /// \param elem a prototype element to fill the string with
     //* =====================================================================
-    string(size_type size, terminalpp::element const &elem);
+    constexpr string(size_type size, terminalpp::element const &elem)
+      : elements_(size, elem)
+    {
+    }
 
     //* =====================================================================
     /// \brief Returns the number of elements in the string.
     //* =====================================================================
-    [[nodiscard]] size_type size() const;
+    [[nodiscard]] constexpr size_type size() const noexcept
+    {
+        return elements_.size();
+    }
 
     //* =====================================================================
     /// \brief Returns an iterator to the beginning of the string.
     //* =====================================================================
-    [[nodiscard]] iterator begin();
+    [[nodiscard]] constexpr iterator begin() noexcept
+    {
+        return elements_.begin();
+    }
 
     //* =====================================================================
     /// \brief Returns an iterator to the beginning of the string.
     //* =====================================================================
-    [[nodiscard]] const_iterator begin() const;
+    [[nodiscard]] constexpr const_iterator begin() const noexcept
+    {
+        return elements_.begin();
+    }
 
     //* =====================================================================
     /// \brief Returns a reverse iterator to the reverse beginning of the
     /// string.
     //* =====================================================================
-    [[nodiscard]] reverse_iterator rbegin();
+    [[nodiscard]] constexpr reverse_iterator rbegin() noexcept
+    {
+        return elements_.rbegin();
+    }
 
     //* =====================================================================
     /// \brief Returns a reverse iterator to the reverse beginning of the
     /// string.
     //* =====================================================================
-    [[nodiscard]] const_reverse_iterator rbegin() const;
+    [[nodiscard]] constexpr const_reverse_iterator rbegin() const noexcept
+    {
+        return elements_.rbegin();
+    }
 
     //* =====================================================================
     /// \brief Returns an iterator to the end of the string.
     //* =====================================================================
-    [[nodiscard]] iterator end();
+    [[nodiscard]] constexpr iterator end() noexcept
+    {
+        return elements_.end();
+    }
 
     //* =====================================================================
     /// \brief Returns an iterator to the end of the string.
     //* =====================================================================
-    [[nodiscard]] const_iterator end() const;
+    [[nodiscard]] constexpr const_iterator end() const noexcept
+    {
+        return elements_.end();
+    }
 
     //* =====================================================================
     /// \brief Returns a reverse iterator to the reverse end of the string
     //* =====================================================================
-    [[nodiscard]] reverse_iterator rend();
+    [[nodiscard]] constexpr reverse_iterator rend() noexcept
+    {
+        return elements_.rend();
+    }
 
     //* =====================================================================
     /// \brief Returns a reverse iterator to the reverse end of the string
     //* =====================================================================
-    [[nodiscard]] const_reverse_iterator rend() const;
+    [[nodiscard]] constexpr const_reverse_iterator rend() const noexcept
+    {
+        return elements_.rend();
+    }
 
     //* =====================================================================
     /// \brief Returns an iterator to the beginning of the string.
     //* =====================================================================
-    [[nodiscard]] const_iterator cbegin();
+    [[nodiscard]] constexpr const_iterator cbegin() noexcept
+    {
+        return elements_.cbegin();
+    }
 
     //* =====================================================================
     /// \brief Returns an iterator to the end of the string.
     //* =====================================================================
-    [[nodiscard]] const_iterator cend();
+    [[nodiscard]] constexpr const_iterator cend() noexcept
+    {
+        return elements_.cend();
+    }
 
     //* =====================================================================
     /// \brief Swaps the contents of this and another string.
     //* =====================================================================
-    void swap(string &other) noexcept;
+    constexpr void swap(string &other) noexcept
+    {
+        std::swap(elements_, other.elements_);
+    }
 
     //* =====================================================================
     /// \brief Returns the maximum size of the string allowed.
     //* =====================================================================
-    [[nodiscard]] size_type max_size() const;
+    [[nodiscard]] constexpr size_type max_size() const noexcept
+    {
+        return std::numeric_limits<size_type>::max();
+    }
 
     //* =====================================================================
     /// \brief Returns whether the string is empty or not.
     //* =====================================================================
-    [[nodiscard]] bool empty() const;
+    [[nodiscard]] constexpr bool empty() const noexcept
+    {
+        return elements_.empty();
+    }
 
     //* =====================================================================
     /// \brief Array access operator
     //* =====================================================================
-    [[nodiscard]] reference operator[](size_type index);
+    [[nodiscard]] constexpr reference operator[](size_type index) noexcept
+    {
+        return elements_[index];
+    }
 
     //* =====================================================================
     /// \brief Array access operator
     //* =====================================================================
-    [[nodiscard]] const_reference operator[](size_type index) const;
+    [[nodiscard]] constexpr const_reference operator[](
+        size_type index) const noexcept
+    {
+        return elements_[index];
+    }
 
     //* =====================================================================
     /// \brief Append operator
     //* =====================================================================
-    string &operator+=(element const &elem);
+    constexpr string &operator+=(element const &elem)
+    {
+        elements_.insert(elements_.end(), elem);
+        return *this;
+    }
 
     //* =====================================================================
     /// \brief Append operator
@@ -193,7 +267,11 @@ public:
     //* =====================================================================
     /// \brief Append operator
     //* =====================================================================
-    string &operator+=(string const &rhs);
+    constexpr string &operator+=(string const &rhs)
+    {
+        elements_.insert(elements_.end(), rhs.begin(), rhs.end());
+        return *this;
+    }
 
     //* =====================================================================
     /// \brief Append operator
@@ -206,13 +284,16 @@ public:
     //* =====================================================================
     /// \brief Inserts an element at the iterator position.
     //* =====================================================================
-    void insert(iterator pos, element const &elem);
+    constexpr void insert(iterator pos, element const &elem)
+    {
+        elements_.insert(pos, elem);
+    }
 
     //* =====================================================================
     /// \brief Inserts a range of elements at the iterator position.
     //* =====================================================================
     template <class InputIterator>
-    void insert(
+    constexpr void insert(
         iterator pos, InputIterator range_begin, InputIterator range_end)
     {
         elements_.insert(pos, range_begin, range_end);
@@ -221,29 +302,39 @@ public:
     //* =====================================================================
     /// \brief Erase
     //* =====================================================================
-    void erase();
+    constexpr void erase()
+    {
+        elements_.clear();
+    }
 
     //* =====================================================================
     /// \brief Erase
     //* =====================================================================
-    void erase(iterator range_begin);
+    constexpr void erase(iterator range_begin)
+    {
+        elements_.erase(range_begin, elements_.end());
+    }
 
     //* =====================================================================
     /// \brief Erase
     //* =====================================================================
-    void erase(iterator range_begin, iterator range_end);
+    constexpr void erase(iterator range_begin, iterator range_end)
+    {
+        elements_.erase(range_begin, range_end);
+    }
 
     //* =====================================================================
     /// \brief Relational operators for strings
     //* =====================================================================
-    [[nodiscard]] friend auto operator<=>(
+    [[nodiscard]] constexpr friend auto operator<=>(
         string const &lhs, string const &rhs) noexcept = default;
 
     //* =====================================================================
     /// \brief Equality operator
     //* =====================================================================
     TERMINALPP_EXPORT
-    friend bool operator==(string const &lhs, string const &rhs);
+    constexpr friend bool operator==(
+        string const &lhs, string const &rhs) noexcept = default;
 
     //* =====================================================================
     /// \brief Hash function
@@ -270,7 +361,32 @@ std::ostream &operator<<(std::ostream &out, string const &text);
 /// attributes and charset information.
 //* =========================================================================
 TERMINALPP_EXPORT
-[[nodiscard]] ::std::string to_string(terminalpp::string const &tstr);
+[[nodiscard]] constexpr ::std::string to_string(terminalpp::string const &tstr)
+{
+    std::string result;
+
+    for (auto const &elem : tstr)
+    {
+        if (elem.glyph_.charset_ == charset::utf8)
+        {
+            for (auto const &ch : elem.glyph_.ucharacter_)
+            {
+                if (ch == 0)
+                {
+                    break;
+                }
+
+                result += static_cast<char>(ch);
+            }
+        }
+        else
+        {
+            result += static_cast<char>(elem.glyph_.character_);
+        }
+    }
+
+    return result;
+}
 
 inline namespace literals {
 inline namespace string_literals {
@@ -279,8 +395,11 @@ inline namespace string_literals {
 /// \brief Construct an string from literals using "foo"_ts;
 //* =========================================================================
 TERMINALPP_EXPORT
-[[nodiscard]] ::terminalpp::string operator""_ts(
-    char const *text, ::terminalpp::string::size_type length);
+[[nodiscard]] constexpr ::terminalpp::string operator""_ts(
+    char const *text, ::terminalpp::string::size_type length)
+{
+    return {text, length};
+}
 
 //* =========================================================================
 /// \brief Construct an encoded string from literals using "foo"_ets;
