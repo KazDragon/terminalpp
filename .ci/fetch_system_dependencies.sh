@@ -5,7 +5,7 @@ export EXTERNAL_BUILD_ROOT=$HOME/external_build
 
 mkdir "$EXTERNAL_BUILD_ROOT" || true
 
-# libfmt and Boost dependencies installed via apt in build.yml
+# Boost dependencies installed via apt in build.yml
 
 # Install googletest dependency
 if [ ! -f "$EXTERNAL_ROOT/include/gtest/gtest.h" ]; then

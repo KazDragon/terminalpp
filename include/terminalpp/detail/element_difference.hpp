@@ -15,7 +15,7 @@
 #include "terminalpp/effect.hpp"
 #include "terminalpp/element.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 #include <optional>
 #include <utility>
@@ -183,7 +183,7 @@ constexpr void change_effect(
                     wc(separator);
                 }
 
-                wc(to_bytes(fmt::format("{}", int(EffectType::normal))));
+                wc(to_bytes(std::format("{}", int(EffectType::normal))));
             }
         }
 
@@ -192,7 +192,7 @@ constexpr void change_effect(
             wc(separator);
         }
 
-        wc(to_bytes(fmt::format("{}", int(dest.value_))));
+        wc(to_bytes(std::format("{}", int(dest.value_))));
     }
 }
 
@@ -217,21 +217,21 @@ constexpr void change_foreground_colour(
         std::visit(
             overloaded{
                 [&wc](low_colour const &col) {
-                    wc(to_bytes(fmt::format(
+                    wc(to_bytes(std::format(
                         "{}",
                         static_cast<int>(col.value_)
                             + ansi::graphics::foreground_colour_base)));
                 },
                 [&wc](high_colour const &col) {
                     wc(to_bytes(
-                        fmt::format("38;5;{}", static_cast<int>(col.value_))));
+                        std::format("38;5;{}", static_cast<int>(col.value_))));
                 },
                 [&wc](greyscale_colour const &col) {
                     wc(to_bytes(
-                        fmt::format("38;5;{}", static_cast<int>(col.shade_))));
+                        std::format("38;5;{}", static_cast<int>(col.shade_))));
                 },
                 [&wc](true_colour const &col) {
-                    wc(to_bytes(fmt::format(
+                    wc(to_bytes(std::format(
                         "38;2;{};{};{}",
                         static_cast<int>(col.red_),
                         static_cast<int>(col.green_),
@@ -262,21 +262,21 @@ constexpr void change_background_colour(
         std::visit(
             overloaded{
                 [&wc](low_colour const &col) {
-                    wc(to_bytes(fmt::format(
+                    wc(to_bytes(std::format(
                         "{}",
                         static_cast<int>(col.value_)
                             + ansi::graphics::background_colour_base)));
                 },
                 [&wc](high_colour const &col) {
                     wc(to_bytes(
-                        fmt::format("48;5;{}", static_cast<int>(col.value_))));
+                        std::format("48;5;{}", static_cast<int>(col.value_))));
                 },
                 [&wc](greyscale_colour const &col) {
                     wc(to_bytes(
-                        fmt::format("48;5;{}", static_cast<int>(col.shade_))));
+                        std::format("48;5;{}", static_cast<int>(col.shade_))));
                 },
                 [&wc](true_colour const &col) {
-                    wc(to_bytes(fmt::format(
+                    wc(to_bytes(std::format(
                         "48;2;{};{};{}",
                         static_cast<int>(col.red_),
                         static_cast<int>(col.green_),

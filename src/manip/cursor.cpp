@@ -1,7 +1,7 @@
 #include "terminalpp/detail/element_difference.hpp"
 #include "terminalpp/terminal.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 namespace terminalpp {
 namespace {
@@ -20,12 +20,12 @@ void write_cursor_position(
     {
         if (destination.x_ == 0)
         {
-            write_fn(to_bytes(fmt::format("{}", destination.y_ + 1)));
+            write_fn(to_bytes(std::format("{}", destination.y_ + 1)));
         }
         else
         {
             write_fn(to_bytes(
-                fmt::format("{};{}", destination.y_ + 1, destination.x_ + 1)));
+                std::format("{};{}", destination.y_ + 1, destination.x_ + 1)));
         }
     }
 
@@ -47,7 +47,7 @@ void write_cursor_horizontal_absolute(
 
     if (x != 0)
     {
-        write_fn(to_bytes(fmt::format("{}", x + 1)));
+        write_fn(to_bytes(std::format("{}", x + 1)));
     }
 
     static byte_storage const cursor_horizontal_absolute_suffix = {
@@ -68,7 +68,7 @@ void write_cursor_up(
 
     if (distance != 1)
     {
-        write_fn(to_bytes(fmt::format("{}", distance)));
+        write_fn(to_bytes(std::format("{}", distance)));
     }
 
     static byte_storage const cursor_up_suffix = {ansi::csi::cursor_up};
@@ -88,7 +88,7 @@ void write_cursor_down(
 
     if (distance != 1)
     {
-        write_fn(to_bytes(fmt::format("{}", distance)));
+        write_fn(to_bytes(std::format("{}", distance)));
     }
 
     static byte_storage const cursor_down_suffix = {ansi::csi::cursor_down};

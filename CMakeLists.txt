@@ -50,9 +50,6 @@ endif()
 # Terminal++ requires at least Boost 1.69
 find_package(Boost 1.69.0 REQUIRED)
 
-# Terminal++ requires libfmt
-find_package(fmt 5.3 REQUIRED)
-
 # If we are building with tests, then we require the GTest library
 if (${TERMINALPP_WITH_TESTS})
     find_package(GTest REQUIRED)
@@ -155,7 +152,6 @@ target_sources(terminalpp
 target_link_libraries(terminalpp
     PUBLIC
         Boost::boost
-        fmt::fmt
 )
 
 target_include_directories(terminalpp
@@ -309,7 +305,6 @@ target_compile_options(terminalpp_tester
 target_link_libraries(terminalpp_tester 
     PRIVATE
         terminalpp
-        fmt::fmt
         GTest::GTest
         GTest::Main
 )

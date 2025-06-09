@@ -1,6 +1,6 @@
 #include "terminalpp/glyph.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 #include <iostream>
 
@@ -212,7 +212,7 @@ std::ostream &output_charset_and_character(std::ostream &out, glyph const &gly)
             }
             else
             {
-                return out << fmt::format(
+                return out << std::format(
                            "0x{:02X}", static_cast<int>(gly.character_));
             }
     }
@@ -266,7 +266,7 @@ std::ostream &operator<<(std::ostream &out, glyph const &gly)
         }
         else
         {
-            return out << fmt::format("U+{:04X}", utf8_decode(gly));
+            return out << std::format("U+{:04X}", utf8_decode(gly));
         }
     }
     else
