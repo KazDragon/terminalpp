@@ -1,5 +1,5 @@
 image:
-  - Visual Studio 2019
+  - Visual Studio 2022
 
 # Build only on the master branch, and for PRs.
 branches:
@@ -29,7 +29,7 @@ cache:
 
 init:
   - echo Appveyor Image = %APPVEYOR_BUILD_WORKER_IMAGE%
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set "generator=Visual Studio 16 2019" && set "toolset=v142" )
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2022" ( set "generator=Visual Studio 17 2022" && set "toolset=v143" )
   - echo Generator = %generator%
 
 install:
