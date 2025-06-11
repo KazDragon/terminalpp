@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Terminal++<span id="projectnumber">&#160;3.1.0.4</span>
+   <div id="projectname">Terminal++<span id="projectnumber">&#160;4.0.1</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -150,27 +150,27 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">// ==========================================================================</span></div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">// ==========================================================================</span></div>
 <div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad17b38e957634ef6f0c6bf3457df9993">   71</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad17b38e957634ef6f0c6bf3457df9993">high_red_component</a>(<span class="keywordtype">byte</span> value) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad17b38e957634ef6f0c6bf3457df9993">   71</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad17b38e957634ef6f0c6bf3457df9993">high_red_component</a>(<span class="keywordtype">byte</span> <a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>{</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">return</span> (value - high_colour_offset) / red_coefficient;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a> - high_colour_offset) / red_coefficient;</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>}</div>
 </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">// ==========================================================================</span></div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="comment">// ==========================================================================</span></div>
 <div class="foldopen" id="foldopen00079" data-start="{" data-end="}">
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ac2f1d040a7b2260d23d7b110b3d13c1c">   79</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ac2f1d040a7b2260d23d7b110b3d13c1c">high_green_component</a>(<span class="keywordtype">byte</span> value) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ac2f1d040a7b2260d23d7b110b3d13c1c">   79</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ac2f1d040a7b2260d23d7b110b3d13c1c">high_green_component</a>(<span class="keywordtype">byte</span> <a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>{</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">return</span> ((value - high_colour_offset) % red_coefficient) / green_coefficient;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">return</span> ((<a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a> - high_colour_offset) % red_coefficient) / green_coefficient;</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>}</div>
 </div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="comment">// ==========================================================================</span></div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">// ==========================================================================</span></div>
 <div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#af6469272c77a57cd830a34db8724bd00">   87</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#af6469272c77a57cd830a34db8724bd00">high_blue_component</a>(<span class="keywordtype">byte</span> value) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#af6469272c77a57cd830a34db8724bd00">   87</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#af6469272c77a57cd830a34db8724bd00">high_blue_component</a>(<span class="keywordtype">byte</span> <a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">return</span> (value - high_colour_offset) % green_coefficient;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a> - high_colour_offset) % green_coefficient;</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
 </div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
@@ -183,18 +183,18 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment">// ==========================================================================</span></div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">// ==========================================================================</span></div>
 <div class="foldopen" id="foldopen00101" data-start="{" data-end="}">
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a4347d8e80f88676386dc2389e2e3c861">  101</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a4347d8e80f88676386dc2389e2e3c861">encode_greyscale_component</a>(<span class="keywordtype">byte</span> grey) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a4347d8e80f88676386dc2389e2e3c861">  101</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#a4347d8e80f88676386dc2389e2e3c861">encode_greyscale_component</a>(<span class="keywordtype">byte</span> <a class="code hl_struct" href="structterminalpp_1_1effect.html">grey</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>{</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">return</span> greyscale_colour_offset + grey;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">return</span> greyscale_colour_offset + <a class="code hl_struct" href="structterminalpp_1_1effect.html">grey</a>;</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
 </div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">// ==========================================================================</span></div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">// ==========================================================================</span></div>
 <div class="foldopen" id="foldopen00109" data-start="{" data-end="}">
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad5e965c78fcdc984c8c6e077a289420d">  109</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad5e965c78fcdc984c8c6e077a289420d">greyscale_component</a>(<span class="keywordtype">byte</span> value) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad5e965c78fcdc984c8c6e077a289420d">  109</a></span><span class="keyword">constexpr</span> <span class="keywordtype">byte</span> <a class="code hl_function" href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad5e965c78fcdc984c8c6e077a289420d">greyscale_component</a>(<span class="keywordtype">byte</span> <a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>{</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> value - greyscale_colour_offset;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> <a class="code hl_struct" href="structterminalpp_1_1effect.html">value</a> - greyscale_colour_offset;</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
 </div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
@@ -206,10 +206,11 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_ad17b38e957634ef6f0c6bf3457df9993"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad17b38e957634ef6f0c6bf3457df9993">terminalpp::ansi::graphics::high_red_component</a></div><div class="ttdeci">constexpr byte high_red_component(byte value) noexcept</div><div class="ttdoc">Extract the red component of a high colour value.</div><div class="ttdef"><b>Definition</b> graphics.hpp:71</div></div>
 <div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_ad5e965c78fcdc984c8c6e077a289420d"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#ad5e965c78fcdc984c8c6e077a289420d">terminalpp::ansi::graphics::greyscale_component</a></div><div class="ttdeci">constexpr byte greyscale_component(byte value) noexcept</div><div class="ttdoc">Extract a greyscale value.</div><div class="ttdef"><b>Definition</b> graphics.hpp:109</div></div>
 <div class="ttc" id="anamespaceterminalpp_1_1ansi_1_1graphics_html_af6469272c77a57cd830a34db8724bd00"><div class="ttname"><a href="namespaceterminalpp_1_1ansi_1_1graphics.html#af6469272c77a57cd830a34db8724bd00">terminalpp::ansi::graphics::high_blue_component</a></div><div class="ttdeci">constexpr byte high_blue_component(byte value) noexcept</div><div class="ttdoc">Extract the blue component of a high colour value.</div><div class="ttdef"><b>Definition</b> graphics.hpp:87</div></div>
+<div class="ttc" id="astructterminalpp_1_1effect_html"><div class="ttname"><a href="structterminalpp_1_1effect.html">terminalpp::effect</a></div><div class="ttdoc">A structure representing an ANSI graphics effect (e.g. intensity, underlining)</div><div class="ttdef"><b>Definition</b> effect.hpp:27</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 13:01:29 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Wed Jun 11 2025 18:35:24 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

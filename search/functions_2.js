@@ -1,8 +1,8 @@
 var searchData=
 [
   ['canvas_0',['canvas',['../classterminalpp_1_1canvas.html#aad8f9a81e19093effd2b755f06c0d2ad',1,'terminalpp::canvas']]],
-  ['cbegin_1',['cbegin',['../classterminalpp_1_1string.html#a1bd6bf85ec1705b9978c52501a6541cb',1,'terminalpp::string']]],
-  ['cend_2',['cend',['../classterminalpp_1_1string.html#a7cf9122a74291cf0c5dfc6e150158fe2',1,'terminalpp::string']]],
+  ['cbegin_1',['cbegin',['../classterminalpp_1_1string.html#a13c0be38567cfe4a526a37d663790422',1,'terminalpp::string']]],
+  ['cend_2',['cend',['../classterminalpp_1_1string.html#a6c8d5682a6cf7febe552c28bc5ed0b93',1,'terminalpp::string']]],
   ['character_5fset_3',['character_set',['../structterminalpp_1_1character__set.html#ab616658ce7941cef287cdd104ea24a2c',1,'terminalpp::character_set::character_set() noexcept'],['../structterminalpp_1_1character__set.html#a5f5f567544789ed0f4b04f9a3aea67ef',1,'terminalpp::character_set::character_set(charset const &amp;set) noexcept']]],
   ['close_4',['close',['../classterminalpp_1_1stdout__channel.html#a882ddebfa4270a7d1865527174accb7d',1,'terminalpp::stdout_channel::close()'],['../classterminalpp_1_1terminal.html#a2f6fa7ff33efd81ea46f63ab14440973',1,'terminalpp::terminal::close()']]],
   ['colour_5',['colour',['../structterminalpp_1_1colour.html#a8b6fbbccf493167679a1b67bdc2784d1',1,'terminalpp::colour::colour() noexcept'],['../structterminalpp_1_1colour.html#a13228a913c9f9eaf50aa7a95a4d2282b',1,'terminalpp::colour::colour(terminalpp::low_colour col) noexcept'],['../structterminalpp_1_1colour.html#a590880927f501e4480658413841ddb50',1,'terminalpp::colour::colour(terminalpp::graphics::colour col) noexcept'],['../structterminalpp_1_1colour.html#a8d59fc1ed0f454377a990d6dc9139af9',1,'terminalpp::colour::colour(terminalpp::high_colour col) noexcept'],['../structterminalpp_1_1colour.html#a8945096ca3bba5a8049f9063a2c94afb',1,'terminalpp::colour::colour(terminalpp::greyscale_colour col) noexcept'],['../structterminalpp_1_1colour.html#af3014f234b399420af6a614e361f7b0b',1,'terminalpp::colour::colour(terminalpp::true_colour col) noexcept']]]

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Terminal++<span id="projectnumber">&#160;3.1.0.4</span>
+   <div id="projectname">Terminal++<span id="projectnumber">&#160;4.0.1</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -74,24 +74,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2home_2runner_2work_2terminalpp_2terminalpp_2README"></a> <a href="https://kazdragon.github.io/terminalpp/"><img src="https://img.shields.io/badge/code-documented-brightgreen.svg?style=flat" alt="Documentation" style="pointer-events: none;" class="inline"/></a> <a href="https://en.wikipedia.org/wiki/MIT_License"><img src="https://img.shields.io/github/license/KazDragon/terminalpp.svg" alt="License" style="pointer-events: none;" class="inline"/></a> <a href="https://ci.appveyor.com/project/KazDragon/terminalpp/branch/master"><img src="https://ci.appveyor.com/api/projects/status/ywpx7m37e902hdoy/branch/master?svg=true" alt="MSVC Build status" class="inline"/></a> <a href="https://github.com/KazDragon/terminalpp/actions?query=event%3Apush"><img src="https://github.com/KazDragon/terminalpp/workflows/build/badge.svg" alt="Linux Build status" style="pointer-events: none;" class="inline"/></a> <a href="https://coveralls.io/github/KazDragon/terminalpp?branch=master"><img src="https://coveralls.io/repos/github/KazDragon/terminalpp/badge.svg?branch=master" alt="Coverage Status" style="pointer-events: none;" class="inline"/></a> <a href="https://www.codacy.com/gh/KazDragon/terminalpp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KazDragon/terminalpp&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/a2741e8f7abf49bc8b496fbf8b51b983" alt="Codacy Badge" class="inline"/></a></p>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 Terminal++</h1>
 <p>A C++ library for interacting with ANSI/VT100 terminal or terminal emulator displays.</p>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 Requirements</h1>
-<p>Terminal++ requires a C++17 compiler and the following libraries:</p><ul>
+<p>Terminal++ requires a C++20 compiler and the following libraries:</p><ul>
 <li>Boost (At least version 1.69.0)</li>
-<li>libfmt (At least version 5.3)</li>
 <li>(For testing only) Google Test</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 Installation - CMake</h1>
-<p>Terminal++ can be installed from source using CMake. This requires Boost, libfmt and any other dependencies to have been installed beforehand, using their own instructions, or for the call to <code>cmake --configure</code> to be adjusted appropriately (e.g. <code>-DBOOST_ROOT=...</code> or <code>-Dfmt_DIR=...</code>). If you do not wish to install into a system directory, and thus avoid the use of sudo, you can also pass <code>-DCMAKE_INSTALL_PREFIX=...</code> into the <code>cmake --configure</code> call. </p><pre class="fragment">git clone https://github.com/KazDragon/terminalpp.git &amp;&amp; cd terminalpp
+<p>Terminal++ can be installed from source using CMake. This requires Boost and any other dependencies to have been installed beforehand, using their own instructions, or for the call to <code>cmake --configure</code> to be adjusted appropriately (e.g. <code>-DBOOST_ROOT=...</code>). If you do not wish to install into a system directory, and thus avoid the use of sudo, you can also pass <code>-DCMAKE_INSTALL_PREFIX=...</code> into the <code>cmake --configure</code> call. </p><pre class="fragment">git clone https://github.com/KazDragon/terminalpp.git &amp;&amp; cd terminalpp
 mkdir build &amp;&amp; cd build
 cmake --configure -DCMAKE_BUILD_TYPE=Release ..
 cmake --build .
 sudo cmake --install .
-</pre> <h1><a class="anchor" id="autotoc_md17"></a>
+</pre> <h1><a class="anchor" id="autotoc_md18"></a>
 Features / Roadmap</h1>
 <ol type="1">
 <li>[x] A utility for creating strings with embedded ANSI attributes<ul>
@@ -115,10 +114,10 @@ Features / Roadmap</h1>
 </li>
 </ol>
 <p>A set of classes that implement a windowing user interface are currently being implemented in the <a href="https://github.com/KazDragon/munin">Munin project</a>.</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 Status</h1>
 <p>Terminal++ is currently automatically tested using MSVC 2019 and GCC 9.4. For further information about the working status of the library, to report any bugs, or to make any feature requests, visit the <a href="https://github.com/KazDragon/terminalpp/issues">Issues page</a>. Feel free to discuss using Github Discussions!</p>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 The Basics</h1>
 <p>The purpose of the library is to be able to allow the usage of ANSI escape codes to their fullest potential in order to create fully-featured text-based applications. The use cases for such software range from interactive forms of command-line software up to GUI-style applications over the internet using terminal emulators such as Xterm, PuTTY, or even some MUD clients (e.g Tintin++).</p>
 <p>At its most fundamental level, Terminal++ is in the business of manipulating character elements on the screen, where each element is encoded as a glyph, which describes the character that is presented to the user, and a series of non-character graphical attributes. These are encapsulated in the following classes:</p>
@@ -128,7 +127,7 @@ The Basics</h1>
 </ul>
 <p>These are combined into Terminal++'s fundamental type, <a class="el" href="structterminalpp_1_1element.html" title="A structure that represents the fundamental printable element of a terminal screen,...">terminalpp::element</a>.</p>
 <p>The library's primary abstraction is the terminal class, which is a container for all the operations one might want to do on it. Because the terminal does not know whether you are sending data to the console, over a network connection or into a file, it uses a type-erased "channel" concept onto which these operations are mapped. This concept aligns closely with telnetpp::session, serverpp::tcp_socket and consolepp::console in the Telnet++, Server++ and Console++ libraries, respectively, for easier integration. Terminal++ also provides stdout_channel, which can serve for programs who do not require asynchronous input. This use of this is demonstrated in the examples below.</p>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Strings</h1>
 <p>terminalpp::elements can be collected together using the <a class="el" href="classterminalpp_1_1string.html" title="A class that represents strings of elements.">terminalpp::string</a> class. It has several constructors for different uses. For example, one of the constructors takes a std::string and an attribute to apply to all those characters for when you want something like print out a single red error message. In addition, there are the user-defined literal suffixes _ts (terminal string) and _ets (encoded terminal string) to help construct more complex strings.</p>
 <p><a href="examples/hello_world">Hello, World! project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
@@ -146,7 +145,7 @@ Strings</h1>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Constructs a terminalpp::string, and then prints it to the terminal as, &quot;Hello, world!&quot;</span></div>
 <div class="ttc" id="aclassterminalpp_1_1stdout__channel_html"><div class="ttname"><a href="classterminalpp_1_1stdout__channel.html">terminalpp::stdout_channel</a></div><div class="ttdoc">A class that models the terminal's channel concept, providing output to stdout.</div><div class="ttdef"><b>Definition</b> stdout_channel.hpp:14</div></div>
-<div class="ttc" id="aclassterminalpp_1_1string_html"><div class="ttname"><a href="classterminalpp_1_1string.html">terminalpp::string</a></div><div class="ttdoc">A class that represents strings of elements.</div><div class="ttdef"><b>Definition</b> string.hpp:21</div></div>
+<div class="ttc" id="aclassterminalpp_1_1string_html"><div class="ttname"><a href="classterminalpp_1_1string.html">terminalpp::string</a></div><div class="ttdoc">A class that represents strings of elements.</div><div class="ttdef"><b>Definition</b> string.hpp:22</div></div>
 <div class="ttc" id="aclassterminalpp_1_1terminal_html"><div class="ttname"><a href="classterminalpp_1_1terminal.html">terminalpp::terminal</a></div><div class="ttdoc">A class that encapsulates a terminal.</div><div class="ttdef"><b>Definition</b> terminal.hpp:30</div></div>
 <div class="ttc" id="astructterminalpp_1_1effect_html"><div class="ttname"><a href="structterminalpp_1_1effect.html">terminalpp::effect</a></div><div class="ttdoc">A structure representing an ANSI graphics effect (e.g. intensity, underlining)</div><div class="ttdef"><b>Definition</b> effect.hpp:27</div></div>
 </div><!-- fragment --><p>By using _ets, you can also encode attributes within the text. For example:</p>
@@ -165,7 +164,7 @@ Strings</h1>
 </div><!-- fragment --><p>This prints out "Hello, " in red text, then "World!" in green text, and then a smiley face in the default colour. See the Wiki for more information about the attribute encoding used and its possibilities. It is also possible to change the attributes for each element programatically.</p>
 <div class="fragment"><div class="line"><a class="code hl_class" href="classterminalpp_1_1string.html">terminalpp::string</a> <a class="code hl_struct" href="structterminalpp_1_1effect.html">text</a> = ...;</div>
 <div class="line"><a class="code hl_struct" href="structterminalpp_1_1effect.html">text</a>[0].attribute_.intensity_ = terminalpp::graphics::intensity::bold;</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md22"></a>
 Terminals</h1>
 <p>At this point, you have everything you need for a standard command-line application that uses colour or other properties, such as you might see in the output of a CMake script or Google Test results, or even standard unix functions such as ls. But the terminal class allows for complete control over the terminal's appearance.</p>
 <p><a href="examples/positioned_smiley">Positioned smiley project</a> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;terminalpp/terminal.hpp&gt;</span></div>
@@ -187,7 +186,7 @@ Terminals</h1>
 <div class="ttc" id="aclassterminalpp_1_1restore__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1restore__cursor__position.html">terminalpp::restore_cursor_position</a></div><div class="ttdoc">A manipulator that restores the cursor position.</div><div class="ttdef"><b>Definition</b> terminal.hpp:361</div></div>
 <div class="ttc" id="aclassterminalpp_1_1save__cursor__position_html"><div class="ttname"><a href="classterminalpp_1_1save__cursor__position.html">terminalpp::save_cursor_position</a></div><div class="ttdoc">A manipulator that saves the cursor position.</div><div class="ttdef"><b>Definition</b> terminal.hpp:346</div></div>
 </div><!-- fragment --><p>This writes a smiley face in the (0, 0) position on the terminal &ndash; the top-left corner. The cursor position is unchanged. The terminal uses a 0-based co-ordinate system where point (0, 0) is the top-left corner, and the co-ordinates are in (x, y) order.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Canvas and Screen</h1>
 <p>For even finer control of the terminal, the <a class="el" href="classterminalpp_1_1canvas.html" title="A class representing a grid onto which elements can be painted.">terminalpp::canvas</a> class presents a grid of elements upon which you can "paint" the desired appearance of the terminal on a frame-by-frame by simply assigning to the appropriate co-ordinates:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> main()</div>
@@ -281,7 +280,7 @@ Canvas and Screen</h1>
 <div class="line">    <a class="code hl_class" href="classterminalpp_1_1terminal.html">terminal</a> &lt;&lt; <a class="code hl_class" href="classterminalpp_1_1disable__mouse.html">terminalpp::disable_mouse</a>()</div>
 <div class="line">             &lt;&lt; <a class="code hl_class" href="classterminalpp_1_1use__normal__screen__buffer.html">terminalpp::use_normal_screen_buffer</a>()</div>
 <div class="line">             &lt;&lt; <a class="code hl_class" href="classterminalpp_1_1restore__cursor__position.html">terminalpp::restore_cursor_position</a>()</div>
-<div class="line">             &lt;&lt; fmt::format(<span class="stringliteral">&quot;mouse clicked at ({},{})\n&quot;</span>, <a class="code hl_struct" href="structterminalpp_1_1effect.html">mouse_position</a>.x_, <a class="code hl_struct" href="structterminalpp_1_1effect.html">mouse_position</a>.y_);</div>
+<div class="line">             &lt;&lt; std::format(<span class="stringliteral">&quot;mouse clicked at ({},{})\n&quot;</span>, <a class="code hl_struct" href="structterminalpp_1_1effect.html">mouse_position</a>.x_, <a class="code hl_struct" href="structterminalpp_1_1effect.html">mouse_position</a>.y_);</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_struct" href="structterminalpp_1_1effect.html">handle_token</a>(terminalpp::token <span class="keyword">const</span> &amp;token);</div>
@@ -309,7 +308,7 @@ Canvas and Screen</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 13:01:29 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Wed Jun 11 2025 18:35:24 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

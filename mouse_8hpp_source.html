@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Terminal++<span id="projectnumber">&#160;3.1.0.4</span>
+   <div id="projectname">Terminal++<span id="projectnumber">&#160;4.0.1</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -104,7 +104,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">//* =========================================================================</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">//* =========================================================================</span></div>
 <div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structterminalpp_1_1mouse_1_1event.html">   23</a></span><span class="keyword">struct </span>TERMINALPP_EXPORT <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structterminalpp_1_1mouse_1_1event.html">   23</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structterminalpp_1_1effect.html">TERMINALPP_EXPORT</a> <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">//* =====================================================================</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="comment">//* =====================================================================</span></div>
@@ -116,17 +116,18 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">//* =====================================================================</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">//* =====================================================================</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structterminalpp_1_1mouse_1_1event.html#add5ee30d1e784fb6fdd4e92f359776ee">   38</a></span>    [[nodiscard]] <span class="keyword">constexpr</span> <span class="keyword">friend</span> <span class="keyword">auto</span> <a class="code hl_friend" href="structterminalpp_1_1mouse_1_1event.html#add5ee30d1e784fb6fdd4e92f359776ee">operator&lt;=&gt;</a>(</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a> <span class="keyword">const</span> &amp;lhs, <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a> <span class="keyword">const</span> &amp;rhs) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structterminalpp_1_1mouse_1_1event.html#add5ee30d1e784fb6fdd4e92f359776ee">   38</a></span>    [[<a class="code hl_struct" href="structterminalpp_1_1effect.html">nodiscard</a>]] <span class="keyword">constexpr</span> <span class="keyword">friend</span> <span class="keyword">auto</span> <a class="code hl_friend" href="structterminalpp_1_1mouse_1_1event.html#add5ee30d1e784fb6fdd4e92f359776ee">operator&lt;=&gt;</a>(</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a> <span class="keyword">const</span> &amp;<a class="code hl_struct" href="structterminalpp_1_1effect.html">lhs</a>, <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a> <span class="keyword">const</span> &amp;<a class="code hl_struct" href="structterminalpp_1_1effect.html">rhs</a>) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>};</div>
 </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">//* =========================================================================</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">//* =========================================================================</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>TERMINALPP_EXPORT</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a> <span class="keyword">const</span> &amp;ev);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><a class="code hl_struct" href="structterminalpp_1_1effect.html">TERMINALPP_EXPORT</a></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>std::ostream &amp;<a class="code hl_struct" href="structterminalpp_1_1effect.html">operator&lt;&lt;</a>(std::ostream &amp;<a class="code hl_struct" href="structterminalpp_1_1effect.html">out</a>, <a class="code hl_struct" href="structterminalpp_1_1mouse_1_1event.html">event</a> <span class="keyword">const</span> &amp;<a class="code hl_struct" href="structterminalpp_1_1effect.html">ev</a>);</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}  <span class="comment">// namespace terminalpp::mouse</span></div>
+<div class="ttc" id="astructterminalpp_1_1effect_html"><div class="ttname"><a href="structterminalpp_1_1effect.html">terminalpp::effect</a></div><div class="ttdoc">A structure representing an ANSI graphics effect (e.g. intensity, underlining)</div><div class="ttdef"><b>Definition</b> effect.hpp:27</div></div>
 <div class="ttc" id="astructterminalpp_1_1mouse_1_1event_html"><div class="ttname"><a href="structterminalpp_1_1mouse_1_1event.html">terminalpp::mouse::event</a></div><div class="ttdoc">A structure that encapsulates a mouse event.</div><div class="ttdef"><b>Definition</b> mouse.hpp:24</div></div>
 <div class="ttc" id="astructterminalpp_1_1mouse_1_1event_html_a39a75ce58a27f1ab49277d8cdccc7486"><div class="ttname"><a href="structterminalpp_1_1mouse_1_1event.html#a39a75ce58a27f1ab49277d8cdccc7486">terminalpp::mouse::event::position_</a></div><div class="ttdeci">point position_</div><div class="ttdoc">The position of the mouse in this event.</div><div class="ttdef"><b>Definition</b> mouse.hpp:33</div></div>
 <div class="ttc" id="astructterminalpp_1_1mouse_1_1event_html_add5ee30d1e784fb6fdd4e92f359776ee"><div class="ttname"><a href="structterminalpp_1_1mouse_1_1event.html#add5ee30d1e784fb6fdd4e92f359776ee">terminalpp::mouse::event::operator&lt;=&gt;</a></div><div class="ttdeci">constexpr friend auto operator&lt;=&gt;(event const &amp;lhs, event const &amp;rhs) noexcept=default</div><div class="ttdoc">Relational operators for events.</div></div>
@@ -134,7 +135,7 @@ $(document).ready(function() { init_codefold(0); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 13:01:29 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Wed Jun 11 2025 18:35:24 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>
