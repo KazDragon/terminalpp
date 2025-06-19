@@ -18,7 +18,7 @@ TEST(colour_test, can_construct_from_low_colour_enum)
     ASSERT_EQ(expected_colour, result_colour);
 }
 
-using low_colour_string = std::tuple<terminalpp::low_colour, std::string>;
+using low_colour_string = std::tuple<terminalpp::low_colour, std::string_view>;
 
 class low_colours_with_strings
   : public testing::TestWithParam<low_colour_string>
@@ -167,7 +167,7 @@ INSTANTIATE_TEST_SUITE_P(
     true_colours_with_strings,
     ValuesIn(true_colour_strings));
 
-using colour_string = std::tuple<terminalpp::colour, std::string>;
+using colour_string = std::tuple<terminalpp::colour, std::string_view>;
 
 class colours_with_strings : public testing::TestWithParam<colour_string>
 {

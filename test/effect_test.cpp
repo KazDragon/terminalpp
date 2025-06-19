@@ -9,7 +9,7 @@ using testing::ValuesIn;
 
 namespace {
 
-using intensity_string = std::tuple<terminalpp::intensity, std::string>;
+using intensity_string = std::tuple<terminalpp::intensity, std::string_view>;
 
 class intensities_with_strings : public testing::TestWithParam<intensity_string>
 {
@@ -37,7 +37,7 @@ INSTANTIATE_TEST_SUITE_P(
     intensities_with_strings,
     ValuesIn(intensity_strings));
 
-using underline_string = std::tuple<terminalpp::underlining, std::string>;
+using underline_string = std::tuple<terminalpp::underlining, std::string_view>;
 
 class underlines_with_strings : public testing::TestWithParam<underline_string>
 {
@@ -64,7 +64,7 @@ INSTANTIATE_TEST_SUITE_P(
     underlines_with_strings,
     ValuesIn(underline_strings));
 
-using polarity_string = std::tuple<terminalpp::polarity, std::string>;
+using polarity_string = std::tuple<terminalpp::polarity, std::string_view>;
 
 class polarities_with_strings : public testing::TestWithParam<polarity_string>
 {
@@ -91,7 +91,7 @@ INSTANTIATE_TEST_SUITE_P(
     polarities_with_strings,
     ValuesIn(polarity_strings));
 
-using blink_string = std::tuple<terminalpp::blinking, std::string>;
+using blink_string = std::tuple<terminalpp::blinking, std::string_view>;
 
 class blinking_with_strings : public testing::TestWithParam<blink_string>
 {

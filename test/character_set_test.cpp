@@ -9,7 +9,8 @@ using testing::ValuesIn;
 
 namespace {
 
-using character_set_string = std::tuple<terminalpp::character_set, std::string>;
+using character_set_string =
+    std::tuple<terminalpp::character_set, std::string_view>;
 
 class character_sets_with_strings
   : public testing::TestWithParam<character_set_string>

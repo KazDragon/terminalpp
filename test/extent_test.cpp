@@ -9,7 +9,7 @@ using testing::ValuesIn;
 
 namespace {
 
-using extent_string = std::tuple<terminalpp::extent, std::string>;
+using extent_string = std::tuple<terminalpp::extent, std::string_view>;
 
 class extents_with_strings : public testing::TestWithParam<extent_string>
 {
