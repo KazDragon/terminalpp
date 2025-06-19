@@ -45,7 +45,7 @@ TEST(element_test, can_aggregate_initialize_from_char)
     ASSERT_EQ('x', elem.glyph_.character_);
 }
 
-using element_string = std::tuple<terminalpp::element, std::string>;
+using element_string = std::tuple<terminalpp::element, std::string_view>;
 
 class elements_with_strings : public testing::TestWithParam<element_string>
 {
@@ -64,12 +64,13 @@ TEST_P(elements_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static element_string const element_strings[] = {
-    element_string{terminalpp::element{},                                           "glyph[ ]"   },
-    element_string{terminalpp::glyph{"\\U0000005A"},                                "glyph[u:\\]"},
-    element_string{
-                   {'x', terminalpp::attribute{terminalpp::graphics::colour::red}},
-                   "glyph[x],attribute[foreground[red]]"                                         }
+constexpr element_string element_strings[] = {
+    {terminalpp::element{},                                               "glyph[ ]"   },
+    {terminalpp::glyph{"\\U0000005A"},                                    "glyph[u:\\]"},
+    {{'x',
+      terminalpp::attribute{
+          .foreground_colour_ = terminalpp::graphics::colour::red}},
+     "glyph[x],attribute[foreground[red]]"                                             }
 };
 
 INSTANTIATE_TEST_SUITE_P(
