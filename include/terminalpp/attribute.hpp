@@ -16,26 +16,6 @@ namespace terminalpp {
 struct TERMINALPP_EXPORT attribute
 {
     //* =====================================================================
-    /// \brief Initialises the attribute with the colours and effects
-    /// specified
-    //* =====================================================================
-    constexpr attribute(  // NOLINT
-        colour foreground_colour = colour(),
-        colour background_colour = colour(),
-        intensity intensity_effect = graphics::intensity::normal,
-        underlining underlining_effect = graphics::underlining::not_underlined,
-        polarity polarity_effect = graphics::polarity::positive,
-        blinking blink_effect = graphics::blinking::steady) noexcept
-      : foreground_colour_(foreground_colour),
-        background_colour_(background_colour),
-        intensity_(intensity_effect),
-        underlining_(underlining_effect),
-        polarity_(polarity_effect),
-        blinking_(blink_effect)
-    {
-    }
-
-    //* =====================================================================
     /// \brief Hash function
     //* =====================================================================
     [[nodiscard]] friend std::size_t hash_value(attribute const &attr) noexcept
