@@ -44,71 +44,86 @@ constexpr terminalpp::control_sequence default_sequence = {};
 
 control_sequence_test_data const control_sequence_strings[] = {
     // A default sequence should just print out its wrapper
-    {terminalpp::control_sequence{},                                       "control_sequence[]"             },
+    {terminalpp::control_sequence{},                                    "control_sequence[]"},
 
     // A control sequence with only the initiator changed outputs only the
     // initiator
-    {terminalpp::control_sequence{'['},                                    "control_sequence[initiator:'[']"},
-    {terminalpp::control_sequence{'?'},                                    "control_sequence[initiator:'?']"},
+    {terminalpp::control_sequence{.initiator = '['},
+     "control_sequence[initiator:'[']"                                                      },
+    {terminalpp::control_sequence{.initiator = '?'},
+     "control_sequence[initiator:'?']"                                                      },
 
     // A control sequence with only the command changed outputs only the command
-    {terminalpp::control_sequence{default_sequence.initiator, 'm'},
-     "control_sequence[command:'m']"                                                                        },
-    {terminalpp::control_sequence{default_sequence.initiator, 'H'},
-     "control_sequence[command:'H']"                                                                        },
+    {terminalpp::control_sequence{
+         .initiator = default_sequence.initiator, .command = 'm'},
+     "control_sequence[command:'m']"                                                        },
+    {terminalpp::control_sequence{
+         .initiator = default_sequence.initiator, .command = 'H'},
+     "control_sequence[command:'H']"                                                        },
 
     // A control sequence with only the meta flag raised outputs only the meta
     // flag
     {terminalpp::control_sequence{
-         default_sequence.initiator, default_sequence.command, true},
-     "control_sequence[meta]"                                                                               },
+         .initiator = default_sequence.initiator,
+         .command = default_sequence.command,
+         .meta = true},
+     "control_sequence[meta]"                                                               },
 
     // A control sequence with only one argument outputs the argument
     {terminalpp::control_sequence{
-         default_sequence.initiator,
-         default_sequence.command,
-         default_sequence.meta,
-         {"arg0"_tb}},
-     R"(control_sequence[args:"arg0"])"                                                                     },
+         .initiator = default_sequence.initiator,
+         .command = default_sequence.command,
+         .meta = default_sequence.meta,
+         .arguments = {"arg0"_tb}},
+     R"(control_sequence[args:"arg0"])"                                                     },
 
     // A control sequence with multiple arguments outputs the arguments
     // separated by ;
     {terminalpp::control_sequence{
-         default_sequence.initiator,
-         default_sequence.command,
-         default_sequence.meta,
-         {"arg0"_tb, "arg1"_tb}},
-     R"(control_sequence[args:"arg0;arg1"])"                                                                },
+         .initiator = default_sequence.initiator,
+         .command = default_sequence.command,
+         .meta = default_sequence.meta,
+         .arguments = {"arg0"_tb, "arg1"_tb}},
+     R"(control_sequence[args:"arg0;arg1"])"                                                },
     {terminalpp::control_sequence{
-         default_sequence.initiator,
-         default_sequence.command,
-         default_sequence.meta,
-         {"arg0"_tb, "arg1"_tb, "arg2"_tb}},
-     R"(control_sequence[args:"arg0;arg1;arg2"])"                                                           },
+         .initiator = default_sequence.initiator,
+         .command = default_sequence.command,
+         .meta = default_sequence.meta,
+         .arguments = {"arg0"_tb, "arg1"_tb, "arg2"_tb}},
+     R"(control_sequence[args:"arg0;arg1;arg2"])"                                           },
 
     // control sequences with only an extender output only the extender
     {terminalpp::control_sequence{
-         default_sequence.initiator,
-         default_sequence.command,
-         default_sequence.meta,
-         default_sequence.arguments,
-         '*'},
-     "control_sequence[extender:'*']"                                                                       },
+         .initiator = default_sequence.initiator,
+         .command = default_sequence.command,
+         .meta = default_sequence.meta,
+         .arguments = default_sequence.arguments,
+         .extender = '*'},
+     "control_sequence[extender:'*']"                                                       },
     {terminalpp::control_sequence{
-         default_sequence.initiator,
-         default_sequence.command,
-         default_sequence.meta,
-         default_sequence.arguments,
-         '?'},
-     "control_sequence[extender:'?']"                                                                       },
+         .initiator = default_sequence.initiator,
+         .command = default_sequence.command,
+         .meta = default_sequence.meta,
+         .arguments = default_sequence.arguments,
+         .extender = '?'},
+     "control_sequence[extender:'?']"                                                       },
 
     // Control sequences with multiple active fields separate them with commas
-    {terminalpp::control_sequence{'[', 'H', true, {"29"_tb}, '?'},
-     R"(control_sequence[initiator:'[', command:'H', meta, args:"29", extender:'?'])"                       },
+    {terminalpp::control_sequence{
+         .initiator = '[',
+         .command = 'H',
+         .meta = true,
+         .arguments = {"29"_tb},
+         .extender = '?'},
+     R"(control_sequence[initiator:'[', command:'H', meta, args:"29", extender:'?'])"       },
 
     {terminalpp::control_sequence{
-         '[', 'H', default_sequence.meta, {"29"_tb}, '?'},
-     R"(control_sequence[initiator:'[', command:'H', args:"29", extender:'?'])"                             },
+         .initiator = '[',
+         .command = 'H',
+         .meta = default_sequence.meta,
+         .arguments = {"29"_tb},
+         .extender = '?'},
+     R"(control_sequence[initiator:'[', command:'H', args:"29", extender:'?'])"             },
 };
 
 INSTANTIATE_TEST_SUITE_P(
