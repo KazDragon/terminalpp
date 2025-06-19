@@ -1,8 +1,12 @@
 #include "terminalpp/encoder.hpp"
 
+#include "terminalpp/colour.hpp"
+#include "terminalpp/graphics.hpp"
+
 #include <gtest/gtest.h>
 
 namespace {
+using terminalpp::high_colour;
 
 void expect_encoding(
     terminalpp::string const &expected_result, std::string const &coded_value)
@@ -104,26 +108,16 @@ TEST(string_encoder_test, default_code_encodes_normal_intensity)
 
 TEST(string_encoder_test, default_and_normal_revert_bold_and_faint)
 {
-    terminalpp::attribute bold_attribute;
-    bold_attribute.intensity_ = terminalpp::graphics::intensity::bold;
-
-    terminalpp::attribute faint_attribute;
-    faint_attribute.intensity_ = terminalpp::graphics::intensity::faint;
-
     expect_encoding(
         {
-            {'a', bold_attribute},
-            {
-             'b', },
-            {'c', bold_attribute},
-            {
-             'd', },
-            {'a', faint_attribute},
-            {
-             'b', },
-            {'c', faint_attribute},
-            {
-             'd', },
+            {'a', {.intensity_ = terminalpp::graphics::intensity::bold} },
+            {'b', {}                                                    },
+            {'c', {.intensity_ = terminalpp::graphics::intensity::bold} },
+            {'d', {}                                                    },
+            {'a', {.intensity_ = terminalpp::graphics::intensity::faint}},
+            {'b', {}                                                    },
+            {'c', {.intensity_ = terminalpp::graphics::intensity::faint}},
+            {'d', {}                                                    },
     },
         "\\i>a\\i=b\\i>c\\ixd"
         "\\i<a\\i=b\\i<c\\ixd");
@@ -142,14 +136,11 @@ TEST(string_encoder_test, positive_polarity_code_encodes_positive_polarity)
 
 TEST(string_encoder_test, negative_polarity_code_encodes_negative_polarity)
 {
-    terminalpp::attribute negative_polarity;
-    negative_polarity.polarity_ = terminalpp::graphics::polarity::negative;
-
     expect_encoding(
         {
-            {'a', negative_polarity},
-            {'b', negative_polarity},
-            {'c', negative_polarity},
+            {'a', {.polarity_ = terminalpp::graphics::polarity::negative}},
+            {'b', {.polarity_ = terminalpp::graphics::polarity::negative}},
+            {'c', {.polarity_ = terminalpp::graphics::polarity::negative}},
     },
         "\\p-abc");
 }
@@ -161,11 +152,9 @@ TEST(string_encoder_test, positive_and_negative_polarity_revert_each_other)
 
     expect_encoding(
         {
-            {
-             'a', },
-            {'b', negative_polarity},
-            {
-             'c', },
+            {'a', {}                                                     },
+            {'b', {.polarity_ = terminalpp::graphics::polarity::negative}},
+            {'c', {}                                                     },
     },
         R"(\p+a\p-b\p+c)");
 }
@@ -173,14 +162,14 @@ TEST(string_encoder_test, positive_and_negative_polarity_revert_each_other)
 TEST(
     string_encoder_test, positive_underlining_code_encodes_positive_underlining)
 {
-    terminalpp::attribute underlining;
-    underlining.underlining_ = terminalpp::graphics::underlining::underlined;
-
     expect_encoding(
         {
-            {'a', underlining},
-            {'b', underlining},
-            {'c', underlining},
+            {'a',
+             {.underlining_ = terminalpp::graphics::underlining::underlined}},
+            {'b',
+             {.underlining_ = terminalpp::graphics::underlining::underlined}},
+            {'c',
+             {.underlining_ = terminalpp::graphics::underlining::underlined}},
     },
         "\\u+abc");
 }
@@ -199,120 +188,93 @@ TEST(
 
 TEST(string_encoder_test, positive_and_negative_underlining_revert_each_other)
 {
-    terminalpp::attribute underlined;
-    underlined.underlining_ = terminalpp::graphics::underlining::underlined;
-
     expect_encoding(
         {
-            {'a', underlined},
-            {
-             'b', },
-            {'c', underlined},
+            {'a',
+             {.underlining_ = terminalpp::graphics::underlining::underlined}},
+            {'b', {}                                                        },
+            {'c',
+             {.underlining_ = terminalpp::graphics::underlining::underlined}},
     },
         R"(\u+a\u-b\u+c)");
 }
 
 TEST(string_encoder_test, low_foreground_colour_code_encodes_colour)
 {
-    terminalpp::attribute low_foreground_colour_attribute;
-    low_foreground_colour_attribute.foreground_colour_ =
-        terminalpp::low_colour(terminalpp::graphics::colour::green);
-
     expect_encoding(
         {
-            {'a', low_foreground_colour_attribute},
-            {'b', low_foreground_colour_attribute},
-            {'c', low_foreground_colour_attribute},
+            {'a', {.foreground_colour_ = terminalpp::graphics::colour::green}},
+            {'b', {.foreground_colour_ = terminalpp::graphics::colour::green}},
+            {'c', {.foreground_colour_ = terminalpp::graphics::colour::green}},
     },
         "\\[2abc");
 }
 
 TEST(string_encoder_test, high_foreground_colour_code_encodes_colour)
 {
-    terminalpp::attribute high_foreground_colour_attribute;
-    high_foreground_colour_attribute.foreground_colour_ =
-        terminalpp::high_colour(5, 1, 2);
-
     expect_encoding(
         {
-            {'a', high_foreground_colour_attribute},
-            {'b', high_foreground_colour_attribute},
-            {'c', high_foreground_colour_attribute},
+            {'a', {.foreground_colour_ = terminalpp::high_colour{5, 1, 2}}},
+            {'b', {.foreground_colour_ = terminalpp::high_colour{5, 1, 2}}},
+            {'c', {.foreground_colour_ = terminalpp::high_colour{5, 1, 2}}},
     },
         "\\<512abc");
 }
 
 TEST(string_encoder_test, greyscale_foreground_colour_code_encodes_colour)
 {
-    terminalpp::attribute greyscale_foreground_colour_attribute;
-    greyscale_foreground_colour_attribute.foreground_colour_ =
-        terminalpp::greyscale_colour(22);
-
     expect_encoding(
         {
-            {'a', greyscale_foreground_colour_attribute},
-            {'b', greyscale_foreground_colour_attribute},
-            {'c', greyscale_foreground_colour_attribute},
+            {'a', {.foreground_colour_ = terminalpp::greyscale_colour{22}}},
+            {'b', {.foreground_colour_ = terminalpp::greyscale_colour{22}}},
+            {'c', {.foreground_colour_ = terminalpp::greyscale_colour{22}}},
     },
         "\\{22abc");
 }
 
 TEST(string_encoder_test, true_foreground_colour_code_encodes_colour)
 {
-    terminalpp::attribute true_foreground_colour_attribute;
-    true_foreground_colour_attribute.foreground_colour_ =
-        terminalpp::true_colour(0xA7, 0xE9, 0x1C);
-
     expect_encoding(
         {
-            {'a', true_foreground_colour_attribute},
-            {'b', true_foreground_colour_attribute},
-            {'c', true_foreground_colour_attribute},
+            {'a',
+             {.foreground_colour_ = terminalpp::true_colour{0xA7, 0xE9, 0x1C}}},
+            {'b',
+             {.foreground_colour_ = terminalpp::true_colour{0xA7, 0xE9, 0x1C}}},
+            {'c',
+             {.foreground_colour_ = terminalpp::true_colour{0xA7, 0xE9, 0x1C}}},
     },
         "\\(A7E91Cabc");
 }
 
 TEST(string_encoder_test, low_background_colour_code_encodes_colour)
 {
-    terminalpp::attribute low_background_colour_attribute;
-    low_background_colour_attribute.background_colour_ =
-        terminalpp::low_colour(terminalpp::graphics::colour::green);
-
     expect_encoding(
         {
-            {'a', low_background_colour_attribute},
-            {'b', low_background_colour_attribute},
-            {'c', low_background_colour_attribute},
+            {'a', {.background_colour_ = terminalpp::graphics::colour::green}},
+            {'b', {.background_colour_ = terminalpp::graphics::colour::green}},
+            {'c', {.background_colour_ = terminalpp::graphics::colour::green}},
     },
         "\\]2abc");
 }
 
 TEST(string_encoder_test, high_background_colour_code_encodes_colour)
 {
-    terminalpp::attribute high_background_colour_attribute;
-    high_background_colour_attribute.background_colour_ =
-        terminalpp::high_colour(5, 1, 2);
-
     expect_encoding(
         {
-            {'a', high_background_colour_attribute},
-            {'b', high_background_colour_attribute},
-            {'c', high_background_colour_attribute},
+            {'a', {.background_colour_ = terminalpp::high_colour{5, 1, 2}}},
+            {'b', {.background_colour_ = terminalpp::high_colour{5, 1, 2}}},
+            {'c', {.background_colour_ = terminalpp::high_colour{5, 1, 2}}},
     },
         "\\>512abc");
 }
 
 TEST(string_encoder_test, greyscale_background_colour_code_encodes_colour)
 {
-    terminalpp::attribute greyscale_background_colour_attribute;
-    greyscale_background_colour_attribute.background_colour_ =
-        terminalpp::greyscale_colour(22);
-
     expect_encoding(
         {
-            {'a', greyscale_background_colour_attribute},
-            {'b', greyscale_background_colour_attribute},
-            {'c', greyscale_background_colour_attribute},
+            {'a', {.background_colour_ = terminalpp::greyscale_colour{22}}},
+            {'b', {.background_colour_ = terminalpp::greyscale_colour{22}}},
+            {'c', {.background_colour_ = terminalpp::greyscale_colour{22}}},
     },
         "\\}22abc");
 }
@@ -325,18 +287,21 @@ TEST(string_encoder_test, true_background_colour_code_encodes_colour)
 
     expect_encoding(
         {
-            {'a', true_background_colour_attribute},
-            {'b', true_background_colour_attribute},
-            {'c', true_background_colour_attribute},
+            {'a',
+             {.background_colour_ = terminalpp::true_colour{0xA7, 0xE9, 0x1C}}},
+            {'b',
+             {.background_colour_ = terminalpp::true_colour{0xA7, 0xE9, 0x1C}}},
+            {'c',
+             {.background_colour_ = terminalpp::true_colour{0xA7, 0xE9, 0x1C}}},
     },
         "\\)A7E91Cabc");
 }
 
 TEST(string_encoder_test, unicode_codes_encode_unicode_text)
 {
-    terminalpp::glyph glyph_0057("W");
-    terminalpp::glyph glyph_010E("\xC4\x8E");      // NOLINT
-    terminalpp::glyph glyph_16B8("\xE1\x9A\xB8");  // NOLINT
+    static constexpr terminalpp::glyph glyph_0057("W");
+    static constexpr terminalpp::glyph glyph_010E("\xC4\x8E");      // NOLINT
+    static constexpr terminalpp::glyph glyph_16B8("\xE1\x9A\xB8");  // NOLINT
 
     expect_encoding({{glyph_0057}}, "\\U0057");
 
@@ -352,15 +317,11 @@ TEST(string_encoder_test, default_code_removes_all_attributes)
 
 TEST(string_encoder_test, default_code_then_colour_code_encodes_colour)
 {
-    terminalpp::attribute high_background_colour_attribute;
-    high_background_colour_attribute.background_colour_ =
-        terminalpp::high_colour(5, 1, 2);
-
     // When testing this out RL, I discovered that 512 is a really,
     // really hideous pink.  I absolutely have to use it for something.
     expect_encoding(
         {
-            {'a', high_background_colour_attribute}
+            {'a', {.background_colour_ = terminalpp::high_colour{5, 1, 2}}}
     },
         "\\x\\>512a");
 }
