@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 
+namespace {
+
 void expect_encoding(
     terminalpp::string const &expected_result, std::string const &coded_value)
 {
@@ -362,3 +364,5 @@ TEST(string_encoder_test, default_code_then_colour_code_encodes_colour)
     },
         "\\x\\>512a");
 }
+
+}  // namespace

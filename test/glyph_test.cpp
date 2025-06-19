@@ -6,6 +6,8 @@
 using testing::ValuesIn;
 using namespace terminalpp::literals;  // NOLINT
 
+namespace {
+
 TEST(glyph_test, comparing_alike_unicode_glyphs_returns_true)
 {
     ASSERT_EQ(
@@ -37,8 +39,8 @@ TEST_P(glyphs_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static glyph_string const glyph_strings[] = {
-  // clang-format off
+static constexpr glyph_string glyph_strings[] = {
+    // clang-format off
     glyph_string { 'c'_tb, "c" },
     glyph_string { 'Z'_tb, "Z" },
     glyph_string { ' '_tb, " " },
@@ -69,7 +71,7 @@ static glyph_string const glyph_strings[] = {
     glyph_string { terminalpp::glyph{u8"\U00000800"}, "U+0800" },
     glyph_string { terminalpp::glyph{u8"\U00002501"}, "U+2501" },
     glyph_string { terminalpp::glyph{u8"\U00001701"}, "U+1701" },
-  // clang-format on
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -82,3 +84,5 @@ TEST(a_glyph, can_be_inserted_into_an_unordered_set)
     std::unordered_set<terminalpp::glyph> g{
         {}, {terminalpp::glyph{u8"\U000007FF"}}};
 }
+
+}  // namespace

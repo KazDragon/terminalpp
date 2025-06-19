@@ -7,6 +7,8 @@
 
 using testing::ValuesIn;
 
+namespace {
+
 using intensity_string = std::tuple<terminalpp::intensity, std::string>;
 
 class intensities_with_strings : public testing::TestWithParam<intensity_string>
@@ -130,3 +132,5 @@ TEST(an_effect, can_be_inserted_into_an_unordered_set)
 {
     std::unordered_set<terminalpp::intensity> e{{}};
 }
+
+}  // namespace

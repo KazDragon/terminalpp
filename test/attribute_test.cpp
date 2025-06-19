@@ -7,7 +7,9 @@
 
 using testing::ValuesIn;
 
-using attribute_string = std::tuple<terminalpp::attribute, std::string>;
+namespace {
+
+using attribute_string = std::tuple<terminalpp::attribute, std::string_view>;
 
 class attributes_with_strings : public testing::TestWithParam<attribute_string>
 {
@@ -24,7 +26,7 @@ TEST_P(attributes_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static attribute_string const attribute_strings[] = {
+constexpr attribute_string attribute_strings[] = {
     // All defaults
     {},
 
@@ -59,3 +61,5 @@ TEST(an_attribute, can_be_inserted_into_an_unordered_set)
 {
     std::unordered_set<terminalpp::attribute> a{{}};
 }
+
+}  // namespace

@@ -45,8 +45,6 @@ protected:
     terminalpp::screen screen_;
 };
 
-}  // namespace
-
 TEST_F(a_screen, first_draw_of_blank_screen_draws_clear_screen_only)
 {
     // What is expected is that the screen will be cleared, and then since
@@ -146,3 +144,5 @@ TEST_F(a_screen, drawing_consecutive_elements_does_not_write_cursor_moves)
     screen_.draw(canvas_);
     EXPECT_THAT(channel_.written_, ContainerEq(reference_channel_.written_));
 }
+
+}  // namespace

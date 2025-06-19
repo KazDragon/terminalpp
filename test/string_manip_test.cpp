@@ -3,6 +3,8 @@
 
 using namespace terminalpp::literals;  // NOLINT
 
+namespace {
+
 TEST(
     inserting_a_character_at_the_beginning_of_an_empty_string,
     gives_a_string_with_that_value)
@@ -281,3 +283,5 @@ TEST(
 
     ASSERT_EQ(expected_data, str);
 }
+
+}  // namespace

@@ -5,6 +5,8 @@
 using namespace terminalpp::literals;  // NOLINT
 using testing::ContainerEq;
 
+namespace {
+
 TEST_F(a_terminal, can_erase_its_entire_display)
 {
     terminal_ << terminalpp::erase_display();
@@ -172,3 +174,5 @@ TEST_F(
     terminal_ << R"(\[1a)"_ets;
     EXPECT_THAT(channel_.written_, ContainerEq("\x1B[31ma"_tb));
 }
+
+}  // namespace

@@ -7,6 +7,8 @@ using namespace terminalpp::literals;  // NOLINT
 using testing::ContainerEq;
 using testing::ValuesIn;
 
+namespace {
+
 TEST_F(a_new_terminal, empty_string_outputs_default_attributes)
 {
     terminal_ << ""_ets;
@@ -63,7 +65,7 @@ TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
 }
 
 static streaming_text_data const streaming_text_data_table[] = {
-  // clang-format off
+    // clang-format off
     streaming_text_data{ ""_ets, ""_ets, ""_tb },
 
     // Test character set changes.
@@ -151,7 +153,7 @@ static streaming_text_data const streaming_text_data_table[] = {
 
     streaming_text_data{ R"(\cU\C205)"_ets, R"(\U0057)"_ets,    "\x1B(B\x1B%GW"_tb },
     streaming_text_data{ R"(\U0057)"_ets,   R"(\cA\C156)"_ets,  "\x1B%@\x1B(A\x9C"_tb },
-  // clang-format on
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -235,16 +237,18 @@ TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
 }
 
 static write_position_data const write_position_data_table[] = {
-  // Writing within the same row moves the cursor to the right
-  // clang-format off
+    // Writing within the same row moves the cursor to the right
+    // clang-format off
     write_position_data{ {0, 0}, ""_ets,                {0, 0} },
     write_position_data{ {0, 0}, "x"_ets,               {1, 0} },
     write_position_data{ {0, 0}, "abcde"_ets,           {5, 0} },
     write_position_data{ {2, 3}, "abcde"_ets,           {7, 3} },
-  // clang-format on
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
     streaming_text_moves_the_cursor,
     writing_at_a_position,
     ValuesIn(write_position_data_table));
+
+}  // namespace

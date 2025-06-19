@@ -17,6 +17,8 @@ using namespace terminalpp::literals;  // NOLINT
 using namespace std::string_literals;
 using testing::ValuesIn;
 
+namespace {
+
 TEST(string_test, a_default_constructed_string_is_empty)
 {
     terminalpp::string str;
@@ -661,3 +663,5 @@ TEST(a_string, can_be_inserted_into_an_unordered_set)
 {
     std::unordered_set<terminalpp::string> s{""_ets};
 }
+
+}  // namespace

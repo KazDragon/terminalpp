@@ -3,6 +3,8 @@
 
 #include <tuple>
 
+namespace {
+
 using testing::ValuesIn;
 
 TEST(a_default_constructed_mouse_event, has_known_values)
@@ -38,11 +40,11 @@ TEST_P(mouse_events_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static mouse_event_test_data const mouse_event_strings[] = {
-  // A default report should print out that no button has changed at (0,0)
+    // A default report should print out that no button has changed at (0,0)
     mouse_event_test_data{
                           terminalpp::mouse::event{},                                              "mouse_event[point(0,0), no-change]"},
 
- // A report with different button states should print out those states
+    // A report with different button states should print out those states
     mouse_event_test_data{
                           terminalpp::mouse::event{
             terminalpp::mouse::event_type::left_button_down},
@@ -70,7 +72,7 @@ static mouse_event_test_data const mouse_event_strings[] = {
                           terminalpp::mouse::event{terminalpp::mouse::event_type::scrollwheel_up},
                           "mouse_event[point(0,0), sup]"                                                                               },
 
- // Reports with different co-ordinates should output those values
+    // Reports with different co-ordinates should output those values
     mouse_event_test_data{
                           terminalpp::mouse::event{
             terminalpp::mouse::event_type::left_button_down, {15, 17}},
@@ -81,3 +83,5 @@ INSTANTIATE_TEST_SUITE_P(
     mouse_events_can_be_streamed_to_an_ostream,
     mouse_events_with_strings,
     ValuesIn(mouse_event_strings));
+
+}  // namespace

@@ -8,22 +8,20 @@ using namespace terminalpp::literals;  // NOLINT
 using testing::ContainerEq;
 using testing::ValuesIn;
 
+namespace {
+
 using colour_attribute_data = std::tuple<
     terminalpp::attribute,    // palette attribute
     terminalpp::byte_storage  // expected output for "x"
     >;
-
-namespace {
 
 class colour_attribute_strings
   : public testing::TestWithParam<colour_attribute_data>
 {
 };
 
-}  // namespace
-
 colour_attribute_data const colour_attributes[] = {
-  // clang-format off
+    // clang-format off
     colour_attribute_data{ terminalpp::palette::black,   "\x1B[30mx"_tb },
     colour_attribute_data{ terminalpp::palette::maroon,  "\x1B[31mx"_tb },
     colour_attribute_data{ terminalpp::palette::green,   "\x1B[32mx"_tb },
@@ -90,7 +88,7 @@ colour_attribute_data const colour_attributes[] = {
     colour_attribute_data{ terminalpp::palette::grey89,   "\x1B[38;5;254mx"_tb },
     colour_attribute_data{ terminalpp::palette::grey93,   "\x1B[38;5;255mx"_tb },
     colour_attribute_data{ terminalpp::palette::grey100,  "\x1B[38;5;231mx"_tb },
-  // clang-format on
+    // clang-format on
 };
 
 TEST_P(colour_attribute_strings, output_the_correct_ansi_data)
@@ -119,3 +117,5 @@ INSTANTIATE_TEST_SUITE_P(
     palette_colours_stream_to_terminals,
     colour_attribute_strings,
     ValuesIn(colour_attributes));
+
+}  // namespace
