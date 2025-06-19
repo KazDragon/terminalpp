@@ -24,7 +24,10 @@
         },
         {
             "name": "Release",
-            "inherits": "default"
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_INTERPROCEDURAL_OPTIMIZATION": "True"
+            }
         },
         {
             "name": "Debug",
