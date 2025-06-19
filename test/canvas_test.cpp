@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 
+namespace {
+
 TEST(canvas_test, can_perform_loops_over_a_canvas)
 {
     terminalpp::canvas canvas({5, 5});
@@ -122,3 +124,5 @@ TEST(canvas_test, resizing_canvas_smaller_truncates_content)
         }
     }
 }
+
+}  // namespace

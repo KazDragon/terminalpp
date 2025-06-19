@@ -6,6 +6,8 @@
 
 using testing::ValuesIn;
 
+namespace {
+
 using point_string = std::tuple<terminalpp::point, std::string>;
 
 class points_with_strings : public testing::TestWithParam<point_string>
@@ -29,14 +31,14 @@ INSTANTIATE_TEST_SUITE_P(
     points_can_be_streamed_to_an_ostream,
     points_with_strings,
     ValuesIn(std::vector<point_string>{
-  // clang-format off
+        // clang-format off
         point_string{ {0, 0},           "point(0,0)"   },
         point_string{ {76, 94},         "point(76,94)" },
         point_string{ {-4, 63},         "point(-4,63)" },
         point_string{ {96583, 1231234}, "point(96583,1231234)" },
         point_string{ terminalpp::point{1, 2} + terminalpp::point{4, 7}, "point(5,9)"},
         point_string{ terminalpp::point{1, 2} - terminalpp::point{4, 7}, "point(-3,-5)"},
-  // clang-format on
+        // clang-format on
 }));
 
 using point_relops_data = std::tuple<
@@ -76,7 +78,7 @@ INSTANTIATE_TEST_SUITE_P(
     using_relational_operators,
     points_compare,
     ValuesIn(std::vector<point_relops_data>{
-  // clang-format off
+        // clang-format off
         point_relops_data{{0, 0}, {1, 1}, true,  true,  false, false, false },
         point_relops_data{{1, 0}, {1, 1}, true,  true,  false, false, false },
         point_relops_data{{2, 0}, {1, 1}, true,  true,  false, false, false },
@@ -86,5 +88,7 @@ INSTANTIATE_TEST_SUITE_P(
         point_relops_data{{0, 2}, {1, 1}, false, false, false, true,  true  },
         point_relops_data{{1, 2}, {1, 1}, false, false, false, true,  true  },
         point_relops_data{{2, 2}, {1, 1}, false, false, false, true,  true  }
-  // clang-format on
+        // clang-format on
 }));
+
+}  // namespace

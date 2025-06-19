@@ -7,6 +7,8 @@
 
 using testing::ValuesIn;
 
+namespace {
+
 TEST(colour_test, can_construct_from_low_colour_enum)
 {
     terminalpp::graphics::colour const col{terminalpp::graphics::colour::red};
@@ -36,8 +38,8 @@ TEST_P(low_colours_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static low_colour_string const low_colour_strings[] = {
-  // clang-format off
+low_colour_string const low_colour_strings[] = {
+    // clang-format off
   low_colour_string{ terminalpp::graphics::colour::black,    "black"   },
   low_colour_string{ terminalpp::graphics::colour::red,      "red"     },
   low_colour_string{ terminalpp::graphics::colour::green,    "green"   },
@@ -47,7 +49,7 @@ static low_colour_string const low_colour_strings[] = {
   low_colour_string{ terminalpp::graphics::colour::cyan,     "cyan"    },
   low_colour_string{ terminalpp::graphics::colour::white,    "white"   },
   low_colour_string{ terminalpp::graphics::colour::default_, "default" }
-  // clang-format on
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -82,7 +84,7 @@ TEST_P(high_colours_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static high_colour_string const high_colour_strings[] = {
+high_colour_string const high_colour_strings[] = {
     high_colour_string{0, 0, 0, "#000"},
     high_colour_string{3, 0, 0, "#300"},
     high_colour_string{0, 4, 0, "#040"},
@@ -119,14 +121,14 @@ TEST_P(greyscale_colours_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static greyscale_string const greyscale_strings[] = {
-  // clang-format off
+greyscale_string const greyscale_strings[] = {
+    // clang-format off
     greyscale_string{ 0,  "#00" },
     greyscale_string{ 9,  "#09" },
     greyscale_string{ 10, "#10" },
     greyscale_string{ 17, "#17" },
     greyscale_string{ 22, "#22" },
-  // clang-format on
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -161,15 +163,15 @@ TEST_P(true_colours_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static true_colour_string const true_colour_strings[] = {
-  // clang-format off
+true_colour_string const true_colour_strings[] = {
+    // clang-format off
     true_colour_string{ 0,   0,   0,   "#000000" },
     true_colour_string{ 80,  0,   0,   "#500000" },
     true_colour_string{ 0,   90,  0,   "#005A00" },
     true_colour_string{ 0,   0,   100, "#000064" },
     true_colour_string{ 40,  50,  60,  "#28323C" },
     true_colour_string{ 255, 255, 255, "#FFFFFF" },
-  // clang-format on
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -196,7 +198,7 @@ TEST_P(colours_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static colour_string const colour_strings[] = {
+colour_string const colour_strings[] = {
     colour_string{terminalpp::graphics::colour::red, "red"},
     colour_string{terminalpp::graphics::colour::green, "green"},
     colour_string{terminalpp::high_colour(1, 2, 3), "#123"},
@@ -239,3 +241,5 @@ INSTANTIATE_TEST_SUITE_P(
     colours_can_be_streamed_to_an_ostream,
     colours_with_strings,
     ValuesIn(colour_strings));
+
+}  // namespace

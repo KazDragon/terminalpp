@@ -7,6 +7,8 @@
 using testing::ValuesIn;
 using namespace terminalpp::literals;  // NOLINT
 
+namespace {
+
 TEST(a_default_constructed_vk, has_default_members)
 {
     terminalpp::virtual_key vk;
@@ -90,9 +92,9 @@ TEST_P(virtual_keys_with_strings, can_be_streamed_to_an_ostream)
 static terminalpp::virtual_key const default_vk = {};
 
 static virtual_key_test_data const virtual_key_strings[] = {
-  // A virtual key should just output the wrapper.
+    // A virtual key should just output the wrapper.
     virtual_key_test_data{terminalpp::virtual_key{},                                               "virtual_key[]"        },
- // Virtual keys with non-default printable characters should print those out
+    // Virtual keys with non-default printable characters should print those out
     virtual_key_test_data{
                           terminalpp::virtual_key{terminalpp::vk::question_mark},
                           "virtual_key[vk:'?']"                                                                           },
@@ -102,7 +104,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
     virtual_key_test_data{
                           terminalpp::virtual_key{terminalpp::vk::space},                          "virtual_key[vk:' ']"  },
 
- // Virtual keys with whitespace characters should print out slash codes
+    // Virtual keys with whitespace characters should print out slash codes
     virtual_key_test_data{
                           terminalpp::virtual_key{terminalpp::vk::lf},                             "virtual_key[vk:'\\n']"},
     virtual_key_test_data{
@@ -110,13 +112,13 @@ static virtual_key_test_data const virtual_key_strings[] = {
     virtual_key_test_data{
                           terminalpp::virtual_key{terminalpp::vk::ht},                             "virtual_key[vk:'\\t']"},
 
- // Virtual keys with non-printable control characters should print out
-  // the hex code of the value.
+    // Virtual keys with non-printable control characters should print out
+    // the hex code of the value.
     virtual_key_test_data{
                           terminalpp::virtual_key{terminalpp::vk::esc},
                           "virtual_key[vk:'\\x1B']"                                                                       },
 
- // Virtual non-ASCII codes should print the name of the key
+    // Virtual non-ASCII codes should print the name of the key
     virtual_key_test_data{
                           terminalpp::virtual_key{terminalpp::vk::cursor_up},
                           "virtual_key[vk:cursor_up]"                                                                     },
@@ -170,9 +172,9 @@ static virtual_key_test_data const virtual_key_strings[] = {
                           terminalpp::virtual_key{terminalpp::vk::f11},                            "virtual_key[vk:f11]"  },
     virtual_key_test_data{
                           terminalpp::virtual_key{terminalpp::vk::f12},                            "virtual_key[vk:f12]"  },
- // etc.
+    // etc.
 
-  // Virtual keys with non-default modifiers should print out the modifier
+    // Virtual keys with non-default modifiers should print out the modifier
     virtual_key_test_data{
                           terminalpp::virtual_key{default_vk.key, terminalpp::vk_modifier::shift},
                           "virtual_key[shift]"                                                                            },
@@ -193,7 +195,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
                 | terminalpp::vk_modifier::alt | terminalpp::vk_modifier::meta},
                           "virtual_key[shift|ctrl|alt|meta]"                                                              },
 
- // If the repeat count is non-zero, that should be printed out
+    // If the repeat count is non-zero, that should be printed out
     virtual_key_test_data{
                           terminalpp::virtual_key{default_vk.key, default_vk.modifiers, 1},
                           "virtual_key[repeat:1]"                                                                         },
@@ -201,7 +203,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
                           terminalpp::virtual_key{default_vk.key, default_vk.modifiers, 23},
                           "virtual_key[repeat:23]"                                                                        },
 
- // If the received data is a character, that should be printed out
+    // If the received data is a character, that should be printed out
     virtual_key_test_data{
                           terminalpp::virtual_key{
             default_vk.key,
@@ -210,7 +212,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
             'Z'_tb},
                           "virtual_key[seq:Z]"                                                                            },
 
- // If the received data is a sequence, that should be printed out
+    // If the received data is a sequence, that should be printed out
     virtual_key_test_data{
                           terminalpp::virtual_key{
             default_vk.key,
@@ -220,7 +222,7 @@ static virtual_key_test_data const virtual_key_strings[] = {
                           "virtual_key[seq:control_sequence[initiator:'[', command:'H', "
         "args:\"23\"]]"                                                                                                   },
 
- // If we receive several fields, they should be separated with commas
+    // If we receive several fields, they should be separated with commas
     virtual_key_test_data{
                           terminalpp::virtual_key{
             terminalpp::vk::uppercase_a,
@@ -255,3 +257,5 @@ TEST(keys_that_are_not_alphanumeric_or_punctuation, are_control_keys)
         ASSERT_TRUE(is_control_key(key)) << "vk = " << key;
     }
 }
+
+}  // namespace

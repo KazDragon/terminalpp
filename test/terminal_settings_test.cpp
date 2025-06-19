@@ -5,6 +5,8 @@
 using namespace terminalpp::literals;  // NOLINT
 using testing::ContainerEq;
 
+namespace {
+
 TEST_F(a_terminal, enabling_mouse_mode_sends_nothing)
 {
     terminal_ << terminalpp::enable_mouse();
@@ -151,3 +153,5 @@ TEST_F(
     terminal_ << terminalpp::use_alternate_screen_buffer();
     EXPECT_THAT(channel_.written_, ContainerEq("\x1B[?47h"_tb));
 }
+
+}  // namespace

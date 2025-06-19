@@ -7,6 +7,8 @@
 
 using testing::ValuesIn;
 
+namespace {
+
 using character_set_string = std::tuple<terminalpp::character_set, std::string>;
 
 class character_sets_with_strings
@@ -27,8 +29,8 @@ TEST_P(character_sets_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static character_set_string const character_set_strings[] = {
-  // clang-format off
+character_set_string const character_set_strings[] = {
+    // clang-format off
   character_set_string{ terminalpp::charset::dec,                        "dec",   },
   character_set_string{ terminalpp::charset::dec_supplementary,          "dec+"   },
   character_set_string{ terminalpp::charset::dec_supplementary_graphics, "dec+gr" },
@@ -48,7 +50,7 @@ static character_set_string const character_set_strings[] = {
   character_set_string{ terminalpp::charset::swiss,                      "de_ch"  },
   character_set_string{ terminalpp::charset::sco,                        "sco"    },
   character_set_string{ terminalpp::charset::utf8,                       "u"      },
-  // clang-format on
+    // clang-format on
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -60,3 +62,5 @@ TEST(a_character_set, can_be_inserted_into_an_unordered_set)
 {
     std::unordered_set<terminalpp::character_set> c{{}};
 }
+
+}  // namespace

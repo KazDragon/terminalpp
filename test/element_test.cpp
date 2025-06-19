@@ -6,6 +6,8 @@
 
 using testing::ValuesIn;
 
+namespace {
+
 TEST(element_test, elements_are_small)
 {
     ASSERT_EQ(16, sizeof(terminalpp::element));
@@ -79,3 +81,5 @@ TEST(an_element, can_be_inserted_into_an_unordered_set)
 {
     std::unordered_set<terminalpp::element> e{{}};
 }
+
+}  // namespace

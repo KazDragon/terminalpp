@@ -33,8 +33,6 @@ class a_terminal_reading_input_tokens
 {
 };
 
-}  // namespace
-
 TEST_P(a_terminal_reading_input_tokens, tokenizes_the_results)
 {
     using std::get;
@@ -55,7 +53,7 @@ TEST_P(a_terminal_reading_input_tokens, tokenizes_the_results)
 static token_test_data const token_test_data_table[] = {
     token_test_data{""_tb,            {}                                                                          },
 
- // Single characters yield virtual keys
+    // Single characters yield virtual keys
     token_test_data{
                     "z"_tb,           {terminalpp::virtual_key{
             terminalpp::vk::lowercase_z,
@@ -95,13 +93,13 @@ static token_test_data const token_test_data_table[] = {
                 {'B'_tb}},
         }                                                                             },
 
- // Partial commands yield nothing, including partial but otherwise
-  // complete-looking mouse commands.
+    // Partial commands yield nothing, including partial but otherwise
+    // complete-looking mouse commands.
     token_test_data{"\x1B"_tb,        {}                                                                          },
     token_test_data{"\x1B["_tb,       {}                                                                          },
     token_test_data{"\x1B[M"_tb,      {}                                                                          },
 
- // Protocol-encoded commands are converted to control sequences
+    // Protocol-encoded commands are converted to control sequences
     token_test_data{
                     "\x1B[S"_tb,      {terminalpp::control_sequence{'[', 'S', false, {""_tb}}}                    },
     token_test_data{
@@ -114,14 +112,14 @@ static token_test_data const token_test_data_table[] = {
     token_test_data{
                     "\x1B?M"_tb,      {terminalpp::control_sequence{'?', 'M', false, {""_tb}}}                    },
 
- // Doubly-escaped protocol-encoded commands are converted to control
-  // sequences with the meta flag.
+    // Doubly-escaped protocol-encoded commands are converted to control
+    // sequences with the meta flag.
     token_test_data{
                     "\x1B\x1B[S"_tb,  {terminalpp::control_sequence{'[', 'S', true, {""_tb}}}                     },
     token_test_data{
                     "\x1B\x1B[T"_tb,  {terminalpp::control_sequence{'[', 'T', true, {""_tb}}}                     },
 
- // Extended commands are converted to extended control sequences
+    // Extended commands are converted to extended control sequences
     token_test_data{
                     "\x1B[?6n"_tb,    {terminalpp::control_sequence{'[', 'n', false, {"6"_tb}, '?'}}              },
     token_test_data{
@@ -131,7 +129,7 @@ static token_test_data const token_test_data_table[] = {
     token_test_data{
                     "\x9B!p"_tb,      {terminalpp::control_sequence{'[', 'p', false, {""_tb}, '!'}}               },
 
- // ANSI mouse events are converted to the respective structure
+    // ANSI mouse events are converted to the respective structure
     token_test_data{"\x1B[M"_tb,      {}                                                                          },
     token_test_data{
                     "\x1B[M @B"_tb,   {terminalpp::mouse::event{
@@ -140,7 +138,7 @@ static token_test_data const token_test_data_table[] = {
                     "\x1B[M!X4"_tb,   {terminalpp::mouse::event{
             terminalpp::mouse::event_type::middle_button_down, {55, 19}}}      },
 
- // Cursor keys are converted to the respective virtual keys.
+    // Cursor keys are converted to the respective virtual keys.
     token_test_data{
                     "\x1B[A"_tb,      {terminalpp::virtual_key{
             terminalpp::vk::cursor_up,
@@ -192,7 +190,7 @@ static token_test_data const token_test_data_table[] = {
             1,
             terminalpp::control_sequence{'[', 'A', true, {""_tb}}}}           },
 
- // Other special keyboard keys are converted to the respective virtual keys
+    // Other special keyboard keys are converted to the respective virtual keys
     token_test_data{
                     "\x1B[1~"_tb,     {terminalpp::virtual_key{
             terminalpp::vk::home,
@@ -242,7 +240,7 @@ static token_test_data const token_test_data_table[] = {
             1,
             terminalpp::control_sequence{'[', '~', false, {"6"_tb}}}}            },
 
- // Keypad commands can have modifiers
+    // Keypad commands can have modifiers
     token_test_data{
                     "\x1B[6;5~"_tb,   {terminalpp::virtual_key{
             terminalpp::vk::pgdn,
@@ -256,7 +254,7 @@ static token_test_data const token_test_data_table[] = {
             1,
             terminalpp::control_sequence{'[', '~', true, {"6"_tb}}}}         },
 
- // Alternative sequences for control keys
+    // Alternative sequences for control keys
     token_test_data{
                     "\x1B[H"_tb,      {terminalpp::virtual_key{
             terminalpp::vk::home,
@@ -306,7 +304,7 @@ static token_test_data const token_test_data_table[] = {
             1,
             terminalpp::control_sequence{'O', 'D', false, {""_tb}}}}              },
 
- // All forms of tab key should yield the same virtual key
+    // All forms of tab key should yield the same virtual key
     token_test_data{
                     "\t"_tb,          {terminalpp::virtual_key{
             terminalpp::vk::ht, terminalpp::vk_modifier::none, 1, '\t'_tb}}           },
@@ -348,12 +346,12 @@ static token_test_data const token_test_data_table[] = {
             1,
             terminalpp::control_sequence{'[', 'Z', false, {""_tb}}}}              },
 
- // Various forms of carriage return should be converted to the respective
-  // virtual keys.
+    // Various forms of carriage return should be converted to the respective
+    // virtual keys.
     token_test_data{
                     "\r\n"_tb,        {terminalpp::virtual_key{
             terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'_tb}}      },
- // Including this common but incorrect form.
+    // Including this common but incorrect form.
     token_test_data{
                     "\n\r"_tb,        {terminalpp::virtual_key{
             terminalpp::vk::enter, terminalpp::vk_modifier::none, 1, '\n'_tb}}      },
@@ -393,7 +391,7 @@ static token_test_data const token_test_data_table[] = {
             1,
             terminalpp::control_sequence{'O', 'M', false, {""_tb}}}}              },
 
- // Function keys are converted to the respective virtual keys
+    // Function keys are converted to the respective virtual keys
     token_test_data{
                     "\x1B[11~"_tb,    {terminalpp::virtual_key{
             terminalpp::vk::f1,
@@ -424,7 +422,7 @@ static token_test_data const token_test_data_table[] = {
             terminalpp::vk_modifier::none,
             1,
             terminalpp::control_sequence{'[', '~', false, {"15"_tb}}}}          },
- // Sic.  The protocol really skips over 16~ and goes to 17~ for f6.
+    // Sic.  The protocol really skips over 16~ and goes to 17~ for f6.
     token_test_data{
                     "\x1B[17~"_tb,    {terminalpp::virtual_key{
             terminalpp::vk::f6,
@@ -455,7 +453,7 @@ static token_test_data const token_test_data_table[] = {
             terminalpp::vk_modifier::none,
             1,
             terminalpp::control_sequence{'[', '~', false, {"21"_tb}}}}          },
- // Sic.  The protocol really skips over 22~ and goes to 23~ for f11.
+    // Sic.  The protocol really skips over 22~ and goes to 23~ for f11.
     token_test_data{
                     "\x1B[23~"_tb,    {terminalpp::virtual_key{
             terminalpp::vk::f11,
@@ -469,7 +467,7 @@ static token_test_data const token_test_data_table[] = {
             1,
             terminalpp::control_sequence{'[', '~', false, {"24"_tb}}}}          },
 
- // Function keys may have modifiers
+    // Function keys may have modifiers
     token_test_data{
                     "\x1B[24;0~"_tb,  {terminalpp::virtual_key{
             terminalpp::vk::f12,
@@ -579,7 +577,7 @@ static token_test_data const token_test_data_table[] = {
             terminalpp::control_sequence{
                 '[', '~', false, {"24"_tb, "16"_tb}}}}                       },
 
- // We can also parse alternative SS3 fkey sequences
+    // We can also parse alternative SS3 fkey sequences
     token_test_data{
                     "\x1BOP"_tb,      {terminalpp::virtual_key{
             terminalpp::vk::f1,
@@ -676,3 +674,5 @@ INSTANTIATE_TEST_SUITE_P(
     reading_split_packets_of_ansi_tokens_parses_to_tokens,
     a_terminal_reading_partial_input_tokens,
     ValuesIn(partial_token_test_data_table));
+
+}  // namespace

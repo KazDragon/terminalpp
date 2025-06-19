@@ -26,8 +26,6 @@ public:
     }
 };
 
-}  // namespace
-
 TEST_P(a_terminal_with_an_unknown_location, sends_bytes_when_moving_the_cursor)
 {
     using std::get;
@@ -41,7 +39,7 @@ TEST_P(a_terminal_with_an_unknown_location, sends_bytes_when_moving_the_cursor)
     EXPECT_THAT(channel_.written_, ContainerEq(expected_result));
 }
 
-static unknown_location_move_data const unknown_location_move_data_table[] = {
+unknown_location_move_data const unknown_location_move_data_table[] = {
     unknown_location_move_data{{0, 0}, "\x1B[H"_tb   },
     unknown_location_move_data{{0, 4}, "\x1B[5H"_tb  },
     unknown_location_move_data{{2, 0}, "\x1B[1;3H"_tb},
@@ -52,8 +50,6 @@ INSTANTIATE_TEST_SUITE_P(
     moving_the_cursor_sends_ansi_bytes,
     a_terminal_with_an_unknown_location,
     ValuesIn(unknown_location_move_data_table));
-
-namespace {
 
 using known_location_move_data = std::tuple<
     terminalpp::point,        // Position to move from
@@ -71,8 +67,6 @@ public:
         terminal_.set_size({30, 30});
     }
 };
-
-}  // namespace
 
 TEST_P(a_terminal_with_a_known_location, sends_bytes_when_moving_the_cursor)
 {
@@ -92,27 +86,27 @@ TEST_P(a_terminal_with_a_known_location, sends_bytes_when_moving_the_cursor)
 }
 
 static known_location_move_data const known_location_move_data_table[] = {
-  // Moving to the current location sends nothing.
+    // Moving to the current location sends nothing.
     known_location_move_data{{0, 0},   {0, 0},   ""_tb         },
     known_location_move_data{{7, 6},   {7, 6},   ""_tb         },
 
- // Moving to the home location sends cursor position = home
+    // Moving to the home location sends cursor position = home
     known_location_move_data{{10, 10}, {0, 0},   "\x1B[H"_tb   },
 
- // Moving in the current row sends cursor horizontal absolute
+    // Moving in the current row sends cursor horizontal absolute
     known_location_move_data{{10, 10}, {0, 10},  "\x1B[G"_tb   },
     known_location_move_data{{20, 10}, {8, 10},  "\x1B[9G"_tb  },
     known_location_move_data{{8, 10},  {20, 10}, "\x1B[21G"_tb },
 
- // Moving up in rows sends cursor up
+    // Moving up in rows sends cursor up
     known_location_move_data{{10, 10}, {10, 9},  "\x1B[A"_tb   },
     known_location_move_data{{10, 10}, {10, 8},  "\x1B[2A"_tb  },
 
- // Moving down in rows sends cursor down
+    // Moving down in rows sends cursor down
     known_location_move_data{{10, 10}, {10, 11}, "\x1B[B"_tb   },
     known_location_move_data{{10, 10}, {10, 12}, "\x1B[2B"_tb  },
 
- // Moving in any kind of diagonal way reverts to using cursor position
+    // Moving in any kind of diagonal way reverts to using cursor position
     known_location_move_data{{10, 10}, {5, 6},   "\x1B[7;6H"_tb},
 };
 
@@ -133,8 +127,6 @@ TEST_F(a_terminal, when_showing_the_cursor_sends_ansi_codes)
     EXPECT_THAT(channel_.written_, ContainerEq("\x1B[?25h"_tb));
 }
 
-namespace {
-
 class a_terminal_with_a_shown_cursor : public a_terminal
 {
 public:
@@ -144,8 +136,6 @@ public:
         channel_.written_.clear();
     }
 };
-
-}  // namespace
 
 TEST_F(a_terminal_with_a_shown_cursor, when_hiding_the_cursor_sends_ansi_codes)
 {
@@ -159,8 +149,6 @@ TEST_F(a_terminal_with_a_shown_cursor, when_showing_the_cursor_sends_nothing)
     EXPECT_THAT(channel_.written_, ContainerEq(""_tb));
 }
 
-namespace {
-
 class a_terminal_with_a_hidden_cursor : public a_terminal
 {
 public:
@@ -170,8 +158,6 @@ public:
         channel_.written_.clear();
     }
 };
-
-}  // namespace
 
 TEST_F(a_terminal_with_a_hidden_cursor, when_hiding_the_cursor_sends_nothing)
 {
@@ -238,3 +224,5 @@ TEST_F(
 
     EXPECT_THAT(channel_.written_, ContainerEq("\x1B[2Hb"_tb));
 }
+
+}  // namespace
