@@ -17,9 +17,7 @@ class intensities_with_strings : public testing::TestWithParam<intensity_string>
 
 TEST_P(intensities_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &intensity = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+    auto const &[intensity, expected_string] = GetParam();
 
     std::stringstream stream;
     std::ostream &out = stream;
@@ -28,10 +26,10 @@ TEST_P(intensities_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static intensity_string const intensity_strings[] = {
-    intensity_string{terminalpp::graphics::intensity::normal, "normal"},
-    intensity_string{terminalpp::graphics::intensity::bold,   "bold"  },
-    intensity_string{terminalpp::graphics::intensity::faint,  "faint" }
+constexpr intensity_string intensity_strings[] = {
+    {terminalpp::graphics::intensity::normal, "normal"},
+    {terminalpp::graphics::intensity::bold,   "bold"  },
+    {terminalpp::graphics::intensity::faint,  "faint" }
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -47,9 +45,7 @@ class underlines_with_strings : public testing::TestWithParam<underline_string>
 
 TEST_P(underlines_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &underline = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+    auto const &[underline, expected_string] = GetParam();
 
     std::stringstream stream;
     std::ostream &out = stream;
@@ -58,11 +54,9 @@ TEST_P(underlines_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static underline_string const underline_strings[] = {
-    underline_string{
-                     terminalpp::graphics::underlining::underlined,     "underlined"    },
-    underline_string{
-                     terminalpp::graphics::underlining::not_underlined, "not underlined"},
+constexpr underline_string underline_strings[] = {
+    {terminalpp::graphics::underlining::underlined,     "underlined"    },
+    {terminalpp::graphics::underlining::not_underlined, "not underlined"},
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -78,9 +72,7 @@ class polarities_with_strings : public testing::TestWithParam<polarity_string>
 
 TEST_P(polarities_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &polarity = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+    auto const &[polarity, expected_string] = GetParam();
 
     std::stringstream stream;
     std::ostream &out = stream;
@@ -89,9 +81,9 @@ TEST_P(polarities_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static polarity_string const polarity_strings[] = {
-    polarity_string{terminalpp::graphics::polarity::positive, "positive"},
-    polarity_string{terminalpp::graphics::polarity::negative, "negative"},
+constexpr polarity_string polarity_strings[] = {
+    {terminalpp::graphics::polarity::positive, "positive"},
+    {terminalpp::graphics::polarity::negative, "negative"},
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -107,9 +99,7 @@ class blinking_with_strings : public testing::TestWithParam<blink_string>
 
 TEST_P(blinking_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &blink = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+    auto const &[blink, expected_string] = GetParam();
 
     std::stringstream stream;
     std::ostream &out = stream;
@@ -118,9 +108,9 @@ TEST_P(blinking_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static blink_string const blink_strings[] = {
-    blink_string{terminalpp::graphics::blinking::blink,  "blinking"},
-    blink_string{terminalpp::graphics::blinking::steady, "steady"  },
+constexpr blink_string blink_strings[] = {
+    {terminalpp::graphics::blinking::blink,  "blinking"},
+    {terminalpp::graphics::blinking::steady, "steady"  },
 };
 
 INSTANTIATE_TEST_SUITE_P(
