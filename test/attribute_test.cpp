@@ -15,9 +15,7 @@ class attributes_with_strings : public testing::TestWithParam<attribute_string>
 
 TEST_P(attributes_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &attr = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+    auto const &[attr, expected_string] = GetParam();
 
     std::stringstream stream;
     std::ostream &out = stream;
@@ -27,51 +25,29 @@ TEST_P(attributes_with_strings, can_be_streamed_to_an_ostream)
 }
 
 static attribute_string const attribute_strings[] = {
-  // All defaults
-    attribute_string{},
+    // All defaults
+    {},
 
- // One non-default value
-    attribute_string{
-                     terminalpp::attribute{
-            terminalpp::colour{terminalpp::graphics::colour::red}},
-                     "foreground[red]"},
-    attribute_string{
-                     terminalpp::attribute{
-            {}, terminalpp::colour{terminalpp::high_colour(1, 2, 3)}},
-                     "background[#123]"},
-    attribute_string{
-                     terminalpp::attribute{{}, {}, terminalpp::graphics::intensity::bold},
-                     "bold"},
-    attribute_string{
-                     terminalpp::attribute{
-            {}, {}, {}, terminalpp::graphics::underlining::underlined},
-                     "underlined"},
-    attribute_string{
-                     terminalpp::attribute{
-            {}, {}, {}, {}, terminalpp::graphics::polarity::negative},
-                     "negative"},
-    attribute_string{
-                     terminalpp::attribute{
-            {}, {}, {}, {}, {}, terminalpp::graphics::blinking::blink},
-                     "blinking"},
+    // One non-default value
+    {{.foreground_colour_ = terminalpp::graphics::colour::red},
+     "foreground[red]"},
+    {{.background_colour_ = terminalpp::high_colour(1, 2, 3)},
+     "background[#123]"},
+    {{.intensity_ = terminalpp::graphics::intensity::bold}, "bold"},
+    {{.underlining_ = terminalpp::graphics::underlining::underlined},
+     "underlined"},
+    {{.polarity_ = terminalpp::graphics::polarity::negative}, "negative"},
+    {{.blinking_ = terminalpp::graphics::blinking::blink}, "blinking"},
 
- // Many non-default values
-    attribute_string{
-                     terminalpp::attribute{
-            {},
-            terminalpp::greyscale_colour(7),
-            {},
-            terminalpp::graphics::underlining::underlined},
-                     "background[#07],underlined"},
-    attribute_string{
-                     terminalpp::attribute{
-            {},
-            terminalpp::graphics::colour::green,
-            {},
-            terminalpp::graphics::underlining::not_underlined,
-            terminalpp::graphics::polarity::negative,
-            terminalpp::graphics::blinking::blink},
-                     "background[green],negative,blinking"},
+    // Many non-default values
+    {{.background_colour_ = terminalpp::greyscale_colour(7),
+      .underlining_ = terminalpp::graphics::underlining::underlined},
+     "background[#07],underlined"},
+    {{.background_colour_ = terminalpp::graphics::colour::green,
+      .underlining_ = terminalpp::graphics::underlining::not_underlined,
+      .polarity_ = terminalpp::graphics::polarity::negative,
+      .blinking_ = terminalpp::graphics::blinking::blink},
+     "background[green],negative,blinking"},
 };
 
 INSTANTIATE_TEST_SUITE_P(
