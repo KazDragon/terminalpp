@@ -18,9 +18,7 @@ class character_sets_with_strings
 
 TEST_P(character_sets_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &set = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+    auto const &[set, expected_string] = GetParam();
 
     std::stringstream stream;
     std::ostream &out = stream;
@@ -29,27 +27,27 @@ TEST_P(character_sets_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-character_set_string const character_set_strings[] = {
+constexpr character_set_string character_set_strings[] = {
     // clang-format off
-  character_set_string{ terminalpp::charset::dec,                        "dec",   },
-  character_set_string{ terminalpp::charset::dec_supplementary,          "dec+"   },
-  character_set_string{ terminalpp::charset::dec_supplementary_graphics, "dec+gr" },
-  character_set_string{ terminalpp::charset::dec_technical,              "dectec" },
-  character_set_string{ terminalpp::charset::uk,                         "en_uk"  },
-  character_set_string{ terminalpp::charset::us_ascii,                   "en_us"  },
-  character_set_string{ terminalpp::charset::dutch,                      "nl"     },
-  character_set_string{ terminalpp::charset::finnish,                    "fi"     },
-  character_set_string{ terminalpp::charset::french,                     "fr"     },
-  character_set_string{ terminalpp::charset::french_canadian,            "fr_ca"  },
-  character_set_string{ terminalpp::charset::german,                     "de"     },
-  character_set_string{ terminalpp::charset::italian,                    "it"     },
-  character_set_string{ terminalpp::charset::danish,                     "da"     },
-  character_set_string{ terminalpp::charset::portuguese,                 "pt"     },
-  character_set_string{ terminalpp::charset::spanish,                    "es"     },
-  character_set_string{ terminalpp::charset::swedish,                    "su"     },
-  character_set_string{ terminalpp::charset::swiss,                      "de_ch"  },
-  character_set_string{ terminalpp::charset::sco,                        "sco"    },
-  character_set_string{ terminalpp::charset::utf8,                       "u"      },
+  { terminalpp::charset::dec,                        "dec",   },
+  { terminalpp::charset::dec_supplementary,          "dec+"   },
+  { terminalpp::charset::dec_supplementary_graphics, "dec+gr" },
+  { terminalpp::charset::dec_technical,              "dectec" },
+  { terminalpp::charset::uk,                         "en_uk"  },
+  { terminalpp::charset::us_ascii,                   "en_us"  },
+  { terminalpp::charset::dutch,                      "nl"     },
+  { terminalpp::charset::finnish,                    "fi"     },
+  { terminalpp::charset::french,                     "fr"     },
+  { terminalpp::charset::french_canadian,            "fr_ca"  },
+  { terminalpp::charset::german,                     "de"     },
+  { terminalpp::charset::italian,                    "it"     },
+  { terminalpp::charset::danish,                     "da"     },
+  { terminalpp::charset::portuguese,                 "pt"     },
+  { terminalpp::charset::spanish,                    "es"     },
+  { terminalpp::charset::swedish,                    "su"     },
+  { terminalpp::charset::swiss,                      "de_ch"  },
+  { terminalpp::charset::sco,                        "sco"    },
+  { terminalpp::charset::utf8,                       "u"      },
     // clang-format on
 };
 
