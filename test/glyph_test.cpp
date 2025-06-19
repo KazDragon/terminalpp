@@ -20,7 +20,7 @@ TEST(glyph_test, comparing_dissimilar_unicode_glyphs_returns_false)
         terminalpp::glyph(u8"\U00002501"), terminalpp::glyph(u8"\U00002502"));
 }
 
-using glyph_string = std::tuple<terminalpp::glyph, std::string>;
+using glyph_string = std::tuple<terminalpp::glyph, std::string_view>;
 
 class glyphs_with_strings : public testing::TestWithParam<glyph_string>
 {
