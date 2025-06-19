@@ -28,9 +28,7 @@ class glyphs_with_strings : public testing::TestWithParam<glyph_string>
 
 TEST_P(glyphs_with_strings, can_be_streamed_to_an_ostream)
 {
-    auto const &param = GetParam();
-    auto const &glyph = std::get<0>(param);
-    auto const &expected_string = std::get<1>(param);
+    auto const &[glyph, expected_string] = GetParam();
 
     std::stringstream stream;
     std::ostream &out = stream;
@@ -39,39 +37,37 @@ TEST_P(glyphs_with_strings, can_be_streamed_to_an_ostream)
     ASSERT_EQ(expected_string, stream.str());
 }
 
-static constexpr glyph_string glyph_strings[] = {
-    // clang-format off
-    glyph_string { 'c'_tb, "c" },
-    glyph_string { 'Z'_tb, "Z" },
-    glyph_string { ' '_tb, " " },
+constexpr glyph_string glyph_strings[] = {
+    {'c'_tb,                                  "c"       },
+    {'Z'_tb,                                  "Z"       },
+    {' '_tb,                                  " "       },
 
-    glyph_string { '\0'_tb,   "0x00" },
-    glyph_string { '\7'_tb,   "0x07" },
-    glyph_string { '\x1B'_tb, "0x1B" },
+    {'\0'_tb,                                 "0x00"    },
+    {'\7'_tb,                                 "0x07"    },
+    {'\x1B'_tb,                               "0x1B"    },
 
-    glyph_string { '\n'_tb,   "\\n" },
-    glyph_string { '\r'_tb,   "\\r" },
-    glyph_string { '\t'_tb,   "\\t" },
+    {'\n'_tb,                                 "\\n"     },
+    {'\r'_tb,                                 "\\r"     },
+    {'\t'_tb,                                 "\\t"     },
 
-    glyph_string { { '\xC1'_tb, terminalpp::charset::sco   }, "sco:\xC1" },
-    glyph_string { { 'Z'_tb,    terminalpp::charset::uk    }, "en_uk:Z" },
-    glyph_string { { '\x07'_tb, terminalpp::charset::dutch }, "nl:0x07" },
+    {{'\xC1'_tb, terminalpp::charset::sco},   "sco:\xC1"},
+    {{'Z'_tb, terminalpp::charset::uk},       "en_uk:Z" },
+    {{'\x07'_tb, terminalpp::charset::dutch}, "nl:0x07" },
 
-    glyph_string { terminalpp::glyph{u8"\U00000001"}, "u:0x01" },
-    glyph_string { terminalpp::glyph{u8"\U00000007"}, "u:0x07" },
-    glyph_string { terminalpp::glyph{u8"\U00000009"}, "u:\\t"  },
-    glyph_string { terminalpp::glyph{u8"\U0000000A"}, "u:\\n"  },
-    glyph_string { terminalpp::glyph{u8"\U0000000D"}, "u:\\r"  },
-    glyph_string { terminalpp::glyph{u8"\U0000001B"}, "u:0x1B" },
-    glyph_string { terminalpp::glyph{u8"\U0000005A"}, "u:Z"    },
-    glyph_string { terminalpp::glyph{u8"\U00000061"}, "u:a"    },
-    glyph_string { terminalpp::glyph{u8"\U0000007F"}, "u:0x7F" },
-    glyph_string { terminalpp::glyph{u8"\U00000080"}, "U+0080" },
-    glyph_string { terminalpp::glyph{u8"\U000007FF"}, "U+07FF" },
-    glyph_string { terminalpp::glyph{u8"\U00000800"}, "U+0800" },
-    glyph_string { terminalpp::glyph{u8"\U00002501"}, "U+2501" },
-    glyph_string { terminalpp::glyph{u8"\U00001701"}, "U+1701" },
-    // clang-format on
+    {terminalpp::glyph{u8"\U00000001"},       "u:0x01"  },
+    {terminalpp::glyph{u8"\U00000007"},       "u:0x07"  },
+    {terminalpp::glyph{u8"\U00000009"},       "u:\\t"   },
+    {terminalpp::glyph{u8"\U0000000A"},       "u:\\n"   },
+    {terminalpp::glyph{u8"\U0000000D"},       "u:\\r"   },
+    {terminalpp::glyph{u8"\U0000001B"},       "u:0x1B"  },
+    {terminalpp::glyph{u8"\U0000005A"},       "u:Z"     },
+    {terminalpp::glyph{u8"\U00000061"},       "u:a"     },
+    {terminalpp::glyph{u8"\U0000007F"},       "u:0x7F"  },
+    {terminalpp::glyph{u8"\U00000080"},       "U+0080"  },
+    {terminalpp::glyph{u8"\U000007FF"},       "U+07FF"  },
+    {terminalpp::glyph{u8"\U00000800"},       "U+0800"  },
+    {terminalpp::glyph{u8"\U00002501"},       "U+2501"  },
+    {terminalpp::glyph{u8"\U00001701"},       "U+1701"  },
 };
 
 INSTANTIATE_TEST_SUITE_P(
