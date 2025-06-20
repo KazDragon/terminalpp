@@ -1,6 +1,7 @@
-#include <terminalpp/terminal.hpp>
-#include <terminalpp/encoder.hpp>
 #include <terminalpp/stdout_channel.hpp>
+#include <terminalpp/string.hpp>
+#include <terminalpp/terminal.hpp>
+
 #include <cstdlib>
 
 int main(int argc, char **argv)
@@ -13,9 +14,7 @@ int main(int argc, char **argv)
     {
         terminalpp::stdout_channel channel;
         terminalpp::terminal terminal{channel};
-        terminal
-            << terminalpp::encode(argv[1])
-            << "\n";
+        terminal << terminalpp::encode(argv[1]) << "\n";
     }
 
     return EXIT_SUCCESS;

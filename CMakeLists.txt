@@ -102,7 +102,6 @@ target_sources(terminalpp
         include/terminalpp/core.hpp
         include/terminalpp/effect.hpp
         include/terminalpp/element.hpp
-        include/terminalpp/encoder.hpp
         include/terminalpp/extent.hpp
         include/terminalpp/glyph.hpp
         include/terminalpp/graphics.hpp
@@ -133,7 +132,6 @@ target_sources(terminalpp
         src/character_set.cpp
         src/colour.cpp
         src/control_sequence.cpp
-        src/encoder.cpp
         src/glyph.cpp
         src/effect.cpp
         src/element.cpp

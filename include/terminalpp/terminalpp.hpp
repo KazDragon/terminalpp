@@ -14,4 +14,4 @@
 #include "terminalpp/screen.hpp"  // IWYU pragma: export
 
 // In order to write encoded strings, it is necessary to include the encoder.
-#include "terminalpp/encoder.hpp"  // IWYU pragma: export
+#include "terminalpp/string.hpp"  // IWYU pragma: export
