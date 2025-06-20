@@ -51,10 +51,7 @@ TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
 {
     using std::get;
 
-    auto const &params = GetParam();
-    auto const &init_string = get<0>(params);
-    auto const &text_to_stream = get<1>(params);
-    auto const &expected_output = get<2>(params);
+    auto const &[init_string, text_to_stream, expected_output] = GetParam();
 
     terminal_ << init_string;
     channel_.written_.clear();
@@ -64,71 +61,66 @@ TEST_P(streaming_text, to_a_terminal_converts_to_ansi_codes)
     EXPECT_THAT(channel_.written_, ContainerEq(expected_output));
 }
 
-static streaming_text_data const streaming_text_data_table[] = {
-    // clang-format off
-    streaming_text_data{ ""_ets, ""_ets, ""_tb },
+streaming_text_data const streaming_text_data_table[] = {
+    {""_ets,            ""_ets,                   ""_tb                                                   },
 
     // Test character set changes.
-    streaming_text_data{ ""_ets,          R"(\c0abcde)"_ets, "\x1B(0abcde"_tb },
-    streaming_text_data{ R"(\c0abc)"_ets, R"(\c0de)"_ets,    "de"_tb },
-    streaming_text_data{ R"(\c0abc)"_ets, R"(\c%6de)"_ets,   "\x1B(%6de"_tb },
+    {""_ets,            R"(\c0abcde)"_ets,        "\x1B(0abcde"_tb                                        },
+    {R"(\c0abc)"_ets,   R"(\c0de)"_ets,           "de"_tb                                                 },
+    {R"(\c0abc)"_ets,   R"(\c%6de)"_ets,          "\x1B(%6de"_tb                                          },
 
     // Test intensity (bold/faint) changes
-    streaming_text_data{ ""_ets,          R"(\i>abcde)"_ets, "\x1B[1mabcde"_tb },
-    streaming_text_data{ ""_ets,          R"(\i<abcde)"_ets, "\x1B[2mabcde"_tb },
-    streaming_text_data{ ""_ets,          R"(\i=abcde)"_ets, "abcde"_tb },
-    streaming_text_data{ R"(\i>abc)"_ets, R"(\i>abcde)"_ets, "abcde"_tb },
-    streaming_text_data{ R"(\i>abc)"_ets, R"(\i=de)"_ets,    "\x1B[0mde"_tb },
-    streaming_text_data{ R"(\i>abc)"_ets, R"(\ixde)"_ets,    "\x1B[0mde"_tb },
+    {""_ets,            R"(\i>abcde)"_ets,        "\x1B[1mabcde"_tb                                       },
+    {""_ets,            R"(\i<abcde)"_ets,        "\x1B[2mabcde"_tb                                       },
+    {""_ets,            R"(\i=abcde)"_ets,        "abcde"_tb                                              },
+    {R"(\i>abc)"_ets,   R"(\i>abcde)"_ets,        "abcde"_tb                                              },
+    {R"(\i>abc)"_ets,   R"(\i=de)"_ets,           "\x1B[0mde"_tb                                          },
+    {R"(\i>abc)"_ets,   R"(\ixde)"_ets,           "\x1B[0mde"_tb                                          },
 
     // Bold-faint transitions must go through an intermediate normal state
     // because certain terminals have a "bold-and-faint" combination that is
     // not useful.
-    streaming_text_data{ R"(\i<a)"_ets,   R"(\i>b)"_ets,     "\x1B[22;1mb"_tb },
-    streaming_text_data{ R"(\i>a)"_ets,   R"(\i<b)"_ets,     "\x1B[22;2mb"_tb },
-    
+    {R"(\i<a)"_ets,     R"(\i>b)"_ets,            "\x1B[22;1mb"_tb                                        },
+    {R"(\i>a)"_ets,     R"(\i<b)"_ets,            "\x1B[22;2mb"_tb                                        },
+
     // Test polarity changes
-    streaming_text_data{ ""_ets,          R"(\p+abcde)"_ets, "abcde"_tb },
-    streaming_text_data{ ""_ets,          R"(\p-abcde)"_ets, "\x1B[7mabcde"_tb },
-    streaming_text_data{ R"(\p-abc)"_ets, R"(\p+de)"_ets,    "\x1B[0mde"_tb },
-    streaming_text_data{ R"(\p-abc)"_ets, R"(\p=de)"_ets,    "\x1B[0mde"_tb },
+    {""_ets,            R"(\p+abcde)"_ets,        "abcde"_tb                                              },
+    {""_ets,            R"(\p-abcde)"_ets,        "\x1B[7mabcde"_tb                                       },
+    {R"(\p-abc)"_ets,   R"(\p+de)"_ets,           "\x1B[0mde"_tb                                          },
+    {R"(\p-abc)"_ets,   R"(\p=de)"_ets,           "\x1B[0mde"_tb                                          },
 
     // Test underlining changes
-    streaming_text_data{ ""_ets,          R"(\u+abcde)"_ets, "\x1B[4mabcde"_tb },
-    streaming_text_data{ ""_ets,          R"(\u-abcde)"_ets, "abcde"_tb },
-    streaming_text_data{ R"(\u+abc)"_ets, R"(\u+de)"_ets,    "de"_tb },
-    streaming_text_data{ R"(\u+abc)"_ets, R"(\u-de)"_ets,    "\x1B[0mde"_tb },
-    streaming_text_data{ R"(\u+abc)"_ets, R"(\u=de)"_ets,    "\x1B[0mde"_tb },
+    {""_ets,            R"(\u+abcde)"_ets,        "\x1B[4mabcde"_tb                                       },
+    {""_ets,            R"(\u-abcde)"_ets,        "abcde"_tb                                              },
+    {R"(\u+abc)"_ets,   R"(\u+de)"_ets,           "de"_tb                                                 },
+    {R"(\u+abc)"_ets,   R"(\u-de)"_ets,           "\x1B[0mde"_tb                                          },
+    {R"(\u+abc)"_ets,   R"(\u=de)"_ets,           "\x1B[0mde"_tb                                          },
 
     // Test foreground colour
-    streaming_text_data{ ""_ets,        R"(\[2abc)"_ets,      "\x1B[32mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\[3abc)"_ets,      "\x1B[33mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\<510abc)"_ets,    "\x1B[38;5;202mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\{12abc)"_ets,     "\x1B[38;5;244mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\[9abc)"_ets,      "abc"_tb },
-    streaming_text_data{ ""_ets,        R"(\(000000abc)"_ets, "\x1B[38;2;0;0;0mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\(FF0000abc)"_ets, "\x1B[38;2;255;0;0mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\(00FF00abc)"_ets, "\x1B[38;2;0;255;0mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\(0000FFabc)"_ets, "\x1B[38;2;0;0;255mabc"_tb },
+    {""_ets,            R"(\[2abc)"_ets,          "\x1B[32mabc"_tb                                        },
+    {""_ets,            R"(\[3abc)"_ets,          "\x1B[33mabc"_tb                                        },
+    {""_ets,            R"(\<510abc)"_ets,        "\x1B[38;5;202mabc"_tb                                  },
+    {""_ets,            R"(\{12abc)"_ets,         "\x1B[38;5;244mabc"_tb                                  },
+    {""_ets,            R"(\[9abc)"_ets,          "abc"_tb                                                },
+    {""_ets,            R"(\(000000abc)"_ets,     "\x1B[38;2;0;0;0mabc"_tb                                },
+    {""_ets,            R"(\(FF0000abc)"_ets,     "\x1B[38;2;255;0;0mabc"_tb                              },
+    {""_ets,            R"(\(00FF00abc)"_ets,     "\x1B[38;2;0;255;0mabc"_tb                              },
+    {""_ets,            R"(\(0000FFabc)"_ets,     "\x1B[38;2;0;0;255mabc"_tb                              },
 
-    streaming_text_data{ 
-        ""_ets,        
-        R"(\[2ab\<510cd\{02ef\[9gh)"_ets,
-        "\x1B[32mab\x1B[38;5;202mcd\x1B[38;5;234mef\x1B[0mgh"_tb },
+    {""_ets,
+     R"(\[2ab\<510cd\{02ef\[9gh)"_ets,            "\x1B[32mab\x1B[38;5;202mcd\x1B[38;5;234mef\x1B[0mgh"_tb},
 
     // Test background colour
-    streaming_text_data{ ""_ets,        R"(\]2abc)"_ets,      "\x1B[42mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\>510abc)"_ets,    "\x1B[48;5;202mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\}12abc)"_ets,     "\x1B[48;5;244mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\)000000abc)"_ets, "\x1B[48;2;0;0;0mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\)FF0000abc)"_ets, "\x1B[48;2;255;0;0mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\)00FF00abc)"_ets, "\x1B[48;2;0;255;0mabc"_tb },
-    streaming_text_data{ ""_ets,        R"(\)0000FFabc)"_ets, "\x1B[48;2;0;0;255mabc"_tb },
+    {""_ets,            R"(\]2abc)"_ets,          "\x1B[42mabc"_tb                                        },
+    {""_ets,            R"(\>510abc)"_ets,        "\x1B[48;5;202mabc"_tb                                  },
+    {""_ets,            R"(\}12abc)"_ets,         "\x1B[48;5;244mabc"_tb                                  },
+    {""_ets,            R"(\)000000abc)"_ets,     "\x1B[48;2;0;0;0mabc"_tb                                },
+    {""_ets,            R"(\)FF0000abc)"_ets,     "\x1B[48;2;255;0;0mabc"_tb                              },
+    {""_ets,            R"(\)00FF00abc)"_ets,     "\x1B[48;2;0;255;0mabc"_tb                              },
+    {""_ets,            R"(\)0000FFabc)"_ets,     "\x1B[48;2;0;0;255mabc"_tb                              },
 
-    streaming_text_data{ 
-        ""_ets,        
-        R"(\]2ab\>135cd\}02ef\]9gh)"_ets,
-        "\x1B[42mab\x1B[48;5;75mcd\x1B[48;5;234mef\x1B[0mgh"_tb },
+    {""_ets,
+     R"(\]2ab\>135cd\}02ef\]9gh)"_ets,            "\x1B[42mab\x1B[48;5;75mcd\x1B[48;5;234mef\x1B[0mgh"_tb },
 
     // Test interoperability of attributes.
     // NOTE: At a later date, it may be implemented that the algorithm will
@@ -136,24 +128,20 @@ static streaming_text_data const streaming_text_data_table[] = {
     // In that case, it may be that switching several attributes off is longer
     // than switching to default then re-enabling one attribute.  It also may
     // be determined by environment - different terminals behave differently.
-    streaming_text_data{ 
-        ""_ets,        
-        R"(\[2\]1a\p-b\p+c)"_ets,
-        "\x1B[32;41ma\x1B[7mb\x1B[27mc"_tb },
+    {""_ets,            R"(\[2\]1a\p-b\p+c)"_ets, "\x1B[32;41ma\x1B[7mb\x1B[27mc"_tb                      },
 
     // Test unicode output.
     // If a string contains a four-hexdigit unicode code, then
     // it should be output as a unicode character if it can be.
     // This will include commands to change to and from the utf-8
     // character set and also to reset the character set at the end.
-    streaming_text_data{ ""_ets,            R"(\U0000)"_ets,    "\x1B%G\x00"_tb },
-    streaming_text_data{ ""_ets,            R"(\U0057)"_ets,    "\x1B%GW"_tb },
-    streaming_text_data{ R"(\U0057)"_ets,   R"(\U010E)"_ets,    "\xC4\x8E"_tb },
-    streaming_text_data{ R"(\U0057)"_ets,   R"(\U16B8)"_ets,    "\xE1\x9A\xB8"_tb },
+    {""_ets,            R"(\U0000)"_ets,          "\x1B%G\x00"_tb                                         },
+    {""_ets,            R"(\U0057)"_ets,          "\x1B%GW"_tb                                            },
+    {R"(\U0057)"_ets,   R"(\U010E)"_ets,          "\xC4\x8E"_tb                                           },
+    {R"(\U0057)"_ets,   R"(\U16B8)"_ets,          "\xE1\x9A\xB8"_tb                                       },
 
-    streaming_text_data{ R"(\cU\C205)"_ets, R"(\U0057)"_ets,    "\x1B(B\x1B%GW"_tb },
-    streaming_text_data{ R"(\U0057)"_ets,   R"(\cA\C156)"_ets,  "\x1B%@\x1B(A\x9C"_tb },
-    // clang-format on
+    {R"(\cU\C205)"_ets, R"(\U0057)"_ets,          "\x1B(B\x1B%GW"_tb                                      },
+    {R"(\U0057)"_ets,   R"(\cA\C156)"_ets,        "\x1B%@\x1B(A\x9C"_tb                                   },
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -163,7 +151,8 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST_F(a_terminal, can_stream_a_single_element)
 {
-    terminalpp::element const elem{'X', {terminalpp::graphics::colour::red}};
+    terminalpp::element const elem{
+        'X', {.foreground_colour_ = terminalpp::graphics::colour::red}};
     terminal_ << elem;
 
     EXPECT_THAT(channel_.written_, ContainerEq("\x1B[31mX"_tb));
@@ -236,14 +225,12 @@ TEST_P(writing_at_a_position, leaves_the_cursor_at_the_specified_position)
     EXPECT_THAT(channel_.written_, ContainerEq(""_tb));
 }
 
-static write_position_data const write_position_data_table[] = {
+write_position_data const write_position_data_table[] = {
     // Writing within the same row moves the cursor to the right
-    // clang-format off
-    write_position_data{ {0, 0}, ""_ets,                {0, 0} },
-    write_position_data{ {0, 0}, "x"_ets,               {1, 0} },
-    write_position_data{ {0, 0}, "abcde"_ets,           {5, 0} },
-    write_position_data{ {2, 3}, "abcde"_ets,           {7, 3} },
-    // clang-format on
+    {{0, 0}, ""_ets,      {0, 0}},
+    {{0, 0}, "x"_ets,     {1, 0}},
+    {{0, 0}, "abcde"_ets, {5, 0}},
+    {{2, 3}, "abcde"_ets, {7, 3}},
 };
 
 INSTANTIATE_TEST_SUITE_P(
