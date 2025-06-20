@@ -1,12 +1,10 @@
-#include "terminalpp/encoder.hpp"
-
 #include "terminalpp/colour.hpp"
 #include "terminalpp/graphics.hpp"
+#include "terminalpp/string.hpp"
 
 #include <gtest/gtest.h>
 
 namespace {
-using terminalpp::high_colour;
 
 void expect_encoding(
     terminalpp::string const &expected_result, std::string const &coded_value)

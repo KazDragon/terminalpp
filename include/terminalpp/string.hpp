@@ -388,6 +388,25 @@ TERMINALPP_EXPORT
     return result;
 }
 
+//* =========================================================================
+/// \brief A function that converts a std::string into a terminalpp::string,
+/// parsing its contents according to the String To Elements protocol.
+//* =========================================================================
+TERMINALPP_EXPORT
+constexpr terminalpp::string encode(std::span<char const> text)
+{
+    string result;
+    element prev_element;
+
+    while (!text.empty())
+    {
+        result += detail::parse_element(text, prev_element);
+        prev_element = *result.rbegin();
+    }
+
+    return result;
+}
+
 inline namespace literals {
 inline namespace string_literals {
 
@@ -405,8 +424,11 @@ TERMINALPP_EXPORT
 /// \brief Construct an encoded string from literals using "foo"_ets;
 //* =========================================================================
 TERMINALPP_EXPORT
-[[nodiscard]] ::terminalpp::string operator""_ets(
-    char const *text, ::terminalpp::string::size_type length);
+[[nodiscard]] constexpr ::terminalpp::string operator""_ets(
+    char const *text, ::terminalpp::string::size_type length)
+{
+    return encode(std::span{text, length});
+}
 
 }  // namespace string_literals
 }  // namespace literals
