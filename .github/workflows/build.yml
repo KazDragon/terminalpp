@@ -62,7 +62,6 @@ jobs:
           - build_type: Debug
 
     env:
-      EXTERNAL_ROOT: /home/runner/3party
       BUILD_TYPE: ${{ matrix.build_type }}
 
     steps:
@@ -70,11 +69,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install latest Boost
+      - name: Setup vcpkg (with binary caching)
+        uses: lukka/run-vcpkg@v11
+        with:
+          runVcpkgInstall: false
+          vcpkgDirectory: "${{ github.workspace }}/.vcpkg"
+          vcpkgGitCommitId: "58950f88544e4637524dbd6a01d0317cf4cb77fc"
+
+      - name: Install dependencies
         shell: bash
-        run: |
-          sudo apt-add-repository ppa:mhier/libboost-latest
-          sudo apt install libboost1.74-dev
+        run: $VCPKG_ROOT/vcpkg install boost-container-hash gtest
 
       - name: Extract branch name
         shell: bash
@@ -104,16 +108,13 @@ jobs:
           echo "##[set-output name=bin;]$(echo $HOME/.lcov/usr/local/bin/lcov)"
         id: lcov
 
-      - name: Install dependencies from source
-        run: .ci/fetch_system_dependencies.sh
-
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
 
       - name: Configure CMake
         shell: bash
         working-directory: ${{runner.workspace}}/terminalpp/build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$EXTERNAL_ROOT -DTERMINALPP_COVERAGE=True
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DTERMINALPP_COVERAGE=True
 
       - name: Build
         shell: bash
