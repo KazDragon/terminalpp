@@ -134,7 +134,7 @@ jobs:
         shell: bash
         run: |
           ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-13 --base-directory ${{runner.workspace}}/terminalpp/build --directory ${{runner.workspace}}/terminalpp/build  --capture --output-file coverage.info;
-          ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-13 --remove coverage.info '*/test/*' '/usr/*' '*/3party/*' --output-file coverage.info;
+          ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-13 --remove coverage.info '*/test/*' '/usr/*' '*/3party/*' '*/.vcpkg/*' '*/vcpkg_installed/*' --output-file coverage.info;
           ${{ steps.lcov.outputs.bin }} --gcov-tool=gcov-13 --list coverage.info;
 
       - name: Post coverage to Coveralls
