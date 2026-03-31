@@ -19,6 +19,9 @@ platform:
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  VCPKG_ROOT: C:\Tools\vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: C:\Tools\vcpkg\archives
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
 
   matrix:
     - shared: True
@@ -26,6 +29,8 @@ environment:
 
 cache:
   - C:\Tools\vcpkg\installed
+  - C:\Tools\vcpkg\downloads
+  - C:\Tools\vcpkg\archives
 
 init:
   - echo Appveyor Image = %APPVEYOR_BUILD_WORKER_IMAGE%
@@ -33,20 +38,21 @@ init:
   - echo Generator = %generator%
 
 install:
-  - cd C:\Tools\vcpkg
-  - git pull
+  - cd %VCPKG_ROOT%
+  - git fetch --tags --prune
+  - git checkout 58950f88544e4637524dbd6a01d0317cf4cb77fc
   - .\bootstrap-vcpkg.bat
   - cd %appveyor_build_folder%
-  - vcpkg install boost-container-hash:%platform%-windows
-  - vcpkg install boost-core:%platform%-windows
-  - vcpkg install boost-range:%platform%-windows
-  - vcpkg install gtest:%platform%-windows
+  - %VCPKG_ROOT%\vcpkg install boost-container-hash:%platform%-windows
+  - %VCPKG_ROOT%\vcpkg install boost-core:%platform%-windows
+  - %VCPKG_ROOT%\vcpkg install boost-range:%platform%-windows
+  - %VCPKG_ROOT%\vcpkg install gtest:%platform%-windows
 
 build_script:
   - mkdir build
   - cd build
-  - cmake -G "%generator%" -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DBUILD_SHARED_LIBS=%shared% ..
-  - cmake --build . --config %configuration%
+  - cmake -G "%generator%" -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake -DBUILD_SHARED_LIBS=%shared% ..
+  - cmake --build . --config %configuration% -- /m
 
 test_script:
   - ctest . --output-on-failure -C %configuration%
