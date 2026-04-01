@@ -45,10 +45,7 @@ install:
   - git checkout 58950f88544e4637524dbd6a01d0317cf4cb77fc
   - .\bootstrap-vcpkg.bat
   - cd %appveyor_build_folder%
-  - call "%VCPKG_ROOT%\vcpkg" install boost-container-hash:%platform%-windows
-  - call "%VCPKG_ROOT%\vcpkg" install boost-core:%platform%-windows
-  - call "%VCPKG_ROOT%\vcpkg" install boost-range:%platform%-windows
-  - call "%VCPKG_ROOT%\vcpkg" install gtest:%platform%-windows
+  - call "%VCPKG_ROOT%\vcpkg" install --triplet %platform%-windows
 
 build_script:
   - mkdir build
