@@ -7,24 +7,59 @@
 [![Coverage Status](https://coveralls.io/repos/github/KazDragon/terminalpp/badge.svg?branch=master)](https://coveralls.io/github/KazDragon/terminalpp?branch=master) 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a2741e8f7abf49bc8b496fbf8b51b983)](https://www.codacy.com/gh/KazDragon/terminalpp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KazDragon/terminalpp&amp;utm_campaign=Badge_Grade)
 
-# Terminal++
 A C++ library for interacting with ANSI/VT100 terminal or terminal emulator displays.
 
-# Requirements
+## Requirements
 
-Terminal++ requires a C++20 compiler and the following libraries:
-  * Boost (At least version 1.69.0)
-  * (For testing only) Google Test
+- C++20 compiler
+- CMake 3.16+
+- Boost 1.69+ (required)
+- Google Test (for tests only)
 
-# Installation - CMake
+## Build And Install (From Source)
 
-Terminal++ can be installed from source using CMake.  This requires Boost and any other dependencies to have been installed beforehand, using their own instructions, or for the call to `cmake --configure` to be adjusted appropriately (e.g. `-DBOOST_ROOT=...`).  If you do not wish to install into a system directory, and thus avoid the use of sudo, you can also pass `-DCMAKE_INSTALL_PREFIX=...` into the `cmake --configure` call.
+```bash
+git clone https://github.com/KazDragon/terminalpp.git
+cd terminalpp
 
-    git clone https://github.com/KazDragon/terminalpp.git && cd terminalpp
-    mkdir build && cd build
-    cmake --configure -DCMAKE_BUILD_TYPE=Release ..
-    cmake --build .
-    sudo cmake --install .
+cmake -S . -B build \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX="$HOME/.local"
+
+cmake --build build --config Release
+cmake --install build --config Release
+```
+
+## Dependency Resolution With vcpkg
+
+Terminal++ can resolve dependencies automatically through `vcpkg`:
+
+```bash
+cmake -S . -B build \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+```
+
+When using manifest mode (`vcpkg.json` in this repository), configure will
+trigger dependency installation automatically.
+
+## Consume From CMake (Installed Package)
+
+```cmake
+cmake_minimum_required(VERSION 3.16)
+project(my_app LANGUAGES CXX)
+
+find_package(terminalpp CONFIG REQUIRED)
+
+add_executable(my_app main.cpp)
+target_link_libraries(my_app PRIVATE KazDragon::terminalpp)
+```
+
+If installed to a non-system prefix:
+
+```bash
+cmake -S . -B build -DCMAKE_PREFIX_PATH="$HOME/.local"
+```
 
 # Features / Roadmap
 
