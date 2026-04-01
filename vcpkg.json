@@ -1,0 +1,9 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "terminalpp",
+    "version-string": "0.0.0",
+    "dependencies": [
+        "boost-container-hash",
+        "gtest"
+    ]
+}

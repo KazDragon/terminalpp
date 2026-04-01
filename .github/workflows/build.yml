@@ -27,13 +27,10 @@ jobs:
       - name: Setup vcpkg (with binary caching)
         uses: lukka/run-vcpkg@v11
         with:
-          runVcpkgInstall: false
+          runVcpkgInstall: true
+          vcpkgJsonGlob: "${{ github.workspace }}/vcpkg.json"
           vcpkgDirectory: "${{ github.workspace }}/.vcpkg"
           vcpkgGitCommitId: "58950f88544e4637524dbd6a01d0317cf4cb77fc"
-
-      - name: Install dependencies
-        shell: bash
-        run: $VCPKG_ROOT/vcpkg install boost-container-hash gtest
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/terminalpp/build
@@ -72,13 +69,10 @@ jobs:
       - name: Setup vcpkg (with binary caching)
         uses: lukka/run-vcpkg@v11
         with:
-          runVcpkgInstall: false
+          runVcpkgInstall: true
+          vcpkgJsonGlob: "${{ github.workspace }}/vcpkg.json"
           vcpkgDirectory: "${{ github.workspace }}/.vcpkg"
           vcpkgGitCommitId: "58950f88544e4637524dbd6a01d0317cf4cb77fc"
-
-      - name: Install dependencies
-        shell: bash
-        run: $VCPKG_ROOT/vcpkg install boost-container-hash gtest
 
       - name: Extract branch name
         shell: bash
