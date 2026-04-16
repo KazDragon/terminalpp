@@ -166,6 +166,7 @@ public:
     a_terminal_that_supports_unicode_in_all_charsets()
       : a_terminal{[] {
             terminalpp::behaviour behaviour;
+            behaviour.utf8_by_default = false;
             behaviour.unicode_in_all_charsets = true;
             return behaviour;
         }()}

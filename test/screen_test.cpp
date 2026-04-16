@@ -41,7 +41,8 @@ protected:
     terminalpp::extent size_;
     terminalpp::canvas canvas_;
     fake_channel reference_channel_;
-    terminalpp::terminal reference_terminal_{reference_channel_};
+    terminalpp::terminal reference_terminal_{
+        reference_channel_, legacy_terminal_behaviour()};
     terminalpp::screen screen_;
 };
 
