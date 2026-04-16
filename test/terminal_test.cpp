@@ -71,4 +71,26 @@ TEST(a_default_terminal, maps_dec_special_graphics_to_unicode_utf8)
     EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\xE2\x94\x80"_tb));
 }
 
+TEST(a_legacy_terminal, preserves_dec_charset_designation_output)
+{
+    fake_channel channel;
+    auto behaviour = terminalpp::behaviour{};
+    behaviour.utf8_by_default = false;
+    terminalpp::terminal terminal{channel, behaviour};
+
+    terminal << terminalpp::element{terminalpp::glyph{'q', terminalpp::charset::dec}};
+
+    EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\x1B(0q"_tb));
+}
+
+TEST(a_default_terminal, maps_uk_replacement_glyphs_to_unicode_utf8)
+{
+    fake_channel channel;
+    terminalpp::terminal terminal{channel};
+
+    terminal << terminalpp::element{terminalpp::glyph{'#', terminalpp::charset::uk}};
+
+    EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\xC2\xA3"_tb));
+}
+
 }  // namespace
