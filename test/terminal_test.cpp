@@ -50,4 +50,15 @@ TEST(a_default_terminal, streams_ascii_after_utf8_without_resetting_charset)
     EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\xC4\x8Ex"_tb));
 }
 
+TEST(a_default_terminal, keeps_cursor_control_sequences_in_7_bit_form)
+{
+    fake_channel channel;
+    terminalpp::terminal terminal{channel};
+
+    terminal << terminalpp::move_cursor({2, 4})
+             << terminalpp::element{terminalpp::glyph{u8"\u010E"}};
+
+    EXPECT_THAT(channel.written_, ContainerEq("\x1B[5;3H\x1B[0m\xC4\x8E"_tb));
+}
+
 }  // namespace
