@@ -17,7 +17,8 @@ struct translated_glyph
 [[nodiscard]] std::optional<terminalpp::glyph> utf8_default_mapping(
     terminalpp::glyph const &glyph) noexcept
 {
-    static auto const translations = std::array{
+    static constexpr auto translations = std::array{
+        // clang-format off
         translated_glyph{terminalpp::charset::dec, '`', terminalpp::glyph{u8"\u25C6"}},
         translated_glyph{terminalpp::charset::dec, 'a', terminalpp::glyph{u8"\u2592"}},
         translated_glyph{terminalpp::charset::dec, 'b', terminalpp::glyph{u8"\u2409"}},
@@ -150,6 +151,7 @@ struct translated_glyph
         translated_glyph{terminalpp::charset::swiss, '|', terminalpp::glyph{u8"\u00F6"}},
         translated_glyph{terminalpp::charset::swiss, '}', terminalpp::glyph{u8"\u00FC"}},
         translated_glyph{terminalpp::charset::swiss, '~', terminalpp::glyph{u8"\u00FB"}},
+        // clang-format on
     };
 
     for (auto const &translation : translations)
