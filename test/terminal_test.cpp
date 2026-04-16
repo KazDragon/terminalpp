@@ -61,4 +61,14 @@ TEST(a_default_terminal, keeps_cursor_control_sequences_in_7_bit_form)
     EXPECT_THAT(channel.written_, ContainerEq("\x1B[5;3H\x1B[0m\xC4\x8E"_tb));
 }
 
+TEST(a_default_terminal, maps_dec_special_graphics_to_unicode_utf8)
+{
+    fake_channel channel;
+    terminalpp::terminal terminal{channel};
+
+    terminal << terminalpp::element{terminalpp::glyph{'q', terminalpp::charset::dec}};
+
+    EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\xE2\x94\x80"_tb));
+}
+
 }  // namespace
