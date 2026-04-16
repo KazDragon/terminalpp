@@ -51,6 +51,10 @@ struct TERMINALPP_EXPORT behaviour
     // True if unicode can be used in all charsets; false if unicode
     // can only be used in the default charset;
     bool unicode_in_all_charsets : 1 {false};
+
+    // True if printable text should be emitted as ambient UTF-8 without
+    // terminal-side encoding mode switches.
+    bool utf8_by_default : 1 {true};
 };
 
 }  // namespace terminalpp

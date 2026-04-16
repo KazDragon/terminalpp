@@ -17,4 +17,11 @@ TEST_F(a_terminal, closes_its_underlying_channel_if_it_is_closed)
     ASSERT_FALSE(channel_.is_alive());
 }
 
+TEST(a_terminal_behaviour, defaults_utf8_output_to_enabled)
+{
+    auto const behaviour = terminalpp::behaviour{};
+
+    EXPECT_TRUE(behaviour.utf8_by_default);
+}
+
 }  // namespace
