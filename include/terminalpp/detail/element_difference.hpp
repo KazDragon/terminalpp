@@ -137,7 +137,8 @@ constexpr void change_charset(
 {
     if (source != dest)
     {
-        if (terminal_behaviour.utf8_by_default && dest == charset::utf8)
+        if (terminal_behaviour.utf8_by_default
+            && (source == charset::utf8 || dest == charset::utf8))
         {
             return;
         }

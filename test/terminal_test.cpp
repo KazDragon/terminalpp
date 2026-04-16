@@ -39,4 +39,15 @@ TEST(a_default_terminal, streams_utf8_elements_without_utf8_mode_switches)
     EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\xC4\x8E"_tb));
 }
 
+TEST(a_default_terminal, streams_ascii_after_utf8_without_resetting_charset)
+{
+    fake_channel channel;
+    terminalpp::terminal terminal{channel};
+
+    terminal << terminalpp::element{terminalpp::glyph{u8"\u010E"}}
+             << terminalpp::element{'x'};
+
+    EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\xC4\x8Ex"_tb));
+}
+
 }  // namespace
