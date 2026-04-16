@@ -1,11 +1,13 @@
 #include "terminal_test.hpp"
 
 #include <gmock/gmock.h>
+#include <tuple>
 
 namespace {
 
 using namespace terminalpp::literals;  // NOLINT
 using testing::ContainerEq;
+using testing::ValuesIn;
 
 TEST_F(a_terminal, is_alive_if_its_underlying_channel_is_alive)
 {
@@ -92,5 +94,47 @@ TEST(a_default_terminal, maps_uk_replacement_glyphs_to_unicode_utf8)
 
     EXPECT_THAT(channel.written_, ContainerEq("\x1B[0m\xC2\xA3"_tb));
 }
+
+using nrc_mapping_data =
+    std::tuple<terminalpp::glyph, terminalpp::byte_storage>;
+
+class an_nrc_default_terminal_mapping
+  : public testing::TestWithParam<nrc_mapping_data>
+{
+};
+
+TEST_P(an_nrc_default_terminal_mapping, maps_to_unicode_utf8)
+{
+    auto const &[source, expected_utf8] = GetParam();
+
+    fake_channel channel;
+    terminalpp::terminal terminal{channel};
+
+    terminal << terminalpp::element{source};
+
+    auto expected = "\x1B[0m"_tb;
+    expected += expected_utf8;
+
+    EXPECT_THAT(channel.written_, ContainerEq(expected));
+}
+
+constexpr nrc_mapping_data nrc_mapping_table[] = {
+    {terminalpp::glyph{'[', terminalpp::charset::dutch},           "\xC4\xB3"_tb},
+    {terminalpp::glyph{'[', terminalpp::charset::finnish},         "\xC3\x84"_tb},
+    {terminalpp::glyph{'[', terminalpp::charset::french},          "\xC2\xB0"_tb},
+    {terminalpp::glyph{'[', terminalpp::charset::french_canadian}, "\xC3\xA2"_tb},
+    {terminalpp::glyph{'~', terminalpp::charset::german},          "\xC3\x9F"_tb},
+    {terminalpp::glyph{'\\', terminalpp::charset::italian},        "\xC3\xA7"_tb},
+    {terminalpp::glyph{'@', terminalpp::charset::danish},          "\xC3\x84"_tb},
+    {terminalpp::glyph{']', terminalpp::charset::portuguese},      "\xC3\x95"_tb},
+    {terminalpp::glyph{'[', terminalpp::charset::spanish},         "\xC2\xA1"_tb},
+    {terminalpp::glyph{'@', terminalpp::charset::swedish},         "\xC3\x89"_tb},
+    {terminalpp::glyph{'#', terminalpp::charset::swiss},           "\xC3\xB9"_tb},
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    supported_nrc_characters,
+    an_nrc_default_terminal_mapping,
+    ValuesIn(nrc_mapping_table));
 
 }  // namespace
