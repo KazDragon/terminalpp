@@ -11,53 +11,45 @@ struct translated_glyph
 {
     terminalpp::character_set charset_;
     terminalpp::byte source_;
-    terminalpp::byte_storage utf8_;
+    terminalpp::glyph replacement_;
 };
 
-[[nodiscard]] terminalpp::bytes as_bytes(
-    terminalpp::byte_storage const &storage) noexcept
-{
-    return {storage.data(), storage.size()};
-}
-
-[[nodiscard]] std::optional<terminalpp::bytes> utf8_default_mapping(
+[[nodiscard]] std::optional<terminalpp::glyph> utf8_default_mapping(
     terminalpp::glyph const &glyph) noexcept
 {
-    using namespace terminalpp::literals;  // NOLINT
-
     static auto const translations = std::array{
-        translated_glyph{terminalpp::charset::dec, '`'_tb, "\xE2\x97\x86"_tb},
-        translated_glyph{terminalpp::charset::dec, 'a'_tb, "\xE2\x96\x92"_tb},
-        translated_glyph{terminalpp::charset::dec, 'b'_tb, "\xE2\x90\x89"_tb},
-        translated_glyph{terminalpp::charset::dec, 'c'_tb, "\xE2\x90\x8C"_tb},
-        translated_glyph{terminalpp::charset::dec, 'd'_tb, "\xE2\x90\x8D"_tb},
-        translated_glyph{terminalpp::charset::dec, 'e'_tb, "\xE2\x90\x8A"_tb},
-        translated_glyph{terminalpp::charset::dec, 'f'_tb, "\xC2\xB0"_tb},
-        translated_glyph{terminalpp::charset::dec, 'g'_tb, "\xC2\xB1"_tb},
-        translated_glyph{terminalpp::charset::dec, 'h'_tb, "\xE2\x90\xA4"_tb},
-        translated_glyph{terminalpp::charset::dec, 'i'_tb, "\xE2\x90\x8B"_tb},
-        translated_glyph{terminalpp::charset::dec, 'j'_tb, "\xE2\x94\x98"_tb},
-        translated_glyph{terminalpp::charset::dec, 'k'_tb, "\xE2\x94\x90"_tb},
-        translated_glyph{terminalpp::charset::dec, 'l'_tb, "\xE2\x94\x8C"_tb},
-        translated_glyph{terminalpp::charset::dec, 'm'_tb, "\xE2\x94\x94"_tb},
-        translated_glyph{terminalpp::charset::dec, 'n'_tb, "\xE2\x94\xBC"_tb},
-        translated_glyph{terminalpp::charset::dec, 'o'_tb, "\xE2\x8E\xBA"_tb},
-        translated_glyph{terminalpp::charset::dec, 'p'_tb, "\xE2\x8E\xBB"_tb},
-        translated_glyph{terminalpp::charset::dec, 'q'_tb, "\xE2\x94\x80"_tb},
-        translated_glyph{terminalpp::charset::dec, 'r'_tb, "\xE2\x8E\xBC"_tb},
-        translated_glyph{terminalpp::charset::dec, 's'_tb, "\xE2\x8E\xBD"_tb},
-        translated_glyph{terminalpp::charset::dec, 't'_tb, "\xE2\x94\x9C"_tb},
-        translated_glyph{terminalpp::charset::dec, 'u'_tb, "\xE2\x94\xA4"_tb},
-        translated_glyph{terminalpp::charset::dec, 'v'_tb, "\xE2\x94\xB4"_tb},
-        translated_glyph{terminalpp::charset::dec, 'w'_tb, "\xE2\x94\xAC"_tb},
-        translated_glyph{terminalpp::charset::dec, 'x'_tb, "\xE2\x94\x82"_tb},
-        translated_glyph{terminalpp::charset::dec, 'y'_tb, "\xE2\x89\xA4"_tb},
-        translated_glyph{terminalpp::charset::dec, 'z'_tb, "\xE2\x89\xA5"_tb},
-        translated_glyph{terminalpp::charset::dec, '{'_tb, "\xCF\x80"_tb},
-        translated_glyph{terminalpp::charset::dec, '|'_tb, "\xE2\x89\xA0"_tb},
-        translated_glyph{terminalpp::charset::dec, '}'_tb, "\xC2\xA3"_tb},
-        translated_glyph{terminalpp::charset::dec, '~'_tb, "\xC2\xB7"_tb},
-        translated_glyph{terminalpp::charset::uk, '#'_tb, "\xC2\xA3"_tb},
+        translated_glyph{terminalpp::charset::dec, '`', terminalpp::glyph{u8"\u25C6"}},
+        translated_glyph{terminalpp::charset::dec, 'a', terminalpp::glyph{u8"\u2592"}},
+        translated_glyph{terminalpp::charset::dec, 'b', terminalpp::glyph{u8"\u2409"}},
+        translated_glyph{terminalpp::charset::dec, 'c', terminalpp::glyph{u8"\u240C"}},
+        translated_glyph{terminalpp::charset::dec, 'd', terminalpp::glyph{u8"\u240D"}},
+        translated_glyph{terminalpp::charset::dec, 'e', terminalpp::glyph{u8"\u240A"}},
+        translated_glyph{terminalpp::charset::dec, 'f', terminalpp::glyph{u8"\u00B0"}},
+        translated_glyph{terminalpp::charset::dec, 'g', terminalpp::glyph{u8"\u00B1"}},
+        translated_glyph{terminalpp::charset::dec, 'h', terminalpp::glyph{u8"\u2424"}},
+        translated_glyph{terminalpp::charset::dec, 'i', terminalpp::glyph{u8"\u240B"}},
+        translated_glyph{terminalpp::charset::dec, 'j', terminalpp::glyph{u8"\u2518"}},
+        translated_glyph{terminalpp::charset::dec, 'k', terminalpp::glyph{u8"\u2510"}},
+        translated_glyph{terminalpp::charset::dec, 'l', terminalpp::glyph{u8"\u250C"}},
+        translated_glyph{terminalpp::charset::dec, 'm', terminalpp::glyph{u8"\u2514"}},
+        translated_glyph{terminalpp::charset::dec, 'n', terminalpp::glyph{u8"\u253C"}},
+        translated_glyph{terminalpp::charset::dec, 'o', terminalpp::glyph{u8"\u23BA"}},
+        translated_glyph{terminalpp::charset::dec, 'p', terminalpp::glyph{u8"\u23BB"}},
+        translated_glyph{terminalpp::charset::dec, 'q', terminalpp::glyph{u8"\u2500"}},
+        translated_glyph{terminalpp::charset::dec, 'r', terminalpp::glyph{u8"\u23BC"}},
+        translated_glyph{terminalpp::charset::dec, 's', terminalpp::glyph{u8"\u23BD"}},
+        translated_glyph{terminalpp::charset::dec, 't', terminalpp::glyph{u8"\u251C"}},
+        translated_glyph{terminalpp::charset::dec, 'u', terminalpp::glyph{u8"\u2524"}},
+        translated_glyph{terminalpp::charset::dec, 'v', terminalpp::glyph{u8"\u2534"}},
+        translated_glyph{terminalpp::charset::dec, 'w', terminalpp::glyph{u8"\u252C"}},
+        translated_glyph{terminalpp::charset::dec, 'x', terminalpp::glyph{u8"\u2502"}},
+        translated_glyph{terminalpp::charset::dec, 'y', terminalpp::glyph{u8"\u2264"}},
+        translated_glyph{terminalpp::charset::dec, 'z', terminalpp::glyph{u8"\u2265"}},
+        translated_glyph{terminalpp::charset::dec, '{', terminalpp::glyph{u8"\u03C0"}},
+        translated_glyph{terminalpp::charset::dec, '|', terminalpp::glyph{u8"\u2260"}},
+        translated_glyph{terminalpp::charset::dec, '}', terminalpp::glyph{u8"\u00A3"}},
+        translated_glyph{terminalpp::charset::dec, '~', terminalpp::glyph{u8"\u00B7"}},
+        translated_glyph{terminalpp::charset::uk, '#', terminalpp::glyph{u8"\u00A3"}},
     };
 
     for (auto const &translation : translations)
@@ -65,7 +57,7 @@ struct translated_glyph
         if (translation.charset_ == glyph.charset_
             && translation.source_ == glyph.character_)
         {
-            return as_bytes(translation.utf8_);
+            return translation.replacement_;
         }
     }
 
@@ -125,7 +117,7 @@ void write_single_element(
         }
         else if (auto const mapped = utf8_default_mapping(elem.glyph_))
         {
-            write_fn(*mapped);
+            write_fn(utf8_bytes(*mapped));
         }
         else
         {
