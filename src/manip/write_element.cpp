@@ -219,7 +219,7 @@ void write_single_element(
         }
         else if (auto const mapped = utf8_default_mapping(elem.glyph_))
         {
-            write_fn(utf8_bytes(*mapped));
+            write_utf8_glyph(*mapped, write_fn);
         }
         else
         {

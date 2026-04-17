@@ -82,17 +82,6 @@ public:
     {
     }
 
-    //* =====================================================================
-<<<<<<< HEAD
-=======
-    /// \brief Constructs a UTF-8 glyph from a char sequence
-    //* =====================================================================
-    explicit constexpr glyph(char8_t const (&text)[5]) noexcept
-      : ucharacter_{text[0], text[1], text[2], text[3]},
-        charset_(terminalpp::charset::utf8)
-    {
-    }
-
     template <std::size_t N>
     explicit glyph(byte const (&text)[N]) noexcept
         requires(N > 5)
@@ -110,7 +99,6 @@ public:
     }
 
     //* =====================================================================
->>>>>>> 30094d12 (fix: remove unnecessary export)
     /// \brief Constructs a UTF-8 glyph from a char sequence.
     /// \par
     /// This constructor is specifically for unicode characters stored as
@@ -259,8 +247,6 @@ public:
     };
 
     character_set charset_;
-<<<<<<< HEAD
-=======
 
 private:
     void assign_utf8_bytes(byte const *text, std::size_t length) noexcept;
@@ -271,7 +257,6 @@ private:
     }
 
     friend TERMINALPP_EXPORT bytes utf8_bytes(glyph const &gly) noexcept;
->>>>>>> 30094d12 (fix: remove unnecessary export)
 };
 
 //* =========================================================================
