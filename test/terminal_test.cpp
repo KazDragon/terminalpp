@@ -118,7 +118,7 @@ TEST_P(an_nrc_default_terminal_mapping, maps_to_unicode_utf8)
     EXPECT_THAT(channel.written_, ContainerEq(expected));
 }
 
-constexpr nrc_mapping_data nrc_mapping_table[] = {
+const nrc_mapping_data nrc_mapping_table[] = {
     {terminalpp::glyph{'[', terminalpp::charset::dutch},           "\xC4\xB3"_tb},
     {terminalpp::glyph{'[', terminalpp::charset::finnish},         "\xC3\x84"_tb},
     {terminalpp::glyph{'[', terminalpp::charset::french},          "\xC2\xB0"_tb},
