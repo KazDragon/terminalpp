@@ -1,0 +1,138 @@
+name: release
+
+on:
+  workflow_run:
+    workflows: ["build"]
+    types: [completed]
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: release-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: >-
+      ${{
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'master'
+      }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Skip if head is already tagged
+        id: points_at_tag
+        shell: bash
+        run: |
+          tags="$(git tag --points-at "${{ github.event.workflow_run.head_sha }}")"
+          if [ -n "$tags" ]; then
+            echo "already_tagged=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "already_tagged=false" >> "$GITHUB_OUTPUT"
+
+      - name: Find associated pull request
+        if: steps.points_at_tag.outputs.already_tagged != 'true'
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const response = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.payload.workflow_run.head_sha,
+            });
+
+            const mergedPulls = response.data
+              .filter((pull) => pull.merged_at)
+              .sort((left, right) => new Date(right.merged_at) - new Date(left.merged_at));
+
+            if (!mergedPulls.length) {
+              core.setOutput("found", "false");
+              return;
+            }
+
+            const pull = mergedPulls[0];
+            const commits = await github.paginate(github.rest.pulls.listCommits, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pull.number,
+              per_page: 100,
+            });
+
+            core.setOutput("found", "true");
+            core.setOutput("number", String(pull.number));
+            core.setOutput("title", pull.title);
+            core.setOutput("body", pull.body || "");
+            core.setOutput("labels", JSON.stringify(pull.labels.map((label) => label.name)));
+            core.setOutput("commits", JSON.stringify(commits.map((commit) => commit.commit.message.split("\n")[0])));
+
+      - name: Skip if no merged pull request was found
+        if: >-
+          ${{
+            steps.points_at_tag.outputs.already_tagged != 'true' &&
+            steps.pr.outputs.found != 'true'
+          }}
+        shell: bash
+        run: |
+          echo "The push to master is not associated with a merged pull request, so no release will be created."
+
+      - name: Read latest release tag
+        if: >-
+          ${{
+            steps.points_at_tag.outputs.already_tagged != 'true' &&
+            steps.pr.outputs.found == 'true'
+          }}
+        id: latest_tag
+        shell: bash
+        run: |
+          latest_tag="$(git tag --sort=-version:refname | head -n 1)"
+          if [ -z "$latest_tag" ]; then
+            latest_tag="v0.0.0"
+          fi
+          echo "value=$latest_tag" >> "$GITHUB_OUTPUT"
+
+      - name: Compute next version
+        if: >-
+          ${{
+            steps.points_at_tag.outputs.already_tagged != 'true' &&
+            steps.pr.outputs.found == 'true'
+          }}
+        id: version
+        env:
+          LABELS_JSON: ${{ steps.pr.outputs.labels }}
+          PR_TITLE: ${{ steps.pr.outputs.title }}
+          PR_BODY: ${{ steps.pr.outputs.body }}
+          COMMITS_JSON: ${{ steps.pr.outputs.commits }}
+        shell: bash
+        run: |
+          python3 scripts/next_release.py \
+            --current-version "${{ steps.latest_tag.outputs.value }}" \
+            --labels-json "$LABELS_JSON" \
+            --title "$PR_TITLE" \
+            --body "$PR_BODY" \
+            --commits-json "$COMMITS_JSON" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub release
+        if: >-
+          ${{
+            steps.points_at_tag.outputs.already_tagged != 'true' &&
+            steps.pr.outputs.found == 'true'
+          }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.next_tag }}
+          target_commitish: ${{ github.event.workflow_run.head_sha }}
+          generate_release_notes: true
+          name: ${{ steps.version.outputs.next_tag }}

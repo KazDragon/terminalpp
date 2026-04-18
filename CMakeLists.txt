@@ -16,7 +16,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 # If the version is not passed in, then determine it from git history.
-if (NOT TERMINALPP_VERSION)
+if (TERMINALPP_VERSION)
+    include(function-parse_version)
+    parse_version("${TERMINALPP_VERSION}" "TERMINALPP_")
+else()
     include(function-git_version)
     git_version(TERMINALPP)
 endif()
