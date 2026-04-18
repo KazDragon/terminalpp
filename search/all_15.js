@@ -14,8 +14,8 @@ var searchData=
   ['terminalpp_3a_3aansi_3a_3ass3_11',['ss3',['../namespaceterminalpp_1_1ansi_1_1ss3.html',1,'terminalpp::ansi']]],
   ['terminalpp_3a_3aelement_5fcontainer_12',['element_container',['../conceptterminalpp_1_1element__container.html',1,'terminalpp']]],
   ['terminalpp_3a_3aterminal_5fmanipulator_13',['terminal_manipulator',['../conceptterminalpp_1_1terminal__manipulator.html',1,'terminalpp']]],
-  ['terminals_14',['Terminals',['../index.html#autotoc_md23',1,'']]],
-  ['the_20basics_15',['The Basics',['../index.html#autotoc_md21',1,'']]],
+  ['terminals_14',['Terminals',['../index.html#autotoc_md24',1,'']]],
+  ['the_20basics_15',['The Basics',['../index.html#autotoc_md22',1,'']]],
   ['to_20conan_16',['Version 1.3 - Migrated to Conan',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CHANGELOG.html#autotoc_md5',1,'']]],
   ['to_20contribute_20to_20terminal_17',['How to Contribute to Terminal++',['../md__2home_2runner_2work_2terminalpp_2terminalpp_2CONTRIBUTING.html',1,'']]],
   ['true_5fcolour_18',['true_colour',['../structterminalpp_1_1true__colour.html#a53c6022806e546a28e26a280813805ed',1,'terminalpp::true_colour::true_colour()'],['../structterminalpp_1_1true__colour.html',1,'terminalpp::true_colour'],['../structterminalpp_1_1true__colour.html#a732b2334a73a37387ee593c746318219',1,'terminalpp::true_colour::true_colour()']]]
