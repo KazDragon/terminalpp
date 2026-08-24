@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Terminal++<span id="projectnumber">&#160;4.0.2.6</span>
+   <div id="projectname">Terminal++<span id="projectnumber">&#160;4.0.3.9</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -130,18 +130,24 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                                    terminalpp::detail::ascii::zero,</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                                    terminalpp::detail::ascii::three };</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">byte</span> use_alternate_screen_buffer[] =</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                  { terminalpp::detail::ascii::four,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                                    terminalpp::detail::ascii::seven };</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">// clang-format on</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}  <span class="comment">// namespace dec_pm</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}  <span class="comment">// namespace terminalpp::ansi</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">byte</span> sgr_mouse_encoding[] =</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                  { terminalpp::detail::ascii::one,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                                    terminalpp::detail::ascii::zero,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                                    terminalpp::detail::ascii::zero,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                                    terminalpp::detail::ascii::six };</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">byte</span> use_alternate_screen_buffer[] =</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                                  { terminalpp::detail::ascii::four,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                                    terminalpp::detail::ascii::seven };</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}  <span class="comment">// namespace dec_pm</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}  <span class="comment">// namespace terminalpp::ansi</span></div>
 <div class="ttc" id="anamespaceterminalpp_1_1ansi_html"><div class="ttname"><a href="namespaceterminalpp_1_1ansi.html">terminalpp::ansi</a></div><div class="ttdoc">Low-level ANSI terminal constants and operations.</div><div class="ttdef"><b>Definition</b> charset.hpp:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 18 2026 10:13:35 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Aug 24 2026 07:32:02 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

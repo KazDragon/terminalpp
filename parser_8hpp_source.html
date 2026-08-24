@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Terminal++<span id="projectnumber">&#160;4.0.2.6</span>
+   <div id="projectname">Terminal++<span id="projectnumber">&#160;4.0.3.9</span>
    </div>
    <div id="projectbrief">A C++ library for interacting with ANSI terminal windows</div>
   </td>
@@ -126,16 +126,21 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">byte</span> extender_;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">bool</span> meta_;</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    mouse::event_type mouse_event_type_;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    point mouse_coordinate_;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    byte_storage argument_;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    std::vector&lt;byte_storage&gt; arguments_;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}  <span class="comment">// namespace terminalpp::detail</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    mouse::button mouse_button_;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    std::optional&lt;std::uint16_t&gt; mouse_button_code_;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    vk_modifier mouse_modifiers_;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">bool</span> mouse_is_motion_;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">bool</span> mouse_is_release_;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    point mouse_coordinate_;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    byte_storage argument_;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    std::vector&lt;byte_storage&gt; arguments_;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>};</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}  <span class="comment">// namespace terminalpp::detail</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 18 2026 10:13:35 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Aug 24 2026 07:32:02 for Terminal++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>
